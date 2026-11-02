@@ -1,0 +1,458 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "IntegrityEventBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "event_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Event Probability",
+          "type": "number"
+        },
+        "probability_semantics": {
+          "enum": [
+            "conditional_first_failure_in_period",
+            "point_in_time_state_probability",
+            "posterior_parameter_probability",
+            "model_implied_input_uncertainty_probability",
+            "spatial_size_exceedance_at_one_exposure",
+            "detection_given_flaw_and_procedure",
+            "unscoped_event_probability",
+            "fault_tree_top_event_probability"
+          ],
+          "title": "Probability Semantics",
+          "type": "string"
+        },
+        "probability_conditioning": {
+          "minLength": 1,
+          "title": "Probability Conditioning",
+          "type": "string"
+        },
+        "integrity_model_id": {
+          "minLength": 1,
+          "title": "Integrity Model Id",
+          "type": "string"
+        },
+        "integrity_model_version": {
+          "minLength": 1,
+          "title": "Integrity Model Version",
+          "type": "string"
+        },
+        "integrity_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Input Digest",
+          "type": "string"
+        },
+        "integrity_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Result Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "asset_id",
+        "location_id",
+        "failure_mode",
+        "physical_scope_id",
+        "clock_id",
+        "horizon_start_s",
+        "horizon_end_s",
+        "event_probability",
+        "probability_semantics",
+        "probability_conditioning",
+        "integrity_model_id",
+        "integrity_model_version",
+        "integrity_input_digest",
+        "integrity_result_digest"
+      ],
+      "title": "IntegrityEventBasis",
+      "type": "object"
+    },
+    "RiskCostComponent": {
+      "additionalProperties": false,
+      "description": "One reviewed additive cost in the comparison's declared common cost basis.",
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount": {
+          "minimum": 0,
+          "title": "Amount",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount",
+        "basis"
+      ],
+      "title": "RiskCostComponent",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One action-specific FTA result plus caller-owned economic-comparison metadata.",
+  "properties": {
+    "action_id": {
+      "minLength": 1,
+      "title": "Action Id",
+      "type": "string"
+    },
+    "action_label": {
+      "minLength": 1,
+      "title": "Action Label",
+      "type": "string"
+    },
+    "candidate_kind": {
+      "enum": [
+        "baseline",
+        "intervention"
+      ],
+      "title": "Candidate Kind",
+      "type": "string"
+    },
+    "action_definition": {
+      "minLength": 1,
+      "title": "Action Definition",
+      "type": "string"
+    },
+    "fault_tree_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "top_event_basis": {
+      "$ref": "#/$defs/IntegrityEventBasis"
+    },
+    "risk_model_structure_id": {
+      "minLength": 1,
+      "title": "Risk Model Structure Id",
+      "type": "string"
+    },
+    "evaluator_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluator Configuration Sha256",
+      "type": "string"
+    },
+    "status_detail": {
+      "minLength": 1,
+      "title": "Status Detail",
+      "type": "string"
+    },
+    "probability_upper_bound": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Probability Upper Bound"
+    },
+    "common_cause_group_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Common Cause Group Ids",
+      "type": "array"
+    },
+    "action_cost_components": {
+      "items": {
+        "$ref": "#/$defs/RiskCostComponent"
+      },
+      "title": "Action Cost Components",
+      "type": "array"
+    }
+  },
+  "required": [
+    "action_id",
+    "action_label",
+    "candidate_kind",
+    "action_definition",
+    "fault_tree_result",
+    "top_event_basis",
+    "risk_model_structure_id",
+    "evaluator_configuration_sha256",
+    "status_detail"
+  ],
+  "title": "FaultTreeActionEventInput",
+  "type": "object"
+}

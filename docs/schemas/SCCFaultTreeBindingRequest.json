@@ -1,0 +1,508 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SCCCrackVelocityHistoryRequest": {
+      "additionalProperties": false,
+      "description": "Finite-time integration of a tabulated SCC da/dt law over caller-supplied K_I.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.scc_crack_velocity_history.v1",
+          "default": "matintegrity.scc_crack_velocity_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "metallurgy_id": {
+          "minLength": 1,
+          "title": "Metallurgy Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "loading_basis_id": {
+          "minLength": 1,
+          "title": "Loading Basis Id",
+          "type": "string"
+        },
+        "initial_crack_advance_m": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Initial Crack Advance M",
+          "type": "number"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 20000,
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "K_I_Pa_sqrt_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 20000,
+          "minItems": 2,
+          "title": "K I Pa Sqrt M",
+          "type": "array"
+        },
+        "K_I_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "K I History Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "History Evidence",
+          "type": "array"
+        },
+        "law": {
+          "$ref": "#/$defs/SCCCrackVelocityLaw"
+        },
+        "stress_intensity_history_piecewise_linear_reviewed": {
+          "title": "Stress Intensity History Piecewise Linear Reviewed",
+          "type": "boolean"
+        },
+        "interpolation_linear_in_K_I_and_velocity_reviewed": {
+          "title": "Interpolation Linear In K I And Velocity Reviewed",
+          "type": "boolean"
+        },
+        "fixed_environment_and_loading_state_reviewed": {
+          "title": "Fixed Environment And Loading State Reviewed",
+          "type": "boolean"
+        },
+        "crack_geometry_feedback_excluded_reviewed": {
+          "title": "Crack Geometry Feedback Excluded Reviewed",
+          "type": "boolean"
+        },
+        "maximum_operations": {
+          "exclusiveMinimum": 0,
+          "maximum": 2000000,
+          "title": "Maximum Operations",
+          "type": "integer"
+        },
+        "computation_budget_reviewed": {
+          "title": "Computation Budget Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "specimen_id",
+        "clock_id",
+        "material_condition_id",
+        "metallurgy_id",
+        "environment_id",
+        "loading_basis_id",
+        "time_s",
+        "K_I_Pa_sqrt_m",
+        "K_I_history_sha256",
+        "history_evidence",
+        "law",
+        "stress_intensity_history_piecewise_linear_reviewed",
+        "interpolation_linear_in_K_I_and_velocity_reviewed",
+        "fixed_environment_and_loading_state_reviewed",
+        "crack_geometry_feedback_excluded_reviewed",
+        "maximum_operations",
+        "computation_budget_reviewed"
+      ],
+      "title": "SCCCrackVelocityHistoryRequest",
+      "type": "object"
+    },
+    "SCCCrackVelocityLaw": {
+      "additionalProperties": false,
+      "description": "Caller-owned mode-I crack-velocity curve for one material/environment state.",
+      "properties": {
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "metallurgy_id": {
+          "minLength": 1,
+          "title": "Metallurgy Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "loading_basis_id": {
+          "minLength": 1,
+          "title": "Loading Basis Id",
+          "type": "string"
+        },
+        "threshold_K_I_Pa_sqrt_m": {
+          "minimum": 0,
+          "title": "Threshold K I Pa Sqrt M",
+          "type": "number"
+        },
+        "K_I_Pa_sqrt_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "K I Pa Sqrt M",
+          "type": "array"
+        },
+        "crack_velocity_m_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Crack Velocity M S",
+          "type": "array"
+        },
+        "source_file_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source File Sha256",
+          "type": "string"
+        },
+        "table_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Table Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "rights_boundary": {
+          "enum": [
+            "local_only",
+            "caller_authorized_open_distribution"
+          ],
+          "title": "Rights Boundary",
+          "type": "string"
+        },
+        "rights_authorization_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rights Authorization Sha256"
+        },
+        "applicability_review_id": {
+          "minLength": 1,
+          "title": "Applicability Review Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "curve_id",
+        "source_group_id",
+        "material_condition_id",
+        "metallurgy_id",
+        "environment_id",
+        "loading_basis_id",
+        "threshold_K_I_Pa_sqrt_m",
+        "K_I_Pa_sqrt_m",
+        "crack_velocity_m_s",
+        "source_file_sha256",
+        "table_sha256",
+        "evidence",
+        "rights_boundary",
+        "applicability_review_id"
+      ],
+      "title": "SCCCrackVelocityLaw",
+      "type": "object"
+    },
+    "SCCFaultTreeProbabilityInput": {
+      "additionalProperties": false,
+      "description": "Explicit caller event and probability provenance for one finite-period event.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.scc_fta_probability_input.v1",
+          "default": "matintegrity.scc_fta_probability_input.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "condition_statement": {
+          "minLength": 1,
+          "title": "Condition Statement",
+          "type": "string"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "probability_meaning": {
+          "const": "conditional_first_failure_in_period",
+          "title": "Probability Meaning",
+          "type": "string"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "probability_scope_id": {
+          "minLength": 1,
+          "title": "Probability Scope Id",
+          "type": "string"
+        },
+        "probability_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Probability Evidence",
+          "type": "array"
+        },
+        "rights_boundary": {
+          "enum": [
+            "local_only",
+            "caller_authorized_open_distribution"
+          ],
+          "title": "Rights Boundary",
+          "type": "string"
+        },
+        "rights_authorization_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rights Authorization Digest"
+        }
+      },
+      "required": [
+        "event_id",
+        "failure_mode",
+        "condition_id",
+        "condition_statement",
+        "probability",
+        "probability_meaning",
+        "conditioning",
+        "probability_scope_id",
+        "probability_evidence",
+        "rights_boundary"
+      ],
+      "title": "SCCFaultTreeProbabilityInput",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One exact SCC history/result pair, a caller limit, and explicit event probability.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.scc_fta_binding_request.v1",
+      "default": "matintegrity.scc_fta_binding_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scc_request": {
+      "$ref": "#/$defs/SCCCrackVelocityHistoryRequest"
+    },
+    "scc_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "crack_advance_limit_m": {
+      "exclusiveMinimum": 0,
+      "title": "Crack Advance Limit M",
+      "type": "number"
+    },
+    "limit_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "probability_input": {
+      "$ref": "#/$defs/SCCFaultTreeProbabilityInput"
+    }
+  },
+  "required": [
+    "scc_request",
+    "scc_result",
+    "crack_advance_limit_m",
+    "limit_evidence",
+    "probability_input"
+  ],
+  "title": "SCCFaultTreeBindingRequest",
+  "type": "object"
+}

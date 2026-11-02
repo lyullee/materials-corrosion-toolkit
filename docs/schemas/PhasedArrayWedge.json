@@ -1,0 +1,113 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "wedge_id": {
+      "minLength": 1,
+      "title": "Wedge Id",
+      "type": "string"
+    },
+    "probe_id": {
+      "minLength": 1,
+      "title": "Probe Id",
+      "type": "string"
+    },
+    "wedge_material_id": {
+      "minLength": 1,
+      "title": "Wedge Material Id",
+      "type": "string"
+    },
+    "wedge_longitudinal_velocity_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Wedge Longitudinal Velocity M S",
+      "type": "number"
+    },
+    "nominal_exit_point_offset_m": {
+      "title": "Nominal Exit Point Offset M",
+      "type": "number"
+    },
+    "mounting_orientation": {
+      "minLength": 1,
+      "title": "Mounting Orientation",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "wedge_id",
+    "probe_id",
+    "wedge_material_id",
+    "wedge_longitudinal_velocity_m_s",
+    "nominal_exit_point_offset_m",
+    "mounting_orientation",
+    "evidence"
+  ],
+  "title": "PhasedArrayWedge",
+  "type": "object"
+}

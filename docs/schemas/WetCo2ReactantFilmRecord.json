@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-supplied linear liquid-film conductance for one consumed species.",
+  "properties": {
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Diffusivity M2 S",
+      "type": "number"
+    },
+    "film_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Film Thickness M",
+      "type": "number"
+    },
+    "minimum_surface_concentration_mol_m3": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Minimum Surface Concentration Mol M3",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "transfer_parameter_reviewed": {
+      "title": "Transfer Parameter Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "species_id",
+    "diffusivity_m2_s",
+    "film_thickness_m",
+    "provider_id",
+    "provider_revision",
+    "source_record_id",
+    "evidence",
+    "transfer_parameter_reviewed"
+  ],
+  "title": "WetCo2ReactantFilmRecord",
+  "type": "object"
+}

@@ -1,0 +1,190 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "point_id": {
+      "minLength": 1,
+      "title": "Point Id",
+      "type": "string"
+    },
+    "sequence_index": {
+      "minimum": 0,
+      "title": "Sequence Index",
+      "type": "integer"
+    },
+    "elapsed_time_s": {
+      "minimum": 0,
+      "title": "Elapsed Time S",
+      "type": "number"
+    },
+    "state_id": {
+      "minLength": 1,
+      "title": "State Id",
+      "type": "string"
+    },
+    "physical_reference_id": {
+      "minLength": 1,
+      "title": "Physical Reference Id",
+      "type": "string"
+    },
+    "reference_level_id": {
+      "minLength": 1,
+      "title": "Reference Level Id",
+      "type": "string"
+    },
+    "reference_leak_rate_mol_s": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Leak Rate Mol S",
+      "type": "number"
+    },
+    "expanded_reference_leak_uncertainty_mol_s": {
+      "minimum": 0,
+      "title": "Expanded Reference Leak Uncertainty Mol S",
+      "type": "number"
+    },
+    "response_value": {
+      "title": "Response Value",
+      "type": "number"
+    },
+    "expanded_response_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Response Uncertainty",
+      "type": "number"
+    },
+    "response_unit_token": {
+      "minLength": 1,
+      "title": "Response Unit Token",
+      "type": "string"
+    },
+    "repeatability_group_id": {
+      "minLength": 1,
+      "title": "Repeatability Group Id",
+      "type": "string"
+    },
+    "drift_group_id": {
+      "minLength": 1,
+      "title": "Drift Group Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "observation_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observation Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "point_id",
+    "sequence_index",
+    "elapsed_time_s",
+    "state_id",
+    "physical_reference_id",
+    "reference_level_id",
+    "reference_leak_rate_mol_s",
+    "expanded_reference_leak_uncertainty_mol_s",
+    "response_value",
+    "expanded_response_uncertainty",
+    "response_unit_token",
+    "repeatability_group_id",
+    "drift_group_id",
+    "source_group_id",
+    "independence_group_id",
+    "observation_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "ReferenceLeakCampaignPoint",
+  "type": "object"
+}

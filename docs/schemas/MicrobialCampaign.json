@@ -1,0 +1,615 @@
+{
+  "$defs": {
+    "BiofilmDepositObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "observation_method_id": {
+          "minLength": 1,
+          "title": "Observation Method Id",
+          "type": "string"
+        },
+        "reported_description": {
+          "minLength": 1,
+          "title": "Reported Description",
+          "type": "string"
+        },
+        "metric_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Id"
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Value"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "sample_id",
+        "observation_method_id",
+        "reported_description",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "BiofilmDepositObservation",
+      "type": "object"
+    },
+    "CallerMicrobialIndicator": {
+      "additionalProperties": false,
+      "properties": {
+        "indicator_id": {
+          "minLength": 1,
+          "title": "Indicator Id",
+          "type": "string"
+        },
+        "target_id": {
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "definition_basis": {
+          "minLength": 1,
+          "title": "Definition Basis",
+          "type": "string"
+        },
+        "caller_disposition_id_if_outside": {
+          "minLength": 1,
+          "title": "Caller Disposition Id If Outside",
+          "type": "string"
+        }
+      },
+      "required": [
+        "indicator_id",
+        "target_id",
+        "method_id",
+        "unit",
+        "definition_basis",
+        "caller_disposition_id_if_outside"
+      ],
+      "title": "CallerMicrobialIndicator",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MicrobialAssay": {
+      "additionalProperties": false,
+      "properties": {
+        "assay_id": {
+          "minLength": 1,
+          "title": "Assay Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "target_id": {
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "result_qualifier": {
+          "enum": [
+            "quantified",
+            "below_detection",
+            "not_reported"
+          ],
+          "title": "Result Qualifier",
+          "type": "string"
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Value"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "detection_limit": {
+          "exclusiveMinimum": 0,
+          "title": "Detection Limit",
+          "type": "number"
+        },
+        "caller_indicator_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Indicator Id"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assay_id",
+        "sample_id",
+        "target_id",
+        "method_id",
+        "result_qualifier",
+        "unit",
+        "detection_limit",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "MicrobialAssay",
+      "type": "object"
+    },
+    "MicrobialSample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "sampling_location_id": {
+          "minLength": 1,
+          "title": "Sampling Location Id",
+          "type": "string"
+        },
+        "sample_time_s": {
+          "minimum": 0,
+          "title": "Sample Time S",
+          "type": "number"
+        },
+        "sample_matrix": {
+          "minLength": 1,
+          "title": "Sample Matrix",
+          "type": "string"
+        },
+        "collection_method_id": {
+          "minLength": 1,
+          "title": "Collection Method Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "sampling_location_id",
+        "sample_time_s",
+        "sample_matrix",
+        "collection_method_id",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "MicrobialSample",
+      "type": "object"
+    },
+    "WaterContextObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Value"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "sample_id",
+        "parameter_id",
+        "unit",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "WaterContextObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "site_id": {
+      "minLength": 1,
+      "title": "Site Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/MicrobialSample"
+      },
+      "minItems": 1,
+      "title": "Samples",
+      "type": "array"
+    },
+    "assays": {
+      "items": {
+        "$ref": "#/$defs/MicrobialAssay"
+      },
+      "title": "Assays",
+      "type": "array"
+    },
+    "water_context": {
+      "items": {
+        "$ref": "#/$defs/WaterContextObservation"
+      },
+      "title": "Water Context",
+      "type": "array"
+    },
+    "biofilm_deposit_observations": {
+      "items": {
+        "$ref": "#/$defs/BiofilmDepositObservation"
+      },
+      "title": "Biofilm Deposit Observations",
+      "type": "array"
+    },
+    "caller_indicators": {
+      "items": {
+        "$ref": "#/$defs/CallerMicrobialIndicator"
+      },
+      "title": "Caller Indicators",
+      "type": "array"
+    },
+    "required_sampling_location_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Sampling Location Ids",
+      "type": "array"
+    },
+    "required_assay_target_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Assay Target Ids",
+      "type": "array"
+    },
+    "required_water_context_parameter_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Water Context Parameter Ids",
+      "type": "array"
+    },
+    "biofilm_deposit_observation_required": {
+      "default": false,
+      "title": "Biofilm Deposit Observation Required",
+      "type": "boolean"
+    },
+    "campaign_site_and_clock_reviewed": {
+      "title": "Campaign Site And Clock Reviewed",
+      "type": "boolean"
+    },
+    "sampling_plan_and_coverage_reviewed": {
+      "title": "Sampling Plan And Coverage Reviewed",
+      "type": "boolean"
+    },
+    "sample_validity_reviewed": {
+      "title": "Sample Validity Reviewed",
+      "type": "boolean"
+    },
+    "assay_method_units_and_detection_limits_reviewed": {
+      "title": "Assay Method Units And Detection Limits Reviewed",
+      "type": "boolean"
+    },
+    "water_context_reviewed": {
+      "title": "Water Context Reviewed",
+      "type": "boolean"
+    },
+    "biofilm_deposit_mapping_reviewed": {
+      "title": "Biofilm Deposit Mapping Reviewed",
+      "type": "boolean"
+    },
+    "caller_indicator_definitions_reviewed": {
+      "title": "Caller Indicator Definitions Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "asset_id",
+    "location_id",
+    "site_id",
+    "clock_id",
+    "samples",
+    "campaign_site_and_clock_reviewed",
+    "sampling_plan_and_coverage_reviewed",
+    "sample_validity_reviewed",
+    "assay_method_units_and_detection_limits_reviewed",
+    "water_context_reviewed",
+    "biofilm_deposit_mapping_reviewed",
+    "caller_indicator_definitions_reviewed",
+    "evidence"
+  ],
+  "title": "MicrobialCampaign",
+  "type": "object"
+}

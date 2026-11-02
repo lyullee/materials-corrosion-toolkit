@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller reaction stoichiometry and metal properties for one productive branch.",
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "transported_species_id": {
+      "minLength": 1,
+      "title": "Transported Species Id",
+      "type": "string"
+    },
+    "transported_species_mol_per_reaction_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Transported Species Mol Per Reaction Extent",
+      "type": "number"
+    },
+    "dissolved_metal_species_id": {
+      "minLength": 1,
+      "title": "Dissolved Metal Species Id",
+      "type": "string"
+    },
+    "metal_atoms_per_reaction_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Atoms Per Reaction Extent",
+      "type": "number"
+    },
+    "metal_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "metal_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Density Kg M3",
+      "type": "number"
+    },
+    "property_provider_id": {
+      "minLength": 1,
+      "title": "Property Provider Id",
+      "type": "string"
+    },
+    "property_provider_revision": {
+      "minLength": 1,
+      "title": "Property Provider Revision",
+      "type": "string"
+    },
+    "property_record_id": {
+      "minLength": 1,
+      "title": "Property Record Id",
+      "type": "string"
+    },
+    "property_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Property Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "transported_species_id",
+    "transported_species_mol_per_reaction_extent",
+    "dissolved_metal_species_id",
+    "metal_atoms_per_reaction_extent",
+    "metal_molar_mass_kg_mol",
+    "metal_density_kg_m3",
+    "property_provider_id",
+    "property_provider_revision",
+    "property_record_id",
+    "property_record_sha256",
+    "evidence"
+  ],
+  "title": "ScaleLimitedMetalDissolutionPathway",
+  "type": "object"
+}

@@ -1,0 +1,253 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FailureAssessmentCurve": {
+      "additionalProperties": false,
+      "properties": {
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "assessment_basis_id": {
+          "minLength": 1,
+          "title": "Assessment Basis Id",
+          "type": "string"
+        },
+        "load_ratio": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Load Ratio",
+          "type": "array"
+        },
+        "allowable_toughness_ratio": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Allowable Toughness Ratio",
+          "type": "array"
+        },
+        "interpolation": {
+          "const": "linear",
+          "default": "linear",
+          "title": "Interpolation",
+          "type": "string"
+        },
+        "validity_description": {
+          "minLength": 1,
+          "title": "Validity Description",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "curve_id",
+        "assessment_basis_id",
+        "load_ratio",
+        "allowable_toughness_ratio",
+        "validity_description",
+        "evidence"
+      ],
+      "title": "FailureAssessmentCurve",
+      "type": "object"
+    },
+    "FailureAssessmentPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "geometry_solution_id": {
+          "minLength": 1,
+          "title": "Geometry Solution Id",
+          "type": "string"
+        },
+        "reference_stress_solution_id": {
+          "minLength": 1,
+          "title": "Reference Stress Solution Id",
+          "type": "string"
+        },
+        "toughness_source_id": {
+          "minLength": 1,
+          "title": "Toughness Source Id",
+          "type": "string"
+        },
+        "effective_stress_intensity_Pa_sqrt_m": {
+          "minimum": 0,
+          "title": "Effective Stress Intensity Pa Sqrt M",
+          "type": "number"
+        },
+        "fracture_resistance_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Resistance Pa Sqrt M",
+          "type": "number"
+        },
+        "reference_stress_Pa": {
+          "minimum": 0,
+          "title": "Reference Stress Pa",
+          "type": "number"
+        },
+        "normalizing_strength_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Normalizing Strength Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "point_id",
+        "load_case_id",
+        "location_id",
+        "material_condition_id",
+        "geometry_solution_id",
+        "reference_stress_solution_id",
+        "toughness_source_id",
+        "effective_stress_intensity_Pa_sqrt_m",
+        "fracture_resistance_Pa_sqrt_m",
+        "reference_stress_Pa",
+        "normalizing_strength_Pa"
+      ],
+      "title": "FailureAssessmentPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "curve": {
+      "$ref": "#/$defs/FailureAssessmentCurve"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/FailureAssessmentPoint"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Points",
+      "type": "array"
+    },
+    "linear_elastic_k_solution_reviewed": {
+      "title": "Linear Elastic K Solution Reviewed",
+      "type": "boolean"
+    },
+    "reference_stress_solution_reviewed": {
+      "title": "Reference Stress Solution Reviewed",
+      "type": "boolean"
+    },
+    "toughness_applicability_reviewed": {
+      "title": "Toughness Applicability Reviewed",
+      "type": "boolean"
+    },
+    "load_combination_reviewed": {
+      "title": "Load Combination Reviewed",
+      "type": "boolean"
+    },
+    "curve_applicability_reviewed": {
+      "title": "Curve Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "material_condition_id",
+    "curve",
+    "points",
+    "linear_elastic_k_solution_reviewed",
+    "reference_stress_solution_reviewed",
+    "toughness_applicability_reviewed",
+    "load_combination_reviewed",
+    "curve_applicability_reviewed"
+  ],
+  "title": "FailureAssessment",
+  "type": "object"
+}

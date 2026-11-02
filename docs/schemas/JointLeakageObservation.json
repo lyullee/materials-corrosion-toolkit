@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "minimum": 0,
+      "title": "Elapsed Time S",
+      "type": "number"
+    },
+    "medium_id": {
+      "minLength": 1,
+      "title": "Medium Id",
+      "type": "string"
+    },
+    "detection_status": {
+      "enum": [
+        "detected",
+        "not_detected",
+        "not_examined",
+        "invalid"
+      ],
+      "title": "Detection Status",
+      "type": "string"
+    },
+    "leakage_rate": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Leakage Rate"
+    },
+    "leakage_unit_token": {
+      "minLength": 1,
+      "title": "Leakage Unit Token",
+      "type": "string"
+    },
+    "standard_uncertainty": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Standard Uncertainty"
+    },
+    "detection_limit": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Detection Limit"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "result_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result Digest"
+    },
+    "status_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Status Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "observation_id",
+    "clock_id",
+    "elapsed_time_s",
+    "medium_id",
+    "detection_status",
+    "leakage_unit_token",
+    "method_id",
+    "provider_id",
+    "provider_revision",
+    "evidence"
+  ],
+  "title": "JointLeakageObservation",
+  "type": "object"
+}

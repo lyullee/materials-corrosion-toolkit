@@ -1,0 +1,219 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "metal_temperature_location_id": {
+      "minLength": 1,
+      "title": "Metal Temperature Location Id",
+      "type": "string"
+    },
+    "pressure_location_id": {
+      "minLength": 1,
+      "title": "Pressure Location Id",
+      "type": "string"
+    },
+    "clock_basis": {
+      "minLength": 1,
+      "title": "Clock Basis",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "metal_temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Metal Temperature K",
+      "type": "array"
+    },
+    "pressure_Pa_abs": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Pressure Pa Abs",
+      "type": "array"
+    },
+    "maximum_heating_rate_K_s": {
+      "minimum": 0,
+      "title": "Maximum Heating Rate K S",
+      "type": "number"
+    },
+    "maximum_cooling_rate_K_s": {
+      "minimum": 0,
+      "title": "Maximum Cooling Rate K S",
+      "type": "number"
+    },
+    "maximum_pressurizing_rate_Pa_s": {
+      "minimum": 0,
+      "title": "Maximum Pressurizing Rate Pa S",
+      "type": "number"
+    },
+    "maximum_depressurizing_rate_Pa_s": {
+      "minimum": 0,
+      "title": "Maximum Depressurizing Rate Pa S",
+      "type": "number"
+    },
+    "piecewise_linear_history_and_location_reviewed": {
+      "title": "Piecewise Linear History And Location Reviewed",
+      "type": "boolean"
+    },
+    "rate_limit_applicability_reviewed": {
+      "title": "Rate Limit Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "history_id",
+    "component_id",
+    "metal_temperature_location_id",
+    "pressure_location_id",
+    "clock_basis",
+    "time_s",
+    "metal_temperature_K",
+    "pressure_Pa_abs",
+    "maximum_heating_rate_K_s",
+    "maximum_cooling_rate_K_s",
+    "maximum_pressurizing_rate_Pa_s",
+    "maximum_depressurizing_rate_Pa_s",
+    "piecewise_linear_history_and_location_reviewed",
+    "rate_limit_applicability_reviewed"
+  ],
+  "title": "PressureTemperatureRampLimits",
+  "type": "object"
+}

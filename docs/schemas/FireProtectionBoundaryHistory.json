@@ -1,0 +1,266 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FireProtectionTransferSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Digest",
+          "type": "string"
+        },
+        "incident_flux_min_W_m2": {
+          "minimum": 0,
+          "title": "Incident Flux Min W M2",
+          "type": "number"
+        },
+        "incident_flux_max_W_m2": {
+          "minimum": 0,
+          "title": "Incident Flux Max W M2",
+          "type": "number"
+        },
+        "supported_protection_state_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Protection State Ids",
+          "type": "array"
+        },
+        "calibration_basis": {
+          "minLength": 1,
+          "title": "Calibration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "provider_id",
+        "provider_version",
+        "provider_digest",
+        "incident_flux_min_W_m2",
+        "incident_flux_max_W_m2",
+        "supported_protection_state_ids",
+        "calibration_basis",
+        "evidence"
+      ],
+      "title": "FireProtectionTransferSupport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "thermal_boundary_id": {
+      "minLength": 1,
+      "title": "Thermal Boundary Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "incident_heat_flux_W_m2": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Incident Heat Flux W M2",
+      "type": "array"
+    },
+    "transmitted_flux_fraction": {
+      "items": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Transmitted Flux Fraction",
+      "type": "array"
+    },
+    "protection_state_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Protection State Ids",
+      "type": "array"
+    },
+    "transfer_record_digests": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Transfer Record Digests",
+      "type": "array"
+    },
+    "exposed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Exposed Area M2",
+      "type": "number"
+    },
+    "transfer_support": {
+      "$ref": "#/$defs/FireProtectionTransferSupport"
+    },
+    "clock_alignment_reviewed": {
+      "title": "Clock Alignment Reviewed",
+      "type": "boolean"
+    },
+    "incident_flux_basis_reviewed": {
+      "title": "Incident Flux Basis Reviewed",
+      "type": "boolean"
+    },
+    "protection_state_history_reviewed": {
+      "title": "Protection State History Reviewed",
+      "type": "boolean"
+    },
+    "transfer_provider_and_calibration_reviewed": {
+      "title": "Transfer Provider And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "thermal_boundary_orientation_reviewed": {
+      "title": "Thermal Boundary Orientation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "thermal_boundary_id",
+    "elapsed_time_s",
+    "incident_heat_flux_W_m2",
+    "transmitted_flux_fraction",
+    "protection_state_ids",
+    "transfer_record_digests",
+    "exposed_area_m2",
+    "transfer_support",
+    "clock_alignment_reviewed",
+    "incident_flux_basis_reviewed",
+    "protection_state_history_reviewed",
+    "transfer_provider_and_calibration_reviewed",
+    "thermal_boundary_orientation_reviewed",
+    "evidence"
+  ],
+  "title": "FireProtectionBoundaryHistory",
+  "type": "object"
+}

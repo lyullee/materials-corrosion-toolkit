@@ -1,0 +1,210 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Fixed blind-slit, one-species transient diffusion/reaction request.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_transient_wall_sink.v1",
+      "default": "matintegrity.crevice_transient_wall_sink.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calculation_id": {
+      "minLength": 1,
+      "title": "Calculation Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Length M",
+      "type": "number"
+    },
+    "effective_diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Effective Diffusivity M2 S",
+      "type": "number"
+    },
+    "wall_area_per_volume_m_inv": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Area Per Volume M Inv",
+      "type": "number"
+    },
+    "wall_transfer_velocity_m_s": {
+      "minimum": 0,
+      "title": "Wall Transfer Velocity M S",
+      "type": "number"
+    },
+    "mouth_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Mouth Concentration Mol M3",
+      "type": "number"
+    },
+    "elapsed_times_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Elapsed Times S",
+      "type": "array"
+    },
+    "sample_positions_m": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Sample Positions M",
+      "type": "array"
+    },
+    "eigenfunction_term_count": {
+      "maximum": 2000,
+      "minimum": 1,
+      "title": "Eigenfunction Term Count",
+      "type": "integer"
+    },
+    "constant_property_and_geometry_reviewed": {
+      "title": "Constant Property And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "fixed_mouth_concentration_reviewed": {
+      "title": "Fixed Mouth Concentration Reviewed",
+      "type": "boolean"
+    },
+    "blind_tip_zero_flux_reviewed": {
+      "title": "Blind Tip Zero Flux Reviewed",
+      "type": "boolean"
+    },
+    "uniform_initial_concentration_equals_mouth_reviewed": {
+      "title": "Uniform Initial Concentration Equals Mouth Reviewed",
+      "type": "boolean"
+    },
+    "first_order_irreversible_wall_sink_reviewed": {
+      "title": "First Order Irreversible Wall Sink Reviewed",
+      "type": "boolean"
+    },
+    "finite_truncation_use_reviewed": {
+      "title": "Finite Truncation Use Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calculation_id",
+    "asset_id",
+    "location_id",
+    "geometry_id",
+    "species_id",
+    "condition_id",
+    "length_m",
+    "effective_diffusivity_m2_s",
+    "wall_area_per_volume_m_inv",
+    "wall_transfer_velocity_m_s",
+    "mouth_concentration_mol_m3",
+    "elapsed_times_s",
+    "sample_positions_m",
+    "eigenfunction_term_count",
+    "constant_property_and_geometry_reviewed",
+    "fixed_mouth_concentration_reviewed",
+    "blind_tip_zero_flux_reviewed",
+    "uniform_initial_concentration_equals_mouth_reviewed",
+    "first_order_irreversible_wall_sink_reviewed",
+    "finite_truncation_use_reviewed",
+    "evidence"
+  ],
+  "title": "CreviceTransientWallSinkRequest",
+  "type": "object"
+}

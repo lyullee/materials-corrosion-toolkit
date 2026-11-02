@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "PropertyEnvelopePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "exposure_time_s": {
+          "minimum": 0,
+          "title": "Exposure Time S",
+          "type": "number"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        }
+      },
+      "required": [
+        "exposure_time_s"
+      ],
+      "title": "PropertyEnvelopePoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "rule_id": {
+      "minLength": 1,
+      "title": "Rule Id",
+      "type": "string"
+    },
+    "metric_kind": {
+      "enum": [
+        "property_retention",
+        "swelling",
+        "mass_change",
+        "strength",
+        "user_defined"
+      ],
+      "title": "Metric Kind",
+      "type": "string"
+    },
+    "metric_id": {
+      "minLength": 1,
+      "title": "Metric Id",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/PropertyEnvelopePoint"
+      },
+      "minItems": 1,
+      "title": "Points",
+      "type": "array"
+    },
+    "interpolation_policy": {
+      "enum": [
+        "none",
+        "linear"
+      ],
+      "title": "Interpolation Policy",
+      "type": "string"
+    },
+    "uncertainty_policy": {
+      "enum": [
+        "point_value",
+        "interval_must_fit"
+      ],
+      "title": "Uncertainty Policy",
+      "type": "string"
+    },
+    "uncertainty_coverage_factor": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Uncertainty Coverage Factor",
+      "type": "number"
+    },
+    "missing_or_unsupported_disposition": {
+      "enum": [
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Missing Or Unsupported Disposition",
+      "type": "string"
+    },
+    "rule_description": {
+      "minLength": 1,
+      "title": "Rule Description",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_id",
+    "metric_kind",
+    "metric_id",
+    "unit_token",
+    "points",
+    "interpolation_policy",
+    "uncertainty_policy",
+    "missing_or_unsupported_disposition",
+    "rule_description"
+  ],
+  "title": "CallerPropertyRule",
+  "type": "object"
+}

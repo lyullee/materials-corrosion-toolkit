@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "process_id": {
+      "minLength": 1,
+      "title": "Process Id",
+      "type": "string"
+    },
+    "consumable_condition_id": {
+      "minLength": 1,
+      "title": "Consumable Condition Id",
+      "type": "string"
+    },
+    "material_cross_section_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Material Cross Section Area M2",
+      "type": "number"
+    },
+    "material_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Material Density Kg M3",
+      "type": "number"
+    },
+    "arc_on_feed_speed_m_s": {
+      "minimum": 0,
+      "title": "Arc On Feed Speed M S",
+      "type": "number"
+    },
+    "captured_feed_mass_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Captured Feed Mass Fraction",
+      "type": "number"
+    },
+    "arc_on_time_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Arc On Time Fraction",
+      "type": "number"
+    },
+    "feed_volume_basis": {
+      "const": "continuous_uniform_material_cross_section",
+      "title": "Feed Volume Basis",
+      "type": "string"
+    },
+    "cross_section_density_capture_and_time_basis_reviewed": {
+      "title": "Cross Section Density Capture And Time Basis Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "process_id",
+    "consumable_condition_id",
+    "material_cross_section_area_m2",
+    "material_density_kg_m3",
+    "arc_on_feed_speed_m_s",
+    "captured_feed_mass_fraction",
+    "arc_on_time_fraction",
+    "feed_volume_basis",
+    "cross_section_density_capture_and_time_basis_reviewed"
+  ],
+  "title": "DeclaredConsumableDepositionRate",
+  "type": "object"
+}

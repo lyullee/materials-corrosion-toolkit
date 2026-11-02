@@ -1,0 +1,322 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MonotonicStressStrainPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "quantity_convention": {
+          "enum": [
+            "engineering",
+            "true"
+          ],
+          "title": "Quantity Convention",
+          "type": "string"
+        },
+        "stress_value": {
+          "exclusiveMinimum": 0,
+          "title": "Stress Value",
+          "type": "number"
+        },
+        "stress_unit_token": {
+          "minLength": 1,
+          "title": "Stress Unit Token",
+          "type": "string"
+        },
+        "total_strain": {
+          "exclusiveMinimum": 0,
+          "title": "Total Strain",
+          "type": "number"
+        },
+        "strain_unit_token": {
+          "const": "1",
+          "default": "1",
+          "title": "Strain Unit Token",
+          "type": "string"
+        },
+        "elastic_modulus": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Modulus",
+          "type": "number"
+        },
+        "elastic_modulus_unit_token": {
+          "minLength": 1,
+          "title": "Elastic Modulus Unit Token",
+          "type": "string"
+        },
+        "stress_standard_uncertainty": {
+          "minimum": 0,
+          "title": "Stress Standard Uncertainty",
+          "type": "number"
+        },
+        "weight": {
+          "exclusiveMinimum": 0,
+          "title": "Weight",
+          "type": "number"
+        },
+        "pre_necking_window_id": {
+          "minLength": 1,
+          "title": "Pre Necking Window Id",
+          "type": "string"
+        },
+        "pre_necking_reviewed": {
+          "title": "Pre Necking Reviewed",
+          "type": "boolean"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "material_condition_id",
+        "quantity_convention",
+        "stress_value",
+        "stress_unit_token",
+        "total_strain",
+        "elastic_modulus",
+        "elastic_modulus_unit_token",
+        "stress_standard_uncertainty",
+        "weight",
+        "pre_necking_window_id",
+        "pre_necking_reviewed",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "MonotonicStressStrainPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "quantity_convention": {
+      "enum": [
+        "engineering",
+        "true"
+      ],
+      "title": "Quantity Convention",
+      "type": "string"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/MonotonicStressStrainPoint"
+      },
+      "minItems": 4,
+      "title": "Points",
+      "type": "array"
+    },
+    "minimum_calibration_specimen_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Specimen Count",
+      "type": "integer"
+    },
+    "minimum_calibration_source_group_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_specimen_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Specimen Count",
+      "type": "integer"
+    },
+    "minimum_holdout_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Source Group Count",
+      "type": "integer"
+    },
+    "monotonic_loading_and_quantity_convention_reviewed": {
+      "title": "Monotonic Loading And Quantity Convention Reviewed",
+      "type": "boolean"
+    },
+    "stress_strain_units_sign_and_elastic_subtraction_reviewed": {
+      "title": "Stress Strain Units Sign And Elastic Subtraction Reviewed",
+      "type": "boolean"
+    },
+    "pre_necking_windows_reviewed": {
+      "title": "Pre Necking Windows Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_independence_and_partitions_reviewed": {
+      "title": "Specimen Source Independence And Partitions Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_weights_validity_and_digests_reviewed": {
+      "title": "Uncertainty Weights Validity And Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_support_and_no_extrapolation_reviewed": {
+      "title": "Calibration Support And No Extrapolation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "material_condition_id",
+    "quantity_convention",
+    "points",
+    "minimum_calibration_specimen_count",
+    "minimum_calibration_source_group_count",
+    "minimum_holdout_specimen_count",
+    "minimum_holdout_source_group_count",
+    "monotonic_loading_and_quantity_convention_reviewed",
+    "stress_strain_units_sign_and_elastic_subtraction_reviewed",
+    "pre_necking_windows_reviewed",
+    "specimen_source_independence_and_partitions_reviewed",
+    "uncertainty_weights_validity_and_digests_reviewed",
+    "calibration_support_and_no_extrapolation_reviewed",
+    "evidence"
+  ],
+  "title": "MonotonicHollomonCalibration",
+  "type": "object"
+}

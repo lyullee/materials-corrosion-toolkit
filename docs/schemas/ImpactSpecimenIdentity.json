@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "product_id": {
+      "minLength": 1,
+      "title": "Product Id",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "orientation_id": {
+      "minLength": 1,
+      "title": "Orientation Id",
+      "type": "string"
+    },
+    "notch_id": {
+      "minLength": 1,
+      "title": "Notch Id",
+      "type": "string"
+    },
+    "notch_definition": {
+      "minLength": 1,
+      "title": "Notch Definition",
+      "type": "string"
+    },
+    "size_id": {
+      "minLength": 1,
+      "title": "Size Id",
+      "type": "string"
+    },
+    "thickness": {
+      "exclusiveMinimum": 0,
+      "title": "Thickness",
+      "type": "number"
+    },
+    "width": {
+      "exclusiveMinimum": 0,
+      "title": "Width",
+      "type": "number"
+    },
+    "length": {
+      "exclusiveMinimum": 0,
+      "title": "Length",
+      "type": "number"
+    },
+    "dimension_unit_token": {
+      "minLength": 1,
+      "title": "Dimension Unit Token",
+      "type": "string"
+    },
+    "specimen_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Specimen Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "specimen_id",
+    "product_id",
+    "heat_id",
+    "material_condition_id",
+    "orientation_id",
+    "notch_id",
+    "notch_definition",
+    "size_id",
+    "thickness",
+    "width",
+    "length",
+    "dimension_unit_token",
+    "specimen_record_digest",
+    "evidence"
+  ],
+  "title": "ImpactSpecimenIdentity",
+  "type": "object"
+}

@@ -1,0 +1,293 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RequiredStructuralField": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "result_location": {
+          "enum": [
+            "node",
+            "element",
+            "integration_point",
+            "face",
+            "edge",
+            "global"
+          ],
+          "title": "Result Location",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "field_id",
+        "quantity_id",
+        "unit_token",
+        "result_location",
+        "coordinate_frame_id"
+      ],
+      "title": "RequiredStructuralField",
+      "type": "object"
+    },
+    "StructuralDiagnosticCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "equilibrium",
+            "convergence",
+            "uncertainty",
+            "verification"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "comparison": {
+          "const": "uncertainty_interval_against_bounds",
+          "default": "uncertainty_interval_against_bounds",
+          "title": "Comparison",
+          "type": "string"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "category",
+        "metric_id",
+        "unit_token",
+        "basis",
+        "evidence"
+      ],
+      "title": "StructuralDiagnosticCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "supported_analysis_kinds": {
+      "items": {
+        "enum": [
+          "external_pressure",
+          "nozzle_local_stress",
+          "finite_element"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supported Analysis Kinds",
+      "type": "array"
+    },
+    "supported_model_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supported Model Ids",
+      "type": "array"
+    },
+    "supported_element_family_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supported Element Family Ids",
+      "type": "array"
+    },
+    "maximum_node_count": {
+      "minimum": 1,
+      "title": "Maximum Node Count",
+      "type": "integer"
+    },
+    "maximum_element_count": {
+      "minimum": 1,
+      "title": "Maximum Element Count",
+      "type": "integer"
+    },
+    "required_fields": {
+      "items": {
+        "$ref": "#/$defs/RequiredStructuralField"
+      },
+      "minItems": 1,
+      "title": "Required Fields",
+      "type": "array"
+    },
+    "diagnostic_criteria": {
+      "items": {
+        "$ref": "#/$defs/StructuralDiagnosticCriterion"
+      },
+      "minItems": 1,
+      "title": "Diagnostic Criteria",
+      "type": "array"
+    },
+    "profile_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Source Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "supported_analysis_kinds",
+    "supported_model_ids",
+    "supported_element_family_ids",
+    "maximum_node_count",
+    "maximum_element_count",
+    "required_fields",
+    "diagnostic_criteria",
+    "profile_source_digest",
+    "evidence"
+  ],
+  "title": "StructuralAcceptanceProfile",
+  "type": "object"
+}

@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2LayerSpeciesDiffusivity": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase_id",
+        "species_id",
+        "diffusivity_m2_s"
+      ],
+      "title": "WetCo2LayerSpeciesDiffusivity",
+      "type": "object"
+    },
+    "WetCo2SolutionSpeciesDiffusivity": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "diffusivity_m2_s"
+      ],
+      "title": "WetCo2SolutionSpeciesDiffusivity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "time_s": {
+      "minimum": 0.0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "solution_film_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Solution Film Thickness M",
+      "type": "number"
+    },
+    "scale_diffusivities": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LayerSpeciesDiffusivity"
+      },
+      "maxItems": 2048,
+      "minItems": 1,
+      "title": "Scale Diffusivities",
+      "type": "array"
+    },
+    "solution_diffusivities": {
+      "items": {
+        "$ref": "#/$defs/WetCo2SolutionSpeciesDiffusivity"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Solution Diffusivities",
+      "type": "array"
+    },
+    "parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Record Sha256",
+      "type": "string"
+    },
+    "parameter_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Parameter Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "solution_film_thickness_m",
+    "scale_diffusivities",
+    "solution_diffusivities",
+    "parameter_record_sha256",
+    "parameter_evidence"
+  ],
+  "title": "WetCo2CylindricalMultilayerTransportKnot",
+  "type": "object"
+}

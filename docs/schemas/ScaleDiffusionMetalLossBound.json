@@ -1,0 +1,403 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "ScaleLimitedMetalDissolutionPathway": {
+      "additionalProperties": false,
+      "description": "Caller reaction stoichiometry and metal properties for one productive branch.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "transported_species_id": {
+          "minLength": 1,
+          "title": "Transported Species Id",
+          "type": "string"
+        },
+        "transported_species_mol_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Transported Species Mol Per Reaction Extent",
+          "type": "number"
+        },
+        "dissolved_metal_species_id": {
+          "minLength": 1,
+          "title": "Dissolved Metal Species Id",
+          "type": "string"
+        },
+        "metal_atoms_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Atoms Per Reaction Extent",
+          "type": "number"
+        },
+        "metal_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "metal_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Density Kg M3",
+          "type": "number"
+        },
+        "property_provider_id": {
+          "minLength": 1,
+          "title": "Property Provider Id",
+          "type": "string"
+        },
+        "property_provider_revision": {
+          "minLength": 1,
+          "title": "Property Provider Revision",
+          "type": "string"
+        },
+        "property_record_id": {
+          "minLength": 1,
+          "title": "Property Record Id",
+          "type": "string"
+        },
+        "property_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Property Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "transported_species_id",
+        "transported_species_mol_per_reaction_extent",
+        "dissolved_metal_species_id",
+        "metal_atoms_per_reaction_extent",
+        "metal_molar_mass_kg_mol",
+        "metal_density_kg_m3",
+        "property_provider_id",
+        "property_provider_revision",
+        "property_record_id",
+        "property_record_sha256",
+        "evidence"
+      ],
+      "title": "ScaleLimitedMetalDissolutionPathway",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Derive a finite dissolution-rate ceiling from a computed scale flux cap.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.scale_diffusion_metal_loss_bound.v1",
+      "default": "matintegrity.scale_diffusion_metal_loss_bound.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "scale_transport_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "scale_transport_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scale Transport Result Sha256",
+      "type": "string"
+    },
+    "surface_area_basis_id": {
+      "minLength": 1,
+      "title": "Surface Area Basis Id",
+      "type": "string"
+    },
+    "exposure_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Duration S",
+      "type": "number"
+    },
+    "candidate_pathways": {
+      "items": {
+        "$ref": "#/$defs/ScaleLimitedMetalDissolutionPathway"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Candidate Pathways",
+      "type": "array"
+    },
+    "sustained_steady_flux_limit_reviewed": {
+      "title": "Sustained Steady Flux Limit Reviewed",
+      "type": "boolean"
+    },
+    "complete_productive_branch_set_reviewed": {
+      "title": "Complete Productive Branch Set Reviewed",
+      "type": "boolean"
+    },
+    "reaction_stoichiometry_and_metal_mapping_reviewed": {
+      "title": "Reaction Stoichiometry And Metal Mapping Reviewed",
+      "type": "boolean"
+    },
+    "common_area_density_and_uniform_recession_reviewed": {
+      "title": "Common Area Density And Uniform Recession Reviewed",
+      "type": "boolean"
+    },
+    "scope_state_and_duration_transfer_reviewed": {
+      "title": "Scope State And Duration Transfer Reviewed",
+      "type": "boolean"
+    },
+    "no_other_metal_loss_path_over_duration_reviewed": {
+      "title": "No Other Metal Loss Path Over Duration Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "scale_transport_result",
+    "scale_transport_result_sha256",
+    "surface_area_basis_id",
+    "exposure_duration_s",
+    "candidate_pathways",
+    "sustained_steady_flux_limit_reviewed",
+    "complete_productive_branch_set_reviewed",
+    "reaction_stoichiometry_and_metal_mapping_reviewed",
+    "common_area_density_and_uniform_recession_reviewed",
+    "scope_state_and_duration_transfer_reviewed",
+    "no_other_metal_loss_path_over_duration_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ScaleDiffusionMetalLossBound",
+  "type": "object"
+}

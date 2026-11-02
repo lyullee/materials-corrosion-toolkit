@@ -1,0 +1,205 @@
+{
+  "$defs": {
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "ElectrochemicalSourceReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "aqueous_species_stoichiometry": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Aqueous Species Stoichiometry",
+          "type": "array"
+        },
+        "external_reservoir_element_change": {
+          "items": {
+            "$ref": "#/$defs/ExternalReservoirElementChange"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "External Reservoir Element Change",
+          "type": "array"
+        },
+        "external_reservoir_component_change": {
+          "items": {
+            "$ref": "#/$defs/ExternalReservoirComponentChange"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "External Reservoir Component Change",
+          "type": "array"
+        },
+        "external_reservoir_charge_change_mol_eq_per_extent": {
+          "title": "External Reservoir Charge Change Mol Eq Per Extent",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "aqueous_species_stoichiometry",
+        "external_reservoir_element_change",
+        "external_reservoir_component_change",
+        "external_reservoir_charge_change_mol_eq_per_extent",
+        "evidence"
+      ],
+      "title": "ElectrochemicalSourceReaction",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExternalReservoirComponentChange": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "reservoir_change_mol_per_extent": {
+          "title": "Reservoir Change Mol Per Extent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "component_id",
+        "reservoir_change_mol_per_extent"
+      ],
+      "title": "ExternalReservoirComponentChange",
+      "type": "object"
+    },
+    "ExternalReservoirElementChange": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "reservoir_change_mol_per_extent": {
+          "title": "Reservoir Change Mol Per Extent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "element_id",
+        "reservoir_change_mol_per_extent"
+      ],
+      "title": "ExternalReservoirElementChange",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction": {
+      "$ref": "#/$defs/ElectrochemicalSourceReaction"
+    },
+    "extent_rate_mol_s_by_knot_and_cell": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Extent Rate Mol S By Knot And Cell",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reaction",
+    "extent_rate_mol_s_by_knot_and_cell"
+  ],
+  "title": "ElectrochemicalSourceExtentSchedule",
+  "type": "object"
+}

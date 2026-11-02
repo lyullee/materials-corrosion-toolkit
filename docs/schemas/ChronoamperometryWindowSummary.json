@@ -1,0 +1,148 @@
+{
+  "additionalProperties": false,
+  "description": "One provenance-bound current trace and caller-declared summary windows.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.chronoamperometry_window_summary.v1",
+      "default": "matintegrity.chronoamperometry_window_summary.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "trace_id": {
+      "minLength": 1,
+      "title": "Trace Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_trace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Trace Sha256",
+      "type": "string"
+    },
+    "source_archive_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Archive Sha256"
+    },
+    "source_member_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Member Sha256"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 200000,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "current_A": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 200000,
+      "minItems": 2,
+      "title": "Current A",
+      "type": "array"
+    },
+    "analysis_window_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Analysis Window S",
+      "type": "array"
+    },
+    "baseline_window_s": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Baseline Window S"
+    },
+    "boundary_policy": {
+      "default": "piecewise_linear",
+      "enum": [
+        "exact_samples",
+        "piecewise_linear"
+      ],
+      "title": "Boundary Policy",
+      "type": "string"
+    },
+    "sample_order_reviewed": {
+      "title": "Sample Order Reviewed",
+      "type": "boolean"
+    },
+    "time_unit_reviewed_as_seconds": {
+      "title": "Time Unit Reviewed As Seconds",
+      "type": "boolean"
+    },
+    "current_unit_reviewed_as_amperes": {
+      "title": "Current Unit Reviewed As Amperes",
+      "type": "boolean"
+    },
+    "current_sign_basis": {
+      "minLength": 1,
+      "title": "Current Sign Basis",
+      "type": "string"
+    },
+    "current_sign_reviewed": {
+      "title": "Current Sign Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "trace_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "source_trace_sha256",
+    "time_s",
+    "current_A",
+    "analysis_window_s",
+    "sample_order_reviewed",
+    "time_unit_reviewed_as_seconds",
+    "current_unit_reviewed_as_amperes",
+    "current_sign_basis",
+    "current_sign_reviewed"
+  ],
+  "title": "ChronoamperometryWindowSummary",
+  "type": "object"
+}

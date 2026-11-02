@@ -1,0 +1,486 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "NitridingExposureInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "envelope_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Envelope Id"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "nitrogen_species_id": {
+          "minLength": 1,
+          "title": "Nitrogen Species Id",
+          "type": "string"
+        },
+        "nitrogen_driving_force_basis": {
+          "minLength": 1,
+          "title": "Nitrogen Driving Force Basis",
+          "type": "string"
+        },
+        "nitrogen_driving_force_unit": {
+          "minLength": 1,
+          "title": "Nitrogen Driving Force Unit",
+          "type": "string"
+        },
+        "nitrogen_driving_force": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nitrogen Driving Force"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "pressure_Pa_abs": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Pa Abs"
+        },
+        "gas_environment_descriptor_id": {
+          "minLength": 1,
+          "title": "Gas Environment Descriptor Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "nitrogen_species_id",
+        "nitrogen_driving_force_basis",
+        "nitrogen_driving_force_unit",
+        "gas_environment_descriptor_id",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "NitridingExposureInterval",
+      "type": "object"
+    },
+    "NitridingQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Material Ids",
+          "type": "array"
+        },
+        "material_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Material Condition Ids",
+          "type": "array"
+        },
+        "nitrogen_species_id": {
+          "minLength": 1,
+          "title": "Nitrogen Species Id",
+          "type": "string"
+        },
+        "nitrogen_driving_force_basis": {
+          "minLength": 1,
+          "title": "Nitrogen Driving Force Basis",
+          "type": "string"
+        },
+        "nitrogen_driving_force_unit": {
+          "minLength": 1,
+          "title": "Nitrogen Driving Force Unit",
+          "type": "string"
+        },
+        "minimum_nitrogen_driving_force": {
+          "minimum": 0,
+          "title": "Minimum Nitrogen Driving Force",
+          "type": "number"
+        },
+        "maximum_nitrogen_driving_force": {
+          "minimum": 0,
+          "title": "Maximum Nitrogen Driving Force",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_pressure_Pa_abs": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Pressure Pa Abs",
+          "type": "number"
+        },
+        "maximum_pressure_Pa_abs": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Pressure Pa Abs",
+          "type": "number"
+        },
+        "gas_environment_descriptor_id": {
+          "minLength": 1,
+          "title": "Gas Environment Descriptor Id",
+          "type": "string"
+        },
+        "maximum_exposure_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Exposure Duration S",
+          "type": "number"
+        },
+        "test_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Test Evidence Ids",
+          "type": "array"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_ids",
+        "material_condition_ids",
+        "nitrogen_species_id",
+        "nitrogen_driving_force_basis",
+        "nitrogen_driving_force_unit",
+        "minimum_nitrogen_driving_force",
+        "maximum_nitrogen_driving_force",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_pressure_Pa_abs",
+        "maximum_pressure_Pa_abs",
+        "gas_environment_descriptor_id",
+        "maximum_exposure_duration_s",
+        "test_evidence_ids",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "NitridingQualificationEnvelope",
+      "type": "object"
+    },
+    "NitridingTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "test_method_id": {
+          "minLength": 1,
+          "title": "Test Method Id",
+          "type": "string"
+        },
+        "reported_endpoint": {
+          "minLength": 1,
+          "title": "Reported Endpoint",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "test_id",
+        "physical_specimen_id",
+        "test_method_id",
+        "reported_endpoint",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "NitridingTestEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "qualification_tests": {
+      "items": {
+        "$ref": "#/$defs/NitridingTestEvidence"
+      },
+      "minItems": 1,
+      "title": "Qualification Tests",
+      "type": "array"
+    },
+    "qualification_envelopes": {
+      "items": {
+        "$ref": "#/$defs/NitridingQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Qualification Envelopes",
+      "type": "array"
+    },
+    "exposure_intervals": {
+      "items": {
+        "$ref": "#/$defs/NitridingExposureInterval"
+      },
+      "minItems": 1,
+      "title": "Exposure Intervals",
+      "type": "array"
+    },
+    "material_and_condition_reviewed": {
+      "title": "Material And Condition Reviewed",
+      "type": "boolean"
+    },
+    "nitrogen_species_basis_and_unit_reviewed": {
+      "title": "Nitrogen Species Basis And Unit Reviewed",
+      "type": "boolean"
+    },
+    "temperature_history_reviewed": {
+      "title": "Temperature History Reviewed",
+      "type": "boolean"
+    },
+    "absolute_pressure_reviewed": {
+      "title": "Absolute Pressure Reviewed",
+      "type": "boolean"
+    },
+    "gas_environment_descriptor_reviewed": {
+      "title": "Gas Environment Descriptor Reviewed",
+      "type": "boolean"
+    },
+    "exposure_clock_reviewed": {
+      "title": "Exposure Clock Reviewed",
+      "type": "boolean"
+    },
+    "qualification_tests_and_envelopes_reviewed": {
+      "title": "Qualification Tests And Envelopes Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "material_id",
+    "material_condition_id",
+    "qualification_tests",
+    "qualification_envelopes",
+    "exposure_intervals",
+    "material_and_condition_reviewed",
+    "nitrogen_species_basis_and_unit_reviewed",
+    "temperature_history_reviewed",
+    "absolute_pressure_reviewed",
+    "gas_environment_descriptor_reviewed",
+    "exposure_clock_reviewed",
+    "qualification_tests_and_envelopes_reviewed",
+    "evidence"
+  ],
+  "title": "NitridingApplicability",
+  "type": "object"
+}

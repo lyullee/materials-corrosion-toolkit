@@ -1,0 +1,144 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Shoelace area for a caller-reviewed closed path in a plane's shear space.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "shear_strain_a": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 3,
+      "title": "Shear Strain A",
+      "type": "array"
+    },
+    "shear_strain_b": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 3,
+      "title": "Shear Strain B",
+      "type": "array"
+    },
+    "closure_tolerance": {
+      "maximum": 0.1,
+      "minimum": 0,
+      "title": "Closure Tolerance",
+      "type": "number"
+    },
+    "plane_and_axis_orientation_reviewed": {
+      "title": "Plane And Axis Orientation Reviewed",
+      "type": "boolean"
+    },
+    "path_order_and_closure_reviewed": {
+      "title": "Path Order And Closure Reviewed",
+      "type": "boolean"
+    },
+    "engineering_shear_convention_reviewed": {
+      "title": "Engineering Shear Convention Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "source_id",
+    "source_sha256",
+    "evidence",
+    "sample_ids",
+    "shear_strain_a",
+    "shear_strain_b",
+    "closure_tolerance",
+    "plane_and_axis_orientation_reviewed",
+    "path_order_and_closure_reviewed",
+    "engineering_shear_convention_reviewed"
+  ],
+  "title": "SampledShearPathArea",
+  "type": "object"
+}

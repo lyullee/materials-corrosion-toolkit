@@ -1,0 +1,273 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One aligned gas/wall state with caller-supplied water and CO2 property outputs.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_condensate_state.v1",
+      "default": "matintegrity.wet_co2_condensate_state.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "bulk_gas_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Bulk Gas Temperature K",
+      "type": "number"
+    },
+    "inner_wall_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Inner Wall Temperature K",
+      "type": "number"
+    },
+    "gas_total_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Total Pressure Pa",
+      "type": "number"
+    },
+    "water_vapor_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Water Vapor Fugacity Pa",
+      "type": "number"
+    },
+    "water_vapor_fugacity_absolute_bound_Pa": {
+      "minimum": 0,
+      "title": "Water Vapor Fugacity Absolute Bound Pa",
+      "type": "number"
+    },
+    "condensate_water_equilibrium_fugacity_at_wall_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Condensate Water Equilibrium Fugacity At Wall Pa",
+      "type": "number"
+    },
+    "wall_equilibrium_fugacity_absolute_bound_Pa": {
+      "minimum": 0,
+      "title": "Wall Equilibrium Fugacity Absolute Bound Pa",
+      "type": "number"
+    },
+    "co2_gas_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Co2 Gas Fugacity Pa",
+      "type": "number"
+    },
+    "co2_fugacity_absolute_bound_Pa": {
+      "minimum": 0,
+      "title": "Co2 Fugacity Absolute Bound Pa",
+      "type": "number"
+    },
+    "co2star_henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Co2Star Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "henry_absolute_bound_mol_m3_Pa": {
+      "minimum": 0,
+      "title": "Henry Absolute Bound Mol M3 Pa",
+      "type": "number"
+    },
+    "water_property_provider_id": {
+      "minLength": 1,
+      "title": "Water Property Provider Id",
+      "type": "string"
+    },
+    "water_property_provider_revision": {
+      "minLength": 1,
+      "title": "Water Property Provider Revision",
+      "type": "string"
+    },
+    "water_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Water Configuration Sha256",
+      "type": "string"
+    },
+    "water_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Water Result Sha256",
+      "type": "string"
+    },
+    "co2_property_provider_id": {
+      "minLength": 1,
+      "title": "Co2 Property Provider Id",
+      "type": "string"
+    },
+    "co2_property_provider_revision": {
+      "minLength": 1,
+      "title": "Co2 Property Provider Revision",
+      "type": "string"
+    },
+    "co2_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Co2 Configuration Sha256",
+      "type": "string"
+    },
+    "co2_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Co2 Result Sha256",
+      "type": "string"
+    },
+    "henry_record_id": {
+      "minLength": 1,
+      "title": "Henry Record Id",
+      "type": "string"
+    },
+    "henry_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Henry Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "gas_wall_state_time_alignment_reviewed": {
+      "title": "Gas Wall State Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "water_phase_standard_state_and_solution_match_reviewed": {
+      "title": "Water Phase Standard State And Solution Match Reviewed",
+      "type": "boolean"
+    },
+    "co2_fugacity_and_henry_convention_reviewed": {
+      "title": "Co2 Fugacity And Henry Convention Reviewed",
+      "type": "boolean"
+    },
+    "bound_interpretation_is_deterministic_not_probability_reviewed": {
+      "title": "Bound Interpretation Is Deterministic Not Probability Reviewed",
+      "type": "boolean"
+    },
+    "thermodynamic_use_authorized": {
+      "title": "Thermodynamic Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "time_s",
+    "bulk_gas_temperature_K",
+    "inner_wall_temperature_K",
+    "gas_total_pressure_Pa",
+    "water_vapor_fugacity_Pa",
+    "water_vapor_fugacity_absolute_bound_Pa",
+    "condensate_water_equilibrium_fugacity_at_wall_Pa",
+    "wall_equilibrium_fugacity_absolute_bound_Pa",
+    "co2_gas_fugacity_Pa",
+    "co2_fugacity_absolute_bound_Pa",
+    "co2star_henry_concentration_over_fugacity_mol_m3_Pa",
+    "henry_absolute_bound_mol_m3_Pa",
+    "water_property_provider_id",
+    "water_property_provider_revision",
+    "water_configuration_sha256",
+    "water_result_sha256",
+    "co2_property_provider_id",
+    "co2_property_provider_revision",
+    "co2_configuration_sha256",
+    "co2_result_sha256",
+    "henry_record_id",
+    "henry_record_sha256",
+    "evidence",
+    "gas_wall_state_time_alignment_reviewed",
+    "water_phase_standard_state_and_solution_match_reviewed",
+    "co2_fugacity_and_henry_convention_reviewed",
+    "bound_interpretation_is_deterministic_not_probability_reviewed",
+    "thermodynamic_use_authorized"
+  ],
+  "title": "WetCo2CondensateStateRequest",
+  "type": "object"
+}

@@ -1,0 +1,408 @@
+{
+  "$defs": {
+    "AllowablePropertyQueryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "minLength": 1,
+          "title": "Query Id",
+          "type": "string"
+        },
+        "applicability_id": {
+          "minLength": 1,
+          "title": "Applicability Id",
+          "type": "string"
+        },
+        "query": {
+          "$ref": "#/$defs/PropertyQuery"
+        },
+        "query_source_id": {
+          "minLength": 1,
+          "title": "Query Source Id",
+          "type": "string"
+        },
+        "query_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Query Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "query_id",
+        "applicability_id",
+        "query",
+        "query_source_id",
+        "query_record_digest",
+        "evidence"
+      ],
+      "title": "AllowablePropertyQueryRecord",
+      "type": "object"
+    },
+    "AllowablePropertyTableRecord": {
+      "additionalProperties": false,
+      "description": "One caller-controlled table and its provider/applicability lineage.",
+      "properties": {
+        "table_id": {
+          "minLength": 1,
+          "title": "Table Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Record Digest",
+          "type": "string"
+        },
+        "rights_basis": {
+          "enum": [
+            "caller_owned",
+            "caller_licensed"
+          ],
+          "title": "Rights Basis",
+          "type": "string"
+        },
+        "entitlement_id": {
+          "minLength": 1,
+          "title": "Entitlement Id",
+          "type": "string"
+        },
+        "applicability_id": {
+          "minLength": 1,
+          "title": "Applicability Id",
+          "type": "string"
+        },
+        "applicability_statement": {
+          "minLength": 1,
+          "title": "Applicability Statement",
+          "type": "string"
+        },
+        "table": {
+          "$ref": "#/$defs/DesignPropertyTable"
+        }
+      },
+      "required": [
+        "table_id",
+        "provider_id",
+        "provider_revision",
+        "provider_record_digest",
+        "rights_basis",
+        "entitlement_id",
+        "applicability_id",
+        "applicability_statement",
+        "table"
+      ],
+      "title": "AllowablePropertyTableRecord",
+      "type": "object"
+    },
+    "DesignPropertyTable": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/PropertyIdentity"
+        },
+        "temperature_table": {
+          "$ref": "#/$defs/TabulatedProperty"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "permitted_use_note": {
+          "minLength": 1,
+          "title": "Permitted Use Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "identity",
+        "temperature_table",
+        "evidence",
+        "permitted_use_note"
+      ],
+      "title": "DesignPropertyTable",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PropertyIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "material_condition": {
+          "minLength": 1,
+          "title": "Material Condition",
+          "type": "string"
+        },
+        "orientation": {
+          "minLength": 1,
+          "title": "Orientation",
+          "type": "string"
+        },
+        "property_id": {
+          "minLength": 1,
+          "title": "Property Id",
+          "type": "string"
+        },
+        "basis_id": {
+          "minLength": 1,
+          "title": "Basis Id",
+          "type": "string"
+        },
+        "basis_edition": {
+          "minLength": 1,
+          "title": "Basis Edition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "material_id",
+        "product_form",
+        "material_condition",
+        "orientation",
+        "property_id",
+        "basis_id",
+        "basis_edition"
+      ],
+      "title": "PropertyIdentity",
+      "type": "object"
+    },
+    "PropertyQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/PropertyIdentity"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "requested_unit": {
+          "minLength": 1,
+          "title": "Requested Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "identity",
+        "temperature_K",
+        "requested_unit"
+      ],
+      "title": "PropertyQuery",
+      "type": "object"
+    },
+    "TabulatedProperty": {
+      "additionalProperties": false,
+      "properties": {
+        "property_id": {
+          "minLength": 1,
+          "title": "Property Id",
+          "type": "string"
+        },
+        "x": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "X",
+          "type": "array"
+        },
+        "y": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Y",
+          "type": "array"
+        },
+        "x_unit": {
+          "minLength": 1,
+          "title": "X Unit",
+          "type": "string"
+        },
+        "y_unit": {
+          "minLength": 1,
+          "title": "Y Unit",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "interpolation": {
+          "default": "linear",
+          "enum": [
+            "linear",
+            "pchip"
+          ],
+          "title": "Interpolation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "property_id",
+        "x",
+        "y",
+        "x_unit",
+        "y_unit",
+        "source_id"
+      ],
+      "title": "TabulatedProperty",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "audit_id": {
+      "minLength": 1,
+      "title": "Audit Id",
+      "type": "string"
+    },
+    "provider_set_id": {
+      "minLength": 1,
+      "title": "Provider Set Id",
+      "type": "string"
+    },
+    "provider_set_revision": {
+      "minLength": 1,
+      "title": "Provider Set Revision",
+      "type": "string"
+    },
+    "tables": {
+      "items": {
+        "$ref": "#/$defs/AllowablePropertyTableRecord"
+      },
+      "minItems": 1,
+      "title": "Tables",
+      "type": "array"
+    },
+    "queries": {
+      "items": {
+        "$ref": "#/$defs/AllowablePropertyQueryRecord"
+      },
+      "minItems": 1,
+      "title": "Queries",
+      "type": "array"
+    },
+    "material_product_condition_orientation_and_edition_reviewed": {
+      "title": "Material Product Condition Orientation And Edition Reviewed",
+      "type": "boolean"
+    },
+    "provider_revision_rights_and_provenance_reviewed": {
+      "title": "Provider Revision Rights And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "applicability_units_and_temperature_support_reviewed": {
+      "title": "Applicability Units And Temperature Support Reviewed",
+      "type": "boolean"
+    },
+    "query_identity_units_and_digests_reviewed": {
+      "title": "Query Identity Units And Digests Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "audit_id",
+    "provider_set_id",
+    "provider_set_revision",
+    "tables",
+    "queries",
+    "material_product_condition_orientation_and_edition_reviewed",
+    "provider_revision_rights_and_provenance_reviewed",
+    "applicability_units_and_temperature_support_reviewed",
+    "query_identity_units_and_digests_reviewed",
+    "evidence"
+  ],
+  "title": "AllowablePropertyProviderAudit",
+  "type": "object"
+}

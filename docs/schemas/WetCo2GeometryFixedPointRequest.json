@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Input contract for iterating a caller's radius-to-radius solver mapping.\n\nThe callback is a runtime dependency, deliberately not serialized in this request.\nIt must calculate chemistry/transport/electrochemistry for the supplied radius path\nand return the corresponding wall-loss target path plus independent balance residuals.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_geometry_fixed_point.v1",
+      "default": "matintegrity.wet_co2_geometry_fixed_point.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Time Basis Id",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "initial_bore_radius_m_by_knot": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Initial Bore Radius M By Knot",
+      "type": "array"
+    },
+    "outer_radius_m": {
+      "exclusiveMinimum": 0,
+      "title": "Outer Radius M",
+      "type": "number"
+    },
+    "solver_model_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Solver Model Id",
+      "type": "string"
+    },
+    "solver_contract_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solver Contract Sha256",
+      "type": "string"
+    },
+    "solver_contract_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "maximum_iterations": {
+      "default": 30,
+      "maximum": 200,
+      "minimum": 1,
+      "title": "Maximum Iterations",
+      "type": "integer"
+    },
+    "relaxation_factor": {
+      "default": 0.5,
+      "exclusiveMinimum": 0.0,
+      "maximum": 1.0,
+      "title": "Relaxation Factor",
+      "type": "number"
+    },
+    "absolute_radius_tolerance_m": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Radius Tolerance M",
+      "type": "number"
+    },
+    "relative_radius_tolerance": {
+      "default": 1e-07,
+      "exclusiveMinimum": 0.0,
+      "maximum": 0.01,
+      "title": "Relative Radius Tolerance",
+      "type": "number"
+    },
+    "absolute_inventory_balance_tolerance_mol_m": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Inventory Balance Tolerance Mol M",
+      "type": "number"
+    },
+    "relative_inventory_balance_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0.0,
+      "maximum": 0.01,
+      "title": "Relative Inventory Balance Tolerance",
+      "type": "number"
+    },
+    "corrosion_bore_radius_increase_only_reviewed": {
+      "title": "Corrosion Bore Radius Increase Only Reviewed",
+      "type": "boolean"
+    },
+    "solver_mapping_and_iteration_semantics_reviewed": {
+      "title": "Solver Mapping And Iteration Semantics Reviewed",
+      "type": "boolean"
+    },
+    "inventory_residual_definition_reviewed": {
+      "title": "Inventory Residual Definition Reviewed",
+      "type": "boolean"
+    },
+    "no_between_knot_claim_reviewed": {
+      "title": "No Between Knot Claim Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "time_basis_id",
+    "time_s",
+    "initial_bore_radius_m_by_knot",
+    "outer_radius_m",
+    "solver_model_id",
+    "solver_contract_sha256",
+    "solver_contract_evidence",
+    "corrosion_bore_radius_increase_only_reviewed",
+    "solver_mapping_and_iteration_semantics_reviewed",
+    "inventory_residual_definition_reviewed",
+    "no_between_knot_claim_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "WetCo2GeometryFixedPointRequest",
+  "type": "object"
+}

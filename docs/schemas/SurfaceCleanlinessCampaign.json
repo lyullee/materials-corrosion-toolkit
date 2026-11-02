@@ -1,0 +1,606 @@
+{
+  "$defs": {
+    "CallerCleanlinessProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "permitted_substrate_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Substrate Ids",
+          "type": "array"
+        },
+        "permitted_previous_coating_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Previous Coating Ids",
+          "type": "array"
+        },
+        "permitted_contaminant_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Contaminant Ids",
+          "type": "array"
+        },
+        "permitted_process_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Process Ids",
+          "type": "array"
+        },
+        "minimum_surface_above_dewpoint_k": {
+          "minimum": 0,
+          "title": "Minimum Surface Above Dewpoint K",
+          "type": "number"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CleanlinessCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "source_digest",
+        "permitted_substrate_ids",
+        "permitted_previous_coating_ids",
+        "permitted_contaminant_ids",
+        "permitted_process_ids",
+        "minimum_surface_above_dewpoint_k",
+        "criteria",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "CallerCleanlinessProfile",
+      "type": "object"
+    },
+    "CleanlinessCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "minLength": 1,
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "individual",
+            "replica_mean",
+            "replica_minimum",
+            "replica_maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "minimum_replicas": {
+          "minimum": 1,
+          "title": "Minimum Replicas",
+          "type": "integer"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "aggregation",
+        "uncertainty_policy",
+        "minimum_replicas",
+        "missing_disposition",
+        "description"
+      ],
+      "title": "CleanlinessCriterion",
+      "type": "object"
+    },
+    "CleanlinessMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "sample_location_id": {
+          "minLength": 1,
+          "title": "Sample Location Id",
+          "type": "string"
+        },
+        "replica_group_id": {
+          "minLength": 1,
+          "title": "Replica Group Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "soluble_salt",
+            "dust",
+            "surface_profile",
+            "oil",
+            "visual",
+            "roughness",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "area_id",
+        "sample_location_id",
+        "replica_group_id",
+        "metric_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "input_digest",
+        "evidence"
+      ],
+      "title": "CleanlinessMeasurement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PreparationEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "process_id": {
+          "minLength": 1,
+          "title": "Process Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "ambient_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Ambient Temperature K",
+          "type": "number"
+        },
+        "surface_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Surface Temperature K",
+          "type": "number"
+        },
+        "dewpoint_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Dewpoint Temperature K",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_position",
+        "process_id",
+        "start_time_s",
+        "end_time_s",
+        "ambient_temperature_k",
+        "surface_temperature_k",
+        "dewpoint_temperature_k",
+        "provider_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "PreparationEvent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "substrate_id": {
+      "minLength": 1,
+      "title": "Substrate Id",
+      "type": "string"
+    },
+    "area_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Area Ids",
+      "type": "array"
+    },
+    "previous_coating_id": {
+      "minLength": 1,
+      "title": "Previous Coating Id",
+      "type": "string"
+    },
+    "contaminant_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Contaminant Ids",
+      "type": "array"
+    },
+    "preparation_events": {
+      "items": {
+        "$ref": "#/$defs/PreparationEvent"
+      },
+      "minItems": 1,
+      "title": "Preparation Events",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/CleanlinessMeasurement"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "profile": {
+      "$ref": "#/$defs/CallerCleanlinessProfile"
+    },
+    "identity_and_area_mapping_reviewed": {
+      "title": "Identity And Area Mapping Reviewed",
+      "type": "boolean"
+    },
+    "preparation_event_order_process_and_environment_reviewed": {
+      "title": "Preparation Event Order Process And Environment Reviewed",
+      "type": "boolean"
+    },
+    "measurement_locations_replicas_units_uncertainty_and_provenance_reviewed": {
+      "title": "Measurement Locations Replicas Units Uncertainty And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_authority_and_criteria_reviewed": {
+      "title": "Caller Profile Authority And Criteria Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "substrate_id",
+    "area_ids",
+    "previous_coating_id",
+    "contaminant_ids",
+    "preparation_events",
+    "measurements",
+    "profile",
+    "identity_and_area_mapping_reviewed",
+    "preparation_event_order_process_and_environment_reviewed",
+    "measurement_locations_replicas_units_uncertainty_and_provenance_reviewed",
+    "caller_profile_authority_and_criteria_reviewed",
+    "evidence"
+  ],
+  "title": "SurfaceCleanlinessCampaign",
+  "type": "object"
+}

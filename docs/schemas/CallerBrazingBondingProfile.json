@@ -1,0 +1,319 @@
+{
+  "$defs": {
+    "CallerProductionCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "minLength": 1,
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "individual",
+            "replicate_mean",
+            "replicate_minimum",
+            "replicate_maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "minimum_replicates": {
+          "minimum": 1,
+          "title": "Minimum Replicates",
+          "type": "integer"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "aggregation",
+        "uncertainty_policy",
+        "minimum_replicates",
+        "missing_disposition",
+        "description"
+      ],
+      "title": "CallerProductionCriterion",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "permitted_base_lot_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Base Lot Ids",
+      "type": "array"
+    },
+    "permitted_filler_lot_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Filler Lot Ids",
+      "type": "array"
+    },
+    "permitted_adhesive_lot_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Adhesive Lot Ids",
+      "type": "array"
+    },
+    "permitted_surface_preparation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Surface Preparation Ids",
+      "type": "array"
+    },
+    "permitted_joint_geometry_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Joint Geometry Ids",
+      "type": "array"
+    },
+    "minimum_fitup_gap_m": {
+      "minimum": 0,
+      "title": "Minimum Fitup Gap M",
+      "type": "number"
+    },
+    "maximum_fitup_gap_m": {
+      "minimum": 0,
+      "title": "Maximum Fitup Gap M",
+      "type": "number"
+    },
+    "fitup_uncertainty_policy": {
+      "enum": [
+        "point_value",
+        "interval_must_fit"
+      ],
+      "title": "Fitup Uncertainty Policy",
+      "type": "string"
+    },
+    "permitted_atmosphere_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Atmosphere Ids",
+      "type": "array"
+    },
+    "permitted_flux_lot_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Flux Lot Ids",
+      "type": "array"
+    },
+    "minimum_cycle_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Cycle Temperature K",
+      "type": "number"
+    },
+    "maximum_cycle_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Cycle Temperature K",
+      "type": "number"
+    },
+    "maximum_cycle_pressure_pa_abs": {
+      "minimum": 0,
+      "title": "Maximum Cycle Pressure Pa Abs",
+      "type": "number"
+    },
+    "maximum_interval_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Interval Duration S",
+      "type": "number"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/CallerProductionCriterion"
+      },
+      "minItems": 1,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_reviewed": {
+      "title": "Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "source_digest",
+    "permitted_base_lot_ids",
+    "permitted_surface_preparation_ids",
+    "permitted_joint_geometry_ids",
+    "minimum_fitup_gap_m",
+    "maximum_fitup_gap_m",
+    "fitup_uncertainty_policy",
+    "permitted_atmosphere_ids",
+    "minimum_cycle_temperature_k",
+    "maximum_cycle_temperature_k",
+    "maximum_cycle_pressure_pa_abs",
+    "maximum_interval_duration_s",
+    "criteria",
+    "profile_reviewed",
+    "evidence"
+  ],
+  "title": "CallerBrazingBondingProfile",
+  "type": "object"
+}

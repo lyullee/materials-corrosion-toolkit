@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ResistanceComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "component_kind": {
+          "enum": [
+            "electrolyte",
+            "contact",
+            "lead",
+            "caller_other"
+          ],
+          "title": "Component Kind",
+          "type": "string"
+        },
+        "resistance_ohm": {
+          "minimum": 0,
+          "title": "Resistance Ohm",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component_id",
+        "component_kind",
+        "resistance_ohm",
+        "basis",
+        "evidence"
+      ],
+      "title": "ResistanceComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "connection_id": {
+      "minLength": 1,
+      "title": "Connection Id",
+      "type": "string"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/ResistanceComponent"
+      },
+      "minItems": 1,
+      "title": "Components",
+      "type": "array"
+    },
+    "declared_total_series_resistance_ohm": {
+      "exclusiveMinimum": 0,
+      "title": "Declared Total Series Resistance Ohm",
+      "type": "number"
+    },
+    "component_sum_tolerance_ohm": {
+      "default": 1e-12,
+      "minimum": 0,
+      "title": "Component Sum Tolerance Ohm",
+      "type": "number"
+    },
+    "connection_reviewed": {
+      "title": "Connection Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "connection_id",
+    "components",
+    "declared_total_series_resistance_ohm",
+    "connection_reviewed"
+  ],
+  "title": "ResistiveGalvanicConnection",
+  "type": "object"
+}

@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "ComponentMaterialRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "component_role": {
+          "minLength": 1,
+          "title": "Component Role",
+          "type": "string"
+        },
+        "allowed_material_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Material Condition Ids",
+          "type": "array"
+        },
+        "required_attributes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Required Attributes",
+          "type": "object"
+        },
+        "minimum_count": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Minimum Count",
+          "type": "integer"
+        },
+        "maximum_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Count"
+        }
+      },
+      "required": [
+        "component_role",
+        "allowed_material_condition_ids",
+        "required_attributes"
+      ],
+      "title": "ComponentMaterialRequirement",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MaterialClassComponentRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "component_role": {
+          "minLength": 1,
+          "title": "Component Role",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material Condition Id"
+        },
+        "attributes": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Attributes",
+          "type": "object"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "component_role",
+        "physical_scope_id",
+        "attributes",
+        "source_id",
+        "record_sha256"
+      ],
+      "title": "MaterialClassComponentRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "class_id": {
+      "minLength": 1,
+      "title": "Class Id",
+      "type": "string"
+    },
+    "class_revision": {
+      "minLength": 1,
+      "title": "Class Revision",
+      "type": "string"
+    },
+    "governing_requirement_id": {
+      "minLength": 1,
+      "title": "Governing Requirement Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "service_id": {
+      "minLength": 1,
+      "title": "Service Id",
+      "type": "string"
+    },
+    "allowed_service_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Service Ids",
+      "type": "array"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/ComponentMaterialRequirement"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Requirements",
+      "type": "array"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/MaterialClassComponentRecord"
+      },
+      "maxItems": 10000,
+      "title": "Components",
+      "type": "array"
+    },
+    "profile_authority_and_component_mapping_reviewed": {
+      "title": "Profile Authority And Component Mapping Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "class_id",
+    "class_revision",
+    "governing_requirement_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "service_id",
+    "allowed_service_ids",
+    "requirements",
+    "components",
+    "profile_authority_and_component_mapping_reviewed"
+  ],
+  "title": "ComponentMaterialClassAssessment",
+  "type": "object"
+}

@@ -1,0 +1,251 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2ParallelTransferZone": {
+      "additionalProperties": false,
+      "description": "One disjoint wetted interface region with its own transfer state.",
+      "properties": {
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "flow_region": {
+          "enum": [
+            "stratified_layer",
+            "slug_body",
+            "slug_film",
+            "annular_film",
+            "other"
+          ],
+          "title": "Flow Region",
+          "type": "string"
+        },
+        "interfacial_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Interfacial Area M2",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "gas_co2_fugacity_Pa": {
+          "minimum": 0,
+          "title": "Gas Co2 Fugacity Pa",
+          "type": "number"
+        },
+        "liquid_co2star_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Liquid Co2Star Concentration Mol M3",
+          "type": "number"
+        },
+        "henry_concentration_over_fugacity_mol_m3_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+          "type": "number"
+        },
+        "gas_film_coefficient_mol_m2_s_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Film Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "liquid_film_coefficient_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Film Coefficient M S",
+          "type": "number"
+        },
+        "state_provider_id": {
+          "minLength": 1,
+          "title": "State Provider Id",
+          "type": "string"
+        },
+        "state_provider_revision": {
+          "minLength": 1,
+          "title": "State Provider Revision",
+          "type": "string"
+        },
+        "state_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Configuration Sha256",
+          "type": "string"
+        },
+        "state_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "local_zone_support_reviewed": {
+          "title": "Local Zone Support Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "zone_id",
+        "flow_region",
+        "interfacial_area_m2",
+        "temperature_K",
+        "gas_co2_fugacity_Pa",
+        "liquid_co2star_concentration_mol_m3",
+        "henry_concentration_over_fugacity_mol_m3_Pa",
+        "gas_film_coefficient_mol_m2_s_Pa",
+        "liquid_film_coefficient_m_s",
+        "state_provider_id",
+        "state_provider_revision",
+        "state_configuration_sha256",
+        "state_result_sha256",
+        "evidence",
+        "local_zone_support_reviewed"
+      ],
+      "title": "WetCo2ParallelTransferZone",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Sum local two-film fluxes over caller-declared disjoint wetted zones.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_parallel_zone_transfer.v1",
+      "default": "matintegrity.wet_co2_parallel_zone_transfer.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "total_interfacial_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Total Interfacial Area M2",
+      "type": "number"
+    },
+    "zones": {
+      "items": {
+        "$ref": "#/$defs/WetCo2ParallelTransferZone"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Zones",
+      "type": "array"
+    },
+    "zone_areas_partition_one_interface_reviewed": {
+      "title": "Zone Areas Partition One Interface Reviewed",
+      "type": "boolean"
+    },
+    "local_states_and_coefficients_comparable_reviewed": {
+      "title": "Local States And Coefficients Comparable Reviewed",
+      "type": "boolean"
+    },
+    "no_cross_zone_exchange_or_shared_depletion_reviewed": {
+      "title": "No Cross Zone Exchange Or Shared Depletion Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "total_interfacial_area_m2",
+    "zones",
+    "zone_areas_partition_one_interface_reviewed",
+    "local_states_and_coefficients_comparable_reviewed",
+    "no_cross_zone_exchange_or_shared_depletion_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "WetCo2ParallelTransferRequest",
+  "type": "object"
+}

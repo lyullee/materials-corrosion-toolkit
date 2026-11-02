@@ -1,0 +1,147 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A non-empirical corrosion-rate scenario row with portable source lineage.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.corrosion_rate_projection_row.v1",
+      "default": "matintegrity.corrosion_rate_projection_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "source_dataset_id": {
+      "minLength": 1,
+      "title": "Source Dataset Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "source_archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Archive Sha256",
+      "type": "string"
+    },
+    "source_role": {
+      "enum": [
+        "simulated_model_output",
+        "caller_assumed_scenario"
+      ],
+      "title": "Source Role",
+      "type": "string"
+    },
+    "rate_m_s": {
+      "minimum": 0,
+      "title": "Rate M S",
+      "type": "number"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "physical_specimen_id": {
+      "default": null,
+      "title": "Physical Specimen Id",
+      "type": "null"
+    },
+    "independent_physical_observation": {
+      "const": false,
+      "default": false,
+      "title": "Independent Physical Observation",
+      "type": "boolean"
+    },
+    "empirical_calibration_ready": {
+      "const": false,
+      "default": false,
+      "title": "Empirical Calibration Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "source_dataset_id",
+    "source_group_id",
+    "source_record_id",
+    "source_archive_sha256",
+    "source_role",
+    "rate_m_s",
+    "evidence"
+  ],
+  "title": "CorrosionRateProjectionRow",
+  "type": "object"
+}

@@ -1,0 +1,307 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PhaseFractionMapRow": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "label_value": {
+          "title": "Label Value",
+          "type": "integer"
+        },
+        "pixel_count": {
+          "minimum": 0,
+          "title": "Pixel Count",
+          "type": "integer"
+        },
+        "area_m2": {
+          "minimum": 0,
+          "title": "Area M2",
+          "type": "number"
+        },
+        "area_fraction_of_analyzed_region": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Area Fraction Of Analyzed Region",
+          "type": "number"
+        },
+        "area_fraction_of_classified_region": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Area Fraction Of Classified Region"
+        }
+      },
+      "required": [
+        "phase_id",
+        "label_value",
+        "pixel_count",
+        "area_m2",
+        "area_fraction_of_analyzed_region"
+      ],
+      "title": "PhaseFractionMapRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.phase_label_map_area_fraction.v1",
+      "default": "matintegrity.phase_label_map_area_fraction.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "map_id": {
+      "minLength": 1,
+      "title": "Map Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "label_array_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Label Array Sha256",
+      "type": "string"
+    },
+    "roi_mask_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Roi Mask Sha256",
+      "type": "string"
+    },
+    "missing_mask_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Missing Mask Sha256",
+      "type": "string"
+    },
+    "region_id": {
+      "minLength": 1,
+      "title": "Region Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "coordinate_basis": {
+      "minLength": 1,
+      "title": "Coordinate Basis",
+      "type": "string"
+    },
+    "segmentation_method_id": {
+      "minLength": 1,
+      "title": "Segmentation Method Id",
+      "type": "string"
+    },
+    "segmentation_basis": {
+      "minLength": 1,
+      "title": "Segmentation Basis",
+      "type": "string"
+    },
+    "pixel_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Pixel Area M2",
+      "type": "number"
+    },
+    "roi_pixel_count": {
+      "exclusiveMinimum": 0,
+      "title": "Roi Pixel Count",
+      "type": "integer"
+    },
+    "missing_pixel_count": {
+      "minimum": 0,
+      "title": "Missing Pixel Count",
+      "type": "integer"
+    },
+    "analyzed_pixel_count": {
+      "minimum": 0,
+      "title": "Analyzed Pixel Count",
+      "type": "integer"
+    },
+    "unclassified_pixel_count": {
+      "minimum": 0,
+      "title": "Unclassified Pixel Count",
+      "type": "integer"
+    },
+    "classified_pixel_count": {
+      "minimum": 0,
+      "title": "Classified Pixel Count",
+      "type": "integer"
+    },
+    "missing_area_m2": {
+      "minimum": 0,
+      "title": "Missing Area M2",
+      "type": "number"
+    },
+    "analyzed_area_m2": {
+      "minimum": 0,
+      "title": "Analyzed Area M2",
+      "type": "number"
+    },
+    "unclassified_area_m2": {
+      "minimum": 0,
+      "title": "Unclassified Area M2",
+      "type": "number"
+    },
+    "classified_area_m2": {
+      "minimum": 0,
+      "title": "Classified Area M2",
+      "type": "number"
+    },
+    "phase_rows": {
+      "items": {
+        "$ref": "#/$defs/PhaseFractionMapRow"
+      },
+      "title": "Phase Rows",
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "uncertainty_status": {
+      "const": "not_estimated",
+      "default": "not_estimated",
+      "title": "Uncertainty Status",
+      "type": "string"
+    },
+    "scale_reviewed": {
+      "title": "Scale Reviewed",
+      "type": "boolean"
+    },
+    "roi_reviewed": {
+      "title": "Roi Reviewed",
+      "type": "boolean"
+    },
+    "phase_label_mapping_reviewed": {
+      "title": "Phase Label Mapping Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "map_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "source_sha256",
+    "label_array_sha256",
+    "roi_mask_sha256",
+    "missing_mask_sha256",
+    "region_id",
+    "coordinate_frame_id",
+    "coordinate_basis",
+    "segmentation_method_id",
+    "segmentation_basis",
+    "pixel_area_m2",
+    "roi_pixel_count",
+    "missing_pixel_count",
+    "analyzed_pixel_count",
+    "unclassified_pixel_count",
+    "classified_pixel_count",
+    "missing_area_m2",
+    "analyzed_area_m2",
+    "unclassified_area_m2",
+    "classified_area_m2",
+    "phase_rows",
+    "status",
+    "scale_reviewed",
+    "roi_reviewed",
+    "phase_label_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "PhaseLabelMapAreaFractionResult",
+  "type": "object"
+}

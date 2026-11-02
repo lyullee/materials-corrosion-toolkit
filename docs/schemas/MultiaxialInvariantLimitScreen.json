@@ -1,0 +1,242 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SampledStressInvariantHistory": {
+      "additionalProperties": false,
+      "description": "Ordered symmetric stress tensors at caller-declared cycle samples.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "tensor_component_order": {
+          "default": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tensor Component Order",
+          "type": "array"
+        },
+        "closed_cycle_and_sample_order_reviewed": {
+          "title": "Closed Cycle And Sample Order Reviewed",
+          "type": "boolean"
+        },
+        "stress_tensor_basis_reviewed": {
+          "title": "Stress Tensor Basis Reviewed",
+          "type": "boolean"
+        },
+        "maximum_pair_evaluations": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Pair Evaluations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "location_id",
+        "source_id",
+        "source_sha256",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "closed_cycle_and_sample_order_reviewed",
+        "stress_tensor_basis_reviewed"
+      ],
+      "title": "SampledStressInvariantHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Linear invariant limit screen over one reviewed finite stress cycle.\n\nThe finite half-diameter convention is explicitly tied to the sampled\ndeviatoric path. The scalar coefficients and comparison limit are supplied\nand calibrated by the caller for the exact material condition.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "stress_history": {
+      "$ref": "#/$defs/SampledStressInvariantHistory"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_source_id": {
+      "minLength": 1,
+      "title": "Calibration Source Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "calibration_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "calibration_material_condition_id": {
+      "minLength": 1,
+      "title": "Calibration Material Condition Id",
+      "type": "string"
+    },
+    "deviatoric_coefficient": {
+      "exclusiveMinimum": 0,
+      "title": "Deviatoric Coefficient",
+      "type": "number"
+    },
+    "hydrostatic_coefficient": {
+      "minimum": 0,
+      "title": "Hydrostatic Coefficient",
+      "type": "number"
+    },
+    "caller_limit_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Caller Limit Pa",
+      "type": "number"
+    },
+    "coefficients_and_limit_reviewed": {
+      "title": "Coefficients And Limit Reviewed",
+      "type": "boolean"
+    },
+    "calibration_material_scope_reviewed": {
+      "title": "Calibration Material Scope Reviewed",
+      "type": "boolean"
+    },
+    "use_for_finite_sample_screen_reviewed": {
+      "title": "Use For Finite Sample Screen Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "stress_history",
+    "stress_history_sha256",
+    "calibration_id",
+    "calibration_source_id",
+    "calibration_sha256",
+    "calibration_evidence",
+    "calibration_material_condition_id",
+    "deviatoric_coefficient",
+    "hydrostatic_coefficient",
+    "caller_limit_Pa",
+    "coefficients_and_limit_reviewed",
+    "calibration_material_scope_reviewed",
+    "use_for_finite_sample_screen_reviewed"
+  ],
+  "title": "MultiaxialInvariantLimitScreen",
+  "type": "object"
+}

@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "iqi_id": {
+      "minLength": 1,
+      "title": "Iqi Id",
+      "type": "string"
+    },
+    "iqi_type": {
+      "minLength": 1,
+      "title": "Iqi Type",
+      "type": "string"
+    },
+    "placement": {
+      "enum": [
+        "source_side",
+        "detector_side",
+        "other"
+      ],
+      "title": "Placement",
+      "type": "string"
+    },
+    "placement_basis": {
+      "minLength": 1,
+      "title": "Placement Basis",
+      "type": "string"
+    },
+    "reported_image_quality_result": {
+      "minLength": 1,
+      "title": "Reported Image Quality Result",
+      "type": "string"
+    },
+    "result_basis": {
+      "minLength": 1,
+      "title": "Result Basis",
+      "type": "string"
+    },
+    "reviewed": {
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "iqi_id",
+    "iqi_type",
+    "placement",
+    "placement_basis",
+    "reported_image_quality_result",
+    "result_basis",
+    "reviewed",
+    "evidence"
+  ],
+  "title": "RadiographicImageQualityRecord",
+  "type": "object"
+}

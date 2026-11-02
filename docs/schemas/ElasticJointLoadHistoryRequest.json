@@ -1,0 +1,147 @@
+{
+  "$defs": {
+    "ElasticJointLoad": {
+      "additionalProperties": false,
+      "properties": {
+        "initial_bolt_force_N": {
+          "minimum": 0,
+          "title": "Initial Bolt Force N",
+          "type": "number"
+        },
+        "bolt_stiffness_N_m": {
+          "exclusiveMinimum": 0,
+          "title": "Bolt Stiffness N M",
+          "type": "number"
+        },
+        "clamped_stiffness_N_m": {
+          "exclusiveMinimum": 0,
+          "title": "Clamped Stiffness N M",
+          "type": "number"
+        },
+        "external_separating_force_N": {
+          "minimum": 0,
+          "title": "External Separating Force N",
+          "type": "number"
+        },
+        "free_clamped_minus_bolt_expansion_m": {
+          "title": "Free Clamped Minus Bolt Expansion M",
+          "type": "number"
+        },
+        "linear_contact_applicability_reviewed": {
+          "title": "Linear Contact Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "initial_bolt_force_N",
+        "bolt_stiffness_N_m",
+        "clamped_stiffness_N_m",
+        "external_separating_force_N",
+        "free_clamped_minus_bolt_expansion_m",
+        "linear_contact_applicability_reviewed"
+      ],
+      "title": "ElasticJointLoad",
+      "type": "object"
+    },
+    "ElasticJointLoadKnot": {
+      "additionalProperties": false,
+      "description": "One exact-time input snapshot; no values are reconstructed between knots.",
+      "properties": {
+        "knot_index": {
+          "minimum": 0,
+          "title": "Knot Index",
+          "type": "integer"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "load_state": {
+          "$ref": "#/$defs/ElasticJointLoad"
+        }
+      },
+      "required": [
+        "knot_index",
+        "time_s",
+        "load_state"
+      ],
+      "title": "ElasticJointLoadKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite ordered snapshots for the linear closed-contact two-spring model.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.elastic_joint_load_ordered_history.v1",
+      "default": "matintegrity.elastic_joint_load_ordered_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/ElasticJointLoadKnot"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Knots",
+      "type": "array"
+    },
+    "minimum_clamp_force_N": {
+      "minimum": 0,
+      "title": "Minimum Clamp Force N",
+      "type": "number"
+    },
+    "ordered_time_basis_reviewed": {
+      "title": "Ordered Time Basis Reviewed",
+      "type": "boolean"
+    },
+    "elastic_closed_contact_model_reviewed": {
+      "title": "Elastic Closed Contact Model Reviewed",
+      "type": "boolean"
+    },
+    "per_knot_preload_applicability_reviewed": {
+      "title": "Per Knot Preload Applicability Reviewed",
+      "type": "boolean"
+    },
+    "finite_snapshot_only_interpretation_reviewed": {
+      "title": "Finite Snapshot Only Interpretation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "time_basis",
+    "knots",
+    "minimum_clamp_force_N",
+    "ordered_time_basis_reviewed",
+    "elastic_closed_contact_model_reviewed",
+    "per_knot_preload_applicability_reviewed",
+    "finite_snapshot_only_interpretation_reviewed"
+  ],
+  "title": "ElasticJointLoadHistoryRequest",
+  "type": "object"
+}

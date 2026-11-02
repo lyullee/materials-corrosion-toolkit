@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "region_id": {
+      "minLength": 1,
+      "title": "Region Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "geometry_type": {
+      "enum": [
+        "planar",
+        "cylindrical",
+        "conical",
+        "complex",
+        "user_defined"
+      ],
+      "title": "Geometry Type",
+      "type": "string"
+    },
+    "geometry_description": {
+      "minLength": 1,
+      "title": "Geometry Description",
+      "type": "string"
+    },
+    "surface_condition_id": {
+      "minLength": 1,
+      "title": "Surface Condition Id",
+      "type": "string"
+    },
+    "surface_preparation_id": {
+      "minLength": 1,
+      "title": "Surface Preparation Id",
+      "type": "string"
+    },
+    "target_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Target Area M2",
+      "type": "number"
+    },
+    "examined_area_m2": {
+      "minimum": 0,
+      "title": "Examined Area M2",
+      "type": "number"
+    },
+    "examination_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Examination Temperature K",
+      "type": "number"
+    },
+    "unexamined_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unexamined Basis"
+    },
+    "surface_constraints_reviewed": {
+      "title": "Surface Constraints Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "region_id",
+    "physical_location_id",
+    "geometry_type",
+    "geometry_description",
+    "surface_condition_id",
+    "surface_preparation_id",
+    "target_area_m2",
+    "examined_area_m2",
+    "examination_temperature_k",
+    "surface_constraints_reviewed",
+    "evidence"
+  ],
+  "title": "ExaminedSurfaceRegion",
+  "type": "object"
+}

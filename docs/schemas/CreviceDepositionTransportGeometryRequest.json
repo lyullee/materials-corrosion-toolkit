@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "CreviceDepositionApertureHistoryRequest": {
+      "additionalProperties": false,
+      "description": "Convert exact solid-volume snapshots into explicit slit-gap measures.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.crevice_deposition_aperture_history.v1",
+          "default": "matintegrity.crevice_deposition_aperture_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "initial_aperture_m": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Initial Aperture M",
+          "type": "array"
+        },
+        "cell_length_m": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Cell Length M",
+          "type": "array"
+        },
+        "transverse_width_m": {
+          "exclusiveMinimum": 0,
+          "title": "Transverse Width M",
+          "type": "number"
+        },
+        "reference_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Area M2",
+          "type": "number"
+        },
+        "deposition_side_count": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Deposition Side Count",
+          "type": "integer"
+        },
+        "coverage_fraction_by_cell": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Coverage Fraction By Cell",
+          "type": "array"
+        },
+        "knots": {
+          "items": {
+            "$ref": "#/$defs/CreviceDepositionVolumeKnot"
+          },
+          "maxItems": 5000,
+          "minItems": 1,
+          "title": "Knots",
+          "type": "array"
+        },
+        "initial_geometry_and_cell_mapping_reviewed": {
+          "title": "Initial Geometry And Cell Mapping Reviewed",
+          "type": "boolean"
+        },
+        "reference_area_conversion_reviewed": {
+          "title": "Reference Area Conversion Reviewed",
+          "type": "boolean"
+        },
+        "side_count_and_equal_side_partition_reviewed": {
+          "title": "Side Count And Equal Side Partition Reviewed",
+          "type": "boolean"
+        },
+        "uniform_coverage_within_each_cell_reviewed": {
+          "title": "Uniform Coverage Within Each Cell Reviewed",
+          "type": "boolean"
+        },
+        "solid_volume_result_lineage_reviewed": {
+          "title": "Solid Volume Result Lineage Reviewed",
+          "type": "boolean"
+        },
+        "nonnegative_remaining_gap_as_scope_limit_reviewed": {
+          "title": "Nonnegative Remaining Gap As Scope Limit Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "initial_aperture_m",
+        "cell_length_m",
+        "transverse_width_m",
+        "reference_area_m2",
+        "deposition_side_count",
+        "coverage_fraction_by_cell",
+        "knots",
+        "initial_geometry_and_cell_mapping_reviewed",
+        "reference_area_conversion_reviewed",
+        "side_count_and_equal_side_partition_reviewed",
+        "uniform_coverage_within_each_cell_reviewed",
+        "solid_volume_result_lineage_reviewed",
+        "nonnegative_remaining_gap_as_scope_limit_reviewed"
+      ],
+      "title": "CreviceDepositionApertureHistoryRequest",
+      "type": "object"
+    },
+    "CreviceDepositionVolumeKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "solid_volume_result": {
+          "additionalProperties": true,
+          "title": "Solid Volume Result",
+          "type": "object"
+        },
+        "solid_volume_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solid Volume Result Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "elapsed_time_s",
+        "solid_volume_result",
+        "solid_volume_result_sha256"
+      ],
+      "title": "CreviceDepositionVolumeKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_deposition_transport_geometry.v1",
+      "default": "matintegrity.crevice_deposition_transport_geometry.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "deposition_aperture_request": {
+      "$ref": "#/$defs/CreviceDepositionApertureHistoryRequest"
+    },
+    "deposition_aperture_result": {
+      "additionalProperties": true,
+      "title": "Deposition Aperture Result",
+      "type": "object"
+    },
+    "deposition_aperture_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deposition Aperture Result Sha256",
+      "type": "string"
+    },
+    "transport_reference_cross_section_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Transport Reference Cross Section M2",
+      "type": "number"
+    },
+    "transport_reactive_broad_face_count": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Transport Reactive Broad Face Count",
+      "type": "integer"
+    },
+    "mean_aperture_represents_transport_cell_reviewed": {
+      "title": "Mean Aperture Represents Transport Cell Reviewed",
+      "type": "boolean"
+    },
+    "transport_reference_cross_section_basis_reviewed": {
+      "title": "Transport Reference Cross Section Basis Reviewed",
+      "type": "boolean"
+    },
+    "face_area_center_interpolation_and_boundary_extrapolation_reviewed": {
+      "title": "Face Area Center Interpolation And Boundary Extrapolation Reviewed",
+      "type": "boolean"
+    },
+    "reactive_transport_wall_area_mapping_reviewed": {
+      "title": "Reactive Transport Wall Area Mapping Reviewed",
+      "type": "boolean"
+    },
+    "operator_split_fixed_geometry_segments_reviewed": {
+      "title": "Operator Split Fixed Geometry Segments Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "geometry_id",
+    "deposition_aperture_request",
+    "deposition_aperture_result",
+    "deposition_aperture_result_sha256",
+    "transport_reference_cross_section_m2",
+    "transport_reactive_broad_face_count",
+    "mean_aperture_represents_transport_cell_reviewed",
+    "transport_reference_cross_section_basis_reviewed",
+    "face_area_center_interpolation_and_boundary_extrapolation_reviewed",
+    "reactive_transport_wall_area_mapping_reviewed",
+    "operator_split_fixed_geometry_segments_reviewed"
+  ],
+  "title": "CreviceDepositionTransportGeometryRequest",
+  "type": "object"
+}

@@ -1,0 +1,309 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2FiniteGasLiquidInterval": {
+      "additionalProperties": false,
+      "description": "Piecewise-constant transfer and gas-capacity data for one time interval.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "henry_concentration_over_fugacity_mol_m3_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+          "type": "number"
+        },
+        "gas_film_coefficient_mol_m2_s_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Film Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "liquid_film_coefficient_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Film Coefficient M S",
+          "type": "number"
+        },
+        "gas_inventory_capacity_mol_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Inventory Capacity Mol Pa",
+          "type": "number"
+        },
+        "henry_provider_id": {
+          "minLength": 1,
+          "title": "Henry Provider Id",
+          "type": "string"
+        },
+        "henry_provider_revision": {
+          "minLength": 1,
+          "title": "Henry Provider Revision",
+          "type": "string"
+        },
+        "henry_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Henry Configuration Sha256",
+          "type": "string"
+        },
+        "henry_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Henry Result Sha256",
+          "type": "string"
+        },
+        "gas_capacity_provider_id": {
+          "minLength": 1,
+          "title": "Gas Capacity Provider Id",
+          "type": "string"
+        },
+        "gas_capacity_provider_revision": {
+          "minLength": 1,
+          "title": "Gas Capacity Provider Revision",
+          "type": "string"
+        },
+        "gas_capacity_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Gas Capacity Configuration Sha256",
+          "type": "string"
+        },
+        "gas_capacity_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Gas Capacity Result Sha256",
+          "type": "string"
+        },
+        "film_provider_id": {
+          "minLength": 1,
+          "title": "Film Provider Id",
+          "type": "string"
+        },
+        "film_provider_revision": {
+          "minLength": 1,
+          "title": "Film Provider Revision",
+          "type": "string"
+        },
+        "film_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Film Configuration Sha256",
+          "type": "string"
+        },
+        "film_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Film Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "parameters_and_state_reviewed": {
+          "title": "Parameters And State Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "temperature_K",
+        "henry_concentration_over_fugacity_mol_m3_Pa",
+        "gas_film_coefficient_mol_m2_s_Pa",
+        "liquid_film_coefficient_m_s",
+        "gas_inventory_capacity_mol_Pa",
+        "henry_provider_id",
+        "henry_provider_revision",
+        "henry_configuration_sha256",
+        "henry_result_sha256",
+        "gas_capacity_provider_id",
+        "gas_capacity_provider_revision",
+        "gas_capacity_configuration_sha256",
+        "gas_capacity_result_sha256",
+        "film_provider_id",
+        "film_provider_revision",
+        "film_configuration_sha256",
+        "film_result_sha256",
+        "evidence",
+        "parameters_and_state_reviewed"
+      ],
+      "title": "WetCo2FiniteGasLiquidInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite gas reservoir exchanging CO2 with a fixed-volume, well-mixed liquid.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_finite_gas_liquid_exchange_history.v1",
+      "default": "matintegrity.wet_co2_finite_gas_liquid_exchange_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "interfacial_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Interfacial Area M2",
+      "type": "number"
+    },
+    "fixed_liquid_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Fixed Liquid Volume M3",
+      "type": "number"
+    },
+    "initial_liquid_co2star_mol_m3": {
+      "minimum": 0,
+      "title": "Initial Liquid Co2Star Mol M3",
+      "type": "number"
+    },
+    "initial_gas_co2_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Initial Gas Co2 Fugacity Pa",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2FiniteGasLiquidInterval"
+      },
+      "maxItems": 5000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "fixed_geometry_reviewed": {
+      "title": "Fixed Geometry Reviewed",
+      "type": "boolean"
+    },
+    "closed_gas_inventory_reviewed": {
+      "title": "Closed Gas Inventory Reviewed",
+      "type": "boolean"
+    },
+    "well_mixed_single_phase_reviewed": {
+      "title": "Well Mixed Single Phase Reviewed",
+      "type": "boolean"
+    },
+    "no_reaction_or_other_co2_source_sink_reviewed": {
+      "title": "No Reaction Or Other Co2 Source Sink Reviewed",
+      "type": "boolean"
+    },
+    "henry_and_gas_capacity_conventions_reviewed": {
+      "title": "Henry And Gas Capacity Conventions Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "interfacial_area_m2",
+    "fixed_liquid_volume_m3",
+    "initial_liquid_co2star_mol_m3",
+    "initial_gas_co2_fugacity_Pa",
+    "intervals",
+    "fixed_geometry_reviewed",
+    "closed_gas_inventory_reviewed",
+    "well_mixed_single_phase_reviewed",
+    "no_reaction_or_other_co2_source_sink_reviewed",
+    "henry_and_gas_capacity_conventions_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "WetCo2FiniteGasLiquidHistoryRequest",
+  "type": "object"
+}

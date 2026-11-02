@@ -1,0 +1,260 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TransportErectionCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "evidence_source": {
+          "enum": [
+            "observation",
+            "measurement"
+          ],
+          "title": "Evidence Source",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "evidence_source",
+        "metric_id",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "TransportErectionCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "required_event_kinds": {
+      "items": {
+        "enum": [
+          "lift",
+          "transport",
+          "storage",
+          "erection",
+          "temporary_support_install",
+          "temporary_support_remove",
+          "other"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Event Kinds",
+      "type": "array"
+    },
+    "required_measurement_kinds": {
+      "items": {
+        "enum": [
+          "alignment",
+          "geometry",
+          "damage_survey",
+          "nde",
+          "other"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Measurement Kinds",
+      "type": "array"
+    },
+    "required_measurement_stage_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Measurement Stage Ids",
+      "type": "array"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/TransportErectionCriterion"
+      },
+      "minItems": 1,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_provider_id": {
+      "minLength": 1,
+      "title": "Profile Provider Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Configuration Digest",
+      "type": "string"
+    },
+    "caller_acceptance_authority": {
+      "minLength": 1,
+      "title": "Caller Acceptance Authority",
+      "type": "string"
+    },
+    "structural_solver_used": {
+      "const": false,
+      "default": false,
+      "title": "Structural Solver Used",
+      "type": "boolean"
+    },
+    "allowable_load_or_code_table_embedded": {
+      "const": false,
+      "default": false,
+      "title": "Allowable Load Or Code Table Embedded",
+      "type": "boolean"
+    },
+    "automatic_damage_determination_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Damage Determination Claimed",
+      "type": "boolean"
+    },
+    "physical_qualification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Physical Qualification Claimed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_version",
+    "required_event_kinds",
+    "required_measurement_kinds",
+    "required_measurement_stage_ids",
+    "criteria",
+    "profile_provider_id",
+    "profile_revision",
+    "profile_configuration_digest",
+    "caller_acceptance_authority",
+    "evidence"
+  ],
+  "title": "TransportErectionCallerProfile",
+  "type": "object"
+}

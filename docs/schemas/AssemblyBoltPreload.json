@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "bolt_id": {
+      "minLength": 1,
+      "title": "Bolt Id",
+      "type": "string"
+    },
+    "bolt_position_id": {
+      "minLength": 1,
+      "title": "Bolt Position Id",
+      "type": "string"
+    },
+    "preload_n": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Preload N"
+    },
+    "preload_unit_token": {
+      "const": "N",
+      "default": "N",
+      "title": "Preload Unit Token",
+      "type": "string"
+    },
+    "standard_uncertainty_n": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Standard Uncertainty N"
+    },
+    "status": {
+      "enum": [
+        "available",
+        "missing",
+        "invalid"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "measurement_method_id": {
+      "minLength": 1,
+      "title": "Measurement Method Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "result_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result Digest"
+    },
+    "missing_or_invalid_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Missing Or Invalid Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "bolt_id",
+    "bolt_position_id",
+    "status",
+    "measurement_method_id",
+    "provider_id",
+    "provider_revision",
+    "evidence"
+  ],
+  "title": "AssemblyBoltPreload",
+  "type": "object"
+}

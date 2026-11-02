@@ -1,0 +1,204 @@
+{
+  "additionalProperties": false,
+  "description": "A complete task-opportunity estimate received from an independent provider.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.human_reliability_estimate.v1",
+      "default": "matintegrity.human_reliability_estimate.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "assessment_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Assessment Input Digest",
+      "type": "string"
+    },
+    "task_id": {
+      "minLength": 1,
+      "title": "Task Id",
+      "type": "string"
+    },
+    "procedure_version": {
+      "minLength": 1,
+      "title": "Procedure Version",
+      "type": "string"
+    },
+    "context_id": {
+      "minLength": 1,
+      "title": "Context Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "step_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Step Ids",
+      "type": "array"
+    },
+    "role": {
+      "enum": [
+        "initiating",
+        "latent",
+        "response"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "failure_definition": {
+      "minLength": 1,
+      "title": "Failure Definition",
+      "type": "string"
+    },
+    "opportunity_definition": {
+      "minLength": 1,
+      "title": "Opportunity Definition",
+      "type": "string"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "dependency_group": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dependency Group"
+    },
+    "method": {
+      "minLength": 1,
+      "title": "Method",
+      "type": "string"
+    },
+    "probability_per_opportunity": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Probability Per Opportunity",
+      "type": "number"
+    },
+    "probability_semantics": {
+      "const": "failure_probability_per_defined_opportunity",
+      "default": "failure_probability_per_defined_opportunity",
+      "title": "Probability Semantics",
+      "type": "string"
+    },
+    "evidence_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Ids",
+      "type": "array"
+    },
+    "estimate_status": {
+      "enum": [
+        "assumed",
+        "empirical",
+        "method_estimate",
+        "research"
+      ],
+      "title": "Estimate Status",
+      "type": "string"
+    },
+    "includes": {
+      "items": {
+        "enum": [
+          "recovery",
+          "timing",
+          "dependency"
+        ],
+        "type": "string"
+      },
+      "title": "Includes",
+      "type": "array"
+    },
+    "empirical_plant_validation_claim": {
+      "const": false,
+      "default": false,
+      "title": "Empirical Plant Validation Claim",
+      "type": "boolean"
+    },
+    "source_event": {
+      "additionalProperties": true,
+      "title": "Source Event",
+      "type": "object"
+    },
+    "source_estimate": {
+      "additionalProperties": true,
+      "title": "Source Estimate",
+      "type": "object"
+    },
+    "source_event_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Event Digest",
+      "type": "string"
+    },
+    "source_estimate_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Estimate Digest",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_revision",
+    "assessment_input_digest",
+    "task_id",
+    "procedure_version",
+    "context_id",
+    "event_id",
+    "step_ids",
+    "role",
+    "failure_definition",
+    "opportunity_definition",
+    "conditioning",
+    "method",
+    "probability_per_opportunity",
+    "evidence_ids",
+    "estimate_status",
+    "includes",
+    "source_event",
+    "source_estimate",
+    "source_event_digest",
+    "source_estimate_digest",
+    "limitations",
+    "payload_digest"
+  ],
+  "title": "HumanReliabilityEstimateRecord",
+  "type": "object"
+}

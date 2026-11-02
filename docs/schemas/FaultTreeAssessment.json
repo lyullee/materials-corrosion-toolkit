@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "FaultTreeBasicEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "probability_meaning": {
+          "enum": [
+            "conditional_first_failure_in_period",
+            "point_in_time_state_probability",
+            "spatial_size_exceedance_at_one_exposure",
+            "detection_given_flaw_and_procedure",
+            "unscoped_event_probability"
+          ],
+          "title": "Probability Meaning",
+          "type": "string"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "probability_scope_id": {
+          "minLength": 1,
+          "title": "Probability Scope Id",
+          "type": "string"
+        },
+        "evidence_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evidence Digest",
+          "type": "string"
+        },
+        "integrity_event_basis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntegrityEventBasis"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "event_id",
+        "probability",
+        "probability_meaning",
+        "conditioning",
+        "probability_scope_id",
+        "evidence_digest"
+      ],
+      "title": "FaultTreeBasicEvent",
+      "type": "object"
+    },
+    "IntegrityEventBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "event_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Event Probability",
+          "type": "number"
+        },
+        "probability_semantics": {
+          "enum": [
+            "conditional_first_failure_in_period",
+            "point_in_time_state_probability",
+            "posterior_parameter_probability",
+            "model_implied_input_uncertainty_probability",
+            "spatial_size_exceedance_at_one_exposure",
+            "detection_given_flaw_and_procedure",
+            "unscoped_event_probability",
+            "fault_tree_top_event_probability"
+          ],
+          "title": "Probability Semantics",
+          "type": "string"
+        },
+        "probability_conditioning": {
+          "minLength": 1,
+          "title": "Probability Conditioning",
+          "type": "string"
+        },
+        "integrity_model_id": {
+          "minLength": 1,
+          "title": "Integrity Model Id",
+          "type": "string"
+        },
+        "integrity_model_version": {
+          "minLength": 1,
+          "title": "Integrity Model Version",
+          "type": "string"
+        },
+        "integrity_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Input Digest",
+          "type": "string"
+        },
+        "integrity_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Result Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "asset_id",
+        "location_id",
+        "failure_mode",
+        "physical_scope_id",
+        "clock_id",
+        "horizon_start_s",
+        "horizon_end_s",
+        "event_probability",
+        "probability_semantics",
+        "probability_conditioning",
+        "integrity_model_id",
+        "integrity_model_version",
+        "integrity_input_digest",
+        "integrity_result_digest"
+      ],
+      "title": "IntegrityEventBasis",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.fault_tree_assessment.v1",
+      "default": "matintegrity.fault_tree_assessment.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "top_event_id": {
+      "minLength": 1,
+      "title": "Top Event Id",
+      "type": "string"
+    },
+    "basic_events": {
+      "items": {
+        "$ref": "#/$defs/FaultTreeBasicEvent"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Basic Events",
+      "type": "array"
+    },
+    "minimal_cut_sets": {
+      "items": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Minimal Cut Sets",
+      "type": "array"
+    },
+    "independence_reviewed": {
+      "default": false,
+      "title": "Independence Reviewed",
+      "type": "boolean"
+    },
+    "common_cause_reviewed": {
+      "default": false,
+      "title": "Common Cause Reviewed",
+      "type": "boolean"
+    },
+    "cut_set_overlap_reviewed": {
+      "default": false,
+      "title": "Cut Set Overlap Reviewed",
+      "type": "boolean"
+    },
+    "event_scope_reviewed": {
+      "default": false,
+      "title": "Event Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "top_event_id",
+    "basic_events",
+    "minimal_cut_sets"
+  ],
+  "title": "FaultTreeAssessment",
+  "type": "object"
+}

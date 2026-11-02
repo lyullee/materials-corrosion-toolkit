@@ -1,0 +1,139 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "step_id": {
+      "minLength": 1,
+      "title": "Step Id",
+      "type": "string"
+    },
+    "envelope_id": {
+      "minLength": 1,
+      "title": "Envelope Id",
+      "type": "string"
+    },
+    "solution_id": {
+      "minLength": 1,
+      "title": "Solution Id",
+      "type": "string"
+    },
+    "chemical_family": {
+      "minLength": 1,
+      "title": "Chemical Family",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "concentration_mass_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Concentration Mass Fraction",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "pH": {
+      "maximum": 14,
+      "minimum": 0,
+      "title": "Ph",
+      "type": "number"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "step_id",
+    "envelope_id",
+    "solution_id",
+    "chemical_family",
+    "start_time_s",
+    "end_time_s",
+    "concentration_mass_fraction",
+    "temperature_K",
+    "pH",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "ChemicalCleaningStep",
+  "type": "object"
+}

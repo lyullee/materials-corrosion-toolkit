@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "boundary_id": {
+      "minLength": 1,
+      "title": "Boundary Id",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "prescribed_lattice_concentration",
+        "linear_surface_transfer",
+        "dissociative_surface_reaction",
+        "no_flux"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "lattice_hydrogen_atoms_mol_m3": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lattice Hydrogen Atoms Mol M3"
+    },
+    "equilibrium_lattice_hydrogen_atoms_mol_m3": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Equilibrium Lattice Hydrogen Atoms Mol M3"
+    },
+    "transfer_coefficient_m_s": {
+      "anyOf": [
+        {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transfer Coefficient M S"
+    },
+    "absorption_capacity_flux_mol_m2_s": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Absorption Capacity Flux Mol M2 S"
+    },
+    "desorption_capacity_flux_mol_m2_s": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Desorption Capacity Flux Mol M2 S"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "boundary_id",
+    "kind",
+    "evidence"
+  ],
+  "title": "LatticeBoundary",
+  "type": "object"
+}

@@ -1,0 +1,504 @@
+{
+  "$defs": {
+    "DeclaredResidualStressSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "method_kind": {
+          "enum": [
+            "measured",
+            "modelled"
+          ],
+          "title": "Method Kind",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "component_definition": {
+          "minLength": 1,
+          "title": "Component Definition",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "coordinate_frame_definition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Coordinate Frame Definition Sha256",
+          "type": "string"
+        },
+        "coordinate_names": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Coordinate Names",
+          "type": "array"
+        },
+        "minimum_coordinates_m": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Minimum Coordinates M",
+          "type": "array"
+        },
+        "maximum_coordinates_m": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Maximum Coordinates M",
+          "type": "array"
+        },
+        "minimum_supported_stress_Pa": {
+          "title": "Minimum Supported Stress Pa",
+          "type": "number"
+        },
+        "maximum_supported_stress_Pa": {
+          "title": "Maximum Supported Stress Pa",
+          "type": "number"
+        },
+        "maximum_supported_expanded_uncertainty_Pa": {
+          "minimum": 0,
+          "title": "Maximum Supported Expanded Uncertainty Pa",
+          "type": "number"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "qualification": {
+          "$ref": "#/$defs/ResidualStressProviderQualification"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "method_kind",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "component_definition",
+        "coordinate_frame_id",
+        "coordinate_frame_definition_sha256",
+        "coordinate_names",
+        "minimum_coordinates_m",
+        "maximum_coordinates_m",
+        "minimum_supported_stress_Pa",
+        "maximum_supported_stress_Pa",
+        "maximum_supported_expanded_uncertainty_Pa",
+        "applicability_basis",
+        "qualification",
+        "evidence"
+      ],
+      "title": "DeclaredResidualStressSupport",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ResidualStressEvidenceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "method_kind": {
+          "enum": [
+            "measured",
+            "modelled"
+          ],
+          "title": "Method Kind",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout",
+            "application"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "component_definition": {
+          "minLength": 1,
+          "title": "Component Definition",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "coordinate_frame_definition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Coordinate Frame Definition Sha256",
+          "type": "string"
+        },
+        "coordinate_names": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Coordinate Names",
+          "type": "array"
+        },
+        "coordinates_m": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Coordinates M",
+          "type": "array"
+        },
+        "stress_Pa": {
+          "title": "Stress Pa",
+          "type": "number"
+        },
+        "expanded_uncertainty_Pa": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty Pa",
+          "type": "number"
+        },
+        "coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Coverage Factor",
+          "type": "number"
+        },
+        "uncertainty_basis": {
+          "minLength": 1,
+          "title": "Uncertainty Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "method_kind",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "record_digest",
+        "partition",
+        "source_group_id",
+        "component_definition",
+        "coordinate_frame_id",
+        "coordinate_frame_definition_sha256",
+        "coordinate_names",
+        "coordinates_m",
+        "stress_Pa",
+        "expanded_uncertainty_Pa",
+        "coverage_factor",
+        "uncertainty_basis",
+        "evidence"
+      ],
+      "title": "ResidualStressEvidenceRecord",
+      "type": "object"
+    },
+    "ResidualStressProviderQualification": {
+      "additionalProperties": false,
+      "properties": {
+        "qualification_id": {
+          "minLength": 1,
+          "title": "Qualification Id",
+          "type": "string"
+        },
+        "calibration_dataset_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Dataset Digest",
+          "type": "string"
+        },
+        "holdout_dataset_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Holdout Dataset Digest",
+          "type": "string"
+        },
+        "calibration_observation_count": {
+          "minimum": 1,
+          "title": "Calibration Observation Count",
+          "type": "integer"
+        },
+        "holdout_observation_count": {
+          "minimum": 1,
+          "title": "Holdout Observation Count",
+          "type": "integer"
+        },
+        "holdout_metric_definition": {
+          "minLength": 1,
+          "title": "Holdout Metric Definition",
+          "type": "string"
+        },
+        "holdout_metric_value": {
+          "minimum": 0,
+          "title": "Holdout Metric Value",
+          "type": "number"
+        },
+        "holdout_metric_unit": {
+          "minLength": 1,
+          "title": "Holdout Metric Unit",
+          "type": "string"
+        },
+        "maximum_supported_holdout_metric": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Holdout Metric",
+          "type": "number"
+        },
+        "maximum_supported_holdout_metric_unit": {
+          "minLength": 1,
+          "title": "Maximum Supported Holdout Metric Unit",
+          "type": "string"
+        },
+        "calibration_and_holdout_independent": {
+          "title": "Calibration And Holdout Independent",
+          "type": "boolean"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "qualification_id",
+        "calibration_dataset_digest",
+        "holdout_dataset_digest",
+        "calibration_observation_count",
+        "holdout_observation_count",
+        "holdout_metric_definition",
+        "holdout_metric_value",
+        "holdout_metric_unit",
+        "maximum_supported_holdout_metric",
+        "maximum_supported_holdout_metric_unit",
+        "calibration_and_holdout_independent",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "ResidualStressProviderQualification",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "weld_id": {
+      "minLength": 1,
+      "title": "Weld Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/ResidualStressEvidenceRecord"
+      },
+      "minItems": 1,
+      "title": "Records",
+      "type": "array"
+    },
+    "candidate_supports": {
+      "items": {
+        "$ref": "#/$defs/DeclaredResidualStressSupport"
+      },
+      "minItems": 1,
+      "title": "Candidate Supports",
+      "type": "array"
+    },
+    "weld_and_material_identity_reviewed": {
+      "title": "Weld And Material Identity Reviewed",
+      "type": "boolean"
+    },
+    "coordinate_frames_and_components_reviewed": {
+      "title": "Coordinate Frames And Components Reviewed",
+      "type": "boolean"
+    },
+    "units_and_uncertainty_reviewed": {
+      "title": "Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "provider_identity_and_state_reviewed": {
+      "title": "Provider Identity And State Reviewed",
+      "type": "boolean"
+    },
+    "record_digests_reviewed": {
+      "title": "Record Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_and_holdout_reviewed": {
+      "title": "Calibration And Holdout Reviewed",
+      "type": "boolean"
+    },
+    "support_authority_reviewed": {
+      "title": "Support Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "weld_id",
+    "material_condition_id",
+    "records",
+    "candidate_supports",
+    "weld_and_material_identity_reviewed",
+    "coordinate_frames_and_components_reviewed",
+    "units_and_uncertainty_reviewed",
+    "provider_identity_and_state_reviewed",
+    "record_digests_reviewed",
+    "calibration_and_holdout_reviewed",
+    "support_authority_reviewed",
+    "evidence"
+  ],
+  "title": "ResidualStressEvidenceAssessment",
+  "type": "object"
+}

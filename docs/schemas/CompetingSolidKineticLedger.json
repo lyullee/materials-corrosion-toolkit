@@ -1,0 +1,235 @@
+{
+  "$defs": {
+    "CompetingSolidKineticInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "phase_extent_rate_mol_m3_s": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Phase Extent Rate Mol M3 S",
+          "type": "object"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "phase_extent_rate_mol_m3_s"
+      ],
+      "title": "CompetingSolidKineticInterval",
+      "type": "object"
+    },
+    "KineticAqueousSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "initial_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Concentration Mol M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition",
+        "source_sha256",
+        "initial_concentration_mol_m3"
+      ],
+      "title": "KineticAqueousSpecies",
+      "type": "object"
+    },
+    "KineticSolidPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "precipitation_stoichiometry": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Precipitation Stoichiometry",
+          "type": "object"
+        },
+        "solid_elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Solid Elemental Composition",
+          "type": "object"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "initial_solid_moles_per_solution_volume_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Per Solution Volume Mol M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "precipitation_stoichiometry",
+        "solid_elemental_composition",
+        "source_sha256",
+        "initial_solid_moles_per_solution_volume_mol_m3"
+      ],
+      "title": "KineticSolidPhase",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "kinetic_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetic Configuration Sha256",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "kinetic_parameter_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetic Parameter Source Sha256",
+      "type": "string"
+    },
+    "aqueous_species": {
+      "items": {
+        "$ref": "#/$defs/KineticAqueousSpecies"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Aqueous Species",
+      "type": "array"
+    },
+    "candidate_solid_phases": {
+      "items": {
+        "$ref": "#/$defs/KineticSolidPhase"
+      },
+      "maxItems": 16,
+      "minItems": 2,
+      "title": "Candidate Solid Phases",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/CompetingSolidKineticInterval"
+      },
+      "maxItems": 5000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "absolute_balance_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Balance Tolerance Mol M3",
+      "type": "number"
+    },
+    "relative_balance_tolerance": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Balance Tolerance",
+      "type": "number"
+    },
+    "phase_stoichiometry_and_solution_volume_reviewed": {
+      "title": "Phase Stoichiometry And Solution Volume Reviewed",
+      "type": "boolean"
+    },
+    "caller_rate_law_units_temperature_and_support_reviewed": {
+      "title": "Caller Rate Law Units Temperature And Support Reviewed",
+      "type": "boolean"
+    },
+    "dissolution_then_precipitation_split_order_reviewed": {
+      "title": "Dissolution Then Precipitation Split Order Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "provider_id",
+    "provider_revision",
+    "kinetic_configuration_sha256",
+    "temperature_K",
+    "kinetic_parameter_source_sha256",
+    "aqueous_species",
+    "candidate_solid_phases",
+    "intervals",
+    "phase_stoichiometry_and_solution_volume_reviewed",
+    "caller_rate_law_units_temperature_and_support_reviewed",
+    "dissolution_then_precipitation_split_order_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CompetingSolidKineticLedger",
+  "type": "object"
+}

@@ -1,0 +1,193 @@
+{
+  "$defs": {
+    "JointAssemblyRuleFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_id": {
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "observed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Value"
+        },
+        "unit_token": {
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "evaluated_lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluated Lower"
+        },
+        "evaluated_upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluated Upper"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_id",
+        "outcome",
+        "observed_value",
+        "unit_token",
+        "basis"
+      ],
+      "title": "JointAssemblyRuleFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.bolted_joint_assembly_profile.v1",
+      "default": "matintegrity.bolted_joint_assembly_profile.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "model_id": {
+      "const": "fabrication.bolted_joint_assembly_history_profile_assessment",
+      "default": "fabrication.bolted_joint_assembly_history_profile_assessment",
+      "title": "Model Id",
+      "type": "string"
+    },
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "disposition": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Disposition",
+      "type": "string"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/JointAssemblyRuleFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "review_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Reasons",
+      "type": "array"
+    },
+    "insufficient_evidence_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Insufficient Evidence Reasons",
+      "type": "array"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "code_or_standard_qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Code Or Standard Qualification Claim",
+      "type": "boolean"
+    },
+    "physical_validation_claim": {
+      "const": false,
+      "default": false,
+      "title": "Physical Validation Claim",
+      "type": "boolean"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_id",
+    "profile_id",
+    "profile_revision",
+    "disposition",
+    "input_digest",
+    "findings",
+    "review_reasons",
+    "insufficient_evidence_reasons",
+    "result_digest",
+    "notes"
+  ],
+  "title": "BoltedJointAssemblyAssessmentResult",
+  "type": "object"
+}

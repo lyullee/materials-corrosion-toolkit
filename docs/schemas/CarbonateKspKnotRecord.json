@@ -1,0 +1,125 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-supplied temperature-supported solubility product at one source knot.",
+  "properties": {
+    "log10_solubility_product": {
+      "title": "Log10 Solubility Product",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    },
+    "temperature_support_min_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Support Min K",
+      "type": "number"
+    },
+    "temperature_support_max_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Support Max K",
+      "type": "number"
+    },
+    "temperature_applicability_reviewed": {
+      "title": "Temperature Applicability Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "log10_solubility_product",
+    "provider_id",
+    "provider_revision",
+    "record_id",
+    "sha256",
+    "temperature_support_min_K",
+    "temperature_support_max_K",
+    "temperature_applicability_reviewed",
+    "evidence"
+  ],
+  "title": "CarbonateKspKnotRecord",
+  "type": "object"
+}

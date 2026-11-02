@@ -1,0 +1,763 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "NozzleGeometryQuantity": {
+      "additionalProperties": false,
+      "properties": {
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "quantity_id",
+        "value",
+        "unit_token",
+        "basis",
+        "evidence"
+      ],
+      "title": "NozzleGeometryQuantity",
+      "type": "object"
+    },
+    "NozzleLoadComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "component_kind": {
+          "enum": [
+            "force",
+            "moment",
+            "pressure",
+            "temperature",
+            "user_defined"
+          ],
+          "title": "Component Kind",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "sign_and_basis": {
+          "minLength": 1,
+          "title": "Sign And Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component_id",
+        "component_kind",
+        "value",
+        "unit_token",
+        "sign_and_basis",
+        "evidence"
+      ],
+      "title": "NozzleLoadComponent",
+      "type": "object"
+    },
+    "NozzleLocalStressEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "vessel_geometry_id": {
+          "minLength": 1,
+          "title": "Vessel Geometry Id",
+          "type": "string"
+        },
+        "nozzle_geometry_id": {
+          "minLength": 1,
+          "title": "Nozzle Geometry Id",
+          "type": "string"
+        },
+        "opening_geometry_id": {
+          "minLength": 1,
+          "title": "Opening Geometry Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "supported_mesh_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Mesh Ids",
+          "type": "array"
+        },
+        "geometry_support": {
+          "items": {
+            "$ref": "#/$defs/NozzleQuantitySupport"
+          },
+          "minItems": 1,
+          "title": "Geometry Support",
+          "type": "array"
+        },
+        "load_support": {
+          "items": {
+            "$ref": "#/$defs/NozzleQuantitySupport"
+          },
+          "minItems": 1,
+          "title": "Load Support",
+          "type": "array"
+        },
+        "result_support": {
+          "items": {
+            "$ref": "#/$defs/NozzleResultSupport"
+          },
+          "minItems": 1,
+          "title": "Result Support",
+          "type": "array"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/NozzleQualificationEvidence"
+          },
+          "minItems": 2,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "vessel_geometry_id",
+        "nozzle_geometry_id",
+        "opening_geometry_id",
+        "material_condition_id",
+        "coordinate_frame_id",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "supported_mesh_ids",
+        "geometry_support",
+        "load_support",
+        "result_support",
+        "qualification_evidence",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "NozzleLocalStressEnvelope",
+      "type": "object"
+    },
+    "NozzleProviderStressResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "mesh_id": {
+          "minLength": 1,
+          "title": "Mesh Id",
+          "type": "string"
+        },
+        "result_location_id": {
+          "minLength": 1,
+          "title": "Result Location Id",
+          "type": "string"
+        },
+        "spatial_averaging_basis": {
+          "minLength": 1,
+          "title": "Spatial Averaging Basis",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "representation_kind": {
+          "enum": [
+            "stress_tensor_component",
+            "linearized_membrane",
+            "linearized_bending",
+            "user_defined_metric"
+          ],
+          "title": "Representation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "reported_value": {
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_id",
+        "load_case_id",
+        "mesh_id",
+        "result_location_id",
+        "spatial_averaging_basis",
+        "coordinate_frame_id",
+        "representation_kind",
+        "metric_id",
+        "metric_definition",
+        "reported_value",
+        "unit_token",
+        "expanded_uncertainty",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "NozzleProviderStressResult",
+      "type": "object"
+    },
+    "NozzleQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "supported_metric_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Metric Ids",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "supported_metric_ids",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "NozzleQualificationEvidence",
+      "type": "object"
+    },
+    "NozzleQuantitySupport": {
+      "additionalProperties": false,
+      "properties": {
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_value": {
+          "title": "Minimum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_value": {
+          "title": "Maximum Supported Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "quantity_id",
+        "unit_token",
+        "minimum_supported_value",
+        "maximum_supported_value"
+      ],
+      "title": "NozzleQuantitySupport",
+      "type": "object"
+    },
+    "NozzleResultSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "representation_kind": {
+          "enum": [
+            "stress_tensor_component",
+            "linearized_membrane",
+            "linearized_bending",
+            "user_defined_metric"
+          ],
+          "title": "Representation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_value": {
+          "title": "Minimum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_value": {
+          "title": "Maximum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Maximum Supported Expanded Uncertainty",
+          "type": "number"
+        },
+        "supported_result_location_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Result Location Ids",
+          "type": "array"
+        },
+        "supported_spatial_averaging_bases": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Spatial Averaging Bases",
+          "type": "array"
+        }
+      },
+      "required": [
+        "representation_kind",
+        "metric_id",
+        "unit_token",
+        "minimum_supported_value",
+        "maximum_supported_value",
+        "maximum_supported_expanded_uncertainty",
+        "supported_result_location_ids",
+        "supported_spatial_averaging_bases"
+      ],
+      "title": "NozzleResultSupport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "vessel_geometry_id": {
+      "minLength": 1,
+      "title": "Vessel Geometry Id",
+      "type": "string"
+    },
+    "nozzle_geometry_id": {
+      "minLength": 1,
+      "title": "Nozzle Geometry Id",
+      "type": "string"
+    },
+    "opening_geometry_id": {
+      "minLength": 1,
+      "title": "Opening Geometry Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "load_case_id": {
+      "minLength": 1,
+      "title": "Load Case Id",
+      "type": "string"
+    },
+    "geometry_quantities": {
+      "items": {
+        "$ref": "#/$defs/NozzleGeometryQuantity"
+      },
+      "minItems": 1,
+      "title": "Geometry Quantities",
+      "type": "array"
+    },
+    "load_components": {
+      "items": {
+        "$ref": "#/$defs/NozzleLoadComponent"
+      },
+      "minItems": 1,
+      "title": "Load Components",
+      "type": "array"
+    },
+    "provider_results": {
+      "items": {
+        "$ref": "#/$defs/NozzleProviderStressResult"
+      },
+      "minItems": 1,
+      "title": "Provider Results",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/NozzleLocalStressEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "vessel_nozzle_opening_geometry_and_units_reviewed": {
+      "title": "Vessel Nozzle Opening Geometry And Units Reviewed",
+      "type": "boolean"
+    },
+    "material_condition_reviewed": {
+      "title": "Material Condition Reviewed",
+      "type": "boolean"
+    },
+    "coordinate_frame_and_load_basis_reviewed": {
+      "title": "Coordinate Frame And Load Basis Reviewed",
+      "type": "boolean"
+    },
+    "mesh_location_and_averaging_reviewed": {
+      "title": "Mesh Location And Averaging Reviewed",
+      "type": "boolean"
+    },
+    "stress_representation_metrics_units_and_uncertainty_reviewed": {
+      "title": "Stress Representation Metrics Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "provider_revision_configuration_and_digests_reviewed": {
+      "title": "Provider Revision Configuration And Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_and_source_groups_reviewed": {
+      "title": "Calibration Holdout And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "vessel_geometry_id",
+    "nozzle_geometry_id",
+    "opening_geometry_id",
+    "material_condition_id",
+    "coordinate_frame_id",
+    "load_case_id",
+    "geometry_quantities",
+    "load_components",
+    "provider_results",
+    "candidate_envelopes",
+    "vessel_nozzle_opening_geometry_and_units_reviewed",
+    "material_condition_reviewed",
+    "coordinate_frame_and_load_basis_reviewed",
+    "mesh_location_and_averaging_reviewed",
+    "stress_representation_metrics_units_and_uncertainty_reviewed",
+    "provider_revision_configuration_and_digests_reviewed",
+    "calibration_holdout_and_source_groups_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "NozzleLocalStressProviderEvidence",
+  "type": "object"
+}

@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A caller-calibrated phase-appearance source in molar inventory units.",
+  "properties": {
+    "solid_species_id": {
+      "minLength": 1,
+      "title": "Solid Species Id",
+      "type": "string"
+    },
+    "critical_saturation_ratio": {
+      "exclusiveMinimum": 0,
+      "title": "Critical Saturation Ratio",
+      "type": "number"
+    },
+    "source_rate_constant_mol_m3_s": {
+      "minimum": 0.0,
+      "title": "Source Rate Constant Mol M3 S",
+      "type": "number"
+    },
+    "supersaturation_order": {
+      "exclusiveMinimum": 0,
+      "maximum": 8.0,
+      "title": "Supersaturation Order",
+      "type": "number"
+    },
+    "nucleated_inventory_threshold_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Nucleated Inventory Threshold Mol M3",
+      "type": "number"
+    },
+    "maximum_rate_mol_m3_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Rate Mol M3 S",
+      "type": "number"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "solid_species_id",
+    "critical_saturation_ratio",
+    "source_rate_constant_mol_m3_s",
+    "supersaturation_order",
+    "nucleated_inventory_threshold_mol_m3",
+    "maximum_rate_mol_m3_s",
+    "source_sha256",
+    "evidence"
+  ],
+  "title": "CreviceMolarNucleationLaw",
+  "type": "object"
+}

@@ -1,0 +1,563 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ImpactInstrumentCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_record_id": {
+          "minLength": 1,
+          "title": "Calibration Record Id",
+          "type": "string"
+        },
+        "striker_id": {
+          "minLength": 1,
+          "title": "Striker Id",
+          "type": "string"
+        },
+        "striker_configuration_id": {
+          "minLength": 1,
+          "title": "Striker Configuration Id",
+          "type": "string"
+        },
+        "force_instrument_id": {
+          "minLength": 1,
+          "title": "Force Instrument Id",
+          "type": "string"
+        },
+        "displacement_instrument_id": {
+          "minLength": 1,
+          "title": "Displacement Instrument Id",
+          "type": "string"
+        },
+        "timebase_id": {
+          "minLength": 1,
+          "title": "Timebase Id",
+          "type": "string"
+        },
+        "force_calibration_id": {
+          "minLength": 1,
+          "title": "Force Calibration Id",
+          "type": "string"
+        },
+        "displacement_calibration_id": {
+          "minLength": 1,
+          "title": "Displacement Calibration Id",
+          "type": "string"
+        },
+        "force_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Force Calibration Digest",
+          "type": "string"
+        },
+        "displacement_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Displacement Calibration Digest",
+          "type": "string"
+        },
+        "timebase_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Timebase Calibration Digest",
+          "type": "string"
+        },
+        "instrument_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Instrument Configuration Digest",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "calibration_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_record_id",
+        "striker_id",
+        "striker_configuration_id",
+        "force_instrument_id",
+        "displacement_instrument_id",
+        "timebase_id",
+        "force_calibration_id",
+        "displacement_calibration_id",
+        "force_calibration_digest",
+        "displacement_calibration_digest",
+        "timebase_calibration_digest",
+        "instrument_configuration_digest",
+        "provider_id",
+        "provider_revision",
+        "calibration_result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ImpactInstrumentCalibration",
+      "type": "object"
+    },
+    "ImpactSignalPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "displacement_m": {
+          "minimum": 0,
+          "title": "Displacement M",
+          "type": "number"
+        },
+        "signed_force_N": {
+          "title": "Signed Force N",
+          "type": "number"
+        },
+        "expanded_force_uncertainty_N": {
+          "minimum": 0,
+          "title": "Expanded Force Uncertainty N",
+          "type": "number"
+        },
+        "expanded_displacement_uncertainty_m": {
+          "minimum": 0,
+          "title": "Expanded Displacement Uncertainty M",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "elapsed_time_s",
+        "displacement_m",
+        "signed_force_N",
+        "expanded_force_uncertainty_N",
+        "expanded_displacement_uncertainty_m",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ImpactSignalPoint",
+      "type": "object"
+    },
+    "MachineReportedImpactEnergy": {
+      "additionalProperties": false,
+      "properties": {
+        "comparison_record_id": {
+          "minLength": 1,
+          "title": "Comparison Record Id",
+          "type": "string"
+        },
+        "reported_energy_J": {
+          "minimum": 0,
+          "title": "Reported Energy J",
+          "type": "number"
+        },
+        "expanded_uncertainty_J": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty J",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "reporting_method_id": {
+          "minLength": 1,
+          "title": "Reporting Method Id",
+          "type": "string"
+        },
+        "independent_data_path_declared": {
+          "title": "Independent Data Path Declared",
+          "type": "boolean"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "comparison_record_id",
+        "reported_energy_J",
+        "expanded_uncertainty_J",
+        "uncertainty_coverage_factor",
+        "reporting_method_id",
+        "independent_data_path_declared",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "MachineReportedImpactEnergy",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "impact_test_id": {
+      "minLength": 1,
+      "title": "Impact Test Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_geometry_id": {
+      "minLength": 1,
+      "title": "Specimen Geometry Id",
+      "type": "string"
+    },
+    "notch_geometry_id": {
+      "minLength": 1,
+      "title": "Notch Geometry Id",
+      "type": "string"
+    },
+    "notch_orientation_id": {
+      "minLength": 1,
+      "title": "Notch Orientation Id",
+      "type": "string"
+    },
+    "specimen_orientation_id": {
+      "minLength": 1,
+      "title": "Specimen Orientation Id",
+      "type": "string"
+    },
+    "test_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Test Temperature K",
+      "type": "number"
+    },
+    "signal_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Signal Source Digest",
+      "type": "string"
+    },
+    "force_unit_token": {
+      "const": "N",
+      "default": "N",
+      "title": "Force Unit Token",
+      "type": "string"
+    },
+    "displacement_unit_token": {
+      "const": "m",
+      "default": "m",
+      "title": "Displacement Unit Token",
+      "type": "string"
+    },
+    "time_unit_token": {
+      "const": "s",
+      "default": "s",
+      "title": "Time Unit Token",
+      "type": "string"
+    },
+    "calibration": {
+      "$ref": "#/$defs/ImpactInstrumentCalibration"
+    },
+    "signal_points": {
+      "items": {
+        "$ref": "#/$defs/ImpactSignalPoint"
+      },
+      "minItems": 2,
+      "title": "Signal Points",
+      "type": "array"
+    },
+    "valid_window_start_sample_id": {
+      "minLength": 1,
+      "title": "Valid Window Start Sample Id",
+      "type": "string"
+    },
+    "valid_window_end_sample_id": {
+      "minLength": 1,
+      "title": "Valid Window End Sample Id",
+      "type": "string"
+    },
+    "absorbed_energy_force_direction_multiplier": {
+      "enum": [
+        -1,
+        1
+      ],
+      "title": "Absorbed Energy Force Direction Multiplier",
+      "type": "integer"
+    },
+    "force_sign_convention": {
+      "minLength": 1,
+      "title": "Force Sign Convention",
+      "type": "string"
+    },
+    "peak_force_plateau_tolerance_N": {
+      "minimum": 0,
+      "title": "Peak Force Plateau Tolerance N",
+      "type": "number"
+    },
+    "negative_absorbed_energy_tolerance_J": {
+      "minimum": 0,
+      "title": "Negative Absorbed Energy Tolerance J",
+      "type": "number"
+    },
+    "machine_reported_energy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MachineReportedImpactEnergy"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "specimen_notch_orientation_and_material_reviewed": {
+      "title": "Specimen Notch Orientation And Material Reviewed",
+      "type": "boolean"
+    },
+    "test_temperature_striker_and_instrument_identity_reviewed": {
+      "title": "Test Temperature Striker And Instrument Identity Reviewed",
+      "type": "boolean"
+    },
+    "calibration_and_si_units_reviewed": {
+      "title": "Calibration And Si Units Reviewed",
+      "type": "boolean"
+    },
+    "source_digest_and_raw_signal_reviewed": {
+      "title": "Source Digest And Raw Signal Reviewed",
+      "type": "boolean"
+    },
+    "monotonic_displacement_and_time_order_reviewed": {
+      "title": "Monotonic Displacement And Time Order Reviewed",
+      "type": "boolean"
+    },
+    "valid_window_and_force_sign_reviewed": {
+      "title": "Valid Window And Force Sign Reviewed",
+      "type": "boolean"
+    },
+    "trapezoidal_integration_and_peak_definition_reviewed": {
+      "title": "Trapezoidal Integration And Peak Definition Reviewed",
+      "type": "boolean"
+    },
+    "machine_energy_comparison_independence_reviewed": {
+      "title": "Machine Energy Comparison Independence Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "impact_test_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "independence_group_id",
+    "material_condition_id",
+    "specimen_geometry_id",
+    "notch_geometry_id",
+    "notch_orientation_id",
+    "specimen_orientation_id",
+    "test_temperature_K",
+    "signal_source_digest",
+    "calibration",
+    "signal_points",
+    "valid_window_start_sample_id",
+    "valid_window_end_sample_id",
+    "absorbed_energy_force_direction_multiplier",
+    "force_sign_convention",
+    "peak_force_plateau_tolerance_N",
+    "negative_absorbed_energy_tolerance_J",
+    "specimen_notch_orientation_and_material_reviewed",
+    "test_temperature_striker_and_instrument_identity_reviewed",
+    "calibration_and_si_units_reviewed",
+    "source_digest_and_raw_signal_reviewed",
+    "monotonic_displacement_and_time_order_reviewed",
+    "valid_window_and_force_sign_reviewed",
+    "trapezoidal_integration_and_peak_definition_reviewed",
+    "machine_energy_comparison_independence_reviewed"
+  ],
+  "title": "InstrumentedImpactSignalAssessment",
+  "type": "object"
+}

@@ -1,0 +1,353 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LocalHeatTreatmentProcedureEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "joint_configuration_id": {
+          "minLength": 1,
+          "title": "Joint Configuration Id",
+          "type": "string"
+        },
+        "treatment_procedure_id": {
+          "minLength": 1,
+          "title": "Treatment Procedure Id",
+          "type": "string"
+        },
+        "qualified_heat_zone_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Qualified Heat Zone Ids",
+          "type": "array"
+        },
+        "minimum_hold_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Hold Temperature K",
+          "type": "number"
+        },
+        "maximum_hold_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Hold Temperature K",
+          "type": "number"
+        },
+        "minimum_hold_duration_s": {
+          "minimum": 0,
+          "title": "Minimum Hold Duration S",
+          "type": "number"
+        },
+        "maximum_heating_rate_K_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Heating Rate K S",
+          "type": "number"
+        },
+        "maximum_cooling_rate_K_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cooling Rate K S",
+          "type": "number"
+        },
+        "maximum_spatial_gradient_K_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Spatial Gradient K M",
+          "type": "number"
+        },
+        "procedure_provider_id": {
+          "minLength": 1,
+          "title": "Procedure Provider Id",
+          "type": "string"
+        },
+        "procedure_provider_version": {
+          "minLength": 1,
+          "title": "Procedure Provider Version",
+          "type": "string"
+        },
+        "procedure_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Procedure State Digest",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "joint_configuration_id",
+        "treatment_procedure_id",
+        "qualified_heat_zone_ids",
+        "minimum_hold_temperature_K",
+        "maximum_hold_temperature_K",
+        "minimum_hold_duration_s",
+        "maximum_heating_rate_K_s",
+        "maximum_cooling_rate_K_s",
+        "maximum_spatial_gradient_K_m",
+        "procedure_provider_id",
+        "procedure_provider_version",
+        "procedure_state_digest",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "LocalHeatTreatmentProcedureEnvelope",
+      "type": "object"
+    },
+    "LocalHeatTreatmentSensorHistory": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "heat_zone_id": {
+          "minLength": 1,
+          "title": "Heat Zone Id",
+          "type": "string"
+        },
+        "sensor_position_m": {
+          "minimum": 0,
+          "title": "Sensor Position M",
+          "type": "number"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Temperature K",
+          "type": "array"
+        },
+        "acquisition_provider_id": {
+          "minLength": 1,
+          "title": "Acquisition Provider Id",
+          "type": "string"
+        },
+        "acquisition_provider_version": {
+          "minLength": 1,
+          "title": "Acquisition Provider Version",
+          "type": "string"
+        },
+        "acquisition_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Acquisition State Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "heat_zone_id",
+        "sensor_position_m",
+        "time_s",
+        "temperature_K",
+        "acquisition_provider_id",
+        "acquisition_provider_version",
+        "acquisition_state_digest",
+        "evidence"
+      ],
+      "title": "LocalHeatTreatmentSensorHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "weld_id": {
+      "minLength": 1,
+      "title": "Weld Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "joint_configuration_id": {
+      "minLength": 1,
+      "title": "Joint Configuration Id",
+      "type": "string"
+    },
+    "treatment_procedure_id": {
+      "minLength": 1,
+      "title": "Treatment Procedure Id",
+      "type": "string"
+    },
+    "sensor_histories": {
+      "items": {
+        "$ref": "#/$defs/LocalHeatTreatmentSensorHistory"
+      },
+      "minItems": 2,
+      "title": "Sensor Histories",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/LocalHeatTreatmentProcedureEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "sensor_layout_reviewed": {
+      "title": "Sensor Layout Reviewed",
+      "type": "boolean"
+    },
+    "time_and_temperature_records_reviewed": {
+      "title": "Time And Temperature Records Reviewed",
+      "type": "boolean"
+    },
+    "material_and_joint_identity_reviewed": {
+      "title": "Material And Joint Identity Reviewed",
+      "type": "boolean"
+    },
+    "procedure_identity_reviewed": {
+      "title": "Procedure Identity Reviewed",
+      "type": "boolean"
+    },
+    "provider_state_digests_reviewed": {
+      "title": "Provider State Digests Reviewed",
+      "type": "boolean"
+    },
+    "procedure_envelope_authority_reviewed": {
+      "title": "Procedure Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "weld_id",
+    "material_condition_id",
+    "joint_configuration_id",
+    "treatment_procedure_id",
+    "sensor_histories",
+    "candidate_envelopes",
+    "sensor_layout_reviewed",
+    "time_and_temperature_records_reviewed",
+    "material_and_joint_identity_reviewed",
+    "procedure_identity_reviewed",
+    "provider_state_digests_reviewed",
+    "procedure_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "LocalHeatTreatmentAssessment",
+  "type": "object"
+}

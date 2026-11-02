@@ -1,0 +1,275 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Derive fully-developed wide-slit wall shear from an existing flow history.\n\nThe source model solves a reduced lumped momentum balance. This API derives\nquasi-steady planar-slit wall shear from its exact interval flow trajectory;\nit adds no fluid or material law and does not predict erosion or corrosion.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_wall_shear_exposure.v1",
+      "default": "matintegrity.crevice_wall_shear_exposure.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "hydraulic_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "hydraulic_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydraulic Result Sha256",
+      "type": "string"
+    },
+    "wall_shear_relation_and_wide_slit_profile_reviewed": {
+      "title": "Wall Shear Relation And Wide Slit Profile Reviewed",
+      "type": "boolean"
+    },
+    "quasi_steady_wall_shear_on_lumped_flow_reviewed": {
+      "title": "Quasi Steady Wall Shear On Lumped Flow Reviewed",
+      "type": "boolean"
+    },
+    "shear_exposure_is_descriptor_only_reviewed": {
+      "title": "Shear Exposure Is Descriptor Only Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "hydraulic_result",
+    "hydraulic_result_sha256",
+    "wall_shear_relation_and_wide_slit_profile_reviewed",
+    "quasi_steady_wall_shear_on_lumped_flow_reviewed",
+    "shear_exposure_is_descriptor_only_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceWallShearExposure",
+  "type": "object"
+}

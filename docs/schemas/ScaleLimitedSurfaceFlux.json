@@ -1,0 +1,335 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed binding between one scale transport assessment and an electrode boundary.",
+  "properties": {
+    "scale_transport_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "scale_transport_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scale Transport Result Sha256",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "solution_condition_id": {
+      "minLength": 1,
+      "title": "Solution Condition Id",
+      "type": "string"
+    },
+    "scale_phase_id": {
+      "minLength": 1,
+      "title": "Scale Phase Id",
+      "type": "string"
+    },
+    "scale_state_id": {
+      "minLength": 1,
+      "title": "Scale State Id",
+      "type": "string"
+    },
+    "transported_species_id": {
+      "minLength": 1,
+      "title": "Transported Species Id",
+      "type": "string"
+    },
+    "surface_area_basis_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Surface Area Basis Id"
+    },
+    "limited_reaction_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limited Reaction Ids",
+      "type": "array"
+    },
+    "application_location": {
+      "enum": [
+        "tip",
+        "wall"
+      ],
+      "title": "Application Location",
+      "type": "string"
+    },
+    "complete_species_production_branch_set_reviewed": {
+      "title": "Complete Species Production Branch Set Reviewed",
+      "type": "boolean"
+    },
+    "diffusion_bound_and_surface_area_basis_reviewed": {
+      "title": "Diffusion Bound And Surface Area Basis Reviewed",
+      "type": "boolean"
+    },
+    "scale_state_constant_over_transport_horizon_reviewed": {
+      "title": "Scale State Constant Over Transport Horizon Reviewed",
+      "type": "boolean"
+    },
+    "metal_potential_and_solution_reference_compatible_reviewed": {
+      "title": "Metal Potential And Solution Reference Compatible Reviewed",
+      "type": "boolean"
+    },
+    "electrochemical_and_scale_physical_scope_match_reviewed": {
+      "title": "Electrochemical And Scale Physical Scope Match Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scale_transport_result",
+    "scale_transport_result_sha256",
+    "physical_scope_id",
+    "substrate_condition_id",
+    "solution_condition_id",
+    "scale_phase_id",
+    "scale_state_id",
+    "transported_species_id",
+    "limited_reaction_ids",
+    "application_location",
+    "complete_species_production_branch_set_reviewed",
+    "diffusion_bound_and_surface_area_basis_reviewed",
+    "scale_state_constant_over_transport_horizon_reviewed",
+    "metal_potential_and_solution_reference_compatible_reviewed",
+    "electrochemical_and_scale_physical_scope_match_reviewed"
+  ],
+  "title": "ScaleLimitedSurfaceFlux",
+  "type": "object"
+}

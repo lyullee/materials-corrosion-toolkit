@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "BathComponentMass": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "mass_kg": {
+          "minimum": 0,
+          "title": "Mass Kg",
+          "type": "number"
+        }
+      },
+      "required": [
+        "component_id",
+        "mass_kg"
+      ],
+      "title": "BathComponentMass",
+      "type": "object"
+    },
+    "ChemicalCleaningBathEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "added_liquid_volume_m3": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Added Liquid Volume M3",
+          "type": "number"
+        },
+        "added_components": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BathComponentMass"
+          },
+          "title": "Added Components",
+          "type": "array"
+        },
+        "withdrawn_liquid_volume_m3": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Withdrawn Liquid Volume M3",
+          "type": "number"
+        },
+        "caller_supplied_component_consumption": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BathComponentMass"
+          },
+          "title": "Caller Supplied Component Consumption",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_position",
+        "time_s",
+        "evidence"
+      ],
+      "title": "ChemicalCleaningBathEvent",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "initial_liquid_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Liquid Volume M3",
+      "type": "number"
+    },
+    "initial_components": {
+      "items": {
+        "$ref": "#/$defs/BathComponentMass"
+      },
+      "minItems": 1,
+      "title": "Initial Components",
+      "type": "array"
+    },
+    "initial_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Initial Evidence",
+      "type": "array"
+    },
+    "events": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ChemicalCleaningBathEvent"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "component_identity_reviewed": {
+      "title": "Component Identity Reviewed",
+      "type": "boolean"
+    },
+    "event_order_and_volume_basis_reviewed": {
+      "title": "Event Order And Volume Basis Reviewed",
+      "type": "boolean"
+    },
+    "consumption_terms_reviewed": {
+      "title": "Consumption Terms Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "initial_liquid_volume_m3",
+    "initial_components",
+    "initial_evidence",
+    "component_identity_reviewed",
+    "event_order_and_volume_basis_reviewed",
+    "consumption_terms_reviewed"
+  ],
+  "title": "ChemicalCleaningBathHistory",
+  "type": "object"
+}

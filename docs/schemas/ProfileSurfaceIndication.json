@@ -1,0 +1,233 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "indication_id": {
+      "minLength": 1,
+      "title": "Indication Id",
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "visual_surface",
+        "penetrant",
+        "magnetic_particle"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "region_id": {
+      "minLength": 1,
+      "title": "Region Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "reported_class": {
+      "minLength": 1,
+      "title": "Reported Class",
+      "type": "string"
+    },
+    "observation_description": {
+      "minLength": 1,
+      "title": "Observation Description",
+      "type": "string"
+    },
+    "length_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Length M"
+    },
+    "length_standard_uncertainty_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Length Standard Uncertainty M"
+    },
+    "width_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Width M"
+    },
+    "width_standard_uncertainty_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Width Standard Uncertainty M"
+    },
+    "area_m2": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Area M2"
+    },
+    "area_standard_uncertainty_m2": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Area Standard Uncertainty M2"
+    },
+    "orientation_deg": {
+      "anyOf": [
+        {
+          "exclusiveMaximum": 360,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Orientation Deg"
+    },
+    "method_observation_descriptor": {
+      "minLength": 1,
+      "title": "Method Observation Descriptor",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "provider_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Digest",
+      "type": "string"
+    },
+    "geometry_reviewed": {
+      "title": "Geometry Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "indication_id",
+    "method",
+    "region_id",
+    "physical_location_id",
+    "reported_class",
+    "observation_description",
+    "method_observation_descriptor",
+    "source_group_id",
+    "provider_result_digest",
+    "geometry_reviewed",
+    "evidence"
+  ],
+  "title": "ProfileSurfaceIndication",
+  "type": "object"
+}

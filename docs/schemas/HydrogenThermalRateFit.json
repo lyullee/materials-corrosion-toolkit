@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed rate observations split into calibration and untouched holdout rows.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_thermal_rate_fit.v1",
+      "default": "matintegrity.hydrogen_thermal_rate_fit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "fit_id": {
+      "minLength": 1,
+      "title": "Fit Id",
+      "type": "string"
+    },
+    "frequency_id": {
+      "minLength": 1,
+      "title": "Frequency Id",
+      "type": "string"
+    },
+    "frequency_role": {
+      "enum": [
+        "capture",
+        "release"
+      ],
+      "title": "Frequency Role",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "arrhenius",
+        "transition_state"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "trap_id": {
+      "minLength": 1,
+      "title": "Trap Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_lattice_id": {
+      "minLength": 1,
+      "title": "Reference Lattice Id",
+      "type": "string"
+    },
+    "energy_reference_id": {
+      "minLength": 1,
+      "title": "Energy Reference Id",
+      "type": "string"
+    },
+    "observation_id": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Observation Id",
+      "type": "array"
+    },
+    "source_group_id": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Group Id",
+      "type": "array"
+    },
+    "partition": {
+      "items": {
+        "enum": [
+          "calibration",
+          "holdout"
+        ],
+        "type": "string"
+      },
+      "title": "Partition",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "frequency_per_s": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Frequency Per S",
+      "type": "array"
+    },
+    "log_frequency_standard_uncertainty": {
+      "anyOf": [
+        {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Log Frequency Standard Uncertainty"
+    },
+    "transmission_coefficient": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transmission Coefficient"
+    },
+    "minimum_calibration_temperature_span_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Calibration Temperature Span K",
+      "type": "number"
+    },
+    "calibration_observations_independent_reviewed": {
+      "default": false,
+      "title": "Calibration Observations Independent Reviewed",
+      "type": "boolean"
+    },
+    "rate_observation_mapping_reviewed": {
+      "default": false,
+      "title": "Rate Observation Mapping Reviewed",
+      "type": "boolean"
+    },
+    "common_energy_reference_reviewed": {
+      "default": false,
+      "title": "Common Energy Reference Reviewed",
+      "type": "boolean"
+    },
+    "holdout_partition_predeclared": {
+      "default": false,
+      "title": "Holdout Partition Predeclared",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fit_id",
+    "frequency_id",
+    "frequency_role",
+    "kind",
+    "trap_id",
+    "material_condition_id",
+    "reference_lattice_id",
+    "energy_reference_id",
+    "observation_id",
+    "source_group_id",
+    "partition",
+    "temperature_K",
+    "frequency_per_s",
+    "minimum_calibration_temperature_span_K",
+    "evidence"
+  ],
+  "title": "HydrogenThermalRateFit",
+  "type": "object"
+}

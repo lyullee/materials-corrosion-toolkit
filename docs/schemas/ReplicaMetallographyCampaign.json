@@ -1,0 +1,853 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReplicaAcquisitionConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "surface_preparation_id": {
+          "minLength": 1,
+          "title": "Surface Preparation Id",
+          "type": "string"
+        },
+        "surface_preparation_definition": {
+          "minLength": 1,
+          "title": "Surface Preparation Definition",
+          "type": "string"
+        },
+        "replication_medium_id": {
+          "minLength": 1,
+          "title": "Replication Medium Id",
+          "type": "string"
+        },
+        "replication_medium_lot_id": {
+          "minLength": 1,
+          "title": "Replication Medium Lot Id",
+          "type": "string"
+        },
+        "magnification": {
+          "exclusiveMinimum": 0,
+          "title": "Magnification",
+          "type": "number"
+        },
+        "magnification_unit_token": {
+          "const": "1",
+          "default": "1",
+          "title": "Magnification Unit Token",
+          "type": "string"
+        },
+        "instrument_id": {
+          "minLength": 1,
+          "title": "Instrument Id",
+          "type": "string"
+        },
+        "instrument_revision": {
+          "minLength": 1,
+          "title": "Instrument Revision",
+          "type": "string"
+        },
+        "instrument_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Instrument Configuration Digest",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_revision": {
+          "minLength": 1,
+          "title": "Calibration Revision",
+          "type": "string"
+        },
+        "calibration_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "missing"
+          ],
+          "title": "Calibration Status",
+          "type": "string"
+        },
+        "calibration_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "surface_preparation_id",
+        "surface_preparation_definition",
+        "replication_medium_id",
+        "replication_medium_lot_id",
+        "magnification",
+        "instrument_id",
+        "instrument_revision",
+        "instrument_configuration_digest",
+        "calibration_id",
+        "calibration_revision",
+        "calibration_status",
+        "calibration_record_digest",
+        "evidence"
+      ],
+      "title": "ReplicaAcquisitionConfiguration",
+      "type": "object"
+    },
+    "ReplicaCampaignCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "supported_replica_site_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Replica Site Ids",
+          "type": "array"
+        },
+        "supported_environment_descriptor_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Environment Descriptor Ids",
+          "type": "array"
+        },
+        "required_surface_preparation_id": {
+          "minLength": 1,
+          "title": "Required Surface Preparation Id",
+          "type": "string"
+        },
+        "required_replication_medium_id": {
+          "minLength": 1,
+          "title": "Required Replication Medium Id",
+          "type": "string"
+        },
+        "required_magnification": {
+          "exclusiveMinimum": 0,
+          "title": "Required Magnification",
+          "type": "number"
+        },
+        "magnification_tolerance": {
+          "minimum": 0,
+          "title": "Magnification Tolerance",
+          "type": "number"
+        },
+        "required_instrument_id": {
+          "minLength": 1,
+          "title": "Required Instrument Id",
+          "type": "string"
+        },
+        "required_calibration_id": {
+          "minLength": 1,
+          "title": "Required Calibration Id",
+          "type": "string"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/ReplicaObservationCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "minimum_valid_field_count": {
+          "minimum": 1,
+          "title": "Minimum Valid Field Count",
+          "type": "integer"
+        },
+        "minimum_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Independence Group Count",
+          "type": "integer"
+        },
+        "caller_validity_policy_id": {
+          "minLength": 1,
+          "title": "Caller Validity Policy Id",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "built_in_grade_table_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Grade Table Used",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "component_id",
+        "material_id",
+        "material_condition_id",
+        "heat_id",
+        "supported_replica_site_ids",
+        "supported_environment_descriptor_ids",
+        "required_surface_preparation_id",
+        "required_replication_medium_id",
+        "required_magnification",
+        "magnification_tolerance",
+        "required_instrument_id",
+        "required_calibration_id",
+        "criteria",
+        "minimum_valid_field_count",
+        "minimum_independence_group_count",
+        "caller_validity_policy_id",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "ReplicaCampaignCallerProfile",
+      "type": "object"
+    },
+    "ReplicaCampaignField": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "replica_id": {
+          "minLength": 1,
+          "title": "Replica Id",
+          "type": "string"
+        },
+        "replica_site_id": {
+          "minLength": 1,
+          "title": "Replica Site Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "configuration": {
+          "$ref": "#/$defs/ReplicaAcquisitionConfiguration"
+        },
+        "image_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Image Digest",
+          "type": "string"
+        },
+        "field_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Record Digest",
+          "type": "string"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/ReplicaCampaignObservation"
+          },
+          "minItems": 1,
+          "title": "Observations",
+          "type": "array"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "caller_validity_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ],
+          "title": "Caller Validity Status",
+          "type": "string"
+        },
+        "caller_validity_basis": {
+          "minLength": 1,
+          "title": "Caller Validity Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_id",
+        "replica_id",
+        "replica_site_id",
+        "sequence_index",
+        "configuration",
+        "image_digest",
+        "field_record_digest",
+        "observations",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "caller_validity_status",
+        "caller_validity_basis",
+        "evidence"
+      ],
+      "title": "ReplicaCampaignField",
+      "type": "object"
+    },
+    "ReplicaCampaignObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observation_kind": {
+          "enum": [
+            "grain",
+            "cavity",
+            "phase",
+            "precipitate",
+            "decarburization",
+            "user_defined"
+          ],
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "result_mode": {
+          "enum": [
+            "quantitative",
+            "qualitative"
+          ],
+          "title": "Result Mode",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "qualitative_class": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualitative Class"
+        },
+        "qualitative_uncertainty_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualitative Uncertainty Basis"
+        },
+        "observer_id": {
+          "minLength": 1,
+          "title": "Observer Id",
+          "type": "string"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "observation_kind",
+        "metric_id",
+        "metric_definition",
+        "result_mode",
+        "status",
+        "unit_token",
+        "observer_id",
+        "observation_record_digest",
+        "evidence"
+      ],
+      "title": "ReplicaCampaignObservation",
+      "type": "object"
+    },
+    "ReplicaObservationCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "observation_kind": {
+          "enum": [
+            "grain",
+            "cavity",
+            "phase",
+            "precipitate",
+            "decarburization",
+            "user_defined"
+          ],
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "result_mode": {
+          "enum": [
+            "quantitative",
+            "qualitative"
+          ],
+          "title": "Result Mode",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "accepted_qualitative_classes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Accepted Qualitative Classes",
+          "type": "array"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "observation_kind",
+        "metric_id",
+        "metric_definition",
+        "result_mode",
+        "unit_token",
+        "criterion_basis",
+        "evidence"
+      ],
+      "title": "ReplicaObservationCriterion",
+      "type": "object"
+    },
+    "ReplicaServiceInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "environment_descriptor_id": {
+          "minLength": 1,
+          "title": "Environment Descriptor Id",
+          "type": "string"
+        },
+        "service_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Service Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "environment_descriptor_id",
+        "service_record_digest",
+        "evidence"
+      ],
+      "title": "ReplicaServiceInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "service_history": {
+      "items": {
+        "$ref": "#/$defs/ReplicaServiceInterval"
+      },
+      "minItems": 1,
+      "title": "Service History",
+      "type": "array"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/ReplicaCampaignField"
+      },
+      "minItems": 1,
+      "title": "Fields",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/ReplicaCampaignCallerProfile"
+    },
+    "component_location_material_heat_and_service_history_reviewed": {
+      "title": "Component Location Material Heat And Service History Reviewed",
+      "type": "boolean"
+    },
+    "surface_preparation_medium_magnification_and_instrument_reviewed": {
+      "title": "Surface Preparation Medium Magnification And Instrument Reviewed",
+      "type": "boolean"
+    },
+    "calibration_image_and_record_digests_reviewed": {
+      "title": "Calibration Image And Record Digests Reviewed",
+      "type": "boolean"
+    },
+    "observation_definitions_units_classes_and_uncertainties_reviewed": {
+      "title": "Observation Definitions Units Classes And Uncertainties Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_groups_reviewed": {
+      "title": "Replicate Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "caller_validity_flags_profile_and_missingness_reviewed": {
+      "title": "Caller Validity Flags Profile And Missingness Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "campaign_id",
+    "component_id",
+    "material_id",
+    "material_condition_id",
+    "heat_id",
+    "service_history",
+    "fields",
+    "caller_profile",
+    "component_location_material_heat_and_service_history_reviewed",
+    "surface_preparation_medium_magnification_and_instrument_reviewed",
+    "calibration_image_and_record_digests_reviewed",
+    "observation_definitions_units_classes_and_uncertainties_reviewed",
+    "replicate_source_and_independence_groups_reviewed",
+    "caller_validity_flags_profile_and_missingness_reviewed",
+    "evidence"
+  ],
+  "title": "ReplicaMetallographyCampaign",
+  "type": "object"
+}

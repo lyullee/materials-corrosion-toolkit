@@ -1,0 +1,392 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FractureToughnessTestRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout",
+            "application"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "specimen_geometry_id": {
+          "minLength": 1,
+          "title": "Specimen Geometry Id",
+          "type": "string"
+        },
+        "specimen_geometry_descriptor": {
+          "minLength": 1,
+          "title": "Specimen Geometry Descriptor",
+          "type": "string"
+        },
+        "notch_orientation_id": {
+          "minLength": 1,
+          "title": "Notch Orientation Id",
+          "type": "string"
+        },
+        "crack_orientation_id": {
+          "minLength": 1,
+          "title": "Crack Orientation Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "load_rate_value": {
+          "minimum": 0,
+          "title": "Load Rate Value",
+          "type": "number"
+        },
+        "load_rate_unit_token": {
+          "minLength": 1,
+          "title": "Load Rate Unit Token",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "endpoint_kind": {
+          "enum": [
+            "initiation",
+            "tearing",
+            "arrest",
+            "user_defined"
+          ],
+          "title": "Endpoint Kind",
+          "type": "string"
+        },
+        "endpoint_definition_id": {
+          "minLength": 1,
+          "title": "Endpoint Definition Id",
+          "type": "string"
+        },
+        "user_defined_endpoint_description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Defined Endpoint Description"
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Value"
+        },
+        "reported_unit_token": {
+          "minLength": 1,
+          "title": "Reported Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "uncertainty_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "caller_validity_record_id": {
+          "minLength": 1,
+          "title": "Caller Validity Record Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_endpoint": {
+          "title": "Supports Declared Endpoint",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "validity_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Validity Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "material_id",
+        "material_condition_id",
+        "specimen_geometry_id",
+        "specimen_geometry_descriptor",
+        "notch_orientation_id",
+        "crack_orientation_id",
+        "temperature_K",
+        "load_rate_value",
+        "load_rate_unit_token",
+        "environment_id",
+        "endpoint_kind",
+        "endpoint_definition_id",
+        "reported_unit_token",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "caller_validity_record_id",
+        "record_valid",
+        "supports_declared_endpoint",
+        "validity_evidence"
+      ],
+      "title": "FractureToughnessTestRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "evidence_collection_id": {
+      "minLength": 1,
+      "title": "Evidence Collection Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/FractureToughnessTestRecord"
+      },
+      "minItems": 1,
+      "title": "Records",
+      "type": "array"
+    },
+    "required_partitions": {
+      "items": {
+        "enum": [
+          "calibration",
+          "holdout",
+          "application"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Partitions",
+      "type": "array"
+    },
+    "material_and_condition_identity_reviewed": {
+      "title": "Material And Condition Identity Reviewed",
+      "type": "boolean"
+    },
+    "physical_specimen_identity_reviewed": {
+      "title": "Physical Specimen Identity Reviewed",
+      "type": "boolean"
+    },
+    "source_group_and_partition_reviewed": {
+      "title": "Source Group And Partition Reviewed",
+      "type": "boolean"
+    },
+    "geometry_and_orientation_reviewed": {
+      "title": "Geometry And Orientation Reviewed",
+      "type": "boolean"
+    },
+    "temperature_rate_and_environment_reviewed": {
+      "title": "Temperature Rate And Environment Reviewed",
+      "type": "boolean"
+    },
+    "endpoint_units_and_uncertainty_reviewed": {
+      "title": "Endpoint Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "caller_validity_evidence_reviewed": {
+      "title": "Caller Validity Evidence Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "evidence_collection_id",
+    "asset_id",
+    "location_id",
+    "records",
+    "required_partitions",
+    "material_and_condition_identity_reviewed",
+    "physical_specimen_identity_reviewed",
+    "source_group_and_partition_reviewed",
+    "geometry_and_orientation_reviewed",
+    "temperature_rate_and_environment_reviewed",
+    "endpoint_units_and_uncertainty_reviewed",
+    "caller_validity_evidence_reviewed",
+    "provider_lineage_and_digests_reviewed"
+  ],
+  "title": "FractureToughnessEvidenceAssessment",
+  "type": "object"
+}

@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Convert ordered cellwise phase production rates into displaced liquid rates.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_solid_volume_rate.v1",
+      "default": "matintegrity.crevice_solid_volume_rate.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "time_s": {
+      "title": "Time S",
+      "type": "number"
+    },
+    "cell_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Cell Ids",
+      "type": "array"
+    },
+    "phase_ids_by_cell": {
+      "items": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Phase Ids By Cell",
+      "type": "array"
+    },
+    "phase_molar_rate_mol_s_by_cell": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Phase Molar Rate Mol S By Cell",
+      "type": "array"
+    },
+    "phase_molar_volume_m3_mol_by_cell": {
+      "items": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Phase Molar Volume M3 Mol By Cell",
+      "type": "array"
+    },
+    "phase_occupies_gap_by_cell": {
+      "items": {
+        "items": {
+          "type": "boolean"
+        },
+        "type": "array"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Phase Occupies Gap By Cell",
+      "type": "array"
+    },
+    "geometry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Sha256",
+      "type": "string"
+    },
+    "geometry_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Geometry Evidence",
+      "type": "array"
+    },
+    "kinetic_rate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetic Rate Sha256",
+      "type": "string"
+    },
+    "kinetic_rate_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Kinetic Rate Evidence",
+      "type": "array"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "clock_id",
+    "time_s",
+    "cell_ids",
+    "phase_ids_by_cell",
+    "phase_molar_rate_mol_s_by_cell",
+    "phase_molar_volume_m3_mol_by_cell",
+    "phase_occupies_gap_by_cell",
+    "geometry_sha256",
+    "geometry_evidence",
+    "kinetic_rate_sha256",
+    "kinetic_rate_evidence",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceSolidVolumeRateRequest",
+  "type": "object"
+}

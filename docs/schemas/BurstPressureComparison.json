@@ -1,0 +1,188 @@
+{
+  "$defs": {
+    "BurstPressureComparisonRow": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Physical Specimen Id"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout",
+            "external_validation"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "observed_pressure_basis": {
+          "enum": [
+            "internal_minus_external",
+            "gauge_internal",
+            "absolute_internal",
+            "unresolved"
+          ],
+          "title": "Observed Pressure Basis",
+          "type": "string"
+        },
+        "predicted_pressure_basis": {
+          "enum": [
+            "internal_minus_external",
+            "gauge_internal",
+            "absolute_internal",
+            "unresolved"
+          ],
+          "title": "Predicted Pressure Basis",
+          "type": "string"
+        },
+        "observed_burst_pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Observed Burst Pressure Pa",
+          "type": "number"
+        },
+        "predicted_failure_pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Predicted Failure Pressure Pa",
+          "type": "number"
+        },
+        "observation_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Source Sha256",
+          "type": "string"
+        },
+        "prediction_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Prediction Input Digest",
+          "type": "string"
+        },
+        "observation_use_authorized": {
+          "title": "Observation Use Authorized",
+          "type": "boolean"
+        },
+        "experimental_endpoint_reviewed": {
+          "title": "Experimental Endpoint Reviewed",
+          "type": "boolean"
+        },
+        "geometry_and_material_reviewed": {
+          "title": "Geometry And Material Reviewed",
+          "type": "boolean"
+        },
+        "pressure_basis_reviewed": {
+          "title": "Pressure Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "observation_id",
+        "source_group_id",
+        "partition",
+        "material_condition_id",
+        "geometry_id",
+        "load_case_id",
+        "observed_pressure_basis",
+        "predicted_pressure_basis",
+        "observed_burst_pressure_Pa",
+        "predicted_failure_pressure_Pa",
+        "observation_source_sha256",
+        "prediction_input_digest",
+        "observation_use_authorized",
+        "experimental_endpoint_reviewed",
+        "geometry_and_material_reviewed",
+        "pressure_basis_reviewed"
+      ],
+      "title": "BurstPressureComparisonRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "comparison_id": {
+      "minLength": 1,
+      "title": "Comparison Id",
+      "type": "string"
+    },
+    "prediction_provider_id": {
+      "minLength": 1,
+      "title": "Prediction Provider Id",
+      "type": "string"
+    },
+    "prediction_provider_version": {
+      "minLength": 1,
+      "title": "Prediction Provider Version",
+      "type": "string"
+    },
+    "prediction_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prediction Configuration Digest",
+      "type": "string"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/BurstPressureComparisonRow"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Rows",
+      "type": "array"
+    },
+    "physical_specimen_independence_reviewed": {
+      "title": "Physical Specimen Independence Reviewed",
+      "type": "boolean"
+    },
+    "source_group_partitioning_reviewed": {
+      "title": "Source Group Partitioning Reviewed",
+      "type": "boolean"
+    },
+    "prediction_frozen_before_evaluation": {
+      "title": "Prediction Frozen Before Evaluation",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "comparison_id",
+    "prediction_provider_id",
+    "prediction_provider_version",
+    "prediction_configuration_digest",
+    "rows",
+    "physical_specimen_independence_reviewed",
+    "source_group_partitioning_reviewed",
+    "prediction_frozen_before_evaluation"
+  ],
+  "title": "BurstPressureComparison",
+  "type": "object"
+}

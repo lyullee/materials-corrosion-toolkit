@@ -1,0 +1,758 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HardnessCampaignCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "supported_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Component Ids",
+          "type": "array"
+        },
+        "supported_material_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Material Ids",
+          "type": "array"
+        },
+        "supported_material_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Material Condition Ids",
+          "type": "array"
+        },
+        "supported_heat_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Heat Ids",
+          "type": "array"
+        },
+        "required_method_id": {
+          "minLength": 1,
+          "title": "Required Method Id",
+          "type": "string"
+        },
+        "required_scale_id": {
+          "minLength": 1,
+          "title": "Required Scale Id",
+          "type": "string"
+        },
+        "required_hardness_unit_token": {
+          "minLength": 1,
+          "title": "Required Hardness Unit Token",
+          "type": "string"
+        },
+        "required_applied_load": {
+          "exclusiveMinimum": 0,
+          "title": "Required Applied Load",
+          "type": "number"
+        },
+        "required_applied_load_unit_token": {
+          "minLength": 1,
+          "title": "Required Applied Load Unit Token",
+          "type": "string"
+        },
+        "required_dwell_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Required Dwell Time S",
+          "type": "number"
+        },
+        "dwell_time_tolerance_s": {
+          "minimum": 0,
+          "title": "Dwell Time Tolerance S",
+          "type": "number"
+        },
+        "required_indenter_id": {
+          "minLength": 1,
+          "title": "Required Indenter Id",
+          "type": "string"
+        },
+        "required_instrument_id": {
+          "minLength": 1,
+          "title": "Required Instrument Id",
+          "type": "string"
+        },
+        "required_reference_block_id": {
+          "minLength": 1,
+          "title": "Required Reference Block Id",
+          "type": "string"
+        },
+        "supported_surface_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Surface Condition Ids",
+          "type": "array"
+        },
+        "geometry_unit_token": {
+          "minLength": 1,
+          "title": "Geometry Unit Token",
+          "type": "string"
+        },
+        "minimum_indent_spacing": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Indent Spacing",
+          "type": "number"
+        },
+        "minimum_edge_distance": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Edge Distance",
+          "type": "number"
+        },
+        "minimum_local_thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Local Thickness",
+          "type": "number"
+        },
+        "minimum_hardness": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Hardness"
+        },
+        "maximum_hardness": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Hardness"
+        },
+        "minimum_valid_reading_count": {
+          "minimum": 1,
+          "title": "Minimum Valid Reading Count",
+          "type": "integer"
+        },
+        "minimum_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Independence Group Count",
+          "type": "integer"
+        },
+        "caller_validity_policy_id": {
+          "minLength": 1,
+          "title": "Caller Validity Policy Id",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "built_in_standard_rules_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Standard Rules Used",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "supported_component_ids",
+        "supported_material_ids",
+        "supported_material_condition_ids",
+        "supported_heat_ids",
+        "required_method_id",
+        "required_scale_id",
+        "required_hardness_unit_token",
+        "required_applied_load",
+        "required_applied_load_unit_token",
+        "required_dwell_time_s",
+        "dwell_time_tolerance_s",
+        "required_indenter_id",
+        "required_instrument_id",
+        "required_reference_block_id",
+        "supported_surface_condition_ids",
+        "geometry_unit_token",
+        "minimum_indent_spacing",
+        "minimum_edge_distance",
+        "minimum_local_thickness",
+        "minimum_valid_reading_count",
+        "minimum_independence_group_count",
+        "caller_validity_policy_id",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "HardnessCampaignCallerProfile",
+      "type": "object"
+    },
+    "HardnessReading": {
+      "additionalProperties": false,
+      "properties": {
+        "reading_id": {
+          "minLength": 1,
+          "title": "Reading Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "hardness_value": {
+          "title": "Hardness Value",
+          "type": "number"
+        },
+        "expanded_hardness_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Hardness Uncertainty",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "surface_condition_id": {
+          "minLength": 1,
+          "title": "Surface Condition Id",
+          "type": "string"
+        },
+        "nearest_indent_spacing": {
+          "exclusiveMinimum": 0,
+          "title": "Nearest Indent Spacing",
+          "type": "number"
+        },
+        "edge_distance": {
+          "exclusiveMinimum": 0,
+          "title": "Edge Distance",
+          "type": "number"
+        },
+        "local_thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Local Thickness",
+          "type": "number"
+        },
+        "geometry_unit_token": {
+          "minLength": 1,
+          "title": "Geometry Unit Token",
+          "type": "string"
+        },
+        "expanded_geometry_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Geometry Uncertainty",
+          "type": "number"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "caller_validity_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ],
+          "title": "Caller Validity Status",
+          "type": "string"
+        },
+        "caller_validity_basis": {
+          "minLength": 1,
+          "title": "Caller Validity Basis",
+          "type": "string"
+        },
+        "reading_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Reading Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reading_id",
+        "specimen_id",
+        "sequence_index",
+        "hardness_value",
+        "expanded_hardness_uncertainty",
+        "hardness_unit_token",
+        "surface_condition_id",
+        "nearest_indent_spacing",
+        "edge_distance",
+        "local_thickness",
+        "geometry_unit_token",
+        "expanded_geometry_uncertainty",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "caller_validity_status",
+        "caller_validity_basis",
+        "reading_record_digest",
+        "evidence"
+      ],
+      "title": "HardnessReading",
+      "type": "object"
+    },
+    "HardnessReferenceBlockEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_block_id": {
+          "minLength": 1,
+          "title": "Reference Block Id",
+          "type": "string"
+        },
+        "reference_block_condition_id": {
+          "minLength": 1,
+          "title": "Reference Block Condition Id",
+          "type": "string"
+        },
+        "scale_id": {
+          "minLength": 1,
+          "title": "Scale Id",
+          "type": "string"
+        },
+        "certified_value": {
+          "title": "Certified Value",
+          "type": "number"
+        },
+        "certified_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Certified Expanded Uncertainty",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "certificate_id": {
+          "minLength": 1,
+          "title": "Certificate Id",
+          "type": "string"
+        },
+        "certificate_revision": {
+          "minLength": 1,
+          "title": "Certificate Revision",
+          "type": "string"
+        },
+        "certificate_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Certificate Digest",
+          "type": "string"
+        },
+        "verification_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "missing"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "verification_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Verification Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reference_block_id",
+        "reference_block_condition_id",
+        "scale_id",
+        "certified_value",
+        "certified_expanded_uncertainty",
+        "hardness_unit_token",
+        "certificate_id",
+        "certificate_revision",
+        "certificate_digest",
+        "verification_status",
+        "verification_record_digest",
+        "evidence"
+      ],
+      "title": "HardnessReferenceBlockEvidence",
+      "type": "object"
+    },
+    "HardnessTestConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "scale_id": {
+          "minLength": 1,
+          "title": "Scale Id",
+          "type": "string"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "applied_load": {
+          "exclusiveMinimum": 0,
+          "title": "Applied Load",
+          "type": "number"
+        },
+        "applied_load_unit_token": {
+          "minLength": 1,
+          "title": "Applied Load Unit Token",
+          "type": "string"
+        },
+        "dwell_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Dwell Time S",
+          "type": "number"
+        },
+        "indenter_id": {
+          "minLength": 1,
+          "title": "Indenter Id",
+          "type": "string"
+        },
+        "indenter_definition": {
+          "minLength": 1,
+          "title": "Indenter Definition",
+          "type": "string"
+        },
+        "instrument_id": {
+          "minLength": 1,
+          "title": "Instrument Id",
+          "type": "string"
+        },
+        "instrument_revision": {
+          "minLength": 1,
+          "title": "Instrument Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "method_id",
+        "scale_id",
+        "hardness_unit_token",
+        "applied_load",
+        "applied_load_unit_token",
+        "dwell_time_s",
+        "indenter_id",
+        "indenter_definition",
+        "instrument_id",
+        "instrument_revision",
+        "configuration_digest",
+        "evidence"
+      ],
+      "title": "HardnessTestConfiguration",
+      "type": "object"
+    },
+    "HardnessTestSubject": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "subject_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Subject Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "specimen_id",
+        "component_id",
+        "location_id",
+        "material_id",
+        "material_condition_id",
+        "heat_id",
+        "subject_record_digest",
+        "evidence"
+      ],
+      "title": "HardnessTestSubject",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "subjects": {
+      "items": {
+        "$ref": "#/$defs/HardnessTestSubject"
+      },
+      "minItems": 1,
+      "title": "Subjects",
+      "type": "array"
+    },
+    "configuration": {
+      "$ref": "#/$defs/HardnessTestConfiguration"
+    },
+    "reference_block": {
+      "$ref": "#/$defs/HardnessReferenceBlockEvidence"
+    },
+    "readings": {
+      "items": {
+        "$ref": "#/$defs/HardnessReading"
+      },
+      "minItems": 1,
+      "title": "Readings",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/HardnessCampaignCallerProfile"
+    },
+    "subject_component_location_material_and_heat_reviewed": {
+      "title": "Subject Component Location Material And Heat Reviewed",
+      "type": "boolean"
+    },
+    "method_scale_load_dwell_indenter_and_instrument_reviewed": {
+      "title": "Method Scale Load Dwell Indenter And Instrument Reviewed",
+      "type": "boolean"
+    },
+    "calibration_and_reference_block_reviewed": {
+      "title": "Calibration And Reference Block Reviewed",
+      "type": "boolean"
+    },
+    "surface_spacing_thickness_and_uncertainty_reviewed": {
+      "title": "Surface Spacing Thickness And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_groups_reviewed": {
+      "title": "Replicate Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "caller_validity_flags_and_profile_reviewed": {
+      "title": "Caller Validity Flags And Profile Reviewed",
+      "type": "boolean"
+    },
+    "provenance_and_record_digests_reviewed": {
+      "title": "Provenance And Record Digests Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "campaign_id",
+    "subjects",
+    "configuration",
+    "reference_block",
+    "readings",
+    "caller_profile",
+    "subject_component_location_material_and_heat_reviewed",
+    "method_scale_load_dwell_indenter_and_instrument_reviewed",
+    "calibration_and_reference_block_reviewed",
+    "surface_spacing_thickness_and_uncertainty_reviewed",
+    "replicate_source_and_independence_groups_reviewed",
+    "caller_validity_flags_and_profile_reviewed",
+    "provenance_and_record_digests_reviewed",
+    "evidence"
+  ],
+  "title": "HardnessTestingCampaign",
+  "type": "object"
+}

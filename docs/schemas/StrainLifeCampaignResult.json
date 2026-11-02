@@ -1,0 +1,119 @@
+{
+  "$defs": {
+    "StrainLifeBlockResult": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "title": "Block Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "needs_data",
+            "out_of_scope"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "cycle_count": {
+          "minimum": 0,
+          "title": "Cycle Count",
+          "type": "number"
+        },
+        "cycles_to_failure": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cycles To Failure"
+        },
+        "linear_damage_fraction": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Linear Damage Fraction"
+        }
+      },
+      "required": [
+        "block_id",
+        "status",
+        "cycle_count",
+        "cycles_to_failure",
+        "linear_damage_fraction"
+      ],
+      "title": "StrainLifeBlockResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.strain_life_campaign.v1",
+      "default": "matintegrity.strain_life_campaign.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "campaign_id": {
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "input_sha256": {
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "block_results": {
+      "items": {
+        "$ref": "#/$defs/StrainLifeBlockResult"
+      },
+      "title": "Block Results",
+      "type": "array"
+    },
+    "total_linear_damage": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Total Linear Damage"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "input_sha256",
+    "status",
+    "block_results",
+    "total_linear_damage",
+    "notes"
+  ],
+  "title": "StrainLifeCampaignResult",
+  "type": "object"
+}

@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WaveArrayElement": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "element_kind": {
+          "enum": [
+            "sensor",
+            "transducer"
+          ],
+          "title": "Element Kind",
+          "type": "string"
+        },
+        "physical_position_definition": {
+          "minLength": 1,
+          "title": "Physical Position Definition",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "element_id",
+        "channel_id",
+        "element_kind",
+        "physical_position_definition",
+        "calibration_id",
+        "calibration_digest",
+        "evidence"
+      ],
+      "title": "WaveArrayElement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "configuration_id": {
+      "minLength": 1,
+      "title": "Configuration Id",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "acoustic_emission",
+        "guided_waves"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "array_id": {
+      "minLength": 1,
+      "title": "Array Id",
+      "type": "string"
+    },
+    "elements": {
+      "items": {
+        "$ref": "#/$defs/WaveArrayElement"
+      },
+      "minItems": 1,
+      "title": "Elements",
+      "type": "array"
+    },
+    "coupling_method": {
+      "minLength": 1,
+      "title": "Coupling Method",
+      "type": "string"
+    },
+    "coupling_state_id": {
+      "minLength": 1,
+      "title": "Coupling State Id",
+      "type": "string"
+    },
+    "coupling_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Coupling Record Digest",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "sampling_rate_hz": {
+      "exclusiveMinimum": 0,
+      "title": "Sampling Rate Hz",
+      "type": "number"
+    },
+    "acquisition_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Acquisition Configuration Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "configuration_id",
+    "family",
+    "array_id",
+    "elements",
+    "coupling_method",
+    "coupling_state_id",
+    "coupling_record_digest",
+    "clock_id",
+    "sampling_rate_hz",
+    "acquisition_configuration_digest",
+    "evidence"
+  ],
+  "title": "WaveAcquisitionConfiguration",
+  "type": "object"
+}

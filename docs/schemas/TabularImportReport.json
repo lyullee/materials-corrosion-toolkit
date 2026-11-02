@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "TabularRowFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "row_number": {
+          "minimum": 1,
+          "title": "Row Number",
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "imported",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "issue_paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Issue Paths",
+          "type": "array"
+        }
+      },
+      "required": [
+        "row_number",
+        "status"
+      ],
+      "title": "TabularRowFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.tabular_import_report.v1",
+      "default": "matintegrity.tabular_import_report.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "target_contract": {
+      "title": "Target Contract",
+      "type": "string"
+    },
+    "source_format": {
+      "enum": [
+        "csv",
+        "jsonl"
+      ],
+      "title": "Source Format",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "profile_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Digest",
+      "type": "string"
+    },
+    "target_schema_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Target Schema Digest",
+      "type": "string"
+    },
+    "total_rows": {
+      "minimum": 0,
+      "title": "Total Rows",
+      "type": "integer"
+    },
+    "imported_rows": {
+      "minimum": 0,
+      "title": "Imported Rows",
+      "type": "integer"
+    },
+    "rejected_rows": {
+      "minimum": 0,
+      "title": "Rejected Rows",
+      "type": "integer"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/TabularRowFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "imported_records_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Imported Records Digest",
+      "type": "string"
+    },
+    "unit_conversion_performed": {
+      "const": false,
+      "default": false,
+      "title": "Unit Conversion Performed",
+      "type": "boolean"
+    },
+    "code_evaluation_performed": {
+      "const": false,
+      "default": false,
+      "title": "Code Evaluation Performed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile_id",
+    "target_contract",
+    "source_format",
+    "source_sha256",
+    "profile_digest",
+    "target_schema_digest",
+    "total_rows",
+    "imported_rows",
+    "rejected_rows",
+    "findings",
+    "imported_records_digest"
+  ],
+  "title": "TabularImportReport",
+  "type": "object"
+}

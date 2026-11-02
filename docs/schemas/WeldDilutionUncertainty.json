@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "ProvenanceWeldConstituent": {
+      "additionalProperties": false,
+      "properties": {
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "base",
+            "filler",
+            "previous_layer"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "melted_mass_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Melted Mass Kg",
+          "type": "number"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "composition_mass_fraction": {
+          "patternProperties": {
+            "^[A-Z][a-z]?$": {
+              "anyOf": [
+                {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "title": "Composition Mass Fraction",
+          "type": "object"
+        }
+      },
+      "required": [
+        "material_id",
+        "role",
+        "melted_mass_kg",
+        "source_id",
+        "record_sha256",
+        "composition_mass_fraction"
+      ],
+      "title": "ProvenanceWeldConstituent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "constituents": {
+      "items": {
+        "$ref": "#/$defs/ProvenanceWeldConstituent"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Constituents",
+      "type": "array"
+    },
+    "requested_elements": {
+      "items": {
+        "pattern": "^[A-Z][a-z]?$",
+        "type": "string"
+      },
+      "maxItems": 50,
+      "minItems": 1,
+      "title": "Requested Elements",
+      "type": "array"
+    },
+    "joint_composition_covariance": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Joint Composition Covariance"
+    },
+    "covariance_variable_order": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Covariance Variable Order",
+      "type": "array"
+    },
+    "covariance_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Covariance Basis"
+    },
+    "uncertainty_coverage_factor": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Uncertainty Coverage Factor"
+    },
+    "melted_mass_and_roles_reviewed": {
+      "title": "Melted Mass And Roles Reviewed",
+      "type": "boolean"
+    },
+    "composition_records_and_mass_basis_reviewed": {
+      "title": "Composition Records And Mass Basis Reviewed",
+      "type": "boolean"
+    },
+    "covariance_basis_and_variable_order_reviewed": {
+      "title": "Covariance Basis And Variable Order Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "constituents",
+    "requested_elements",
+    "melted_mass_and_roles_reviewed",
+    "composition_records_and_mass_basis_reviewed",
+    "covariance_basis_and_variable_order_reviewed"
+  ],
+  "title": "WeldDilutionUncertainty",
+  "type": "object"
+}

@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "CompositionComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Fraction",
+          "type": "number"
+        },
+        "fraction_basis": {
+          "enum": [
+            "mole_fraction",
+            "mass_fraction"
+          ],
+          "title": "Fraction Basis",
+          "type": "string"
+        },
+        "unit_token": {
+          "const": "1",
+          "default": "1",
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "fraction",
+        "fraction_basis",
+        "source_id"
+      ],
+      "title": "CompositionComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "pressure_pa": {
+      "minimum": 0,
+      "title": "Pressure Pa",
+      "type": "number"
+    },
+    "pressure_unit_token": {
+      "const": "Pa",
+      "default": "Pa",
+      "title": "Pressure Unit Token",
+      "type": "string"
+    },
+    "pressure_basis": {
+      "enum": [
+        "absolute",
+        "gauge"
+      ],
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "temperature_unit_token": {
+      "const": "K",
+      "default": "K",
+      "title": "Temperature Unit Token",
+      "type": "string"
+    },
+    "temperature_basis": {
+      "minLength": 1,
+      "title": "Temperature Basis",
+      "type": "string"
+    },
+    "composition": {
+      "items": {
+        "$ref": "#/$defs/CompositionComponent"
+      },
+      "minItems": 1,
+      "title": "Composition",
+      "type": "array"
+    },
+    "composition_basis_description": {
+      "minLength": 1,
+      "title": "Composition Basis Description",
+      "type": "string"
+    },
+    "state_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Source Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "pressure_pa",
+    "pressure_basis",
+    "temperature_k",
+    "temperature_basis",
+    "composition",
+    "composition_basis_description",
+    "state_source_digest"
+  ],
+  "title": "ProcessStateBasis",
+  "type": "object"
+}

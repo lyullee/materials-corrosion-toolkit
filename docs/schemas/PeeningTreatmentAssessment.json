@@ -1,0 +1,683 @@
+{
+  "$defs": {
+    "DeclaredPeeningQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "supported_method_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Method Ids",
+          "type": "array"
+        },
+        "supported_media_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Media Condition Ids",
+          "type": "array"
+        },
+        "supported_direction_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Direction Descriptors",
+          "type": "array"
+        },
+        "intensity_metric_definition": {
+          "minLength": 1,
+          "title": "Intensity Metric Definition",
+          "type": "string"
+        },
+        "intensity_unit_token": {
+          "minLength": 1,
+          "title": "Intensity Unit Token",
+          "type": "string"
+        },
+        "minimum_intensity_value": {
+          "minimum": 0,
+          "title": "Minimum Intensity Value",
+          "type": "number"
+        },
+        "maximum_intensity_value": {
+          "minimum": 0,
+          "title": "Maximum Intensity Value",
+          "type": "number"
+        },
+        "coverage_metric_definition": {
+          "minLength": 1,
+          "title": "Coverage Metric Definition",
+          "type": "string"
+        },
+        "coverage_unit_token": {
+          "minLength": 1,
+          "title": "Coverage Unit Token",
+          "type": "string"
+        },
+        "minimum_coverage_value": {
+          "minimum": 0,
+          "title": "Minimum Coverage Value",
+          "type": "number"
+        },
+        "maximum_coverage_value": {
+          "minimum": 0,
+          "title": "Maximum Coverage Value",
+          "type": "number"
+        },
+        "stress_requirements": {
+          "items": {
+            "$ref": "#/$defs/PeeningStressRequirement"
+          },
+          "minItems": 1,
+          "title": "Stress Requirements",
+          "type": "array"
+        },
+        "minimum_physical_specimen_count": {
+          "minimum": 1,
+          "title": "Minimum Physical Specimen Count",
+          "type": "integer"
+        },
+        "minimum_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Source Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "supported_method_ids",
+        "supported_media_condition_ids",
+        "supported_direction_descriptors",
+        "intensity_metric_definition",
+        "intensity_unit_token",
+        "minimum_intensity_value",
+        "maximum_intensity_value",
+        "coverage_metric_definition",
+        "coverage_unit_token",
+        "minimum_coverage_value",
+        "maximum_coverage_value",
+        "stress_requirements",
+        "minimum_physical_specimen_count",
+        "minimum_source_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "DeclaredPeeningQualificationEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PeeningResidualStressObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "minLength": 1,
+          "title": "Partition",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "stress_component_id": {
+          "minLength": 1,
+          "title": "Stress Component Id",
+          "type": "string"
+        },
+        "depth_m": {
+          "minimum": 0,
+          "title": "Depth M",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "reported_value": {
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "zone_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "coordinate_frame_id",
+        "stress_component_id",
+        "depth_m",
+        "method_id",
+        "reported_value",
+        "unit_token",
+        "expanded_uncertainty",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PeeningResidualStressObservation",
+      "type": "object"
+    },
+    "PeeningStressRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "stress_component_id": {
+          "minLength": 1,
+          "title": "Stress Component Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_depth_m": {
+          "minimum": 0,
+          "title": "Minimum Depth M",
+          "type": "number"
+        },
+        "maximum_depth_m": {
+          "minimum": 0,
+          "title": "Maximum Depth M",
+          "type": "number"
+        },
+        "minimum_value": {
+          "title": "Minimum Value",
+          "type": "number"
+        },
+        "maximum_value": {
+          "title": "Maximum Value",
+          "type": "number"
+        },
+        "minimum_record_count": {
+          "minimum": 1,
+          "title": "Minimum Record Count",
+          "type": "integer"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "stress_component_id",
+        "method_id",
+        "unit_token",
+        "minimum_depth_m",
+        "maximum_depth_m",
+        "minimum_value",
+        "maximum_value",
+        "minimum_record_count",
+        "requirement_basis"
+      ],
+      "title": "PeeningStressRequirement",
+      "type": "object"
+    },
+    "PeeningTreatmentRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "treatment_record_id": {
+          "minLength": 1,
+          "title": "Treatment Record Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "media_condition_id": {
+          "minLength": 1,
+          "title": "Media Condition Id",
+          "type": "string"
+        },
+        "media_lot_id": {
+          "minLength": 1,
+          "title": "Media Lot Id",
+          "type": "string"
+        },
+        "equipment_id": {
+          "minLength": 1,
+          "title": "Equipment Id",
+          "type": "string"
+        },
+        "direction_descriptor": {
+          "minLength": 1,
+          "title": "Direction Descriptor",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "intensity_metric_definition": {
+          "minLength": 1,
+          "title": "Intensity Metric Definition",
+          "type": "string"
+        },
+        "intensity_value": {
+          "minimum": 0,
+          "title": "Intensity Value",
+          "type": "number"
+        },
+        "intensity_unit_token": {
+          "minLength": 1,
+          "title": "Intensity Unit Token",
+          "type": "string"
+        },
+        "intensity_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Intensity Expanded Uncertainty",
+          "type": "number"
+        },
+        "coverage_metric_definition": {
+          "minLength": 1,
+          "title": "Coverage Metric Definition",
+          "type": "string"
+        },
+        "coverage_value": {
+          "minimum": 0,
+          "title": "Coverage Value",
+          "type": "number"
+        },
+        "coverage_unit_token": {
+          "minLength": 1,
+          "title": "Coverage Unit Token",
+          "type": "string"
+        },
+        "coverage_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Coverage Expanded Uncertainty",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "treatment_record_id",
+        "zone_id",
+        "method_id",
+        "media_condition_id",
+        "media_lot_id",
+        "equipment_id",
+        "direction_descriptor",
+        "start_time_s",
+        "end_time_s",
+        "intensity_metric_definition",
+        "intensity_value",
+        "intensity_unit_token",
+        "intensity_expanded_uncertainty",
+        "coverage_metric_definition",
+        "coverage_value",
+        "coverage_unit_token",
+        "coverage_expanded_uncertainty",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PeeningTreatmentRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "treatment_records": {
+      "items": {
+        "$ref": "#/$defs/PeeningTreatmentRecord"
+      },
+      "minItems": 1,
+      "title": "Treatment Records",
+      "type": "array"
+    },
+    "residual_stress_observations": {
+      "items": {
+        "$ref": "#/$defs/PeeningResidualStressObservation"
+      },
+      "minItems": 1,
+      "title": "Residual Stress Observations",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/DeclaredPeeningQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "component_material_and_zone_identity_reviewed": {
+      "title": "Component Material And Zone Identity Reviewed",
+      "type": "boolean"
+    },
+    "treatment_clock_and_sequence_reviewed": {
+      "title": "Treatment Clock And Sequence Reviewed",
+      "type": "boolean"
+    },
+    "method_media_equipment_and_direction_reviewed": {
+      "title": "Method Media Equipment And Direction Reviewed",
+      "type": "boolean"
+    },
+    "intensity_coverage_units_and_uncertainty_reviewed": {
+      "title": "Intensity Coverage Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "stress_coordinate_method_units_and_uncertainty_reviewed": {
+      "title": "Stress Coordinate Method Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_group_and_partition_reviewed": {
+      "title": "Specimen Source Group And Partition Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "component_id",
+    "material_condition_id",
+    "clock_id",
+    "treatment_records",
+    "residual_stress_observations",
+    "candidate_envelopes",
+    "component_material_and_zone_identity_reviewed",
+    "treatment_clock_and_sequence_reviewed",
+    "method_media_equipment_and_direction_reviewed",
+    "intensity_coverage_units_and_uncertainty_reviewed",
+    "stress_coordinate_method_units_and_uncertainty_reviewed",
+    "specimen_source_group_and_partition_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "PeeningTreatmentAssessment",
+  "type": "object"
+}

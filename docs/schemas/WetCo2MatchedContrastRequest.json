@@ -1,0 +1,239 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2SimulationGridRow": {
+      "additionalProperties": false,
+      "description": "One attributed SI row from the licensed model-generated NORSOK dataset.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_simulation_grid_row.v1",
+          "default": "matintegrity.wet_co2_simulation_grid_row.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dataset_id": {
+          "const": "norsok-m506-simulation-grid",
+          "default": "norsok-m506-simulation-grid",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.17632/4nydhxjymw.1",
+          "default": "10.17632/4nydhxjymw.1",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "provider_row": {
+          "minimum": 2,
+          "title": "Provider Row",
+          "type": "integer"
+        },
+        "source_archive_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Archive Sha256",
+          "type": "string"
+        },
+        "source_data_type": {
+          "const": "simulated_model_output",
+          "default": "simulated_model_output",
+          "title": "Source Data Type",
+          "type": "string"
+        },
+        "source_group_id": {
+          "const": "doi:10.17632/4nydhxjymw.1",
+          "default": "doi:10.17632/4nydhxjymw.1",
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "flow_velocity_m_s": {
+          "minimum": 0,
+          "title": "Flow Velocity M S",
+          "type": "number"
+        },
+        "co2_pressure_Pa": {
+          "minimum": 0,
+          "title": "Co2 Pressure Pa",
+          "type": "number"
+        },
+        "internal_pressure_Pa": {
+          "minimum": 0,
+          "title": "Internal Pressure Pa",
+          "type": "number"
+        },
+        "corrosion_inhibitor_efficiency_fraction": {
+          "minimum": 0,
+          "title": "Corrosion Inhibitor Efficiency Fraction",
+          "type": "number"
+        },
+        "shear_stress_Pa": {
+          "minimum": 0,
+          "title": "Shear Stress Pa",
+          "type": "number"
+        },
+        "ph": {
+          "title": "Ph",
+          "type": "number"
+        },
+        "corrosion_rate_m_s": {
+          "minimum": 0,
+          "title": "Corrosion Rate M S",
+          "type": "number"
+        },
+        "physical_specimen_id": {
+          "default": null,
+          "title": "Physical Specimen Id",
+          "type": "null"
+        },
+        "independent_physical_observation": {
+          "const": false,
+          "default": false,
+          "title": "Independent Physical Observation",
+          "type": "boolean"
+        },
+        "empirical_calibration_ready": {
+          "const": false,
+          "default": false,
+          "title": "Empirical Calibration Ready",
+          "type": "boolean"
+        },
+        "physical_corrosion_calibration_ready": {
+          "const": false,
+          "default": false,
+          "title": "Physical Corrosion Calibration Ready",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "provider_row",
+        "source_archive_sha256",
+        "temperature_K",
+        "flow_velocity_m_s",
+        "co2_pressure_Pa",
+        "internal_pressure_Pa",
+        "corrosion_inhibitor_efficiency_fraction",
+        "shear_stress_Pa",
+        "ph",
+        "corrosion_rate_m_s",
+        "evidence"
+      ],
+      "title": "WetCo2SimulationGridRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compare exactly two provider simulation rows differing in one factor.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_matched_contrast.v1",
+      "default": "matintegrity.wet_co2_matched_contrast.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "lower_factor_row": {
+      "$ref": "#/$defs/WetCo2SimulationGridRow"
+    },
+    "upper_factor_row": {
+      "$ref": "#/$defs/WetCo2SimulationGridRow"
+    },
+    "varied_factor": {
+      "enum": [
+        "temperature_K",
+        "flow_velocity_m_s",
+        "co2_pressure_Pa",
+        "internal_pressure_Pa",
+        "corrosion_inhibitor_efficiency_fraction",
+        "shear_stress_Pa",
+        "ph"
+      ],
+      "title": "Varied Factor",
+      "type": "string"
+    },
+    "provider_pairing_and_ceteris_paribus_reviewed": {
+      "title": "Provider Pairing And Ceteris Paribus Reviewed",
+      "type": "boolean"
+    },
+    "simulation_output_scope_reviewed": {
+      "title": "Simulation Output Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "lower_factor_row",
+    "upper_factor_row",
+    "varied_factor",
+    "provider_pairing_and_ceteris_paribus_reviewed",
+    "simulation_output_scope_reviewed"
+  ],
+  "title": "WetCo2MatchedContrastRequest",
+  "type": "object"
+}

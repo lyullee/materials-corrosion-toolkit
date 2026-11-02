@@ -1,0 +1,340 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PhaseFractionContrastObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "measured_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Measured Fraction",
+          "type": "number"
+        },
+        "expanded_uncertainty_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Expanded Uncertainty Fraction",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "sample_id",
+        "region_id",
+        "phase_id",
+        "measured_fraction",
+        "expanded_uncertainty_fraction",
+        "method_id",
+        "evidence"
+      ],
+      "title": "PhaseFractionContrastObservation",
+      "type": "object"
+    },
+    "PhaseFractionContrastRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "contrast_id": {
+          "minLength": 1,
+          "title": "Contrast Id",
+          "type": "string"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/PhaseFractionLinearTerm"
+          },
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        },
+        "minimum_value_fraction": {
+          "title": "Minimum Value Fraction",
+          "type": "number"
+        },
+        "maximum_value_fraction": {
+          "title": "Maximum Value Fraction",
+          "type": "number"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "contrast_id",
+        "terms",
+        "minimum_value_fraction",
+        "maximum_value_fraction",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "PhaseFractionContrastRequirement",
+      "type": "object"
+    },
+    "PhaseFractionCovariance": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Observation Ids",
+          "type": "array"
+        },
+        "expanded_covariance_matrix_fraction2": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Expanded Covariance Matrix Fraction2",
+          "type": "array"
+        },
+        "expansion_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Expansion Factor",
+          "type": "number"
+        },
+        "covariance_basis": {
+          "minLength": 1,
+          "title": "Covariance Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_ids",
+        "expanded_covariance_matrix_fraction2",
+        "expansion_factor",
+        "covariance_basis",
+        "evidence"
+      ],
+      "title": "PhaseFractionCovariance",
+      "type": "object"
+    },
+    "PhaseFractionLinearTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase_id",
+        "coefficient"
+      ],
+      "title": "PhaseFractionLinearTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "processing_history_id": {
+      "minLength": 1,
+      "title": "Processing History Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/PhaseFractionContrastObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/PhaseFractionContrastRequirement"
+      },
+      "minItems": 1,
+      "title": "Requirements",
+      "type": "array"
+    },
+    "covariance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PhaseFractionCovariance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "sample_region_mapping_reviewed": {
+      "title": "Sample Region Mapping Reviewed",
+      "type": "boolean"
+    },
+    "material_processing_identity_reviewed": {
+      "title": "Material Processing Identity Reviewed",
+      "type": "boolean"
+    },
+    "method_applicability_reviewed": {
+      "title": "Method Applicability Reviewed",
+      "type": "boolean"
+    },
+    "covariance_basis_reviewed": {
+      "title": "Covariance Basis Reviewed",
+      "type": "boolean"
+    },
+    "phase_identity_reviewed": {
+      "title": "Phase Identity Reviewed",
+      "type": "boolean"
+    },
+    "requirement_authority_reviewed": {
+      "title": "Requirement Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "material_condition_id",
+    "processing_history_id",
+    "observations",
+    "requirements",
+    "sample_region_mapping_reviewed",
+    "material_processing_identity_reviewed",
+    "method_applicability_reviewed",
+    "covariance_basis_reviewed",
+    "phase_identity_reviewed",
+    "requirement_authority_reviewed"
+  ],
+  "title": "PhaseFractionContrastAssessment",
+  "type": "object"
+}

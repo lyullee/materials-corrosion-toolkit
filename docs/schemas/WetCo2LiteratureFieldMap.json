@@ -1,0 +1,77 @@
+{
+  "additionalProperties": false,
+  "description": "Reviewed numeric transformation from literature fields to one compilation field.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_literature_field_map.v1",
+      "default": "matintegrity.wet_co2_literature_field_map.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "compilation_field": {
+      "enum": [
+        "raw_temperature",
+        "raw_flow_velocity",
+        "raw_co2_pressure",
+        "raw_internal_pressure",
+        "raw_corrosion_inhibitor_efficiency",
+        "raw_shear_stress",
+        "raw_ph",
+        "raw_corrosion_rate"
+      ],
+      "title": "Compilation Field",
+      "type": "string"
+    },
+    "source_fields": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Source Fields",
+      "type": "array"
+    },
+    "operation": {
+      "enum": [
+        "single_value_affine",
+        "arithmetic_mean_affine"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "scale": {
+      "default": 1.0,
+      "title": "Scale",
+      "type": "number"
+    },
+    "offset": {
+      "default": 0.0,
+      "title": "Offset",
+      "type": "number"
+    },
+    "absolute_tolerance": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "reviewed_transform_basis_id": {
+      "minLength": 1,
+      "title": "Reviewed Transform Basis Id",
+      "type": "string"
+    },
+    "unit_transform_reviewed": {
+      "const": true,
+      "default": true,
+      "title": "Unit Transform Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "compilation_field",
+    "source_fields",
+    "operation",
+    "reviewed_transform_basis_id"
+  ],
+  "title": "WetCo2LiteratureFieldMap",
+  "type": "object"
+}

@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "ReactiveTransportTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_coefficient": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Stoichiometric Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_coefficient"
+      ],
+      "title": "ReactiveTransportTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "reactants": {
+      "items": {
+        "$ref": "#/$defs/ReactiveTransportTerm"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Reactants",
+      "type": "array"
+    },
+    "products": {
+      "items": {
+        "$ref": "#/$defs/ReactiveTransportTerm"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Products",
+      "type": "array"
+    },
+    "forward_rate_constant_by_interval": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Forward Rate Constant By Interval",
+      "type": "array"
+    },
+    "forward_rate_constant_units": {
+      "minLength": 1,
+      "title": "Forward Rate Constant Units",
+      "type": "string"
+    },
+    "reverse_rate_constant_by_interval": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Reverse Rate Constant By Interval",
+      "type": "array"
+    },
+    "reverse_rate_constant_units": {
+      "minLength": 1,
+      "title": "Reverse Rate Constant Units",
+      "type": "string"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "reactants",
+    "products",
+    "forward_rate_constant_by_interval",
+    "forward_rate_constant_units",
+    "reverse_rate_constant_by_interval",
+    "reverse_rate_constant_units"
+  ],
+  "title": "ReactiveTransportReaction",
+  "type": "object"
+}

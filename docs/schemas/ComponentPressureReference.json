@@ -1,0 +1,219 @@
+{
+  "$defs": {
+    "ComponentPressureLimit": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "pressure_limit_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Pressure Limit Pa",
+          "type": "number"
+        },
+        "elevation_m": {
+          "title": "Elevation M",
+          "type": "number"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "capacity_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Capacity Input Digest",
+          "type": "string"
+        },
+        "capacity_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Capacity Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component_id",
+        "pressure_limit_Pa",
+        "elevation_m",
+        "condition_id",
+        "temperature_K",
+        "capacity_input_digest",
+        "capacity_result_digest",
+        "evidence"
+      ],
+      "title": "ComponentPressureLimit",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "pressure_basis": {
+      "enum": [
+        "absolute",
+        "gauge_common_reference"
+      ],
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "common_pressure_reference_id": {
+      "minLength": 1,
+      "title": "Common Pressure Reference Id",
+      "type": "string"
+    },
+    "reference_elevation_m": {
+      "title": "Reference Elevation M",
+      "type": "number"
+    },
+    "uniform_density_kg_m3": {
+      "minimum": 0,
+      "title": "Uniform Density Kg M3",
+      "type": "number"
+    },
+    "gravity_m_s2": {
+      "minimum": 0,
+      "title": "Gravity M S2",
+      "type": "number"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/ComponentPressureLimit"
+      },
+      "minItems": 1,
+      "title": "Components",
+      "type": "array"
+    },
+    "static_connected_uniform_fluid_reviewed": {
+      "title": "Static Connected Uniform Fluid Reviewed",
+      "type": "boolean"
+    },
+    "component_scope_complete_reviewed": {
+      "title": "Component Scope Complete Reviewed",
+      "type": "boolean"
+    },
+    "common_pressure_and_elevation_reference_reviewed": {
+      "title": "Common Pressure And Elevation Reference Reviewed",
+      "type": "boolean"
+    },
+    "component_capacity_and_condition_reviewed": {
+      "title": "Component Capacity And Condition Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "coordinate_frame_id",
+    "pressure_basis",
+    "common_pressure_reference_id",
+    "reference_elevation_m",
+    "uniform_density_kg_m3",
+    "gravity_m_s2",
+    "components",
+    "static_connected_uniform_fluid_reviewed",
+    "component_scope_complete_reviewed",
+    "common_pressure_and_elevation_reference_reviewed",
+    "component_capacity_and_condition_reviewed"
+  ],
+  "title": "ComponentPressureReference",
+  "type": "object"
+}

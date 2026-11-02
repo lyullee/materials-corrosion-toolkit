@@ -1,0 +1,799 @@
+{
+  "$defs": {
+    "BaffleGeometryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "baffle_id": {
+          "minLength": 1,
+          "title": "Baffle Id",
+          "type": "string"
+        },
+        "axial_coordinate_m": {
+          "title": "Axial Coordinate M",
+          "type": "number"
+        },
+        "baffle_type_descriptor": {
+          "minLength": 1,
+          "title": "Baffle Type Descriptor",
+          "type": "string"
+        },
+        "outer_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Outer Diameter M",
+          "type": "number"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "cut_or_open_fraction": {
+          "minimum": 0,
+          "title": "Cut Or Open Fraction",
+          "type": "number"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "baffle_id",
+        "axial_coordinate_m",
+        "baffle_type_descriptor",
+        "outer_diameter_m",
+        "thickness_m",
+        "cut_or_open_fraction",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "BaffleGeometryRecord",
+      "type": "object"
+    },
+    "DeclaredHeatExchangerGeometryEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "shell_geometry_id": {
+          "minLength": 1,
+          "title": "Shell Geometry Id",
+          "type": "string"
+        },
+        "shell_material_condition_id": {
+          "minLength": 1,
+          "title": "Shell Material Condition Id",
+          "type": "string"
+        },
+        "supported_layout_pattern_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Layout Pattern Descriptors",
+          "type": "array"
+        },
+        "supported_baffle_type_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Baffle Type Descriptors",
+          "type": "array"
+        },
+        "minimum_shell_inside_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Shell Inside Diameter M",
+          "type": "number"
+        },
+        "maximum_shell_inside_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Shell Inside Diameter M",
+          "type": "number"
+        },
+        "minimum_shell_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Shell Length M",
+          "type": "number"
+        },
+        "maximum_shell_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Shell Length M",
+          "type": "number"
+        },
+        "minimum_tube_count": {
+          "minimum": 1,
+          "title": "Minimum Tube Count",
+          "type": "integer"
+        },
+        "maximum_tube_count": {
+          "minimum": 1,
+          "title": "Maximum Tube Count",
+          "type": "integer"
+        },
+        "minimum_baffle_count": {
+          "minimum": 0,
+          "title": "Minimum Baffle Count",
+          "type": "integer"
+        },
+        "maximum_baffle_count": {
+          "minimum": 0,
+          "title": "Maximum Baffle Count",
+          "type": "integer"
+        },
+        "metric_support": {
+          "items": {
+            "$ref": "#/$defs/GeometryMetricSupport"
+          },
+          "minItems": 1,
+          "title": "Metric Support",
+          "type": "array"
+        },
+        "minimum_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Source Group Count",
+          "type": "integer"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "shell_geometry_id",
+        "shell_material_condition_id",
+        "supported_layout_pattern_descriptors",
+        "supported_baffle_type_descriptors",
+        "minimum_shell_inside_diameter_m",
+        "maximum_shell_inside_diameter_m",
+        "minimum_shell_length_m",
+        "maximum_shell_length_m",
+        "minimum_tube_count",
+        "maximum_tube_count",
+        "minimum_baffle_count",
+        "maximum_baffle_count",
+        "metric_support",
+        "minimum_source_group_count",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "DeclaredHeatExchangerGeometryEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GeometryMetricSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "maximum_absolute_difference": {
+          "minimum": 0,
+          "title": "Maximum Absolute Difference",
+          "type": "number"
+        },
+        "minimum_record_count": {
+          "minimum": 1,
+          "title": "Minimum Record Count",
+          "type": "integer"
+        },
+        "support_basis": {
+          "minLength": 1,
+          "title": "Support Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric_id",
+        "unit_token",
+        "maximum_absolute_difference",
+        "minimum_record_count",
+        "support_basis"
+      ],
+      "title": "GeometryMetricSupport",
+      "type": "object"
+    },
+    "GeometryProviderEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "minLength": 1,
+          "title": "Partition",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "observed_value": {
+          "title": "Observed Value",
+          "type": "number"
+        },
+        "provider_value": {
+          "title": "Provider Value",
+          "type": "number"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "metric_id",
+        "unit_token",
+        "observed_value",
+        "provider_value",
+        "expanded_uncertainty",
+        "method_id",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "GeometryProviderEvidence",
+      "type": "object"
+    },
+    "TubeLayoutManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "bundle_id": {
+          "minLength": 1,
+          "title": "Bundle Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "coordinate_unit_token": {
+          "minLength": 1,
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "coordinate_component_order": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Coordinate Component Order",
+          "type": "array"
+        },
+        "tube_ordering_definition": {
+          "minLength": 1,
+          "title": "Tube Ordering Definition",
+          "type": "string"
+        },
+        "tube_count": {
+          "minimum": 1,
+          "title": "Tube Count",
+          "type": "integer"
+        },
+        "layout_pattern_descriptor": {
+          "minLength": 1,
+          "title": "Layout Pattern Descriptor",
+          "type": "string"
+        },
+        "pitch_m": {
+          "exclusiveMinimum": 0,
+          "title": "Pitch M",
+          "type": "number"
+        },
+        "tube_outer_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Tube Outer Diameter M",
+          "type": "number"
+        },
+        "tube_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Tube Wall Thickness M",
+          "type": "number"
+        },
+        "tube_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Tube Length M",
+          "type": "number"
+        },
+        "coordinate_array_shape": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Coordinate Array Shape",
+          "type": "array"
+        },
+        "coordinate_payload_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Coordinate Payload Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "bundle_id",
+        "coordinate_frame_id",
+        "coordinate_unit_token",
+        "coordinate_component_order",
+        "tube_ordering_definition",
+        "tube_count",
+        "layout_pattern_descriptor",
+        "pitch_m",
+        "tube_outer_diameter_m",
+        "tube_wall_thickness_m",
+        "tube_length_m",
+        "coordinate_array_shape",
+        "coordinate_payload_digest",
+        "evidence"
+      ],
+      "title": "TubeLayoutManifest",
+      "type": "object"
+    },
+    "TubesheetGeometryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "tubesheet_id": {
+          "minLength": 1,
+          "title": "Tubesheet Id",
+          "type": "string"
+        },
+        "axial_coordinate_m": {
+          "title": "Axial Coordinate M",
+          "type": "number"
+        },
+        "outer_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Outer Diameter M",
+          "type": "number"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "tube_hole_count": {
+          "minimum": 1,
+          "title": "Tube Hole Count",
+          "type": "integer"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tubesheet_id",
+        "axial_coordinate_m",
+        "outer_diameter_m",
+        "thickness_m",
+        "tube_hole_count",
+        "material_condition_id",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TubesheetGeometryRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "exchanger_id": {
+      "minLength": 1,
+      "title": "Exchanger Id",
+      "type": "string"
+    },
+    "shell_geometry_id": {
+      "minLength": 1,
+      "title": "Shell Geometry Id",
+      "type": "string"
+    },
+    "shell_material_condition_id": {
+      "minLength": 1,
+      "title": "Shell Material Condition Id",
+      "type": "string"
+    },
+    "shell_inside_diameter_m": {
+      "exclusiveMinimum": 0,
+      "title": "Shell Inside Diameter M",
+      "type": "number"
+    },
+    "shell_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Shell Length M",
+      "type": "number"
+    },
+    "tube_layout": {
+      "$ref": "#/$defs/TubeLayoutManifest"
+    },
+    "tubesheets": {
+      "items": {
+        "$ref": "#/$defs/TubesheetGeometryRecord"
+      },
+      "minItems": 1,
+      "title": "Tubesheets",
+      "type": "array"
+    },
+    "baffles": {
+      "items": {
+        "$ref": "#/$defs/BaffleGeometryRecord"
+      },
+      "title": "Baffles",
+      "type": "array"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_version": {
+      "minLength": 1,
+      "title": "Provider Version",
+      "type": "string"
+    },
+    "provider_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider State Digest",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "provider_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Input Digest",
+      "type": "string"
+    },
+    "provider_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Digest",
+      "type": "string"
+    },
+    "qualification_evidence": {
+      "items": {
+        "$ref": "#/$defs/GeometryProviderEvidence"
+      },
+      "minItems": 1,
+      "title": "Qualification Evidence",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/DeclaredHeatExchangerGeometryEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "exchanger_shell_bundle_and_coordinate_frame_reviewed": {
+      "title": "Exchanger Shell Bundle And Coordinate Frame Reviewed",
+      "type": "boolean"
+    },
+    "tube_layout_shape_order_units_and_digest_reviewed": {
+      "title": "Tube Layout Shape Order Units And Digest Reviewed",
+      "type": "boolean"
+    },
+    "tubesheet_and_baffle_geometry_reviewed": {
+      "title": "Tubesheet And Baffle Geometry Reviewed",
+      "type": "boolean"
+    },
+    "material_condition_and_geometry_units_reviewed": {
+      "title": "Material Condition And Geometry Units Reviewed",
+      "type": "boolean"
+    },
+    "provider_revision_configuration_input_and_result_reviewed": {
+      "title": "Provider Revision Configuration Input And Result Reviewed",
+      "type": "boolean"
+    },
+    "qualification_specimens_partitions_and_uncertainty_reviewed": {
+      "title": "Qualification Specimens Partitions And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "exchanger_id",
+    "shell_geometry_id",
+    "shell_material_condition_id",
+    "shell_inside_diameter_m",
+    "shell_length_m",
+    "tube_layout",
+    "tubesheets",
+    "baffles",
+    "provider_id",
+    "provider_version",
+    "provider_state_digest",
+    "provider_configuration_digest",
+    "provider_input_digest",
+    "provider_result_digest",
+    "qualification_evidence",
+    "candidate_envelopes",
+    "exchanger_shell_bundle_and_coordinate_frame_reviewed",
+    "tube_layout_shape_order_units_and_digest_reviewed",
+    "tubesheet_and_baffle_geometry_reviewed",
+    "material_condition_and_geometry_units_reviewed",
+    "provider_revision_configuration_input_and_result_reviewed",
+    "qualification_specimens_partitions_and_uncertainty_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "HeatExchangerGeometryAssessment",
+  "type": "object"
+}

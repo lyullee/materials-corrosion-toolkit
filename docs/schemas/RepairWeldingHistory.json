@@ -1,0 +1,569 @@
+{
+  "$defs": {
+    "DeclaredRepairMetricEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric_id",
+        "unit_token",
+        "applicability_basis"
+      ],
+      "title": "DeclaredRepairMetricEnvelope",
+      "type": "object"
+    },
+    "DeclaredRepairWorkflowEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "repair_scope_id": {
+          "minLength": 1,
+          "title": "Repair Scope Id",
+          "type": "string"
+        },
+        "component_condition_id": {
+          "minLength": 1,
+          "title": "Component Condition Id",
+          "type": "string"
+        },
+        "repair_location_id": {
+          "minLength": 1,
+          "title": "Repair Location Id",
+          "type": "string"
+        },
+        "required_stages": {
+          "items": {
+            "$ref": "#/$defs/RequiredRepairWorkflowStage"
+          },
+          "minItems": 1,
+          "title": "Required Stages",
+          "type": "array"
+        },
+        "declaration_basis": {
+          "minLength": 1,
+          "title": "Declaration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "repair_scope_id",
+        "component_condition_id",
+        "repair_location_id",
+        "required_stages",
+        "declaration_basis",
+        "evidence"
+      ],
+      "title": "DeclaredRepairWorkflowEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RepairStepMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "measurement_basis": {
+          "minLength": 1,
+          "title": "Measurement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "metric_id",
+        "value",
+        "unit_token",
+        "measurement_basis",
+        "evidence"
+      ],
+      "title": "RepairStepMetric",
+      "type": "object"
+    },
+    "RepairWeldingStep": {
+      "additionalProperties": false,
+      "properties": {
+        "step_record_id": {
+          "minLength": 1,
+          "title": "Step Record Id",
+          "type": "string"
+        },
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "step_kind": {
+          "enum": [
+            "removal",
+            "pre_deposition_inspection",
+            "deposition",
+            "heat_treatment",
+            "subsequent_examination"
+          ],
+          "title": "Step Kind",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "procedure_revision": {
+          "minLength": 1,
+          "title": "Procedure Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "activity_descriptor": {
+          "minLength": 1,
+          "title": "Activity Descriptor",
+          "type": "string"
+        },
+        "reported_finding_or_outcome": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Finding Or Outcome"
+        },
+        "caller_disposition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Disposition Id"
+        },
+        "metrics": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RepairStepMetric"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "step_record_id",
+        "stage_id",
+        "step_kind",
+        "physical_scope_id",
+        "location_id",
+        "start_time_s",
+        "end_time_s",
+        "procedure_id",
+        "procedure_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "activity_descriptor",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "RepairWeldingStep",
+      "type": "object"
+    },
+    "RequiredRepairWorkflowStage": {
+      "additionalProperties": false,
+      "properties": {
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "step_kind": {
+          "enum": [
+            "removal",
+            "pre_deposition_inspection",
+            "deposition",
+            "heat_treatment",
+            "subsequent_examination"
+          ],
+          "title": "Step Kind",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "procedure_revision": {
+          "minLength": 1,
+          "title": "Procedure Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "required_provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Required Provider State Digest",
+          "type": "string"
+        },
+        "required_provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Required Provider Configuration Digest",
+          "type": "string"
+        },
+        "metric_envelopes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DeclaredRepairMetricEnvelope"
+          },
+          "title": "Metric Envelopes",
+          "type": "array"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage_id",
+        "step_kind",
+        "procedure_id",
+        "procedure_revision",
+        "provider_id",
+        "provider_revision",
+        "required_provider_state_digest",
+        "required_provider_configuration_digest",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "RequiredRepairWorkflowStage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "repair_scope_id": {
+      "minLength": 1,
+      "title": "Repair Scope Id",
+      "type": "string"
+    },
+    "component_condition_id": {
+      "minLength": 1,
+      "title": "Component Condition Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/RepairWeldingStep"
+      },
+      "minItems": 1,
+      "title": "Steps",
+      "type": "array"
+    },
+    "candidate_workflow_envelopes": {
+      "items": {
+        "$ref": "#/$defs/DeclaredRepairWorkflowEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Workflow Envelopes",
+      "type": "array"
+    },
+    "repair_scope_and_location_reviewed": {
+      "title": "Repair Scope And Location Reviewed",
+      "type": "boolean"
+    },
+    "sequence_and_clock_reviewed": {
+      "title": "Sequence And Clock Reviewed",
+      "type": "boolean"
+    },
+    "procedure_and_provider_identity_reviewed": {
+      "title": "Procedure And Provider Identity Reviewed",
+      "type": "boolean"
+    },
+    "provider_digests_reviewed": {
+      "title": "Provider Digests Reviewed",
+      "type": "boolean"
+    },
+    "step_evidence_reviewed": {
+      "title": "Step Evidence Reviewed",
+      "type": "boolean"
+    },
+    "workflow_envelope_authority_reviewed": {
+      "title": "Workflow Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "repair_scope_id",
+    "component_condition_id",
+    "clock_id",
+    "horizon_start_s",
+    "horizon_end_s",
+    "steps",
+    "candidate_workflow_envelopes",
+    "repair_scope_and_location_reviewed",
+    "sequence_and_clock_reviewed",
+    "procedure_and_provider_identity_reviewed",
+    "provider_digests_reviewed",
+    "step_evidence_reviewed",
+    "workflow_envelope_authority_reviewed"
+  ],
+  "title": "RepairWeldingHistory",
+  "type": "object"
+}

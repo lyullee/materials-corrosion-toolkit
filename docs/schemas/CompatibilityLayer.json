@@ -1,0 +1,271 @@
+{
+  "$defs": {
+    "CompatibilityFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "subject_id": {
+          "minLength": 1,
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "chemistry",
+            "property",
+            "dilution",
+            "service_environment"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "subject_id",
+        "fact_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "provider_id",
+        "provider_revision",
+        "evidence"
+      ],
+      "title": "CompatibilityFact",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "layer_id": {
+      "minLength": 1,
+      "title": "Layer Id",
+      "type": "string"
+    },
+    "sequence_position": {
+      "minimum": 1,
+      "title": "Sequence Position",
+      "type": "integer"
+    },
+    "layer_role": {
+      "enum": [
+        "buttering",
+        "filler",
+        "overlay",
+        "dilution_layer"
+      ],
+      "title": "Layer Role",
+      "type": "string"
+    },
+    "material_subject_id": {
+      "minLength": 1,
+      "title": "Material Subject Id",
+      "type": "string"
+    },
+    "process_id": {
+      "minLength": 1,
+      "title": "Process Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "dilution_parent_subject_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Dilution Parent Subject Ids",
+      "type": "array"
+    },
+    "facts": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CompatibilityFact"
+      },
+      "title": "Facts",
+      "type": "array"
+    },
+    "sequence_and_parentage_reviewed": {
+      "title": "Sequence And Parentage Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "layer_id",
+    "sequence_position",
+    "layer_role",
+    "material_subject_id",
+    "process_id",
+    "procedure_id",
+    "sequence_and_parentage_reviewed",
+    "evidence"
+  ],
+  "title": "CompatibilityLayer",
+  "type": "object"
+}

@@ -1,0 +1,196 @@
+{
+  "$defs": {
+    "EventProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.event_probability.v1",
+          "default": "matintegrity.event_probability.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "probability_given_survival": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given Survival",
+          "type": "number"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "model_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Model Result Digest",
+          "type": "string"
+        },
+        "common_cause_groups": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Common Cause Groups",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "asset_id",
+        "physical_scope_id",
+        "failure_mode",
+        "horizon_start_s",
+        "horizon_end_s",
+        "probability_given_survival",
+        "conditioning",
+        "model_result_digest"
+      ],
+      "title": "EventProbability",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One complete external action evaluation before economic comparison.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.action_event_probability_evaluation.v1",
+      "default": "matintegrity.action_event_probability_evaluation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "action_id": {
+      "minLength": 1,
+      "title": "Action Id",
+      "type": "string"
+    },
+    "action_label": {
+      "minLength": 1,
+      "title": "Action Label",
+      "type": "string"
+    },
+    "candidate_kind": {
+      "enum": [
+        "baseline",
+        "intervention"
+      ],
+      "title": "Candidate Kind",
+      "type": "string"
+    },
+    "action_definition": {
+      "minLength": 1,
+      "title": "Action Definition",
+      "type": "string"
+    },
+    "evaluator_id": {
+      "minLength": 1,
+      "title": "Evaluator Id",
+      "type": "string"
+    },
+    "evaluator_revision": {
+      "minLength": 1,
+      "title": "Evaluator Revision",
+      "type": "string"
+    },
+    "evaluator_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluator Configuration Sha256",
+      "type": "string"
+    },
+    "evaluator_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluator Input Sha256",
+      "type": "string"
+    },
+    "risk_model_structure_id": {
+      "minLength": 1,
+      "title": "Risk Model Structure Id",
+      "type": "string"
+    },
+    "evaluation_status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope",
+        "invalid_input",
+        "execution_failed"
+      ],
+      "title": "Evaluation Status",
+      "type": "string"
+    },
+    "event_probability": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EventProbability"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "probability_upper_bound": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Probability Upper Bound"
+    },
+    "status_detail": {
+      "minLength": 1,
+      "title": "Status Detail",
+      "type": "string"
+    }
+  },
+  "required": [
+    "action_id",
+    "action_label",
+    "candidate_kind",
+    "action_definition",
+    "evaluator_id",
+    "evaluator_revision",
+    "evaluator_configuration_sha256",
+    "evaluator_input_sha256",
+    "risk_model_structure_id",
+    "evaluation_status",
+    "status_detail"
+  ],
+  "title": "ActionEventProbabilityEvaluation",
+  "type": "object"
+}

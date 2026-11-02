@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Piecewise-constant transfer and gas-capacity data for one time interval.",
+  "properties": {
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "gas_film_coefficient_mol_m2_s_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Film Coefficient Mol M2 S Pa",
+      "type": "number"
+    },
+    "liquid_film_coefficient_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Film Coefficient M S",
+      "type": "number"
+    },
+    "gas_inventory_capacity_mol_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Inventory Capacity Mol Pa",
+      "type": "number"
+    },
+    "henry_provider_id": {
+      "minLength": 1,
+      "title": "Henry Provider Id",
+      "type": "string"
+    },
+    "henry_provider_revision": {
+      "minLength": 1,
+      "title": "Henry Provider Revision",
+      "type": "string"
+    },
+    "henry_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Henry Configuration Sha256",
+      "type": "string"
+    },
+    "henry_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Henry Result Sha256",
+      "type": "string"
+    },
+    "gas_capacity_provider_id": {
+      "minLength": 1,
+      "title": "Gas Capacity Provider Id",
+      "type": "string"
+    },
+    "gas_capacity_provider_revision": {
+      "minLength": 1,
+      "title": "Gas Capacity Provider Revision",
+      "type": "string"
+    },
+    "gas_capacity_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Gas Capacity Configuration Sha256",
+      "type": "string"
+    },
+    "gas_capacity_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Gas Capacity Result Sha256",
+      "type": "string"
+    },
+    "film_provider_id": {
+      "minLength": 1,
+      "title": "Film Provider Id",
+      "type": "string"
+    },
+    "film_provider_revision": {
+      "minLength": 1,
+      "title": "Film Provider Revision",
+      "type": "string"
+    },
+    "film_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Film Configuration Sha256",
+      "type": "string"
+    },
+    "film_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Film Result Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "parameters_and_state_reviewed": {
+      "title": "Parameters And State Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "start_time_s",
+    "end_time_s",
+    "temperature_K",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "gas_film_coefficient_mol_m2_s_Pa",
+    "liquid_film_coefficient_m_s",
+    "gas_inventory_capacity_mol_Pa",
+    "henry_provider_id",
+    "henry_provider_revision",
+    "henry_configuration_sha256",
+    "henry_result_sha256",
+    "gas_capacity_provider_id",
+    "gas_capacity_provider_revision",
+    "gas_capacity_configuration_sha256",
+    "gas_capacity_result_sha256",
+    "film_provider_id",
+    "film_provider_revision",
+    "film_configuration_sha256",
+    "film_result_sha256",
+    "evidence",
+    "parameters_and_state_reviewed"
+  ],
+  "title": "WetCo2FiniteGasLiquidInterval",
+  "type": "object"
+}

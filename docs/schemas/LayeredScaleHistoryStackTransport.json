@@ -1,0 +1,596 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LayeredScaleDiffusionLimit": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.layered_scale_diffusion_limit.v1",
+          "default": "matintegrity.layered_scale_diffusion_limit.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "solution_condition_id": {
+          "minLength": 1,
+          "title": "Solution Condition Id",
+          "type": "string"
+        },
+        "scale_phase_id": {
+          "minLength": 1,
+          "title": "Scale Phase Id",
+          "type": "string"
+        },
+        "scale_state_id": {
+          "minLength": 1,
+          "title": "Scale State Id",
+          "type": "string"
+        },
+        "transported_species_id": {
+          "minLength": 1,
+          "title": "Transported Species Id",
+          "type": "string"
+        },
+        "surface_area_basis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Surface Area Basis Id"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "condition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Condition Sha256",
+          "type": "string"
+        },
+        "transport_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transport Configuration Sha256",
+          "type": "string"
+        },
+        "scale_history_result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Result Digest"
+        },
+        "scale_history_time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Time S"
+        },
+        "scale_history_model_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Model Id"
+        },
+        "scale_history_phase_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Phase Id"
+        },
+        "scale_history_layer_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Layer Id"
+        },
+        "scale_history_covered_area_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Covered Area Fraction"
+        },
+        "scale_history_mapping_reviewed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale History Mapping Reviewed"
+        },
+        "bulk_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Concentration Mol M3",
+          "type": "number"
+        },
+        "interface_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Interface Concentration Mol M3",
+          "type": "number"
+        },
+        "bare_film_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Bare Film Thickness M",
+          "type": "number"
+        },
+        "bare_diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Bare Diffusivity M2 S",
+          "type": "number"
+        },
+        "covered_area_fraction": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Covered Area Fraction",
+          "type": "number"
+        },
+        "layers": {
+          "items": {
+            "$ref": "#/$defs/ScaleTransportLayer"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Layers",
+          "type": "array"
+        },
+        "electron_equivalents_per_mole": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Equivalents Per Mole",
+          "type": "number"
+        },
+        "concentration_basis_and_partition_reviewed": {
+          "title": "Concentration Basis And Partition Reviewed",
+          "type": "boolean"
+        },
+        "effective_diffusivity_support_reviewed": {
+          "title": "Effective Diffusivity Support Reviewed",
+          "type": "boolean"
+        },
+        "area_coverage_and_uniform_parallel_path_reviewed": {
+          "title": "Area Coverage And Uniform Parallel Path Reviewed",
+          "type": "boolean"
+        },
+        "electron_equivalent_mapping_reviewed": {
+          "title": "Electron Equivalent Mapping Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "substrate_condition_id",
+        "solution_condition_id",
+        "scale_phase_id",
+        "scale_state_id",
+        "transported_species_id",
+        "provider_id",
+        "provider_revision",
+        "source_sha256",
+        "condition_sha256",
+        "transport_configuration_sha256",
+        "bulk_concentration_mol_m3",
+        "interface_concentration_mol_m3",
+        "bare_film_thickness_m",
+        "bare_diffusivity_m2_s",
+        "covered_area_fraction",
+        "layers",
+        "electron_equivalents_per_mole",
+        "concentration_basis_and_partition_reviewed",
+        "effective_diffusivity_support_reviewed",
+        "area_coverage_and_uniform_parallel_path_reviewed",
+        "electron_equivalent_mapping_reviewed",
+        "computational_use_authorized",
+        "evidence"
+      ],
+      "title": "LayeredScaleDiffusionLimit",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "ScaleLayerHistoryBinding": {
+      "additionalProperties": false,
+      "description": "Map one computed single-phase thickness history to one named transport layer.",
+      "properties": {
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "scale_history_result": {
+          "$ref": "#/$defs/AssessmentResult"
+        }
+      },
+      "required": [
+        "layer_id",
+        "scale_history_result"
+      ],
+      "title": "ScaleLayerHistoryBinding",
+      "type": "object"
+    },
+    "ScaleTransportLayer": {
+      "additionalProperties": false,
+      "properties": {
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "thickness_m": {
+          "minimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "effective_diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Effective Diffusivity M2 S",
+          "type": "number"
+        },
+        "solution_to_layer_partition_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Solution To Layer Partition Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "layer_id",
+        "thickness_m",
+        "effective_diffusivity_m2_s",
+        "solution_to_layer_partition_coefficient"
+      ],
+      "title": "ScaleTransportLayer",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evaluate a layered diffusion bound using one exact, shared scale-history time.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.layered_scale_history_stack_transport.v1",
+      "default": "matintegrity.layered_scale_history_stack_transport.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "transport_request": {
+      "$ref": "#/$defs/LayeredScaleDiffusionLimit"
+    },
+    "selected_time_s": {
+      "minimum": 0,
+      "title": "Selected Time S",
+      "type": "number"
+    },
+    "layer_bindings": {
+      "items": {
+        "$ref": "#/$defs/ScaleLayerHistoryBinding"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Layer Bindings",
+      "type": "array"
+    },
+    "layer_order_and_phase_mapping_reviewed": {
+      "title": "Layer Order And Phase Mapping Reviewed",
+      "type": "boolean"
+    },
+    "common_scope_and_time_reviewed": {
+      "title": "Common Scope And Time Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "transport_request",
+    "selected_time_s",
+    "layer_bindings",
+    "layer_order_and_phase_mapping_reviewed",
+    "common_scope_and_time_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "LayeredScaleHistoryStackTransport",
+  "type": "object"
+}

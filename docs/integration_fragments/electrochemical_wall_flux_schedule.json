@@ -1,0 +1,20 @@
+{
+  "status": "integration_fragment_only",
+  "module": "matintegrity.electrochemical_wall_flux_schedule",
+  "request_contract": "ElectrochemicalWallFluxScheduleRequest",
+  "builder": "build_electrochemical_wall_flux_schedule",
+  "target": "matintegrity.crevice_campaign.solve_crevice_transport_recession_feedback",
+  "callback_signature": "wall_surface_flux(global_elapsed_time_s, species_by_cell_concentration_mol_m3, optional_cell_potential_V) -> species_by_cell_inward_flux_mol_m2_s",
+  "source_model": "integration.electrochemical_partial_current_metal_loss",
+  "source_basis": "anodic metal removal per exact upstream interval, divided by interval duration and common reviewed exposed area",
+  "mapping": "caller-reviewed uniform area-average flux repeated over transport cells",
+  "exclusions": [
+    "local current distribution inference",
+    "feedback into the upstream electrochemical history",
+    "reconciliation of integrated source with evolving wall area",
+    "cathodic-equivalent or net metal loss as dissolution source",
+    "transient momentum or fully coupled chemistry/flow/geometry",
+    "corrosion lifetime or qualification"
+  ],
+  "method_doc": "docs/models/ELECTROCHEMICAL_WALL_FLUX_SCHEDULE_KO.md"
+}

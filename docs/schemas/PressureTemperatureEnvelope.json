@@ -1,0 +1,111 @@
+{
+  "$defs": {
+    "PressureTemperatureEnvelopeKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "allowable_pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Allowable Pressure Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "allowable_pressure_Pa"
+      ],
+      "title": "PressureTemperatureEnvelopeKnot",
+      "type": "object"
+    },
+    "PressureTemperatureOperatingPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "pressure_Pa": {
+          "minimum": 0,
+          "title": "Pressure Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "point_id",
+        "temperature_K",
+        "pressure_Pa"
+      ],
+      "title": "PressureTemperatureOperatingPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "envelope_id": {
+      "minLength": 1,
+      "title": "Envelope Id",
+      "type": "string"
+    },
+    "applicability_basis": {
+      "minLength": 1,
+      "title": "Applicability Basis",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/PressureTemperatureEnvelopeKnot"
+      },
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "operating_points": {
+      "items": {
+        "$ref": "#/$defs/PressureTemperatureOperatingPoint"
+      },
+      "minItems": 1,
+      "title": "Operating Points",
+      "type": "array"
+    },
+    "interpolation": {
+      "const": "piecewise_linear",
+      "default": "piecewise_linear",
+      "title": "Interpolation",
+      "type": "string"
+    },
+    "applicability_reviewed": {
+      "title": "Applicability Reviewed",
+      "type": "boolean"
+    },
+    "operating_points_reviewed": {
+      "title": "Operating Points Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "envelope_id",
+    "applicability_basis",
+    "source_sha256",
+    "knots",
+    "operating_points",
+    "applicability_reviewed",
+    "operating_points_reviewed"
+  ],
+  "title": "PressureTemperatureEnvelope",
+  "type": "object"
+}

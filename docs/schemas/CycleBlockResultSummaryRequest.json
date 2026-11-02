@@ -1,0 +1,914 @@
+{
+  "$defs": {
+    "CallerStatefulMultiaxialDamageRequest": {
+      "additionalProperties": false,
+      "description": "Ordered tensor cycles and bounded state for an externally calibrated rate law.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "cycles": {
+          "items": {
+            "$ref": "#/$defs/ClosedTensorCycle"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Cycles",
+          "type": "array"
+        },
+        "state_variable_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "State Variable Ids",
+          "type": "array"
+        },
+        "initial_state": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Initial State",
+          "type": "array"
+        },
+        "minimum_state": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Minimum State",
+          "type": "array"
+        },
+        "maximum_state": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Maximum State",
+          "type": "array"
+        },
+        "strain_shear_convention": {
+          "enum": [
+            "tensor",
+            "engineering"
+          ],
+          "title": "Strain Shear Convention",
+          "type": "string"
+        },
+        "time_reconstruction": {
+          "enum": [
+            "piecewise_linear",
+            "piecewise_cubic_hermite",
+            "piecewise_pchip",
+            "piecewise_periodic_cubic_spline"
+          ],
+          "title": "Time Reconstruction",
+          "type": "string"
+        },
+        "stress_history_source_id": {
+          "minLength": 1,
+          "title": "Stress History Source Id",
+          "type": "string"
+        },
+        "stress_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Stress History Sha256",
+          "type": "string"
+        },
+        "strain_history_source_id": {
+          "minLength": 1,
+          "title": "Strain History Source Id",
+          "type": "string"
+        },
+        "strain_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Strain History Sha256",
+          "type": "string"
+        },
+        "damage_provider_id": {
+          "minLength": 1,
+          "title": "Damage Provider Id",
+          "type": "string"
+        },
+        "damage_provider_revision": {
+          "minLength": 1,
+          "title": "Damage Provider Revision",
+          "type": "string"
+        },
+        "damage_provider_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Damage Provider Configuration Sha256",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "integration_method": {
+          "default": "fixed_step_rk4",
+          "enum": [
+            "fixed_step_rk4",
+            "adaptive_step_doubling_rk4"
+          ],
+          "title": "Integration Method",
+          "type": "string"
+        },
+        "maximum_time_step_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Time Step S",
+          "type": "number"
+        },
+        "minimum_time_step_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Time Step S"
+        },
+        "state_absolute_tolerance": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State Absolute Tolerance"
+        },
+        "state_relative_tolerance": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State Relative Tolerance"
+        },
+        "damage_absolute_tolerance": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Damage Absolute Tolerance"
+        },
+        "damage_relative_tolerance": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Damage Relative Tolerance"
+        },
+        "maximum_rejected_steps_per_interval": {
+          "default": 1000,
+          "maximum": 100000,
+          "minimum": 0,
+          "title": "Maximum Rejected Steps Per Interval",
+          "type": "integer"
+        },
+        "maximum_rejection_history_records": {
+          "default": 10000,
+          "maximum": 100000,
+          "minimum": 0,
+          "title": "Maximum Rejection History Records",
+          "type": "integer"
+        },
+        "maximum_provider_evaluations": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Provider Evaluations",
+          "type": "integer"
+        },
+        "maximum_closure_stress_error_Pa": {
+          "minimum": 0,
+          "title": "Maximum Closure Stress Error Pa",
+          "type": "number"
+        },
+        "maximum_closure_strain_error": {
+          "minimum": 0,
+          "title": "Maximum Closure Strain Error",
+          "type": "number"
+        },
+        "maximum_closure_stress_rate_error_Pa_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Closure Stress Rate Error Pa S"
+        },
+        "maximum_closure_strain_rate_error_s_inv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Closure Strain Rate Error S Inv"
+        },
+        "tensor_basis_and_order_reviewed": {
+          "title": "Tensor Basis And Order Reviewed",
+          "type": "boolean"
+        },
+        "stress_strain_conjugacy_reviewed": {
+          "title": "Stress Strain Conjugacy Reviewed",
+          "type": "boolean"
+        },
+        "cycle_extraction_and_sequence_order_reviewed": {
+          "title": "Cycle Extraction And Sequence Order Reviewed",
+          "type": "boolean"
+        },
+        "time_reconstruction_reviewed": {
+          "title": "Time Reconstruction Reviewed",
+          "type": "boolean"
+        },
+        "periodic_spline_reviewed": {
+          "default": false,
+          "title": "Periodic Spline Reviewed",
+          "type": "boolean"
+        },
+        "state_initialization_and_bounds_reviewed": {
+          "title": "State Initialization And Bounds Reviewed",
+          "type": "boolean"
+        },
+        "provider_material_applicability_reviewed": {
+          "title": "Provider Material Applicability Reviewed",
+          "type": "boolean"
+        },
+        "provider_usage_rights_reviewed": {
+          "title": "Provider Usage Rights Reviewed",
+          "type": "boolean"
+        },
+        "stateful_rate_and_evolution_law_reviewed": {
+          "title": "Stateful Rate And Evolution Law Reviewed",
+          "type": "boolean"
+        },
+        "adaptive_integration_controls_reviewed": {
+          "default": false,
+          "title": "Adaptive Integration Controls Reviewed",
+          "type": "boolean"
+        },
+        "provider_repeat_evaluation_is_deterministic_reviewed": {
+          "default": false,
+          "title": "Provider Repeat Evaluation Is Deterministic Reviewed",
+          "type": "boolean"
+        },
+        "periodic_state_absolute_tolerance": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Periodic State Absolute Tolerance"
+        },
+        "periodic_state_relative_tolerance": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Periodic State Relative Tolerance"
+        },
+        "periodic_state_convergence_reviewed": {
+          "default": false,
+          "title": "Periodic State Convergence Reviewed",
+          "type": "boolean"
+        },
+        "cycle_exchange_receipt_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Exchange Receipt Sha256"
+        },
+        "cycle_block_order_ids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 10000,
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Block Order Ids"
+        },
+        "cycle_exchange_clock_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Exchange Clock Id"
+        },
+        "cycle_exchange_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Exchange Provider Id"
+        },
+        "cycle_exchange_provider_revision": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Exchange Provider Revision"
+        },
+        "cycle_exchange_provider_run_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Exchange Provider Run Id"
+        },
+        "cycle_exchange_provider_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Exchange Provider Result Sha256"
+        },
+        "cycle_source_initial_state_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Source Initial State Sha256"
+        },
+        "cycle_source_terminal_state_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycle Source Terminal State Sha256"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "location_id",
+        "cycles",
+        "state_variable_ids",
+        "initial_state",
+        "minimum_state",
+        "maximum_state",
+        "strain_shear_convention",
+        "time_reconstruction",
+        "stress_history_source_id",
+        "stress_history_sha256",
+        "strain_history_source_id",
+        "strain_history_sha256",
+        "damage_provider_id",
+        "damage_provider_revision",
+        "damage_provider_configuration_sha256",
+        "calibration_id",
+        "calibration_sha256",
+        "maximum_time_step_s",
+        "maximum_closure_stress_error_Pa",
+        "maximum_closure_strain_error",
+        "tensor_basis_and_order_reviewed",
+        "stress_strain_conjugacy_reviewed",
+        "cycle_extraction_and_sequence_order_reviewed",
+        "time_reconstruction_reviewed",
+        "state_initialization_and_bounds_reviewed",
+        "provider_material_applicability_reviewed",
+        "provider_usage_rights_reviewed",
+        "stateful_rate_and_evolution_law_reviewed"
+      ],
+      "title": "CallerStatefulMultiaxialDamageRequest",
+      "type": "object"
+    },
+    "ClosedTensorCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "allocated_cycle_count": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Allocated Cycle Count",
+          "type": "number"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "sample_time_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Time S"
+        },
+        "stress_time_derivative_components_Pa_s": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stress Time Derivative Components Pa S"
+        },
+        "strain_time_derivative_components_s_inv": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain Time Derivative Components S Inv"
+        }
+      },
+      "required": [
+        "cycle_id",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components"
+      ],
+      "title": "ClosedTensorCycle",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MultiaxialCycleBlockReceipt": {
+      "additionalProperties": false,
+      "description": "Ordered, source-pinned cycle blocks with explicit material-state endpoints.",
+      "properties": {
+        "receipt_id": {
+          "minLength": 1,
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_run_id": {
+          "minLength": 1,
+          "title": "Provider Run Id",
+          "type": "string"
+        },
+        "provider_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Sha256",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "stress_history_source_id": {
+          "minLength": 1,
+          "title": "Stress History Source Id",
+          "type": "string"
+        },
+        "stress_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Stress History Sha256",
+          "type": "string"
+        },
+        "strain_history_source_id": {
+          "minLength": 1,
+          "title": "Strain History Source Id",
+          "type": "string"
+        },
+        "strain_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Strain History Sha256",
+          "type": "string"
+        },
+        "strain_shear_convention": {
+          "enum": [
+            "tensor",
+            "engineering"
+          ],
+          "title": "Strain Shear Convention",
+          "type": "string"
+        },
+        "initial_material_state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Initial Material State Sha256",
+          "type": "string"
+        },
+        "terminal_material_state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Terminal Material State Sha256",
+          "type": "string"
+        },
+        "blocks": {
+          "items": {
+            "$ref": "#/$defs/OrderedTensorCycleBlock"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Blocks",
+          "type": "array"
+        },
+        "provider_result_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Provider Result Evidence",
+          "type": "array"
+        },
+        "block_sequence_and_order_reviewed": {
+          "title": "Block Sequence And Order Reviewed",
+          "type": "boolean"
+        },
+        "cycle_count_and_repetition_semantics_reviewed": {
+          "title": "Cycle Count And Repetition Semantics Reviewed",
+          "type": "boolean"
+        },
+        "material_state_identity_and_transition_reviewed": {
+          "title": "Material State Identity And Transition Reviewed",
+          "type": "boolean"
+        },
+        "tensor_units_order_and_shear_convention_reviewed": {
+          "title": "Tensor Units Order And Shear Convention Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "receipt_id",
+        "provider_id",
+        "provider_revision",
+        "provider_run_id",
+        "provider_result_sha256",
+        "material_condition_id",
+        "location_id",
+        "clock_id",
+        "stress_history_source_id",
+        "stress_history_sha256",
+        "strain_history_source_id",
+        "strain_history_sha256",
+        "strain_shear_convention",
+        "initial_material_state_sha256",
+        "terminal_material_state_sha256",
+        "blocks",
+        "provider_result_evidence",
+        "block_sequence_and_order_reviewed",
+        "cycle_count_and_repetition_semantics_reviewed",
+        "material_state_identity_and_transition_reviewed",
+        "tensor_units_order_and_shear_convention_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "MultiaxialCycleBlockReceipt",
+      "type": "object"
+    },
+    "OrderedTensorCycleBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "block_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Block Source Sha256",
+          "type": "string"
+        },
+        "material_state_before_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Material State Before Sha256",
+          "type": "string"
+        },
+        "material_state_after_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Material State After Sha256",
+          "type": "string"
+        },
+        "cycles": {
+          "items": {
+            "$ref": "#/$defs/ClosedTensorCycle"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Cycles",
+          "type": "array"
+        },
+        "ordered_cycle_payload_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Ordered Cycle Payload Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "block_id",
+        "sequence_index",
+        "block_source_sha256",
+        "material_state_before_sha256",
+        "material_state_after_sha256",
+        "cycles",
+        "ordered_cycle_payload_sha256",
+        "evidence"
+      ],
+      "title": "OrderedTensorCycleBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Join one stateful result to its exact bound request and cycle-block receipt.",
+  "properties": {
+    "schema_version": {
+      "default": "matintegrity.multiaxial_cycle_block_result_summary.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "receipt": {
+      "$ref": "#/$defs/MultiaxialCycleBlockReceipt"
+    },
+    "bound_request": {
+      "$ref": "#/$defs/CallerStatefulMultiaxialDamageRequest"
+    },
+    "stateful_result": {
+      "additionalProperties": true,
+      "title": "Stateful Result",
+      "type": "object"
+    },
+    "stateful_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stateful Result Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "receipt",
+    "bound_request",
+    "stateful_result",
+    "stateful_result_sha256"
+  ],
+  "title": "CycleBlockResultSummaryRequest",
+  "type": "object"
+}

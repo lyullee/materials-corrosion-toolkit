@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "criterion_id": {
+      "minLength": 1,
+      "title": "Criterion Id",
+      "type": "string"
+    },
+    "applicable_domain": {
+      "enum": [
+        "galvanic_coupling",
+        "crevice_chemistry",
+        "under_deposit"
+      ],
+      "title": "Applicable Domain",
+      "type": "string"
+    },
+    "fact_kind": {
+      "enum": [
+        "potential",
+        "current",
+        "species",
+        "pH",
+        "area_ratio"
+      ],
+      "title": "Fact Kind",
+      "type": "string"
+    },
+    "quantity_id": {
+      "minLength": 1,
+      "title": "Quantity Id",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "reference_electrode_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Electrode Id"
+    },
+    "minimum_acceptable": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Acceptable"
+    },
+    "maximum_acceptable": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Acceptable"
+    },
+    "comparison": {
+      "const": "uncertainty_interval_against_bounds",
+      "default": "uncertainty_interval_against_bounds",
+      "title": "Comparison",
+      "type": "string"
+    },
+    "criterion_basis": {
+      "minLength": 1,
+      "title": "Criterion Basis",
+      "type": "string"
+    },
+    "criterion_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Criterion Source Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "criterion_id",
+    "applicable_domain",
+    "fact_kind",
+    "quantity_id",
+    "unit_token",
+    "criterion_basis",
+    "criterion_source_digest",
+    "evidence"
+  ],
+  "title": "LocalEnvironmentHistoryCriterion",
+  "type": "object"
+}

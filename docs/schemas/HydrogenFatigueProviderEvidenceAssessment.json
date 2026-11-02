@@ -1,0 +1,819 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HydrogenFatigueGrowthPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "delta_k_value": {
+          "exclusiveMinimum": 0,
+          "title": "Delta K Value",
+          "type": "number"
+        },
+        "growth_rate_value": {
+          "exclusiveMinimum": 0,
+          "title": "Growth Rate Value",
+          "type": "number"
+        },
+        "expanded_growth_rate_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Growth Rate Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "delta_k_value",
+        "growth_rate_value",
+        "expanded_growth_rate_uncertainty",
+        "uncertainty_coverage_factor",
+        "evidence"
+      ],
+      "title": "HydrogenFatigueGrowthPoint",
+      "type": "object"
+    },
+    "HydrogenFatigueProviderResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_record_id": {
+          "minLength": 1,
+          "title": "Result Record Id",
+          "type": "string"
+        },
+        "curve_or_result_id": {
+          "minLength": 1,
+          "title": "Curve Or Result Id",
+          "type": "string"
+        },
+        "result_kind": {
+          "enum": [
+            "tabulated_growth_curve",
+            "predicted_growth_rate"
+          ],
+          "title": "Result Kind",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "hydrogen_species": {
+          "minLength": 1,
+          "title": "Hydrogen Species",
+          "type": "string"
+        },
+        "exposure_quantity_kind": {
+          "enum": [
+            "absolute_partial_pressure",
+            "fugacity"
+          ],
+          "title": "Exposure Quantity Kind",
+          "type": "string"
+        },
+        "exposure_quantity_value": {
+          "exclusiveMinimum": 0,
+          "title": "Exposure Quantity Value",
+          "type": "number"
+        },
+        "exposure_quantity_unit_token": {
+          "minLength": 1,
+          "title": "Exposure Quantity Unit Token",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "load_ratio": {
+          "exclusiveMaximum": 1.0,
+          "title": "Load Ratio",
+          "type": "number"
+        },
+        "frequency_Hz": {
+          "exclusiveMinimum": 0,
+          "title": "Frequency Hz",
+          "type": "number"
+        },
+        "waveform_descriptor": {
+          "minLength": 1,
+          "title": "Waveform Descriptor",
+          "type": "string"
+        },
+        "delta_k_definition": {
+          "minLength": 1,
+          "title": "Delta K Definition",
+          "type": "string"
+        },
+        "delta_k_unit_token": {
+          "minLength": 1,
+          "title": "Delta K Unit Token",
+          "type": "string"
+        },
+        "growth_rate_definition": {
+          "minLength": 1,
+          "title": "Growth Rate Definition",
+          "type": "string"
+        },
+        "growth_rate_unit_token": {
+          "minLength": 1,
+          "title": "Growth Rate Unit Token",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/HydrogenFatigueGrowthPoint"
+          },
+          "minItems": 1,
+          "title": "Points",
+          "type": "array"
+        },
+        "solver_or_method_id": {
+          "minLength": 1,
+          "title": "Solver Or Method Id",
+          "type": "string"
+        },
+        "solver_or_method_revision": {
+          "minLength": 1,
+          "title": "Solver Or Method Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_record_id",
+        "curve_or_result_id",
+        "result_kind",
+        "material_condition_id",
+        "hydrogen_species",
+        "exposure_quantity_kind",
+        "exposure_quantity_value",
+        "exposure_quantity_unit_token",
+        "temperature_K",
+        "load_ratio",
+        "frequency_Hz",
+        "waveform_descriptor",
+        "delta_k_definition",
+        "delta_k_unit_token",
+        "growth_rate_definition",
+        "growth_rate_unit_token",
+        "points",
+        "solver_or_method_id",
+        "solver_or_method_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HydrogenFatigueProviderResult",
+      "type": "object"
+    },
+    "HydrogenFatigueQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "hydrogen_species": {
+          "minLength": 1,
+          "title": "Hydrogen Species",
+          "type": "string"
+        },
+        "exposure_quantity_kind": {
+          "enum": [
+            "absolute_partial_pressure",
+            "fugacity"
+          ],
+          "title": "Exposure Quantity Kind",
+          "type": "string"
+        },
+        "exposure_quantity_unit_token": {
+          "minLength": 1,
+          "title": "Exposure Quantity Unit Token",
+          "type": "string"
+        },
+        "minimum_exposure_quantity_value": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Exposure Quantity Value",
+          "type": "number"
+        },
+        "maximum_exposure_quantity_value": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Exposure Quantity Value",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_load_ratio": {
+          "exclusiveMaximum": 1.0,
+          "title": "Minimum Load Ratio",
+          "type": "number"
+        },
+        "maximum_load_ratio": {
+          "exclusiveMaximum": 1.0,
+          "title": "Maximum Load Ratio",
+          "type": "number"
+        },
+        "minimum_frequency_Hz": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Frequency Hz",
+          "type": "number"
+        },
+        "maximum_frequency_Hz": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Frequency Hz",
+          "type": "number"
+        },
+        "supported_waveform_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Waveform Descriptors",
+          "type": "array"
+        },
+        "delta_k_definition": {
+          "minLength": 1,
+          "title": "Delta K Definition",
+          "type": "string"
+        },
+        "delta_k_unit_token": {
+          "minLength": 1,
+          "title": "Delta K Unit Token",
+          "type": "string"
+        },
+        "minimum_delta_k_value": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Delta K Value",
+          "type": "number"
+        },
+        "maximum_delta_k_value": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Delta K Value",
+          "type": "number"
+        },
+        "growth_rate_definition": {
+          "minLength": 1,
+          "title": "Growth Rate Definition",
+          "type": "string"
+        },
+        "growth_rate_unit_token": {
+          "minLength": 1,
+          "title": "Growth Rate Unit Token",
+          "type": "string"
+        },
+        "supported_result_kinds": {
+          "items": {
+            "enum": [
+              "tabulated_growth_curve",
+              "predicted_growth_rate"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Result Kinds",
+          "type": "array"
+        },
+        "solver_or_method_id": {
+          "minLength": 1,
+          "title": "Solver Or Method Id",
+          "type": "string"
+        },
+        "solver_or_method_revision": {
+          "minLength": 1,
+          "title": "Solver Or Method Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/HydrogenFatigueQualificationEvidence"
+          },
+          "minItems": 1,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "minimum_calibration_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Calibration Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Independence Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_id",
+        "material_condition_id",
+        "hydrogen_species",
+        "exposure_quantity_kind",
+        "exposure_quantity_unit_token",
+        "minimum_exposure_quantity_value",
+        "maximum_exposure_quantity_value",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_load_ratio",
+        "maximum_load_ratio",
+        "minimum_frequency_Hz",
+        "maximum_frequency_Hz",
+        "supported_waveform_descriptors",
+        "delta_k_definition",
+        "delta_k_unit_token",
+        "minimum_delta_k_value",
+        "maximum_delta_k_value",
+        "growth_rate_definition",
+        "growth_rate_unit_token",
+        "supported_result_kinds",
+        "solver_or_method_id",
+        "solver_or_method_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "qualification_evidence",
+        "minimum_calibration_source_group_count",
+        "minimum_holdout_source_group_count",
+        "minimum_holdout_independence_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "HydrogenFatigueQualificationEnvelope",
+      "type": "object"
+    },
+    "HydrogenFatigueQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "hydrogen_species": {
+          "minLength": 1,
+          "title": "Hydrogen Species",
+          "type": "string"
+        },
+        "exposure_quantity_kind": {
+          "enum": [
+            "absolute_partial_pressure",
+            "fugacity"
+          ],
+          "title": "Exposure Quantity Kind",
+          "type": "string"
+        },
+        "exposure_quantity_unit_token": {
+          "minLength": 1,
+          "title": "Exposure Quantity Unit Token",
+          "type": "string"
+        },
+        "delta_k_definition": {
+          "minLength": 1,
+          "title": "Delta K Definition",
+          "type": "string"
+        },
+        "delta_k_unit_token": {
+          "minLength": 1,
+          "title": "Delta K Unit Token",
+          "type": "string"
+        },
+        "growth_rate_definition": {
+          "minLength": 1,
+          "title": "Growth Rate Definition",
+          "type": "string"
+        },
+        "growth_rate_unit_token": {
+          "minLength": 1,
+          "title": "Growth Rate Unit Token",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "partition",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "material_condition_id",
+        "hydrogen_species",
+        "exposure_quantity_kind",
+        "exposure_quantity_unit_token",
+        "delta_k_definition",
+        "delta_k_unit_token",
+        "growth_rate_definition",
+        "growth_rate_unit_token",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "HydrogenFatigueQualificationEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "hydrogen_species": {
+      "minLength": 1,
+      "title": "Hydrogen Species",
+      "type": "string"
+    },
+    "exposure_quantity_kind": {
+      "enum": [
+        "absolute_partial_pressure",
+        "fugacity"
+      ],
+      "title": "Exposure Quantity Kind",
+      "type": "string"
+    },
+    "exposure_quantity_value": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Quantity Value",
+      "type": "number"
+    },
+    "exposure_quantity_unit_token": {
+      "minLength": 1,
+      "title": "Exposure Quantity Unit Token",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "load_ratio": {
+      "exclusiveMaximum": 1.0,
+      "title": "Load Ratio",
+      "type": "number"
+    },
+    "frequency_Hz": {
+      "exclusiveMinimum": 0,
+      "title": "Frequency Hz",
+      "type": "number"
+    },
+    "waveform_descriptor": {
+      "minLength": 1,
+      "title": "Waveform Descriptor",
+      "type": "string"
+    },
+    "provider_result": {
+      "$ref": "#/$defs/HydrogenFatigueProviderResult"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/HydrogenFatigueQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_and_condition_reviewed": {
+      "title": "Material And Condition Reviewed",
+      "type": "boolean"
+    },
+    "hydrogen_species_quantity_basis_and_units_reviewed": {
+      "title": "Hydrogen Species Quantity Basis And Units Reviewed",
+      "type": "boolean"
+    },
+    "temperature_load_ratio_frequency_and_waveform_reviewed": {
+      "title": "Temperature Load Ratio Frequency And Waveform Reviewed",
+      "type": "boolean"
+    },
+    "crack_growth_definitions_units_and_uncertainty_reviewed": {
+      "title": "Crack Growth Definitions Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "solver_provider_revision_and_digests_reviewed": {
+      "title": "Solver Provider Revision And Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_qualification_reviewed": {
+      "title": "Calibration Holdout Qualification Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "material_id",
+    "material_condition_id",
+    "hydrogen_species",
+    "exposure_quantity_kind",
+    "exposure_quantity_value",
+    "exposure_quantity_unit_token",
+    "temperature_K",
+    "load_ratio",
+    "frequency_Hz",
+    "waveform_descriptor",
+    "provider_result",
+    "candidate_envelopes",
+    "material_and_condition_reviewed",
+    "hydrogen_species_quantity_basis_and_units_reviewed",
+    "temperature_load_ratio_frequency_and_waveform_reviewed",
+    "crack_growth_definitions_units_and_uncertainty_reviewed",
+    "specimen_source_and_independence_partitions_reviewed",
+    "solver_provider_revision_and_digests_reviewed",
+    "calibration_holdout_qualification_reviewed",
+    "qualification_envelope_authority_reviewed"
+  ],
+  "title": "HydrogenFatigueProviderEvidenceAssessment",
+  "type": "object"
+}

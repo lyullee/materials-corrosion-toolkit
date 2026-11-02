@@ -1,0 +1,101 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crack_growth_scenario_evaluation.v1",
+      "default": "matintegrity.crack_growth_scenario_evaluation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "evaluator_id": {
+      "minLength": 1,
+      "title": "Evaluator Id",
+      "type": "string"
+    },
+    "evaluator_revision": {
+      "minLength": 1,
+      "title": "Evaluator Revision",
+      "type": "string"
+    },
+    "evaluator_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluator Configuration Sha256",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope",
+        "invalid_input",
+        "execution_failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "final_depth_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Final Depth M"
+    },
+    "cycles_evaluated": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cycles Evaluated"
+    },
+    "termination_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Termination Reason"
+    },
+    "result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "input_sha256",
+    "evaluator_id",
+    "evaluator_revision",
+    "evaluator_configuration_sha256",
+    "status",
+    "result_sha256"
+  ],
+  "title": "CrackGrowthScenarioEvaluation",
+  "type": "object"
+}

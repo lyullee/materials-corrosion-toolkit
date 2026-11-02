@@ -1,0 +1,374 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FinitePolicyState": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "state_definition": {
+          "minLength": 1,
+          "title": "State Definition",
+          "type": "string"
+        },
+        "is_failure_state": {
+          "title": "Is Failure State",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "state_id",
+        "state_definition",
+        "is_failure_state"
+      ],
+      "title": "FinitePolicyState",
+      "type": "object"
+    },
+    "PolicyCalibrationAction": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_definition": {
+          "minLength": 1,
+          "title": "Action Definition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action_id",
+        "action_definition"
+      ],
+      "title": "PolicyCalibrationAction",
+      "type": "object"
+    },
+    "PolicyObservationCalibrationRecord": {
+      "additionalProperties": false,
+      "description": "One reviewed physical-state/inspection-label pair with a fixed data partition.",
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "sequence_id": {
+          "minLength": 1,
+          "title": "Sequence Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "observation_time_s": {
+          "minimum": 0,
+          "title": "Observation Time S",
+          "type": "number"
+        },
+        "true_state_id": {
+          "minLength": 1,
+          "title": "True State Id",
+          "type": "string"
+        },
+        "observed_label_id": {
+          "minLength": 1,
+          "title": "Observed Label Id",
+          "type": "string"
+        },
+        "weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "record_id",
+        "sequence_id",
+        "source_group_id",
+        "partition",
+        "observation_time_s",
+        "true_state_id",
+        "observed_label_id"
+      ],
+      "title": "PolicyObservationCalibrationRecord",
+      "type": "object"
+    },
+    "PolicyObservationLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observation_definition": {
+          "minLength": 1,
+          "title": "Observation Definition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation_id",
+        "observation_definition"
+      ],
+      "title": "PolicyObservationLabel",
+      "type": "object"
+    },
+    "PolicyTransitionCalibrationRecord": {
+      "additionalProperties": false,
+      "description": "One reviewed state transition under an explicitly recorded action.",
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "sequence_id": {
+          "minLength": 1,
+          "title": "Sequence Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "interval_start_s": {
+          "minimum": 0,
+          "title": "Interval Start S",
+          "type": "number"
+        },
+        "interval_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Interval End S",
+          "type": "number"
+        },
+        "from_state_id": {
+          "minLength": 1,
+          "title": "From State Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "to_state_id": {
+          "minLength": 1,
+          "title": "To State Id",
+          "type": "string"
+        },
+        "weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "record_id",
+        "sequence_id",
+        "source_group_id",
+        "partition",
+        "interval_start_s",
+        "interval_end_s",
+        "from_state_id",
+        "action_id",
+        "to_state_id"
+      ],
+      "title": "PolicyTransitionCalibrationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Estimate finite policy tables from reviewed labels and an isolated holdout.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.finite_policy_probability_calibration.v1",
+      "default": "matintegrity.finite_policy_probability_calibration.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "states": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyState"
+      },
+      "minItems": 2,
+      "title": "States",
+      "type": "array"
+    },
+    "observation_labels": {
+      "items": {
+        "$ref": "#/$defs/PolicyObservationLabel"
+      },
+      "minItems": 2,
+      "title": "Observation Labels",
+      "type": "array"
+    },
+    "actions": {
+      "items": {
+        "$ref": "#/$defs/PolicyCalibrationAction"
+      },
+      "minItems": 1,
+      "title": "Actions",
+      "type": "array"
+    },
+    "observation_records": {
+      "items": {
+        "$ref": "#/$defs/PolicyObservationCalibrationRecord"
+      },
+      "minItems": 2,
+      "title": "Observation Records",
+      "type": "array"
+    },
+    "transition_records": {
+      "items": {
+        "$ref": "#/$defs/PolicyTransitionCalibrationRecord"
+      },
+      "minItems": 2,
+      "title": "Transition Records",
+      "type": "array"
+    },
+    "symmetric_pseudocount": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Symmetric Pseudocount",
+      "type": "number"
+    },
+    "state_definitions_reviewed": {
+      "title": "State Definitions Reviewed",
+      "type": "boolean"
+    },
+    "physical_state_truth_reviewed": {
+      "title": "Physical State Truth Reviewed",
+      "type": "boolean"
+    },
+    "observation_labels_reviewed": {
+      "title": "Observation Labels Reviewed",
+      "type": "boolean"
+    },
+    "action_assignments_reviewed": {
+      "title": "Action Assignments Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_partition_reviewed": {
+      "title": "Calibration Holdout Partition Reviewed",
+      "type": "boolean"
+    },
+    "smoothing_basis_reviewed": {
+      "title": "Smoothing Basis Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "states",
+    "observation_labels",
+    "actions",
+    "observation_records",
+    "transition_records",
+    "state_definitions_reviewed",
+    "physical_state_truth_reviewed",
+    "observation_labels_reviewed",
+    "action_assignments_reviewed",
+    "calibration_holdout_partition_reviewed",
+    "smoothing_basis_reviewed",
+    "evidence"
+  ],
+  "title": "FinitePolicyProbabilityCalibration",
+  "type": "object"
+}

@@ -1,0 +1,399 @@
+{
+  "$defs": {
+    "CreviceSpatialReactionBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "electron_number": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Electron Number",
+          "type": "integer"
+        },
+        "signed_current_multiplier": {
+          "enum": [
+            -1,
+            1
+          ],
+          "title": "Signed Current Multiplier",
+          "type": "integer"
+        },
+        "exchange_current_density_A_m2_by_cell": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Exchange Current Density A M2 By Cell",
+          "type": "array"
+        },
+        "equilibrium_potential_V_by_cell_and_time": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Equilibrium Potential V By Cell And Time",
+          "type": "array"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "kinetics_provider_id": {
+          "minLength": 1,
+          "title": "Kinetics Provider Id",
+          "type": "string"
+        },
+        "kinetics_revision": {
+          "minLength": 1,
+          "title": "Kinetics Revision",
+          "type": "string"
+        },
+        "kinetics_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Kinetics Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "electron_number",
+        "signed_current_multiplier",
+        "exchange_current_density_A_m2_by_cell",
+        "equilibrium_potential_V_by_cell_and_time",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "kinetics_provider_id",
+        "kinetics_revision",
+        "kinetics_sha256"
+      ],
+      "title": "CreviceSpatialReactionBranch",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "geometry_provider_id": {
+      "minLength": 1,
+      "title": "Geometry Provider Id",
+      "type": "string"
+    },
+    "geometry_revision": {
+      "minLength": 1,
+      "title": "Geometry Revision",
+      "type": "string"
+    },
+    "geometry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Sha256",
+      "type": "string"
+    },
+    "conductivity_provider_id": {
+      "minLength": 1,
+      "title": "Conductivity Provider Id",
+      "type": "string"
+    },
+    "conductivity_revision": {
+      "minLength": 1,
+      "title": "Conductivity Revision",
+      "type": "string"
+    },
+    "conductivity_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Conductivity Sha256",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Time S",
+      "type": "array"
+    },
+    "cell_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Cell Ids",
+      "type": "array"
+    },
+    "cell_lengths_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Cell Lengths M",
+      "type": "array"
+    },
+    "cell_apertures_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Cell Apertures M",
+      "type": "array"
+    },
+    "slit_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Slit Width M",
+      "type": "number"
+    },
+    "reactive_face_count": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Reactive Face Count",
+      "type": "integer"
+    },
+    "temperature_K_by_time": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Temperature K By Time",
+      "type": "array"
+    },
+    "electrolyte_conductivity_S_m_by_cell_and_time": {
+      "items": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Electrolyte Conductivity S M By Cell And Time",
+      "type": "array"
+    },
+    "branches": {
+      "items": {
+        "$ref": "#/$defs/CreviceSpatialReactionBranch"
+      },
+      "maxItems": 32,
+      "minItems": 2,
+      "title": "Branches",
+      "type": "array"
+    },
+    "minimum_solution_potential_V": {
+      "default": -2.0,
+      "title": "Minimum Solution Potential V",
+      "type": "number"
+    },
+    "maximum_solution_potential_V": {
+      "default": 2.0,
+      "title": "Maximum Solution Potential V",
+      "type": "number"
+    },
+    "maximum_solver_evaluations": {
+      "default": 10000,
+      "maximum": 1000000,
+      "minimum": 100,
+      "title": "Maximum Solver Evaluations",
+      "type": "integer"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 2,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "geometry_mapping_and_cell_order_reviewed": {
+      "title": "Geometry Mapping And Cell Order Reviewed",
+      "type": "boolean"
+    },
+    "electrolyte_conductivity_support_reviewed": {
+      "title": "Electrolyte Conductivity Support Reviewed",
+      "type": "boolean"
+    },
+    "local_butler_volmer_parameters_and_sign_convention_reviewed": {
+      "title": "Local Butler Volmer Parameters And Sign Convention Reviewed",
+      "type": "boolean"
+    },
+    "electronically_continuous_metal_and_no_metal_ohmic_drop_reviewed": {
+      "title": "Electronically Continuous Metal And No Metal Ohmic Drop Reviewed",
+      "type": "boolean"
+    },
+    "electrolyte_ohmic_closure_and_insulated_ends_reviewed": {
+      "title": "Electrolyte Ohmic Closure And Insulated Ends Reviewed",
+      "type": "boolean"
+    },
+    "quasi_steady_interval_independence_reviewed": {
+      "title": "Quasi Steady Interval Independence Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "geometry_provider_id",
+    "geometry_revision",
+    "geometry_sha256",
+    "conductivity_provider_id",
+    "conductivity_revision",
+    "conductivity_sha256",
+    "time_s",
+    "cell_ids",
+    "cell_lengths_m",
+    "cell_apertures_m",
+    "slit_width_m",
+    "reactive_face_count",
+    "temperature_K_by_time",
+    "electrolyte_conductivity_S_m_by_cell_and_time",
+    "branches",
+    "evidence",
+    "usage_rights_evidence",
+    "geometry_mapping_and_cell_order_reviewed",
+    "electrolyte_conductivity_support_reviewed",
+    "local_butler_volmer_parameters_and_sign_convention_reviewed",
+    "electronically_continuous_metal_and_no_metal_ohmic_drop_reviewed",
+    "electrolyte_ohmic_closure_and_insulated_ends_reviewed",
+    "quasi_steady_interval_independence_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceSpatialOhmicMixedPotentialRequest",
+  "type": "object"
+}

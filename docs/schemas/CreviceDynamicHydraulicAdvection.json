@@ -1,0 +1,272 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller pressure and reservoir histories used with trial-state BDF geometry.",
+  "properties": {
+    "schema_version": {
+      "default": "matintegrity.crevice_dynamic_hydraulic_advection.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "cell_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Cell Ids",
+      "type": "array"
+    },
+    "species_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Species Order",
+      "type": "array"
+    },
+    "species_charge_numbers": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Species Charge Numbers",
+      "type": "array"
+    },
+    "species_elemental_composition": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "number"
+        },
+        "type": "object"
+      },
+      "title": "Species Elemental Composition",
+      "type": "object"
+    },
+    "signed_pressure_drop_Pa_by_knot": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Signed Pressure Drop Pa By Knot",
+      "type": "array"
+    },
+    "left_boundary_species_concentration_mol_m3_by_knot": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Left Boundary Species Concentration Mol M3 By Knot",
+      "type": "array"
+    },
+    "right_boundary_species_concentration_mol_m3_by_knot": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Right Boundary Species Concentration Mol M3 By Knot",
+      "type": "array"
+    },
+    "transverse_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Transverse Width M",
+      "type": "number"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "dynamic_viscosity_Pa_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dynamic Viscosity Pa S",
+      "type": "number"
+    },
+    "resistance_correction_multiplier": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Resistance Correction Multiplier",
+      "type": "number"
+    },
+    "inertance_correction_multiplier": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Inertance Correction Multiplier",
+      "type": "number"
+    },
+    "maximum_reviewed_reynolds_number": {
+      "default": 1000.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "minimum": 1.0,
+      "title": "Maximum Reviewed Reynolds Number",
+      "type": "number"
+    },
+    "minimum_width_to_aperture_ratio": {
+      "default": 20.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "minimum": 20.0,
+      "title": "Minimum Width To Aperture Ratio",
+      "type": "number"
+    },
+    "maximum_abs_flow_m3_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Abs Flow M3 S",
+      "type": "number"
+    },
+    "initial_signed_volumetric_flow_m3_s": {
+      "title": "Initial Signed Volumetric Flow M3 S",
+      "type": "number"
+    },
+    "schedule_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Schedule Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "pressure_and_boundary_schedule_reviewed": {
+      "title": "Pressure And Boundary Schedule Reviewed",
+      "type": "boolean"
+    },
+    "geometry_pressure_and_dynamic_volume_balance_reviewed": {
+      "title": "Geometry Pressure And Dynamic Volume Balance Reviewed",
+      "type": "boolean"
+    },
+    "boundary_electroneutrality_reviewed": {
+      "title": "Boundary Electroneutrality Reviewed",
+      "type": "boolean"
+    },
+    "incompressible_newtonian_laminar_slit_scope_reviewed": {
+      "title": "Incompressible Newtonian Laminar Slit Scope Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "time_s",
+    "cell_ids",
+    "species_order",
+    "species_charge_numbers",
+    "species_elemental_composition",
+    "signed_pressure_drop_Pa_by_knot",
+    "left_boundary_species_concentration_mol_m3_by_knot",
+    "right_boundary_species_concentration_mol_m3_by_knot",
+    "transverse_width_m",
+    "density_kg_m3",
+    "dynamic_viscosity_Pa_s",
+    "maximum_abs_flow_m3_s",
+    "initial_signed_volumetric_flow_m3_s",
+    "schedule_sha256",
+    "evidence",
+    "pressure_and_boundary_schedule_reviewed",
+    "geometry_pressure_and_dynamic_volume_balance_reviewed",
+    "boundary_electroneutrality_reviewed",
+    "incompressible_newtonian_laminar_slit_scope_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceDynamicHydraulicAdvection",
+  "type": "object"
+}

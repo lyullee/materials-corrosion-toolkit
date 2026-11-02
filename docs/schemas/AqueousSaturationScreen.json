@@ -1,0 +1,279 @@
+{
+  "$defs": {
+    "CandidateSolid": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_id": {
+          "minLength": 1,
+          "title": "Solid Id",
+          "type": "string"
+        },
+        "log10_solubility_product": {
+          "title": "Log10 Solubility Product",
+          "type": "number"
+        },
+        "log10_solubility_product_absolute_bound": {
+          "default": 0.0,
+          "description": "Caller-reviewed absolute bound on the log10 solubility product; interpreted as a deterministic symmetric interval, not a probability distribution.",
+          "maximum": 300.0,
+          "minimum": 0.0,
+          "title": "Log10 Solubility Product Absolute Bound",
+          "type": "number"
+        },
+        "solubility_record_id": {
+          "minLength": 1,
+          "title": "Solubility Record Id",
+          "type": "string"
+        },
+        "solubility_evidence_source_id": {
+          "minLength": 1,
+          "title": "Solubility Evidence Source Id",
+          "type": "string"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/SaturationScreenTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_id",
+        "log10_solubility_product",
+        "solubility_record_id",
+        "solubility_evidence_source_id",
+        "terms"
+      ],
+      "title": "CandidateSolid",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SaturationScreenSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "dimensionless_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Activity",
+          "type": "number"
+        },
+        "log10_activity_absolute_bound": {
+          "default": 0.0,
+          "description": "Caller-reviewed absolute bound on log10(dimensionless activity); interpreted as a deterministic symmetric interval, not a probability distribution.",
+          "maximum": 300.0,
+          "minimum": 0.0,
+          "title": "Log10 Activity Absolute Bound",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "dimensionless_activity"
+      ],
+      "title": "SaturationScreenSpecies",
+      "type": "object"
+    },
+    "SaturationScreenTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Stoichiometric Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_exponent"
+      ],
+      "title": "SaturationScreenTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.aqueous_saturation_screen.v1",
+      "default": "matintegrity.aqueous_saturation_screen.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "solution_id": {
+      "minLength": 1,
+      "title": "Solution Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "activity_standard_state": {
+      "minLength": 1,
+      "title": "Activity Standard State",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/SaturationScreenSpecies"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "candidate_solids": {
+      "items": {
+        "$ref": "#/$defs/CandidateSolid"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Candidate Solids",
+      "type": "array"
+    },
+    "activity_state_provider_id": {
+      "minLength": 1,
+      "title": "Activity State Provider Id",
+      "type": "string"
+    },
+    "activity_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Activity State Digest",
+      "type": "string"
+    },
+    "solubility_data_provider_id": {
+      "minLength": 1,
+      "title": "Solubility Data Provider Id",
+      "type": "string"
+    },
+    "solubility_data_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solubility Data Digest",
+      "type": "string"
+    },
+    "complete_species_inventory_reviewed": {
+      "title": "Complete Species Inventory Reviewed",
+      "type": "boolean"
+    },
+    "compatible_standard_states_reviewed": {
+      "title": "Compatible Standard States Reviewed",
+      "type": "boolean"
+    },
+    "equilibrium_constants_temperature_reviewed": {
+      "title": "Equilibrium Constants Temperature Reviewed",
+      "type": "boolean"
+    },
+    "activity_interval_bounds_reviewed": {
+      "default": false,
+      "description": "Caller confirms that nonzero activity interval bounds have reviewed source, interpretation, units and applicability.",
+      "title": "Activity Interval Bounds Reviewed",
+      "type": "boolean"
+    },
+    "solubility_product_interval_bounds_reviewed": {
+      "default": false,
+      "description": "Caller confirms that nonzero solubility-product interval bounds have reviewed source, interpretation and temperature applicability.",
+      "title": "Solubility Product Interval Bounds Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "solution_id",
+    "temperature_K",
+    "activity_standard_state",
+    "species",
+    "candidate_solids",
+    "activity_state_provider_id",
+    "activity_state_digest",
+    "solubility_data_provider_id",
+    "solubility_data_digest",
+    "complete_species_inventory_reviewed",
+    "compatible_standard_states_reviewed",
+    "equilibrium_constants_temperature_reviewed",
+    "evidence"
+  ],
+  "title": "AqueousSaturationScreen",
+  "type": "object"
+}

@@ -1,0 +1,212 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "interval_id": {
+      "minLength": 1,
+      "title": "Interval Id",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "conditional_k1_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Conditional K1 Mol M3",
+      "type": "number"
+    },
+    "conditional_k2_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Conditional K2 Mol M3",
+      "type": "number"
+    },
+    "conditional_kw_mol2_m6": {
+      "exclusiveMinimum": 0,
+      "title": "Conditional Kw Mol2 M6",
+      "type": "number"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "overall_gas_liquid_transfer_velocity_m_s": {
+      "minimum": 0,
+      "title": "Overall Gas Liquid Transfer Velocity M S",
+      "type": "number"
+    },
+    "liquid_volume_flux_m3_s": {
+      "title": "Liquid Volume Flux M3 S",
+      "type": "number"
+    },
+    "incoming_total_inorganic_carbon_mol_m3": {
+      "minimum": 0,
+      "title": "Incoming Total Inorganic Carbon Mol M3",
+      "type": "number"
+    },
+    "incoming_total_alkalinity_mol_m3": {
+      "title": "Incoming Total Alkalinity Mol M3",
+      "type": "number"
+    },
+    "wall_total_carbon_flux_mol_m2_s": {
+      "title": "Wall Total Carbon Flux Mol M2 S",
+      "type": "number"
+    },
+    "wall_total_alkalinity_flux_mol_m2_s": {
+      "title": "Wall Total Alkalinity Flux Mol M2 S",
+      "type": "number"
+    },
+    "pH_lower_bound": {
+      "maximum": 15.0,
+      "minimum": -2.0,
+      "title": "Ph Lower Bound",
+      "type": "number"
+    },
+    "pH_upper_bound": {
+      "maximum": 15.0,
+      "minimum": -2.0,
+      "title": "Ph Upper Bound",
+      "type": "number"
+    },
+    "constant_provider_id": {
+      "minLength": 1,
+      "title": "Constant Provider Id",
+      "type": "string"
+    },
+    "constant_provider_revision": {
+      "minLength": 1,
+      "title": "Constant Provider Revision",
+      "type": "string"
+    },
+    "constant_source_record_id": {
+      "minLength": 1,
+      "title": "Constant Source Record Id",
+      "type": "string"
+    },
+    "constant_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "flux_provider_id": {
+      "minLength": 1,
+      "title": "Flux Provider Id",
+      "type": "string"
+    },
+    "flux_provider_revision": {
+      "minLength": 1,
+      "title": "Flux Provider Revision",
+      "type": "string"
+    },
+    "flux_source_record_id": {
+      "minLength": 1,
+      "title": "Flux Source Record Id",
+      "type": "string"
+    },
+    "flux_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "interval_condition_and_flux_mapping_reviewed": {
+      "title": "Interval Condition And Flux Mapping Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "interval_id",
+    "start_time_s",
+    "end_time_s",
+    "temperature_K",
+    "conditional_k1_mol_m3",
+    "conditional_k2_mol_m3",
+    "conditional_kw_mol2_m6",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "overall_gas_liquid_transfer_velocity_m_s",
+    "liquid_volume_flux_m3_s",
+    "incoming_total_inorganic_carbon_mol_m3",
+    "incoming_total_alkalinity_mol_m3",
+    "wall_total_carbon_flux_mol_m2_s",
+    "wall_total_alkalinity_flux_mol_m2_s",
+    "pH_lower_bound",
+    "pH_upper_bound",
+    "constant_provider_id",
+    "constant_provider_revision",
+    "constant_source_record_id",
+    "constant_evidence",
+    "flux_provider_id",
+    "flux_provider_revision",
+    "flux_source_record_id",
+    "flux_evidence",
+    "interval_condition_and_flux_mapping_reviewed"
+  ],
+  "title": "WetCo2TransientCarbonateInterval",
+  "type": "object"
+}

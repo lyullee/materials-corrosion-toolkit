@@ -1,0 +1,608 @@
+{
+  "$defs": {
+    "BrittleApplicabilityEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_specification_id": {
+          "minLength": 1,
+          "title": "Material Specification Id",
+          "type": "string"
+        },
+        "product_form_id": {
+          "minLength": 1,
+          "title": "Product Form Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "minimum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Thickness M",
+          "type": "number"
+        },
+        "maximum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Thickness M",
+          "type": "number"
+        },
+        "minimum_supported_service_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Service Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_service_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Service Temperature K",
+          "type": "number"
+        },
+        "applicable_orientation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Orientation Ids",
+          "type": "array"
+        },
+        "loading_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Loading Descriptors",
+          "type": "array"
+        },
+        "loading_rate_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Loading Rate Descriptors",
+          "type": "array"
+        },
+        "evidence_requirements": {
+          "items": {
+            "$ref": "#/$defs/BrittleTestEvidenceRequirement"
+          },
+          "minItems": 1,
+          "title": "Evidence Requirements",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_specification_id",
+        "product_form_id",
+        "material_condition_id",
+        "minimum_thickness_m",
+        "maximum_thickness_m",
+        "minimum_supported_service_temperature_K",
+        "maximum_supported_service_temperature_K",
+        "applicable_orientation_ids",
+        "loading_descriptors",
+        "loading_rate_descriptors",
+        "evidence_requirements",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "result_digest",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "BrittleApplicabilityEnvelope",
+      "type": "object"
+    },
+    "BrittleTestEvidenceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "test_kind": {
+          "enum": [
+            "impact",
+            "toughness",
+            "user_defined"
+          ],
+          "title": "Test Kind",
+          "type": "string"
+        },
+        "result_name": {
+          "minLength": 1,
+          "title": "Result Name",
+          "type": "string"
+        },
+        "result_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Value"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "uncertainty_coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Coverage Factor"
+        },
+        "test_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Test Temperature K"
+        },
+        "specimen_orientation_id": {
+          "minLength": 1,
+          "title": "Specimen Orientation Id",
+          "type": "string"
+        },
+        "specimen_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Thickness M",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "test_kind",
+        "result_name",
+        "result_unit_token",
+        "specimen_orientation_id",
+        "specimen_thickness_m",
+        "method_id",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "BrittleTestEvidenceRecord",
+      "type": "object"
+    },
+    "BrittleTestEvidenceRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "test_kind": {
+          "enum": [
+            "impact",
+            "toughness",
+            "user_defined"
+          ],
+          "title": "Test Kind",
+          "type": "string"
+        },
+        "result_name": {
+          "minLength": 1,
+          "title": "Result Name",
+          "type": "string"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "applicable_orientation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Orientation Ids",
+          "type": "array"
+        },
+        "minimum_test_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Test Temperature K",
+          "type": "number"
+        },
+        "maximum_test_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Test Temperature K",
+          "type": "number"
+        },
+        "minimum_record_count": {
+          "minimum": 1,
+          "title": "Minimum Record Count",
+          "type": "integer"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "test_kind",
+        "result_name",
+        "result_unit_token",
+        "applicable_orientation_ids",
+        "minimum_test_temperature_K",
+        "maximum_test_temperature_K",
+        "minimum_record_count",
+        "requirement_basis"
+      ],
+      "title": "BrittleTestEvidenceRequirement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_specification_id": {
+      "minLength": 1,
+      "title": "Material Specification Id",
+      "type": "string"
+    },
+    "product_form_id": {
+      "minLength": 1,
+      "title": "Product Form Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "governing_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Governing Thickness M",
+      "type": "number"
+    },
+    "governing_orientation_id": {
+      "minLength": 1,
+      "title": "Governing Orientation Id",
+      "type": "string"
+    },
+    "minimum_service_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Service Temperature K",
+      "type": "number"
+    },
+    "loading_descriptor": {
+      "minLength": 1,
+      "title": "Loading Descriptor",
+      "type": "string"
+    },
+    "loading_rate_descriptor": {
+      "minLength": 1,
+      "title": "Loading Rate Descriptor",
+      "type": "string"
+    },
+    "test_records": {
+      "items": {
+        "$ref": "#/$defs/BrittleTestEvidenceRecord"
+      },
+      "minItems": 1,
+      "title": "Test Records",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/BrittleApplicabilityEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_specification_and_condition_reviewed": {
+      "title": "Material Specification And Condition Reviewed",
+      "type": "boolean"
+    },
+    "product_form_thickness_and_orientation_reviewed": {
+      "title": "Product Form Thickness And Orientation Reviewed",
+      "type": "boolean"
+    },
+    "service_temperature_reviewed": {
+      "title": "Service Temperature Reviewed",
+      "type": "boolean"
+    },
+    "loading_and_rate_descriptors_reviewed": {
+      "title": "Loading And Rate Descriptors Reviewed",
+      "type": "boolean"
+    },
+    "specimen_and_source_group_partitions_reviewed": {
+      "title": "Specimen And Source Group Partitions Reviewed",
+      "type": "boolean"
+    },
+    "method_and_units_reviewed": {
+      "title": "Method And Units Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_basis_reviewed": {
+      "title": "Uncertainty Basis Reviewed",
+      "type": "boolean"
+    },
+    "provider_and_digest_lineage_reviewed": {
+      "title": "Provider And Digest Lineage Reviewed",
+      "type": "boolean"
+    },
+    "applicability_envelope_authority_reviewed": {
+      "title": "Applicability Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "material_id",
+    "material_specification_id",
+    "product_form_id",
+    "material_condition_id",
+    "governing_thickness_m",
+    "governing_orientation_id",
+    "minimum_service_temperature_K",
+    "loading_descriptor",
+    "loading_rate_descriptor",
+    "test_records",
+    "candidate_envelopes",
+    "material_specification_and_condition_reviewed",
+    "product_form_thickness_and_orientation_reviewed",
+    "service_temperature_reviewed",
+    "loading_and_rate_descriptors_reviewed",
+    "specimen_and_source_group_partitions_reviewed",
+    "method_and_units_reviewed",
+    "uncertainty_basis_reviewed",
+    "provider_and_digest_lineage_reviewed",
+    "applicability_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "BrittleApplicabilityEvidenceAssessment",
+  "type": "object"
+}

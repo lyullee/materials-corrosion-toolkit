@@ -1,0 +1,353 @@
+{
+  "$defs": {
+    "CallerEnvironmentEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "media_id": {
+          "minLength": 1,
+          "title": "Media Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "concentration_unit_token": {
+          "minLength": 1,
+          "title": "Concentration Unit Token",
+          "type": "string"
+        },
+        "minimum_concentration": {
+          "minimum": 0,
+          "title": "Minimum Concentration",
+          "type": "number"
+        },
+        "maximum_concentration": {
+          "minimum": 0,
+          "title": "Maximum Concentration",
+          "type": "number"
+        },
+        "minimum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_absolute_pressure_pa": {
+          "minimum": 0,
+          "title": "Minimum Absolute Pressure Pa",
+          "type": "number"
+        },
+        "maximum_absolute_pressure_pa": {
+          "minimum": 0,
+          "title": "Maximum Absolute Pressure Pa",
+          "type": "number"
+        },
+        "maximum_interval_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Interval Duration S",
+          "type": "number"
+        },
+        "allowed_mechanical_state_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Mechanical State Ids",
+          "type": "array"
+        },
+        "mismatch_disposition": {
+          "enum": [
+            "reject",
+            "review"
+          ],
+          "title": "Mismatch Disposition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "environment_id",
+        "media_id",
+        "component_id",
+        "concentration_unit_token",
+        "minimum_concentration",
+        "maximum_concentration",
+        "minimum_temperature_k",
+        "maximum_temperature_k",
+        "minimum_absolute_pressure_pa",
+        "maximum_absolute_pressure_pa",
+        "maximum_interval_duration_s",
+        "allowed_mechanical_state_ids",
+        "mismatch_disposition"
+      ],
+      "title": "CallerEnvironmentEnvelope",
+      "type": "object"
+    },
+    "CallerPropertyRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "property_retention",
+            "swelling",
+            "mass_change",
+            "strength",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/PropertyEnvelopePoint"
+          },
+          "minItems": 1,
+          "title": "Points",
+          "type": "array"
+        },
+        "interpolation_policy": {
+          "enum": [
+            "none",
+            "linear"
+          ],
+          "title": "Interpolation Policy",
+          "type": "string"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "missing_or_unsupported_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Or Unsupported Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "points",
+        "interpolation_policy",
+        "uncertainty_policy",
+        "missing_or_unsupported_disposition",
+        "rule_description"
+      ],
+      "title": "CallerPropertyRule",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PropertyEnvelopePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "exposure_time_s": {
+          "minimum": 0,
+          "title": "Exposure Time S",
+          "type": "number"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        }
+      },
+      "required": [
+        "exposure_time_s"
+      ],
+      "title": "PropertyEnvelopePoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "permitted_material_state_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Material State Ids",
+      "type": "array"
+    },
+    "environment_envelopes": {
+      "items": {
+        "$ref": "#/$defs/CallerEnvironmentEnvelope"
+      },
+      "minItems": 1,
+      "title": "Environment Envelopes",
+      "type": "array"
+    },
+    "property_rules": {
+      "items": {
+        "$ref": "#/$defs/CallerPropertyRule"
+      },
+      "minItems": 1,
+      "title": "Property Rules",
+      "type": "array"
+    },
+    "profile_reviewed": {
+      "title": "Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "source_digest",
+    "permitted_material_state_ids",
+    "environment_envelopes",
+    "property_rules",
+    "profile_reviewed",
+    "evidence"
+  ],
+  "title": "CallerMaterialStateProfile",
+  "type": "object"
+}

@@ -1,0 +1,398 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FormingOperation": {
+      "additionalProperties": false,
+      "properties": {
+        "operation_id": {
+          "minLength": 1,
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "finish_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Finish Temperature K",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operation_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "finish_temperature_K",
+        "evidence"
+      ],
+      "title": "FormingOperation",
+      "type": "object"
+    },
+    "FormingSequencePlan": {
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "minLength": 1,
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "minimum_operation_count": {
+          "minimum": 1,
+          "title": "Minimum Operation Count",
+          "type": "integer"
+        },
+        "maximum_operation_count": {
+          "minimum": 1,
+          "title": "Maximum Operation Count",
+          "type": "integer"
+        },
+        "minimum_forming_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Forming Temperature K",
+          "type": "number"
+        },
+        "maximum_forming_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Forming Temperature K",
+          "type": "number"
+        },
+        "maximum_last_operation_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Last Operation Temperature K",
+          "type": "number"
+        },
+        "maximum_single_operation_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Single Operation Duration S",
+          "type": "number"
+        },
+        "maximum_total_operation_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Total Operation Duration S",
+          "type": "number"
+        },
+        "cooling_before_each_subsequent_operation_below_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cooling Before Each Subsequent Operation Below K"
+        },
+        "waiver_branches": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/FormingTreatmentWaiverBranch"
+          },
+          "title": "Waiver Branches",
+          "type": "array"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plan_id",
+        "material_id",
+        "material_condition_id",
+        "minimum_operation_count",
+        "maximum_operation_count",
+        "minimum_forming_temperature_K",
+        "maximum_forming_temperature_K",
+        "maximum_last_operation_temperature_K",
+        "maximum_single_operation_duration_s",
+        "maximum_total_operation_duration_s",
+        "basis",
+        "evidence"
+      ],
+      "title": "FormingSequencePlan",
+      "type": "object"
+    },
+    "FormingTreatmentWaiverBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "minimum_last_finish_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Last Finish Temperature K",
+          "type": "number"
+        },
+        "finish_boundary_inclusive": {
+          "title": "Finish Boundary Inclusive",
+          "type": "boolean"
+        },
+        "maximum_final_area_reduction_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Final Area Reduction Fraction",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "branch_id",
+        "minimum_last_finish_temperature_K",
+        "finish_boundary_inclusive",
+        "maximum_final_area_reduction_fraction",
+        "basis"
+      ],
+      "title": "FormingTreatmentWaiverBranch",
+      "type": "object"
+    },
+    "InterOperationCoolingPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "time_s",
+        "temperature_K",
+        "evidence"
+      ],
+      "title": "InterOperationCoolingPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "operations": {
+      "items": {
+        "$ref": "#/$defs/FormingOperation"
+      },
+      "minItems": 1,
+      "title": "Operations",
+      "type": "array"
+    },
+    "cooling_points": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/InterOperationCoolingPoint"
+      },
+      "title": "Cooling Points",
+      "type": "array"
+    },
+    "final_area_reduction_fraction": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Final Area Reduction Fraction"
+    },
+    "selected_plan": {
+      "$ref": "#/$defs/FormingSequencePlan"
+    },
+    "operation_ranges_finish_temperatures_and_clock_reviewed": {
+      "title": "Operation Ranges Finish Temperatures And Clock Reviewed",
+      "type": "boolean"
+    },
+    "cooling_point_location_and_measurement_reviewed": {
+      "title": "Cooling Point Location And Measurement Reviewed",
+      "type": "boolean"
+    },
+    "final_area_change_and_selected_plan_authority_reviewed": {
+      "title": "Final Area Change And Selected Plan Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "component_id",
+    "material_id",
+    "material_condition_id",
+    "clock_id",
+    "operations",
+    "selected_plan",
+    "operation_ranges_finish_temperatures_and_clock_reviewed",
+    "cooling_point_location_and_measurement_reviewed",
+    "final_area_change_and_selected_plan_authority_reviewed",
+    "evidence"
+  ],
+  "title": "FormingProcessSequence",
+  "type": "object"
+}

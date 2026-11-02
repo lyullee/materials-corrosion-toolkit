@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "CriticalPlaneCandidate": {
+      "additionalProperties": false,
+      "description": "One caller-declared plane normal and one shear direction in that plane.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Normal",
+          "type": "array"
+        },
+        "in_plane_direction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "In Plane Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "in_plane_direction"
+      ],
+      "title": "CriticalPlaneCandidate",
+      "type": "object"
+    },
+    "CriticalPlaneTimeSampling": {
+      "additionalProperties": false,
+      "description": "One ordered sampling of the same declared local tensor cycle.",
+      "properties": {
+        "sampling_id": {
+          "minLength": 1,
+          "title": "Sampling Id",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "sample_times_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 3,
+          "title": "Sample Times S",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sampling_id",
+        "sample_ids",
+        "sample_times_s",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components"
+      ],
+      "title": "CriticalPlaneTimeSampling",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Fixed-plane critical-factor comparison over nested cycle samplings.",
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/CriticalPlaneCandidate"
+      },
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "sampling_levels": {
+      "items": {
+        "$ref": "#/$defs/CriticalPlaneTimeSampling"
+      },
+      "minItems": 2,
+      "title": "Sampling Levels",
+      "type": "array"
+    },
+    "representative_cycle_declared": {
+      "title": "Representative Cycle Declared",
+      "type": "boolean"
+    },
+    "maximum_stress_closure_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Stress Closure Error Pa",
+      "type": "number"
+    },
+    "maximum_strain_closure_error": {
+      "minimum": 0,
+      "title": "Maximum Strain Closure Error",
+      "type": "number"
+    },
+    "maximum_nested_time_match_error_s": {
+      "minimum": 0,
+      "title": "Maximum Nested Time Match Error S",
+      "type": "number"
+    },
+    "fatemi_socie_coefficient": {
+      "minimum": 0,
+      "title": "Fatemi Socie Coefficient",
+      "type": "number"
+    },
+    "normalization_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Normalization Stress Pa",
+      "type": "number"
+    },
+    "declared_maximum_relative_factor_change": {
+      "minimum": 0,
+      "title": "Declared Maximum Relative Factor Change",
+      "type": "number"
+    },
+    "declared_maximum_plane_rotation_rad": {
+      "maximum": 1.5707963267948966,
+      "minimum": 0.0,
+      "title": "Declared Maximum Plane Rotation Rad",
+      "type": "number"
+    }
+  },
+  "required": [
+    "history_id",
+    "material_condition_id",
+    "location_id",
+    "tensor_source_id",
+    "candidate_planes",
+    "sampling_levels",
+    "representative_cycle_declared",
+    "maximum_stress_closure_error_Pa",
+    "maximum_strain_closure_error",
+    "maximum_nested_time_match_error_s",
+    "fatemi_socie_coefficient",
+    "normalization_stress_Pa",
+    "declared_maximum_relative_factor_change",
+    "declared_maximum_plane_rotation_rad"
+  ],
+  "title": "CriticalPlaneTimeRefinement",
+  "type": "object"
+}

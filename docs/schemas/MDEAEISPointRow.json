@@ -1,0 +1,256 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MDEAEISCell": {
+      "additionalProperties": false,
+      "properties": {
+        "column_index": {
+          "maximum": 128,
+          "minimum": 0,
+          "title": "Column Index",
+          "type": "integer"
+        },
+        "column_name": {
+          "title": "Column Name",
+          "type": "string"
+        },
+        "raw_token": {
+          "title": "Raw Token",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Numeric Value"
+        },
+        "value_kind": {
+          "enum": [
+            "numeric",
+            "empty",
+            "text",
+            "nonfinite_numeric_text"
+          ],
+          "title": "Value Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "column_index",
+        "column_name",
+        "raw_token",
+        "numeric_value",
+        "value_kind"
+      ],
+      "title": "MDEAEISCell",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.mendeley_mdea_co2_eis_point_row.v1",
+      "default": "matintegrity.mendeley_mdea_co2_eis_point_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "mendeley-mdea-co2-protective-films-eis",
+      "default": "mendeley-mdea-co2-protective-films-eis",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.17632/6tscvfjycn.3",
+      "default": "10.17632/6tscvfjycn.3",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "article_doi": {
+      "const": "10.1016/j.corsci.2022.110859",
+      "default": "10.1016/j.corsci.2022.110859",
+      "title": "Article Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "provider_file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Provider File Id",
+      "type": "string"
+    },
+    "provider_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Sha256",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "data_kind": {
+      "enum": [
+        "experimental",
+        "simulated"
+      ],
+      "title": "Data Kind",
+      "type": "string"
+    },
+    "worksheet_name": {
+      "const": "text",
+      "default": "text",
+      "title": "Worksheet Name",
+      "type": "string"
+    },
+    "provider_line_number": {
+      "minimum": 2,
+      "title": "Provider Line Number",
+      "type": "integer"
+    },
+    "ordered_header": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Ordered Header",
+      "type": "array"
+    },
+    "source_header_line": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Source Header Line",
+      "type": "string"
+    },
+    "header_has_trailing_delimiter": {
+      "const": true,
+      "default": true,
+      "title": "Header Has Trailing Delimiter",
+      "type": "boolean"
+    },
+    "ordered_cells": {
+      "items": {
+        "$ref": "#/$defs/MDEAEISCell"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Ordered Cells",
+      "type": "array"
+    },
+    "raw_line_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Raw Line Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_filename",
+    "provider_file_id",
+    "provider_sha256",
+    "source_file_bytes",
+    "data_kind",
+    "provider_line_number",
+    "ordered_header",
+    "source_header_line",
+    "ordered_cells",
+    "raw_line_sha256",
+    "evidence"
+  ],
+  "title": "MDEAEISPointRow",
+  "type": "object"
+}

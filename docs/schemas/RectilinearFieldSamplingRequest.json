@@ -1,0 +1,88 @@
+{
+  "additionalProperties": false,
+  "description": "Ordered target points and explicit interpolation/error policies.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.rectilinear_field_sampling_request.v1",
+      "default": "matintegrity.rectilinear_field_sampling_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "query_id": {
+      "minLength": 1,
+      "title": "Query Id",
+      "type": "string"
+    },
+    "query_frame_id": {
+      "minLength": 1,
+      "title": "Query Frame Id",
+      "type": "string"
+    },
+    "point_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Point Ids",
+      "type": "array"
+    },
+    "x_coordinates_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "X Coordinates M",
+      "type": "array"
+    },
+    "y_coordinates_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Y Coordinates M",
+      "type": "array"
+    },
+    "interpolation": {
+      "enum": [
+        "nearest",
+        "bilinear"
+      ],
+      "title": "Interpolation",
+      "type": "string"
+    },
+    "outside_support_policy": {
+      "enum": [
+        "reject",
+        "return_missing"
+      ],
+      "title": "Outside Support Policy",
+      "type": "string"
+    },
+    "missing_support_policy": {
+      "enum": [
+        "reject",
+        "return_missing"
+      ],
+      "title": "Missing Support Policy",
+      "type": "string"
+    },
+    "interpolation_review_basis": {
+      "minLength": 1,
+      "title": "Interpolation Review Basis",
+      "type": "string"
+    }
+  },
+  "required": [
+    "query_id",
+    "query_frame_id",
+    "point_ids",
+    "x_coordinates_m",
+    "y_coordinates_m",
+    "interpolation",
+    "outside_support_policy",
+    "missing_support_policy",
+    "interpolation_review_basis"
+  ],
+  "title": "RectilinearFieldSamplingRequest",
+  "type": "object"
+}

@@ -1,0 +1,149 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "qualification_id": {
+      "minLength": 1,
+      "title": "Qualification Id",
+      "type": "string"
+    },
+    "calibration_dataset_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Dataset Digest",
+      "type": "string"
+    },
+    "holdout_dataset_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Holdout Dataset Digest",
+      "type": "string"
+    },
+    "calibration_observation_count": {
+      "minimum": 1,
+      "title": "Calibration Observation Count",
+      "type": "integer"
+    },
+    "holdout_observation_count": {
+      "minimum": 1,
+      "title": "Holdout Observation Count",
+      "type": "integer"
+    },
+    "holdout_metric_definition": {
+      "minLength": 1,
+      "title": "Holdout Metric Definition",
+      "type": "string"
+    },
+    "holdout_metric_value": {
+      "minimum": 0,
+      "title": "Holdout Metric Value",
+      "type": "number"
+    },
+    "holdout_metric_unit": {
+      "minLength": 1,
+      "title": "Holdout Metric Unit",
+      "type": "string"
+    },
+    "maximum_supported_holdout_metric": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Holdout Metric",
+      "type": "number"
+    },
+    "maximum_supported_holdout_metric_unit": {
+      "minLength": 1,
+      "title": "Maximum Supported Holdout Metric Unit",
+      "type": "string"
+    },
+    "calibration_and_holdout_independent": {
+      "title": "Calibration And Holdout Independent",
+      "type": "boolean"
+    },
+    "qualification_basis": {
+      "minLength": 1,
+      "title": "Qualification Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "qualification_id",
+    "calibration_dataset_digest",
+    "holdout_dataset_digest",
+    "calibration_observation_count",
+    "holdout_observation_count",
+    "holdout_metric_definition",
+    "holdout_metric_value",
+    "holdout_metric_unit",
+    "maximum_supported_holdout_metric",
+    "maximum_supported_holdout_metric_unit",
+    "calibration_and_holdout_independent",
+    "qualification_basis",
+    "evidence"
+  ],
+  "title": "ResidualStressProviderQualification",
+  "type": "object"
+}

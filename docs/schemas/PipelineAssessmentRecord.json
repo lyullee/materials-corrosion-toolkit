@@ -1,0 +1,156 @@
+{
+  "additionalProperties": false,
+  "description": "One complete pipeline result bound to provider source and operating context.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pipeline_assessment.v1",
+      "default": "matintegrity.pipeline_assessment.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_package_version": {
+      "minLength": 1,
+      "title": "Provider Package Version",
+      "type": "string"
+    },
+    "provider_source_tree_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Source Tree Sha256",
+      "type": "string"
+    },
+    "provider_source_file_count": {
+      "exclusiveMinimum": 0,
+      "title": "Provider Source File Count",
+      "type": "integer"
+    },
+    "source_schema_version": {
+      "const": "pipeline_integrity.result.v1",
+      "default": "pipeline_integrity.result.v1",
+      "title": "Source Schema Version",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_version": {
+      "minLength": 1,
+      "title": "Model Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "out_of_scope",
+        "needs_data"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "measured",
+        "laboratory",
+        "simulation",
+        "user_declared",
+        "synthetic"
+      ],
+      "title": "Origin",
+      "type": "string"
+    },
+    "input_units": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Input Units",
+      "type": "object"
+    },
+    "output_units": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Output Units",
+      "type": "object"
+    },
+    "qualification": {
+      "enum": [
+        "engineering_screening",
+        "user_model"
+      ],
+      "title": "Qualification",
+      "type": "string"
+    },
+    "source_result": {
+      "additionalProperties": true,
+      "title": "Source Result",
+      "type": "object"
+    },
+    "source_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Result Digest",
+      "type": "string"
+    },
+    "field_or_design_acceptance_claim": {
+      "const": false,
+      "default": false,
+      "title": "Field Or Design Acceptance Claim",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_package_version",
+    "provider_source_tree_sha256",
+    "provider_source_file_count",
+    "model_id",
+    "model_version",
+    "status",
+    "asset_id",
+    "scenario_id",
+    "clock_id",
+    "origin",
+    "input_units",
+    "output_units",
+    "qualification",
+    "source_result",
+    "source_result_digest",
+    "limitations",
+    "payload_digest"
+  ],
+  "title": "PipelineAssessmentRecord",
+  "type": "object"
+}

@@ -1,0 +1,127 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-provided Henry solubility coefficient with explicit convention and lineage.",
+  "properties": {
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "coefficient_mol_L_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Coefficient Mol L Pa",
+      "type": "number"
+    },
+    "convention": {
+      "const": "aqueous_CO2star_concentration_over_gas_fugacity",
+      "title": "Convention",
+      "type": "string"
+    },
+    "solvent_composition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solvent Composition Sha256",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "temperature_K",
+    "coefficient_mol_L_Pa",
+    "convention",
+    "solvent_composition_sha256",
+    "provider_id",
+    "provider_revision",
+    "configuration_digest",
+    "record_digest",
+    "evidence"
+  ],
+  "title": "Co2HenrySolubilityRecord",
+  "type": "object"
+}

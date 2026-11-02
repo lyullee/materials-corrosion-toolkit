@@ -1,0 +1,235 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketLeakageFitObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Contact Pressure Pa",
+          "type": "number"
+        },
+        "differential_pressure_Pa": {
+          "minimum": 0,
+          "title": "Differential Pressure Pa",
+          "type": "number"
+        },
+        "molar_leak_flux_mol_s_m2": {
+          "minimum": 0,
+          "title": "Molar Leak Flux Mol S M2",
+          "type": "number"
+        },
+        "residual_scale_mol_s_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Residual Scale Mol S M2",
+          "type": "number"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "source_sha256",
+        "role",
+        "contact_pressure_Pa",
+        "differential_pressure_Pa",
+        "molar_leak_flux_mol_s_m2",
+        "residual_scale_mol_s_m2"
+      ],
+      "title": "GasketLeakageFitObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_scope_id": {
+      "minLength": 1,
+      "title": "Joint Scope Id",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "contact_pressure_knots_Pa": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 30,
+      "minItems": 2,
+      "title": "Contact Pressure Knots Pa",
+      "type": "array"
+    },
+    "differential_pressure_knots_Pa": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 30,
+      "minItems": 2,
+      "title": "Differential Pressure Knots Pa",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/GasketLeakageFitObservation"
+      },
+      "maxItems": 100000,
+      "minItems": 4,
+      "title": "Observations",
+      "type": "array"
+    },
+    "maximum_design_cells": {
+      "default": 2000000,
+      "maximum": 10000000,
+      "minimum": 4,
+      "title": "Maximum Design Cells",
+      "type": "integer"
+    },
+    "maximum_solver_iterations": {
+      "default": 1000,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Solver Iterations",
+      "type": "integer"
+    },
+    "solver_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Solver Tolerance",
+      "type": "number"
+    },
+    "observation_units_and_scope_reviewed": {
+      "title": "Observation Units And Scope Reviewed",
+      "type": "boolean"
+    },
+    "predeclared_partition_and_source_independence_reviewed": {
+      "title": "Predeclared Partition And Source Independence Reviewed",
+      "type": "boolean"
+    },
+    "bilinear_nonnegative_surface_and_residual_scale_reviewed": {
+      "title": "Bilinear Nonnegative Surface And Residual Scale Reviewed",
+      "type": "boolean"
+    },
+    "pointwise_computational_use_authorized": {
+      "title": "Pointwise Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_scope_id",
+    "calibration_id",
+    "contact_pressure_knots_Pa",
+    "differential_pressure_knots_Pa",
+    "observations",
+    "observation_units_and_scope_reviewed",
+    "predeclared_partition_and_source_independence_reviewed",
+    "bilinear_nonnegative_surface_and_residual_scale_reviewed",
+    "pointwise_computational_use_authorized",
+    "evidence"
+  ],
+  "title": "GasketLeakageMapFit",
+  "type": "object"
+}

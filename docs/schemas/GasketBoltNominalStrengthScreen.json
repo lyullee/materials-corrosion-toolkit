@@ -1,0 +1,388 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "BoltMaterialStrengthBasis": {
+      "additionalProperties": false,
+      "description": "One bolt's caller-owned nominal tensile strength versus temperature.",
+      "properties": {
+        "bolt_id": {
+          "minLength": 1,
+          "title": "Bolt Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "source_id": {
+          "default": "caller_bolt_proof_strength_temperature_curve",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "curve_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Curve Sha256",
+          "type": "string"
+        },
+        "curve_points": {
+          "items": {
+            "$ref": "#/$defs/BoltProofStrengthPoint"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Curve Points",
+          "type": "array"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "strength_definition_reviewed": {
+          "title": "Strength Definition Reviewed",
+          "type": "boolean"
+        },
+        "application_to_declared_bolt_reviewed": {
+          "title": "Application To Declared Bolt Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "bolt_id",
+        "material_condition_id",
+        "curve_id",
+        "curve_sha256",
+        "curve_points",
+        "evidence",
+        "strength_definition_reviewed",
+        "application_to_declared_bolt_reviewed"
+      ],
+      "title": "BoltMaterialStrengthBasis",
+      "type": "object"
+    },
+    "BoltProofStrengthPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "nominal_proof_strength_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Nominal Proof Strength Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "nominal_proof_strength_Pa"
+      ],
+      "title": "BoltProofStrengthPoint",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evidence-bound exact-knot bolt stress to caller strength comparison.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_bolt_nominal_strength_screen.v1",
+      "default": "matintegrity.gasket_bolt_nominal_strength_screen.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_assessment": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "temperature_history_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Temperature History K",
+      "type": "array"
+    },
+    "bolt_strength_bases": {
+      "items": {
+        "$ref": "#/$defs/BoltMaterialStrengthBasis"
+      },
+      "maxItems": 1024,
+      "minItems": 1,
+      "title": "Bolt Strength Bases",
+      "type": "array"
+    },
+    "temperature_interpolation_reviewed": {
+      "title": "Temperature Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "basis_identity_and_use_reviewed": {
+      "title": "Basis Identity And Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_assessment",
+    "asset_id",
+    "location_id",
+    "time_basis",
+    "physical_scope_id",
+    "temperature_history_K",
+    "bolt_strength_bases",
+    "temperature_interpolation_reviewed",
+    "basis_identity_and_use_reviewed"
+  ],
+  "title": "GasketBoltNominalStrengthScreen",
+  "type": "object"
+}

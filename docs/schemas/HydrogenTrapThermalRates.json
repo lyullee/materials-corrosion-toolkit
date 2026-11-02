@@ -1,0 +1,256 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermallyActivatedFrequency": {
+      "additionalProperties": false,
+      "properties": {
+        "frequency_id": {
+          "minLength": 1,
+          "title": "Frequency Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "arrhenius",
+            "transition_state"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "pre_exponential_frequency_per_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pre Exponential Frequency Per S"
+        },
+        "activation_energy_J_mol": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activation Energy J Mol"
+        },
+        "activation_enthalpy_J_mol": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activation Enthalpy J Mol"
+        },
+        "activation_entropy_J_mol_K": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activation Entropy J Mol K"
+        },
+        "transmission_coefficient": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transmission Coefficient"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "frequency_id",
+        "kind",
+        "evidence"
+      ],
+      "title": "ThermallyActivatedFrequency",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "trap_id": {
+      "minLength": 1,
+      "title": "Trap Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_lattice_id": {
+      "minLength": 1,
+      "title": "Reference Lattice Id",
+      "type": "string"
+    },
+    "energy_reference_id": {
+      "minLength": 1,
+      "title": "Energy Reference Id",
+      "type": "string"
+    },
+    "elapsed_time_origin_id": {
+      "minLength": 1,
+      "title": "Elapsed Time Origin Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 4096,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "supported_temperature_K": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      ],
+      "title": "Supported Temperature K",
+      "type": "array"
+    },
+    "capture": {
+      "$ref": "#/$defs/ThermallyActivatedFrequency"
+    },
+    "release": {
+      "$ref": "#/$defs/ThermallyActivatedFrequency"
+    },
+    "temperature_history_reviewed": {
+      "default": false,
+      "title": "Temperature History Reviewed",
+      "type": "boolean"
+    },
+    "frequency_parameterizations_reviewed": {
+      "default": false,
+      "title": "Frequency Parameterizations Reviewed",
+      "type": "boolean"
+    },
+    "common_energy_reference_reviewed": {
+      "default": false,
+      "title": "Common Energy Reference Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "trap_id",
+    "material_condition_id",
+    "reference_lattice_id",
+    "energy_reference_id",
+    "elapsed_time_origin_id",
+    "elapsed_time_s",
+    "temperature_K",
+    "supported_temperature_K",
+    "capture",
+    "release"
+  ],
+  "title": "HydrogenTrapThermalRates",
+  "type": "object"
+}

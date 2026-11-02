@@ -1,0 +1,251 @@
+{
+  "$defs": {
+    "ClassificationContext": {
+      "additionalProperties": false,
+      "properties": {
+        "code_namespace": {
+          "minLength": 1,
+          "title": "Code Namespace",
+          "type": "string"
+        },
+        "code_edition": {
+          "minLength": 1,
+          "title": "Code Edition",
+          "type": "string"
+        },
+        "classification_scheme_id": {
+          "minLength": 1,
+          "title": "Classification Scheme Id",
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "title": "Process Id",
+          "type": "string"
+        },
+        "subject_kind": {
+          "enum": [
+            "base_material",
+            "filler_material",
+            "consumable",
+            "weld_deposit"
+          ],
+          "title": "Subject Kind",
+          "type": "string"
+        },
+        "qualification_purpose_id": {
+          "minLength": 1,
+          "title": "Qualification Purpose Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code_namespace",
+        "code_edition",
+        "classification_scheme_id",
+        "process_id",
+        "subject_kind",
+        "qualification_purpose_id"
+      ],
+      "title": "ClassificationContext",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SpecificationDesignation": {
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "minLength": 1,
+          "title": "Namespace",
+          "type": "string"
+        },
+        "designation": {
+          "minLength": 1,
+          "title": "Designation",
+          "type": "string"
+        },
+        "edition": {
+          "minLength": 1,
+          "title": "Edition",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "condition": {
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "designation",
+        "edition",
+        "product_form",
+        "condition"
+      ],
+      "title": "SpecificationDesignation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "designation": {
+      "$ref": "#/$defs/SpecificationDesignation"
+    },
+    "context": {
+      "$ref": "#/$defs/ClassificationContext"
+    },
+    "assignment_status": {
+      "enum": [
+        "assigned",
+        "unassigned",
+        "unknown"
+      ],
+      "title": "Assignment Status",
+      "type": "string"
+    },
+    "assignment_token": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Assignment Token"
+    },
+    "unknown_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unknown Basis"
+    },
+    "assignment_basis": {
+      "minLength": 1,
+      "title": "Assignment Basis",
+      "type": "string"
+    },
+    "authority_id": {
+      "minLength": 1,
+      "title": "Authority Id",
+      "type": "string"
+    },
+    "revision": {
+      "minLength": 1,
+      "title": "Revision",
+      "type": "string"
+    },
+    "source_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Record Sha256",
+      "type": "string"
+    },
+    "authority_and_assignment_reviewed": {
+      "title": "Authority And Assignment Reviewed",
+      "type": "boolean"
+    },
+    "assignment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Assignment Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_id",
+    "designation",
+    "context",
+    "assignment_status",
+    "assignment_basis",
+    "authority_id",
+    "revision",
+    "source_record_sha256",
+    "authority_and_assignment_reviewed",
+    "assignment_sha256",
+    "evidence"
+  ],
+  "title": "DeclaredClassificationRecord",
+  "type": "object"
+}

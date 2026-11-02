@@ -1,0 +1,321 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TestWaterEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Minimum Ph",
+          "type": "number"
+        },
+        "maximum_pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Maximum Ph",
+          "type": "number"
+        },
+        "minimum_conductivity_S_m": {
+          "minimum": 0,
+          "title": "Minimum Conductivity S M",
+          "type": "number"
+        },
+        "maximum_conductivity_S_m": {
+          "minimum": 0,
+          "title": "Maximum Conductivity S M",
+          "type": "number"
+        },
+        "minimum_chloride_kg_m3": {
+          "minimum": 0,
+          "title": "Minimum Chloride Kg M3",
+          "type": "number"
+        },
+        "maximum_chloride_kg_m3": {
+          "minimum": 0,
+          "title": "Maximum Chloride Kg M3",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_pH",
+        "maximum_pH",
+        "minimum_conductivity_S_m",
+        "maximum_conductivity_S_m",
+        "minimum_chloride_kg_m3",
+        "maximum_chloride_kg_m3",
+        "evidence"
+      ],
+      "title": "TestWaterEnvelope",
+      "type": "object"
+    },
+    "TestWaterSample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "sample_time_s": {
+          "minimum": 0,
+          "title": "Sample Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Ph",
+          "type": "number"
+        },
+        "conductivity_S_m": {
+          "minimum": 0,
+          "title": "Conductivity S M",
+          "type": "number"
+        },
+        "chloride_kg_m3": {
+          "minimum": 0,
+          "title": "Chloride Kg M3",
+          "type": "number"
+        },
+        "measurement_method_id": {
+          "minLength": 1,
+          "title": "Measurement Method Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "location_id",
+        "sample_time_s",
+        "temperature_K",
+        "pH",
+        "conductivity_S_m",
+        "chloride_kg_m3",
+        "measurement_method_id",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TestWaterSample",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "test_id": {
+      "minLength": 1,
+      "title": "Test Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "test_start_time_s": {
+      "minimum": 0,
+      "title": "Test Start Time S",
+      "type": "number"
+    },
+    "test_end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Test End Time S",
+      "type": "number"
+    },
+    "required_location_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Location Ids",
+      "type": "array"
+    },
+    "maximum_sampling_gap_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Sampling Gap S",
+      "type": "number"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/TestWaterSample"
+      },
+      "minItems": 1,
+      "title": "Samples",
+      "type": "array"
+    },
+    "envelope": {
+      "$ref": "#/$defs/TestWaterEnvelope"
+    },
+    "sampling_plan_reviewed": {
+      "title": "Sampling Plan Reviewed",
+      "type": "boolean"
+    },
+    "sample_identity_and_location_reviewed": {
+      "title": "Sample Identity And Location Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_units_reviewed": {
+      "title": "Clock And Units Reviewed",
+      "type": "boolean"
+    },
+    "measurement_methods_reviewed": {
+      "title": "Measurement Methods Reviewed",
+      "type": "boolean"
+    },
+    "material_envelope_reviewed": {
+      "title": "Material Envelope Reviewed",
+      "type": "boolean"
+    },
+    "record_completeness_reviewed": {
+      "title": "Record Completeness Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "record_id",
+    "test_id",
+    "asset_id",
+    "material_condition_id",
+    "clock_id",
+    "test_start_time_s",
+    "test_end_time_s",
+    "required_location_ids",
+    "maximum_sampling_gap_s",
+    "samples",
+    "envelope",
+    "sampling_plan_reviewed",
+    "sample_identity_and_location_reviewed",
+    "clock_and_units_reviewed",
+    "measurement_methods_reviewed",
+    "material_envelope_reviewed",
+    "record_completeness_reviewed"
+  ],
+  "title": "TestWaterQualityRecord",
+  "type": "object"
+}

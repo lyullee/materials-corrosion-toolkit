@@ -1,0 +1,301 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationMap": {
+      "additionalProperties": false,
+      "properties": {
+        "differential_pressure_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Differential Pressure Pa",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/GasketLeakageCalibrationRow"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "differential_pressure_Pa",
+        "rows"
+      ],
+      "title": "GasketLeakageCalibrationMap",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationRow": {
+      "additionalProperties": false,
+      "properties": {
+        "contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Contact Pressure Pa",
+          "type": "number"
+        },
+        "molar_leak_flux_by_delta_pressure_mol_s_m2": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Molar Leak Flux By Delta Pressure Mol S M2",
+          "type": "array"
+        }
+      },
+      "required": [
+        "contact_pressure_Pa",
+        "molar_leak_flux_by_delta_pressure_mol_s_m2"
+      ],
+      "title": "GasketLeakageCalibrationRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "First-order uncertainty propagation for one caller-defined joint state.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_leakage_covariance_propagation.v1",
+      "default": "matintegrity.gasket_leakage_covariance_propagation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Node Ids",
+      "type": "array"
+    },
+    "node_contact_pressure_Pa": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Node Contact Pressure Pa",
+      "type": "array"
+    },
+    "common_differential_pressure_Pa": {
+      "minimum": 0,
+      "title": "Common Differential Pressure Pa",
+      "type": "number"
+    },
+    "node_area_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Node Area M2",
+      "type": "array"
+    },
+    "calibration": {
+      "$ref": "#/$defs/GasketLeakageCalibrationMap"
+    },
+    "calibration_provider_id": {
+      "minLength": 1,
+      "title": "Calibration Provider Id",
+      "type": "string"
+    },
+    "input_covariance": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 2049,
+      "minItems": 1,
+      "title": "Input Covariance",
+      "type": "array"
+    },
+    "input_covariance_order": {
+      "const": "node_contact_pressure_Pa_then_common_differential_pressure_Pa_then_node_area_m2_then_row_major_flux",
+      "default": "node_contact_pressure_Pa_then_common_differential_pressure_Pa_then_node_area_m2_then_row_major_flux",
+      "title": "Input Covariance Order",
+      "type": "string"
+    },
+    "calibration_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Record Sha256",
+      "type": "string"
+    },
+    "scenario_provider_id": {
+      "minLength": 1,
+      "title": "Scenario Provider Id",
+      "type": "string"
+    },
+    "scenario_provider_revision": {
+      "minLength": 1,
+      "title": "Scenario Provider Revision",
+      "type": "string"
+    },
+    "scenario_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scenario Record Sha256",
+      "type": "string"
+    },
+    "covariance_provider_id": {
+      "minLength": 1,
+      "title": "Covariance Provider Id",
+      "type": "string"
+    },
+    "covariance_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Covariance Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "calibration_scope_and_units_reviewed": {
+      "title": "Calibration Scope And Units Reviewed",
+      "type": "boolean"
+    },
+    "covariance_order_units_and_estimation_reviewed": {
+      "title": "Covariance Order Units And Estimation Reviewed",
+      "type": "boolean"
+    },
+    "local_linearization_and_support_reviewed": {
+      "title": "Local Linearization And Support Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "joint_id",
+    "physical_scope_id",
+    "time_s",
+    "node_ids",
+    "node_contact_pressure_Pa",
+    "common_differential_pressure_Pa",
+    "node_area_m2",
+    "calibration",
+    "calibration_provider_id",
+    "input_covariance",
+    "calibration_record_sha256",
+    "scenario_provider_id",
+    "scenario_provider_revision",
+    "scenario_record_sha256",
+    "covariance_provider_id",
+    "covariance_record_sha256",
+    "usage_license_id",
+    "evidence",
+    "calibration_scope_and_units_reviewed",
+    "covariance_order_units_and_estimation_reviewed",
+    "local_linearization_and_support_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketLeakageCovariancePropagation",
+  "type": "object"
+}

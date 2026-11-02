@@ -1,0 +1,146 @@
+{
+  "additionalProperties": false,
+  "description": "Pinned provider request plus MatIntegrity's separate event/clock lineage.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.ccps_release_history_request_envelope.v1",
+      "default": "matintegrity.ccps_release_history_request_envelope.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "repository": {
+      "const": "lyullee/process-risk-consequence-toolkit",
+      "default": "lyullee/process-risk-consequence-toolkit",
+      "title": "Repository",
+      "type": "string"
+    },
+    "commit": {
+      "const": "4106da0020196fcf61c8b6264ae0598e63a881a1",
+      "default": "4106da0020196fcf61c8b6264ae0598e63a881a1",
+      "title": "Commit",
+      "type": "string"
+    },
+    "request_schema_path": {
+      "const": "contracts/ccps.release_history_request.v1.schema.json",
+      "default": "contracts/ccps.release_history_request.v1.schema.json",
+      "title": "Request Schema Path",
+      "type": "string"
+    },
+    "request_schema_sha256": {
+      "const": "025c2df40b84dbd75b30295f6445416032500db9a549b343fa2cf0ff656ce707",
+      "default": "025c2df40b84dbd75b30295f6445416032500db9a549b343fa2cf0ff656ce707",
+      "title": "Request Schema Sha256",
+      "type": "string"
+    },
+    "result_schema_path": {
+      "const": "contracts/ccps.release_history_result.v1.schema.json",
+      "default": "contracts/ccps.release_history_result.v1.schema.json",
+      "title": "Result Schema Path",
+      "type": "string"
+    },
+    "result_schema_sha256": {
+      "const": "4085015227fdee8d2c9e04da06d1e64b5f4a60e5b6f28f913addac66069d2c6d",
+      "default": "4085015227fdee8d2c9e04da06d1e64b5f4a60e5b6f28f913addac66069d2c6d",
+      "title": "Result Schema Sha256",
+      "type": "string"
+    },
+    "handoff_id": {
+      "minLength": 1,
+      "title": "Handoff Id",
+      "type": "string"
+    },
+    "handoff_payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Handoff Payload Digest",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_probability": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Event Probability",
+      "type": "number"
+    },
+    "probability_semantics": {
+      "enum": [
+        "conditional_first_failure_in_period",
+        "point_in_time_state_probability",
+        "posterior_parameter_probability",
+        "model_implied_input_uncertainty_probability",
+        "spatial_size_exceedance_at_one_exposure",
+        "detection_given_flaw_and_procedure",
+        "unscoped_event_probability",
+        "fault_tree_top_event_probability"
+      ],
+      "title": "Probability Semantics",
+      "type": "string"
+    },
+    "probability_conditioning": {
+      "minLength": 1,
+      "title": "Probability Conditioning",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "source_history_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source History Digest",
+      "type": "string"
+    },
+    "request": {
+      "additionalProperties": true,
+      "title": "Request",
+      "type": "object"
+    },
+    "request_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Digest",
+      "type": "string"
+    },
+    "event_probability_in_request": {
+      "const": false,
+      "default": false,
+      "title": "Event Probability In Request",
+      "type": "boolean"
+    },
+    "wall_loss_to_opening_conversion_performed": {
+      "const": false,
+      "default": false,
+      "title": "Wall Loss To Opening Conversion Performed",
+      "type": "boolean"
+    },
+    "external_engine_executed": {
+      "const": false,
+      "default": false,
+      "title": "External Engine Executed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "handoff_id",
+    "handoff_payload_digest",
+    "event_id",
+    "event_probability",
+    "probability_semantics",
+    "probability_conditioning",
+    "clock_id",
+    "time_basis",
+    "source_history_digest",
+    "request",
+    "request_digest"
+  ],
+  "title": "CcpsReleaseHistoryRequestEnvelope",
+  "type": "object"
+}

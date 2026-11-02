@@ -1,0 +1,597 @@
+{
+  "$defs": {
+    "CryogenicLeakObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "observation_role": {
+          "enum": [
+            "background",
+            "control",
+            "test"
+          ],
+          "title": "Observation Role",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "reporting_status": {
+          "enum": [
+            "quantified",
+            "below_detection",
+            "missing"
+          ],
+          "title": "Reporting Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "detection_limit": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detection Limit"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "cycle_id",
+        "physical_location_id",
+        "source_group_id",
+        "observation_role",
+        "method_id",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "reporting_status",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "evidence"
+      ],
+      "title": "CryogenicLeakObservation",
+      "type": "object"
+    },
+    "CryogenicThermalCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_pressure_Pa": {
+          "minimum": 0,
+          "title": "Minimum Pressure Pa",
+          "type": "number"
+        },
+        "maximum_pressure_Pa": {
+          "minimum": 0,
+          "title": "Maximum Pressure Pa",
+          "type": "number"
+        },
+        "temperature_provider_id": {
+          "minLength": 1,
+          "title": "Temperature Provider Id",
+          "type": "string"
+        },
+        "pressure_provider_id": {
+          "minLength": 1,
+          "title": "Pressure Provider Id",
+          "type": "string"
+        },
+        "acquisition_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Acquisition State Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "thermal_stabilization_basis": {
+          "minLength": 1,
+          "title": "Thermal Stabilization Basis",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cycle_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_pressure_Pa",
+        "maximum_pressure_Pa",
+        "temperature_provider_id",
+        "pressure_provider_id",
+        "acquisition_state_digest",
+        "data_digest",
+        "thermal_stabilization_basis",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CryogenicThermalCycle",
+      "type": "object"
+    },
+    "DeclaredCryogenicLeakEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "test_medium_id": {
+          "minLength": 1,
+          "title": "Test Medium Id",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "enum": [
+            "absolute",
+            "gauge"
+          ],
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "minimum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Temperature K",
+          "type": "number"
+        },
+        "minimum_supported_pressure_Pa": {
+          "minimum": 0,
+          "title": "Minimum Supported Pressure Pa",
+          "type": "number"
+        },
+        "maximum_supported_pressure_Pa": {
+          "minimum": 0,
+          "title": "Maximum Supported Pressure Pa",
+          "type": "number"
+        },
+        "supported_method_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Method Ids",
+          "type": "array"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "maximum_conservative_value": {
+          "minimum": 0,
+          "title": "Maximum Conservative Value",
+          "type": "number"
+        },
+        "minimum_valid_cycles": {
+          "minimum": 1,
+          "title": "Minimum Valid Cycles",
+          "type": "integer"
+        },
+        "minimum_test_locations_per_cycle": {
+          "minimum": 1,
+          "title": "Minimum Test Locations Per Cycle",
+          "type": "integer"
+        },
+        "envelope_provider_id": {
+          "minLength": 1,
+          "title": "Envelope Provider Id",
+          "type": "string"
+        },
+        "envelope_provider_version": {
+          "minLength": 1,
+          "title": "Envelope Provider Version",
+          "type": "string"
+        },
+        "envelope_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Envelope State Digest",
+          "type": "string"
+        },
+        "authority_basis": {
+          "minLength": 1,
+          "title": "Authority Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "test_medium_id",
+        "pressure_basis",
+        "minimum_supported_temperature_K",
+        "maximum_supported_temperature_K",
+        "minimum_supported_pressure_Pa",
+        "maximum_supported_pressure_Pa",
+        "supported_method_ids",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "maximum_conservative_value",
+        "minimum_valid_cycles",
+        "minimum_test_locations_per_cycle",
+        "envelope_provider_id",
+        "envelope_provider_version",
+        "envelope_state_digest",
+        "authority_basis",
+        "evidence"
+      ],
+      "title": "DeclaredCryogenicLeakEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "test_article_id": {
+      "minLength": 1,
+      "title": "Test Article Id",
+      "type": "string"
+    },
+    "test_medium_id": {
+      "minLength": 1,
+      "title": "Test Medium Id",
+      "type": "string"
+    },
+    "pressure_basis": {
+      "enum": [
+        "absolute",
+        "gauge"
+      ],
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "cycles": {
+      "items": {
+        "$ref": "#/$defs/CryogenicThermalCycle"
+      },
+      "minItems": 1,
+      "title": "Cycles",
+      "type": "array"
+    },
+    "leak_observations": {
+      "items": {
+        "$ref": "#/$defs/CryogenicLeakObservation"
+      },
+      "minItems": 1,
+      "title": "Leak Observations",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/DeclaredCryogenicLeakEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "article_and_medium_identity_reviewed": {
+      "title": "Article And Medium Identity Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_cycle_alignment_reviewed": {
+      "title": "Clock And Cycle Alignment Reviewed",
+      "type": "boolean"
+    },
+    "temperature_and_pressure_basis_reviewed": {
+      "title": "Temperature And Pressure Basis Reviewed",
+      "type": "boolean"
+    },
+    "thermal_stabilization_reviewed": {
+      "title": "Thermal Stabilization Reviewed",
+      "type": "boolean"
+    },
+    "leak_methods_and_locations_reviewed": {
+      "title": "Leak Methods And Locations Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_and_detection_limits_reviewed": {
+      "title": "Uncertainty And Detection Limits Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "envelope_authority_reviewed": {
+      "title": "Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "test_article_id",
+    "test_medium_id",
+    "pressure_basis",
+    "clock_id",
+    "cycles",
+    "leak_observations",
+    "candidate_envelopes",
+    "article_and_medium_identity_reviewed",
+    "clock_and_cycle_alignment_reviewed",
+    "temperature_and_pressure_basis_reviewed",
+    "thermal_stabilization_reviewed",
+    "leak_methods_and_locations_reviewed",
+    "uncertainty_and_detection_limits_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "CryogenicLeakTestAssessment",
+  "type": "object"
+}

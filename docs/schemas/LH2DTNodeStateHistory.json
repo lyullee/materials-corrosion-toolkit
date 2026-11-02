@@ -1,0 +1,265 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LH2DTNodeThermoPoint": {
+      "additionalProperties": false,
+      "description": "One caller-mapped thermodynamic node state at an accepted time point.",
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Pressure Pa",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Density Kg M3",
+          "type": "number"
+        },
+        "specific_enthalpy_J_kg": {
+          "title": "Specific Enthalpy J Kg",
+          "type": "number"
+        },
+        "specific_internal_energy_J_kg": {
+          "title": "Specific Internal Energy J Kg",
+          "type": "number"
+        },
+        "specific_entropy_J_kgK": {
+          "title": "Specific Entropy J Kgk",
+          "type": "number"
+        },
+        "quality": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quality"
+        },
+        "phase": {
+          "minLength": 1,
+          "title": "Phase",
+          "type": "string"
+        },
+        "node_mass_flow_kg_s": {
+          "title": "Node Mass Flow Kg S",
+          "type": "number"
+        },
+        "pressure_solver_success": {
+          "title": "Pressure Solver Success",
+          "type": "boolean"
+        },
+        "junction_conservation_success": {
+          "title": "Junction Conservation Success",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "time_s",
+        "pressure_Pa",
+        "temperature_K",
+        "density_kg_m3",
+        "specific_enthalpy_J_kg",
+        "specific_internal_energy_J_kg",
+        "specific_entropy_J_kgK",
+        "phase",
+        "node_mass_flow_kg_s",
+        "pressure_solver_success",
+        "junction_conservation_success"
+      ],
+      "title": "LH2DTNodeThermoPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Pinned upstream run and an explicitly mapped node-state time series.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.lh2dt_node_state_history.v1",
+      "default": "matintegrity.lh2dt_node_state_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "model_id": {
+      "const": "integration.lh2dt_dynamic_network_node_state_history",
+      "default": "integration.lh2dt_dynamic_network_node_state_history",
+      "title": "Model Id",
+      "type": "string"
+    },
+    "upstream_repository": {
+      "const": "lyullee/lh2dt_models",
+      "default": "lyullee/lh2dt_models",
+      "title": "Upstream Repository",
+      "type": "string"
+    },
+    "upstream_revision": {
+      "pattern": "^[0-9a-f]{40}$",
+      "title": "Upstream Revision",
+      "type": "string"
+    },
+    "upstream_package_version": {
+      "minLength": 1,
+      "title": "Upstream Package Version",
+      "type": "string"
+    },
+    "source_run_id": {
+      "minLength": 1,
+      "title": "Source Run Id",
+      "type": "string"
+    },
+    "upstream_result_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Upstream Result Sha256",
+      "type": "string"
+    },
+    "upstream_configuration_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Upstream Configuration Sha256",
+      "type": "string"
+    },
+    "node_id": {
+      "minLength": 1,
+      "title": "Node Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/LH2DTNodeThermoPoint"
+      },
+      "minItems": 1,
+      "title": "Points",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "node_to_physical_asset_mapping_reviewed": {
+      "title": "Node To Physical Asset Mapping Reviewed",
+      "type": "boolean"
+    },
+    "fluid_and_material_scope_reviewed": {
+      "title": "Fluid And Material Scope Reviewed",
+      "type": "boolean"
+    },
+    "upstream_convergence_reviewed": {
+      "title": "Upstream Convergence Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "upstream_revision",
+    "upstream_package_version",
+    "source_run_id",
+    "upstream_result_sha256",
+    "upstream_configuration_sha256",
+    "node_id",
+    "asset_id",
+    "location_id",
+    "material_condition_id",
+    "clock_id",
+    "points",
+    "evidence",
+    "node_to_physical_asset_mapping_reviewed",
+    "fluid_and_material_scope_reviewed",
+    "upstream_convergence_reviewed"
+  ],
+  "title": "LH2DTNodeStateHistory",
+  "type": "object"
+}

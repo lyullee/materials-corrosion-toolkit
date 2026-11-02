@@ -1,0 +1,571 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "DamageMechanismFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "domain": {
+          "enum": [
+            "environment",
+            "material",
+            "stress",
+            "geometry",
+            "flow",
+            "thermal_history",
+            "inspection",
+            "process"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "definition": {
+          "minLength": 1,
+          "title": "Definition",
+          "type": "string"
+        },
+        "value_kind": {
+          "enum": [
+            "number",
+            "descriptor",
+            "boolean"
+          ],
+          "title": "Value Kind",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "known",
+            "unknown",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numeric Value"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "descriptor_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Descriptor Value"
+        },
+        "boolean_value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Boolean Value"
+        },
+        "unknown_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unknown Or Invalid Basis"
+        },
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "domain",
+        "definition",
+        "value_kind",
+        "status",
+        "evidence_record_id",
+        "source_group_id",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "DamageMechanismFact",
+      "type": "object"
+    },
+    "DamageMechanismProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "mechanism_id": {
+          "minLength": 1,
+          "title": "Mechanism Id",
+          "type": "string"
+        },
+        "mechanism_definition": {
+          "minLength": 1,
+          "title": "Mechanism Definition",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "required_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "minItems": 1,
+          "title": "Required Fact Ids",
+          "type": "array"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/SCCScreeningRule"
+          },
+          "maxItems": 1000,
+          "minItems": 1,
+          "title": "Rules",
+          "type": "array"
+        },
+        "unknown_policy": {
+          "enum": [
+            "indeterminate",
+            "screen_in"
+          ],
+          "title": "Unknown Policy",
+          "type": "string"
+        },
+        "authority_and_rule_completeness_reviewed": {
+          "title": "Authority And Rule Completeness Reviewed",
+          "type": "boolean"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "mechanism_id",
+        "mechanism_definition",
+        "provider_id",
+        "revision",
+        "required_fact_ids",
+        "rules",
+        "unknown_policy",
+        "authority_and_rule_completeness_reviewed",
+        "profile_sha256",
+        "evidence"
+      ],
+      "title": "DamageMechanismProfile",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SCCRuleCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "expected_fact_kind": {
+          "enum": [
+            "number",
+            "descriptor",
+            "boolean"
+          ],
+          "title": "Expected Fact Kind",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "greater_than",
+            "greater_than_or_equal",
+            "less_than",
+            "less_than_or_equal",
+            "between_inclusive",
+            "equals",
+            "in_set",
+            "is_true",
+            "is_false"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Threshold"
+        },
+        "lower_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower Bound"
+        },
+        "upper_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Bound"
+        },
+        "expected_descriptors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Descriptors",
+          "type": "array"
+        },
+        "condition_basis": {
+          "minLength": 1,
+          "title": "Condition Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "condition_id",
+        "fact_id",
+        "expected_fact_kind",
+        "operator",
+        "condition_basis"
+      ],
+      "title": "SCCRuleCondition",
+      "type": "object"
+    },
+    "SCCScreeningRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_definition": {
+          "minLength": 1,
+          "title": "Rule Definition",
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/SCCRuleCondition"
+          },
+          "minItems": 1,
+          "title": "Conditions",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "rule_definition",
+        "conditions",
+        "evidence"
+      ],
+      "title": "SCCScreeningRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/DamageMechanismFact"
+      },
+      "maxItems": 10000,
+      "title": "Facts",
+      "type": "array"
+    },
+    "profiles": {
+      "items": {
+        "$ref": "#/$defs/DamageMechanismProfile"
+      },
+      "maxItems": 500,
+      "minItems": 1,
+      "title": "Profiles",
+      "type": "array"
+    },
+    "facts_units_lineage_and_physical_scope_reviewed": {
+      "title": "Facts Units Lineage And Physical Scope Reviewed",
+      "type": "boolean"
+    },
+    "screening_boundary_and_profile_selection_reviewed": {
+      "title": "Screening Boundary And Profile Selection Reviewed",
+      "type": "boolean"
+    },
+    "maximum_condition_evaluations": {
+      "default": 100000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Maximum Condition Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "basis",
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "facts",
+    "profiles",
+    "facts_units_lineage_and_physical_scope_reviewed",
+    "screening_boundary_and_profile_selection_reviewed"
+  ],
+  "title": "DamageMechanismScreening",
+  "type": "object"
+}

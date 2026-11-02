@@ -1,0 +1,260 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermallyActivatedSurfaceFlux": {
+      "additionalProperties": false,
+      "description": "One reviewed Arrhenius limiting surface-flux parameterization.",
+      "properties": {
+        "rate_id": {
+          "minLength": 1,
+          "title": "Rate Id",
+          "type": "string"
+        },
+        "pre_exponential_capacity_flux_mol_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Pre Exponential Capacity Flux Mol M2 S",
+          "type": "number"
+        },
+        "activation_energy_J_mol": {
+          "minimum": 0,
+          "title": "Activation Energy J Mol",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rate_id",
+        "pre_exponential_capacity_flux_mol_m2_s",
+        "activation_energy_J_mol",
+        "evidence"
+      ],
+      "title": "ThermallyActivatedSurfaceFlux",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Create boundary histories without inferring fugacity or surface parameters.",
+  "properties": {
+    "boundary_id": {
+      "minLength": 1,
+      "title": "Boundary Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_lattice_id": {
+      "minLength": 1,
+      "title": "Reference Lattice Id",
+      "type": "string"
+    },
+    "surface_condition_id": {
+      "minLength": 1,
+      "title": "Surface Condition Id",
+      "type": "string"
+    },
+    "hydrogen_species_id": {
+      "minLength": 1,
+      "title": "Hydrogen Species Id",
+      "type": "string"
+    },
+    "gas_state_provider_id": {
+      "minLength": 1,
+      "title": "Gas State Provider Id",
+      "type": "string"
+    },
+    "elapsed_time_origin_id": {
+      "minLength": 1,
+      "title": "Elapsed Time Origin Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 4096,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "hydrogen_gas_driver_Pa": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Hydrogen Gas Driver Pa",
+      "type": "array"
+    },
+    "gas_driver_kind": {
+      "enum": [
+        "fugacity",
+        "ideal_gas_partial_pressure_approximation"
+      ],
+      "title": "Gas Driver Kind",
+      "type": "string"
+    },
+    "reference_fugacity_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Fugacity Pa",
+      "type": "number"
+    },
+    "supported_temperature_K": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      ],
+      "title": "Supported Temperature K",
+      "type": "array"
+    },
+    "supported_hydrogen_gas_driver_Pa": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      ],
+      "title": "Supported Hydrogen Gas Driver Pa",
+      "type": "array"
+    },
+    "absorption": {
+      "$ref": "#/$defs/ThermallyActivatedSurfaceFlux"
+    },
+    "desorption": {
+      "$ref": "#/$defs/ThermallyActivatedSurfaceFlux"
+    },
+    "temperature_history_reviewed": {
+      "default": false,
+      "title": "Temperature History Reviewed",
+      "type": "boolean"
+    },
+    "gas_driver_history_reviewed": {
+      "default": false,
+      "title": "Gas Driver History Reviewed",
+      "type": "boolean"
+    },
+    "surface_parameterizations_reviewed": {
+      "default": false,
+      "title": "Surface Parameterizations Reviewed",
+      "type": "boolean"
+    },
+    "lattice_surface_state_mapping_reviewed": {
+      "default": false,
+      "title": "Lattice Surface State Mapping Reviewed",
+      "type": "boolean"
+    },
+    "ideal_gas_approximation_reviewed": {
+      "default": false,
+      "title": "Ideal Gas Approximation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "boundary_id",
+    "material_condition_id",
+    "reference_lattice_id",
+    "surface_condition_id",
+    "hydrogen_species_id",
+    "gas_state_provider_id",
+    "elapsed_time_origin_id",
+    "elapsed_time_s",
+    "temperature_K",
+    "hydrogen_gas_driver_Pa",
+    "gas_driver_kind",
+    "reference_fugacity_Pa",
+    "supported_temperature_K",
+    "supported_hydrogen_gas_driver_Pa",
+    "absorption",
+    "desorption"
+  ],
+  "title": "HydrogenDissociativeSurfaceRates",
+  "type": "object"
+}

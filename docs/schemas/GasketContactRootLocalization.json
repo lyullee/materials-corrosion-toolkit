@@ -1,0 +1,487 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "ContactResponseReceipt": {
+      "additionalProperties": false,
+      "description": "External scalar response tied to an exact query and solver result digest.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.contact_response_receipt.v1",
+          "default": "matintegrity.contact_response_receipt.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "query_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Query Sha256",
+          "type": "string"
+        },
+        "source_bracket_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Bracket Result Sha256",
+          "type": "string"
+        },
+        "source_contact_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Contact History Sha256",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Context Sha256",
+          "type": "string"
+        },
+        "node_id": {
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "response_definition_id": {
+          "minLength": 1,
+          "title": "Response Definition Id",
+          "type": "string"
+        },
+        "response_unit": {
+          "minLength": 1,
+          "title": "Response Unit",
+          "type": "string"
+        },
+        "response_value": {
+          "title": "Response Value",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Sha256",
+          "type": "string"
+        },
+        "solver_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solver Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "query_sha256",
+        "source_bracket_result_sha256",
+        "source_contact_history_sha256",
+        "physical_scope_id",
+        "asset_id",
+        "location_id",
+        "time_basis",
+        "context_sha256",
+        "node_id",
+        "time_s",
+        "response_definition_id",
+        "response_unit",
+        "response_value",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_sha256",
+        "solver_result_sha256",
+        "evidence",
+        "result_sha256"
+      ],
+      "title": "ContactResponseReceipt",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Narrow one caller-reviewed scalar sign-change bracket using an FE callback.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_contact_root_localization.v1",
+      "default": "matintegrity.gasket_contact_root_localization.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "source_bracket_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "source_bracket_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Bracket Result Sha256",
+      "type": "string"
+    },
+    "node_id": {
+      "minLength": 1,
+      "title": "Node Id",
+      "type": "string"
+    },
+    "lower_time_s": {
+      "minimum": 0,
+      "title": "Lower Time S",
+      "type": "number"
+    },
+    "upper_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Upper Time S",
+      "type": "number"
+    },
+    "response_definition_id": {
+      "minLength": 1,
+      "title": "Response Definition Id",
+      "type": "string"
+    },
+    "response_unit": {
+      "minLength": 1,
+      "title": "Response Unit",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "lower_endpoint": {
+      "$ref": "#/$defs/ContactResponseReceipt"
+    },
+    "upper_endpoint": {
+      "$ref": "#/$defs/ContactResponseReceipt"
+    },
+    "time_tolerance_s": {
+      "exclusiveMinimum": 0,
+      "title": "Time Tolerance S",
+      "type": "number"
+    },
+    "maximum_evaluations": {
+      "maximum": 128,
+      "minimum": 1,
+      "title": "Maximum Evaluations",
+      "type": "integer"
+    },
+    "single_continuous_monotone_root_reviewed": {
+      "title": "Single Continuous Monotone Root Reviewed",
+      "type": "boolean"
+    },
+    "contact_response_semantics_reviewed": {
+      "title": "Contact Response Semantics Reviewed",
+      "type": "boolean"
+    },
+    "physical_scope_and_time_basis_reviewed": {
+      "title": "Physical Scope And Time Basis Reviewed",
+      "type": "boolean"
+    },
+    "provider_identity_revision_configuration_reviewed": {
+      "title": "Provider Identity Revision Configuration Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "source_bracket_result",
+    "source_bracket_result_sha256",
+    "node_id",
+    "lower_time_s",
+    "upper_time_s",
+    "response_definition_id",
+    "response_unit",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "lower_endpoint",
+    "upper_endpoint",
+    "time_tolerance_s",
+    "maximum_evaluations",
+    "single_continuous_monotone_root_reviewed",
+    "contact_response_semantics_reviewed",
+    "physical_scope_and_time_basis_reviewed",
+    "provider_identity_revision_configuration_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketContactRootLocalization",
+  "type": "object"
+}

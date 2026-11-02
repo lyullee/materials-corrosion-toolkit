@@ -1,0 +1,198 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PropertyIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "material_condition": {
+          "minLength": 1,
+          "title": "Material Condition",
+          "type": "string"
+        },
+        "orientation": {
+          "minLength": 1,
+          "title": "Orientation",
+          "type": "string"
+        },
+        "property_id": {
+          "minLength": 1,
+          "title": "Property Id",
+          "type": "string"
+        },
+        "basis_id": {
+          "minLength": 1,
+          "title": "Basis Id",
+          "type": "string"
+        },
+        "basis_edition": {
+          "minLength": 1,
+          "title": "Basis Edition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "material_id",
+        "product_form",
+        "material_condition",
+        "orientation",
+        "property_id",
+        "basis_id",
+        "basis_edition"
+      ],
+      "title": "PropertyIdentity",
+      "type": "object"
+    },
+    "TabulatedProperty": {
+      "additionalProperties": false,
+      "properties": {
+        "property_id": {
+          "minLength": 1,
+          "title": "Property Id",
+          "type": "string"
+        },
+        "x": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "X",
+          "type": "array"
+        },
+        "y": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Y",
+          "type": "array"
+        },
+        "x_unit": {
+          "minLength": 1,
+          "title": "X Unit",
+          "type": "string"
+        },
+        "y_unit": {
+          "minLength": 1,
+          "title": "Y Unit",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "interpolation": {
+          "default": "linear",
+          "enum": [
+            "linear",
+            "pchip"
+          ],
+          "title": "Interpolation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "property_id",
+        "x",
+        "y",
+        "x_unit",
+        "y_unit",
+        "source_id"
+      ],
+      "title": "TabulatedProperty",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "identity": {
+      "$ref": "#/$defs/PropertyIdentity"
+    },
+    "temperature_table": {
+      "$ref": "#/$defs/TabulatedProperty"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "permitted_use_note": {
+      "minLength": 1,
+      "title": "Permitted Use Note",
+      "type": "string"
+    }
+  },
+  "required": [
+    "identity",
+    "temperature_table",
+    "evidence",
+    "permitted_use_note"
+  ],
+  "title": "DesignPropertyTable",
+  "type": "object"
+}

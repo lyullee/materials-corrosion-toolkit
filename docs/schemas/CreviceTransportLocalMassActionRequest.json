@@ -1,0 +1,774 @@
+{
+  "$defs": {
+    "AqueousActivitySpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "initial_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Activity",
+          "type": "number"
+        },
+        "elemental_composition": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elemental Composition"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "activity_coefficient",
+        "initial_activity"
+      ],
+      "title": "AqueousActivitySpecies",
+      "type": "object"
+    },
+    "AqueousEquilibriumReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "log10_equilibrium_constant",
+        "terms"
+      ],
+      "title": "AqueousEquilibriumReaction",
+      "type": "object"
+    },
+    "AqueousLinearConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_id": {
+          "minLength": 1,
+          "title": "Constraint Id",
+          "type": "string"
+        },
+        "target_mol_L": {
+          "title": "Target Mol L",
+          "type": "number"
+        },
+        "residual_scale_mol_L": {
+          "exclusiveMinimum": 0,
+          "title": "Residual Scale Mol L",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_id",
+        "target_mol_L",
+        "residual_scale_mol_L",
+        "terms"
+      ],
+      "title": "AqueousLinearConstraint",
+      "type": "object"
+    },
+    "AqueousMassActionSystem": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_mass_action.v1",
+          "default": "matintegrity.aqueous_mass_action.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "solution_id": {
+          "minLength": 1,
+          "title": "Solution Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/AqueousActivitySpecies"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Species",
+          "type": "array"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/AqueousEquilibriumReaction"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/AqueousLinearConstraint"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "maximum_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Iterations",
+          "type": "integer"
+        },
+        "normalized_residual_tolerance": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "maximum": 0.0001,
+          "title": "Normalized Residual Tolerance",
+          "type": "number"
+        },
+        "maximum_jacobian_condition_number": {
+          "default": 100000000000000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1e+16,
+          "title": "Maximum Jacobian Condition Number",
+          "type": "number"
+        },
+        "local_parameter_covariance": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Parameter Covariance"
+        },
+        "local_parameter_covariance_reviewed": {
+          "default": false,
+          "title": "Local Parameter Covariance Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "minLength": 1,
+          "title": "Activity Provider Id",
+          "type": "string"
+        },
+        "activity_provider_revision": {
+          "minLength": 1,
+          "title": "Activity Provider Revision",
+          "type": "string"
+        },
+        "activity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Configuration Digest",
+          "type": "string"
+        },
+        "activity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Record Digest",
+          "type": "string"
+        },
+        "equilibrium_provider_id": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Id",
+          "type": "string"
+        },
+        "equilibrium_provider_revision": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Revision",
+          "type": "string"
+        },
+        "equilibrium_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Configuration Digest",
+          "type": "string"
+        },
+        "equilibrium_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Record Digest",
+          "type": "string"
+        },
+        "complete_aqueous_species_inventory_reviewed": {
+          "title": "Complete Aqueous Species Inventory Reviewed",
+          "type": "boolean"
+        },
+        "reaction_stoichiometry_and_constant_reviewed": {
+          "title": "Reaction Stoichiometry And Constant Reviewed",
+          "type": "boolean"
+        },
+        "balance_constraints_and_charge_scope_reviewed": {
+          "title": "Balance Constraints And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "fixed_activity_coefficients_and_standard_state_reviewed": {
+          "title": "Fixed Activity Coefficients And Standard State Reviewed",
+          "type": "boolean"
+        },
+        "temperature_and_provider_lineage_reviewed": {
+          "title": "Temperature And Provider Lineage Reviewed",
+          "type": "boolean"
+        },
+        "initial_activity_guess_and_solver_tolerance_reviewed": {
+          "title": "Initial Activity Guess And Solver Tolerance Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_phase_and_no_precipitation_reviewed": {
+          "title": "Single Liquid Phase And No Precipitation Reviewed",
+          "type": "boolean"
+        },
+        "elemental_formula_and_reaction_balance_reviewed": {
+          "default": false,
+          "title": "Elemental Formula And Reaction Balance Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "solution_id",
+        "temperature_K",
+        "activity_standard_state",
+        "species",
+        "reactions",
+        "constraints",
+        "activity_provider_id",
+        "activity_provider_revision",
+        "activity_configuration_digest",
+        "activity_record_digest",
+        "equilibrium_provider_id",
+        "equilibrium_provider_revision",
+        "equilibrium_configuration_digest",
+        "equilibrium_record_digest",
+        "complete_aqueous_species_inventory_reviewed",
+        "reaction_stoichiometry_and_constant_reviewed",
+        "balance_constraints_and_charge_scope_reviewed",
+        "fixed_activity_coefficients_and_standard_state_reviewed",
+        "temperature_and_provider_lineage_reviewed",
+        "initial_activity_guess_and_solver_tolerance_reviewed",
+        "single_liquid_phase_and_no_precipitation_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousMassActionSystem",
+      "type": "object"
+    },
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CreviceLocalEquilibriumKnot": {
+      "additionalProperties": false,
+      "description": "Per-cell caller chemistry networks and explicit concentration mappings at one exact knot.",
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "cell_templates": {
+          "items": {
+            "$ref": "#/$defs/AqueousMassActionSystem"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Cell Templates",
+          "type": "array"
+        },
+        "constraint_bindings": {
+          "items": {
+            "$ref": "#/$defs/CreviceTransportConstraintBinding"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Constraint Bindings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "cell_templates",
+        "constraint_bindings"
+      ],
+      "title": "CreviceLocalEquilibriumKnot",
+      "type": "object"
+    },
+    "CreviceTransportConstraintBinding": {
+      "additionalProperties": false,
+      "description": "Caller-owned mapping from one transported total to one equilibrium constraint.",
+      "properties": {
+        "constraint_id": {
+          "minLength": 1,
+          "title": "Constraint Id",
+          "type": "string"
+        },
+        "transported_species_id": {
+          "minLength": 1,
+          "title": "Transported Species Id",
+          "type": "string"
+        },
+        "concentration_scale": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Concentration Scale",
+          "type": "number"
+        },
+        "mapping_record_id": {
+          "minLength": 1,
+          "title": "Mapping Record Id",
+          "type": "string"
+        },
+        "mapping_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mapping Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_id",
+        "transported_species_id",
+        "mapping_record_id",
+        "mapping_record_sha256",
+        "evidence"
+      ],
+      "title": "CreviceTransportConstraintBinding",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Run caller-defined local equilibrium systems from a pinned transport field.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "solution_id_prefix": {
+      "minLength": 1,
+      "title": "Solution Id Prefix",
+      "type": "string"
+    },
+    "transport_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "transport_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Transport Result Sha256",
+      "type": "string"
+    },
+    "cell_ids_in_transport_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Cell Ids In Transport Order",
+      "type": "array"
+    },
+    "cell_volume_m3_by_cell": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Cell Volume M3 By Cell",
+      "type": "array"
+    },
+    "cell_volume_mapping_record_id": {
+      "minLength": 1,
+      "title": "Cell Volume Mapping Record Id",
+      "type": "string"
+    },
+    "cell_volume_mapping_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Cell Volume Mapping Sha256",
+      "type": "string"
+    },
+    "cell_volume_mapping_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Cell Volume Mapping Evidence",
+      "type": "array"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/CreviceLocalEquilibriumKnot"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Rights Evidence",
+      "type": "array"
+    },
+    "cell_order_and_geometry_mapping_reviewed": {
+      "title": "Cell Order And Geometry Mapping Reviewed",
+      "type": "boolean"
+    },
+    "concentration_total_constraint_mapping_reviewed": {
+      "title": "Concentration Total Constraint Mapping Reviewed",
+      "type": "boolean"
+    },
+    "independent_local_equilibrium_no_feedback_reviewed": {
+      "title": "Independent Local Equilibrium No Feedback Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "solution_id_prefix",
+    "transport_result",
+    "transport_result_sha256",
+    "cell_ids_in_transport_order",
+    "cell_volume_m3_by_cell",
+    "cell_volume_mapping_record_id",
+    "cell_volume_mapping_sha256",
+    "cell_volume_mapping_evidence",
+    "knots",
+    "rights_evidence",
+    "cell_order_and_geometry_mapping_reviewed",
+    "concentration_total_constraint_mapping_reviewed",
+    "independent_local_equilibrium_no_feedback_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceTransportLocalMassActionRequest",
+  "type": "object"
+}

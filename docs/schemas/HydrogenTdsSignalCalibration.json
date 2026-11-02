@@ -1,0 +1,173 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed mass-ppm conversion for exactly one exported TDS series.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_tds_signal_calibration.v1",
+      "default": "matintegrity.hydrogen_tds_signal_calibration.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "heating_program_id": {
+      "minLength": 1,
+      "title": "Heating Program Id",
+      "type": "string"
+    },
+    "export_csv_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Export Csv Sha256",
+      "type": "string"
+    },
+    "series_index": {
+      "minimum": 1,
+      "title": "Series Index",
+      "type": "integer"
+    },
+    "series_label": {
+      "minLength": 1,
+      "title": "Series Label",
+      "type": "string"
+    },
+    "sample_mass_kg": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sample Mass Kg"
+    },
+    "hydrogen_atomic_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Hydrogen Atomic Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "rate_basis": {
+      "const": "hydrogen_mass_ppm_per_sample_mass_per_s",
+      "title": "Rate Basis",
+      "type": "string"
+    },
+    "integral_basis": {
+      "const": "hydrogen_mass_ppm_per_sample_mass",
+      "title": "Integral Basis",
+      "type": "string"
+    },
+    "detector_response_reviewed": {
+      "title": "Detector Response Reviewed",
+      "type": "boolean"
+    },
+    "sample_mass_reviewed": {
+      "title": "Sample Mass Reviewed",
+      "type": "boolean"
+    },
+    "ppm_basis_reviewed": {
+      "title": "Ppm Basis Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "material_condition_id",
+    "specimen_id",
+    "heating_program_id",
+    "export_csv_sha256",
+    "series_index",
+    "series_label",
+    "hydrogen_atomic_molar_mass_kg_mol",
+    "rate_basis",
+    "integral_basis",
+    "detector_response_reviewed",
+    "sample_mass_reviewed",
+    "ppm_basis_reviewed",
+    "evidence"
+  ],
+  "title": "HydrogenTdsSignalCalibration",
+  "type": "object"
+}

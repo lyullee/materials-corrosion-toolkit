@@ -1,0 +1,332 @@
+{
+  "$defs": {
+    "CreviceActivityTransportSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "initial_cell_concentration_mol_m3": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 300,
+          "minItems": 2,
+          "title": "Initial Cell Concentration Mol M3",
+          "type": "array"
+        },
+        "activity_coefficient_by_time_and_cell": {
+          "items": {
+            "items": {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Activity Coefficient By Time And Cell",
+          "type": "array"
+        },
+        "mouth_activity_coefficient_by_time": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Mouth Activity Coefficient By Time",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "diffusivity_m2_s",
+        "initial_cell_concentration_mol_m3",
+        "activity_coefficient_by_time_and_cell",
+        "mouth_activity_coefficient_by_time"
+      ],
+      "title": "CreviceActivityTransportSpecies",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Length M",
+      "type": "number"
+    },
+    "cross_section_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Cross Section Area M2",
+      "type": "number"
+    },
+    "cell_count": {
+      "maximum": 300,
+      "minimum": 2,
+      "title": "Cell Count",
+      "type": "integer"
+    },
+    "output_time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Output Time S",
+      "type": "array"
+    },
+    "concentration_standard_state_mol_m3": {
+      "default": 1000.0,
+      "exclusiveMinimum": 0,
+      "title": "Concentration Standard State Mol M3",
+      "type": "number"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/CreviceActivityTransportSpecies"
+      },
+      "maxItems": 40,
+      "minItems": 2,
+      "title": "Species",
+      "type": "array"
+    },
+    "mouth_boundary_concentration_mol_m3_by_species": {
+      "additionalProperties": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxProperties": 40,
+      "minProperties": 2,
+      "title": "Mouth Boundary Concentration Mol M3 By Species",
+      "type": "object"
+    },
+    "cell_face_axial_velocity_m_s_by_knot": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 301,
+      "minItems": 3,
+      "title": "Cell Face Axial Velocity M S By Knot",
+      "type": "array"
+    },
+    "relative_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "absolute_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Tolerance Mol M3",
+      "type": "number"
+    },
+    "maximum_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Step S",
+      "type": "number"
+    },
+    "maximum_function_evaluations": {
+      "default": 300000,
+      "maximum": 10000000,
+      "minimum": 100,
+      "title": "Maximum Function Evaluations",
+      "type": "integer"
+    },
+    "provider_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Provider Evidence",
+      "type": "array"
+    },
+    "rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Rights Evidence",
+      "type": "array"
+    },
+    "fixed_geometry_and_cell_order_reviewed": {
+      "title": "Fixed Geometry And Cell Order Reviewed",
+      "type": "boolean"
+    },
+    "activity_standard_state_single_ion_convention_reviewed": {
+      "title": "Activity Standard State Single Ion Convention Reviewed",
+      "type": "boolean"
+    },
+    "activity_fields_and_time_interpolation_reviewed": {
+      "title": "Activity Fields And Time Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "diffusivity_and_temperature_support_reviewed": {
+      "title": "Diffusivity And Temperature Support Reviewed",
+      "type": "boolean"
+    },
+    "face_velocity_sign_mapping_reviewed": {
+      "title": "Face Velocity Sign Mapping Reviewed",
+      "type": "boolean"
+    },
+    "local_electroneutrality_and_zero_current_reviewed": {
+      "title": "Local Electroneutrality And Zero Current Reviewed",
+      "type": "boolean"
+    },
+    "mouth_boundary_and_blind_tip_reviewed": {
+      "title": "Mouth Boundary And Blind Tip Reviewed",
+      "type": "boolean"
+    },
+    "reaction_free_single_liquid_interval_reviewed": {
+      "title": "Reaction Free Single Liquid Interval Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "clock_id",
+    "provider_id",
+    "provider_revision",
+    "length_m",
+    "cross_section_area_m2",
+    "cell_count",
+    "output_time_s",
+    "species",
+    "mouth_boundary_concentration_mol_m3_by_species",
+    "cell_face_axial_velocity_m_s_by_knot",
+    "maximum_step_s",
+    "provider_evidence",
+    "rights_evidence",
+    "fixed_geometry_and_cell_order_reviewed",
+    "activity_standard_state_single_ion_convention_reviewed",
+    "activity_fields_and_time_interpolation_reviewed",
+    "diffusivity_and_temperature_support_reviewed",
+    "face_velocity_sign_mapping_reviewed",
+    "local_electroneutrality_and_zero_current_reviewed",
+    "mouth_boundary_and_blind_tip_reviewed",
+    "reaction_free_single_liquid_interval_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceActivityCorrectedTransportRequest",
+  "type": "object"
+}

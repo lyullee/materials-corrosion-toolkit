@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One caller-provided, provenance-bearing point in a corrosion-rate history.",
+  "properties": {
+    "knot_index": {
+      "minimum": 0,
+      "title": "Knot Index",
+      "type": "integer"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "corrosion_rate_m_s": {
+      "minimum": 0,
+      "title": "Corrosion Rate M S",
+      "type": "number"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "knot_index",
+    "time_s",
+    "corrosion_rate_m_s",
+    "evidence"
+  ],
+  "title": "CorrosionRateHistoryKnot",
+  "type": "object"
+}

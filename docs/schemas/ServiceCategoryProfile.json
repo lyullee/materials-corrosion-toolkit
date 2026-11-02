@@ -1,0 +1,300 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ServiceCategoryCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "expected_fact_kind": {
+          "enum": [
+            "number",
+            "descriptor",
+            "boolean"
+          ],
+          "title": "Expected Fact Kind",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "greater_than",
+            "greater_than_or_equal",
+            "less_than",
+            "less_than_or_equal",
+            "between_inclusive",
+            "equals",
+            "in_set",
+            "is_true",
+            "is_false"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Threshold"
+        },
+        "lower_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower Bound"
+        },
+        "upper_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Bound"
+        },
+        "expected_descriptors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Descriptors",
+          "type": "array"
+        },
+        "condition_basis": {
+          "minLength": 1,
+          "title": "Condition Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "condition_id",
+        "fact_id",
+        "expected_fact_kind",
+        "operator",
+        "condition_basis"
+      ],
+      "title": "ServiceCategoryCondition",
+      "type": "object"
+    },
+    "ServiceCategoryRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_definition": {
+          "minLength": 1,
+          "title": "Rule Definition",
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/ServiceCategoryCondition"
+          },
+          "minItems": 1,
+          "title": "Conditions",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "rule_definition",
+        "conditions",
+        "evidence"
+      ],
+      "title": "ServiceCategoryRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "category_id": {
+      "minLength": 1,
+      "title": "Category Id",
+      "type": "string"
+    },
+    "code_namespace": {
+      "minLength": 1,
+      "title": "Code Namespace",
+      "type": "string"
+    },
+    "code_edition": {
+      "minLength": 1,
+      "title": "Code Edition",
+      "type": "string"
+    },
+    "equipment_boundary_id": {
+      "minLength": 1,
+      "title": "Equipment Boundary Id",
+      "type": "string"
+    },
+    "authority_id": {
+      "minLength": 1,
+      "title": "Authority Id",
+      "type": "string"
+    },
+    "revision": {
+      "minLength": 1,
+      "title": "Revision",
+      "type": "string"
+    },
+    "required_fact_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Required Fact Ids",
+      "type": "array"
+    },
+    "rules": {
+      "items": {
+        "$ref": "#/$defs/ServiceCategoryRule"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Rules",
+      "type": "array"
+    },
+    "authority_scope_and_rule_completeness_reviewed": {
+      "title": "Authority Scope And Rule Completeness Reviewed",
+      "type": "boolean"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "category_id",
+    "code_namespace",
+    "code_edition",
+    "equipment_boundary_id",
+    "authority_id",
+    "revision",
+    "required_fact_ids",
+    "rules",
+    "authority_scope_and_rule_completeness_reviewed",
+    "profile_sha256",
+    "evidence"
+  ],
+  "title": "ServiceCategoryProfile",
+  "type": "object"
+}

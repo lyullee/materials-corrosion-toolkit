@@ -1,0 +1,682 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HighTemperatureHydrogenEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "heat_treatment_id": {
+          "minLength": 1,
+          "title": "Heat Treatment Id",
+          "type": "string"
+        },
+        "supported_hydrogen_species": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Hydrogen Species",
+          "type": "array"
+        },
+        "pressure_basis": {
+          "const": "absolute_partial_pressure",
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "minimum_hydrogen_partial_pressure_Pa_abs": {
+          "minimum": 0,
+          "title": "Minimum Hydrogen Partial Pressure Pa Abs",
+          "type": "number"
+        },
+        "maximum_hydrogen_partial_pressure_Pa_abs": {
+          "minimum": 0,
+          "title": "Maximum Hydrogen Partial Pressure Pa Abs",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "maximum_cumulative_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Exposure S",
+          "type": "number"
+        },
+        "composition_support": {
+          "items": {
+            "$ref": "#/$defs/MaterialCompositionSupport"
+          },
+          "minItems": 1,
+          "title": "Composition Support",
+          "type": "array"
+        },
+        "supported_microstructure_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Microstructure Descriptors",
+          "type": "array"
+        },
+        "supported_inspection_method_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Inspection Method Ids",
+          "type": "array"
+        },
+        "minimum_physical_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Physical Source Group Count",
+          "type": "integer"
+        },
+        "provider_qualification": {
+          "$ref": "#/$defs/HydrogenProviderQualification"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "heat_treatment_id",
+        "supported_hydrogen_species",
+        "pressure_basis",
+        "minimum_hydrogen_partial_pressure_Pa_abs",
+        "maximum_hydrogen_partial_pressure_Pa_abs",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "maximum_cumulative_exposure_s",
+        "composition_support",
+        "supported_microstructure_descriptors",
+        "supported_inspection_method_ids",
+        "minimum_physical_source_group_count",
+        "provider_qualification",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "HighTemperatureHydrogenEnvelope",
+      "type": "object"
+    },
+    "HighTemperatureHydrogenExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "hydrogen_species": {
+          "minLength": 1,
+          "title": "Hydrogen Species",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "const": "absolute_partial_pressure",
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "hydrogen_partial_pressure_Pa_abs": {
+          "minimum": 0,
+          "title": "Hydrogen Partial Pressure Pa Abs",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "hydrogen_species",
+        "pressure_basis",
+        "hydrogen_partial_pressure_Pa_abs",
+        "temperature_K",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HighTemperatureHydrogenExposure",
+      "type": "object"
+    },
+    "HydrogenMicrostructureEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "inspection_location": {
+          "minLength": 1,
+          "title": "Inspection Location",
+          "type": "string"
+        },
+        "inspection_method_id": {
+          "minLength": 1,
+          "title": "Inspection Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "microstructure_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Microstructure Descriptor"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_available": {
+          "title": "Record Available",
+          "type": "boolean"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "physical_source_group_id",
+        "inspection_location",
+        "inspection_method_id",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "record_available",
+        "evidence"
+      ],
+      "title": "HydrogenMicrostructureEvidence",
+      "type": "object"
+    },
+    "HydrogenProviderQualification": {
+      "additionalProperties": false,
+      "properties": {
+        "qualification_id": {
+          "minLength": 1,
+          "title": "Qualification Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "qualification_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Qualification Result Digest",
+          "type": "string"
+        },
+        "calibration_dataset_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Dataset Digest",
+          "type": "string"
+        },
+        "holdout_dataset_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Holdout Dataset Digest",
+          "type": "string"
+        },
+        "calibration_physical_source_group_count": {
+          "minimum": 1,
+          "title": "Calibration Physical Source Group Count",
+          "type": "integer"
+        },
+        "holdout_physical_source_group_count": {
+          "minimum": 1,
+          "title": "Holdout Physical Source Group Count",
+          "type": "integer"
+        },
+        "calibration_and_holdout_independent": {
+          "title": "Calibration And Holdout Independent",
+          "type": "boolean"
+        },
+        "validation_metric_definition": {
+          "minLength": 1,
+          "title": "Validation Metric Definition",
+          "type": "string"
+        },
+        "validation_metric_value": {
+          "minimum": 0,
+          "title": "Validation Metric Value",
+          "type": "number"
+        },
+        "validation_metric_unit": {
+          "minLength": 1,
+          "title": "Validation Metric Unit",
+          "type": "string"
+        },
+        "maximum_supported_validation_metric": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Validation Metric",
+          "type": "number"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "qualification_id",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "qualification_result_digest",
+        "calibration_dataset_digest",
+        "holdout_dataset_digest",
+        "calibration_physical_source_group_count",
+        "holdout_physical_source_group_count",
+        "calibration_and_holdout_independent",
+        "validation_metric_definition",
+        "validation_metric_value",
+        "validation_metric_unit",
+        "maximum_supported_validation_metric",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "HydrogenProviderQualification",
+      "type": "object"
+    },
+    "MaterialCompositionEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "constituent_id": {
+          "minLength": 1,
+          "title": "Constituent Id",
+          "type": "string"
+        },
+        "reported_value": {
+          "minimum": 0,
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constituent_id",
+        "reported_value",
+        "unit",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "MaterialCompositionEntry",
+      "type": "object"
+    },
+    "MaterialCompositionSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "constituent_id": {
+          "minLength": 1,
+          "title": "Constituent Id",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "minimum_supported_value": {
+          "minimum": 0,
+          "title": "Minimum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_value": {
+          "minimum": 0,
+          "title": "Maximum Supported Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "constituent_id",
+        "unit",
+        "minimum_supported_value",
+        "maximum_supported_value"
+      ],
+      "title": "MaterialCompositionSupport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "heat_treatment_id": {
+      "minLength": 1,
+      "title": "Heat Treatment Id",
+      "type": "string"
+    },
+    "composition": {
+      "items": {
+        "$ref": "#/$defs/MaterialCompositionEntry"
+      },
+      "minItems": 1,
+      "title": "Composition",
+      "type": "array"
+    },
+    "exposures": {
+      "items": {
+        "$ref": "#/$defs/HighTemperatureHydrogenExposure"
+      },
+      "minItems": 1,
+      "title": "Exposures",
+      "type": "array"
+    },
+    "microstructure_evidence": {
+      "items": {
+        "$ref": "#/$defs/HydrogenMicrostructureEvidence"
+      },
+      "minItems": 1,
+      "title": "Microstructure Evidence",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/HighTemperatureHydrogenEnvelope"
+    },
+    "material_identity_composition_and_heat_treatment_reviewed": {
+      "title": "Material Identity Composition And Heat Treatment Reviewed",
+      "type": "boolean"
+    },
+    "hydrogen_species_and_absolute_partial_pressure_reviewed": {
+      "title": "Hydrogen Species And Absolute Partial Pressure Reviewed",
+      "type": "boolean"
+    },
+    "temperature_pressure_clock_and_time_reviewed": {
+      "title": "Temperature Pressure Clock And Time Reviewed",
+      "type": "boolean"
+    },
+    "microstructure_locations_and_source_groups_reviewed": {
+      "title": "Microstructure Locations And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "inspection_method_and_provider_lineage_reviewed": {
+      "title": "Inspection Method And Provider Lineage Reviewed",
+      "type": "boolean"
+    },
+    "record_and_result_digests_reviewed": {
+      "title": "Record And Result Digests Reviewed",
+      "type": "boolean"
+    },
+    "missingness_reviewed": {
+      "title": "Missingness Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_condition_id",
+    "heat_treatment_id",
+    "composition",
+    "exposures",
+    "microstructure_evidence",
+    "qualification_envelope",
+    "material_identity_composition_and_heat_treatment_reviewed",
+    "hydrogen_species_and_absolute_partial_pressure_reviewed",
+    "temperature_pressure_clock_and_time_reviewed",
+    "microstructure_locations_and_source_groups_reviewed",
+    "inspection_method_and_provider_lineage_reviewed",
+    "record_and_result_digests_reviewed",
+    "missingness_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "HighTemperatureHydrogenApplicability",
+  "type": "object"
+}

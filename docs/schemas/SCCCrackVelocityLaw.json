@@ -1,0 +1,184 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-owned mode-I crack-velocity curve for one material/environment state.",
+  "properties": {
+    "curve_id": {
+      "minLength": 1,
+      "title": "Curve Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "metallurgy_id": {
+      "minLength": 1,
+      "title": "Metallurgy Id",
+      "type": "string"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "loading_basis_id": {
+      "minLength": 1,
+      "title": "Loading Basis Id",
+      "type": "string"
+    },
+    "threshold_K_I_Pa_sqrt_m": {
+      "minimum": 0,
+      "title": "Threshold K I Pa Sqrt M",
+      "type": "number"
+    },
+    "K_I_Pa_sqrt_m": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "K I Pa Sqrt M",
+      "type": "array"
+    },
+    "crack_velocity_m_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Crack Velocity M S",
+      "type": "array"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "table_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Table Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "rights_boundary": {
+      "enum": [
+        "local_only",
+        "caller_authorized_open_distribution"
+      ],
+      "title": "Rights Boundary",
+      "type": "string"
+    },
+    "rights_authorization_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rights Authorization Sha256"
+    },
+    "applicability_review_id": {
+      "minLength": 1,
+      "title": "Applicability Review Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "curve_id",
+    "source_group_id",
+    "material_condition_id",
+    "metallurgy_id",
+    "environment_id",
+    "loading_basis_id",
+    "threshold_K_I_Pa_sqrt_m",
+    "K_I_Pa_sqrt_m",
+    "crack_velocity_m_s",
+    "source_file_sha256",
+    "table_sha256",
+    "evidence",
+    "rights_boundary",
+    "applicability_review_id"
+  ],
+  "title": "SCCCrackVelocityLaw",
+  "type": "object"
+}

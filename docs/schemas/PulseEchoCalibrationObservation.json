@@ -1,0 +1,75 @@
+{
+  "additionalProperties": false,
+  "description": "One reference-block observation, with an immutable fit/holdout assignment.",
+  "properties": {
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "partition": {
+      "enum": [
+        "calibration",
+        "holdout"
+      ],
+      "title": "Partition",
+      "type": "string"
+    },
+    "reference_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Thickness M",
+      "type": "number"
+    },
+    "round_trip_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Round Trip Time S",
+      "type": "number"
+    },
+    "reference_thickness_standard_uncertainty_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Thickness Standard Uncertainty M"
+    },
+    "round_trip_time_standard_uncertainty_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Round Trip Time Standard Uncertainty S"
+    }
+  },
+  "required": [
+    "observation_id",
+    "physical_location_id",
+    "source_group_id",
+    "partition",
+    "reference_thickness_m",
+    "round_trip_time_s"
+  ],
+  "title": "PulseEchoCalibrationObservation",
+  "type": "object"
+}

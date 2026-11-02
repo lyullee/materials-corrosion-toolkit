@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "DeclaredParetoCategory": {
+      "additionalProperties": false,
+      "properties": {
+        "category_id": {
+          "minLength": 1,
+          "title": "Category Id",
+          "type": "string"
+        },
+        "occurrence_count": {
+          "minimum": 0,
+          "title": "Occurrence Count",
+          "type": "integer"
+        },
+        "cost_per_occurrence": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Per Occurrence"
+        },
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "category_id",
+        "occurrence_count",
+        "record_id"
+      ],
+      "title": "DeclaredParetoCategory",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "observation_window_id": {
+      "minLength": 1,
+      "title": "Observation Window Id",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "occurrence_count",
+        "occurrence_cost"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "cost_unit": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cost Unit"
+    },
+    "common_window_categories_and_cost_basis_reviewed": {
+      "title": "Common Window Categories And Cost Basis Reviewed",
+      "type": "boolean"
+    },
+    "categories": {
+      "items": {
+        "$ref": "#/$defs/DeclaredParetoCategory"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Categories",
+      "type": "array"
+    }
+  },
+  "required": [
+    "basis",
+    "observation_window_id",
+    "mode",
+    "common_window_categories_and_cost_basis_reviewed",
+    "categories"
+  ],
+  "title": "DeclaredParetoSummary",
+  "type": "object"
+}

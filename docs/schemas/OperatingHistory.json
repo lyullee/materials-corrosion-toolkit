@@ -1,0 +1,84 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.operating_history.v1",
+      "default": "matintegrity.operating_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "measured",
+        "model_prediction"
+      ],
+      "title": "Origin",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "pressure_absolute_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Pressure Absolute Pa",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "valid": {
+      "items": {
+        "type": "boolean"
+      },
+      "title": "Valid",
+      "type": "array"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "origin",
+    "time_s",
+    "pressure_absolute_Pa",
+    "temperature_K",
+    "valid",
+    "source_digest"
+  ],
+  "title": "OperatingHistory",
+  "type": "object"
+}

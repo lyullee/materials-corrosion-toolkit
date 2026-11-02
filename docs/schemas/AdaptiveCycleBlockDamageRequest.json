@@ -1,0 +1,376 @@
+{
+  "$defs": {
+    "CycleBlockLawParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parameter_id",
+        "value",
+        "unit"
+      ],
+      "title": "CycleBlockLawParameter",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "IntegerCycleDamageBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "cycle_population_id": {
+          "minLength": 1,
+          "title": "Cycle Population Id",
+          "type": "string"
+        },
+        "loading_state_id": {
+          "minLength": 1,
+          "title": "Loading State Id",
+          "type": "string"
+        },
+        "cycle_count": {
+          "maximum": 9007199254740992,
+          "minimum": 1,
+          "title": "Cycle Count",
+          "type": "integer"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "parameters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CycleBlockLawParameter"
+          },
+          "maxItems": 1000,
+          "title": "Parameters",
+          "type": "array"
+        }
+      },
+      "required": [
+        "block_id",
+        "cycle_population_id",
+        "loading_state_id",
+        "cycle_count",
+        "source_sha256"
+      ],
+      "title": "IntegerCycleDamageBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "cycle_count_basis_id": {
+      "minLength": 1,
+      "title": "Cycle Count Basis Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "state_variable_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "State Variable Ids",
+      "type": "array"
+    },
+    "state_units": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "State Units",
+      "type": "array"
+    },
+    "initial_state": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Initial State",
+      "type": "array"
+    },
+    "minimum_state": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Minimum State",
+      "type": "array"
+    },
+    "maximum_state": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Maximum State",
+      "type": "array"
+    },
+    "initial_damage": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Initial Damage",
+      "type": "number"
+    },
+    "damage_event_threshold": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Damage Event Threshold"
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/IntegerCycleDamageBlock"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Blocks",
+      "type": "array"
+    },
+    "initial_step_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Step Cycles",
+      "type": "number"
+    },
+    "minimum_step_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Step Cycles",
+      "type": "number"
+    },
+    "maximum_step_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Step Cycles",
+      "type": "number"
+    },
+    "state_absolute_tolerance": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "State Absolute Tolerance",
+      "type": "array"
+    },
+    "state_relative_tolerance": {
+      "exclusiveMinimum": 0,
+      "title": "State Relative Tolerance",
+      "type": "number"
+    },
+    "damage_absolute_tolerance": {
+      "exclusiveMinimum": 0,
+      "title": "Damage Absolute Tolerance",
+      "type": "number"
+    },
+    "damage_relative_tolerance": {
+      "exclusiveMinimum": 0,
+      "title": "Damage Relative Tolerance",
+      "type": "number"
+    },
+    "maximum_function_evaluations": {
+      "default": 100000,
+      "maximum": 10000000,
+      "minimum": 12,
+      "title": "Maximum Function Evaluations",
+      "type": "integer"
+    },
+    "maximum_rejected_steps": {
+      "default": 10000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Maximum Rejected Steps",
+      "type": "integer"
+    },
+    "ordered_integer_blocks_and_cycle_count_basis_reviewed": {
+      "title": "Ordered Integer Blocks And Cycle Count Basis Reviewed",
+      "type": "boolean"
+    },
+    "state_law_and_nonnegative_damage_rate_reviewed": {
+      "title": "State Law And Nonnegative Damage Rate Reviewed",
+      "type": "boolean"
+    },
+    "initialization_bounds_and_event_meaning_reviewed": {
+      "title": "Initialization Bounds And Event Meaning Reviewed",
+      "type": "boolean"
+    },
+    "deterministic_repeat_evaluation_reviewed": {
+      "title": "Deterministic Repeat Evaluation Reviewed",
+      "type": "boolean"
+    },
+    "adaptive_controls_and_local_error_meaning_reviewed": {
+      "title": "Adaptive Controls And Local Error Meaning Reviewed",
+      "type": "boolean"
+    },
+    "material_calibration_and_usage_rights_reviewed": {
+      "title": "Material Calibration And Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "cycle_count_basis_id",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "calibration_sha256",
+    "state_variable_ids",
+    "state_units",
+    "initial_state",
+    "minimum_state",
+    "maximum_state",
+    "blocks",
+    "initial_step_cycles",
+    "minimum_step_cycles",
+    "maximum_step_cycles",
+    "state_absolute_tolerance",
+    "state_relative_tolerance",
+    "damage_absolute_tolerance",
+    "damage_relative_tolerance",
+    "ordered_integer_blocks_and_cycle_count_basis_reviewed",
+    "state_law_and_nonnegative_damage_rate_reviewed",
+    "initialization_bounds_and_event_meaning_reviewed",
+    "deterministic_repeat_evaluation_reviewed",
+    "adaptive_controls_and_local_error_meaning_reviewed",
+    "material_calibration_and_usage_rights_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "AdaptiveCycleBlockDamageRequest",
+  "type": "object"
+}

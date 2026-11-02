@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "GuidedWaveReadAuthorization": {
+      "additionalProperties": false,
+      "description": "Caller attribution and local-only computational-use declaration.",
+      "properties": {
+        "dataset_id": {
+          "const": "guided-wave-pipeline-shm",
+          "default": "guided-wave-pipeline-shm",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.17632/ttb63krg6d.1",
+          "default": "10.17632/ttb63krg6d.1",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC-BY-4.0",
+          "default": "CC-BY-4.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "const": true,
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "local_only_authorized": {
+          "const": true,
+          "title": "Local Only Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "attribution",
+        "computational_use_authorized",
+        "local_only_authorized"
+      ],
+      "title": "GuidedWaveReadAuthorization",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "local_archive_path": {
+      "minLength": 1,
+      "title": "Local Archive Path",
+      "type": "string"
+    },
+    "acquisition_id": {
+      "minimum": 0,
+      "title": "Acquisition Id",
+      "type": "integer"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "excitation_frequency_Hz": {
+      "enum": [
+        14000.0,
+        18000.0,
+        24000.0,
+        30000.0,
+        37000.0
+      ],
+      "title": "Excitation Frequency Hz",
+      "type": "number"
+    },
+    "authorization": {
+      "$ref": "#/$defs/GuidedWaveReadAuthorization"
+    }
+  },
+  "required": [
+    "local_archive_path",
+    "acquisition_id",
+    "specimen_id",
+    "excitation_frequency_Hz",
+    "authorization"
+  ],
+  "title": "GuidedWaveArchiveAuditRequest",
+  "type": "object"
+}

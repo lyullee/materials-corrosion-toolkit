@@ -1,0 +1,826 @@
+{
+  "$defs": {
+    "CriticalPlaneCandidate": {
+      "additionalProperties": false,
+      "description": "One caller-declared plane normal and one shear direction in that plane.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Normal",
+          "type": "array"
+        },
+        "in_plane_direction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "In Plane Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "in_plane_direction"
+      ],
+      "title": "CriticalPlaneCandidate",
+      "type": "object"
+    },
+    "CriticalPlaneHistory": {
+      "additionalProperties": false,
+      "description": "Reviewed local tensor history for a declared representative cycle.",
+      "properties": {
+        "history_id": {
+          "minLength": 1,
+          "title": "History Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "tensor_source_id": {
+          "minLength": 1,
+          "title": "Tensor Source Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Load Case Id"
+        },
+        "tensor_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tensor Provider Id"
+        },
+        "tensor_provider_version": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tensor Provider Version"
+        },
+        "solver_name": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Solver Name"
+        },
+        "solver_version": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Solver Version"
+        },
+        "analysis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analysis Id"
+        },
+        "solution_revision": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Solution Revision"
+        },
+        "mesh_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mesh Id"
+        },
+        "field_location_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "node",
+                "integration_point",
+                "surface_point",
+                "user_defined"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field Location Kind"
+        },
+        "field_location_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field Location Id"
+        },
+        "spatial_averaging": {
+          "anyOf": [
+            {
+              "enum": [
+                "none",
+                "nodal_averaged",
+                "element_averaged",
+                "other"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Spatial Averaging"
+        },
+        "coordinate_frame_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coordinate Frame Id"
+        },
+        "coordinate_basis_vectors_global": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coordinate Basis Vectors Global"
+        },
+        "stress_measure": {
+          "anyOf": [
+            {
+              "const": "cauchy",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stress Measure"
+        },
+        "strain_measure": {
+          "anyOf": [
+            {
+              "const": "infinitesimal",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain Measure"
+        },
+        "input_strain_shear_convention": {
+          "anyOf": [
+            {
+              "enum": [
+                "tensor",
+                "engineering"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Strain Shear Convention"
+        },
+        "source_content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Content Sha256"
+        },
+        "provider_configuration_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Configuration Digest"
+        },
+        "tensor_history_record_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tensor History Record Digest"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "sample_times_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Times S"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "candidate_planes": {
+          "items": {
+            "$ref": "#/$defs/CriticalPlaneCandidate"
+          },
+          "minItems": 1,
+          "title": "Candidate Planes",
+          "type": "array"
+        },
+        "representative_cycle_declared": {
+          "title": "Representative Cycle Declared",
+          "type": "boolean"
+        },
+        "maximum_stress_closure_error_Pa": {
+          "minimum": 0,
+          "title": "Maximum Stress Closure Error Pa",
+          "type": "number"
+        },
+        "maximum_strain_closure_error": {
+          "minimum": 0,
+          "title": "Maximum Strain Closure Error",
+          "type": "number"
+        },
+        "fatemi_socie_coefficient": {
+          "minimum": 0,
+          "title": "Fatemi Socie Coefficient",
+          "type": "number"
+        },
+        "normalization_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Normalization Stress Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "history_id",
+        "material_condition_id",
+        "location_id",
+        "tensor_source_id",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components",
+        "candidate_planes",
+        "representative_cycle_declared",
+        "maximum_stress_closure_error_Pa",
+        "maximum_strain_closure_error",
+        "fatemi_socie_coefficient",
+        "normalization_stress_Pa"
+      ],
+      "title": "CriticalPlaneHistory",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FsLifeCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion": {
+          "const": "fatemi_socie",
+          "default": "fatemi_socie",
+          "title": "Criterion",
+          "type": "string"
+        },
+        "calibrated_fatemi_socie_coefficient": {
+          "minimum": 0,
+          "title": "Calibrated Fatemi Socie Coefficient",
+          "type": "number"
+        },
+        "calibrated_normalization_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Calibrated Normalization Stress Pa",
+          "type": "number"
+        },
+        "shear_modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Shear Modulus Pa",
+          "type": "number"
+        },
+        "shear_fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Shear Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "shear_fatigue_strength_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Shear Fatigue Strength Exponent",
+          "type": "number"
+        },
+        "shear_fatigue_ductility_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Shear Fatigue Ductility Coefficient",
+          "type": "number"
+        },
+        "shear_fatigue_ductility_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Shear Fatigue Ductility Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "calibrated_fatemi_socie_coefficient",
+        "calibrated_normalization_stress_Pa",
+        "shear_modulus_Pa",
+        "shear_fatigue_strength_coefficient_Pa",
+        "shear_fatigue_strength_exponent",
+        "shear_fatigue_ductility_coefficient",
+        "shear_fatigue_ductility_exponent"
+      ],
+      "title": "FsLifeCalibration",
+      "type": "object"
+    },
+    "KandilBrownMillerLifeCalibration": {
+      "additionalProperties": false,
+      "description": "Caller-calibrated KBM parameter curve for finite sampled planes.",
+      "properties": {
+        "criterion": {
+          "const": "kandil_brown_miller_curve",
+          "default": "kandil_brown_miller_curve",
+          "title": "Criterion",
+          "type": "string"
+        },
+        "normal_strain_range_coefficient": {
+          "minimum": 0,
+          "title": "Normal Strain Range Coefficient",
+          "type": "number"
+        },
+        "curve_points": {
+          "items": {
+            "$ref": "#/$defs/ShearNormalLifeCurvePoint"
+          },
+          "minItems": 2,
+          "title": "Curve Points",
+          "type": "array"
+        },
+        "curve_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Curve Sha256",
+          "type": "string"
+        },
+        "calibration_material_condition_id": {
+          "minLength": 1,
+          "title": "Calibration Material Condition Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "curve_interpolation_and_parameter_basis_reviewed": {
+          "title": "Curve Interpolation And Parameter Basis Reviewed",
+          "type": "boolean"
+        },
+        "calibration_rights_and_condition_match_reviewed": {
+          "title": "Calibration Rights And Condition Match Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "normal_strain_range_coefficient",
+        "curve_points",
+        "curve_sha256",
+        "calibration_material_condition_id",
+        "evidence",
+        "curve_interpolation_and_parameter_basis_reviewed",
+        "calibration_rights_and_condition_match_reviewed"
+      ],
+      "title": "KandilBrownMillerLifeCalibration",
+      "type": "object"
+    },
+    "ShearNormalLifeCurvePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "cycles_to_failure": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles To Failure",
+          "type": "number"
+        },
+        "parameter_value": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Value",
+          "type": "number"
+        },
+        "evidence_source_id": {
+          "minLength": 1,
+          "title": "Evidence Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cycles_to_failure",
+        "parameter_value",
+        "evidence_source_id",
+        "source_record_id"
+      ],
+      "title": "ShearNormalLifeCurvePoint",
+      "type": "object"
+    },
+    "ShearNormalStrainLifeCalibration": {
+      "additionalProperties": false,
+      "description": "Caller-fitted curve for a declared additive shear/normal strain parameter.",
+      "properties": {
+        "criterion": {
+          "const": "shear_normal_strain_curve",
+          "default": "shear_normal_strain_curve",
+          "title": "Criterion",
+          "type": "string"
+        },
+        "normal_strain_weight": {
+          "minimum": 0,
+          "title": "Normal Strain Weight",
+          "type": "number"
+        },
+        "curve_points": {
+          "items": {
+            "$ref": "#/$defs/ShearNormalLifeCurvePoint"
+          },
+          "minItems": 2,
+          "title": "Curve Points",
+          "type": "array"
+        },
+        "curve_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Curve Sha256",
+          "type": "string"
+        },
+        "calibration_material_condition_id": {
+          "minLength": 1,
+          "title": "Calibration Material Condition Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "curve_interpolation_and_parameter_basis_reviewed": {
+          "title": "Curve Interpolation And Parameter Basis Reviewed",
+          "type": "boolean"
+        },
+        "calibration_rights_and_condition_match_reviewed": {
+          "title": "Calibration Rights And Condition Match Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "normal_strain_weight",
+        "curve_points",
+        "curve_sha256",
+        "calibration_material_condition_id",
+        "evidence",
+        "curve_interpolation_and_parameter_basis_reviewed",
+        "calibration_rights_and_condition_match_reviewed"
+      ],
+      "title": "ShearNormalStrainLifeCalibration",
+      "type": "object"
+    },
+    "SwtLifeCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion": {
+          "const": "swt",
+          "default": "swt",
+          "title": "Criterion",
+          "type": "string"
+        },
+        "elastic_modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Modulus Pa",
+          "type": "number"
+        },
+        "fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "fatigue_strength_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Strength Exponent",
+          "type": "number"
+        },
+        "fatigue_ductility_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Ductility Coefficient",
+          "type": "number"
+        },
+        "fatigue_ductility_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Ductility Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "elastic_modulus_Pa",
+        "fatigue_strength_coefficient_Pa",
+        "fatigue_strength_exponent",
+        "fatigue_ductility_coefficient",
+        "fatigue_ductility_exponent"
+      ],
+      "title": "SwtLifeCalibration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "history": {
+      "$ref": "#/$defs/CriticalPlaneHistory"
+    },
+    "calibration": {
+      "discriminator": {
+        "mapping": {
+          "fatemi_socie": "#/$defs/FsLifeCalibration",
+          "kandil_brown_miller_curve": "#/$defs/KandilBrownMillerLifeCalibration",
+          "shear_normal_strain_curve": "#/$defs/ShearNormalStrainLifeCalibration",
+          "swt": "#/$defs/SwtLifeCalibration"
+        },
+        "propertyName": "criterion"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/FsLifeCalibration"
+        },
+        {
+          "$ref": "#/$defs/SwtLifeCalibration"
+        },
+        {
+          "$ref": "#/$defs/ShearNormalStrainLifeCalibration"
+        },
+        {
+          "$ref": "#/$defs/KandilBrownMillerLifeCalibration"
+        }
+      ],
+      "title": "Calibration"
+    },
+    "calibration_material_condition_id": {
+      "minLength": 1,
+      "title": "Calibration Material Condition Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "minimum_valid_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Valid Cycles",
+      "type": "number"
+    },
+    "maximum_valid_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Valid Cycles",
+      "type": "number"
+    },
+    "shear_range_method": {
+      "enum": [
+        "directional_component",
+        "maximum_pairwise_chord",
+        "minimum_enclosing_circle"
+      ],
+      "title": "Shear Range Method",
+      "type": "string"
+    },
+    "local_measure_calibration_and_nonproportional_scope_reviewed": {
+      "title": "Local Measure Calibration And Nonproportional Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "history",
+    "calibration",
+    "calibration_material_condition_id",
+    "calibration_sha256",
+    "minimum_valid_cycles",
+    "maximum_valid_cycles",
+    "shear_range_method",
+    "local_measure_calibration_and_nonproportional_scope_reviewed"
+  ],
+  "title": "MultiaxialLifeCampaign",
+  "type": "object"
+}

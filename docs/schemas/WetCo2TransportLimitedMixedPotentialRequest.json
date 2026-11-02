@@ -1,0 +1,330 @@
+{
+  "$defs": {
+    "ButlerVolmerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "calibration_and_reaction_direction_reviewed": {
+          "title": "Calibration And Reaction Direction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "calibration_sha256",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "equilibrium_potential_V",
+        "temperature_K",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "calibration_and_reaction_direction_reviewed"
+      ],
+      "title": "ButlerVolmerReaction",
+      "type": "object"
+    },
+    "CarbonateTransportBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "equilibrium_result_sha256": {
+          "title": "Equilibrium Result Sha256",
+          "type": "string"
+        },
+        "selection_sha256": {
+          "title": "Selection Sha256",
+          "type": "string"
+        },
+        "species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Species Ids",
+          "type": "array"
+        },
+        "concentration_mol_m3": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Concentration Mol M3",
+          "type": "array"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "solvent_composition_sha256": {
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "equilibrium_result_sha256",
+        "selection_sha256",
+        "species_ids",
+        "concentration_mol_m3",
+        "temperature_K",
+        "solvent_composition_sha256",
+        "interpretation"
+      ],
+      "title": "CarbonateTransportBoundary",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2ReactantFilmRecord": {
+      "additionalProperties": false,
+      "description": "Caller-supplied linear liquid-film conductance for one consumed species.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "film_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Film Thickness M",
+          "type": "number"
+        },
+        "minimum_surface_concentration_mol_m3": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Minimum Surface Concentration Mol M3",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "transfer_parameter_reviewed": {
+          "title": "Transfer Parameter Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "species_id",
+        "diffusivity_m2_s",
+        "film_thickness_m",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence",
+        "transfer_parameter_reviewed"
+      ],
+      "title": "WetCo2ReactantFilmRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "boundary": {
+      "$ref": "#/$defs/CarbonateTransportBoundary"
+    },
+    "boundary_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Boundary Sha256",
+      "type": "string"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/ButlerVolmerReaction"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "reactant_films": {
+      "items": {
+        "$ref": "#/$defs/WetCo2ReactantFilmRecord"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Reactant Films",
+      "type": "array"
+    },
+    "potential_absolute_tolerance_V": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Potential Absolute Tolerance V",
+      "type": "number"
+    },
+    "maximum_bisection_iterations": {
+      "default": 200,
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Maximum Bisection Iterations",
+      "type": "integer"
+    },
+    "boundary_scope_match_reviewed": {
+      "title": "Boundary Scope Match Reviewed",
+      "type": "boolean"
+    },
+    "species_direction_and_reaction_mapping_reviewed": {
+      "title": "Species Direction And Reaction Mapping Reviewed",
+      "type": "boolean"
+    },
+    "planar_steady_film_approximation_reviewed": {
+      "title": "Planar Steady Film Approximation Reviewed",
+      "type": "boolean"
+    },
+    "common_temperature_and_solution_reference_reviewed": {
+      "title": "Common Temperature And Solution Reference Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "boundary",
+    "boundary_sha256",
+    "reactions",
+    "reactant_films",
+    "boundary_scope_match_reviewed",
+    "species_direction_and_reaction_mapping_reviewed",
+    "planar_steady_film_approximation_reviewed",
+    "common_temperature_and_solution_reference_reviewed"
+  ],
+  "title": "WetCo2TransportLimitedMixedPotentialRequest",
+  "type": "object"
+}

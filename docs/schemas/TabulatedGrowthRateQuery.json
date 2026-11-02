@@ -1,0 +1,209 @@
+{
+  "$defs": {
+    "TabulatedCrackGrowthCurve": {
+      "additionalProperties": false,
+      "description": "Caller-controlled crack-growth curve with explicit provenance and support.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.tabulated_crack_growth_curve.v1",
+          "default": "matintegrity.tabulated_crack_growth_curve.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "stress_ratio": {
+          "exclusiveMaximum": 1,
+          "minimum": 0,
+          "title": "Stress Ratio",
+          "type": "number"
+        },
+        "frequency_Hz": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frequency Hz"
+        },
+        "delta_k_Pa_sqrt_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Delta K Pa Sqrt M",
+          "type": "array"
+        },
+        "crack_growth_m_cycle": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Crack Growth M Cycle",
+          "type": "array"
+        },
+        "interpolation": {
+          "const": "log_delta_k_log_growth_linear",
+          "default": "log_delta_k_log_growth_linear",
+          "title": "Interpolation",
+          "type": "string"
+        },
+        "below_minimum_policy": {
+          "enum": [
+            "out_of_scope",
+            "zero_below_declared_threshold"
+          ],
+          "title": "Below Minimum Policy",
+          "type": "string"
+        },
+        "declared_threshold_delta_k_Pa_sqrt_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Declared Threshold Delta K Pa Sqrt M"
+        },
+        "source_content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Content Sha256",
+          "type": "string"
+        },
+        "source_citation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Citation"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "rights_review_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rights Review Id"
+        },
+        "applicability_review_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applicability Review Id"
+        },
+        "pointwise_computational_use_authorized": {
+          "const": true,
+          "title": "Pointwise Computational Use Authorized",
+          "type": "boolean"
+        },
+        "curve_applicability_reviewed": {
+          "const": true,
+          "title": "Curve Applicability Reviewed",
+          "type": "boolean"
+        },
+        "physical_specimen_identity_status": {
+          "enum": [
+            "identified",
+            "not_required_for_user_model",
+            "not_established"
+          ],
+          "title": "Physical Specimen Identity Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "curve_id",
+        "source_group_id",
+        "material_condition_id",
+        "environment_id",
+        "stress_ratio",
+        "frequency_Hz",
+        "delta_k_Pa_sqrt_m",
+        "crack_growth_m_cycle",
+        "below_minimum_policy",
+        "source_content_sha256",
+        "pointwise_computational_use_authorized",
+        "curve_applicability_reviewed",
+        "physical_specimen_identity_status"
+      ],
+      "title": "TabulatedCrackGrowthCurve",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "curve": {
+      "$ref": "#/$defs/TabulatedCrackGrowthCurve"
+    },
+    "query_delta_k_Pa_sqrt_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Query Delta K Pa Sqrt M",
+      "type": "array"
+    }
+  },
+  "required": [
+    "curve",
+    "query_delta_k_Pa_sqrt_m"
+  ],
+  "title": "TabulatedGrowthRateQuery",
+  "type": "object"
+}

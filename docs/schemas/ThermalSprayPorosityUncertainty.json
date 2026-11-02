@@ -1,0 +1,653 @@
+{
+  "$defs": {
+    "CallerSegmentedPoreArea": {
+      "additionalProperties": false,
+      "properties": {
+        "pore_id": {
+          "minLength": 1,
+          "title": "Pore Id",
+          "type": "string"
+        },
+        "segmented_area_px2": {
+          "exclusiveMinimum": 0,
+          "title": "Segmented Area Px2",
+          "type": "number"
+        },
+        "segmented_area_standard_uncertainty_px2": {
+          "minimum": 0,
+          "title": "Segmented Area Standard Uncertainty Px2",
+          "type": "number"
+        },
+        "area_unit_token": {
+          "const": "px^2",
+          "title": "Area Unit Token",
+          "type": "string"
+        },
+        "touches_field_edge": {
+          "title": "Touches Field Edge",
+          "type": "boolean"
+        },
+        "segmentation_method_id": {
+          "minLength": 1,
+          "title": "Segmentation Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pore_id",
+        "segmented_area_px2",
+        "segmented_area_standard_uncertainty_px2",
+        "area_unit_token",
+        "touches_field_edge",
+        "segmentation_method_id",
+        "provider_id",
+        "provider_revision",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CallerSegmentedPoreArea",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PorosityPixelAreaCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "pixel_area_scale_m2_per_px2": {
+          "exclusiveMinimum": 0,
+          "title": "Pixel Area Scale M2 Per Px2",
+          "type": "number"
+        },
+        "pixel_area_scale_standard_uncertainty_m2_per_px2": {
+          "minimum": 0,
+          "title": "Pixel Area Scale Standard Uncertainty M2 Per Px2",
+          "type": "number"
+        },
+        "minimum_supported_field_area_px2": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Field Area Px2",
+          "type": "number"
+        },
+        "maximum_supported_field_area_px2": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Field Area Px2",
+          "type": "number"
+        },
+        "maximum_supported_single_pore_area_px2": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Single Pore Area Px2",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "coordinate_frame_id",
+        "pixel_area_scale_m2_per_px2",
+        "pixel_area_scale_standard_uncertainty_m2_per_px2",
+        "minimum_supported_field_area_px2",
+        "maximum_supported_field_area_px2",
+        "maximum_supported_single_pore_area_px2",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PorosityPixelAreaCalibration",
+      "type": "object"
+    },
+    "PorosityReferenceEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_id": {
+          "minLength": 1,
+          "title": "Reference Id",
+          "type": "string"
+        },
+        "porosity_area_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Porosity Area Fraction",
+          "type": "number"
+        },
+        "porosity_standard_uncertainty_fraction": {
+          "minimum": 0,
+          "title": "Porosity Standard Uncertainty Fraction",
+          "type": "number"
+        },
+        "minimum_supported_field_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Field Area M2",
+          "type": "number"
+        },
+        "maximum_supported_field_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Field Area M2",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_lineage_id": {
+          "minLength": 1,
+          "title": "Source Lineage Id",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reference_id",
+        "porosity_area_fraction",
+        "porosity_standard_uncertainty_fraction",
+        "minimum_supported_field_area_m2",
+        "maximum_supported_field_area_m2",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "source_lineage_id",
+        "source_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PorosityReferenceEvidence",
+      "type": "object"
+    },
+    "ThermalSprayPorosityField": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "spatial_group_id": {
+          "minLength": 1,
+          "title": "Spatial Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "width_px": {
+          "minimum": 1,
+          "title": "Width Px",
+          "type": "integer"
+        },
+        "height_px": {
+          "minimum": 1,
+          "title": "Height Px",
+          "type": "integer"
+        },
+        "pixel_area_calibration_id": {
+          "minLength": 1,
+          "title": "Pixel Area Calibration Id",
+          "type": "string"
+        },
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "spray_batch_id": {
+          "minLength": 1,
+          "title": "Spray Batch Id",
+          "type": "string"
+        },
+        "process_condition_id": {
+          "minLength": 1,
+          "title": "Process Condition Id",
+          "type": "string"
+        },
+        "pores": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CallerSegmentedPoreArea"
+          },
+          "title": "Pores",
+          "type": "array"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PorosityReferenceEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "field_provider_id": {
+          "minLength": 1,
+          "title": "Field Provider Id",
+          "type": "string"
+        },
+        "field_provider_revision": {
+          "minLength": 1,
+          "title": "Field Provider Revision",
+          "type": "string"
+        },
+        "field_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Data Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_id",
+        "replicate_group_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "spatial_group_id",
+        "partition",
+        "physical_location_id",
+        "coordinate_frame_id",
+        "width_px",
+        "height_px",
+        "pixel_area_calibration_id",
+        "layer_id",
+        "substrate_condition_id",
+        "spray_batch_id",
+        "process_condition_id",
+        "field_provider_id",
+        "field_provider_revision",
+        "field_data_digest",
+        "evidence"
+      ],
+      "title": "ThermalSprayPorosityField",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "layer_id": {
+      "minLength": 1,
+      "title": "Layer Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "spray_batch_id": {
+      "minLength": 1,
+      "title": "Spray Batch Id",
+      "type": "string"
+    },
+    "process_condition_id": {
+      "minLength": 1,
+      "title": "Process Condition Id",
+      "type": "string"
+    },
+    "calibrations": {
+      "items": {
+        "$ref": "#/$defs/PorosityPixelAreaCalibration"
+      },
+      "minItems": 1,
+      "title": "Calibrations",
+      "type": "array"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/ThermalSprayPorosityField"
+      },
+      "minItems": 3,
+      "title": "Fields",
+      "type": "array"
+    },
+    "minimum_replicates_per_group": {
+      "minimum": 2,
+      "title": "Minimum Replicates Per Group",
+      "type": "integer"
+    },
+    "expanded_uncertainty_coverage_factor": {
+      "exclusiveMinimum": 0,
+      "title": "Expanded Uncertainty Coverage Factor",
+      "type": "number"
+    },
+    "specimen_field_layer_and_process_identity_reviewed": {
+      "title": "Specimen Field Layer And Process Identity Reviewed",
+      "type": "boolean"
+    },
+    "pixel_area_calibration_units_uncertainty_and_support_reviewed": {
+      "title": "Pixel Area Calibration Units Uncertainty And Support Reviewed",
+      "type": "boolean"
+    },
+    "caller_segmentation_area_uncertainty_edge_status_and_digests_reviewed": {
+      "title": "Caller Segmentation Area Uncertainty Edge Status And Digests Reviewed",
+      "type": "boolean"
+    },
+    "replicate_and_spatial_group_independence_reviewed": {
+      "title": "Replicate And Spatial Group Independence Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_independence_spatial_and_partition_groups_reviewed": {
+      "title": "Specimen Source Independence Spatial And Partition Groups Reviewed",
+      "type": "boolean"
+    },
+    "holdout_reference_lineage_digest_uncertainty_and_support_reviewed": {
+      "title": "Holdout Reference Lineage Digest Uncertainty And Support Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_propagation_and_coverage_factor_reviewed": {
+      "title": "Uncertainty Propagation And Coverage Factor Reviewed",
+      "type": "boolean"
+    },
+    "missing_invalid_and_out_of_support_policy_reviewed": {
+      "title": "Missing Invalid And Out Of Support Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "coating_system_id",
+    "layer_id",
+    "substrate_condition_id",
+    "spray_batch_id",
+    "process_condition_id",
+    "calibrations",
+    "fields",
+    "minimum_replicates_per_group",
+    "expanded_uncertainty_coverage_factor",
+    "specimen_field_layer_and_process_identity_reviewed",
+    "pixel_area_calibration_units_uncertainty_and_support_reviewed",
+    "caller_segmentation_area_uncertainty_edge_status_and_digests_reviewed",
+    "replicate_and_spatial_group_independence_reviewed",
+    "specimen_source_independence_spatial_and_partition_groups_reviewed",
+    "holdout_reference_lineage_digest_uncertainty_and_support_reviewed",
+    "uncertainty_propagation_and_coverage_factor_reviewed",
+    "missing_invalid_and_out_of_support_policy_reviewed",
+    "evidence"
+  ],
+  "title": "ThermalSprayPorosityUncertainty",
+  "type": "object"
+}

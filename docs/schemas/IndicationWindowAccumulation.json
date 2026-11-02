@@ -1,0 +1,221 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ProjectedIndicationInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "start_m": {
+          "minimum": 0,
+          "title": "Start M",
+          "type": "number"
+        },
+        "end_m": {
+          "exclusiveMinimum": 0,
+          "title": "End M",
+          "type": "number"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "indication_id",
+        "start_m",
+        "end_m",
+        "observation_record_digest"
+      ],
+      "title": "ProjectedIndicationInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "coordinate_origin_id": {
+      "minLength": 1,
+      "title": "Coordinate Origin Id",
+      "type": "string"
+    },
+    "examined_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Examined Length M",
+      "type": "number"
+    },
+    "window_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Window Length M",
+      "type": "number"
+    },
+    "indications": {
+      "items": {
+        "$ref": "#/$defs/ProjectedIndicationInterval"
+      },
+      "maxItems": 512,
+      "title": "Indications",
+      "type": "array"
+    },
+    "overlap_semantics": {
+      "enum": [
+        "sum_indication_overlap",
+        "union_covered_length"
+      ],
+      "title": "Overlap Semantics",
+      "type": "string"
+    },
+    "examined_extent_and_no_gaps_reviewed": {
+      "title": "Examined Extent And No Gaps Reviewed",
+      "type": "boolean"
+    },
+    "indication_identity_and_projection_reviewed": {
+      "title": "Indication Identity And Projection Reviewed",
+      "type": "boolean"
+    },
+    "overlap_semantics_reviewed": {
+      "title": "Overlap Semantics Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "physical_scope_id",
+    "coordinate_frame_id",
+    "coordinate_origin_id",
+    "examined_length_m",
+    "window_length_m",
+    "indications",
+    "overlap_semantics",
+    "examined_extent_and_no_gaps_reviewed",
+    "indication_identity_and_projection_reviewed",
+    "overlap_semantics_reviewed"
+  ],
+  "title": "IndicationWindowAccumulation",
+  "type": "object"
+}

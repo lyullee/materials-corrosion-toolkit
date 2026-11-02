@@ -1,0 +1,1367 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "ButlerVolmerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "calibration_and_reaction_direction_reviewed": {
+          "title": "Calibration And Reaction Direction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "calibration_sha256",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "equilibrium_potential_V",
+        "temperature_K",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "calibration_and_reaction_direction_reviewed"
+      ],
+      "title": "ButlerVolmerReaction",
+      "type": "object"
+    },
+    "ConcentrationKineticLaw": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_concentration_mol_m3": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Reference Concentration Mol M3",
+          "type": "object"
+        },
+        "exchange_current_orders": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Exchange Current Orders",
+          "type": "object"
+        },
+        "equilibrium_log_ratio_coefficients_V": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Equilibrium Log Ratio Coefficients V",
+          "type": "object"
+        },
+        "minimum_concentration_mol_m3": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Minimum Concentration Mol M3",
+          "type": "object"
+        },
+        "maximum_concentration_mol_m3": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Maximum Concentration Mol M3",
+          "type": "object"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "concentration_law_reviewed": {
+          "title": "Concentration Law Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reference_concentration_mol_m3",
+        "exchange_current_orders",
+        "equilibrium_log_ratio_coefficients_V",
+        "minimum_concentration_mol_m3",
+        "maximum_concentration_mol_m3",
+        "calibration_sha256",
+        "concentration_law_reviewed"
+      ],
+      "title": "ConcentrationKineticLaw",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MassActionNetwork": {
+      "additionalProperties": false,
+      "properties": {
+        "network_id": {
+          "minLength": 1,
+          "title": "Network Id",
+          "type": "string"
+        },
+        "species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Species Ids",
+          "type": "array"
+        },
+        "charge_numbers": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Charge Numbers",
+          "type": "array"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/MassActionReaction"
+          },
+          "minItems": 1,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "concentration_activity_approximation_and_rates_reviewed": {
+          "title": "Concentration Activity Approximation And Rates Reviewed",
+          "type": "boolean"
+        },
+        "elemental_composition": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elemental Composition"
+        }
+      },
+      "required": [
+        "network_id",
+        "species_ids",
+        "charge_numbers",
+        "reactions",
+        "concentration_activity_approximation_and_rates_reviewed"
+      ],
+      "title": "MassActionNetwork",
+      "type": "object"
+    },
+    "MassActionReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "reactants": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Reactants",
+          "type": "object"
+        },
+        "products": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Products",
+          "type": "object"
+        },
+        "forward_rate_constant": {
+          "minimum": 0,
+          "title": "Forward Rate Constant",
+          "type": "number"
+        },
+        "reverse_rate_constant": {
+          "minimum": 0,
+          "title": "Reverse Rate Constant",
+          "type": "number"
+        },
+        "forward_rate_constant_unit": {
+          "minLength": 1,
+          "title": "Forward Rate Constant Unit",
+          "type": "string"
+        },
+        "reverse_rate_constant_unit": {
+          "minLength": 1,
+          "title": "Reverse Rate Constant Unit",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "reactants",
+        "products",
+        "forward_rate_constant",
+        "reverse_rate_constant",
+        "forward_rate_constant_unit",
+        "reverse_rate_constant_unit",
+        "calibration_sha256"
+      ],
+      "title": "MassActionReaction",
+      "type": "object"
+    },
+    "RestrictedTransportRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "simulation_id": {
+          "minLength": 1,
+          "title": "Simulation Id",
+          "type": "string"
+        },
+        "species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Species Ids",
+          "type": "array"
+        },
+        "length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Length M",
+          "type": "number"
+        },
+        "cell_count": {
+          "maximum": 2000,
+          "minimum": 2,
+          "title": "Cell Count",
+          "type": "integer"
+        },
+        "cell_widths_m": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Widths M"
+        },
+        "cell_cross_section_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Cross Section M2"
+        },
+        "face_cross_section_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Face Cross Section M2"
+        },
+        "cell_cross_section_history_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "exclusiveMinimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Cross Section History M2"
+        },
+        "face_cross_section_history_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "exclusiveMinimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Face Cross Section History M2"
+        },
+        "reference_cross_section_m2": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Cross Section M2"
+        },
+        "variable_area_one_dimensional_reduction_reviewed": {
+          "default": false,
+          "title": "Variable Area One Dimensional Reduction Reviewed",
+          "type": "boolean"
+        },
+        "moving_geometry_interpolation_reviewed": {
+          "default": false,
+          "title": "Moving Geometry Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "moving_geometry_inventory_dilution_reviewed": {
+          "default": false,
+          "title": "Moving Geometry Inventory Dilution Reviewed",
+          "type": "boolean"
+        },
+        "moving_geometry_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Provider Id"
+        },
+        "moving_geometry_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Configuration Sha256"
+        },
+        "moving_geometry_source_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Source Result Sha256"
+        },
+        "moving_geometry_time_basis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Time Basis Id"
+        },
+        "axial_advection_velocity_m_s": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Velocity M S"
+        },
+        "axial_advection_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Provider Id"
+        },
+        "axial_advection_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Configuration Sha256"
+        },
+        "axial_advection_source_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Source Result Sha256"
+        },
+        "axial_advection_source_time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Source Time S"
+        },
+        "axial_advection_source_time_basis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Source Time Basis Id"
+        },
+        "axial_advection_and_flow_continuity_reviewed": {
+          "default": false,
+          "title": "Axial Advection And Flow Continuity Reviewed",
+          "type": "boolean"
+        },
+        "time_varying_axial_advection_reviewed": {
+          "default": false,
+          "title": "Time Varying Axial Advection Reviewed",
+          "type": "boolean"
+        },
+        "axial_flow_reversal_and_tip_boundary_reviewed": {
+          "default": false,
+          "title": "Axial Flow Reversal And Tip Boundary Reviewed",
+          "type": "boolean"
+        },
+        "tip_advection_inflow_mol_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tip Advection Inflow Mol M3"
+        },
+        "diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Diffusivity M2 S",
+          "type": "array"
+        },
+        "initial_concentration_mol_m3": {
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Initial Concentration Mol M3",
+          "type": "array"
+        },
+        "mouth_concentration_mol_m3": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Mouth Concentration Mol M3",
+          "type": "array"
+        },
+        "output_times_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Output Times S",
+          "type": "array"
+        },
+        "mouth_concentration_history_mol_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mouth Concentration History Mol M3"
+        },
+        "mouth_history_interpolation_reviewed": {
+          "default": false,
+          "title": "Mouth History Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "reaction_provider_id": {
+          "minLength": 1,
+          "title": "Reaction Provider Id",
+          "type": "string"
+        },
+        "reaction_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Reaction Configuration Sha256",
+          "type": "string"
+        },
+        "geometry_diffusion_reaction_basis_reviewed": {
+          "title": "Geometry Diffusion Reaction Basis Reviewed",
+          "type": "boolean"
+        },
+        "charge_numbers": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Charge Numbers"
+        },
+        "prescribed_potential_V": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prescribed Potential V"
+        },
+        "migration_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Migration Temperature K"
+        },
+        "prescribed_field_migration_reviewed": {
+          "default": false,
+          "title": "Prescribed Field Migration Reviewed",
+          "type": "boolean"
+        },
+        "poisson_permittivity_F_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Poisson Permittivity F M"
+        },
+        "poisson_mouth_potential_V": {
+          "default": 0.0,
+          "title": "Poisson Mouth Potential V",
+          "type": "number"
+        },
+        "fixed_charge_mol_charge_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixed Charge Mol Charge M3"
+        },
+        "poisson_boundary_and_charge_reviewed": {
+          "default": false,
+          "title": "Poisson Boundary And Charge Reviewed",
+          "type": "boolean"
+        },
+        "tip_surface_provider_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tip Surface Provider Id"
+        },
+        "tip_surface_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tip Surface Configuration Sha256"
+        },
+        "tip_surface_flux_basis_reviewed": {
+          "default": false,
+          "title": "Tip Surface Flux Basis Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Provider Id"
+        },
+        "activity_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Configuration Sha256"
+        },
+        "activity_chemical_potential_and_tracer_diffusivity_reviewed": {
+          "default": false,
+          "title": "Activity Chemical Potential And Tracer Diffusivity Reviewed",
+          "type": "boolean"
+        },
+        "wall_area_per_volume_m2_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Area Per Volume M2 M3"
+        },
+        "wall_area_per_volume_history_m2_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Area Per Volume History M2 M3"
+        },
+        "wall_surface_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Surface Provider Id"
+        },
+        "wall_surface_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Surface Configuration Sha256"
+        },
+        "wall_surface_flux_basis_reviewed": {
+          "default": false,
+          "title": "Wall Surface Flux Basis Reviewed",
+          "type": "boolean"
+        },
+        "inventory_absolute_tolerance_mol_m2": {
+          "default": 1e-08,
+          "exclusiveMinimum": 0,
+          "title": "Inventory Absolute Tolerance Mol M2",
+          "type": "number"
+        },
+        "inventory_relative_tolerance": {
+          "default": 1e-06,
+          "exclusiveMinimum": 0,
+          "title": "Inventory Relative Tolerance",
+          "type": "number"
+        },
+        "solver_relative_tolerance": {
+          "default": 1e-07,
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Solver Relative Tolerance",
+          "type": "number"
+        },
+        "concentration_absolute_tolerance_mol_m3": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Concentration Absolute Tolerance Mol M3",
+          "type": "number"
+        },
+        "integrated_amount_absolute_tolerance_mol_m2": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Integrated Amount Absolute Tolerance Mol M2",
+          "type": "number"
+        },
+        "maximum_solver_step_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Solver Step S"
+        },
+        "callbacks_cell_locality_reviewed": {
+          "default": false,
+          "title": "Callbacks Cell Locality Reviewed",
+          "type": "boolean"
+        },
+        "maximum_dense_state_count": {
+          "default": 4000,
+          "maximum": 20000,
+          "minimum": 10,
+          "title": "Maximum Dense State Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "simulation_id",
+        "species_ids",
+        "length_m",
+        "cell_count",
+        "diffusivity_m2_s",
+        "initial_concentration_mol_m3",
+        "mouth_concentration_mol_m3",
+        "output_times_s",
+        "reaction_provider_id",
+        "reaction_configuration_sha256",
+        "geometry_diffusion_reaction_basis_reviewed"
+      ],
+      "title": "RestrictedTransportRequest",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "ScaleLimitedSurfaceFlux": {
+      "additionalProperties": false,
+      "description": "Reviewed binding between one scale transport assessment and an electrode boundary.",
+      "properties": {
+        "scale_transport_result": {
+          "$ref": "#/$defs/AssessmentResult"
+        },
+        "scale_transport_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Scale Transport Result Sha256",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "solution_condition_id": {
+          "minLength": 1,
+          "title": "Solution Condition Id",
+          "type": "string"
+        },
+        "scale_phase_id": {
+          "minLength": 1,
+          "title": "Scale Phase Id",
+          "type": "string"
+        },
+        "scale_state_id": {
+          "minLength": 1,
+          "title": "Scale State Id",
+          "type": "string"
+        },
+        "transported_species_id": {
+          "minLength": 1,
+          "title": "Transported Species Id",
+          "type": "string"
+        },
+        "surface_area_basis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Surface Area Basis Id"
+        },
+        "limited_reaction_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limited Reaction Ids",
+          "type": "array"
+        },
+        "application_location": {
+          "enum": [
+            "tip",
+            "wall"
+          ],
+          "title": "Application Location",
+          "type": "string"
+        },
+        "complete_species_production_branch_set_reviewed": {
+          "title": "Complete Species Production Branch Set Reviewed",
+          "type": "boolean"
+        },
+        "diffusion_bound_and_surface_area_basis_reviewed": {
+          "title": "Diffusion Bound And Surface Area Basis Reviewed",
+          "type": "boolean"
+        },
+        "scale_state_constant_over_transport_horizon_reviewed": {
+          "title": "Scale State Constant Over Transport Horizon Reviewed",
+          "type": "boolean"
+        },
+        "metal_potential_and_solution_reference_compatible_reviewed": {
+          "title": "Metal Potential And Solution Reference Compatible Reviewed",
+          "type": "boolean"
+        },
+        "electrochemical_and_scale_physical_scope_match_reviewed": {
+          "title": "Electrochemical And Scale Physical Scope Match Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scale_transport_result",
+        "scale_transport_result_sha256",
+        "physical_scope_id",
+        "substrate_condition_id",
+        "solution_condition_id",
+        "scale_phase_id",
+        "scale_state_id",
+        "transported_species_id",
+        "limited_reaction_ids",
+        "application_location",
+        "complete_species_production_branch_set_reviewed",
+        "diffusion_bound_and_surface_area_basis_reviewed",
+        "scale_state_constant_over_transport_horizon_reviewed",
+        "metal_potential_and_solution_reference_compatible_reviewed",
+        "electrochemical_and_scale_physical_scope_match_reviewed"
+      ],
+      "title": "ScaleLimitedSurfaceFlux",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "transport": {
+      "$ref": "#/$defs/RestrictedTransportRequest"
+    },
+    "network": {
+      "$ref": "#/$defs/MassActionNetwork"
+    },
+    "surface_reactions": {
+      "items": {
+        "$ref": "#/$defs/ButlerVolmerReaction"
+      },
+      "minItems": 1,
+      "title": "Surface Reactions",
+      "type": "array"
+    },
+    "wall_surface_reactions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ButlerVolmerReaction"
+      },
+      "title": "Wall Surface Reactions",
+      "type": "array"
+    },
+    "wall_surface_composition_and_reference_reviewed": {
+      "default": false,
+      "title": "Wall Surface Composition And Reference Reviewed",
+      "type": "boolean"
+    },
+    "equipotential_wall_and_metal_potential_reviewed": {
+      "default": false,
+      "title": "Equipotential Wall And Metal Potential Reviewed",
+      "type": "boolean"
+    },
+    "homogeneous_reaction_activity_correction_reviewed": {
+      "default": false,
+      "title": "Homogeneous Reaction Activity Correction Reviewed",
+      "type": "boolean"
+    },
+    "metal_potential_V": {
+      "title": "Metal Potential V",
+      "type": "number"
+    },
+    "common_potential_reference_id": {
+      "minLength": 1,
+      "title": "Common Potential Reference Id",
+      "type": "string"
+    },
+    "surface_composition_and_reference_reviewed": {
+      "title": "Surface Composition And Reference Reviewed",
+      "type": "boolean"
+    },
+    "free_corrosion_zero_current_reviewed": {
+      "default": false,
+      "title": "Free Corrosion Zero Current Reviewed",
+      "type": "boolean"
+    },
+    "concentration_laws": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ConcentrationKineticLaw"
+      },
+      "title": "Concentration Laws",
+      "type": "object"
+    },
+    "scale_limited_surface_flux": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScaleLimitedSurfaceFlux"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "additional_scale_limited_surface_fluxes": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ScaleLimitedSurfaceFlux"
+      },
+      "title": "Additional Scale Limited Surface Fluxes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "transport",
+    "network",
+    "surface_reactions",
+    "metal_potential_V",
+    "common_potential_reference_id",
+    "surface_composition_and_reference_reviewed"
+  ],
+  "title": "ElectrochemicalTransport",
+  "type": "object"
+}

@@ -1,0 +1,446 @@
+{
+  "$defs": {
+    "BdotSpeciesParameter": {
+      "additionalProperties": false,
+      "description": "Caller-owned species parameters for the extended Debye-Huckel B-dot form.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "ion_size_angstrom": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Ion Size Angstrom",
+          "type": "number"
+        },
+        "bdot_kg_per_mol": {
+          "title": "Bdot Kg Per Mol",
+          "type": "number"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "source_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Record Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "species_id",
+        "ion_size_angstrom",
+        "bdot_kg_per_mol",
+        "source_id",
+        "source_record_id",
+        "source_record_sha256"
+      ],
+      "title": "BdotSpeciesParameter",
+      "type": "object"
+    },
+    "CompetitiveAqueousSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "initial_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_reference_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Reference Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "initial_concentration_mol_m3",
+        "activity_reference_concentration_mol_m3",
+        "activity_coefficient",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "CompetitiveAqueousSpecies",
+      "type": "object"
+    },
+    "CompetitiveSolidEquilibrium": {
+      "additionalProperties": false,
+      "properties": {
+        "equilibrium_id": {
+          "minLength": 1,
+          "title": "Equilibrium Id",
+          "type": "string"
+        },
+        "aqueous_species": {
+          "items": {
+            "$ref": "#/$defs/CompetitiveAqueousSpecies"
+          },
+          "minItems": 1,
+          "title": "Aqueous Species",
+          "type": "array"
+        },
+        "candidate_solid_phases": {
+          "items": {
+            "$ref": "#/$defs/CompetitiveSolidPhase"
+          },
+          "maxItems": 16,
+          "minItems": 2,
+          "title": "Candidate Solid Phases",
+          "type": "array"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "standard_state_id": {
+          "minLength": 1,
+          "title": "Standard State Id",
+          "type": "string"
+        },
+        "candidate_phase_set_completeness_reviewed": {
+          "title": "Candidate Phase Set Completeness Reviewed",
+          "type": "boolean"
+        },
+        "fixed_activity_coefficients_and_standard_states_reviewed": {
+          "title": "Fixed Activity Coefficients And Standard States Reviewed",
+          "type": "boolean"
+        },
+        "equilibrium_constant_temperature_and_computational_use_reviewed": {
+          "title": "Equilibrium Constant Temperature And Computational Use Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_fixed_volume_and_neutral_solid_assumptions_reviewed": {
+          "title": "Single Liquid Fixed Volume And Neutral Solid Assumptions Reviewed",
+          "type": "boolean"
+        },
+        "optimizer_maximum_iterations": {
+          "default": 2000,
+          "maximum": 20000,
+          "minimum": 50,
+          "title": "Optimizer Maximum Iterations",
+          "type": "integer"
+        },
+        "maximum_absolute_log_saturation_residual": {
+          "default": 1e-07,
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Maximum Absolute Log Saturation Residual",
+          "type": "number"
+        },
+        "absolute_extent_balance_tolerance_mol_m3": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Absolute Extent Balance Tolerance Mol M3",
+          "type": "number"
+        },
+        "relative_extent_balance_tolerance": {
+          "default": 1e-09,
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Relative Extent Balance Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "equilibrium_id",
+        "aqueous_species",
+        "candidate_solid_phases",
+        "temperature_K",
+        "standard_state_id",
+        "candidate_phase_set_completeness_reviewed",
+        "fixed_activity_coefficients_and_standard_states_reviewed",
+        "equilibrium_constant_temperature_and_computational_use_reviewed",
+        "single_liquid_fixed_volume_and_neutral_solid_assumptions_reviewed"
+      ],
+      "title": "CompetitiveSolidEquilibrium",
+      "type": "object"
+    },
+    "CompetitiveSolidPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "precipitation_stoichiometry": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Precipitation Stoichiometry",
+          "type": "object"
+        },
+        "solid_elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Solid Elemental Composition",
+          "type": "object"
+        },
+        "initial_solid_moles_per_solution_volume_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Per Solution Volume Mol M3",
+          "type": "number"
+        },
+        "dimensionless_solubility_product": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Solubility Product",
+          "type": "number"
+        },
+        "equilibrium_constant_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Constant Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "precipitation_stoichiometry",
+        "solid_elemental_composition",
+        "initial_solid_moles_per_solution_volume_mol_m3",
+        "dimensionless_solubility_product",
+        "equilibrium_constant_source_sha256"
+      ],
+      "title": "CompetitiveSolidPhase",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.competitive_solid_bdot_iteration.v1",
+      "default": "matintegrity.competitive_solid_bdot_iteration.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "equilibrium": {
+      "$ref": "#/$defs/CompetitiveSolidEquilibrium"
+    },
+    "water_mass_per_solution_volume_kg_L": {
+      "exclusiveMinimum": 0,
+      "title": "Water Mass Per Solution Volume Kg L",
+      "type": "number"
+    },
+    "debye_huckel_A_at_temperature": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel A At Temperature",
+      "type": "number"
+    },
+    "debye_huckel_B_at_temperature_sqrt_kg_mol_per_angstrom": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel B At Temperature Sqrt Kg Mol Per Angstrom",
+      "type": "number"
+    },
+    "parameter_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Parameter Temperature K",
+      "type": "number"
+    },
+    "temperature_match_tolerance_K": {
+      "default": 0.01,
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "title": "Temperature Match Tolerance K",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Sha256",
+      "type": "string"
+    },
+    "parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Record Sha256",
+      "type": "string"
+    },
+    "species_parameters": {
+      "items": {
+        "$ref": "#/$defs/BdotSpeciesParameter"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Species Parameters",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "maximum_supported_ionic_strength_mol_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Ionic Strength Mol Kg",
+      "type": "number"
+    },
+    "charge_balance_tolerance_mol_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Charge Balance Tolerance Mol Kg",
+      "type": "number"
+    },
+    "maximum_outer_iterations": {
+      "default": 100,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Maximum Outer Iterations",
+      "type": "integer"
+    },
+    "log_gamma_tolerance": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Log Gamma Tolerance",
+      "type": "number"
+    },
+    "damping_fraction": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "maximum": 1.0,
+      "title": "Damping Fraction",
+      "type": "number"
+    },
+    "water_mass_conversion_reviewed": {
+      "title": "Water Mass Conversion Reviewed",
+      "type": "boolean"
+    },
+    "temperature_parameter_and_standard_state_reviewed": {
+      "title": "Temperature Parameter And Standard State Reviewed",
+      "type": "boolean"
+    },
+    "complete_species_parameter_set_and_applicability_reviewed": {
+      "title": "Complete Species Parameter Set And Applicability Reviewed",
+      "type": "boolean"
+    },
+    "competing_solid_bdot_applicability_reviewed": {
+      "title": "Competing Solid Bdot Applicability Reviewed",
+      "type": "boolean"
+    },
+    "charge_scope_and_solver_settings_reviewed": {
+      "title": "Charge Scope And Solver Settings Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "equilibrium",
+    "water_mass_per_solution_volume_kg_L",
+    "debye_huckel_A_at_temperature",
+    "debye_huckel_B_at_temperature_sqrt_kg_mol_per_angstrom",
+    "parameter_temperature_K",
+    "provider_id",
+    "provider_revision",
+    "configuration_sha256",
+    "parameter_record_sha256",
+    "species_parameters",
+    "evidence",
+    "maximum_supported_ionic_strength_mol_kg",
+    "charge_balance_tolerance_mol_kg",
+    "water_mass_conversion_reviewed",
+    "temperature_parameter_and_standard_state_reviewed",
+    "complete_species_parameter_set_and_applicability_reviewed",
+    "competing_solid_bdot_applicability_reviewed",
+    "charge_scope_and_solver_settings_reviewed"
+  ],
+  "title": "CompetitiveSolidBdotIteration",
+  "type": "object"
+}

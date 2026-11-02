@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "surface_preparation_id": {
+      "minLength": 1,
+      "title": "Surface Preparation Id",
+      "type": "string"
+    },
+    "surface_preparation_definition": {
+      "minLength": 1,
+      "title": "Surface Preparation Definition",
+      "type": "string"
+    },
+    "replication_medium_id": {
+      "minLength": 1,
+      "title": "Replication Medium Id",
+      "type": "string"
+    },
+    "replication_medium_lot_id": {
+      "minLength": 1,
+      "title": "Replication Medium Lot Id",
+      "type": "string"
+    },
+    "magnification": {
+      "exclusiveMinimum": 0,
+      "title": "Magnification",
+      "type": "number"
+    },
+    "magnification_unit_token": {
+      "const": "1",
+      "default": "1",
+      "title": "Magnification Unit Token",
+      "type": "string"
+    },
+    "instrument_id": {
+      "minLength": 1,
+      "title": "Instrument Id",
+      "type": "string"
+    },
+    "instrument_revision": {
+      "minLength": 1,
+      "title": "Instrument Revision",
+      "type": "string"
+    },
+    "instrument_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Instrument Configuration Digest",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_revision": {
+      "minLength": 1,
+      "title": "Calibration Revision",
+      "type": "string"
+    },
+    "calibration_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "missing"
+      ],
+      "title": "Calibration Status",
+      "type": "string"
+    },
+    "calibration_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Record Digest",
+      "type": "string"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "surface_preparation_id",
+    "surface_preparation_definition",
+    "replication_medium_id",
+    "replication_medium_lot_id",
+    "magnification",
+    "instrument_id",
+    "instrument_revision",
+    "instrument_configuration_digest",
+    "calibration_id",
+    "calibration_revision",
+    "calibration_status",
+    "calibration_record_digest",
+    "evidence"
+  ],
+  "title": "ReplicaAcquisitionConfiguration",
+  "type": "object"
+}

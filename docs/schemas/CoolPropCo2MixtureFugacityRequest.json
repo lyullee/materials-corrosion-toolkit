@@ -1,0 +1,142 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "CO2 component fugacity in a caller-specified gas-mixture PT state.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "total_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Total Pressure Pa",
+      "type": "number"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Components",
+      "type": "array"
+    },
+    "mole_fractions": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Mole Fractions",
+      "type": "array"
+    },
+    "backend": {
+      "default": "HEOS",
+      "minLength": 1,
+      "title": "Backend",
+      "type": "string"
+    },
+    "mixture_composition_reviewed": {
+      "title": "Mixture Composition Reviewed",
+      "type": "boolean"
+    },
+    "mixture_eos_applicability_reviewed": {
+      "title": "Mixture Eos Applicability Reviewed",
+      "type": "boolean"
+    },
+    "single_phase_gas_or_supercritical_reviewed": {
+      "title": "Single Phase Gas Or Supercritical Reviewed",
+      "type": "boolean"
+    },
+    "review_id": {
+      "minLength": 1,
+      "title": "Review Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "temperature_K",
+    "total_pressure_Pa",
+    "components",
+    "mole_fractions",
+    "mixture_composition_reviewed",
+    "mixture_eos_applicability_reviewed",
+    "single_phase_gas_or_supercritical_reviewed",
+    "review_id",
+    "evidence"
+  ],
+  "title": "CoolPropCo2MixtureFugacityRequest",
+  "type": "object"
+}

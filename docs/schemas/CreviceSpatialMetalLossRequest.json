@@ -1,0 +1,371 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CreviceSpatialDissolutionBranchMapping": {
+      "additionalProperties": false,
+      "description": "Caller-reviewed interpretation of one spatial reaction-current branch.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "metal_species_id": {
+          "minLength": 1,
+          "title": "Metal Species Id",
+          "type": "string"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "maximum": 64,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "metal_moles_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Moles Per Reaction Extent",
+          "type": "number"
+        },
+        "metal_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "metal_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Density Kg M3",
+          "type": "number"
+        },
+        "current_efficiency": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Current Efficiency",
+          "type": "number"
+        },
+        "reactive_area_m2_by_cell": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Reactive Area M2 By Cell",
+          "type": "array"
+        },
+        "mapping_record_id": {
+          "minLength": 1,
+          "title": "Mapping Record Id",
+          "type": "string"
+        },
+        "mapping_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mapping Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "anodic_positive_sign_reviewed": {
+          "title": "Anodic Positive Sign Reviewed",
+          "type": "boolean"
+        },
+        "branch_is_metal_dissolution_reviewed": {
+          "title": "Branch Is Metal Dissolution Reviewed",
+          "type": "boolean"
+        },
+        "area_mapping_and_uniform_cell_recession_reviewed": {
+          "title": "Area Mapping And Uniform Cell Recession Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "metal_species_id",
+        "electron_count",
+        "metal_moles_per_reaction_extent",
+        "metal_molar_mass_kg_mol",
+        "metal_density_kg_m3",
+        "current_efficiency",
+        "reactive_area_m2_by_cell",
+        "mapping_record_id",
+        "mapping_sha256",
+        "evidence",
+        "anodic_positive_sign_reviewed",
+        "branch_is_metal_dissolution_reviewed",
+        "area_mapping_and_uniform_cell_recession_reviewed"
+      ],
+      "title": "CreviceSpatialDissolutionBranchMapping",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Map selected spatial anodic branches to conditional cellwise Faradaic loss.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "upstream_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "upstream_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Upstream Result Sha256",
+      "type": "string"
+    },
+    "mappings": {
+      "items": {
+        "$ref": "#/$defs/CreviceSpatialDissolutionBranchMapping"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Mappings",
+      "type": "array"
+    },
+    "piecewise_linear_current_between_knots_reviewed": {
+      "title": "Piecewise Linear Current Between Knots Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "upstream_result",
+    "upstream_result_sha256",
+    "mappings",
+    "piecewise_linear_current_between_knots_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceSpatialMetalLossRequest",
+  "type": "object"
+}

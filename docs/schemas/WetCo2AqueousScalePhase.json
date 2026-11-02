@@ -1,0 +1,161 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2ScaleReactionKnot": {
+      "additionalProperties": false,
+      "description": "Caller-specified intrinsic precipitation rate at an exact time knot.",
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "intrinsic_precipitation_flux_mol_m2_s": {
+          "title": "Intrinsic Precipitation Flux Mol M2 S",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "intrinsic_precipitation_flux_mol_m2_s",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2ScaleReactionKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "phase_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Phase Id",
+      "type": "string"
+    },
+    "species_moles_per_mole_solid": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Species Moles Per Mole Solid",
+      "type": "object"
+    },
+    "phase_element_composition": {
+      "additionalProperties": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Phase Element Composition",
+      "type": "object"
+    },
+    "flux_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2ScaleReactionKnot"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Flux History",
+      "type": "array"
+    },
+    "stoichiometry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stoichiometry Sha256",
+      "type": "string"
+    },
+    "stoichiometry_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Stoichiometry Evidence",
+      "type": "array"
+    },
+    "identity_and_direction_reviewed": {
+      "title": "Identity And Direction Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "phase_id",
+    "species_moles_per_mole_solid",
+    "phase_element_composition",
+    "flux_history",
+    "stoichiometry_sha256",
+    "stoichiometry_evidence",
+    "identity_and_direction_reviewed"
+  ],
+  "title": "WetCo2AqueousScalePhase",
+  "type": "object"
+}

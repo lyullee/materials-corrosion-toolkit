@@ -1,0 +1,187 @@
+{
+  "$defs": {
+    "OperatingHistory": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.operating_history.v1",
+          "default": "matintegrity.operating_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "model_prediction"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "pressure_absolute_Pa": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Pressure Absolute Pa",
+          "type": "array"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Temperature K",
+          "type": "array"
+        },
+        "valid": {
+          "items": {
+            "type": "boolean"
+          },
+          "title": "Valid",
+          "type": "array"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "clock_id",
+        "origin",
+        "time_s",
+        "pressure_absolute_Pa",
+        "temperature_K",
+        "valid",
+        "source_digest"
+      ],
+      "title": "OperatingHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history": {
+      "$ref": "#/$defs/OperatingHistory"
+    },
+    "external_absolute_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "External Absolute Pressure Pa",
+      "type": "number"
+    },
+    "mean_radius_m": {
+      "exclusiveMinimum": 0,
+      "title": "Mean Radius M",
+      "type": "number"
+    },
+    "wall_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Thickness M",
+      "type": "number"
+    },
+    "maximum_thickness_to_radius_ratio": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Thickness To Radius Ratio",
+      "type": "number"
+    },
+    "reference_stress_range_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Stress Range Pa",
+      "type": "number"
+    },
+    "reference_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Cycles",
+      "type": "number"
+    },
+    "basquin_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Basquin Exponent",
+      "type": "number"
+    },
+    "minimum_calibrated_stress_range_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Calibrated Stress Range Pa",
+      "type": "number"
+    },
+    "maximum_calibrated_stress_range_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Calibrated Stress Range Pa",
+      "type": "number"
+    },
+    "minimum_calibrated_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Calibrated Temperature K",
+      "type": "number"
+    },
+    "maximum_calibrated_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Calibrated Temperature K",
+      "type": "number"
+    },
+    "minimum_calibrated_stress_ratio": {
+      "title": "Minimum Calibrated Stress Ratio",
+      "type": "number"
+    },
+    "maximum_calibrated_stress_ratio": {
+      "title": "Maximum Calibrated Stress Ratio",
+      "type": "number"
+    },
+    "initial_damage": {
+      "minimum": 0,
+      "title": "Initial Damage",
+      "type": "number"
+    },
+    "declared_damage_limit": {
+      "exclusiveMinimum": 0,
+      "title": "Declared Damage Limit",
+      "type": "number"
+    }
+  },
+  "required": [
+    "history",
+    "external_absolute_pressure_Pa",
+    "mean_radius_m",
+    "wall_thickness_m",
+    "maximum_thickness_to_radius_ratio",
+    "reference_stress_range_Pa",
+    "reference_cycles",
+    "basquin_exponent",
+    "minimum_calibrated_stress_range_Pa",
+    "maximum_calibrated_stress_range_Pa",
+    "minimum_calibrated_temperature_K",
+    "maximum_calibrated_temperature_K",
+    "minimum_calibrated_stress_ratio",
+    "maximum_calibrated_stress_ratio",
+    "initial_damage",
+    "declared_damage_limit"
+  ],
+  "title": "PressureFatigue",
+  "type": "object"
+}

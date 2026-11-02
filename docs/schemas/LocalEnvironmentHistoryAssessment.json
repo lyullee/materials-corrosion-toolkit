@@ -1,0 +1,556 @@
+{
+  "$defs": {
+    "ElectrodeMaterialCouple": {
+      "additionalProperties": false,
+      "properties": {
+        "couple_id": {
+          "minLength": 1,
+          "title": "Couple Id",
+          "type": "string"
+        },
+        "electrode_a_material_id": {
+          "minLength": 1,
+          "title": "Electrode A Material Id",
+          "type": "string"
+        },
+        "electrode_a_surface_condition_id": {
+          "minLength": 1,
+          "title": "Electrode A Surface Condition Id",
+          "type": "string"
+        },
+        "electrode_a_exposed_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Electrode A Exposed Area M2",
+          "type": "number"
+        },
+        "electrode_b_material_id": {
+          "minLength": 1,
+          "title": "Electrode B Material Id",
+          "type": "string"
+        },
+        "electrode_b_surface_condition_id": {
+          "minLength": 1,
+          "title": "Electrode B Surface Condition Id",
+          "type": "string"
+        },
+        "electrode_b_exposed_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Electrode B Exposed Area M2",
+          "type": "number"
+        },
+        "electrical_connection_definition": {
+          "minLength": 1,
+          "title": "Electrical Connection Definition",
+          "type": "string"
+        },
+        "geometry_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "couple_id",
+        "electrode_a_material_id",
+        "electrode_a_surface_condition_id",
+        "electrode_a_exposed_area_m2",
+        "electrode_b_material_id",
+        "electrode_b_surface_condition_id",
+        "electrode_b_exposed_area_m2",
+        "electrical_connection_definition",
+        "geometry_record_digest",
+        "evidence"
+      ],
+      "title": "ElectrodeMaterialCouple",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LocalEnvironmentExposureState": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "couple_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Couple Id"
+        },
+        "state_descriptors": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "State Descriptors",
+          "type": "object"
+        },
+        "facts": {
+          "items": {
+            "$ref": "#/$defs/LocalEnvironmentFact"
+          },
+          "minItems": 1,
+          "title": "Facts",
+          "type": "array"
+        },
+        "state_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "state_id",
+        "start_time_s",
+        "end_time_s",
+        "material_condition_id",
+        "environment_id",
+        "facts",
+        "state_record_digest",
+        "evidence"
+      ],
+      "title": "LocalEnvironmentExposureState",
+      "type": "object"
+    },
+    "LocalEnvironmentFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "potential",
+            "current",
+            "species",
+            "pH",
+            "state_descriptor"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "reference_electrode_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Electrode Id"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "fact_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fact Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "fact_kind",
+        "quantity_id",
+        "status",
+        "unit_token",
+        "method_id",
+        "fact_record_digest",
+        "evidence"
+      ],
+      "title": "LocalEnvironmentFact",
+      "type": "object"
+    },
+    "LocalEnvironmentHistoryCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "applicable_domain": {
+          "enum": [
+            "galvanic_coupling",
+            "crevice_chemistry",
+            "under_deposit"
+          ],
+          "title": "Applicable Domain",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "potential",
+            "current",
+            "species",
+            "pH",
+            "area_ratio"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "reference_electrode_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Electrode Id"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "comparison": {
+          "const": "uncertainty_interval_against_bounds",
+          "default": "uncertainty_interval_against_bounds",
+          "title": "Comparison",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "criterion_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Criterion Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "applicable_domain",
+        "fact_kind",
+        "quantity_id",
+        "unit_token",
+        "criterion_basis",
+        "criterion_source_digest",
+        "evidence"
+      ],
+      "title": "LocalEnvironmentHistoryCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.local_environment_history.v1",
+      "default": "matintegrity.local_environment_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "domain": {
+      "enum": [
+        "galvanic_coupling",
+        "crevice_chemistry",
+        "under_deposit"
+      ],
+      "title": "Domain",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "couples": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ElectrodeMaterialCouple"
+      },
+      "title": "Couples",
+      "type": "array"
+    },
+    "states": {
+      "items": {
+        "$ref": "#/$defs/LocalEnvironmentExposureState"
+      },
+      "minItems": 1,
+      "title": "States",
+      "type": "array"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/LocalEnvironmentHistoryCriterion"
+      },
+      "minItems": 1,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "clock_state_and_identity_reviewed": {
+      "title": "Clock State And Identity Reviewed",
+      "type": "boolean"
+    },
+    "units_references_methods_and_uncertainties_reviewed": {
+      "title": "Units References Methods And Uncertainties Reviewed",
+      "type": "boolean"
+    },
+    "caller_rules_and_missing_evidence_policy_reviewed": {
+      "title": "Caller Rules And Missing Evidence Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "domain",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "states",
+    "criteria",
+    "clock_state_and_identity_reviewed",
+    "units_references_methods_and_uncertainties_reviewed",
+    "caller_rules_and_missing_evidence_policy_reviewed",
+    "evidence",
+    "payload_digest"
+  ],
+  "title": "LocalEnvironmentHistoryAssessment",
+  "type": "object"
+}

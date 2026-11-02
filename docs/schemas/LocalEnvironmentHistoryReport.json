@@ -1,0 +1,147 @@
+{
+  "$defs": {
+    "LocalEnvironmentFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "title": "State Id",
+          "type": "string"
+        },
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "within",
+            "outside",
+            "boundary_overlap",
+            "missing",
+            "invalid",
+            "mismatch"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        },
+        "observed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        }
+      },
+      "required": [
+        "state_id",
+        "criterion_id",
+        "outcome",
+        "basis"
+      ],
+      "title": "LocalEnvironmentFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/LocalEnvironmentFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "total_exposure_time_s": {
+      "title": "Total Exposure Time S",
+      "type": "number"
+    },
+    "complete_evidence_time_s": {
+      "title": "Complete Evidence Time S",
+      "type": "number"
+    },
+    "complete_evidence_fraction": {
+      "title": "Complete Evidence Fraction",
+      "type": "number"
+    },
+    "area_ratios_b_to_a": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Area Ratios B To A",
+      "type": "object"
+    },
+    "input_digest": {
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Qualification Claim",
+      "type": "boolean"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "decision",
+    "findings",
+    "total_exposure_time_s",
+    "complete_evidence_time_s",
+    "complete_evidence_fraction",
+    "area_ratios_b_to_a",
+    "input_digest",
+    "report_digest"
+  ],
+  "title": "LocalEnvironmentHistoryReport",
+  "type": "object"
+}

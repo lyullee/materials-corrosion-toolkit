@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "ButlerVolmerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "calibration_and_reaction_direction_reviewed": {
+          "title": "Calibration And Reaction Direction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "calibration_sha256",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "equilibrium_potential_V",
+        "temperature_K",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "calibration_and_reaction_direction_reviewed"
+      ],
+      "title": "ButlerVolmerReaction",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2CylindricalSpeciesBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "bulk_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Concentration Mol M3",
+          "type": "number"
+        },
+        "radial_cell_diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Radial Cell Diffusivity M2 S",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "bulk_concentration_mol_m3",
+        "radial_cell_diffusivity_m2_s"
+      ],
+      "title": "WetCo2CylindricalSpeciesBoundary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "solution_film_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Solution Film Thickness M",
+      "type": "number"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/WetCo2CylindricalSpeciesBoundary"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/ButlerVolmerReaction"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "kinetics_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Kinetics Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "solution_film_thickness_m",
+    "species",
+    "reactions",
+    "kinetics_evidence"
+  ],
+  "title": "WetCo2CylindricalElectrodeKnot",
+  "type": "object"
+}

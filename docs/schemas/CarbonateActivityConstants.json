@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "activity_standard_state": {
+      "const": "molarity_1_mol_L",
+      "default": "molarity_1_mol_L",
+      "title": "Activity Standard State",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "K1_activity": {
+      "exclusiveMinimum": 0,
+      "title": "K1 Activity",
+      "type": "number"
+    },
+    "K2_activity": {
+      "exclusiveMinimum": 0,
+      "title": "K2 Activity",
+      "type": "number"
+    },
+    "Kw_activity": {
+      "exclusiveMinimum": 0,
+      "title": "Kw Activity",
+      "type": "number"
+    },
+    "gamma_h_plus": {
+      "exclusiveMinimum": 0,
+      "title": "Gamma H Plus",
+      "type": "number"
+    },
+    "gamma_hco3_minus": {
+      "exclusiveMinimum": 0,
+      "title": "Gamma Hco3 Minus",
+      "type": "number"
+    },
+    "gamma_co3_double_minus": {
+      "exclusiveMinimum": 0,
+      "title": "Gamma Co3 Double Minus",
+      "type": "number"
+    },
+    "gamma_oh_minus": {
+      "exclusiveMinimum": 0,
+      "title": "Gamma Oh Minus",
+      "type": "number"
+    },
+    "constants_provider_id": {
+      "minLength": 1,
+      "title": "Constants Provider Id",
+      "type": "string"
+    },
+    "constants_provider_revision": {
+      "minLength": 1,
+      "title": "Constants Provider Revision",
+      "type": "string"
+    },
+    "constants_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Constants Configuration Digest",
+      "type": "string"
+    },
+    "constants_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Constants Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "temperature_K",
+    "K1_activity",
+    "K2_activity",
+    "Kw_activity",
+    "gamma_h_plus",
+    "gamma_hco3_minus",
+    "gamma_co3_double_minus",
+    "gamma_oh_minus",
+    "constants_provider_id",
+    "constants_provider_revision",
+    "constants_configuration_digest",
+    "constants_record_digest",
+    "evidence"
+  ],
+  "title": "CarbonateActivityConstants",
+  "type": "object"
+}

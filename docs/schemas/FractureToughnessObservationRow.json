@@ -1,0 +1,519 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One parser-emitted source observation with row, unit, and rights lineage.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.mendeley_fracture_toughness_observation_row.v1",
+      "default": "matintegrity.mendeley_fracture_toughness_observation_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "fracture-toughness-temperature",
+      "default": "fracture-toughness-temperature",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.17632/2vkgrbsy8j.1",
+      "default": "10.17632/2vkgrbsy8j.1",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "compilation_license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "Compilation License Id",
+      "type": "string"
+    },
+    "compilation_license_scope": {
+      "const": "compilation_only_underlying_observation_rights_unresolved",
+      "default": "compilation_only_underlying_observation_rights_unresolved",
+      "title": "Compilation License Scope",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_archive_filename": {
+      "const": "2vkgrbsy8j-1.zip",
+      "default": "2vkgrbsy8j-1.zip",
+      "title": "Source Archive Filename",
+      "type": "string"
+    },
+    "source_archive_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source Archive Bytes",
+      "type": "integer"
+    },
+    "source_archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Archive Sha256",
+      "type": "string"
+    },
+    "source_workbook_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Workbook Sha256",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "source_partition": {
+      "enum": [
+        "training",
+        "test"
+      ],
+      "title": "Source Partition",
+      "type": "string"
+    },
+    "source_sheet": {
+      "minLength": 1,
+      "title": "Source Sheet",
+      "type": "string"
+    },
+    "provider_source_row": {
+      "minimum": 5,
+      "title": "Provider Source Row",
+      "type": "integer"
+    },
+    "reported_record_id": {
+      "exclusiveMinimum": 0,
+      "title": "Reported Record Id",
+      "type": "integer"
+    },
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "material_label": {
+      "minLength": 1,
+      "title": "Material Label",
+      "type": "string"
+    },
+    "carbon_wt_percent": {
+      "title": "Carbon Wt Percent",
+      "type": "number"
+    },
+    "carbon_mass_fraction": {
+      "title": "Carbon Mass Fraction",
+      "type": "number"
+    },
+    "reported_temperature": {
+      "title": "Reported Temperature",
+      "type": "number"
+    },
+    "reported_temperature_unit_label": {
+      "const": "K",
+      "title": "Reported Temperature Unit Label",
+      "type": "string"
+    },
+    "temperature_K": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Temperature K"
+    },
+    "temperature_unit_override": {
+      "anyOf": [
+        {
+          "enum": [
+            "degC",
+            "K"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Temperature Unit Override"
+    },
+    "temperature_unit_basis": {
+      "minLength": 1,
+      "title": "Temperature Unit Basis",
+      "type": "string"
+    },
+    "yield_strength_MPa": {
+      "title": "Yield Strength Mpa",
+      "type": "number"
+    },
+    "yield_strength_Pa": {
+      "title": "Yield Strength Pa",
+      "type": "number"
+    },
+    "specimen_type": {
+      "enum": [
+        "CT",
+        "SEB",
+        "PCCv"
+      ],
+      "title": "Specimen Type",
+      "type": "string"
+    },
+    "reported_CT_flag": {
+      "title": "Reported Ct Flag",
+      "type": "integer"
+    },
+    "reported_SEB_flag": {
+      "title": "Reported Seb Flag",
+      "type": "integer"
+    },
+    "reported_PCCv_flag": {
+      "title": "Reported Pccv Flag",
+      "type": "integer"
+    },
+    "reported_W": {
+      "title": "Reported W",
+      "type": "number"
+    },
+    "reported_B": {
+      "title": "Reported B",
+      "type": "number"
+    },
+    "reported_a": {
+      "title": "Reported A",
+      "type": "number"
+    },
+    "reported_dimension_unit_label": {
+      "default": null,
+      "title": "Reported Dimension Unit Label",
+      "type": "null"
+    },
+    "W_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "W M"
+    },
+    "B_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "B M"
+    },
+    "a_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "A M"
+    },
+    "dimension_unit_override": {
+      "anyOf": [
+        {
+          "enum": [
+            "mm",
+            "m"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Dimension Unit Override"
+    },
+    "dimension_unit_basis": {
+      "minLength": 1,
+      "title": "Dimension Unit Basis",
+      "type": "string"
+    },
+    "reported_KJc_MPa_sqrt_m": {
+      "title": "Reported Kjc Mpa Sqrt M",
+      "type": "number"
+    },
+    "reported_KJc_Pa_sqrt_m": {
+      "title": "Reported Kjc Pa Sqrt M",
+      "type": "number"
+    },
+    "physical_specimen_id": {
+      "default": null,
+      "title": "Physical Specimen Id",
+      "type": "null"
+    },
+    "underlying_literature_id": {
+      "default": null,
+      "title": "Underlying Literature Id",
+      "type": "null"
+    },
+    "article_source_group_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Article Source Group Id"
+    },
+    "article_source_group_status": {
+      "title": "Article Source Group Status",
+      "type": "string"
+    },
+    "article_source_material_label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Article Source Material Label"
+    },
+    "article_reference_bibliographic_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Article Reference Bibliographic Id"
+    },
+    "article_reference_identity_status": {
+      "title": "Article Reference Identity Status",
+      "type": "string"
+    },
+    "article_reference_publication_license_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Article Reference Publication License Id"
+    },
+    "article_reference_observation_rights_status": {
+      "title": "Article Reference Observation Rights Status",
+      "type": "string"
+    },
+    "condition_group_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Condition Group Id"
+    },
+    "condition_group_status": {
+      "title": "Condition Group Status",
+      "type": "string"
+    },
+    "condition_group_W_center_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Condition Group W Center M"
+    },
+    "condition_group_B_center_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Condition Group B Center M"
+    },
+    "condition_group_physical_independence_reviewed": {
+      "const": false,
+      "default": false,
+      "title": "Condition Group Physical Independence Reviewed",
+      "type": "boolean"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "underlying_observation_rights_status": {
+      "const": "unresolved",
+      "default": "unresolved",
+      "title": "Underlying Observation Rights Status",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "toughness_validity_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Toughness Validity Inferred",
+      "type": "boolean"
+    },
+    "service_lower_bound_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Service Lower Bound Inferred",
+      "type": "boolean"
+    },
+    "acceptance_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Acceptance Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_archive_bytes",
+    "source_archive_sha256",
+    "source_workbook_sha256",
+    "source_order",
+    "source_partition",
+    "source_sheet",
+    "provider_source_row",
+    "reported_record_id",
+    "observation_id",
+    "material_label",
+    "carbon_wt_percent",
+    "carbon_mass_fraction",
+    "reported_temperature",
+    "reported_temperature_unit_label",
+    "temperature_K",
+    "temperature_unit_override",
+    "temperature_unit_basis",
+    "yield_strength_MPa",
+    "yield_strength_Pa",
+    "specimen_type",
+    "reported_CT_flag",
+    "reported_SEB_flag",
+    "reported_PCCv_flag",
+    "reported_W",
+    "reported_B",
+    "reported_a",
+    "W_m",
+    "B_m",
+    "a_m",
+    "dimension_unit_override",
+    "dimension_unit_basis",
+    "reported_KJc_MPa_sqrt_m",
+    "reported_KJc_Pa_sqrt_m",
+    "article_source_group_id",
+    "article_source_group_status",
+    "article_source_material_label",
+    "article_reference_bibliographic_id",
+    "article_reference_identity_status",
+    "article_reference_publication_license_id",
+    "article_reference_observation_rights_status",
+    "condition_group_id",
+    "condition_group_status",
+    "condition_group_W_center_m",
+    "condition_group_B_center_m",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "FractureToughnessObservationRow",
+  "type": "object"
+}

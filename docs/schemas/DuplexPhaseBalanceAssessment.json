@@ -1,0 +1,483 @@
+{
+  "$defs": {
+    "DuplexPhaseEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "process_history_id": {
+          "minLength": 1,
+          "title": "Process History Id",
+          "type": "string"
+        },
+        "heat_history_id": {
+          "minLength": 1,
+          "title": "Heat History Id",
+          "type": "string"
+        },
+        "regional_ranges": {
+          "items": {
+            "$ref": "#/$defs/DuplexRegionalPhaseRange"
+          },
+          "minItems": 1,
+          "title": "Regional Ranges",
+          "type": "array"
+        },
+        "envelope_provider_id": {
+          "minLength": 1,
+          "title": "Envelope Provider Id",
+          "type": "string"
+        },
+        "envelope_provider_version": {
+          "minLength": 1,
+          "title": "Envelope Provider Version",
+          "type": "string"
+        },
+        "envelope_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Envelope State Digest",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "welding_process_id",
+        "process_history_id",
+        "heat_history_id",
+        "regional_ranges",
+        "envelope_provider_id",
+        "envelope_provider_version",
+        "envelope_state_digest",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "DuplexPhaseEnvelope",
+      "type": "object"
+    },
+    "DuplexPhaseObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "region_kind": {
+          "enum": [
+            "weld_metal",
+            "heat_affected_zone",
+            "base_material"
+          ],
+          "title": "Region Kind",
+          "type": "string"
+        },
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "fraction_definition": {
+          "const": "volume_fraction",
+          "title": "Fraction Definition",
+          "type": "string"
+        },
+        "measured_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Fraction"
+        },
+        "expanded_uncertainty_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty Fraction"
+        },
+        "uncertainty_coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Coverage Factor"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "method_provider_id": {
+          "minLength": 1,
+          "title": "Method Provider Id",
+          "type": "string"
+        },
+        "method_provider_version": {
+          "minLength": 1,
+          "title": "Method Provider Version",
+          "type": "string"
+        },
+        "method_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Method State Digest",
+          "type": "string"
+        },
+        "record_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record State Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "sample_id",
+        "region_id",
+        "region_kind",
+        "phase_id",
+        "fraction_definition",
+        "method_id",
+        "method_provider_id",
+        "method_provider_version",
+        "method_state_digest",
+        "record_state_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "DuplexPhaseObservation",
+      "type": "object"
+    },
+    "DuplexRegionalPhaseRange": {
+      "additionalProperties": false,
+      "properties": {
+        "range_id": {
+          "minLength": 1,
+          "title": "Range Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "region_kind": {
+          "enum": [
+            "weld_metal",
+            "heat_affected_zone",
+            "base_material"
+          ],
+          "title": "Region Kind",
+          "type": "string"
+        },
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "fraction_definition": {
+          "const": "volume_fraction",
+          "title": "Fraction Definition",
+          "type": "string"
+        },
+        "minimum_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Fraction",
+          "type": "number"
+        },
+        "maximum_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Fraction",
+          "type": "number"
+        },
+        "range_basis": {
+          "minLength": 1,
+          "title": "Range Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "range_id",
+        "region_id",
+        "region_kind",
+        "phase_id",
+        "fraction_definition",
+        "minimum_fraction",
+        "maximum_fraction",
+        "range_basis",
+        "evidence"
+      ],
+      "title": "DuplexRegionalPhaseRange",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "weld_id": {
+      "minLength": 1,
+      "title": "Weld Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "welding_process_id": {
+      "minLength": 1,
+      "title": "Welding Process Id",
+      "type": "string"
+    },
+    "process_history_id": {
+      "minLength": 1,
+      "title": "Process History Id",
+      "type": "string"
+    },
+    "heat_history_id": {
+      "minLength": 1,
+      "title": "Heat History Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/DuplexPhaseObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/DuplexPhaseEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "weld_and_region_mapping_reviewed": {
+      "title": "Weld And Region Mapping Reviewed",
+      "type": "boolean"
+    },
+    "material_and_process_identity_reviewed": {
+      "title": "Material And Process Identity Reviewed",
+      "type": "boolean"
+    },
+    "heat_history_identity_reviewed": {
+      "title": "Heat History Identity Reviewed",
+      "type": "boolean"
+    },
+    "phase_and_fraction_definitions_reviewed": {
+      "title": "Phase And Fraction Definitions Reviewed",
+      "type": "boolean"
+    },
+    "method_applicability_reviewed": {
+      "title": "Method Applicability Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_basis_reviewed": {
+      "title": "Uncertainty Basis Reviewed",
+      "type": "boolean"
+    },
+    "provider_state_digests_reviewed": {
+      "title": "Provider State Digests Reviewed",
+      "type": "boolean"
+    },
+    "envelope_authority_reviewed": {
+      "title": "Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "weld_id",
+    "material_condition_id",
+    "welding_process_id",
+    "process_history_id",
+    "heat_history_id",
+    "observations",
+    "candidate_envelopes",
+    "weld_and_region_mapping_reviewed",
+    "material_and_process_identity_reviewed",
+    "heat_history_identity_reviewed",
+    "phase_and_fraction_definitions_reviewed",
+    "method_applicability_reviewed",
+    "uncertainty_basis_reviewed",
+    "provider_state_digests_reviewed",
+    "envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "DuplexPhaseBalanceAssessment",
+  "type": "object"
+}

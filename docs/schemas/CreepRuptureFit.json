@@ -1,0 +1,377 @@
+{
+  "$defs": {
+    "CreepRuptureObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "load_control_id": {
+          "minLength": 1,
+          "title": "Load Control Id",
+          "type": "string"
+        },
+        "stress_convention": {
+          "enum": [
+            "initial_nominal_constant_load",
+            "constant_true_stress"
+          ],
+          "title": "Stress Convention",
+          "type": "string"
+        },
+        "stress_value_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Stress Value Pa",
+          "type": "number"
+        },
+        "stress_unit_token": {
+          "const": "Pa",
+          "title": "Stress Unit Token",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "temperature_unit_token": {
+          "const": "K",
+          "title": "Temperature Unit Token",
+          "type": "string"
+        },
+        "endpoint_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Endpoint Time S",
+          "type": "number"
+        },
+        "time_unit_token": {
+          "const": "s",
+          "title": "Time Unit Token",
+          "type": "string"
+        },
+        "endpoint_status": {
+          "enum": [
+            "rupture",
+            "right_censored"
+          ],
+          "title": "Endpoint Status",
+          "type": "string"
+        },
+        "nominal_weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Nominal Weight",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "material_condition_id",
+        "load_control_id",
+        "stress_convention",
+        "stress_value_Pa",
+        "stress_unit_token",
+        "temperature_K",
+        "temperature_unit_token",
+        "endpoint_time_s",
+        "time_unit_token",
+        "endpoint_status",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CreepRuptureObservation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fit_id": {
+      "minLength": 1,
+      "title": "Fit Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "load_control_id": {
+      "minLength": 1,
+      "title": "Load Control Id",
+      "type": "string"
+    },
+    "stress_convention": {
+      "enum": [
+        "initial_nominal_constant_load",
+        "constant_true_stress"
+      ],
+      "title": "Stress Convention",
+      "type": "string"
+    },
+    "regression_form": {
+      "const": "log_time_intercept_plus_log_inverse_stress_plus_reciprocal_temperature",
+      "title": "Regression Form",
+      "type": "string"
+    },
+    "reference_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Stress Pa",
+      "type": "number"
+    },
+    "reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Temperature K",
+      "type": "number"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/CreepRuptureObservation"
+      },
+      "minItems": 10,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_calibration_record_count": {
+      "minimum": 8,
+      "title": "Minimum Calibration Record Count",
+      "type": "integer"
+    },
+    "minimum_calibration_rupture_count": {
+      "minimum": 5,
+      "title": "Minimum Calibration Rupture Count",
+      "type": "integer"
+    },
+    "minimum_holdout_record_count": {
+      "minimum": 2,
+      "title": "Minimum Holdout Record Count",
+      "type": "integer"
+    },
+    "material_load_and_stress_convention_reviewed": {
+      "title": "Material Load And Stress Convention Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "stress_temperature_time_units_reviewed": {
+      "title": "Stress Temperature Time Units Reviewed",
+      "type": "boolean"
+    },
+    "rupture_and_right_censor_definitions_reviewed": {
+      "title": "Rupture And Right Censor Definitions Reviewed",
+      "type": "boolean"
+    },
+    "censoring_independence_and_weights_reviewed": {
+      "title": "Censoring Independence And Weights Reviewed",
+      "type": "boolean"
+    },
+    "common_mechanism_over_support_reviewed": {
+      "title": "Common Mechanism Over Support Reviewed",
+      "type": "boolean"
+    },
+    "calibration_support_hull_reviewed": {
+      "title": "Calibration Support Hull Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "regression_form_and_minimum_counts_reviewed": {
+      "title": "Regression Form And Minimum Counts Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fit_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "load_control_id",
+    "stress_convention",
+    "regression_form",
+    "reference_stress_Pa",
+    "reference_temperature_K",
+    "observations",
+    "minimum_calibration_record_count",
+    "minimum_calibration_rupture_count",
+    "minimum_holdout_record_count",
+    "material_load_and_stress_convention_reviewed",
+    "specimen_source_and_independence_partitions_reviewed",
+    "stress_temperature_time_units_reviewed",
+    "rupture_and_right_censor_definitions_reviewed",
+    "censoring_independence_and_weights_reviewed",
+    "common_mechanism_over_support_reviewed",
+    "calibration_support_hull_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "regression_form_and_minimum_counts_reviewed",
+    "evidence"
+  ],
+  "title": "CreepRuptureFit",
+  "type": "object"
+}

@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "AqueousReactionCandidateSpecies": {
+      "additionalProperties": false,
+      "description": "Caller-declared formula and charge used only for stoichiometric screening.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "AqueousReactionCandidateSpecies",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Enumerate charge/element-balanced proposals for caller-listed solids.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.aqueous_solid_phase_candidates.v1",
+      "default": "matintegrity.aqueous_solid_phase_candidates.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "enumeration_id": {
+      "minLength": 1,
+      "title": "Enumeration Id",
+      "type": "string"
+    },
+    "aqueous_species": {
+      "items": {
+        "$ref": "#/$defs/AqueousReactionCandidateSpecies"
+      },
+      "maxItems": 11,
+      "minItems": 2,
+      "title": "Aqueous Species",
+      "type": "array"
+    },
+    "proposed_solid_phases": {
+      "items": {
+        "$ref": "#/$defs/AqueousReactionCandidateSpecies"
+      },
+      "maxItems": 11,
+      "minItems": 1,
+      "title": "Proposed Solid Phases",
+      "type": "array"
+    },
+    "maximum_total_stoichiometric_order": {
+      "default": 4,
+      "maximum": 8,
+      "minimum": 2,
+      "title": "Maximum Total Stoichiometric Order",
+      "type": "integer"
+    },
+    "maximum_side_multisets": {
+      "default": 250000,
+      "maximum": 2000000,
+      "minimum": 1,
+      "title": "Maximum Side Multisets",
+      "type": "integer"
+    },
+    "maximum_candidate_pair_checks": {
+      "default": 250000,
+      "maximum": 2000000,
+      "minimum": 1,
+      "title": "Maximum Candidate Pair Checks",
+      "type": "integer"
+    },
+    "maximum_candidate_reactions": {
+      "default": 50000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Candidate Reactions",
+      "type": "integer"
+    },
+    "species_formula_and_charge_reviewed": {
+      "title": "Species Formula And Charge Reviewed",
+      "type": "boolean"
+    },
+    "closed_aqueous_and_solid_inventory_reviewed": {
+      "title": "Closed Aqueous And Solid Inventory Reviewed",
+      "type": "boolean"
+    },
+    "candidate_use_and_manual_phase_selection_reviewed": {
+      "title": "Candidate Use And Manual Phase Selection Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "enumeration_id",
+    "aqueous_species",
+    "proposed_solid_phases",
+    "species_formula_and_charge_reviewed",
+    "closed_aqueous_and_solid_inventory_reviewed",
+    "candidate_use_and_manual_phase_selection_reviewed",
+    "evidence"
+  ],
+  "title": "AqueousSolidPhaseCandidateEnumeration",
+  "type": "object"
+}

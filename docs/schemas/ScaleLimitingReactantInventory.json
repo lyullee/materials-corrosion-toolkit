@@ -1,0 +1,149 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ScaleReactantIntervalSupply": {
+      "additionalProperties": false,
+      "description": "Caller-reported addition to a limiting-reactant inventory for one interval.",
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "added_mol": {
+          "minimum": 0,
+          "title": "Added Mol",
+          "type": "number"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "added_mol",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "ScaleReactantIntervalSupply",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Available formula-unit reactant plus one declared supply per scale interval.",
+  "properties": {
+    "aqueous_species_id": {
+      "minLength": 1,
+      "title": "Aqueous Species Id",
+      "type": "string"
+    },
+    "moles_required_per_scale_formula_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Moles Required Per Scale Formula Mol",
+      "type": "number"
+    },
+    "initial_available_mol": {
+      "minimum": 0,
+      "title": "Initial Available Mol",
+      "type": "number"
+    },
+    "initial_inventory_record_id": {
+      "minLength": 1,
+      "title": "Initial Inventory Record Id",
+      "type": "string"
+    },
+    "initial_inventory_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Initial Inventory Evidence",
+      "type": "array"
+    },
+    "interval_supply": {
+      "items": {
+        "$ref": "#/$defs/ScaleReactantIntervalSupply"
+      },
+      "minItems": 1,
+      "title": "Interval Supply",
+      "type": "array"
+    }
+  },
+  "required": [
+    "aqueous_species_id",
+    "moles_required_per_scale_formula_mol",
+    "initial_available_mol",
+    "initial_inventory_record_id",
+    "initial_inventory_evidence",
+    "interval_supply"
+  ],
+  "title": "ScaleLimitingReactantInventory",
+  "type": "object"
+}

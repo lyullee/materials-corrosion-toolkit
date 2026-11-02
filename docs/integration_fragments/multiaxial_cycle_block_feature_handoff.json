@@ -1,0 +1,40 @@
+{
+  "status": "integrated_central_registry",
+  "module": "matintegrity.multiaxial_cycle_block_feature_handoff",
+  "model_id": "integration.cycle_block_feature_handoff",
+  "callable": "cycle_block_feature_handoff",
+  "request_contract": "CycleBlockFeatureHandoffRequest",
+  "registry": {
+    "function": "specifications",
+    "action": "root imports module and concatenates specifications; existing adaptive_cycle_block_damage remains unchanged"
+  },
+  "downstream_handoff": "bind_cycle_features_to_adaptive_request",
+  "schema": "docs/schemas/CycleBlockFeatureHandoffRequest.json",
+  "capability": {
+    "scope_id": "structural.multiaxial_fatigue",
+    "component_id": "integration.cycle_block_feature_handoff",
+    "classification": "caller_finite_plane_scalar_feature_to_integer_cycle_block_adapter",
+    "does_not_complete_broad_scope": true
+  },
+  "source": {
+    "id": "caller_multiaxial_cycle_block_feature_handoff",
+    "derivation": "Resolve each caller-provided closed six-component stress/strain path on explicitly oriented finite planes. Extract sample maximum/minimum/range normal stress and strain and oriented engineering shear-strain range/amplitude, then map only explicitly selected plane-feature pairs to named, unit-bearing IntegerCycleDamageBlock parameters. Bind the derived parameter payload, representative-cycle digest, source record, integer repetition count and block identities with canonical SHA-256 digests. No fatigue law, cycle counting, damage integration or material-state law is inferred.",
+    "rights_basis": "Caller supplies source/usage Evidence, provider configuration, plane selection, cycle-count interpretation and computational-use authorization; no third-party data or empirical fatigue constants are bundled."
+  },
+  "scope_audit": {
+    "scope_id": "structural.multiaxial_fatigue",
+    "source_path": "src/matintegrity/multiaxial_cycle_block_feature_handoff.py",
+    "component_symbols": [
+      "FiniteCyclePlane",
+      "CycleBlockFeatureBinding",
+      "TensorCycleBlockFeatureInput",
+      "CycleBlockFeatureHandoffRequest",
+      "cycle_block_feature_handoff",
+      "bind_cycle_features_to_adaptive_request"
+    ],
+    "scope_status_change": "none"
+  },
+  "example": "examples/multiaxial_cycle_block_feature_handoff.py",
+  "method_doc": "docs/MULTIAXIAL_CYCLE_BLOCK_FEATURE_HANDOFF_KO.md",
+  "execution_evidence": "No tests, examples, calculations, packaging or HPC executed by implementing agent. Schema generation only."
+}

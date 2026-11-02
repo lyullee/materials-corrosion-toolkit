@@ -1,0 +1,97 @@
+{
+  "additionalProperties": false,
+  "description": "Recompute steady slit flow at each state of a pinned aperture history.",
+  "properties": {
+    "flow_history_id": {
+      "minLength": 1,
+      "title": "Flow History Id",
+      "type": "string"
+    },
+    "aperture_history_result": {
+      "additionalProperties": true,
+      "title": "Aperture History Result",
+      "type": "object"
+    },
+    "aperture_history_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Aperture History Source Sha256",
+      "type": "string"
+    },
+    "pressure_history_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Pressure History Source Sha256",
+      "type": "string"
+    },
+    "pressure_drop_Pa": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Pressure Drop Pa",
+      "type": "array"
+    },
+    "fluid_property_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fluid Property Source Sha256",
+      "type": "string"
+    },
+    "dynamic_viscosity_Pa_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dynamic Viscosity Pa S",
+      "type": "number"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "minimum_width_to_aperture_ratio": {
+      "default": 20.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "minimum": 20.0,
+      "title": "Minimum Width To Aperture Ratio",
+      "type": "number"
+    },
+    "maximum_reviewed_reynolds_number": {
+      "default": 1000.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "title": "Maximum Reviewed Reynolds Number",
+      "type": "number"
+    },
+    "geometry_and_boundary_pressures_reviewed": {
+      "title": "Geometry And Boundary Pressures Reviewed",
+      "type": "boolean"
+    },
+    "incompressible_newtonian_fluid_properties_reviewed": {
+      "title": "Incompressible Newtonian Fluid Properties Reviewed",
+      "type": "boolean"
+    },
+    "laminar_fully_developed_slit_assumption_reviewed": {
+      "title": "Laminar Fully Developed Slit Assumption Reviewed",
+      "type": "boolean"
+    },
+    "pressure_history_and_geometry_time_alignment_reviewed": {
+      "title": "Pressure History And Geometry Time Alignment Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "flow_history_id",
+    "aperture_history_result",
+    "aperture_history_source_sha256",
+    "pressure_history_source_sha256",
+    "pressure_drop_Pa",
+    "fluid_property_source_sha256",
+    "dynamic_viscosity_Pa_s",
+    "density_kg_m3",
+    "geometry_and_boundary_pressures_reviewed",
+    "incompressible_newtonian_fluid_properties_reviewed",
+    "laminar_fully_developed_slit_assumption_reviewed",
+    "pressure_history_and_geometry_time_alignment_reviewed"
+  ],
+  "title": "PlanarSlitHydraulicHistory",
+  "type": "object"
+}

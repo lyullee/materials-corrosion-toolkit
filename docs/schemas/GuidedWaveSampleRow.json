@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One signal-axis sample retaining acquisition, workbook, sheet, and row identity.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.guided_wave_sample_row.v1",
+      "default": "matintegrity.guided_wave_sample_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "guided-wave-pipeline-shm",
+      "default": "guided-wave-pipeline-shm",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.17632/ttb63krg6d.1",
+      "default": "10.17632/ttb63krg6d.1",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "outer_archive_filename": {
+      "const": "ttb63krg6d-1.zip",
+      "default": "ttb63krg6d-1.zip",
+      "title": "Outer Archive Filename",
+      "type": "string"
+    },
+    "outer_archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Outer Archive Sha256",
+      "type": "string"
+    },
+    "outer_archive_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Outer Archive Bytes",
+      "type": "integer"
+    },
+    "nested_archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Nested Archive Sha256",
+      "type": "string"
+    },
+    "acquisition_id": {
+      "minimum": 0,
+      "title": "Acquisition Id",
+      "type": "integer"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "workbook_member_path": {
+      "minLength": 1,
+      "title": "Workbook Member Path",
+      "type": "string"
+    },
+    "workbook_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workbook Sha256",
+      "type": "string"
+    },
+    "source_sheet_name": {
+      "minLength": 1,
+      "title": "Source Sheet Name",
+      "type": "string"
+    },
+    "source_sheet_index": {
+      "minimum": 0,
+      "title": "Source Sheet Index",
+      "type": "integer"
+    },
+    "sample_row_order": {
+      "minimum": 0,
+      "title": "Sample Row Order",
+      "type": "integer"
+    },
+    "provider_source_row": {
+      "minimum": 3,
+      "title": "Provider Source Row",
+      "type": "integer"
+    },
+    "excitation_frequency_Hz": {
+      "enum": [
+        14000.0,
+        18000.0,
+        24000.0,
+        30000.0,
+        37000.0
+      ],
+      "title": "Excitation Frequency Hz",
+      "type": "number"
+    },
+    "excitation_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Excitation Cycles",
+      "type": "number"
+    },
+    "raw_window_label": {
+      "minLength": 1,
+      "title": "Raw Window Label",
+      "type": "string"
+    },
+    "distance_m": {
+      "title": "Distance M",
+      "type": "number"
+    },
+    "torsional_voltage_V": {
+      "title": "Torsional Voltage V",
+      "type": "number"
+    },
+    "flexural_voltage_V": {
+      "title": "Flexural Voltage V",
+      "type": "number"
+    },
+    "provider_pure_dac_voltage_V": {
+      "title": "Provider Pure Dac Voltage V",
+      "type": "number"
+    },
+    "machining_step_id": {
+      "default": null,
+      "title": "Machining Step Id",
+      "type": "null"
+    },
+    "timestamp": {
+      "default": null,
+      "title": "Timestamp",
+      "type": "null"
+    },
+    "temperature_K": {
+      "default": null,
+      "title": "Temperature K",
+      "type": "null"
+    },
+    "sample_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sample Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "wall_loss_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Wall Loss Inferred",
+      "type": "boolean"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "defect_dimension_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Defect Dimension Inferred",
+      "type": "boolean"
+    },
+    "probability_of_detection_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Probability Of Detection Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "outer_archive_sha256",
+    "outer_archive_bytes",
+    "nested_archive_sha256",
+    "acquisition_id",
+    "specimen_id",
+    "workbook_member_path",
+    "workbook_sha256",
+    "source_sheet_name",
+    "source_sheet_index",
+    "sample_row_order",
+    "provider_source_row",
+    "excitation_frequency_Hz",
+    "excitation_cycles",
+    "raw_window_label",
+    "distance_m",
+    "torsional_voltage_V",
+    "flexural_voltage_V",
+    "provider_pure_dac_voltage_V",
+    "sample_row_sha256",
+    "evidence"
+  ],
+  "title": "GuidedWaveSampleRow",
+  "type": "object"
+}

@@ -1,0 +1,373 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReactiveTransportReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "reactants": {
+          "items": {
+            "$ref": "#/$defs/ReactiveTransportTerm"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Reactants",
+          "type": "array"
+        },
+        "products": {
+          "items": {
+            "$ref": "#/$defs/ReactiveTransportTerm"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Products",
+          "type": "array"
+        },
+        "forward_rate_constant_by_interval": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 1,
+          "title": "Forward Rate Constant By Interval",
+          "type": "array"
+        },
+        "forward_rate_constant_units": {
+          "minLength": 1,
+          "title": "Forward Rate Constant Units",
+          "type": "string"
+        },
+        "reverse_rate_constant_by_interval": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 1,
+          "title": "Reverse Rate Constant By Interval",
+          "type": "array"
+        },
+        "reverse_rate_constant_units": {
+          "minLength": 1,
+          "title": "Reverse Rate Constant Units",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "reactants",
+        "products",
+        "forward_rate_constant_by_interval",
+        "forward_rate_constant_units",
+        "reverse_rate_constant_by_interval",
+        "reverse_rate_constant_units"
+      ],
+      "title": "ReactiveTransportReaction",
+      "type": "object"
+    },
+    "ReactiveTransportSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "initial_cell_concentration_mol_m3": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 300,
+          "minItems": 2,
+          "title": "Initial Cell Concentration Mol M3",
+          "type": "array"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "maxProperties": 12,
+          "minProperties": 1,
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "diffusivity_m2_s",
+        "initial_cell_concentration_mol_m3",
+        "elemental_composition"
+      ],
+      "title": "ReactiveTransportSpecies",
+      "type": "object"
+    },
+    "ReactiveTransportTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_coefficient": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Stoichiometric Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_coefficient"
+      ],
+      "title": "ReactiveTransportTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "model_provider_id": {
+      "minLength": 1,
+      "title": "Model Provider Id",
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Length M",
+      "type": "number"
+    },
+    "cross_section_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Cross Section Area M2",
+      "type": "number"
+    },
+    "cell_count": {
+      "maximum": 300,
+      "minimum": 2,
+      "title": "Cell Count",
+      "type": "integer"
+    },
+    "output_time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Output Time S",
+      "type": "array"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/ReactiveTransportSpecies"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/ReactiveTransportReaction"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "mouth_boundary_concentration_mol_m3_by_species": {
+      "additionalProperties": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxProperties": 30,
+      "minProperties": 1,
+      "title": "Mouth Boundary Concentration Mol M3 By Species",
+      "type": "object"
+    },
+    "relative_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "absolute_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Tolerance Mol M3",
+      "type": "number"
+    },
+    "maximum_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Step S",
+      "type": "number"
+    },
+    "maximum_function_evaluations": {
+      "default": 200000,
+      "maximum": 10000000,
+      "minimum": 100,
+      "title": "Maximum Function Evaluations",
+      "type": "integer"
+    },
+    "provider_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Provider Evidence",
+      "type": "array"
+    },
+    "rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Rights Evidence",
+      "type": "array"
+    },
+    "geometry_and_spatial_mapping_reviewed": {
+      "title": "Geometry And Spatial Mapping Reviewed",
+      "type": "boolean"
+    },
+    "homogeneous_neutral_mass_action_network_reviewed": {
+      "title": "Homogeneous Neutral Mass Action Network Reviewed",
+      "type": "boolean"
+    },
+    "kinetic_parameter_support_and_units_reviewed": {
+      "title": "Kinetic Parameter Support And Units Reviewed",
+      "type": "boolean"
+    },
+    "no_advection_and_fixed_geometry_reviewed": {
+      "title": "No Advection And Fixed Geometry Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "clock_id",
+    "model_provider_id",
+    "model_revision",
+    "length_m",
+    "cross_section_area_m2",
+    "cell_count",
+    "output_time_s",
+    "species",
+    "reactions",
+    "mouth_boundary_concentration_mol_m3_by_species",
+    "maximum_step_s",
+    "provider_evidence",
+    "rights_evidence",
+    "geometry_and_spatial_mapping_reviewed",
+    "homogeneous_neutral_mass_action_network_reviewed",
+    "kinetic_parameter_support_and_units_reviewed",
+    "no_advection_and_fixed_geometry_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceNeutralReactiveTransportRequest",
+  "type": "object"
+}

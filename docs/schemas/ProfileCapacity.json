@@ -1,0 +1,240 @@
+{
+  "$defs": {
+    "BulgingFactorTable": {
+      "additionalProperties": false,
+      "properties": {
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "window_length_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Window Length M",
+          "type": "array"
+        },
+        "factor": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Factor",
+          "type": "array"
+        },
+        "validity_description": {
+          "minLength": 1,
+          "title": "Validity Description",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "geometry_id",
+        "material_condition_id",
+        "window_length_m",
+        "factor",
+        "validity_description",
+        "evidence"
+      ],
+      "title": "BulgingFactorTable",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReferenceCapacity": {
+      "additionalProperties": false,
+      "properties": {
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "reference_pressure_difference_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Pressure Difference Pa",
+          "type": "number"
+        },
+        "capacity_basis": {
+          "minLength": 1,
+          "title": "Capacity Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "geometry_id",
+        "material_condition_id",
+        "reference_pressure_difference_Pa",
+        "capacity_basis",
+        "evidence"
+      ],
+      "title": "ReferenceCapacity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_wall_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Wall Thickness M",
+      "type": "number"
+    },
+    "axial_position_m": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Axial Position M",
+      "type": "array"
+    },
+    "measured_remaining_thickness_m": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Measured Remaining Thickness M",
+      "type": "array"
+    },
+    "reference_capacity": {
+      "$ref": "#/$defs/ReferenceCapacity"
+    },
+    "bulging_table": {
+      "$ref": "#/$defs/BulgingFactorTable"
+    },
+    "maximum_supported_depth_fraction": {
+      "exclusiveMaximum": 1,
+      "minimum": 0,
+      "title": "Maximum Supported Depth Fraction",
+      "type": "number"
+    },
+    "full_axial_extent_confirmed": {
+      "title": "Full Axial Extent Confirmed",
+      "type": "boolean"
+    },
+    "blunt_metal_loss_confirmed": {
+      "title": "Blunt Metal Loss Confirmed",
+      "type": "boolean"
+    },
+    "internal_pressure_dominant_confirmed": {
+      "title": "Internal Pressure Dominant Confirmed",
+      "type": "boolean"
+    },
+    "provider_applicability_reviewed": {
+      "title": "Provider Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "geometry_id",
+    "material_condition_id",
+    "reference_wall_thickness_m",
+    "axial_position_m",
+    "measured_remaining_thickness_m",
+    "reference_capacity",
+    "bulging_table",
+    "maximum_supported_depth_fraction",
+    "full_axial_extent_confirmed",
+    "blunt_metal_loss_confirmed",
+    "internal_pressure_dominant_confirmed",
+    "provider_applicability_reviewed"
+  ],
+  "title": "ProfileCapacity",
+  "type": "object"
+}

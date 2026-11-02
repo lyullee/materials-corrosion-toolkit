@@ -1,0 +1,207 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "observation_kind": {
+      "enum": [
+        "grain",
+        "cavity",
+        "phase",
+        "precipitate",
+        "decarburization",
+        "user_defined"
+      ],
+      "title": "Observation Kind",
+      "type": "string"
+    },
+    "metric_id": {
+      "minLength": 1,
+      "title": "Metric Id",
+      "type": "string"
+    },
+    "metric_definition": {
+      "minLength": 1,
+      "title": "Metric Definition",
+      "type": "string"
+    },
+    "result_mode": {
+      "enum": [
+        "quantitative",
+        "qualitative"
+      ],
+      "title": "Result Mode",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "reported",
+        "missing",
+        "invalid"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Value"
+    },
+    "expanded_uncertainty": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expanded Uncertainty"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "qualitative_class": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Qualitative Class"
+    },
+    "qualitative_uncertainty_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Qualitative Uncertainty Basis"
+    },
+    "observer_id": {
+      "minLength": 1,
+      "title": "Observer Id",
+      "type": "string"
+    },
+    "observation_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observation Record Digest",
+      "type": "string"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "observation_id",
+    "observation_kind",
+    "metric_id",
+    "metric_definition",
+    "result_mode",
+    "status",
+    "unit_token",
+    "observer_id",
+    "observation_record_digest",
+    "evidence"
+  ],
+  "title": "ReplicaCampaignObservation",
+  "type": "object"
+}

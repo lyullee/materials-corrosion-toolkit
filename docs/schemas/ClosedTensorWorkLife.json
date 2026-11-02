@@ -1,0 +1,291 @@
+{
+  "$defs": {
+    "ClosedTensorCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "allocated_cycle_count": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Allocated Cycle Count",
+          "type": "number"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "sample_time_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Time S"
+        },
+        "stress_time_derivative_components_Pa_s": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stress Time Derivative Components Pa S"
+        },
+        "strain_time_derivative_components_s_inv": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain Time Derivative Components S Inv"
+        }
+      },
+      "required": [
+        "cycle_id",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components"
+      ],
+      "title": "ClosedTensorCycle",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.closed_tensor_work_life.v1",
+      "default": "matintegrity.closed_tensor_work_life.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "cycles": {
+      "items": {
+        "$ref": "#/$defs/ClosedTensorCycle"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Cycles",
+      "type": "array"
+    },
+    "strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "time_reconstruction": {
+      "default": "piecewise_linear",
+      "enum": [
+        "piecewise_linear",
+        "piecewise_cubic_hermite",
+        "piecewise_pchip",
+        "piecewise_periodic_cubic_spline"
+      ],
+      "title": "Time Reconstruction",
+      "type": "string"
+    },
+    "stress_history_source_id": {
+      "minLength": 1,
+      "title": "Stress History Source Id",
+      "type": "string"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "strain_history_source_id": {
+      "minLength": 1,
+      "title": "Strain History Source Id",
+      "type": "string"
+    },
+    "strain_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Strain History Sha256",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_material_condition_id": {
+      "minLength": 1,
+      "title": "Calibration Material Condition Id",
+      "type": "string"
+    },
+    "calibration_source_id": {
+      "minLength": 1,
+      "title": "Calibration Source Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "dissipated_energy_density_J_m3": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 3,
+      "title": "Dissipated Energy Density J M3",
+      "type": "array"
+    },
+    "cycles_to_failure": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 3,
+      "title": "Cycles To Failure",
+      "type": "array"
+    },
+    "maximum_closure_stress_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Closure Stress Error Pa",
+      "type": "number"
+    },
+    "maximum_closure_strain_error": {
+      "minimum": 0,
+      "title": "Maximum Closure Strain Error",
+      "type": "number"
+    },
+    "tensor_basis_and_order_reviewed": {
+      "default": false,
+      "title": "Tensor Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "stress_strain_conjugacy_reviewed": {
+      "default": false,
+      "title": "Stress Strain Conjugacy Reviewed",
+      "type": "boolean"
+    },
+    "cycle_boundary_and_closure_reviewed": {
+      "default": false,
+      "title": "Cycle Boundary And Closure Reviewed",
+      "type": "boolean"
+    },
+    "time_reconstruction_and_derivative_reviewed": {
+      "default": false,
+      "title": "Time Reconstruction And Derivative Reviewed",
+      "type": "boolean"
+    },
+    "periodic_spline_reviewed": {
+      "default": false,
+      "title": "Periodic Spline Reviewed",
+      "type": "boolean"
+    },
+    "material_calibration_applicability_reviewed": {
+      "default": false,
+      "title": "Material Calibration Applicability Reviewed",
+      "type": "boolean"
+    },
+    "work_life_fit_and_miner_rule_reviewed": {
+      "default": false,
+      "title": "Work Life Fit And Miner Rule Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "location_id",
+    "cycles",
+    "strain_shear_convention",
+    "stress_history_source_id",
+    "stress_history_sha256",
+    "strain_history_source_id",
+    "strain_history_sha256",
+    "calibration_id",
+    "calibration_material_condition_id",
+    "calibration_source_id",
+    "calibration_sha256",
+    "dissipated_energy_density_J_m3",
+    "cycles_to_failure",
+    "maximum_closure_stress_error_Pa",
+    "maximum_closure_strain_error"
+  ],
+  "title": "ClosedTensorWorkLife",
+  "type": "object"
+}

@@ -1,0 +1,510 @@
+{
+  "$defs": {
+    "ChlorideSCCEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "metallurgy_id": {
+          "minLength": 1,
+          "title": "Metallurgy Id",
+          "type": "string"
+        },
+        "chloride_unit": {
+          "minLength": 1,
+          "title": "Chloride Unit",
+          "type": "string"
+        },
+        "minimum_chloride_concentration": {
+          "minimum": 0,
+          "title": "Minimum Chloride Concentration",
+          "type": "number"
+        },
+        "maximum_chloride_concentration": {
+          "minimum": 0,
+          "title": "Maximum Chloride Concentration",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Minimum Ph",
+          "type": "number"
+        },
+        "maximum_pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Maximum Ph",
+          "type": "number"
+        },
+        "oxidizing_basis": {
+          "enum": [
+            "dissolved_oxygen",
+            "descriptor"
+          ],
+          "title": "Oxidizing Basis",
+          "type": "string"
+        },
+        "dissolved_oxygen_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolved Oxygen Unit"
+        },
+        "minimum_dissolved_oxygen_concentration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Dissolved Oxygen Concentration"
+        },
+        "maximum_dissolved_oxygen_concentration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Dissolved Oxygen Concentration"
+        },
+        "supported_oxidizing_state_descriptors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supported Oxidizing State Descriptors",
+          "type": "array"
+        },
+        "supported_applied_stress_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Applied Stress Descriptors",
+          "type": "array"
+        },
+        "supported_residual_stress_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Residual Stress Descriptors",
+          "type": "array"
+        },
+        "maximum_cumulative_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Exposure S",
+          "type": "number"
+        },
+        "test_evidence": {
+          "items": {
+            "$ref": "#/$defs/ChlorideSCCTestEvidence"
+          },
+          "minItems": 1,
+          "title": "Test Evidence",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "metallurgy_id",
+        "chloride_unit",
+        "minimum_chloride_concentration",
+        "maximum_chloride_concentration",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_pH",
+        "maximum_pH",
+        "oxidizing_basis",
+        "supported_applied_stress_descriptors",
+        "supported_residual_stress_descriptors",
+        "maximum_cumulative_exposure_s",
+        "test_evidence",
+        "evidence"
+      ],
+      "title": "ChlorideSCCEnvelope",
+      "type": "object"
+    },
+    "ChlorideSCCExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "exposure_id": {
+          "minLength": 1,
+          "title": "Exposure Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "chloride_concentration": {
+          "minimum": 0,
+          "title": "Chloride Concentration",
+          "type": "number"
+        },
+        "chloride_unit": {
+          "minLength": 1,
+          "title": "Chloride Unit",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Ph",
+          "type": "number"
+        },
+        "oxidizing_basis": {
+          "enum": [
+            "dissolved_oxygen",
+            "descriptor"
+          ],
+          "title": "Oxidizing Basis",
+          "type": "string"
+        },
+        "dissolved_oxygen_concentration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolved Oxygen Concentration"
+        },
+        "dissolved_oxygen_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolved Oxygen Unit"
+        },
+        "oxidizing_state_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Oxidizing State Descriptor"
+        },
+        "applied_stress_descriptor": {
+          "minLength": 1,
+          "title": "Applied Stress Descriptor",
+          "type": "string"
+        },
+        "residual_stress_descriptor": {
+          "minLength": 1,
+          "title": "Residual Stress Descriptor",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "exposure_id",
+        "start_time_s",
+        "end_time_s",
+        "chloride_concentration",
+        "chloride_unit",
+        "temperature_K",
+        "pH",
+        "oxidizing_basis",
+        "applied_stress_descriptor",
+        "residual_stress_descriptor",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ChlorideSCCExposure",
+      "type": "object"
+    },
+    "ChlorideSCCTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "metallurgy_id": {
+          "minLength": 1,
+          "title": "Metallurgy Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "test_id",
+        "specimen_id",
+        "source_group_id",
+        "material_condition_id",
+        "metallurgy_id",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "ChlorideSCCTestEvidence",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "metallurgy_id": {
+      "minLength": 1,
+      "title": "Metallurgy Id",
+      "type": "string"
+    },
+    "exposures": {
+      "items": {
+        "$ref": "#/$defs/ChlorideSCCExposure"
+      },
+      "minItems": 1,
+      "title": "Exposures",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/ChlorideSCCEnvelope"
+    },
+    "material_and_metallurgy_reviewed": {
+      "title": "Material And Metallurgy Reviewed",
+      "type": "boolean"
+    },
+    "concentration_units_reviewed": {
+      "title": "Concentration Units Reviewed",
+      "type": "boolean"
+    },
+    "environment_records_reviewed": {
+      "title": "Environment Records Reviewed",
+      "type": "boolean"
+    },
+    "stress_descriptors_reviewed": {
+      "title": "Stress Descriptors Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_duration_reviewed": {
+      "title": "Clock And Duration Reviewed",
+      "type": "boolean"
+    },
+    "qualification_evidence_reviewed": {
+      "title": "Qualification Evidence Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_condition_id",
+    "metallurgy_id",
+    "exposures",
+    "qualification_envelope",
+    "material_and_metallurgy_reviewed",
+    "concentration_units_reviewed",
+    "environment_records_reviewed",
+    "stress_descriptors_reviewed",
+    "clock_and_duration_reviewed",
+    "qualification_evidence_reviewed"
+  ],
+  "title": "ChlorideSCCApplicability",
+  "type": "object"
+}

@@ -1,0 +1,202 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SolidSaturationRateLaw": {
+      "additionalProperties": false,
+      "description": "Caller-calibrated precipitation and dissolution law for one neutral phase.",
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "precipitation_rate_constant_mol_m3_s": {
+          "minimum": 0,
+          "title": "Precipitation Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "precipitation_order": {
+          "exclusiveMinimum": 0,
+          "maximum": 8.0,
+          "title": "Precipitation Order",
+          "type": "number"
+        },
+        "dissolution_rate_constant_mol_m3_s": {
+          "minimum": 0,
+          "title": "Dissolution Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "dissolution_order": {
+          "exclusiveMinimum": 0,
+          "maximum": 8.0,
+          "title": "Dissolution Order",
+          "type": "number"
+        },
+        "rate_constant_reference_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Constant Reference Temperature K"
+        },
+        "minimum_valid_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Valid Temperature K"
+        },
+        "maximum_valid_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Valid Temperature K"
+        },
+        "precipitation_activation_energy_J_mol": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Activation Energy J Mol"
+        },
+        "dissolution_activation_energy_J_mol": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolution Activation Energy J Mol"
+        },
+        "arrhenius_parameter_applicability_reviewed": {
+          "default": false,
+          "title": "Arrhenius Parameter Applicability Reviewed",
+          "type": "boolean"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "precipitation_rate_constant_mol_m3_s",
+        "precipitation_order",
+        "dissolution_rate_constant_mol_m3_s",
+        "dissolution_order",
+        "source_sha256"
+      ],
+      "title": "SolidSaturationRateLaw",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Existing caller rate law plus Evidence pin for phase growth/dissolution.",
+  "properties": {
+    "law": {
+      "$ref": "#/$defs/SolidSaturationRateLaw"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "law",
+    "evidence"
+  ],
+  "title": "EvidenceBoundSaturationGrowthLaw",
+  "type": "object"
+}

@@ -1,0 +1,246 @@
+{
+  "$defs": {
+    "FinitePolicyAction": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_definition": {
+          "minLength": 1,
+          "title": "Action Definition",
+          "type": "string"
+        },
+        "action_model_id": {
+          "minLength": 1,
+          "title": "Action Model Id",
+          "type": "string"
+        },
+        "action_model_revision": {
+          "minLength": 1,
+          "title": "Action Model Revision",
+          "type": "string"
+        },
+        "action_model_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Configuration Sha256",
+          "type": "string"
+        },
+        "action_model_input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Input Sha256",
+          "type": "string"
+        },
+        "cost_components": {
+          "items": {
+            "$ref": "#/$defs/PolicyStageCostComponent"
+          },
+          "title": "Cost Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "action_id",
+        "action_definition",
+        "action_model_id",
+        "action_model_revision",
+        "action_model_configuration_sha256",
+        "action_model_input_sha256"
+      ],
+      "title": "FinitePolicyAction",
+      "type": "object"
+    },
+    "FinitePolicyDecisionRule": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation_id",
+        "action_id"
+      ],
+      "title": "FinitePolicyDecisionRule",
+      "type": "object"
+    },
+    "FinitePolicyObservationProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "probability_given_state": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given State",
+          "type": "number"
+        }
+      },
+      "required": [
+        "state_id",
+        "observation_id",
+        "probability_given_state"
+      ],
+      "title": "FinitePolicyObservationProbability",
+      "type": "object"
+    },
+    "FinitePolicyTransitionProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "from_state_id": {
+          "minLength": 1,
+          "title": "From State Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "to_state_id": {
+          "minLength": 1,
+          "title": "To State Id",
+          "type": "string"
+        },
+        "probability_given_state_and_action": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given State And Action",
+          "type": "number"
+        },
+        "failure_consequence_present_value_factor": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Consequence Present Value Factor"
+        }
+      },
+      "required": [
+        "from_state_id",
+        "action_id",
+        "to_state_id",
+        "probability_given_state_and_action"
+      ],
+      "title": "FinitePolicyTransitionProbability",
+      "type": "object"
+    },
+    "PolicyStageCostComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount_at_stage_time": {
+          "minimum": 0,
+          "title": "Amount At Stage Time",
+          "type": "number"
+        },
+        "present_value_factor": {
+          "minimum": 0,
+          "title": "Present Value Factor",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount_at_stage_time",
+        "present_value_factor",
+        "basis"
+      ],
+      "title": "PolicyStageCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "stage_id": {
+      "minLength": 1,
+      "title": "Stage Id",
+      "type": "string"
+    },
+    "stage_time_s": {
+      "minimum": 0,
+      "title": "Stage Time S",
+      "type": "number"
+    },
+    "observation_probabilities": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyObservationProbability"
+      },
+      "minItems": 1,
+      "title": "Observation Probabilities",
+      "type": "array"
+    },
+    "decision_rules": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyDecisionRule"
+      },
+      "minItems": 1,
+      "title": "Decision Rules",
+      "type": "array"
+    },
+    "actions": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyAction"
+      },
+      "minItems": 1,
+      "title": "Actions",
+      "type": "array"
+    },
+    "transition_probabilities": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyTransitionProbability"
+      },
+      "minItems": 1,
+      "title": "Transition Probabilities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "stage_id",
+    "stage_time_s",
+    "observation_probabilities",
+    "decision_rules",
+    "actions",
+    "transition_probabilities"
+  ],
+  "title": "FinitePolicyDecisionEpoch",
+  "type": "object"
+}

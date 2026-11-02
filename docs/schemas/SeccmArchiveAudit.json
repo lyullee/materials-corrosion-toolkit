@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "SeccmArchiveMemberRecord": {
+      "additionalProperties": false,
+      "description": "Identity and declared role of one member in the pinned provider ZIP.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.seccm_archive_member.v1",
+          "default": "matintegrity.seccm_archive_member.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "member_name": {
+          "minLength": 1,
+          "title": "Member Name",
+          "type": "string"
+        },
+        "member_role": {
+          "enum": [
+            "footprint_pixels",
+            "sem_intensity_table",
+            "raw_chronoamperometry",
+            "acquisition_parameters",
+            "provider_descriptors",
+            "provider_derived_descriptors",
+            "provider_processed_ebsd",
+            "provider_labels",
+            "provider_model_table",
+            "provider_readme"
+          ],
+          "title": "Member Role",
+          "type": "string"
+        },
+        "uncompressed_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Uncompressed Bytes",
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "member_name",
+        "member_role",
+        "uncompressed_bytes",
+        "sha256"
+      ],
+      "title": "SeccmArchiveMemberRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Structural audit of the complete archive and raw CA matrix.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.seccm_archive_audit.v1",
+      "default": "matintegrity.seccm_archive_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "minLength": 1,
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "provider_record": {
+      "minLength": 1,
+      "title": "Provider Record",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "archive_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Archive Md5",
+      "type": "string"
+    },
+    "archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Archive Sha256",
+      "type": "string"
+    },
+    "archive_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Archive Bytes",
+      "type": "integer"
+    },
+    "members": {
+      "items": {
+        "$ref": "#/$defs/SeccmArchiveMemberRecord"
+      },
+      "title": "Members",
+      "type": "array"
+    },
+    "map_ids": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Map Ids",
+      "type": "array"
+    },
+    "sample_count_per_trace": {
+      "exclusiveMinimum": 0,
+      "title": "Sample Count Per Trace",
+      "type": "integer"
+    },
+    "time_min_s": {
+      "minimum": 0,
+      "title": "Time Min S",
+      "type": "number"
+    },
+    "time_max_s": {
+      "exclusiveMinimum": 0,
+      "title": "Time Max S",
+      "type": "number"
+    },
+    "time_strictly_increasing": {
+      "const": true,
+      "title": "Time Strictly Increasing",
+      "type": "boolean"
+    },
+    "substrate_current_min_A": {
+      "title": "Substrate Current Min A",
+      "type": "number"
+    },
+    "substrate_current_max_A": {
+      "title": "Substrate Current Max A",
+      "type": "number"
+    },
+    "physical_specimen_scope": {
+      "const": "provider_map_physical_independence_unresolved",
+      "default": "provider_map_physical_independence_unresolved",
+      "title": "Physical Specimen Scope",
+      "type": "string"
+    },
+    "table_relationship_status": {
+      "const": "member_roles_only_cross_table_alignment_unreviewed",
+      "default": "member_roles_only_cross_table_alignment_unreviewed",
+      "title": "Table Relationship Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "provider_record",
+    "archive_md5",
+    "archive_sha256",
+    "archive_bytes",
+    "members",
+    "map_ids",
+    "sample_count_per_trace",
+    "time_min_s",
+    "time_max_s",
+    "time_strictly_increasing",
+    "substrate_current_min_A",
+    "substrate_current_max_A"
+  ],
+  "title": "SeccmArchiveAudit",
+  "type": "object"
+}

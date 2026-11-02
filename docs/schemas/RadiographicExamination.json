@@ -1,0 +1,497 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RadiographicImageIndication": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "image_id": {
+          "minLength": 1,
+          "title": "Image Id",
+          "type": "string"
+        },
+        "reported_indication_type": {
+          "minLength": 1,
+          "title": "Reported Indication Type",
+          "type": "string"
+        },
+        "location_description": {
+          "minLength": 1,
+          "title": "Location Description",
+          "type": "string"
+        },
+        "bounding_box_x_px": {
+          "minimum": 0,
+          "title": "Bounding Box X Px",
+          "type": "number"
+        },
+        "bounding_box_y_px": {
+          "minimum": 0,
+          "title": "Bounding Box Y Px",
+          "type": "number"
+        },
+        "bounding_box_width_px": {
+          "exclusiveMinimum": 0,
+          "title": "Bounding Box Width Px",
+          "type": "number"
+        },
+        "bounding_box_height_px": {
+          "exclusiveMinimum": 0,
+          "title": "Bounding Box Height Px",
+          "type": "number"
+        },
+        "physical_location_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Physical Location Id"
+        },
+        "object_mapping_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Object Mapping Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indication_id",
+        "image_id",
+        "reported_indication_type",
+        "location_description",
+        "bounding_box_x_px",
+        "bounding_box_y_px",
+        "bounding_box_width_px",
+        "bounding_box_height_px",
+        "evidence"
+      ],
+      "title": "RadiographicImageIndication",
+      "type": "object"
+    },
+    "RadiographicImageQualityRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "iqi_id": {
+          "minLength": 1,
+          "title": "Iqi Id",
+          "type": "string"
+        },
+        "iqi_type": {
+          "minLength": 1,
+          "title": "Iqi Type",
+          "type": "string"
+        },
+        "placement": {
+          "enum": [
+            "source_side",
+            "detector_side",
+            "other"
+          ],
+          "title": "Placement",
+          "type": "string"
+        },
+        "placement_basis": {
+          "minLength": 1,
+          "title": "Placement Basis",
+          "type": "string"
+        },
+        "reported_image_quality_result": {
+          "minLength": 1,
+          "title": "Reported Image Quality Result",
+          "type": "string"
+        },
+        "result_basis": {
+          "minLength": 1,
+          "title": "Result Basis",
+          "type": "string"
+        },
+        "reviewed": {
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "iqi_id",
+        "iqi_type",
+        "placement",
+        "placement_basis",
+        "reported_image_quality_result",
+        "result_basis",
+        "reviewed",
+        "evidence"
+      ],
+      "title": "RadiographicImageQualityRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "examination_id": {
+      "minLength": 1,
+      "title": "Examination Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "source_kind": {
+      "enum": [
+        "x_ray",
+        "gamma"
+      ],
+      "title": "Source Kind",
+      "type": "string"
+    },
+    "source_equipment_id": {
+      "minLength": 1,
+      "title": "Source Equipment Id",
+      "type": "string"
+    },
+    "tube_voltage_V": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tube Voltage V"
+    },
+    "isotope_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Isotope Id"
+    },
+    "source_activity_Bq": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Activity Bq"
+    },
+    "source_activity_reference": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Activity Reference"
+    },
+    "focal_spot_size_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Focal Spot Size M"
+    },
+    "exposure_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Time S",
+      "type": "number"
+    },
+    "source_object_distance_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Object Distance M"
+    },
+    "object_detector_distance_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Object Detector Distance M"
+    },
+    "nominal_object_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Nominal Object Thickness M",
+      "type": "number"
+    },
+    "detector_kind": {
+      "enum": [
+        "film",
+        "computed_radiography",
+        "digital_detector_array",
+        "other"
+      ],
+      "title": "Detector Kind",
+      "type": "string"
+    },
+    "detector_id": {
+      "minLength": 1,
+      "title": "Detector Id",
+      "type": "string"
+    },
+    "detector_calibration_basis": {
+      "minLength": 1,
+      "title": "Detector Calibration Basis",
+      "type": "string"
+    },
+    "image_id": {
+      "minLength": 1,
+      "title": "Image Id",
+      "type": "string"
+    },
+    "image_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Image Sha256",
+      "type": "string"
+    },
+    "image_width_px": {
+      "exclusiveMinimum": 0,
+      "title": "Image Width Px",
+      "type": "integer"
+    },
+    "image_height_px": {
+      "exclusiveMinimum": 0,
+      "title": "Image Height Px",
+      "type": "integer"
+    },
+    "detector_pixel_pitch_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Detector Pixel Pitch M"
+    },
+    "image_quality_records": {
+      "items": {
+        "$ref": "#/$defs/RadiographicImageQualityRecord"
+      },
+      "minItems": 1,
+      "title": "Image Quality Records",
+      "type": "array"
+    },
+    "indications": {
+      "items": {
+        "$ref": "#/$defs/RadiographicImageIndication"
+      },
+      "title": "Indications",
+      "type": "array"
+    },
+    "source_configuration_reviewed": {
+      "title": "Source Configuration Reviewed",
+      "type": "boolean"
+    },
+    "projection_geometry_reviewed": {
+      "title": "Projection Geometry Reviewed",
+      "type": "boolean"
+    },
+    "exposure_reviewed": {
+      "title": "Exposure Reviewed",
+      "type": "boolean"
+    },
+    "detector_calibration_reviewed": {
+      "title": "Detector Calibration Reviewed",
+      "type": "boolean"
+    },
+    "image_identity_reviewed": {
+      "title": "Image Identity Reviewed",
+      "type": "boolean"
+    },
+    "image_quality_reviewed": {
+      "title": "Image Quality Reviewed",
+      "type": "boolean"
+    },
+    "indication_mapping_reviewed": {
+      "title": "Indication Mapping Reviewed",
+      "type": "boolean"
+    },
+    "negative_result_reviewed": {
+      "default": false,
+      "title": "Negative Result Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "examination_id",
+    "procedure_id",
+    "procedure_revision",
+    "physical_scope_id",
+    "material_condition_id",
+    "source_kind",
+    "source_equipment_id",
+    "exposure_time_s",
+    "nominal_object_thickness_m",
+    "detector_kind",
+    "detector_id",
+    "detector_calibration_basis",
+    "image_id",
+    "image_sha256",
+    "image_width_px",
+    "image_height_px",
+    "image_quality_records",
+    "source_configuration_reviewed",
+    "projection_geometry_reviewed",
+    "exposure_reviewed",
+    "detector_calibration_reviewed",
+    "image_identity_reviewed",
+    "image_quality_reviewed",
+    "indication_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "RadiographicExamination",
+  "type": "object"
+}

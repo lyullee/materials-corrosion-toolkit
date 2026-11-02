@@ -1,0 +1,415 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "McDiarmidCycleBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "cycle_count": {
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740992,
+          "title": "Cycle Count",
+          "type": "integer"
+        },
+        "index_result": {
+          "$ref": "#/$defs/AssessmentResult"
+        },
+        "index_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Index Result Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "block_id",
+        "cycle_count",
+        "index_result",
+        "index_result_sha256"
+      ],
+      "title": "McDiarmidCycleBlock",
+      "type": "object"
+    },
+    "McDiarmidIndexLifePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_index": {
+          "exclusiveMinimum": 0,
+          "title": "Criterion Index",
+          "type": "number"
+        },
+        "cycles_to_failure": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles To Failure",
+          "type": "number"
+        }
+      },
+      "required": [
+        "criterion_index",
+        "cycles_to_failure"
+      ],
+      "title": "McDiarmidIndexLifePoint",
+      "type": "object"
+    },
+    "McDiarmidLifeCurve": {
+      "additionalProperties": false,
+      "properties": {
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "crack_case": {
+          "enum": [
+            "A",
+            "B"
+          ],
+          "title": "Crack Case",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "reference_record_id": {
+          "minLength": 1,
+          "title": "Reference Record Id",
+          "type": "string"
+        },
+        "calibration_points": {
+          "items": {
+            "$ref": "#/$defs/McDiarmidIndexLifePoint"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Calibration Points",
+          "type": "array"
+        },
+        "calibration_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Record Sha256",
+          "type": "string"
+        },
+        "usage_license_id": {
+          "minLength": 1,
+          "title": "Usage License Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "material_condition_id",
+        "crack_case",
+        "provider_id",
+        "provider_revision",
+        "reference_record_id",
+        "calibration_points",
+        "calibration_record_sha256",
+        "usage_license_id",
+        "evidence"
+      ],
+      "title": "McDiarmidLifeCurve",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.mcdiarmid_calibrated_miner_campaign.v1",
+      "default": "matintegrity.mcdiarmid_calibrated_miner_campaign.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/McDiarmidCycleBlock"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Blocks",
+      "type": "array"
+    },
+    "life_curve": {
+      "$ref": "#/$defs/McDiarmidLifeCurve"
+    },
+    "damage_threshold": {
+      "exclusiveMinimum": 0,
+      "title": "Damage Threshold",
+      "type": "number"
+    },
+    "ordered_blocks_reviewed": {
+      "title": "Ordered Blocks Reviewed",
+      "type": "boolean"
+    },
+    "shared_scope_material_and_case_reviewed": {
+      "title": "Shared Scope Material And Case Reviewed",
+      "type": "boolean"
+    },
+    "log_log_interpolation_and_support_reviewed": {
+      "title": "Log Log Interpolation And Support Reviewed",
+      "type": "boolean"
+    },
+    "linear_miner_no_interaction_assumption_reviewed": {
+      "title": "Linear Miner No Interaction Assumption Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "blocks",
+    "life_curve",
+    "damage_threshold",
+    "ordered_blocks_reviewed",
+    "shared_scope_material_and_case_reviewed",
+    "log_log_interpolation_and_support_reviewed",
+    "linear_miner_no_interaction_assumption_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "McDiarmidMinerCampaign",
+  "type": "object"
+}

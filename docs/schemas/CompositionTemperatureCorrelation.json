@@ -1,0 +1,315 @@
+{
+  "$defs": {
+    "CompositionIndexFactor": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "power": {
+          "default": 1,
+          "maximum": 4,
+          "minimum": -4,
+          "title": "Power",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "element_id"
+      ],
+      "title": "CompositionIndexFactor",
+      "type": "object"
+    },
+    "CompositionIndexTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "term_id": {
+          "minLength": 1,
+          "title": "Term Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        },
+        "factors": {
+          "items": {
+            "$ref": "#/$defs/CompositionIndexFactor"
+          },
+          "maxItems": 6,
+          "minItems": 1,
+          "title": "Factors",
+          "type": "array"
+        }
+      },
+      "required": [
+        "term_id",
+        "coefficient",
+        "factors"
+      ],
+      "title": "CompositionIndexTerm",
+      "type": "object"
+    },
+    "CompositionSupportRange": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "element_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 60,
+          "minItems": 1,
+          "title": "Element Ids",
+          "type": "array"
+        },
+        "minimum_sum": {
+          "minimum": 0,
+          "title": "Minimum Sum",
+          "type": "number"
+        },
+        "maximum_sum": {
+          "minimum": 0,
+          "title": "Maximum Sum",
+          "type": "number"
+        }
+      },
+      "required": [
+        "support_id",
+        "element_ids",
+        "minimum_sum",
+        "maximum_sum"
+      ],
+      "title": "CompositionSupportRange",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "index_id": {
+      "minLength": 1,
+      "title": "Index Id",
+      "type": "string"
+    },
+    "chemistry": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxProperties": 60,
+      "minProperties": 1,
+      "title": "Chemistry",
+      "type": "object"
+    },
+    "input_mass_basis": {
+      "enum": [
+        "mass_fraction",
+        "mass_percent",
+        "mass_ppm"
+      ],
+      "title": "Input Mass Basis",
+      "type": "string"
+    },
+    "recipe_mass_basis": {
+      "enum": [
+        "mass_fraction",
+        "mass_percent",
+        "mass_ppm"
+      ],
+      "title": "Recipe Mass Basis",
+      "type": "string"
+    },
+    "output_unit": {
+      "enum": [
+        "K",
+        "degC",
+        "degF"
+      ],
+      "title": "Output Unit",
+      "type": "string"
+    },
+    "constant_offset": {
+      "default": 0.0,
+      "title": "Constant Offset",
+      "type": "number"
+    },
+    "terms": {
+      "items": {
+        "$ref": "#/$defs/CompositionIndexTerm"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Terms",
+      "type": "array"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "temperature_quantity_id": {
+      "minLength": 1,
+      "title": "Temperature Quantity Id",
+      "type": "string"
+    },
+    "calibration_population_id": {
+      "minLength": 1,
+      "title": "Calibration Population Id",
+      "type": "string"
+    },
+    "correlation_revision_id": {
+      "minLength": 1,
+      "title": "Correlation Revision Id",
+      "type": "string"
+    },
+    "composition_support": {
+      "items": {
+        "$ref": "#/$defs/CompositionSupportRange"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Composition Support",
+      "type": "array"
+    },
+    "correlation_and_composition_support_reviewed": {
+      "title": "Correlation And Composition Support Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "index_id",
+    "chemistry",
+    "input_mass_basis",
+    "recipe_mass_basis",
+    "output_unit",
+    "terms",
+    "material_condition_id",
+    "temperature_quantity_id",
+    "calibration_population_id",
+    "correlation_revision_id",
+    "composition_support",
+    "correlation_and_composition_support_reviewed"
+  ],
+  "title": "CompositionTemperatureCorrelation",
+  "type": "object"
+}

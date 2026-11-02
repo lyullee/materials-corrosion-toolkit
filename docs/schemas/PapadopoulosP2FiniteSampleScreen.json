@@ -1,0 +1,349 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PapadopoulosPlaneShearQuadrature": {
+      "additionalProperties": false,
+      "description": "Caller finite quadrature of in-plane resolved-shear directions.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Normal",
+          "type": "array"
+        },
+        "tangent_u": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent U",
+          "type": "array"
+        },
+        "tangent_v": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent V",
+          "type": "array"
+        },
+        "chi_radians": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 360,
+          "minItems": 2,
+          "title": "Chi Radians",
+          "type": "array"
+        },
+        "normalized_direction_weights": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 360,
+          "minItems": 2,
+          "title": "Normalized Direction Weights",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "tangent_u",
+        "tangent_v",
+        "chi_radians",
+        "normalized_direction_weights"
+      ],
+      "title": "PapadopoulosPlaneShearQuadrature",
+      "type": "object"
+    },
+    "SampledStressInvariantHistory": {
+      "additionalProperties": false,
+      "description": "Ordered symmetric stress tensors at caller-declared cycle samples.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "tensor_component_order": {
+          "default": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tensor Component Order",
+          "type": "array"
+        },
+        "closed_cycle_and_sample_order_reviewed": {
+          "title": "Closed Cycle And Sample Order Reviewed",
+          "type": "boolean"
+        },
+        "stress_tensor_basis_reviewed": {
+          "title": "Stress Tensor Basis Reviewed",
+          "type": "boolean"
+        },
+        "maximum_pair_evaluations": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Pair Evaluations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "location_id",
+        "source_id",
+        "source_sha256",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "closed_cycle_and_sample_order_reviewed",
+        "stress_tensor_basis_reviewed"
+      ],
+      "title": "SampledStressInvariantHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compute one finite-plane/direction P2-style limit comparison.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "stress_history": {
+      "$ref": "#/$defs/SampledStressInvariantHistory"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "plane_quadratures": {
+      "items": {
+        "$ref": "#/$defs/PapadopoulosPlaneShearQuadrature"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Plane Quadratures",
+      "type": "array"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_source_id": {
+      "minLength": 1,
+      "title": "Calibration Source Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "calibration_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "calibration_material_condition_id": {
+      "minLength": 1,
+      "title": "Calibration Material Condition Id",
+      "type": "string"
+    },
+    "hydrostatic_coefficient": {
+      "minimum": 0,
+      "title": "Hydrostatic Coefficient",
+      "type": "number"
+    },
+    "caller_limit_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Caller Limit Pa",
+      "type": "number"
+    },
+    "plane_population_and_direction_quadrature_reviewed": {
+      "title": "Plane Population And Direction Quadrature Reviewed",
+      "type": "boolean"
+    },
+    "stress_basis_and_sampled_cycle_reviewed": {
+      "title": "Stress Basis And Sampled Cycle Reviewed",
+      "type": "boolean"
+    },
+    "calibration_material_scope_reviewed": {
+      "title": "Calibration Material Scope Reviewed",
+      "type": "boolean"
+    },
+    "caller_limit_use_reviewed": {
+      "title": "Caller Limit Use Reviewed",
+      "type": "boolean"
+    },
+    "maximum_shear_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Shear Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "stress_history",
+    "stress_history_sha256",
+    "plane_quadratures",
+    "calibration_id",
+    "calibration_source_id",
+    "calibration_sha256",
+    "calibration_evidence",
+    "calibration_material_condition_id",
+    "hydrostatic_coefficient",
+    "caller_limit_Pa",
+    "plane_population_and_direction_quadrature_reviewed",
+    "stress_basis_and_sampled_cycle_reviewed",
+    "calibration_material_scope_reviewed",
+    "caller_limit_use_reviewed"
+  ],
+  "title": "PapadopoulosP2FiniteSampleScreen",
+  "type": "object"
+}

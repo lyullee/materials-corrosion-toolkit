@@ -1,0 +1,535 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "CreviceHydraulicStageRHSRequest": {
+      "additionalProperties": false,
+      "description": "One bounded stage evaluation of pressure-driven flow with optional liquid-volume motion.",
+      "properties": {
+        "schema_version": {
+          "default": "matintegrity.crevice_hydraulic_stage_rhs.v1",
+          "enum": [
+            "matintegrity.crevice_hydraulic_stage_rhs.v1",
+            "matintegrity.crevice_hydraulic_stage_rhs.v2"
+          ],
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "time_s": {
+          "title": "Time S",
+          "type": "number"
+        },
+        "signed_volumetric_flow_m3_s": {
+          "title": "Signed Volumetric Flow M3 S",
+          "type": "number"
+        },
+        "signed_pressure_drop_Pa": {
+          "title": "Signed Pressure Drop Pa",
+          "type": "number"
+        },
+        "cell_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Cell Ids",
+          "type": "array"
+        },
+        "cell_lengths_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Cell Lengths M",
+          "type": "array"
+        },
+        "aperture_by_cell_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Aperture By Cell M",
+          "type": "array"
+        },
+        "cell_volume_rate_m3_s": {
+          "default": [],
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "title": "Cell Volume Rate M3 S",
+          "type": "array"
+        },
+        "transverse_width_m": {
+          "exclusiveMinimum": 0,
+          "title": "Transverse Width M",
+          "type": "number"
+        },
+        "density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Density Kg M3",
+          "type": "number"
+        },
+        "dynamic_viscosity_Pa_s": {
+          "exclusiveMinimum": 0,
+          "title": "Dynamic Viscosity Pa S",
+          "type": "number"
+        },
+        "resistance_correction_multiplier": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Resistance Correction Multiplier",
+          "type": "number"
+        },
+        "inertance_correction_multiplier": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Inertance Correction Multiplier",
+          "type": "number"
+        },
+        "geometry_provider_id": {
+          "minLength": 1,
+          "title": "Geometry Provider Id",
+          "type": "string"
+        },
+        "geometry_provider_revision": {
+          "minLength": 1,
+          "title": "Geometry Provider Revision",
+          "type": "string"
+        },
+        "geometry_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Sha256",
+          "type": "string"
+        },
+        "pressure_provider_id": {
+          "minLength": 1,
+          "title": "Pressure Provider Id",
+          "type": "string"
+        },
+        "pressure_provider_revision": {
+          "minLength": 1,
+          "title": "Pressure Provider Revision",
+          "type": "string"
+        },
+        "pressure_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Pressure Record Sha256",
+          "type": "string"
+        },
+        "fluid_property_provider_id": {
+          "minLength": 1,
+          "title": "Fluid Property Provider Id",
+          "type": "string"
+        },
+        "fluid_property_provider_revision": {
+          "minLength": 1,
+          "title": "Fluid Property Provider Revision",
+          "type": "string"
+        },
+        "fluid_property_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fluid Property Record Sha256",
+          "type": "string"
+        },
+        "hydraulic_parameter_fit_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hydraulic Parameter Fit Result Sha256"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 256,
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "usage_rights_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Usage Rights Evidence",
+          "type": "array"
+        },
+        "usage_license_id": {
+          "minLength": 1,
+          "title": "Usage License Id",
+          "type": "string"
+        },
+        "minimum_width_to_aperture_ratio": {
+          "default": 20.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1000.0,
+          "minimum": 20.0,
+          "title": "Minimum Width To Aperture Ratio",
+          "type": "number"
+        },
+        "maximum_reviewed_reynolds_number": {
+          "default": 1000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1000.0,
+          "minimum": 1.0,
+          "title": "Maximum Reviewed Reynolds Number",
+          "type": "number"
+        },
+        "geometry_and_stage_state_reviewed": {
+          "title": "Geometry And Stage State Reviewed",
+          "type": "boolean"
+        },
+        "pressure_sign_and_reference_reviewed": {
+          "title": "Pressure Sign And Reference Reviewed",
+          "type": "boolean"
+        },
+        "incompressible_newtonian_fluid_reviewed": {
+          "title": "Incompressible Newtonian Fluid Reviewed",
+          "type": "boolean"
+        },
+        "laminar_slit_resistance_and_lumped_inertance_reviewed": {
+          "title": "Laminar Slit Resistance And Lumped Inertance Reviewed",
+          "type": "boolean"
+        },
+        "correction_factor_applicability_reviewed": {
+          "default": false,
+          "title": "Correction Factor Applicability Reviewed",
+          "type": "boolean"
+        },
+        "usage_rights_reviewed": {
+          "title": "Usage Rights Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "time_s",
+        "signed_volumetric_flow_m3_s",
+        "signed_pressure_drop_Pa",
+        "cell_ids",
+        "cell_lengths_m",
+        "aperture_by_cell_m",
+        "transverse_width_m",
+        "density_kg_m3",
+        "dynamic_viscosity_Pa_s",
+        "geometry_provider_id",
+        "geometry_provider_revision",
+        "geometry_record_sha256",
+        "pressure_provider_id",
+        "pressure_provider_revision",
+        "pressure_record_sha256",
+        "fluid_property_provider_id",
+        "fluid_property_provider_revision",
+        "fluid_property_record_sha256",
+        "evidence",
+        "usage_rights_evidence",
+        "usage_license_id",
+        "geometry_and_stage_state_reviewed",
+        "pressure_sign_and_reference_reviewed",
+        "incompressible_newtonian_fluid_reviewed",
+        "laminar_slit_resistance_and_lumped_inertance_reviewed",
+        "usage_rights_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CreviceHydraulicStageRHSRequest",
+      "type": "object"
+    },
+    "CreviceSolidVolumeRateRequest": {
+      "additionalProperties": false,
+      "description": "Convert ordered cellwise phase production rates into displaced liquid rates.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.crevice_solid_volume_rate.v1",
+          "default": "matintegrity.crevice_solid_volume_rate.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "time_s": {
+          "title": "Time S",
+          "type": "number"
+        },
+        "cell_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 300,
+          "minItems": 1,
+          "title": "Cell Ids",
+          "type": "array"
+        },
+        "phase_ids_by_cell": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "maxItems": 300,
+          "minItems": 1,
+          "title": "Phase Ids By Cell",
+          "type": "array"
+        },
+        "phase_molar_rate_mol_s_by_cell": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 300,
+          "minItems": 1,
+          "title": "Phase Molar Rate Mol S By Cell",
+          "type": "array"
+        },
+        "phase_molar_volume_m3_mol_by_cell": {
+          "items": {
+            "items": {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 300,
+          "minItems": 1,
+          "title": "Phase Molar Volume M3 Mol By Cell",
+          "type": "array"
+        },
+        "phase_occupies_gap_by_cell": {
+          "items": {
+            "items": {
+              "type": "boolean"
+            },
+            "type": "array"
+          },
+          "maxItems": 300,
+          "minItems": 1,
+          "title": "Phase Occupies Gap By Cell",
+          "type": "array"
+        },
+        "geometry_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Sha256",
+          "type": "string"
+        },
+        "geometry_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Geometry Evidence",
+          "type": "array"
+        },
+        "kinetic_rate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Kinetic Rate Sha256",
+          "type": "string"
+        },
+        "kinetic_rate_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Kinetic Rate Evidence",
+          "type": "array"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "clock_id",
+        "time_s",
+        "cell_ids",
+        "phase_ids_by_cell",
+        "phase_molar_rate_mol_s_by_cell",
+        "phase_molar_volume_m3_mol_by_cell",
+        "phase_occupies_gap_by_cell",
+        "geometry_sha256",
+        "geometry_evidence",
+        "kinetic_rate_sha256",
+        "kinetic_rate_evidence",
+        "computational_use_authorized"
+      ],
+      "title": "CreviceSolidVolumeRateRequest",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Run a licensed phase-volume calculation through one digest-bound hydraulic RHS.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_solid_volume_hydraulic_stage.v1",
+      "default": "matintegrity.crevice_solid_volume_hydraulic_stage.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "volume_rate_request": {
+      "$ref": "#/$defs/CreviceSolidVolumeRateRequest"
+    },
+    "volume_rate_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "hydraulic_stage_request": {
+      "$ref": "#/$defs/CreviceHydraulicStageRHSRequest"
+    },
+    "composition_authorization": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "composition_authorization_reviewed": {
+      "title": "Composition Authorization Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "volume_rate_request",
+    "volume_rate_result",
+    "hydraulic_stage_request",
+    "composition_authorization",
+    "composition_authorization_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceSolidVolumeHydraulicStageRequest",
+  "type": "object"
+}

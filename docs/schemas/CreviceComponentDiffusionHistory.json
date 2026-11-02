@@ -1,0 +1,453 @@
+{
+  "$defs": {
+    "CreviceComponentDiffusionInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "gap_m": {
+          "exclusiveMinimum": 0,
+          "title": "Gap M",
+          "type": "number"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "mouth_component_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Mouth Component Concentration Mol M3",
+          "type": "number"
+        },
+        "volumetric_component_source_mol_m3_s": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Volumetric Component Source Mol M3 S",
+          "type": "array"
+        },
+        "provider_state_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider State Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "support_id",
+        "temperature_K",
+        "gap_m",
+        "diffusivity_m2_s",
+        "mouth_component_concentration_mol_m3",
+        "volumetric_component_source_mol_m3_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CreviceComponentDiffusionInterval",
+      "type": "object"
+    },
+    "CreviceComponentDiffusionSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "bulk_solution_id": {
+          "minLength": 1,
+          "title": "Bulk Solution Id",
+          "type": "string"
+        },
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_gap_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Gap M",
+          "type": "number"
+        },
+        "maximum_gap_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Gap M",
+          "type": "number"
+        },
+        "minimum_diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Diffusivity M2 S",
+          "type": "number"
+        },
+        "maximum_diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Diffusivity M2 S",
+          "type": "number"
+        },
+        "maximum_supported_component_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Component Concentration Mol M3",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_model_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Model Digest",
+          "type": "string"
+        },
+        "calibration_basis": {
+          "minLength": 1,
+          "title": "Calibration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "component_id",
+        "material_condition_id",
+        "bulk_solution_id",
+        "geometry_id",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_gap_m",
+        "maximum_gap_m",
+        "minimum_diffusivity_m2_s",
+        "maximum_diffusivity_m2_s",
+        "maximum_supported_component_concentration_mol_m3",
+        "provider_id",
+        "provider_version",
+        "provider_model_digest",
+        "calibration_basis",
+        "evidence"
+      ],
+      "title": "CreviceComponentDiffusionSupport",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "component_definition": {
+      "minLength": 1,
+      "title": "Component Definition",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "bulk_solution_id": {
+      "minLength": 1,
+      "title": "Bulk Solution Id",
+      "type": "string"
+    },
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "crevice_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Crevice Length M",
+      "type": "number"
+    },
+    "constant_cross_section_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Constant Cross Section Area M2",
+      "type": "number"
+    },
+    "cell_count": {
+      "maximum": 500,
+      "minimum": 2,
+      "title": "Cell Count",
+      "type": "integer"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "initial_component_concentration_mol_m3": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Initial Component Concentration Mol M3",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/CreviceComponentDiffusionInterval"
+      },
+      "maxItems": 4999,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "supports": {
+      "items": {
+        "$ref": "#/$defs/CreviceComponentDiffusionSupport"
+      },
+      "minItems": 1,
+      "title": "Supports",
+      "type": "array"
+    },
+    "maximum_internal_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Internal Step S",
+      "type": "number"
+    },
+    "maximum_relative_mass_balance_error": {
+      "minimum": 0,
+      "title": "Maximum Relative Mass Balance Error",
+      "type": "number"
+    },
+    "geometry_and_constant_cross_section_reviewed": {
+      "title": "Geometry And Constant Cross Section Reviewed",
+      "type": "boolean"
+    },
+    "component_definition_and_initial_state_reviewed": {
+      "title": "Component Definition And Initial State Reviewed",
+      "type": "boolean"
+    },
+    "mouth_boundary_and_closed_tip_reviewed": {
+      "title": "Mouth Boundary And Closed Tip Reviewed",
+      "type": "boolean"
+    },
+    "independent_fickian_component_transport_reviewed": {
+      "title": "Independent Fickian Component Transport Reviewed",
+      "type": "boolean"
+    },
+    "diffusivity_and_source_provider_reviewed": {
+      "title": "Diffusivity And Source Provider Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_interval_alignment_reviewed": {
+      "title": "Clock And Interval Alignment Reviewed",
+      "type": "boolean"
+    },
+    "numerical_step_and_balance_tolerance_reviewed": {
+      "title": "Numerical Step And Balance Tolerance Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "component_id",
+    "component_definition",
+    "material_condition_id",
+    "bulk_solution_id",
+    "geometry_id",
+    "crevice_length_m",
+    "constant_cross_section_area_m2",
+    "cell_count",
+    "elapsed_time_s",
+    "initial_component_concentration_mol_m3",
+    "intervals",
+    "supports",
+    "maximum_internal_step_s",
+    "maximum_relative_mass_balance_error",
+    "geometry_and_constant_cross_section_reviewed",
+    "component_definition_and_initial_state_reviewed",
+    "mouth_boundary_and_closed_tip_reviewed",
+    "independent_fickian_component_transport_reviewed",
+    "diffusivity_and_source_provider_reviewed",
+    "clock_and_interval_alignment_reviewed",
+    "numerical_step_and_balance_tolerance_reviewed",
+    "evidence"
+  ],
+  "title": "CreviceComponentDiffusionHistory",
+  "type": "object"
+}

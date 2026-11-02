@@ -1,0 +1,189 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reading_id": {
+      "minLength": 1,
+      "title": "Reading Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "sequence_index": {
+      "minimum": 0,
+      "title": "Sequence Index",
+      "type": "integer"
+    },
+    "hardness_value": {
+      "title": "Hardness Value",
+      "type": "number"
+    },
+    "expanded_hardness_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Hardness Uncertainty",
+      "type": "number"
+    },
+    "hardness_unit_token": {
+      "minLength": 1,
+      "title": "Hardness Unit Token",
+      "type": "string"
+    },
+    "surface_condition_id": {
+      "minLength": 1,
+      "title": "Surface Condition Id",
+      "type": "string"
+    },
+    "nearest_indent_spacing": {
+      "exclusiveMinimum": 0,
+      "title": "Nearest Indent Spacing",
+      "type": "number"
+    },
+    "edge_distance": {
+      "exclusiveMinimum": 0,
+      "title": "Edge Distance",
+      "type": "number"
+    },
+    "local_thickness": {
+      "exclusiveMinimum": 0,
+      "title": "Local Thickness",
+      "type": "number"
+    },
+    "geometry_unit_token": {
+      "minLength": 1,
+      "title": "Geometry Unit Token",
+      "type": "string"
+    },
+    "expanded_geometry_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Geometry Uncertainty",
+      "type": "number"
+    },
+    "replicate_group_id": {
+      "minLength": 1,
+      "title": "Replicate Group Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "caller_validity_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "unknown"
+      ],
+      "title": "Caller Validity Status",
+      "type": "string"
+    },
+    "caller_validity_basis": {
+      "minLength": 1,
+      "title": "Caller Validity Basis",
+      "type": "string"
+    },
+    "reading_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reading Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reading_id",
+    "specimen_id",
+    "sequence_index",
+    "hardness_value",
+    "expanded_hardness_uncertainty",
+    "hardness_unit_token",
+    "surface_condition_id",
+    "nearest_indent_spacing",
+    "edge_distance",
+    "local_thickness",
+    "geometry_unit_token",
+    "expanded_geometry_uncertainty",
+    "replicate_group_id",
+    "source_group_id",
+    "independence_group_id",
+    "caller_validity_status",
+    "caller_validity_basis",
+    "reading_record_digest",
+    "evidence"
+  ],
+  "title": "HardnessReading",
+  "type": "object"
+}

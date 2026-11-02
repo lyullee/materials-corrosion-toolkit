@@ -1,0 +1,196 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed mass-loss result with a full input covariance matrix.",
+  "properties": {
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "condition_group_id": {
+      "minLength": 1,
+      "title": "Condition Group Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "measurement_method": {
+      "minLength": 1,
+      "title": "Measurement Method",
+      "type": "string"
+    },
+    "mass_loss_kg": {
+      "minimum": 0,
+      "title": "Mass Loss Kg",
+      "type": "number"
+    },
+    "exposed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Exposed Area M2",
+      "type": "number"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Duration S",
+      "type": "number"
+    },
+    "covariance_matrix": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Covariance Matrix",
+      "type": "array"
+    },
+    "covariance_basis": {
+      "minLength": 1,
+      "title": "Covariance Basis",
+      "type": "string"
+    },
+    "condition_signature": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Condition Signature",
+      "type": "object"
+    },
+    "measurement_reviewed": {
+      "title": "Measurement Reviewed",
+      "type": "boolean"
+    },
+    "measurement_review_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Measurement Review Id"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "observation_id",
+    "physical_specimen_id",
+    "material_id",
+    "condition_group_id",
+    "source_group_id",
+    "measurement_method",
+    "mass_loss_kg",
+    "exposed_area_m2",
+    "density_kg_m3",
+    "duration_s",
+    "covariance_matrix",
+    "covariance_basis",
+    "condition_signature",
+    "measurement_reviewed",
+    "evidence"
+  ],
+  "title": "CouponLossWithUncertainty",
+  "type": "object"
+}

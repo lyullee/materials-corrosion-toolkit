@@ -1,0 +1,705 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "StructuralDiagnosticEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "diagnostic_id": {
+          "minLength": 1,
+          "title": "Diagnostic Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "equilibrium",
+            "convergence",
+            "uncertainty",
+            "verification"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "provider_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "diagnostic_id",
+        "category",
+        "metric_id",
+        "metric_definition",
+        "status",
+        "unit_token",
+        "provider_record_digest",
+        "evidence"
+      ],
+      "title": "StructuralDiagnosticEvidence",
+      "type": "object"
+    },
+    "StructuralMeshReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "mesh_id": {
+          "minLength": 1,
+          "title": "Mesh Id",
+          "type": "string"
+        },
+        "mesh_revision": {
+          "minLength": 1,
+          "title": "Mesh Revision",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "dimensionality": {
+          "enum": [
+            "axisymmetric",
+            "2d",
+            "3d"
+          ],
+          "title": "Dimensionality",
+          "type": "string"
+        },
+        "element_family_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Element Family Ids",
+          "type": "array"
+        },
+        "node_count": {
+          "minimum": 1,
+          "title": "Node Count",
+          "type": "integer"
+        },
+        "element_count": {
+          "minimum": 1,
+          "title": "Element Count",
+          "type": "integer"
+        },
+        "mesh_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mesh Content Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mesh_id",
+        "mesh_revision",
+        "coordinate_frame_id",
+        "dimensionality",
+        "element_family_ids",
+        "node_count",
+        "element_count",
+        "mesh_content_digest"
+      ],
+      "title": "StructuralMeshReceipt",
+      "type": "object"
+    },
+    "StructuralProviderResultReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.structural_provider_receipt.v1",
+          "default": "matintegrity.structural_provider_receipt.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "receipt_id": {
+          "minLength": 1,
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "analysis_kind": {
+          "enum": [
+            "external_pressure",
+            "nozzle_local_stress",
+            "finite_element"
+          ],
+          "title": "Analysis Kind",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "model_id": {
+          "minLength": 1,
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "title": "Model Revision",
+          "type": "string"
+        },
+        "mesh": {
+          "$ref": "#/$defs/StructuralMeshReceipt"
+        },
+        "load_case_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Load Case Ids",
+          "type": "array"
+        },
+        "load_case_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Load Case Digest",
+          "type": "string"
+        },
+        "result_fields": {
+          "items": {
+            "$ref": "#/$defs/StructuralResultFieldReceipt"
+          },
+          "minItems": 1,
+          "title": "Result Fields",
+          "type": "array"
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/StructuralDiagnosticEvidence"
+          },
+          "minItems": 1,
+          "title": "Diagnostics",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "provider_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Input Digest",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "payload_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Payload Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "receipt_id",
+        "analysis_kind",
+        "asset_id",
+        "component_id",
+        "location_id",
+        "physical_scope_id",
+        "analysis_id",
+        "model_id",
+        "model_revision",
+        "mesh",
+        "load_case_ids",
+        "load_case_digest",
+        "result_fields",
+        "diagnostics",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "provider_input_digest",
+        "provider_result_digest",
+        "evidence",
+        "payload_digest"
+      ],
+      "title": "StructuralProviderResultReceipt",
+      "type": "object"
+    },
+    "StructuralResultFieldReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "result_location": {
+          "enum": [
+            "node",
+            "element",
+            "integration_point",
+            "face",
+            "edge",
+            "global"
+          ],
+          "title": "Result Location",
+          "type": "string"
+        },
+        "averaging_basis": {
+          "minLength": 1,
+          "title": "Averaging Basis",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Component Ids",
+          "type": "array"
+        },
+        "array_shape": {
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "title": "Array Shape",
+          "type": "array"
+        },
+        "array_order": {
+          "enum": [
+            "C",
+            "F",
+            "provider_native"
+          ],
+          "title": "Array Order",
+          "type": "string"
+        },
+        "array_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Array Content Digest",
+          "type": "string"
+        },
+        "result_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_id",
+        "load_case_id",
+        "step_id",
+        "coordinate_frame_id",
+        "region_id",
+        "result_location",
+        "averaging_basis",
+        "quantity_id",
+        "quantity_definition",
+        "unit_token",
+        "component_ids",
+        "array_shape",
+        "array_order",
+        "array_content_digest",
+        "result_record_digest"
+      ],
+      "title": "StructuralResultFieldReceipt",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Solver-neutral FE matrix, DOF, load-case and contact mapping receipt.",
+  "properties": {
+    "binding_id": {
+      "minLength": 1,
+      "title": "Binding Id",
+      "type": "string"
+    },
+    "provider_receipt": {
+      "$ref": "#/$defs/StructuralProviderResultReceipt"
+    },
+    "load_case_id": {
+      "minLength": 1,
+      "title": "Load Case Id",
+      "type": "string"
+    },
+    "boundary_condition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Boundary Condition Sha256",
+      "type": "string"
+    },
+    "stiffness_field_id": {
+      "minLength": 1,
+      "title": "Stiffness Field Id",
+      "type": "string"
+    },
+    "stiffness_quantity_id": {
+      "const": "incremental_stiffness_matrix",
+      "title": "Stiffness Quantity Id",
+      "type": "string"
+    },
+    "stiffness_array_content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stiffness Array Content Sha256",
+      "type": "string"
+    },
+    "stiffness_array_order": {
+      "enum": [
+        "C",
+        "F"
+      ],
+      "title": "Stiffness Array Order",
+      "type": "string"
+    },
+    "mesh_node_id_map_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mesh Node Id Map Sha256",
+      "type": "string"
+    },
+    "dof_basis_transform_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dof Basis Transform Sha256",
+      "type": "string"
+    },
+    "stiffness_matrix_N_m": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Stiffness Matrix N M",
+      "type": "array"
+    },
+    "normalized_stiffness_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Normalized Stiffness Sha256",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "displacement_unit": {
+      "const": "m",
+      "title": "Displacement Unit",
+      "type": "string"
+    },
+    "force_unit": {
+      "const": "N",
+      "title": "Force Unit",
+      "type": "string"
+    },
+    "matrix_unit": {
+      "const": "N/m",
+      "title": "Matrix Unit",
+      "type": "string"
+    },
+    "global_dof_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Global Dof Node Ids",
+      "type": "array"
+    },
+    "global_dof_component_ids": {
+      "items": {
+        "enum": [
+          "translation_x",
+          "translation_y",
+          "translation_z"
+        ],
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Global Dof Component Ids",
+      "type": "array"
+    },
+    "fixed_incremental_dof_indices": {
+      "default": [],
+      "items": {
+        "type": "integer"
+      },
+      "title": "Fixed Incremental Dof Indices",
+      "type": "array"
+    },
+    "contact_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Contact Node Ids",
+      "type": "array"
+    },
+    "contact_normal_dof_indices": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Contact Normal Dof Indices",
+      "type": "array"
+    },
+    "contact_closure_signs": {
+      "items": {
+        "enum": [
+          -1,
+          1
+        ],
+        "type": "integer"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Contact Closure Signs",
+      "type": "array"
+    },
+    "stiffness_units_and_scaling_reviewed": {
+      "title": "Stiffness Units And Scaling Reviewed",
+      "type": "boolean"
+    },
+    "load_case_and_boundary_conditions_reviewed": {
+      "title": "Load Case And Boundary Conditions Reviewed",
+      "type": "boolean"
+    },
+    "mesh_frame_and_dof_order_reviewed": {
+      "title": "Mesh Frame And Dof Order Reviewed",
+      "type": "boolean"
+    },
+    "dof_basis_transform_reviewed": {
+      "title": "Dof Basis Transform Reviewed",
+      "type": "boolean"
+    },
+    "contact_normal_mapping_reviewed": {
+      "title": "Contact Normal Mapping Reviewed",
+      "type": "boolean"
+    },
+    "incremental_linear_elastic_applicability_reviewed": {
+      "title": "Incremental Linear Elastic Applicability Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "binding_id",
+    "provider_receipt",
+    "load_case_id",
+    "boundary_condition_sha256",
+    "stiffness_field_id",
+    "stiffness_quantity_id",
+    "stiffness_array_content_sha256",
+    "stiffness_array_order",
+    "mesh_node_id_map_sha256",
+    "dof_basis_transform_sha256",
+    "stiffness_matrix_N_m",
+    "normalized_stiffness_sha256",
+    "coordinate_frame_id",
+    "displacement_unit",
+    "force_unit",
+    "matrix_unit",
+    "global_dof_node_ids",
+    "global_dof_component_ids",
+    "contact_node_ids",
+    "contact_normal_dof_indices",
+    "contact_closure_signs",
+    "stiffness_units_and_scaling_reviewed",
+    "load_case_and_boundary_conditions_reviewed",
+    "mesh_frame_and_dof_order_reviewed",
+    "dof_basis_transform_reviewed",
+    "contact_normal_mapping_reviewed",
+    "incremental_linear_elastic_applicability_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ExternalFlangeComplianceBinding",
+  "type": "object"
+}

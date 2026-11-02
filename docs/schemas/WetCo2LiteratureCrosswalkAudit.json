@@ -1,0 +1,361 @@
+{
+  "$defs": {
+    "WetCo2LiteratureFieldComparison": {
+      "additionalProperties": false,
+      "description": "One transparent transformed-value comparison; mismatches remain first-class.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_literature_field_comparison.v1",
+          "default": "matintegrity.wet_co2_literature_field_comparison.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "compilation_field": {
+          "minLength": 1,
+          "title": "Compilation Field",
+          "type": "string"
+        },
+        "source_fields": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Source Fields",
+          "type": "array"
+        },
+        "source_values": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Source Values",
+          "type": "array"
+        },
+        "operation": {
+          "enum": [
+            "single_value_affine",
+            "arithmetic_mean_affine"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "scale": {
+          "title": "Scale",
+          "type": "number"
+        },
+        "offset": {
+          "title": "Offset",
+          "type": "number"
+        },
+        "absolute_tolerance": {
+          "minimum": 0,
+          "title": "Absolute Tolerance",
+          "type": "number"
+        },
+        "reviewed_transform_basis_id": {
+          "minLength": 1,
+          "title": "Reviewed Transform Basis Id",
+          "type": "string"
+        },
+        "transformed_source_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Transformed Source Value"
+        },
+        "compilation_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Compilation Value"
+        },
+        "absolute_difference": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Absolute Difference"
+        },
+        "status": {
+          "enum": [
+            "match",
+            "mismatch",
+            "source_missing",
+            "compilation_missing"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "compilation_field",
+        "source_fields",
+        "source_values",
+        "operation",
+        "scale",
+        "offset",
+        "absolute_tolerance",
+        "reviewed_transform_basis_id",
+        "transformed_source_value",
+        "compilation_value",
+        "absolute_difference",
+        "status"
+      ],
+      "title": "WetCo2LiteratureFieldComparison",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Result of an explicit single-row literature comparison, not an automatic correction.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_literature_crosswalk_audit.v1",
+      "default": "matintegrity.wet_co2_literature_crosswalk_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "compilation_dataset_id": {
+      "const": "heterogeneous-wet-co2-corrosion",
+      "default": "heterogeneous-wet-co2-corrosion",
+      "title": "Compilation Dataset Id",
+      "type": "string"
+    },
+    "compilation_provider_source_row": {
+      "minimum": 2,
+      "title": "Compilation Provider Source Row",
+      "type": "integer"
+    },
+    "compilation_observation_id": {
+      "minLength": 1,
+      "title": "Compilation Observation Id",
+      "type": "string"
+    },
+    "compilation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Compilation Sha256",
+      "type": "string"
+    },
+    "evidence_id": {
+      "minLength": 1,
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "source_locator": {
+      "minLength": 1,
+      "title": "Source Locator",
+      "type": "string"
+    },
+    "bibliographic_id": {
+      "minLength": 1,
+      "title": "Bibliographic Id",
+      "type": "string"
+    },
+    "bibliographic_link_status": {
+      "enum": [
+        "primary_source_row",
+        "secondary_reproduction_row",
+        "candidate_only"
+      ],
+      "title": "Bibliographic Link Status",
+      "type": "string"
+    },
+    "compilation_row_link_status": {
+      "enum": [
+        "provider_explicit",
+        "bibliographically_supported_numeric_sequence",
+        "candidate_only"
+      ],
+      "title": "Compilation Row Link Status",
+      "type": "string"
+    },
+    "compilation_row_link_basis_id": {
+      "minLength": 1,
+      "title": "Compilation Row Link Basis Id",
+      "type": "string"
+    },
+    "evidence_asset_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evidence Asset Sha256",
+      "type": "string"
+    },
+    "source_data_role": {
+      "enum": [
+        "experimental_autoclave_observation",
+        "field_observation",
+        "simulated_model_output",
+        "unresolved"
+      ],
+      "title": "Source Data Role",
+      "type": "string"
+    },
+    "publication_license_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Publication License Id"
+    },
+    "observation_redistribution_status": {
+      "enum": [
+        "not_verified",
+        "permission_confirmed"
+      ],
+      "title": "Observation Redistribution Status",
+      "type": "string"
+    },
+    "data_dictionary_status": {
+      "enum": [
+        "complete",
+        "partial",
+        "unreviewed"
+      ],
+      "title": "Data Dictionary Status",
+      "type": "string"
+    },
+    "physical_specimen_identity_status": {
+      "enum": [
+        "confirmed",
+        "unresolved",
+        "not_applicable"
+      ],
+      "title": "Physical Specimen Identity Status",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Physical Specimen Id"
+    },
+    "material_condition_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Material Condition Id"
+    },
+    "exposure_duration_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Exposure Duration S"
+    },
+    "comparisons": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LiteratureFieldComparison"
+      },
+      "minItems": 1,
+      "title": "Comparisons",
+      "type": "array"
+    },
+    "crosswalk_status": {
+      "enum": [
+        "all_declared_fields_match",
+        "numeric_mismatch",
+        "incomplete"
+      ],
+      "title": "Crosswalk Status",
+      "type": "string"
+    },
+    "all_declared_fields_match": {
+      "title": "All Declared Fields Match",
+      "type": "boolean"
+    },
+    "automatic_correction_performed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Correction Performed",
+      "type": "boolean"
+    },
+    "empirical_calibration_ready": {
+      "const": false,
+      "default": false,
+      "title": "Empirical Calibration Ready",
+      "type": "boolean"
+    },
+    "mechanistic_calibration_ready": {
+      "const": false,
+      "default": false,
+      "title": "Mechanistic Calibration Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "compilation_provider_source_row",
+    "compilation_observation_id",
+    "compilation_sha256",
+    "evidence_id",
+    "source_group_id",
+    "source_record_id",
+    "source_locator",
+    "bibliographic_id",
+    "bibliographic_link_status",
+    "compilation_row_link_status",
+    "compilation_row_link_basis_id",
+    "evidence_asset_sha256",
+    "source_data_role",
+    "publication_license_id",
+    "observation_redistribution_status",
+    "data_dictionary_status",
+    "physical_specimen_identity_status",
+    "physical_specimen_id",
+    "material_condition_id",
+    "exposure_duration_s",
+    "comparisons",
+    "crosswalk_status",
+    "all_declared_fields_match"
+  ],
+  "title": "WetCo2LiteratureCrosswalkAudit",
+  "type": "object"
+}

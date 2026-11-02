@@ -1,0 +1,442 @@
+{
+  "$defs": {
+    "AqueousSolubilityKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "title": "Time S",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "data_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Sha256",
+          "type": "string"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/TemperatureSupportedCandidate"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "provider_id",
+        "data_sha256",
+        "candidates",
+        "evidence"
+      ],
+      "title": "AqueousSolubilityKnot",
+      "type": "object"
+    },
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CandidateSolid": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_id": {
+          "minLength": 1,
+          "title": "Solid Id",
+          "type": "string"
+        },
+        "log10_solubility_product": {
+          "title": "Log10 Solubility Product",
+          "type": "number"
+        },
+        "log10_solubility_product_absolute_bound": {
+          "default": 0.0,
+          "description": "Caller-reviewed absolute bound on the log10 solubility product; interpreted as a deterministic symmetric interval, not a probability distribution.",
+          "maximum": 300.0,
+          "minimum": 0.0,
+          "title": "Log10 Solubility Product Absolute Bound",
+          "type": "number"
+        },
+        "solubility_record_id": {
+          "minLength": 1,
+          "title": "Solubility Record Id",
+          "type": "string"
+        },
+        "solubility_evidence_source_id": {
+          "minLength": 1,
+          "title": "Solubility Evidence Source Id",
+          "type": "string"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/SaturationScreenTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_id",
+        "log10_solubility_product",
+        "solubility_record_id",
+        "solubility_evidence_source_id",
+        "terms"
+      ],
+      "title": "CandidateSolid",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "SaturationScreenTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Stoichiometric Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_exponent"
+      ],
+      "title": "SaturationScreenTerm",
+      "type": "object"
+    },
+    "TemperatureSupportedCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate": {
+          "$ref": "#/$defs/CandidateSolid"
+        },
+        "minimum_valid_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Valid Temperature K",
+          "type": "number"
+        },
+        "maximum_valid_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Valid Temperature K",
+          "type": "number"
+        }
+      },
+      "required": [
+        "candidate",
+        "minimum_valid_temperature_K",
+        "maximum_valid_temperature_K"
+      ],
+      "title": "TemperatureSupportedCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "equilibrium_history": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "equilibrium_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Equilibrium History Sha256",
+      "type": "string"
+    },
+    "solubility_by_knot": {
+      "items": {
+        "$ref": "#/$defs/AqueousSolubilityKnot"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Solubility By Knot",
+      "type": "array"
+    },
+    "activity_log10_absolute_bounds_by_knot": {
+      "anyOf": [
+        {
+          "items": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Activity Log10 Absolute Bounds By Knot"
+    },
+    "complete_species_inventory_reviewed": {
+      "title": "Complete Species Inventory Reviewed",
+      "type": "boolean"
+    },
+    "compatible_standard_states_reviewed": {
+      "title": "Compatible Standard States Reviewed",
+      "type": "boolean"
+    },
+    "equilibrium_constants_temperature_reviewed": {
+      "title": "Equilibrium Constants Temperature Reviewed",
+      "type": "boolean"
+    },
+    "activity_interval_bounds_reviewed": {
+      "default": false,
+      "title": "Activity Interval Bounds Reviewed",
+      "type": "boolean"
+    },
+    "solubility_product_interval_bounds_reviewed": {
+      "default": false,
+      "title": "Solubility Product Interval Bounds Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "equilibrium_history",
+    "equilibrium_history_sha256",
+    "solubility_by_knot",
+    "complete_species_inventory_reviewed",
+    "compatible_standard_states_reviewed",
+    "equilibrium_constants_temperature_reviewed"
+  ],
+  "title": "AqueousVanTHoffSaturationHistory",
+  "type": "object"
+}

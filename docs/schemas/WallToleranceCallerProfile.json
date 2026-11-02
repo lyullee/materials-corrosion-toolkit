@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "product_id": {
+      "minLength": 1,
+      "title": "Product Id",
+      "type": "string"
+    },
+    "product_form_id": {
+      "minLength": 1,
+      "title": "Product Form Id",
+      "type": "string"
+    },
+    "region_id": {
+      "minLength": 1,
+      "title": "Region Id",
+      "type": "string"
+    },
+    "nominal_thickness": {
+      "exclusiveMinimum": 0,
+      "title": "Nominal Thickness",
+      "type": "number"
+    },
+    "thickness_unit_token": {
+      "minLength": 1,
+      "title": "Thickness Unit Token",
+      "type": "string"
+    },
+    "lower_tolerance_from_nominal": {
+      "minimum": 0,
+      "title": "Lower Tolerance From Nominal",
+      "type": "number"
+    },
+    "upper_tolerance_from_nominal": {
+      "minimum": 0,
+      "title": "Upper Tolerance From Nominal",
+      "type": "number"
+    },
+    "forming_allowance": {
+      "minimum": 0,
+      "title": "Forming Allowance",
+      "type": "number"
+    },
+    "corrosion_allowance": {
+      "minimum": 0,
+      "title": "Corrosion Allowance",
+      "type": "number"
+    },
+    "allowance_accounting": {
+      "const": "record_only_not_applied_to_product_tolerance",
+      "default": "record_only_not_applied_to_product_tolerance",
+      "title": "Allowance Accounting",
+      "type": "string"
+    },
+    "comparison_basis": {
+      "const": "reported_thickness_uncertainty_interval_against_nominal_band",
+      "default": "reported_thickness_uncertainty_interval_against_nominal_band",
+      "title": "Comparison Basis",
+      "type": "string"
+    },
+    "profile_basis": {
+      "minLength": 1,
+      "title": "Profile Basis",
+      "type": "string"
+    },
+    "profile_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Source Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "product_id",
+    "product_form_id",
+    "region_id",
+    "nominal_thickness",
+    "thickness_unit_token",
+    "lower_tolerance_from_nominal",
+    "upper_tolerance_from_nominal",
+    "forming_allowance",
+    "corrosion_allowance",
+    "profile_basis",
+    "profile_source_digest",
+    "evidence"
+  ],
+  "title": "WallToleranceCallerProfile",
+  "type": "object"
+}

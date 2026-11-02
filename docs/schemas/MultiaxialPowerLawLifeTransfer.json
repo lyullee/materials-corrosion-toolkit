@@ -1,0 +1,379 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReferenceMultiaxialLifeCurvePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_value": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Value",
+          "type": "number"
+        },
+        "reference_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Cycles",
+          "type": "number"
+        }
+      },
+      "required": [
+        "parameter_value",
+        "reference_cycles"
+      ],
+      "title": "ReferenceMultiaxialLifeCurvePoint",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.multiaxial_power_law_life_transfer.v1",
+      "default": "matintegrity.multiaxial_power_law_life_transfer.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "paired_calibration_audit": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "paired_calibration_audit_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Paired Calibration Audit Sha256",
+      "type": "string"
+    },
+    "reference_curve_id": {
+      "minLength": 1,
+      "title": "Reference Curve Id",
+      "type": "string"
+    },
+    "reference_curve_revision": {
+      "minLength": 1,
+      "title": "Reference Curve Revision",
+      "type": "string"
+    },
+    "parameter_definition_id": {
+      "minLength": 1,
+      "title": "Parameter Definition Id",
+      "type": "string"
+    },
+    "parameter_unit": {
+      "minLength": 1,
+      "title": "Parameter Unit",
+      "type": "string"
+    },
+    "reference_material_condition_id": {
+      "minLength": 1,
+      "title": "Reference Material Condition Id",
+      "type": "string"
+    },
+    "reference_curve_points": {
+      "items": {
+        "$ref": "#/$defs/ReferenceMultiaxialLifeCurvePoint"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Reference Curve Points",
+      "type": "array"
+    },
+    "reference_curve_source_id": {
+      "minLength": 1,
+      "title": "Reference Curve Source Id",
+      "type": "string"
+    },
+    "reference_curve_record_id": {
+      "minLength": 1,
+      "title": "Reference Curve Record Id",
+      "type": "string"
+    },
+    "reference_curve_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Curve Sha256",
+      "type": "string"
+    },
+    "reference_curve_usage_license_id": {
+      "minLength": 1,
+      "title": "Reference Curve Usage License Id",
+      "type": "string"
+    },
+    "reference_curve_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Reference Curve Evidence",
+      "type": "array"
+    },
+    "maximum_log_reference_curve_pair_residual": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Log Reference Curve Pair Residual",
+      "type": "number"
+    },
+    "paired_points_match_reference_curve_knots_reviewed": {
+      "title": "Paired Points Match Reference Curve Knots Reviewed",
+      "type": "boolean"
+    },
+    "reference_and_target_parameter_definition_match_reviewed": {
+      "title": "Reference And Target Parameter Definition Match Reviewed",
+      "type": "boolean"
+    },
+    "weighted_log_linear_transfer_form_reviewed": {
+      "title": "Weighted Log Linear Transfer Form Reviewed",
+      "type": "boolean"
+    },
+    "material_condition_and_transfer_applicability_reviewed": {
+      "title": "Material Condition And Transfer Applicability Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_and_computational_use_authorized": {
+      "title": "Usage Rights And Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "paired_calibration_audit",
+    "paired_calibration_audit_sha256",
+    "reference_curve_id",
+    "reference_curve_revision",
+    "parameter_definition_id",
+    "parameter_unit",
+    "reference_material_condition_id",
+    "reference_curve_points",
+    "reference_curve_source_id",
+    "reference_curve_record_id",
+    "reference_curve_sha256",
+    "reference_curve_usage_license_id",
+    "reference_curve_evidence",
+    "maximum_log_reference_curve_pair_residual",
+    "paired_points_match_reference_curve_knots_reviewed",
+    "reference_and_target_parameter_definition_match_reviewed",
+    "weighted_log_linear_transfer_form_reviewed",
+    "material_condition_and_transfer_applicability_reviewed",
+    "usage_rights_and_computational_use_authorized"
+  ],
+  "title": "MultiaxialPowerLawLifeTransfer",
+  "type": "object"
+}

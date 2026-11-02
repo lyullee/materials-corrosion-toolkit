@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "interval_id": {
+      "minLength": 1,
+      "title": "Interval Id",
+      "type": "string"
+    },
+    "support_id": {
+      "minLength": 1,
+      "title": "Support Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "gap_m": {
+      "exclusiveMinimum": 0,
+      "title": "Gap M",
+      "type": "number"
+    },
+    "end_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End Temperature K"
+    },
+    "end_gap_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End Gap M"
+    },
+    "linear_condition_interpolation_reviewed": {
+      "default": false,
+      "title": "Linear Condition Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "boundary_condition_jump_reviewed": {
+      "default": false,
+      "title": "Boundary Condition Jump Reviewed",
+      "type": "boolean"
+    },
+    "net_species_source_mol_s": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "minProperties": 1,
+      "title": "Net Species Source Mol S",
+      "type": "object"
+    },
+    "net_species_source_end_mol_s": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Net Species Source End Mol S"
+    },
+    "linear_rate_interpolation_reviewed": {
+      "default": false,
+      "title": "Linear Rate Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "provider_record_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Record Digest"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "interval_id",
+    "support_id",
+    "temperature_K",
+    "gap_m",
+    "net_species_source_mol_s",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "CreviceSpeciesRateInterval",
+  "type": "object"
+}

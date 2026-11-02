@@ -1,0 +1,135 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One exact interval of caller-owned signed inward wall molar fluxes.",
+  "properties": {
+    "interval_id": {
+      "minLength": 1,
+      "title": "Interval Id",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "inward_species_flux_mol_m2_s": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Inward Species Flux Mol M2 S",
+      "type": "object"
+    },
+    "source_model_id": {
+      "minLength": 1,
+      "title": "Source Model Id",
+      "type": "string"
+    },
+    "source_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Result Sha256",
+      "type": "string"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "flux_mapping_reviewed": {
+      "title": "Flux Mapping Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "interval_id",
+    "start_time_s",
+    "end_time_s",
+    "inward_species_flux_mol_m2_s",
+    "source_model_id",
+    "source_result_sha256",
+    "source_record_id",
+    "provider_id",
+    "provider_revision",
+    "evidence",
+    "flux_mapping_reviewed"
+  ],
+  "title": "WetCo2SpeciesFluxInterval",
+  "type": "object"
+}

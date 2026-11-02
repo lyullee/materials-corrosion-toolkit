@@ -1,0 +1,110 @@
+{
+  "$defs": {
+    "SaturationHistoryKnot": {
+      "additionalProperties": false,
+      "description": "One caller-computed log10 saturation ratio at an exact time knot.",
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "log10_saturation_ratio": {
+          "title": "Log10 Saturation Ratio",
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_s",
+        "log10_saturation_ratio"
+      ],
+      "title": "SaturationHistoryKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Threshold event audit for one consistently defined candidate solid.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.saturation_history_events.v1",
+      "default": "matintegrity.saturation_history_events.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "solid_id": {
+      "minLength": 1,
+      "title": "Solid Id",
+      "type": "string"
+    },
+    "solution_scope_id": {
+      "minLength": 1,
+      "title": "Solution Scope Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "input_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input History Sha256",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/SaturationHistoryKnot"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "threshold_log10_saturation_ratio": {
+      "default": 0.0,
+      "title": "Threshold Log10 Saturation Ratio",
+      "type": "number"
+    },
+    "consistent_solid_and_standard_state_reviewed": {
+      "title": "Consistent Solid And Standard State Reviewed",
+      "type": "boolean"
+    },
+    "time_basis_and_order_reviewed": {
+      "title": "Time Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_linear_interpolation_reviewed": {
+      "title": "Piecewise Linear Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "solid_id",
+    "solution_scope_id",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "input_history_sha256",
+    "knots",
+    "consistent_solid_and_standard_state_reviewed",
+    "time_basis_and_order_reviewed",
+    "piecewise_linear_interpolation_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "SaturationHistoryEventRequest",
+  "type": "object"
+}

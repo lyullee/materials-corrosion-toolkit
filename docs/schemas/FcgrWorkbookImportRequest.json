@@ -1,0 +1,233 @@
+{
+  "$defs": {
+    "FcgrWorkbookSheetSelection": {
+      "additionalProperties": false,
+      "description": "Caller-reviewed column and row window for one workbook specimen curve.",
+      "properties": {
+        "sheet_name": {
+          "minLength": 1,
+          "title": "Sheet Name",
+          "type": "string"
+        },
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "stress_ratio": {
+          "exclusiveMaximum": 1,
+          "minimum": 0,
+          "title": "Stress Ratio",
+          "type": "number"
+        },
+        "header_row": {
+          "default": 2,
+          "minimum": 1,
+          "title": "Header Row",
+          "type": "integer"
+        },
+        "first_data_row": {
+          "minimum": 1,
+          "title": "First Data Row",
+          "type": "integer"
+        },
+        "last_data_row": {
+          "minimum": 1,
+          "title": "Last Data Row",
+          "type": "integer"
+        },
+        "delta_k_column_index": {
+          "minimum": 1,
+          "title": "Delta K Column Index",
+          "type": "integer"
+        },
+        "rate_column_index": {
+          "minimum": 1,
+          "title": "Rate Column Index",
+          "type": "integer"
+        },
+        "expected_delta_k_header": {
+          "minLength": 1,
+          "title": "Expected Delta K Header",
+          "type": "string"
+        },
+        "expected_rate_header": {
+          "minLength": 1,
+          "title": "Expected Rate Header",
+          "type": "string"
+        },
+        "specimen_and_row_window_reviewed": {
+          "const": true,
+          "title": "Specimen And Row Window Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "sheet_name",
+        "curve_id",
+        "source_group_id",
+        "physical_specimen_id",
+        "material_condition_id",
+        "environment_id",
+        "stress_ratio",
+        "first_data_row",
+        "last_data_row",
+        "delta_k_column_index",
+        "rate_column_index",
+        "expected_delta_k_header",
+        "expected_rate_header",
+        "specimen_and_row_window_reviewed"
+      ],
+      "title": "FcgrWorkbookSheetSelection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Explicit mapping and reuse basis for selected specimen sheets in an Excel workbook.",
+  "properties": {
+    "workbook_bytes": {
+      "format": "binary",
+      "minLength": 1,
+      "title": "Workbook Bytes",
+      "type": "string"
+    },
+    "expected_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Source Sha256"
+    },
+    "source_citation": {
+      "minLength": 1,
+      "title": "Source Citation",
+      "type": "string"
+    },
+    "license_id": {
+      "minLength": 1,
+      "title": "License Id",
+      "type": "string"
+    },
+    "rights_review_id": {
+      "minLength": 1,
+      "title": "Rights Review Id",
+      "type": "string"
+    },
+    "applicability_review_id": {
+      "minLength": 1,
+      "title": "Applicability Review Id",
+      "type": "string"
+    },
+    "frequency_Hz": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Frequency Hz"
+    },
+    "delta_k_unit": {
+      "enum": [
+        "Pa*sqrt(m)",
+        "MPa*sqrt(m)",
+        "N/mm^1.5"
+      ],
+      "title": "Delta K Unit",
+      "type": "string"
+    },
+    "rate_unit": {
+      "enum": [
+        "m/cycle",
+        "mm/cycle"
+      ],
+      "title": "Rate Unit",
+      "type": "string"
+    },
+    "below_minimum_policy": {
+      "enum": [
+        "out_of_scope",
+        "zero_below_declared_threshold"
+      ],
+      "title": "Below Minimum Policy",
+      "type": "string"
+    },
+    "declared_threshold_delta_k_Pa_sqrt_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Declared Threshold Delta K Pa Sqrt M"
+    },
+    "pointwise_computational_use_authorized": {
+      "const": true,
+      "title": "Pointwise Computational Use Authorized",
+      "type": "boolean"
+    },
+    "curve_applicability_reviewed": {
+      "const": true,
+      "title": "Curve Applicability Reviewed",
+      "type": "boolean"
+    },
+    "sheet_selections": {
+      "items": {
+        "$ref": "#/$defs/FcgrWorkbookSheetSelection"
+      },
+      "maxItems": 50,
+      "minItems": 1,
+      "title": "Sheet Selections",
+      "type": "array"
+    }
+  },
+  "required": [
+    "workbook_bytes",
+    "source_citation",
+    "license_id",
+    "rights_review_id",
+    "applicability_review_id",
+    "delta_k_unit",
+    "rate_unit",
+    "below_minimum_policy",
+    "pointwise_computational_use_authorized",
+    "curve_applicability_reviewed",
+    "sheet_selections"
+  ],
+  "title": "FcgrWorkbookImportRequest",
+  "type": "object"
+}

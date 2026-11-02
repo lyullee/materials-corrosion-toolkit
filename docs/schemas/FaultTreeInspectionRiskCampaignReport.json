@@ -1,0 +1,314 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FaultTreeActionResultLineage": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "fault_tree_model_id": {
+          "const": "reliability.fault_tree_minimal_cut_sets",
+          "title": "Fault Tree Model Id",
+          "type": "string"
+        },
+        "fault_tree_model_version": {
+          "minLength": 1,
+          "title": "Fault Tree Model Version",
+          "type": "string"
+        },
+        "fault_tree_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fault Tree Configuration Digest",
+          "type": "string"
+        },
+        "fault_tree_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fault Tree Input Digest",
+          "type": "string"
+        },
+        "fault_tree_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fault Tree Result Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action_id",
+        "fault_tree_model_id",
+        "fault_tree_model_version",
+        "fault_tree_configuration_digest",
+        "fault_tree_input_digest",
+        "fault_tree_result_digest"
+      ],
+      "title": "FaultTreeActionResultLineage",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.fault_tree_inspection_risk_campaign.v1",
+      "default": "matintegrity.fault_tree_inspection_risk_campaign.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "action_result_lineage": {
+      "items": {
+        "$ref": "#/$defs/FaultTreeActionResultLineage"
+      },
+      "minItems": 2,
+      "title": "Action Result Lineage",
+      "type": "array"
+    },
+    "comparison_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Comparison Input Digest",
+      "type": "string"
+    },
+    "comparison_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "comparison_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Comparison Result Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "action_result_lineage",
+    "comparison_input_digest",
+    "comparison_result",
+    "comparison_result_digest"
+  ],
+  "title": "FaultTreeInspectionRiskCampaignReport",
+  "type": "object"
+}

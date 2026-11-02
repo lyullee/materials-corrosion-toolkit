@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PitzerSingleSaltActivity": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.pitzer_single_salt_activity.v1",
+          "default": "matintegrity.pitzer_single_salt_activity.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "salt_id": {
+          "minLength": 1,
+          "title": "Salt Id",
+          "type": "string"
+        },
+        "cation_id": {
+          "minLength": 1,
+          "title": "Cation Id",
+          "type": "string"
+        },
+        "anion_id": {
+          "minLength": 1,
+          "title": "Anion Id",
+          "type": "string"
+        },
+        "cation_charge_number": {
+          "exclusiveMinimum": 0,
+          "maximum": 8,
+          "title": "Cation Charge Number",
+          "type": "integer"
+        },
+        "anion_charge_number": {
+          "exclusiveMaximum": 0,
+          "minimum": -8,
+          "title": "Anion Charge Number",
+          "type": "integer"
+        },
+        "cation_stoichiometric_number": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Cation Stoichiometric Number",
+          "type": "integer"
+        },
+        "anion_stoichiometric_number": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Anion Stoichiometric Number",
+          "type": "integer"
+        },
+        "salt_molality_mol_kg_water": {
+          "exclusiveMinimum": 0,
+          "title": "Salt Molality Mol Kg Water",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "parameter_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Temperature K",
+          "type": "number"
+        },
+        "temperature_match_tolerance_K": {
+          "default": 0.01,
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Temperature Match Tolerance K",
+          "type": "number"
+        },
+        "maximum_supported_ionic_strength_mol_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Ionic Strength Mol Kg",
+          "type": "number"
+        },
+        "debye_huckel_A_phi": {
+          "exclusiveMinimum": 0,
+          "title": "Debye Huckel A Phi",
+          "type": "number"
+        },
+        "debye_huckel_b_sqrt_kg_mol": {
+          "default": 1.2,
+          "exclusiveMinimum": 0,
+          "title": "Debye Huckel B Sqrt Kg Mol",
+          "type": "number"
+        },
+        "beta_phi_0_kg_mol": {
+          "title": "Beta Phi 0 Kg Mol",
+          "type": "number"
+        },
+        "beta_phi_1_kg_mol": {
+          "title": "Beta Phi 1 Kg Mol",
+          "type": "number"
+        },
+        "beta_phi_2_kg_mol": {
+          "default": 0.0,
+          "title": "Beta Phi 2 Kg Mol",
+          "type": "number"
+        },
+        "alpha_1_sqrt_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Alpha 1 Sqrt Kg Mol",
+          "type": "number"
+        },
+        "alpha_2_sqrt_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Alpha 2 Sqrt Kg Mol",
+          "type": "number"
+        },
+        "c_phi_kg2_mol2": {
+          "title": "C Phi Kg2 Mol2",
+          "type": "number"
+        },
+        "parameter_set_id": {
+          "minLength": 1,
+          "title": "Parameter Set Id",
+          "type": "string"
+        },
+        "parameter_record_id": {
+          "minLength": 1,
+          "title": "Parameter Record Id",
+          "type": "string"
+        },
+        "parameter_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameter Record Sha256",
+          "type": "string"
+        },
+        "temperature_and_parameter_applicability_reviewed": {
+          "title": "Temperature And Parameter Applicability Reviewed",
+          "type": "boolean"
+        },
+        "single_pure_electrolyte_scope_reviewed": {
+          "title": "Single Pure Electrolyte Scope Reviewed",
+          "type": "boolean"
+        },
+        "stoichiometry_and_charge_reviewed": {
+          "title": "Stoichiometry And Charge Reviewed",
+          "type": "boolean"
+        },
+        "parameter_values_and_units_reviewed": {
+          "title": "Parameter Values And Units Reviewed",
+          "type": "boolean"
+        },
+        "parameter_use_authorized": {
+          "title": "Parameter Use Authorized",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "salt_id",
+        "cation_id",
+        "anion_id",
+        "cation_charge_number",
+        "anion_charge_number",
+        "cation_stoichiometric_number",
+        "anion_stoichiometric_number",
+        "salt_molality_mol_kg_water",
+        "temperature_K",
+        "parameter_temperature_K",
+        "maximum_supported_ionic_strength_mol_kg",
+        "debye_huckel_A_phi",
+        "beta_phi_0_kg_mol",
+        "beta_phi_1_kg_mol",
+        "alpha_1_sqrt_kg_mol",
+        "alpha_2_sqrt_kg_mol",
+        "c_phi_kg2_mol2",
+        "parameter_set_id",
+        "parameter_record_id",
+        "parameter_record_sha256",
+        "temperature_and_parameter_applicability_reviewed",
+        "single_pure_electrolyte_scope_reviewed",
+        "stoichiometry_and_charge_reviewed",
+        "parameter_values_and_units_reviewed",
+        "parameter_use_authorized",
+        "evidence"
+      ],
+      "title": "PitzerSingleSaltActivity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compare one Pitzer pure-salt ionic activity product with caller Ksp.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pitzer_salt_saturation_index.v1",
+      "default": "matintegrity.pitzer_salt_saturation_index.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "activity_request": {
+      "$ref": "#/$defs/PitzerSingleSaltActivity"
+    },
+    "log10_solubility_product": {
+      "title": "Log10 Solubility Product",
+      "type": "number"
+    },
+    "solubility_product_temperature_K": {
+      "exclusiveMinimum": 0.0,
+      "title": "Solubility Product Temperature K",
+      "type": "number"
+    },
+    "temperature_match_tolerance_K": {
+      "default": 0.01,
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "title": "Temperature Match Tolerance K",
+      "type": "number"
+    },
+    "solubility_product_source_id": {
+      "minLength": 1,
+      "title": "Solubility Product Source Id",
+      "type": "string"
+    },
+    "solubility_product_record_id": {
+      "minLength": 1,
+      "title": "Solubility Product Record Id",
+      "type": "string"
+    },
+    "solubility_product_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solubility Product Record Sha256",
+      "type": "string"
+    },
+    "boundary_tolerance_log10": {
+      "default": 1e-08,
+      "maximum": 0.1,
+      "minimum": 0.0,
+      "title": "Boundary Tolerance Log10",
+      "type": "number"
+    },
+    "salt_formula_and_standard_state_reviewed": {
+      "title": "Salt Formula And Standard State Reviewed",
+      "type": "boolean"
+    },
+    "solubility_product_temperature_and_applicability_reviewed": {
+      "title": "Solubility Product Temperature And Applicability Reviewed",
+      "type": "boolean"
+    },
+    "complete_single_salt_scope_reviewed": {
+      "title": "Complete Single Salt Scope Reviewed",
+      "type": "boolean"
+    },
+    "solubility_product_use_authorized": {
+      "title": "Solubility Product Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "activity_request",
+    "log10_solubility_product",
+    "solubility_product_temperature_K",
+    "solubility_product_source_id",
+    "solubility_product_record_id",
+    "solubility_product_record_sha256",
+    "salt_formula_and_standard_state_reviewed",
+    "solubility_product_temperature_and_applicability_reviewed",
+    "complete_single_salt_scope_reviewed",
+    "solubility_product_use_authorized",
+    "evidence"
+  ],
+  "title": "PitzerSaltSaturationIndex",
+  "type": "object"
+}

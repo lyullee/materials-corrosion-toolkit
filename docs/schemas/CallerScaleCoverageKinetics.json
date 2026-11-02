@@ -1,0 +1,467 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ScaleCoverageKineticInterval": {
+      "additionalProperties": false,
+      "description": "One exposure interval with an optional linearly varying saturation path.",
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "saturation_ratio": {
+          "minimum": 0,
+          "title": "Saturation Ratio",
+          "type": "number"
+        },
+        "saturation_ratio_end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Saturation Ratio End"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "saturation_ratio"
+      ],
+      "title": "ScaleCoverageKineticInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.caller_scale_coverage_kinetics.v1",
+      "default": "matintegrity.caller_scale_coverage_kinetics.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "solution_condition_id": {
+      "minLength": 1,
+      "title": "Solution Condition Id",
+      "type": "string"
+    },
+    "scale_phase_id": {
+      "minLength": 1,
+      "title": "Scale Phase Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "condition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Condition Sha256",
+      "type": "string"
+    },
+    "kinetic_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetic Configuration Sha256",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "initial_covered_area_fraction": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Initial Covered Area Fraction",
+      "type": "number"
+    },
+    "attachment_rate_constant_s": {
+      "minimum": 0,
+      "title": "Attachment Rate Constant S",
+      "type": "number"
+    },
+    "rate_reference_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rate Reference Temperature K"
+    },
+    "minimum_rate_valid_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Rate Valid Temperature K"
+    },
+    "maximum_rate_valid_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Rate Valid Temperature K"
+    },
+    "attachment_activation_energy_J_mol": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Attachment Activation Energy J Mol"
+    },
+    "attachment_supersaturation_order": {
+      "exclusiveMinimum": 0,
+      "maximum": 8.0,
+      "title": "Attachment Supersaturation Order",
+      "type": "number"
+    },
+    "detachment_rate_constant_s": {
+      "minimum": 0,
+      "title": "Detachment Rate Constant S",
+      "type": "number"
+    },
+    "detachment_activation_energy_J_mol": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Detachment Activation Energy J Mol"
+    },
+    "arrhenius_temperature_scaling_reviewed": {
+      "default": false,
+      "title": "Arrhenius Temperature Scaling Reviewed",
+      "type": "boolean"
+    },
+    "detachment_undersaturation_order": {
+      "exclusiveMinimum": 0,
+      "maximum": 8.0,
+      "title": "Detachment Undersaturation Order",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/ScaleCoverageKineticInterval"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "interval_constant_saturation_reviewed": {
+      "title": "Interval Constant Saturation Reviewed",
+      "type": "boolean"
+    },
+    "linearly_varying_saturation_reviewed": {
+      "default": false,
+      "title": "Linearly Varying Saturation Reviewed",
+      "type": "boolean"
+    },
+    "interval_temperature_profile_reviewed": {
+      "default": false,
+      "title": "Interval Temperature Profile Reviewed",
+      "type": "boolean"
+    },
+    "maximum_time_step_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Time Step S"
+    },
+    "minimum_time_step_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Time Step S"
+    },
+    "coverage_absolute_tolerance": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coverage Absolute Tolerance"
+    },
+    "coverage_relative_tolerance": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coverage Relative Tolerance"
+    },
+    "inventory_absolute_tolerance": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inventory Absolute Tolerance"
+    },
+    "inventory_relative_tolerance": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inventory Relative Tolerance"
+    },
+    "maximum_rate_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Rate Evaluations",
+      "type": "integer"
+    },
+    "maximum_rejected_steps_per_interval": {
+      "default": 1000,
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum Rejected Steps Per Interval",
+      "type": "integer"
+    },
+    "coverage_kinetic_law_and_standard_state_reviewed": {
+      "title": "Coverage Kinetic Law And Standard State Reviewed",
+      "type": "boolean"
+    },
+    "rate_coefficients_and_temperature_reviewed": {
+      "title": "Rate Coefficients And Temperature Reviewed",
+      "type": "boolean"
+    },
+    "scale_phase_identity_and_specimen_match_reviewed": {
+      "title": "Scale Phase Identity And Specimen Match Reviewed",
+      "type": "boolean"
+    },
+    "area_average_coverage_representation_reviewed": {
+      "title": "Area Average Coverage Representation Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "substrate_condition_id",
+    "solution_condition_id",
+    "scale_phase_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "provider_id",
+    "provider_revision",
+    "source_sha256",
+    "condition_sha256",
+    "kinetic_configuration_sha256",
+    "temperature_K",
+    "initial_covered_area_fraction",
+    "attachment_rate_constant_s",
+    "attachment_supersaturation_order",
+    "detachment_rate_constant_s",
+    "detachment_undersaturation_order",
+    "intervals",
+    "interval_constant_saturation_reviewed",
+    "coverage_kinetic_law_and_standard_state_reviewed",
+    "rate_coefficients_and_temperature_reviewed",
+    "scale_phase_identity_and_specimen_match_reviewed",
+    "area_average_coverage_representation_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "CallerScaleCoverageKinetics",
+  "type": "object"
+}

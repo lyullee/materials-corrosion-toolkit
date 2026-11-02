@@ -1,0 +1,684 @@
+{
+  "$defs": {
+    "CallerOverlayCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "minLength": 1,
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "individual",
+            "replicate_mean",
+            "replicate_minimum",
+            "replicate_maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "minimum_replicates": {
+          "minimum": 1,
+          "title": "Minimum Replicates",
+          "type": "integer"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "aggregation",
+        "uncertainty_policy",
+        "minimum_replicates",
+        "missing_disposition",
+        "description"
+      ],
+      "title": "CallerOverlayCriterion",
+      "type": "object"
+    },
+    "CallerOverlayProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "permitted_substrate_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Substrate Ids",
+          "type": "array"
+        },
+        "permitted_filler_lot_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Filler Lot Ids",
+          "type": "array"
+        },
+        "permitted_process_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Process Ids",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CallerOverlayCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "source_digest",
+        "permitted_substrate_ids",
+        "permitted_filler_lot_ids",
+        "permitted_process_ids",
+        "criteria",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "CallerOverlayProfile",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "OverlayDepositionPass": {
+      "additionalProperties": false,
+      "properties": {
+        "pass_id": {
+          "minLength": 1,
+          "title": "Pass Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "layer_sequence_position": {
+          "minimum": 1,
+          "title": "Layer Sequence Position",
+          "type": "integer"
+        },
+        "substrate_or_parent_id": {
+          "minLength": 1,
+          "title": "Substrate Or Parent Id",
+          "type": "string"
+        },
+        "filler_lot_id": {
+          "minLength": 1,
+          "title": "Filler Lot Id",
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "title": "Process Id",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "heat_input_j_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Input J M"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pass_id",
+        "sequence_position",
+        "layer_id",
+        "layer_sequence_position",
+        "substrate_or_parent_id",
+        "filler_lot_id",
+        "process_id",
+        "procedure_id",
+        "provider_result_digest",
+        "evidence"
+      ],
+      "title": "OverlayDepositionPass",
+      "type": "object"
+    },
+    "OverlayHeatInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "interval_kind": {
+          "enum": [
+            "deposition",
+            "interpass",
+            "post_weld_heat_treatment",
+            "service_exposure"
+          ],
+          "title": "Interval Kind",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "sequence_position",
+        "interval_kind",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_k",
+        "maximum_temperature_k",
+        "provider_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "OverlayHeatInterval",
+      "type": "object"
+    },
+    "OverlayMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "pass_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pass Id"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "dilution",
+            "composition",
+            "layer_thickness",
+            "ferrite",
+            "bond",
+            "continuity",
+            "nde",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "layer_id",
+        "replicate_group_id",
+        "location_id",
+        "metric_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "input_digest",
+        "evidence"
+      ],
+      "title": "OverlayMeasurement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "substrate_id": {
+      "minLength": 1,
+      "title": "Substrate Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "passes": {
+      "items": {
+        "$ref": "#/$defs/OverlayDepositionPass"
+      },
+      "minItems": 1,
+      "title": "Passes",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/OverlayMeasurement"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "heat_history": {
+      "items": {
+        "$ref": "#/$defs/OverlayHeatInterval"
+      },
+      "minItems": 1,
+      "title": "Heat History",
+      "type": "array"
+    },
+    "profile": {
+      "$ref": "#/$defs/CallerOverlayProfile"
+    },
+    "substrate_filler_process_layer_and_pass_identity_reviewed": {
+      "title": "Substrate Filler Process Layer And Pass Identity Reviewed",
+      "type": "boolean"
+    },
+    "dilution_composition_thickness_ferrite_bond_continuity_and_nde_reviewed": {
+      "title": "Dilution Composition Thickness Ferrite Bond Continuity And Nde Reviewed",
+      "type": "boolean"
+    },
+    "measurement_units_uncertainty_methods_and_provenance_reviewed": {
+      "title": "Measurement Units Uncertainty Methods And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "heat_history_time_temperature_and_sequence_reviewed": {
+      "title": "Heat History Time Temperature And Sequence Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_authority_and_criteria_reviewed": {
+      "title": "Caller Profile Authority And Criteria Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "substrate_id",
+    "substrate_condition_id",
+    "passes",
+    "measurements",
+    "heat_history",
+    "profile",
+    "substrate_filler_process_layer_and_pass_identity_reviewed",
+    "dilution_composition_thickness_ferrite_bond_continuity_and_nde_reviewed",
+    "measurement_units_uncertainty_methods_and_provenance_reviewed",
+    "heat_history_time_temperature_and_sequence_reviewed",
+    "caller_profile_authority_and_criteria_reviewed",
+    "evidence"
+  ],
+  "title": "OverlayCladdingCampaign",
+  "type": "object"
+}

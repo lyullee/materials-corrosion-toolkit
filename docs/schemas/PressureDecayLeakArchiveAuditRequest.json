@@ -1,0 +1,68 @@
+{
+  "$defs": {
+    "PressureDecayLeakReadAuthorization": {
+      "additionalProperties": false,
+      "description": "Caller authorization and attribution required for a local row-view call.",
+      "properties": {
+        "dataset_id": {
+          "const": "zenodo-20582921-pressure-decay-leak-test",
+          "default": "zenodo-20582921-pressure-decay-leak-test",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "provider_record": {
+          "const": "https://doi.org/10.5281/zenodo.20582921",
+          "default": "https://doi.org/10.5281/zenodo.20582921",
+          "title": "Provider Record",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC-BY-4.0",
+          "default": "CC-BY-4.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "const": true,
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "local_only_authorized": {
+          "const": true,
+          "title": "Local Only Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "attribution",
+        "computational_use_authorized",
+        "local_only_authorized"
+      ],
+      "title": "PressureDecayLeakReadAuthorization",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Audit the exact locally pinned workbook and keep its path private.",
+  "properties": {
+    "local_archive_path": {
+      "minLength": 1,
+      "title": "Local Archive Path",
+      "type": "string"
+    },
+    "authorization": {
+      "$ref": "#/$defs/PressureDecayLeakReadAuthorization"
+    }
+  },
+  "required": [
+    "local_archive_path",
+    "authorization"
+  ],
+  "title": "PressureDecayLeakArchiveAuditRequest",
+  "type": "object"
+}

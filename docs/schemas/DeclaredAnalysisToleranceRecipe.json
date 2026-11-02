@@ -1,0 +1,222 @@
+{
+  "$defs": {
+    "ChemicalToleranceBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "original_limit_lower": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Original Limit Lower",
+          "type": "number"
+        },
+        "original_limit_upper": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Original Limit Upper",
+          "type": "number"
+        },
+        "lower_inclusive": {
+          "title": "Lower Inclusive",
+          "type": "boolean"
+        },
+        "upper_inclusive": {
+          "title": "Upper Inclusive",
+          "type": "boolean"
+        },
+        "multiplier": {
+          "title": "Multiplier",
+          "type": "number"
+        },
+        "offset_mass_fraction": {
+          "title": "Offset Mass Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "branch_id",
+        "original_limit_lower",
+        "original_limit_upper",
+        "lower_inclusive",
+        "upper_inclusive",
+        "multiplier",
+        "offset_mass_fraction"
+      ],
+      "title": "ChemicalToleranceBranch",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "element_id": {
+      "minLength": 1,
+      "title": "Element Id",
+      "type": "string"
+    },
+    "product_specification_id": {
+      "minLength": 1,
+      "title": "Product Specification Id",
+      "type": "string"
+    },
+    "analysis_kind": {
+      "const": "product_analysis",
+      "title": "Analysis Kind",
+      "type": "string"
+    },
+    "boundary_role": {
+      "enum": [
+        "minimum",
+        "maximum"
+      ],
+      "title": "Boundary Role",
+      "type": "string"
+    },
+    "original_specified_limit_mass_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Original Specified Limit Mass Fraction",
+      "type": "number"
+    },
+    "service_tolerance_application_authorized": {
+      "title": "Service Tolerance Application Authorized",
+      "type": "boolean"
+    },
+    "branches": {
+      "items": {
+        "$ref": "#/$defs/ChemicalToleranceBranch"
+      },
+      "minItems": 1,
+      "title": "Branches",
+      "type": "array"
+    }
+  },
+  "required": [
+    "basis",
+    "element_id",
+    "product_specification_id",
+    "analysis_kind",
+    "boundary_role",
+    "original_specified_limit_mass_fraction",
+    "service_tolerance_application_authorized",
+    "branches"
+  ],
+  "title": "DeclaredAnalysisToleranceRecipe",
+  "type": "object"
+}

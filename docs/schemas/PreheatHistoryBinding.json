@@ -1,0 +1,670 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "DeclaredPreheatProcedureEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "joint_configuration_id": {
+          "minLength": 1,
+          "title": "Joint Configuration Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "consumable_condition_id": {
+          "minLength": 1,
+          "title": "Consumable Condition Id",
+          "type": "string"
+        },
+        "hydrogen_control_descriptor": {
+          "minLength": 1,
+          "title": "Hydrogen Control Descriptor",
+          "type": "string"
+        },
+        "restraint_descriptor": {
+          "minLength": 1,
+          "title": "Restraint Descriptor",
+          "type": "string"
+        },
+        "minimum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Thickness M",
+          "type": "number"
+        },
+        "maximum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Thickness M",
+          "type": "number"
+        },
+        "minimum_net_heat_input_J_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Net Heat Input J M",
+          "type": "number"
+        },
+        "maximum_net_heat_input_J_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Net Heat Input J M",
+          "type": "number"
+        },
+        "minimum_required_preheat_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Required Preheat Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_interpass_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Interpass Temperature K",
+          "type": "number"
+        },
+        "minimum_supported_interpass_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Supported Interpass Temperature K"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "joint_configuration_id",
+        "welding_process_id",
+        "consumable_condition_id",
+        "hydrogen_control_descriptor",
+        "restraint_descriptor",
+        "minimum_thickness_m",
+        "maximum_thickness_m",
+        "minimum_net_heat_input_J_m",
+        "maximum_net_heat_input_J_m",
+        "minimum_required_preheat_temperature_K",
+        "maximum_supported_interpass_temperature_K",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "DeclaredPreheatProcedureEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PreheatMeasurementIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "surface": {
+          "enum": [
+            "inner",
+            "outer",
+            "other_declared"
+          ],
+          "title": "Surface",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position M",
+          "type": "array"
+        },
+        "placement_basis_id": {
+          "minLength": 1,
+          "title": "Placement Basis Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "physical_scope_id",
+        "location_id",
+        "weld_id",
+        "surface",
+        "coordinate_frame_id",
+        "position_m",
+        "placement_basis_id",
+        "clock_id"
+      ],
+      "title": "PreheatMeasurementIdentity",
+      "type": "object"
+    },
+    "PreheatMeasurementTrace": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "surface": {
+          "enum": [
+            "inner",
+            "outer",
+            "other_declared"
+          ],
+          "title": "Surface",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position M",
+          "type": "array"
+        },
+        "placement_basis_id": {
+          "minLength": 1,
+          "title": "Placement Basis Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Temperature K",
+          "type": "array"
+        },
+        "trace_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Trace Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "physical_scope_id",
+        "location_id",
+        "weld_id",
+        "surface",
+        "coordinate_frame_id",
+        "position_m",
+        "placement_basis_id",
+        "clock_id",
+        "time_s",
+        "temperature_K",
+        "trace_sha256"
+      ],
+      "title": "PreheatMeasurementTrace",
+      "type": "object"
+    },
+    "PreheatMeasurementWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "window_id": {
+          "minLength": 1,
+          "title": "Window Id",
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "preheat",
+            "interpass"
+          ],
+          "title": "Phase",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "window_id",
+        "phase",
+        "start_time_s",
+        "end_time_s"
+      ],
+      "title": "PreheatMeasurementWindow",
+      "type": "object"
+    },
+    "PreheatProcedureTemplate": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "joint_configuration_id": {
+          "minLength": 1,
+          "title": "Joint Configuration Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "consumable_condition_id": {
+          "minLength": 1,
+          "title": "Consumable Condition Id",
+          "type": "string"
+        },
+        "hydrogen_control_descriptor": {
+          "minLength": 1,
+          "title": "Hydrogen Control Descriptor",
+          "type": "string"
+        },
+        "restraint_descriptor": {
+          "minLength": 1,
+          "title": "Restraint Descriptor",
+          "type": "string"
+        },
+        "governing_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Governing Thickness M",
+          "type": "number"
+        },
+        "net_heat_input_J_m": {
+          "exclusiveMinimum": 0,
+          "title": "Net Heat Input J M",
+          "type": "number"
+        },
+        "minimum_recorded_preheat_temperature_K": {
+          "default": null,
+          "title": "Minimum Recorded Preheat Temperature K",
+          "type": "null"
+        },
+        "maximum_recorded_interpass_temperature_K": {
+          "default": null,
+          "title": "Maximum Recorded Interpass Temperature K",
+          "type": "null"
+        },
+        "below_preheat_duration_s": {
+          "default": null,
+          "title": "Below Preheat Duration S",
+          "type": "null"
+        },
+        "above_interpass_duration_s": {
+          "default": null,
+          "title": "Above Interpass Duration S",
+          "type": "null"
+        },
+        "minimum_recorded_interpass_temperature_K": {
+          "default": null,
+          "title": "Minimum Recorded Interpass Temperature K",
+          "type": "null"
+        },
+        "below_interpass_duration_s": {
+          "default": null,
+          "title": "Below Interpass Duration S",
+          "type": "null"
+        },
+        "candidate_envelopes": {
+          "items": {
+            "$ref": "#/$defs/DeclaredPreheatProcedureEnvelope"
+          },
+          "minItems": 1,
+          "title": "Candidate Envelopes",
+          "type": "array"
+        },
+        "material_and_joint_identity_reviewed": {
+          "title": "Material And Joint Identity Reviewed",
+          "type": "boolean"
+        },
+        "consumable_and_hydrogen_control_reviewed": {
+          "title": "Consumable And Hydrogen Control Reviewed",
+          "type": "boolean"
+        },
+        "restraint_reviewed": {
+          "title": "Restraint Reviewed",
+          "type": "boolean"
+        },
+        "thickness_and_heat_input_reviewed": {
+          "title": "Thickness And Heat Input Reviewed",
+          "type": "boolean"
+        },
+        "temperature_records_reviewed": {
+          "title": "Temperature Records Reviewed",
+          "type": "boolean"
+        },
+        "procedure_envelope_authority_reviewed": {
+          "title": "Procedure Envelope Authority Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "weld_id",
+        "material_condition_id",
+        "joint_configuration_id",
+        "welding_process_id",
+        "consumable_condition_id",
+        "hydrogen_control_descriptor",
+        "restraint_descriptor",
+        "governing_thickness_m",
+        "net_heat_input_J_m",
+        "candidate_envelopes",
+        "material_and_joint_identity_reviewed",
+        "consumable_and_hydrogen_control_reviewed",
+        "restraint_reviewed",
+        "thickness_and_heat_input_reviewed",
+        "temperature_records_reviewed",
+        "procedure_envelope_authority_reviewed",
+        "evidence"
+      ],
+      "title": "PreheatProcedureTemplate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "template": {
+      "$ref": "#/$defs/PreheatProcedureTemplate"
+    },
+    "required_channels": {
+      "items": {
+        "$ref": "#/$defs/PreheatMeasurementIdentity"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Required Channels",
+      "type": "array"
+    },
+    "traces": {
+      "items": {
+        "$ref": "#/$defs/PreheatMeasurementTrace"
+      },
+      "maxItems": 256,
+      "title": "Traces",
+      "type": "array"
+    },
+    "windows": {
+      "items": {
+        "$ref": "#/$defs/PreheatMeasurementWindow"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Windows",
+      "type": "array"
+    },
+    "placement_phase_windows_and_clock_reviewed": {
+      "title": "Placement Phase Windows And Clock Reviewed",
+      "type": "boolean"
+    },
+    "maximum_sample_gap_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Sample Gap S",
+      "type": "number"
+    },
+    "maximum_segment_evaluations": {
+      "default": 1000000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Maximum Segment Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "basis",
+    "template",
+    "required_channels",
+    "traces",
+    "windows",
+    "placement_phase_windows_and_clock_reviewed",
+    "maximum_sample_gap_s"
+  ],
+  "title": "PreheatHistoryBinding",
+  "type": "object"
+}

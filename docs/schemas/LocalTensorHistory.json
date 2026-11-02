@@ -1,0 +1,311 @@
+{
+  "additionalProperties": false,
+  "description": "Versioned exchange record for one extracted local stress-strain history.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.local_tensor_history.v1",
+      "default": "matintegrity.local_tensor_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "load_case_id": {
+      "minLength": 1,
+      "title": "Load Case Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_version": {
+      "minLength": 1,
+      "title": "Provider Version",
+      "type": "string"
+    },
+    "solver_name": {
+      "minLength": 1,
+      "title": "Solver Name",
+      "type": "string"
+    },
+    "solver_version": {
+      "minLength": 1,
+      "title": "Solver Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "solution_revision": {
+      "minLength": 1,
+      "title": "Solution Revision",
+      "type": "string"
+    },
+    "mesh_id": {
+      "minLength": 1,
+      "title": "Mesh Id",
+      "type": "string"
+    },
+    "field_location_kind": {
+      "enum": [
+        "node",
+        "integration_point",
+        "surface_point",
+        "user_defined"
+      ],
+      "title": "Field Location Kind",
+      "type": "string"
+    },
+    "field_location_id": {
+      "minLength": 1,
+      "title": "Field Location Id",
+      "type": "string"
+    },
+    "spatial_averaging": {
+      "enum": [
+        "none",
+        "nodal_averaged",
+        "element_averaged",
+        "other"
+      ],
+      "title": "Spatial Averaging",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "coordinate_basis_vectors_global": {
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        }
+      ],
+      "title": "Coordinate Basis Vectors Global",
+      "type": "array"
+    },
+    "stress_measure": {
+      "enum": [
+        "cauchy",
+        "second_piola_kirchhoff",
+        "other"
+      ],
+      "title": "Stress Measure",
+      "type": "string"
+    },
+    "strain_measure": {
+      "enum": [
+        "infinitesimal",
+        "green_lagrange",
+        "logarithmic",
+        "other"
+      ],
+      "title": "Strain Measure",
+      "type": "string"
+    },
+    "tensor_component_order": {
+      "const": "xx_yy_zz_xy_yz_zx",
+      "default": "xx_yy_zz_xy_yz_zx",
+      "title": "Tensor Component Order",
+      "type": "string"
+    },
+    "strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "stress_unit": {
+      "const": "Pa",
+      "default": "Pa",
+      "title": "Stress Unit",
+      "type": "string"
+    },
+    "strain_unit": {
+      "const": "1",
+      "default": "1",
+      "title": "Strain Unit",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "sample_times_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 3,
+      "title": "Sample Times S",
+      "type": "array"
+    },
+    "sample_valid": {
+      "items": {
+        "type": "boolean"
+      },
+      "minItems": 3,
+      "title": "Sample Valid",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "representative_cycle_declared": {
+      "title": "Representative Cycle Declared",
+      "type": "boolean"
+    },
+    "tensor_field_review_status": {
+      "enum": [
+        "qualified_by_caller",
+        "unreviewed"
+      ],
+      "title": "Tensor Field Review Status",
+      "type": "string"
+    },
+    "source_content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Content Sha256",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "material_condition_id",
+    "location_id",
+    "load_case_id",
+    "tensor_source_id",
+    "provider_id",
+    "provider_version",
+    "solver_name",
+    "solver_version",
+    "analysis_id",
+    "solution_revision",
+    "mesh_id",
+    "field_location_kind",
+    "field_location_id",
+    "spatial_averaging",
+    "coordinate_frame_id",
+    "coordinate_basis_vectors_global",
+    "stress_measure",
+    "strain_measure",
+    "strain_shear_convention",
+    "sample_ids",
+    "sample_times_s",
+    "sample_valid",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "representative_cycle_declared",
+    "tensor_field_review_status",
+    "source_content_sha256",
+    "provider_configuration_digest"
+  ],
+  "title": "LocalTensorHistory",
+  "type": "object"
+}

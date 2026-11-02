@@ -1,0 +1,206 @@
+{
+  "$defs": {
+    "AreaUniformFibonacciPlaneGrid": {
+      "additionalProperties": false,
+      "description": "Area-stratified golden-angle candidates for unoriented material planes.",
+      "properties": {
+        "grid_id": {
+          "minLength": 1,
+          "title": "Grid Id",
+          "type": "string"
+        },
+        "candidate_count": {
+          "minimum": 4,
+          "title": "Candidate Count",
+          "type": "integer"
+        },
+        "azimuth_phase_rad": {
+          "default": 0.0,
+          "exclusiveMaximum": 6.283185307179586,
+          "minimum": 0.0,
+          "title": "Azimuth Phase Rad",
+          "type": "number"
+        }
+      },
+      "required": [
+        "grid_id",
+        "candidate_count"
+      ],
+      "title": "AreaUniformFibonacciPlaneGrid",
+      "type": "object"
+    },
+    "HemispherePlaneGrid": {
+      "additionalProperties": false,
+      "description": "Deterministic angular candidate grid for unoriented material planes.",
+      "properties": {
+        "grid_id": {
+          "minLength": 1,
+          "title": "Grid Id",
+          "type": "string"
+        },
+        "polar_divisions": {
+          "minimum": 1,
+          "title": "Polar Divisions",
+          "type": "integer"
+        },
+        "azimuthal_divisions": {
+          "minimum": 4,
+          "title": "Azimuthal Divisions",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "grid_id",
+        "polar_divisions",
+        "azimuthal_divisions"
+      ],
+      "title": "HemispherePlaneGrid",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Greedy local orientation refinement seeded by one declared finite plane grid.",
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "seed_grid": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/HemispherePlaneGrid"
+        },
+        {
+          "$ref": "#/$defs/AreaUniformFibonacciPlaneGrid"
+        }
+      ],
+      "title": "Seed Grid"
+    },
+    "representative_cycle_declared": {
+      "title": "Representative Cycle Declared",
+      "type": "boolean"
+    },
+    "maximum_stress_closure_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Stress Closure Error Pa",
+      "type": "number"
+    },
+    "maximum_strain_closure_error": {
+      "minimum": 0,
+      "title": "Maximum Strain Closure Error",
+      "type": "number"
+    },
+    "fatemi_socie_coefficient": {
+      "minimum": 0,
+      "title": "Fatemi Socie Coefficient",
+      "type": "number"
+    },
+    "normalization_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Normalization Stress Pa",
+      "type": "number"
+    },
+    "refinement_rounds": {
+      "minimum": 1,
+      "title": "Refinement Rounds",
+      "type": "integer"
+    },
+    "ring_points": {
+      "minimum": 4,
+      "title": "Ring Points",
+      "type": "integer"
+    },
+    "initial_radius_rad": {
+      "exclusiveMaximum": 1.5707963267948966,
+      "exclusiveMinimum": 0.0,
+      "title": "Initial Radius Rad",
+      "type": "number"
+    },
+    "radius_reduction_factor": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Radius Reduction Factor",
+      "type": "number"
+    },
+    "declared_maximum_final_relative_factor_change": {
+      "minimum": 0,
+      "title": "Declared Maximum Final Relative Factor Change",
+      "type": "number"
+    },
+    "declared_maximum_final_plane_rotation_rad": {
+      "maximum": 1.5707963267948966,
+      "minimum": 0.0,
+      "title": "Declared Maximum Final Plane Rotation Rad",
+      "type": "number"
+    }
+  },
+  "required": [
+    "history_id",
+    "material_condition_id",
+    "location_id",
+    "tensor_source_id",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "seed_grid",
+    "representative_cycle_declared",
+    "maximum_stress_closure_error_Pa",
+    "maximum_strain_closure_error",
+    "fatemi_socie_coefficient",
+    "normalization_stress_Pa",
+    "refinement_rounds",
+    "ring_points",
+    "initial_radius_rad",
+    "radius_reduction_factor",
+    "declared_maximum_final_relative_factor_change",
+    "declared_maximum_final_plane_rotation_rad"
+  ],
+  "title": "CriticalPlaneAdaptiveSearch",
+  "type": "object"
+}

@@ -1,0 +1,562 @@
+{
+  "$defs": {
+    "CallerQualityLimit": {
+      "additionalProperties": false,
+      "properties": {
+        "limit_id": {
+          "minLength": 1,
+          "title": "Limit Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "limit_basis": {
+          "minLength": 1,
+          "title": "Limit Basis",
+          "type": "string"
+        },
+        "caller_disposition_id_if_outside": {
+          "minLength": 1,
+          "title": "Caller Disposition Id If Outside",
+          "type": "string"
+        }
+      },
+      "required": [
+        "limit_id",
+        "metric_definition",
+        "unit",
+        "limit_basis",
+        "caller_disposition_id_if_outside"
+      ],
+      "title": "CallerQualityLimit",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HeatTreatmentRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "treatment_id": {
+          "minLength": 1,
+          "title": "Treatment Id",
+          "type": "string"
+        },
+        "treatment_type": {
+          "minLength": 1,
+          "title": "Treatment Type",
+          "type": "string"
+        },
+        "start_time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Time S"
+        },
+        "end_time_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Time S"
+        },
+        "minimum_recorded_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Recorded Temperature K"
+        },
+        "maximum_recorded_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Recorded Temperature K"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "treatment_id",
+        "treatment_type",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HeatTreatmentRecord",
+      "type": "object"
+    },
+    "QualityInspectionRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "examination_method_id": {
+          "minLength": 1,
+          "title": "Examination Method Id",
+          "type": "string"
+        },
+        "target_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Target Extent",
+          "type": "number"
+        },
+        "examined_extent": {
+          "minimum": 0,
+          "title": "Examined Extent",
+          "type": "number"
+        },
+        "extent_unit": {
+          "minLength": 1,
+          "title": "Extent Unit",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "unexamined_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unexamined Basis"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "physical_location_id",
+        "examination_method_id",
+        "target_extent",
+        "examined_extent",
+        "extent_unit",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "QualityInspectionRegion",
+      "type": "object"
+    },
+    "QualityObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "reported_indication_type": {
+          "minLength": 1,
+          "title": "Reported Indication Type",
+          "type": "string"
+        },
+        "measurement_definition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measurement Definition"
+        },
+        "measured_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "caller_limit_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Limit Id"
+        },
+        "caller_reported_disposition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Reported Disposition Id"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "region_id",
+        "reported_indication_type",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "QualityObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "manufacturing_route_id": {
+      "minLength": 1,
+      "title": "Manufacturing Route Id",
+      "type": "string"
+    },
+    "manufacturing_route_description": {
+      "minLength": 1,
+      "title": "Manufacturing Route Description",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "heat_treatments": {
+      "items": {
+        "$ref": "#/$defs/HeatTreatmentRecord"
+      },
+      "title": "Heat Treatments",
+      "type": "array"
+    },
+    "inspection_regions": {
+      "items": {
+        "$ref": "#/$defs/QualityInspectionRegion"
+      },
+      "minItems": 1,
+      "title": "Inspection Regions",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/QualityObservation"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "caller_limits": {
+      "items": {
+        "$ref": "#/$defs/CallerQualityLimit"
+      },
+      "title": "Caller Limits",
+      "type": "array"
+    },
+    "component_heat_and_route_reviewed": {
+      "title": "Component Heat And Route Reviewed",
+      "type": "boolean"
+    },
+    "heat_treatment_history_reviewed": {
+      "title": "Heat Treatment History Reviewed",
+      "type": "boolean"
+    },
+    "inspection_region_mapping_reviewed": {
+      "title": "Inspection Region Mapping Reviewed",
+      "type": "boolean"
+    },
+    "examination_coverage_reviewed": {
+      "title": "Examination Coverage Reviewed",
+      "type": "boolean"
+    },
+    "indication_classification_reviewed": {
+      "title": "Indication Classification Reviewed",
+      "type": "boolean"
+    },
+    "measurement_units_and_uncertainty_reviewed": {
+      "title": "Measurement Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "caller_limit_mapping_reviewed": {
+      "title": "Caller Limit Mapping Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "heat_id",
+    "manufacturing_route_id",
+    "manufacturing_route_description",
+    "material_condition_id",
+    "inspection_regions",
+    "component_heat_and_route_reviewed",
+    "heat_treatment_history_reviewed",
+    "inspection_region_mapping_reviewed",
+    "examination_coverage_reviewed",
+    "indication_classification_reviewed",
+    "measurement_units_and_uncertainty_reviewed",
+    "caller_limit_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "CastingForgingQualityRecord",
+  "type": "object"
+}

@@ -1,0 +1,131 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "metal_atoms_per_reaction_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Atoms Per Reaction Extent",
+      "type": "number"
+    },
+    "metal_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "metal_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Density Kg M3",
+      "type": "number"
+    },
+    "scale_moles_per_metal_mole": {
+      "minimum": 0,
+      "title": "Scale Moles Per Metal Mole",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "alloy_volume_additivity_reviewed": {
+      "title": "Alloy Volume Additivity Reviewed",
+      "type": "boolean"
+    },
+    "metal_to_scale_stoichiometry_reviewed": {
+      "title": "Metal To Scale Stoichiometry Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "metal_atoms_per_reaction_extent",
+    "metal_molar_mass_kg_mol",
+    "metal_density_kg_m3",
+    "scale_moles_per_metal_mole",
+    "provider_id",
+    "provider_revision",
+    "source_record_id",
+    "evidence",
+    "alloy_volume_additivity_reviewed",
+    "metal_to_scale_stoichiometry_reviewed"
+  ],
+  "title": "WetCo2MetalToScaleYield",
+  "type": "object"
+}

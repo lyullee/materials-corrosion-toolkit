@@ -1,0 +1,183 @@
+{
+  "additionalProperties": false,
+  "description": "Caller-supplied row evidence without redistributing a literature table.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_literature_evidence_row.v1",
+      "default": "matintegrity.wet_co2_literature_evidence_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "evidence_id": {
+      "minLength": 1,
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "source_locator": {
+      "minLength": 1,
+      "title": "Source Locator",
+      "type": "string"
+    },
+    "bibliographic_id": {
+      "minLength": 1,
+      "title": "Bibliographic Id",
+      "type": "string"
+    },
+    "bibliographic_link_status": {
+      "enum": [
+        "primary_source_row",
+        "secondary_reproduction_row",
+        "candidate_only"
+      ],
+      "title": "Bibliographic Link Status",
+      "type": "string"
+    },
+    "compilation_row_link_status": {
+      "enum": [
+        "provider_explicit",
+        "bibliographically_supported_numeric_sequence",
+        "candidate_only"
+      ],
+      "title": "Compilation Row Link Status",
+      "type": "string"
+    },
+    "compilation_row_link_basis_id": {
+      "minLength": 1,
+      "title": "Compilation Row Link Basis Id",
+      "type": "string"
+    },
+    "evidence_asset_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evidence Asset Sha256",
+      "type": "string"
+    },
+    "source_values": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "minProperties": 1,
+      "title": "Source Values",
+      "type": "object"
+    },
+    "source_data_role": {
+      "enum": [
+        "experimental_autoclave_observation",
+        "field_observation",
+        "simulated_model_output",
+        "unresolved"
+      ],
+      "title": "Source Data Role",
+      "type": "string"
+    },
+    "publication_license_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Publication License Id"
+    },
+    "observation_redistribution_status": {
+      "enum": [
+        "not_verified",
+        "permission_confirmed"
+      ],
+      "title": "Observation Redistribution Status",
+      "type": "string"
+    },
+    "data_dictionary_status": {
+      "enum": [
+        "complete",
+        "partial",
+        "unreviewed"
+      ],
+      "title": "Data Dictionary Status",
+      "type": "string"
+    },
+    "physical_specimen_identity_status": {
+      "enum": [
+        "confirmed",
+        "unresolved",
+        "not_applicable"
+      ],
+      "title": "Physical Specimen Identity Status",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Physical Specimen Id"
+    },
+    "material_condition_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Material Condition Id"
+    },
+    "exposure_duration_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Exposure Duration S"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "source_group_id",
+    "source_record_id",
+    "source_locator",
+    "bibliographic_id",
+    "bibliographic_link_status",
+    "compilation_row_link_status",
+    "compilation_row_link_basis_id",
+    "evidence_asset_sha256",
+    "source_values",
+    "source_data_role",
+    "observation_redistribution_status",
+    "data_dictionary_status",
+    "physical_specimen_identity_status"
+  ],
+  "title": "WetCo2LiteratureEvidenceRow",
+  "type": "object"
+}

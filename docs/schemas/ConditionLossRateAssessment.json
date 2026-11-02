@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "CalibratedConditionLossLaw": {
+      "additionalProperties": false,
+      "properties": {
+        "law_id": {
+          "minLength": 1,
+          "title": "Law Id",
+          "type": "string"
+        },
+        "mechanism": {
+          "enum": [
+            "microbial",
+            "cavitation"
+          ],
+          "title": "Mechanism",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "reference_loss_rate_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Loss Rate M S",
+          "type": "number"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/$defs/LossRateFeature"
+          },
+          "minItems": 1,
+          "title": "Features",
+          "type": "array"
+        },
+        "interactions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/LogRateInteraction"
+          },
+          "title": "Interactions",
+          "type": "array"
+        },
+        "calibration_and_feature_interpretation_reviewed": {
+          "title": "Calibration And Feature Interpretation Reviewed",
+          "type": "boolean"
+        },
+        "calibration_computational_use_authorized": {
+          "title": "Calibration Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "law_id",
+        "mechanism",
+        "material_condition_id",
+        "provider_id",
+        "provider_revision",
+        "calibration_sha256",
+        "reference_loss_rate_m_s",
+        "features",
+        "calibration_and_feature_interpretation_reviewed",
+        "calibration_computational_use_authorized"
+      ],
+      "title": "CalibratedConditionLossLaw",
+      "type": "object"
+    },
+    "LogRateInteraction": {
+      "additionalProperties": false,
+      "properties": {
+        "first_feature_id": {
+          "minLength": 1,
+          "title": "First Feature Id",
+          "type": "string"
+        },
+        "second_feature_id": {
+          "minLength": 1,
+          "title": "Second Feature Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "first_feature_id",
+        "second_feature_id",
+        "coefficient"
+      ],
+      "title": "LogRateInteraction",
+      "type": "object"
+    },
+    "LossCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "feature_values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Feature Values",
+          "type": "object"
+        },
+        "feature_units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Feature Units",
+          "type": "object"
+        },
+        "condition_and_measurement_basis_reviewed": {
+          "title": "Condition And Measurement Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "condition_id",
+        "source_sha256",
+        "feature_values",
+        "feature_units",
+        "condition_and_measurement_basis_reviewed"
+      ],
+      "title": "LossCondition",
+      "type": "object"
+    },
+    "LossRateFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "reference_value": {
+          "title": "Reference Value",
+          "type": "number"
+        },
+        "normalization_scale": {
+          "exclusiveMinimum": 0,
+          "title": "Normalization Scale",
+          "type": "number"
+        },
+        "minimum_valid_value": {
+          "title": "Minimum Valid Value",
+          "type": "number"
+        },
+        "maximum_valid_value": {
+          "title": "Maximum Valid Value",
+          "type": "number"
+        },
+        "log_rate_coefficient": {
+          "title": "Log Rate Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "feature_id",
+        "unit",
+        "reference_value",
+        "normalization_scale",
+        "minimum_valid_value",
+        "maximum_valid_value",
+        "log_rate_coefficient"
+      ],
+      "title": "LossRateFeature",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "law": {
+      "$ref": "#/$defs/CalibratedConditionLossLaw"
+    },
+    "condition": {
+      "$ref": "#/$defs/LossCondition"
+    }
+  },
+  "required": [
+    "law",
+    "condition"
+  ],
+  "title": "ConditionLossRateAssessment",
+  "type": "object"
+}

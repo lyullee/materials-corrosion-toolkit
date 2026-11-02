@@ -1,0 +1,415 @@
+{
+  "$defs": {
+    "CriticalPlaneCandidate": {
+      "additionalProperties": false,
+      "description": "One caller-declared plane normal and one shear direction in that plane.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Normal",
+          "type": "array"
+        },
+        "in_plane_direction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "In Plane Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "in_plane_direction"
+      ],
+      "title": "CriticalPlaneCandidate",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GSALifeCurvePoint": {
+      "additionalProperties": false,
+      "description": "One caller-provided GSA-to-life calibration point.",
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "gsa_parameter": {
+          "exclusiveMinimum": 0,
+          "title": "Gsa Parameter",
+          "type": "number"
+        },
+        "cycles_to_failure": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles To Failure",
+          "type": "number"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "gsa_parameter",
+        "cycles_to_failure",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "GSALifeCurvePoint",
+      "type": "object"
+    },
+    "InceGlinkaGSACalculation": {
+      "additionalProperties": false,
+      "description": "One closed tensor cycle and caller-declared elastic/plastic strain split.",
+      "properties": {
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "source_provider_id": {
+          "minLength": 1,
+          "title": "Source Provider Id",
+          "type": "string"
+        },
+        "source_provider_revision": {
+          "minLength": 1,
+          "title": "Source Provider Revision",
+          "type": "string"
+        },
+        "configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Sha256",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 100000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "elastic_strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 100000,
+          "minItems": 3,
+          "title": "Elastic Strain Tensor Components",
+          "type": "array"
+        },
+        "plastic_strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 100000,
+          "minItems": 3,
+          "title": "Plastic Strain Tensor Components",
+          "type": "array"
+        },
+        "candidate_planes": {
+          "items": {
+            "$ref": "#/$defs/CriticalPlaneCandidate"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Candidate Planes",
+          "type": "array"
+        },
+        "shear_fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Shear Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "axial_fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Axial Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "maximum_stress_closure_error_Pa": {
+          "minimum": 0,
+          "title": "Maximum Stress Closure Error Pa",
+          "type": "number"
+        },
+        "maximum_elastic_strain_closure_error": {
+          "minimum": 0,
+          "title": "Maximum Elastic Strain Closure Error",
+          "type": "number"
+        },
+        "maximum_plastic_strain_closure_error": {
+          "minimum": 0,
+          "title": "Maximum Plastic Strain Closure Error",
+          "type": "number"
+        },
+        "maximum_plane_sample_evaluations": {
+          "default": 2000000,
+          "maximum": 50000000,
+          "minimum": 1,
+          "title": "Maximum Plane Sample Evaluations",
+          "type": "integer"
+        },
+        "representative_cycle_and_tensor_convention_reviewed": {
+          "title": "Representative Cycle And Tensor Convention Reviewed",
+          "type": "boolean"
+        },
+        "elastic_plastic_decomposition_reviewed": {
+          "title": "Elastic Plastic Decomposition Reviewed",
+          "type": "boolean"
+        },
+        "plane_grid_support_reviewed": {
+          "title": "Plane Grid Support Reviewed",
+          "type": "boolean"
+        },
+        "material_parameter_basis_and_units_reviewed": {
+          "title": "Material Parameter Basis And Units Reviewed",
+          "type": "boolean"
+        },
+        "source_use_rights_reviewed": {
+          "title": "Source Use Rights Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "material_condition_id",
+        "location_id",
+        "source_provider_id",
+        "source_provider_revision",
+        "configuration_sha256",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "elastic_strain_tensor_components",
+        "plastic_strain_tensor_components",
+        "candidate_planes",
+        "shear_fatigue_strength_coefficient_Pa",
+        "axial_fatigue_strength_coefficient_Pa",
+        "maximum_stress_closure_error_Pa",
+        "maximum_elastic_strain_closure_error",
+        "maximum_plastic_strain_closure_error",
+        "representative_cycle_and_tensor_convention_reviewed",
+        "elastic_plastic_decomposition_reviewed",
+        "plane_grid_support_reviewed",
+        "material_parameter_basis_and_units_reviewed",
+        "source_use_rights_reviewed",
+        "computational_use_authorized",
+        "evidence"
+      ],
+      "title": "InceGlinkaGSACalculation",
+      "type": "object"
+    },
+    "InceGlinkaGSACurveLife": {
+      "additionalProperties": false,
+      "description": "Evaluate one repeated closed cycle against a caller-reviewed life curve.\n\nThe curve abscissa is the dimensionless maximum GSA parameter returned by\n``ince_glinka_gsa_parameter``. Interpolation is linear in log(GSA) and\nlog(cycles), strictly between caller-supplied points.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.ince_glinka_gsa_curve_life.v1",
+          "default": "matintegrity.ince_glinka_gsa_curve_life.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "calculation": {
+          "$ref": "#/$defs/InceGlinkaGSACalculation"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_material_condition_id": {
+          "minLength": 1,
+          "title": "Calibration Material Condition Id",
+          "type": "string"
+        },
+        "cycles_definition": {
+          "minLength": 1,
+          "title": "Cycles Definition",
+          "type": "string"
+        },
+        "curve_points": {
+          "items": {
+            "$ref": "#/$defs/GSALifeCurvePoint"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Curve Points",
+          "type": "array"
+        },
+        "interpolation_reviewed": {
+          "title": "Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "repeated_cycle_assumption_reviewed": {
+          "title": "Repeated Cycle Assumption Reviewed",
+          "type": "boolean"
+        },
+        "material_condition_and_curve_applicability_reviewed": {
+          "title": "Material Condition And Curve Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "calculation",
+        "calibration_id",
+        "calibration_material_condition_id",
+        "cycles_definition",
+        "curve_points",
+        "interpolation_reviewed",
+        "repeated_cycle_assumption_reviewed",
+        "material_condition_and_curve_applicability_reviewed"
+      ],
+      "title": "InceGlinkaGSACurveLife",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One caller-counted representative closed tensor cycle and its life curve.",
+  "properties": {
+    "cycle_group_id": {
+      "minLength": 1,
+      "title": "Cycle Group Id",
+      "type": "string"
+    },
+    "allocated_cycle_count": {
+      "exclusiveMinimum": 0,
+      "title": "Allocated Cycle Count",
+      "type": "number"
+    },
+    "life_request": {
+      "$ref": "#/$defs/InceGlinkaGSACurveLife"
+    }
+  },
+  "required": [
+    "cycle_group_id",
+    "allocated_cycle_count",
+    "life_request"
+  ],
+  "title": "InceGlinkaCycleGroup",
+  "type": "object"
+}

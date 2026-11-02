@@ -1,0 +1,339 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CreviceElectrolyteVolumeKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "liquid_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Volume M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_s",
+        "liquid_volume_m3"
+      ],
+      "title": "CreviceElectrolyteVolumeKnot",
+      "type": "object"
+    },
+    "CreviceInitialSpeciesInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "initial_amount_mol": {
+          "minimum": 0,
+          "title": "Initial Amount Mol",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "initial_amount_mol"
+      ],
+      "title": "CreviceInitialSpeciesInventory",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_electrochemical_composition_history.v1",
+      "default": "matintegrity.crevice_electrochemical_composition_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "transfer_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "transfer_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Transfer Result Sha256",
+      "type": "string"
+    },
+    "initial_inventory": {
+      "items": {
+        "$ref": "#/$defs/CreviceInitialSpeciesInventory"
+      },
+      "minItems": 1,
+      "title": "Initial Inventory",
+      "type": "array"
+    },
+    "liquid_volume_history": {
+      "items": {
+        "$ref": "#/$defs/CreviceElectrolyteVolumeKnot"
+      },
+      "minItems": 2,
+      "title": "Liquid Volume History",
+      "type": "array"
+    },
+    "complete_species_inventory_reviewed": {
+      "title": "Complete Species Inventory Reviewed",
+      "type": "boolean"
+    },
+    "all_other_sources_and_sinks_included_reviewed": {
+      "title": "All Other Sources And Sinks Included Reviewed",
+      "type": "boolean"
+    },
+    "well_mixed_single_volume_reviewed": {
+      "title": "Well Mixed Single Volume Reviewed",
+      "type": "boolean"
+    },
+    "fixed_basis_and_interval_transfer_mapping_reviewed": {
+      "title": "Fixed Basis And Interval Transfer Mapping Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "transfer_result",
+    "transfer_result_sha256",
+    "initial_inventory",
+    "liquid_volume_history",
+    "complete_species_inventory_reviewed",
+    "all_other_sources_and_sinks_included_reviewed",
+    "well_mixed_single_volume_reviewed",
+    "fixed_basis_and_interval_transfer_mapping_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceElectrochemicalCompositionHistory",
+  "type": "object"
+}

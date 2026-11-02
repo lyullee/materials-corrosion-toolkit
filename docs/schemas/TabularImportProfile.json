@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "TabularFieldMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "target_path": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Target Path",
+          "type": "array"
+        },
+        "source_path": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Path"
+        },
+        "constant_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Constant Value"
+        },
+        "value_type": {
+          "default": "string",
+          "enum": [
+            "string",
+            "integer",
+            "number",
+            "boolean",
+            "json",
+            "json_tuple"
+          ],
+          "title": "Value Type",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "empty_as_missing": {
+          "default": true,
+          "title": "Empty As Missing",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "target_path"
+      ],
+      "title": "TabularFieldMapping",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.tabular_import_profile.v1",
+      "default": "matintegrity.tabular_import_profile.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "target_contract": {
+      "minLength": 1,
+      "title": "Target Contract",
+      "type": "string"
+    },
+    "mappings": {
+      "items": {
+        "$ref": "#/$defs/TabularFieldMapping"
+      },
+      "minItems": 1,
+      "title": "Mappings",
+      "type": "array"
+    },
+    "delimiter": {
+      "default": ",",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Delimiter",
+      "type": "string"
+    },
+    "allow_unmapped_source_fields": {
+      "default": false,
+      "title": "Allow Unmapped Source Fields",
+      "type": "boolean"
+    },
+    "expected_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Source Sha256"
+    },
+    "expected_target_schema_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Target Schema Digest"
+    }
+  },
+  "required": [
+    "profile_id",
+    "target_contract",
+    "mappings"
+  ],
+  "title": "TabularImportProfile",
+  "type": "object"
+}

@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "CMSX6LISColumnValue": {
+      "additionalProperties": false,
+      "description": "One tabular cell with provider tokens and a locale-declared parse, if numeric.",
+      "properties": {
+        "field_position": {
+          "minimum": 0,
+          "title": "Field Position",
+          "type": "integer"
+        },
+        "label_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Token"
+        },
+        "symbol_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol Token"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "raw_value_token": {
+          "title": "Raw Value Token",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numeric Value"
+        },
+        "numeric_parse_status": {
+          "enum": [
+            "integer",
+            "dot_decimal",
+            "comma_decimal",
+            "non_numeric",
+            "header_alignment_unknown"
+          ],
+          "title": "Numeric Parse Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_position",
+        "raw_value_token",
+        "numeric_parse_status"
+      ],
+      "title": "CMSX6LISColumnValue",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One original physical line, represented without assigning material semantics.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.cmsx6_creep_lis_typed_row.v1",
+      "default": "matintegrity.cmsx6_creep_lis_typed_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "cmsx6-creep",
+      "default": "cmsx6-creep",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.5281/zenodo.14750432",
+      "default": "10.5281/zenodo.14750432",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "const": "Vh5205_C-97.LIS",
+      "default": "Vh5205_C-97.LIS",
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Source File Md5",
+      "type": "string"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "maximum": 2000000,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "source_row_order": {
+      "minimum": 0,
+      "title": "Source Row Order",
+      "type": "integer"
+    },
+    "source_physical_line": {
+      "minimum": 1,
+      "title": "Source Physical Line",
+      "type": "integer"
+    },
+    "section": {
+      "enum": [
+        "file_header",
+        "metadata",
+        "time_series"
+      ],
+      "title": "Section",
+      "type": "string"
+    },
+    "row_kind": {
+      "enum": [
+        "header",
+        "blank",
+        "metadata",
+        "metadata_continuation",
+        "section_marker",
+        "column_labels",
+        "column_symbols",
+        "column_units",
+        "data",
+        "unclassified"
+      ],
+      "title": "Row Kind",
+      "type": "string"
+    },
+    "raw_text": {
+      "title": "Raw Text",
+      "type": "string"
+    },
+    "raw_tokens": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Raw Tokens",
+      "type": "array"
+    },
+    "values": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CMSX6LISColumnValue"
+      },
+      "title": "Values",
+      "type": "array"
+    },
+    "alignment_issue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Alignment Issue"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "material_strength_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Material Strength Inferred",
+      "type": "boolean"
+    },
+    "creep_law_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Creep Law Inferred",
+      "type": "boolean"
+    },
+    "lifetime_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Lifetime Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_file_md5",
+    "source_file_sha256",
+    "source_file_bytes",
+    "source_row_order",
+    "source_physical_line",
+    "section",
+    "row_kind",
+    "raw_text",
+    "raw_tokens",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "CMSX6LISTypedRow",
+  "type": "object"
+}

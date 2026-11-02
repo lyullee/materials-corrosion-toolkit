@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "solidus_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Solidus Temperature K",
+      "type": "number"
+    },
+    "thermal_conductivity_W_mK": {
+      "exclusiveMinimum": 0,
+      "title": "Thermal Conductivity W Mk",
+      "type": "number"
+    },
+    "conductivity_reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Conductivity Reference Temperature K",
+      "type": "number"
+    },
+    "reciprocal_conductivity_coefficient_W_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reciprocal Conductivity Coefficient W M",
+      "type": "number"
+    },
+    "minimum_supported_conductivity_W_mK": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Conductivity W Mk",
+      "type": "number"
+    },
+    "maximum_supported_conductivity_W_mK": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Conductivity W Mk",
+      "type": "number"
+    },
+    "minimum_supported_solidus_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Solidus Temperature K",
+      "type": "number"
+    },
+    "maximum_supported_solidus_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Solidus Temperature K",
+      "type": "number"
+    }
+  },
+  "required": [
+    "basis",
+    "material_condition_id",
+    "correlation_id",
+    "solidus_temperature_K",
+    "thermal_conductivity_W_mK",
+    "conductivity_reference_temperature_K",
+    "reciprocal_conductivity_coefficient_W_m",
+    "minimum_supported_conductivity_W_mK",
+    "maximum_supported_conductivity_W_mK",
+    "minimum_supported_solidus_temperature_K",
+    "maximum_supported_solidus_temperature_K"
+  ],
+  "title": "ConductivityPreheatCorrelation",
+  "type": "object"
+}

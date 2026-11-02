@@ -1,0 +1,181 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2FiniteGasStageSpeciationProductTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "exponent"
+      ],
+      "title": "WetCo2FiniteGasStageSpeciationProductTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "phase_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Phase Id",
+      "type": "string"
+    },
+    "species_moles_per_mole_solid": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Species Moles Per Mole Solid",
+      "type": "object"
+    },
+    "phase_element_composition": {
+      "additionalProperties": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Phase Element Composition",
+      "type": "object"
+    },
+    "activity_product_terms": {
+      "items": {
+        "$ref": "#/$defs/WetCo2FiniteGasStageSpeciationProductTerm"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Activity Product Terms",
+      "type": "array"
+    },
+    "log_solubility_activity_product": {
+      "title": "Log Solubility Activity Product",
+      "type": "number"
+    },
+    "precipitation_rate_constant_mol_m2_s": {
+      "minimum": 0,
+      "title": "Precipitation Rate Constant Mol M2 S",
+      "type": "number"
+    },
+    "precipitation_log_supersaturation_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Precipitation Log Supersaturation Exponent",
+      "type": "number"
+    },
+    "dissolution_rate_constant_mol_m2_s": {
+      "minimum": 0,
+      "title": "Dissolution Rate Constant Mol M2 S",
+      "type": "number"
+    },
+    "dissolution_log_undersaturation_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Dissolution Log Undersaturation Exponent",
+      "type": "number"
+    },
+    "maximum_absolute_flux_mol_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Absolute Flux Mol M2 S",
+      "type": "number"
+    },
+    "kinetic_law_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetic Law Sha256",
+      "type": "string"
+    },
+    "kinetic_law_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Kinetic Law Evidence",
+      "type": "array"
+    },
+    "chemistry_and_rate_law_reviewed": {
+      "title": "Chemistry And Rate Law Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "phase_id",
+    "species_moles_per_mole_solid",
+    "phase_element_composition",
+    "activity_product_terms",
+    "log_solubility_activity_product",
+    "precipitation_rate_constant_mol_m2_s",
+    "precipitation_log_supersaturation_exponent",
+    "dissolution_rate_constant_mol_m2_s",
+    "dissolution_log_undersaturation_exponent",
+    "maximum_absolute_flux_mol_m2_s",
+    "kinetic_law_sha256",
+    "kinetic_law_evidence",
+    "chemistry_and_rate_law_reviewed"
+  ],
+  "title": "WetCo2FiniteGasStageSpeciationKineticPhase",
+  "type": "object"
+}

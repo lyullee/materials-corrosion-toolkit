@@ -1,0 +1,662 @@
+{
+  "$defs": {
+    "CallerReplicaObservationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "microscope_id": {
+          "minLength": 1,
+          "title": "Microscope Id",
+          "type": "string"
+        },
+        "microscope_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Microscope Configuration Digest",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "supported_morphology_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Morphology Descriptors",
+          "type": "array"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "minimum_supported_value": {
+          "title": "Minimum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_value": {
+          "title": "Maximum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Maximum Supported Expanded Uncertainty",
+          "type": "number"
+        },
+        "minimum_supported_replicated_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Replicated Area M2",
+          "type": "number"
+        },
+        "maximum_supported_replicated_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Replicated Area M2",
+          "type": "number"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "provider_qualification": {
+          "$ref": "#/$defs/ReplicaProviderQualification"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "method_id",
+        "microscope_id",
+        "microscope_configuration_digest",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "supported_morphology_descriptors",
+        "metric_definition",
+        "unit",
+        "minimum_supported_value",
+        "maximum_supported_value",
+        "maximum_supported_expanded_uncertainty",
+        "minimum_supported_replicated_area_m2",
+        "maximum_supported_replicated_area_m2",
+        "applicability_basis",
+        "provider_qualification",
+        "evidence"
+      ],
+      "title": "CallerReplicaObservationEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReplicaMicrostructureObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "replica_site_id": {
+          "minLength": 1,
+          "title": "Replica Site Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout",
+            "application"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "microscope_id": {
+          "minLength": 1,
+          "title": "Microscope Id",
+          "type": "string"
+        },
+        "microscope_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Microscope Configuration Digest",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "morphology_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Morphology Descriptor"
+        },
+        "metric_definition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Definition"
+        },
+        "observed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage Factor"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "uncertainty_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Basis"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_available": {
+          "title": "Record Available",
+          "type": "boolean"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "replica_site_id",
+        "partition",
+        "physical_source_group_id",
+        "method_id",
+        "microscope_id",
+        "microscope_configuration_digest",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "record_available",
+        "evidence"
+      ],
+      "title": "ReplicaMicrostructureObservation",
+      "type": "object"
+    },
+    "ReplicaProviderQualification": {
+      "additionalProperties": false,
+      "properties": {
+        "qualification_id": {
+          "minLength": 1,
+          "title": "Qualification Id",
+          "type": "string"
+        },
+        "calibration_dataset_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Dataset Digest",
+          "type": "string"
+        },
+        "holdout_dataset_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Holdout Dataset Digest",
+          "type": "string"
+        },
+        "calibration_physical_source_group_count": {
+          "minimum": 1,
+          "title": "Calibration Physical Source Group Count",
+          "type": "integer"
+        },
+        "holdout_physical_source_group_count": {
+          "minimum": 1,
+          "title": "Holdout Physical Source Group Count",
+          "type": "integer"
+        },
+        "calibration_and_holdout_independent": {
+          "title": "Calibration And Holdout Independent",
+          "type": "boolean"
+        },
+        "validation_metric_definition": {
+          "minLength": 1,
+          "title": "Validation Metric Definition",
+          "type": "string"
+        },
+        "validation_metric_value": {
+          "minimum": 0,
+          "title": "Validation Metric Value",
+          "type": "number"
+        },
+        "validation_metric_unit": {
+          "minLength": 1,
+          "title": "Validation Metric Unit",
+          "type": "string"
+        },
+        "maximum_supported_validation_metric": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Validation Metric",
+          "type": "number"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "qualification_id",
+        "calibration_dataset_digest",
+        "holdout_dataset_digest",
+        "calibration_physical_source_group_count",
+        "holdout_physical_source_group_count",
+        "calibration_and_holdout_independent",
+        "validation_metric_definition",
+        "validation_metric_value",
+        "validation_metric_unit",
+        "maximum_supported_validation_metric",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "ReplicaProviderQualification",
+      "type": "object"
+    },
+    "ReplicaSiteRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "replica_site_id": {
+          "minLength": 1,
+          "title": "Replica Site Id",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "location_definition": {
+          "minLength": 1,
+          "title": "Location Definition",
+          "type": "string"
+        },
+        "replicated_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Replicated Area M2",
+          "type": "number"
+        },
+        "surface_preparation_id": {
+          "minLength": 1,
+          "title": "Surface Preparation Id",
+          "type": "string"
+        },
+        "surface_preparation_description": {
+          "minLength": 1,
+          "title": "Surface Preparation Description",
+          "type": "string"
+        },
+        "surface_preparation_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Surface Preparation Digest",
+          "type": "string"
+        },
+        "preparation_record_valid": {
+          "title": "Preparation Record Valid",
+          "type": "boolean"
+        },
+        "invalid_preparation_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Preparation Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "replica_site_id",
+        "physical_source_group_id",
+        "location_definition",
+        "replicated_area_m2",
+        "surface_preparation_id",
+        "surface_preparation_description",
+        "surface_preparation_digest",
+        "preparation_record_valid",
+        "evidence"
+      ],
+      "title": "ReplicaSiteRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "replica_sites": {
+      "items": {
+        "$ref": "#/$defs/ReplicaSiteRecord"
+      },
+      "minItems": 1,
+      "title": "Replica Sites",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ReplicaMicrostructureObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/CallerReplicaObservationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "component_material_and_locations_reviewed": {
+      "title": "Component Material And Locations Reviewed",
+      "type": "boolean"
+    },
+    "physical_source_groups_reviewed": {
+      "title": "Physical Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "surface_preparation_records_reviewed": {
+      "title": "Surface Preparation Records Reviewed",
+      "type": "boolean"
+    },
+    "method_and_microscope_configuration_reviewed": {
+      "title": "Method And Microscope Configuration Reviewed",
+      "type": "boolean"
+    },
+    "provider_identity_and_state_reviewed": {
+      "title": "Provider Identity And State Reviewed",
+      "type": "boolean"
+    },
+    "morphology_and_metric_definitions_reviewed": {
+      "title": "Morphology And Metric Definitions Reviewed",
+      "type": "boolean"
+    },
+    "units_and_uncertainty_reviewed": {
+      "title": "Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "result_digests_and_missingness_reviewed": {
+      "title": "Result Digests And Missingness Reviewed",
+      "type": "boolean"
+    },
+    "calibration_and_holdout_reviewed": {
+      "title": "Calibration And Holdout Reviewed",
+      "type": "boolean"
+    },
+    "caller_envelope_authority_reviewed": {
+      "title": "Caller Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "material_condition_id",
+    "replica_sites",
+    "observations",
+    "candidate_envelopes",
+    "component_material_and_locations_reviewed",
+    "physical_source_groups_reviewed",
+    "surface_preparation_records_reviewed",
+    "method_and_microscope_configuration_reviewed",
+    "provider_identity_and_state_reviewed",
+    "morphology_and_metric_definitions_reviewed",
+    "units_and_uncertainty_reviewed",
+    "result_digests_and_missingness_reviewed",
+    "calibration_and_holdout_reviewed",
+    "caller_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "ReplicaMetallographyEvidenceAssessment",
+  "type": "object"
+}

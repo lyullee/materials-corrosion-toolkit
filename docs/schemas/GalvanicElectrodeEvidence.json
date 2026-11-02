@@ -1,0 +1,246 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PolarizationCurve": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.polarization_curve.v1",
+          "default": "matintegrity.polarization_curve.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "surface_condition_id": {
+          "minLength": 1,
+          "title": "Surface Condition Id",
+          "type": "string"
+        },
+        "protocol_id": {
+          "minLength": 1,
+          "title": "Protocol Id",
+          "type": "string"
+        },
+        "electrolyte_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Electrolyte Id"
+        },
+        "reference_electrode_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Electrode Id"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "point_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20000,
+          "minItems": 2,
+          "title": "Point Ids",
+          "type": "array"
+        },
+        "potential_V": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 20000,
+          "minItems": 2,
+          "title": "Potential V",
+          "type": "array"
+        },
+        "signed_net_current_density_A_m2": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 20000,
+          "minItems": 2,
+          "title": "Signed Net Current Density A M2",
+          "type": "array"
+        },
+        "current_convention": {
+          "default": "anodic_positive_net",
+          "enum": [
+            "anodic_positive_net",
+            "unreviewed_signed_net"
+          ],
+          "title": "Current Convention",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "curve_id",
+        "surface_condition_id",
+        "protocol_id",
+        "point_ids",
+        "potential_V",
+        "signed_net_current_density_A_m2",
+        "evidence"
+      ],
+      "title": "PolarizationCurve",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "electrode_id": {
+      "minLength": 1,
+      "title": "Electrode Id",
+      "type": "string"
+    },
+    "metal_id": {
+      "minLength": 1,
+      "title": "Metal Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "exposed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Exposed Area M2",
+      "type": "number"
+    },
+    "polarization_curve": {
+      "$ref": "#/$defs/PolarizationCurve"
+    },
+    "curve_provider_id": {
+      "minLength": 1,
+      "title": "Curve Provider Id",
+      "type": "string"
+    },
+    "curve_provider_revision": {
+      "minLength": 1,
+      "title": "Curve Provider Revision",
+      "type": "string"
+    },
+    "curve_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Input Digest",
+      "type": "string"
+    },
+    "curve_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Result Digest",
+      "type": "string"
+    },
+    "curve_support_reviewed": {
+      "title": "Curve Support Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "electrode_id",
+    "metal_id",
+    "material_condition_id",
+    "exposed_area_m2",
+    "polarization_curve",
+    "curve_provider_id",
+    "curve_provider_revision",
+    "curve_input_digest",
+    "curve_result_digest",
+    "curve_support_reviewed"
+  ],
+  "title": "GalvanicElectrodeEvidence",
+  "type": "object"
+}

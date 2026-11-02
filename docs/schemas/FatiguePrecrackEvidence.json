@@ -1,0 +1,137 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "precrack_method_id": {
+      "minLength": 1,
+      "title": "Precrack Method Id",
+      "type": "string"
+    },
+    "cycle_count": {
+      "minimum": 1,
+      "title": "Cycle Count",
+      "type": "integer"
+    },
+    "maximum_load_value": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Load Value",
+      "type": "number"
+    },
+    "load_unit_token": {
+      "minLength": 1,
+      "title": "Load Unit Token",
+      "type": "string"
+    },
+    "load_ratio": {
+      "title": "Load Ratio",
+      "type": "number"
+    },
+    "frequency_hz": {
+      "exclusiveMinimum": 0,
+      "title": "Frequency Hz",
+      "type": "number"
+    },
+    "precrack_extension": {
+      "exclusiveMinimum": 0,
+      "title": "Precrack Extension",
+      "type": "number"
+    },
+    "extension_unit_token": {
+      "minLength": 1,
+      "title": "Extension Unit Token",
+      "type": "string"
+    },
+    "precrack_front_definition": {
+      "minLength": 1,
+      "title": "Precrack Front Definition",
+      "type": "string"
+    },
+    "precrack_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Precrack Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "precrack_method_id",
+    "cycle_count",
+    "maximum_load_value",
+    "load_unit_token",
+    "load_ratio",
+    "frequency_hz",
+    "precrack_extension",
+    "extension_unit_token",
+    "precrack_front_definition",
+    "precrack_record_digest",
+    "evidence"
+  ],
+  "title": "FatiguePrecrackEvidence",
+  "type": "object"
+}

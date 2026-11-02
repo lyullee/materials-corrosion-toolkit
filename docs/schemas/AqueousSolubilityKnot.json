@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "CandidateSolid": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_id": {
+          "minLength": 1,
+          "title": "Solid Id",
+          "type": "string"
+        },
+        "log10_solubility_product": {
+          "title": "Log10 Solubility Product",
+          "type": "number"
+        },
+        "log10_solubility_product_absolute_bound": {
+          "default": 0.0,
+          "description": "Caller-reviewed absolute bound on the log10 solubility product; interpreted as a deterministic symmetric interval, not a probability distribution.",
+          "maximum": 300.0,
+          "minimum": 0.0,
+          "title": "Log10 Solubility Product Absolute Bound",
+          "type": "number"
+        },
+        "solubility_record_id": {
+          "minLength": 1,
+          "title": "Solubility Record Id",
+          "type": "string"
+        },
+        "solubility_evidence_source_id": {
+          "minLength": 1,
+          "title": "Solubility Evidence Source Id",
+          "type": "string"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/SaturationScreenTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_id",
+        "log10_solubility_product",
+        "solubility_record_id",
+        "solubility_evidence_source_id",
+        "terms"
+      ],
+      "title": "CandidateSolid",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SaturationScreenTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Stoichiometric Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_exponent"
+      ],
+      "title": "SaturationScreenTerm",
+      "type": "object"
+    },
+    "TemperatureSupportedCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate": {
+          "$ref": "#/$defs/CandidateSolid"
+        },
+        "minimum_valid_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Valid Temperature K",
+          "type": "number"
+        },
+        "maximum_valid_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Valid Temperature K",
+          "type": "number"
+        }
+      },
+      "required": [
+        "candidate",
+        "minimum_valid_temperature_K",
+        "maximum_valid_temperature_K"
+      ],
+      "title": "TemperatureSupportedCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "time_s": {
+      "title": "Time S",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "data_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Data Sha256",
+      "type": "string"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/TemperatureSupportedCandidate"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "provider_id",
+    "data_sha256",
+    "candidates",
+    "evidence"
+  ],
+  "title": "AqueousSolubilityKnot",
+  "type": "object"
+}

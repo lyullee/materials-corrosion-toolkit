@@ -1,0 +1,307 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evidence-linked material-law support envelope for one provider revision.",
+  "properties": {
+    "law_id": {
+      "minLength": 1,
+      "title": "Law Id",
+      "type": "string"
+    },
+    "law_revision": {
+      "minLength": 1,
+      "title": "Law Revision",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "stress_measure_id": {
+      "minLength": 1,
+      "title": "Stress Measure Id",
+      "type": "string"
+    },
+    "stress_unit": {
+      "const": "Pa",
+      "title": "Stress Unit",
+      "type": "string"
+    },
+    "stress_component_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Stress Component Order",
+      "type": "array"
+    },
+    "strain_measure_id": {
+      "minLength": 1,
+      "title": "Strain Measure Id",
+      "type": "string"
+    },
+    "strain_unit": {
+      "const": "dimensionless",
+      "title": "Strain Unit",
+      "type": "string"
+    },
+    "strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "stress_component_minimum_Pa": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Stress Component Minimum Pa",
+      "type": "array"
+    },
+    "stress_component_maximum_Pa": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Stress Component Maximum Pa",
+      "type": "array"
+    },
+    "strain_component_minimum": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Strain Component Minimum",
+      "type": "array"
+    },
+    "strain_component_maximum": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Strain Component Maximum",
+      "type": "array"
+    },
+    "minimum_cycle_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Cycle Duration S",
+      "type": "number"
+    },
+    "maximum_cycle_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Cycle Duration S",
+      "type": "number"
+    },
+    "minimum_cycle_count": {
+      "minimum": 1,
+      "title": "Minimum Cycle Count",
+      "type": "integer"
+    },
+    "maximum_cycle_count": {
+      "minimum": 1,
+      "title": "Maximum Cycle Count",
+      "type": "integer"
+    },
+    "minimum_allocated_repetitions": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Allocated Repetitions",
+      "type": "number"
+    },
+    "maximum_allocated_repetitions": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Allocated Repetitions",
+      "type": "number"
+    },
+    "supported_time_reconstructions": {
+      "items": {
+        "enum": [
+          "piecewise_linear",
+          "piecewise_cubic_hermite",
+          "piecewise_pchip",
+          "piecewise_periodic_cubic_spline"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Supported Time Reconstructions",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "tensor_order_and_measurement_definition_reviewed": {
+      "title": "Tensor Order And Measurement Definition Reviewed",
+      "type": "boolean"
+    },
+    "calibration_support_and_transfer_reviewed": {
+      "title": "Calibration Support And Transfer Reviewed",
+      "type": "boolean"
+    },
+    "material_condition_match_reviewed": {
+      "title": "Material Condition Match Reviewed",
+      "type": "boolean"
+    },
+    "cycle_population_scope_reviewed": {
+      "title": "Cycle Population Scope Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "law_id",
+    "law_revision",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "calibration_id",
+    "calibration_sha256",
+    "material_condition_id",
+    "stress_measure_id",
+    "stress_unit",
+    "stress_component_order",
+    "strain_measure_id",
+    "strain_unit",
+    "strain_shear_convention",
+    "stress_component_minimum_Pa",
+    "stress_component_maximum_Pa",
+    "strain_component_minimum",
+    "strain_component_maximum",
+    "minimum_cycle_duration_s",
+    "maximum_cycle_duration_s",
+    "minimum_cycle_count",
+    "maximum_cycle_count",
+    "minimum_allocated_repetitions",
+    "maximum_allocated_repetitions",
+    "supported_time_reconstructions",
+    "evidence",
+    "usage_license_id",
+    "usage_rights_evidence",
+    "tensor_order_and_measurement_definition_reviewed",
+    "calibration_support_and_transfer_reviewed",
+    "material_condition_match_reviewed",
+    "cycle_population_scope_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "MultiaxialFatigueLawProfile",
+  "type": "object"
+}

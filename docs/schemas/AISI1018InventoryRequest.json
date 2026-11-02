@@ -1,0 +1,176 @@
+{
+  "$defs": {
+    "AISI1018FileMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "source_filename": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Source Filename",
+          "type": "string"
+        },
+        "caller_label": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Caller Label",
+          "type": "string"
+        },
+        "mapping_basis": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Mapping Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "source_filename",
+        "caller_label",
+        "mapping_basis",
+        "evidence"
+      ],
+      "title": "AISI1018FileMapping",
+      "type": "object"
+    },
+    "AISI1018ReadAuthorization": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "const": "mendeley-aisi1018-aerobic-consortium-corrosion",
+          "default": "mendeley-aisi1018-aerobic-consortium-corrosion",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.17632/zyy3yktzpf.1",
+          "default": "10.17632/zyy3yktzpf.1",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC-BY-4.0",
+          "default": "CC-BY-4.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "const": true,
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "local_only_authorized": {
+          "const": true,
+          "title": "Local Only Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "attribution",
+        "computational_use_authorized",
+        "local_only_authorized"
+      ],
+      "title": "AISI1018ReadAuthorization",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "local_data_directory": {
+      "minLength": 1,
+      "title": "Local Data Directory",
+      "type": "string"
+    },
+    "authorization": {
+      "$ref": "#/$defs/AISI1018ReadAuthorization"
+    },
+    "include_filenames": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 22,
+      "minItems": 1,
+      "title": "Include Filenames",
+      "type": "array"
+    },
+    "file_mappings": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/AISI1018FileMapping"
+      },
+      "maxItems": 22,
+      "title": "File Mappings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "local_data_directory",
+    "authorization"
+  ],
+  "title": "AISI1018InventoryRequest",
+  "type": "object"
+}

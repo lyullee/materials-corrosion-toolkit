@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "state_id": {
+      "minLength": 1,
+      "title": "State Id",
+      "type": "string"
+    },
+    "wall_thickness_value": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Thickness Value",
+      "type": "number"
+    },
+    "wall_thickness_unit_token": {
+      "minLength": 1,
+      "title": "Wall Thickness Unit Token",
+      "type": "string"
+    },
+    "wall_thickness_basis": {
+      "minLength": 1,
+      "title": "Wall Thickness Basis",
+      "type": "string"
+    },
+    "flaw_definition_id": {
+      "minLength": 1,
+      "title": "Flaw Definition Id",
+      "type": "string"
+    },
+    "flaw_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Flaw State Digest",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "material_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Material State Digest",
+      "type": "string"
+    },
+    "state_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "state_id",
+    "wall_thickness_value",
+    "wall_thickness_unit_token",
+    "wall_thickness_basis",
+    "flaw_definition_id",
+    "flaw_state_digest",
+    "material_id",
+    "material_condition_id",
+    "material_state_digest",
+    "state_record_digest",
+    "evidence"
+  ],
+  "title": "Api581WallFlawMaterialState",
+  "type": "object"
+}

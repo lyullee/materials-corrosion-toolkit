@@ -1,0 +1,559 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FlangeContactFieldRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.flange_contact_field.v1",
+          "default": "matintegrity.flange_contact_field.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "response_provider_id": {
+          "minLength": 1,
+          "title": "Response Provider Id",
+          "type": "string"
+        },
+        "response_provider_revision": {
+          "minLength": 1,
+          "title": "Response Provider Revision",
+          "type": "string"
+        },
+        "response_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Configuration Digest",
+          "type": "string"
+        },
+        "response_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Result Digest",
+          "type": "string"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "circumferential_coordinate_rad": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Circumferential Coordinate Rad",
+          "type": "array"
+        },
+        "gasket_contact_area_m2": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Gasket Contact Area M2",
+          "type": "array"
+        },
+        "gasket_compressive_stiffness_N_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Gasket Compressive Stiffness N M",
+          "type": "array"
+        },
+        "free_closure_without_gasket_m": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Free Closure Without Gasket M",
+          "type": "array"
+        },
+        "flange_relative_compliance_matrix_m_N": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Flange Relative Compliance Matrix M N",
+          "type": "array"
+        },
+        "matrix_symmetry_tolerance_m_N": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "title": "Matrix Symmetry Tolerance M N",
+          "type": "number"
+        },
+        "compliance_psd_tolerance_m_N": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "title": "Compliance Psd Tolerance M N",
+          "type": "number"
+        },
+        "active_set_maximum_iterations": {
+          "default": 10000,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Active Set Maximum Iterations",
+          "type": "integer"
+        },
+        "active_set_work_budget": {
+          "default": 50000000,
+          "maximum": 1000000000,
+          "minimum": 1,
+          "title": "Active Set Work Budget",
+          "type": "integer"
+        },
+        "force_tolerance_N": {
+          "default": 1e-06,
+          "exclusiveMinimum": 0,
+          "title": "Force Tolerance N",
+          "type": "number"
+        },
+        "gap_tolerance_m": {
+          "default": 1e-12,
+          "exclusiveMinimum": 0,
+          "title": "Gap Tolerance M",
+          "type": "number"
+        },
+        "complementarity_tolerance_N_m": {
+          "default": 1e-09,
+          "exclusiveMinimum": 0,
+          "title": "Complementarity Tolerance N M",
+          "type": "number"
+        },
+        "flange_operator_basis_reviewed": {
+          "title": "Flange Operator Basis Reviewed",
+          "type": "boolean"
+        },
+        "response_scope_and_coordinates_reviewed": {
+          "title": "Response Scope And Coordinates Reviewed",
+          "type": "boolean"
+        },
+        "bolt_pressure_and_boundary_load_composition_reviewed": {
+          "title": "Bolt Pressure And Boundary Load Composition Reviewed",
+          "type": "boolean"
+        },
+        "gasket_linearization_and_support_reviewed": {
+          "title": "Gasket Linearization And Support Reviewed",
+          "type": "boolean"
+        },
+        "compression_only_contact_model_reviewed": {
+          "title": "Compression Only Contact Model Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "joint_id",
+        "physical_scope_id",
+        "response_provider_id",
+        "response_provider_revision",
+        "response_configuration_digest",
+        "response_result_digest",
+        "node_ids",
+        "circumferential_coordinate_rad",
+        "gasket_contact_area_m2",
+        "gasket_compressive_stiffness_N_m",
+        "free_closure_without_gasket_m",
+        "flange_relative_compliance_matrix_m_N",
+        "matrix_symmetry_tolerance_m_N",
+        "compliance_psd_tolerance_m_N",
+        "flange_operator_basis_reviewed",
+        "response_scope_and_coordinates_reviewed",
+        "bolt_pressure_and_boundary_load_composition_reviewed",
+        "gasket_linearization_and_support_reviewed",
+        "compression_only_contact_model_reviewed",
+        "computational_use_authorized",
+        "evidence"
+      ],
+      "title": "FlangeContactFieldRequest",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Create a normal FlangeContactFieldRequest from a selected multi-bolt step.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.multi_bolt_flange_contact_influence.v1",
+      "default": "matintegrity.multi_bolt_flange_contact_influence.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "bolt_load_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "bolt_load_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bolt Load Result Sha256",
+      "type": "string"
+    },
+    "selected_step_id": {
+      "minLength": 1,
+      "title": "Selected Step Id",
+      "type": "string"
+    },
+    "contact_template": {
+      "$ref": "#/$defs/FlangeContactFieldRequest"
+    },
+    "bolt_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Bolt Ids",
+      "type": "array"
+    },
+    "bolt_to_node_closure_matrix_m_N": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Bolt To Node Closure Matrix M N",
+      "type": "array"
+    },
+    "influence_provider_id": {
+      "minLength": 1,
+      "title": "Influence Provider Id",
+      "type": "string"
+    },
+    "influence_provider_revision": {
+      "minLength": 1,
+      "title": "Influence Provider Revision",
+      "type": "string"
+    },
+    "influence_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Influence Configuration Sha256",
+      "type": "string"
+    },
+    "influence_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Influence Result Sha256",
+      "type": "string"
+    },
+    "influence_usage_license_id": {
+      "minLength": 1,
+      "title": "Influence Usage License Id",
+      "type": "string"
+    },
+    "influence_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Influence Evidence",
+      "type": "array"
+    },
+    "bolt_step_scope_and_lineage_reviewed": {
+      "title": "Bolt Step Scope And Lineage Reviewed",
+      "type": "boolean"
+    },
+    "bolt_order_to_operator_column_reviewed": {
+      "title": "Bolt Order To Operator Column Reviewed",
+      "type": "boolean"
+    },
+    "free_closure_excludes_declared_bolt_set_reviewed": {
+      "title": "Free Closure Excludes Declared Bolt Set Reviewed",
+      "type": "boolean"
+    },
+    "linear_operator_superposition_reviewed": {
+      "title": "Linear Operator Superposition Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "bolt_load_result",
+    "bolt_load_result_sha256",
+    "selected_step_id",
+    "contact_template",
+    "bolt_ids",
+    "bolt_to_node_closure_matrix_m_N",
+    "influence_provider_id",
+    "influence_provider_revision",
+    "influence_configuration_sha256",
+    "influence_result_sha256",
+    "influence_usage_license_id",
+    "influence_evidence",
+    "bolt_step_scope_and_lineage_reviewed",
+    "bolt_order_to_operator_column_reviewed",
+    "free_closure_excludes_declared_bolt_set_reviewed",
+    "linear_operator_superposition_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "MultiBoltFlangeContactInfluenceRequest",
+  "type": "object"
+}

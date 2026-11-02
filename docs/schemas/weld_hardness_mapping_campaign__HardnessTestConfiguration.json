@@ -1,0 +1,179 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "configuration_id": {
+      "minLength": 1,
+      "title": "Configuration Id",
+      "type": "string"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "method_revision": {
+      "minLength": 1,
+      "title": "Method Revision",
+      "type": "string"
+    },
+    "hardness_scale_id": {
+      "minLength": 1,
+      "title": "Hardness Scale Id",
+      "type": "string"
+    },
+    "hardness_unit_token": {
+      "minLength": 1,
+      "title": "Hardness Unit Token",
+      "type": "string"
+    },
+    "test_load_value": {
+      "exclusiveMinimum": 0,
+      "title": "Test Load Value",
+      "type": "number"
+    },
+    "test_load_unit_token": {
+      "minLength": 1,
+      "title": "Test Load Unit Token",
+      "type": "string"
+    },
+    "dwell_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dwell Time S",
+      "type": "number"
+    },
+    "indenter_id": {
+      "minLength": 1,
+      "title": "Indenter Id",
+      "type": "string"
+    },
+    "instrument_id": {
+      "minLength": 1,
+      "title": "Instrument Id",
+      "type": "string"
+    },
+    "reference_calibration_id": {
+      "minLength": 1,
+      "title": "Reference Calibration Id",
+      "type": "string"
+    },
+    "reference_calibration_provider_id": {
+      "minLength": 1,
+      "title": "Reference Calibration Provider Id",
+      "type": "string"
+    },
+    "reference_calibration_valid": {
+      "title": "Reference Calibration Valid",
+      "type": "boolean"
+    },
+    "invalid_calibration_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Calibration Basis"
+    },
+    "reference_calibration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Calibration Digest",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "configuration_id",
+    "method_id",
+    "method_revision",
+    "hardness_scale_id",
+    "hardness_unit_token",
+    "test_load_value",
+    "test_load_unit_token",
+    "dwell_time_s",
+    "indenter_id",
+    "instrument_id",
+    "reference_calibration_id",
+    "reference_calibration_provider_id",
+    "reference_calibration_valid",
+    "reference_calibration_digest",
+    "configuration_digest",
+    "evidence"
+  ],
+  "title": "HardnessTestConfiguration",
+  "type": "object"
+}

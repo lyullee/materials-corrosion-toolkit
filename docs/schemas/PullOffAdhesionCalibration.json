@@ -1,0 +1,702 @@
+{
+  "$defs": {
+    "CallerPullOffThreshold": {
+      "additionalProperties": false,
+      "properties": {
+        "threshold_id": {
+          "minLength": 1,
+          "title": "Threshold Id",
+          "type": "string"
+        },
+        "stress_basis": {
+          "enum": [
+            "force_area",
+            "provider_stress"
+          ],
+          "title": "Stress Basis",
+          "type": "string"
+        },
+        "minimum_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Stress Pa",
+          "type": "number"
+        },
+        "authority_basis": {
+          "minLength": 1,
+          "title": "Authority Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "threshold_id",
+        "stress_basis",
+        "minimum_stress_Pa",
+        "authority_basis",
+        "evidence"
+      ],
+      "title": "CallerPullOffThreshold",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PullOffBreakModeComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "caller_descriptor": {
+          "minLength": 1,
+          "title": "Caller Descriptor",
+          "type": "string"
+        },
+        "reported_area_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Reported Area Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "component_id",
+        "caller_descriptor",
+        "reported_area_fraction"
+      ],
+      "title": "PullOffBreakModeComponent",
+      "type": "object"
+    },
+    "PullOffForceCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "force_instrument_id": {
+          "minLength": 1,
+          "title": "Force Instrument Id",
+          "type": "string"
+        },
+        "instrument_configuration_id": {
+          "minLength": 1,
+          "title": "Instrument Configuration Id",
+          "type": "string"
+        },
+        "force_unit_token": {
+          "const": "N",
+          "title": "Force Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_force_N": {
+          "minimum": 0,
+          "title": "Minimum Supported Force N",
+          "type": "number"
+        },
+        "maximum_supported_force_N": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Force N",
+          "type": "number"
+        },
+        "expanded_uncertainty_N": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty N",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "force_instrument_id",
+        "instrument_configuration_id",
+        "force_unit_token",
+        "minimum_supported_force_N",
+        "maximum_supported_force_N",
+        "expanded_uncertainty_N",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PullOffForceCalibration",
+      "type": "object"
+    },
+    "PullOffObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "dolly_id": {
+          "minLength": 1,
+          "title": "Dolly Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "location_definition": {
+          "minLength": 1,
+          "title": "Location Definition",
+          "type": "string"
+        },
+        "coating_layer_stack_id": {
+          "minLength": 1,
+          "title": "Coating Layer Stack Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "surface_preparation_id": {
+          "minLength": 1,
+          "title": "Surface Preparation Id",
+          "type": "string"
+        },
+        "cure_condition_id": {
+          "minLength": 1,
+          "title": "Cure Condition Id",
+          "type": "string"
+        },
+        "exposure_condition_id": {
+          "minLength": 1,
+          "title": "Exposure Condition Id",
+          "type": "string"
+        },
+        "adhesive_condition_id": {
+          "minLength": 1,
+          "title": "Adhesive Condition Id",
+          "type": "string"
+        },
+        "caller_break_mode_id": {
+          "minLength": 1,
+          "title": "Caller Break Mode Id",
+          "type": "string"
+        },
+        "break_mode_components": {
+          "items": {
+            "$ref": "#/$defs/PullOffBreakModeComponent"
+          },
+          "minItems": 1,
+          "title": "Break Mode Components",
+          "type": "array"
+        },
+        "measurement_basis": {
+          "enum": [
+            "force_area",
+            "provider_stress",
+            "both"
+          ],
+          "title": "Measurement Basis",
+          "type": "string"
+        },
+        "force_calibration_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Force Calibration Id"
+        },
+        "pull_force_N": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pull Force N"
+        },
+        "pull_force_unit_token": {
+          "anyOf": [
+            {
+              "const": "N",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pull Force Unit Token"
+        },
+        "pull_force_expanded_uncertainty_N": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pull Force Expanded Uncertainty N"
+        },
+        "dolly_area_m2": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dolly Area M2"
+        },
+        "dolly_area_unit_token": {
+          "anyOf": [
+            {
+              "const": "m^2",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dolly Area Unit Token"
+        },
+        "dolly_area_expanded_uncertainty_m2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dolly Area Expanded Uncertainty M2"
+        },
+        "provider_stress_Pa": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Stress Pa"
+        },
+        "provider_stress_unit_token": {
+          "anyOf": [
+            {
+              "const": "Pa",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Stress Unit Token"
+        },
+        "provider_stress_expanded_uncertainty_Pa": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Stress Expanded Uncertainty Pa"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "nominal_weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Nominal Weight",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "dolly_id",
+        "physical_location_id",
+        "location_definition",
+        "coating_layer_stack_id",
+        "substrate_condition_id",
+        "surface_preparation_id",
+        "cure_condition_id",
+        "exposure_condition_id",
+        "adhesive_condition_id",
+        "caller_break_mode_id",
+        "break_mode_components",
+        "measurement_basis",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PullOffObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "coating_layer_stack_id": {
+      "minLength": 1,
+      "title": "Coating Layer Stack Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "surface_preparation_id": {
+      "minLength": 1,
+      "title": "Surface Preparation Id",
+      "type": "string"
+    },
+    "cure_condition_id": {
+      "minLength": 1,
+      "title": "Cure Condition Id",
+      "type": "string"
+    },
+    "exposure_condition_id": {
+      "minLength": 1,
+      "title": "Exposure Condition Id",
+      "type": "string"
+    },
+    "adhesive_condition_id": {
+      "minLength": 1,
+      "title": "Adhesive Condition Id",
+      "type": "string"
+    },
+    "force_calibrations": {
+      "items": {
+        "$ref": "#/$defs/PullOffForceCalibration"
+      },
+      "minItems": 1,
+      "title": "Force Calibrations",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/PullOffObservation"
+      },
+      "minItems": 4,
+      "title": "Observations",
+      "type": "array"
+    },
+    "caller_thresholds": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CallerPullOffThreshold"
+      },
+      "title": "Caller Thresholds",
+      "type": "array"
+    },
+    "minimum_paired_calibration_record_count": {
+      "minimum": 3,
+      "title": "Minimum Paired Calibration Record Count",
+      "type": "integer"
+    },
+    "dollies_locations_layers_and_substrate_reviewed": {
+      "title": "Dollies Locations Layers And Substrate Reviewed",
+      "type": "boolean"
+    },
+    "surface_preparation_cure_exposure_and_adhesive_reviewed": {
+      "title": "Surface Preparation Cure Exposure And Adhesive Reviewed",
+      "type": "boolean"
+    },
+    "force_area_and_provider_stress_units_reviewed": {
+      "title": "Force Area And Provider Stress Units Reviewed",
+      "type": "boolean"
+    },
+    "force_calibration_and_uncertainty_reviewed": {
+      "title": "Force Calibration And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "break_mode_descriptors_and_fractions_reviewed": {
+      "title": "Break Mode Descriptors And Fractions Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "provider_revision_configuration_and_digests_reviewed": {
+      "title": "Provider Revision Configuration And Digests Reviewed",
+      "type": "boolean"
+    },
+    "caller_threshold_authority_reviewed": {
+      "title": "Caller Threshold Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "coating_system_id",
+    "coating_layer_stack_id",
+    "substrate_condition_id",
+    "surface_preparation_id",
+    "cure_condition_id",
+    "exposure_condition_id",
+    "adhesive_condition_id",
+    "force_calibrations",
+    "observations",
+    "minimum_paired_calibration_record_count",
+    "dollies_locations_layers_and_substrate_reviewed",
+    "surface_preparation_cure_exposure_and_adhesive_reviewed",
+    "force_area_and_provider_stress_units_reviewed",
+    "force_calibration_and_uncertainty_reviewed",
+    "break_mode_descriptors_and_fractions_reviewed",
+    "specimen_source_and_independence_partitions_reviewed",
+    "provider_revision_configuration_and_digests_reviewed",
+    "caller_threshold_authority_reviewed",
+    "evidence"
+  ],
+  "title": "PullOffAdhesionCalibration",
+  "type": "object"
+}

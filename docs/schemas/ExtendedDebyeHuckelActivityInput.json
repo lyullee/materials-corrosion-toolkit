@@ -1,0 +1,245 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExtendedDebyeHuckelSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "species_label": {
+          "minLength": 1,
+          "title": "Species Label",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "molality_mol_kg": {
+          "minimum": 0,
+          "title": "Molality Mol Kg",
+          "type": "number"
+        },
+        "ion_size_parameter_nm": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ion Size Parameter Nm"
+        },
+        "ion_size_evidence_source_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ion Size Evidence Source Id"
+        }
+      },
+      "required": [
+        "species_id",
+        "species_label",
+        "charge_number",
+        "molality_mol_kg"
+      ],
+      "title": "ExtendedDebyeHuckelSpecies",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete molal inventory and caller-supplied model parameters.\n\n``A`` is expressed in (kg/mol)^0.5. ``B`` is expressed in\nnm^-1 (kg/mol)^0.5, and each species ion-size parameter is in nm.\nThus ``B * a * sqrt(I)`` is dimensionless for I in mol/kg water.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "solution_id": {
+      "minLength": 1,
+      "title": "Solution Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "ionic_strength_limit_mol_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Ionic Strength Limit Mol Kg",
+      "type": "number"
+    },
+    "debye_huckel_A_at_temperature": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel A At Temperature",
+      "type": "number"
+    },
+    "debye_huckel_B_at_temperature": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel B At Temperature",
+      "type": "number"
+    },
+    "parameter_provider_id": {
+      "minLength": 1,
+      "title": "Parameter Provider Id",
+      "type": "string"
+    },
+    "parameter_provider_revision": {
+      "minLength": 1,
+      "title": "Parameter Provider Revision",
+      "type": "string"
+    },
+    "parameter_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Configuration Sha256",
+      "type": "string"
+    },
+    "parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Record Sha256",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/ExtendedDebyeHuckelSpecies"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "charge_balance_absolute_tolerance_mol_kg": {
+      "minimum": 0,
+      "title": "Charge Balance Absolute Tolerance Mol Kg",
+      "type": "number"
+    },
+    "complete_ionic_inventory_reviewed": {
+      "title": "Complete Ionic Inventory Reviewed",
+      "type": "boolean"
+    },
+    "charge_balance_reviewed": {
+      "title": "Charge Balance Reviewed",
+      "type": "boolean"
+    },
+    "ionic_strength_convention_reviewed": {
+      "title": "Ionic Strength Convention Reviewed",
+      "type": "boolean"
+    },
+    "extended_debye_huckel_scope_reviewed": {
+      "title": "Extended Debye Huckel Scope Reviewed",
+      "type": "boolean"
+    },
+    "parameter_temperature_solvent_lineage_reviewed": {
+      "title": "Parameter Temperature Solvent Lineage Reviewed",
+      "type": "boolean"
+    },
+    "activity_standard_state_reviewed": {
+      "title": "Activity Standard State Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "solution_id",
+    "temperature_K",
+    "ionic_strength_limit_mol_kg",
+    "debye_huckel_A_at_temperature",
+    "debye_huckel_B_at_temperature",
+    "parameter_provider_id",
+    "parameter_provider_revision",
+    "parameter_configuration_sha256",
+    "parameter_record_sha256",
+    "species",
+    "charge_balance_absolute_tolerance_mol_kg",
+    "complete_ionic_inventory_reviewed",
+    "charge_balance_reviewed",
+    "ionic_strength_convention_reviewed",
+    "extended_debye_huckel_scope_reviewed",
+    "parameter_temperature_solvent_lineage_reviewed",
+    "activity_standard_state_reviewed",
+    "evidence"
+  ],
+  "title": "ExtendedDebyeHuckelActivityInput",
+  "type": "object"
+}

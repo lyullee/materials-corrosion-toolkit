@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "standard_potential_V_by_cell_and_knot": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Standard Potential V By Cell And Knot",
+      "type": "array"
+    },
+    "log_quotient_coefficient_by_species": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "maxProperties": 40,
+      "minProperties": 1,
+      "title": "Log Quotient Coefficient By Species",
+      "type": "object"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "standard_potential_V_by_cell_and_knot",
+    "log_quotient_coefficient_by_species",
+    "record_sha256",
+    "evidence"
+  ],
+  "title": "CreviceNernstBranchMap",
+  "type": "object"
+}

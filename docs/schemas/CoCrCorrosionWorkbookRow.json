@@ -1,0 +1,255 @@
+{
+  "$defs": {
+    "CoCrWorkbookCell": {
+      "additionalProperties": false,
+      "description": "One nonblank Excel cell; coordinate and unmodified value type are preserved.",
+      "properties": {
+        "coordinate": {
+          "minLength": 2,
+          "title": "Coordinate",
+          "type": "string"
+        },
+        "cell_kind": {
+          "enum": [
+            "text",
+            "number",
+            "boolean",
+            "date",
+            "datetime",
+            "time",
+            "formula",
+            "error"
+          ],
+          "title": "Cell Kind",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "coordinate",
+        "cell_kind",
+        "value"
+      ],
+      "title": "CoCrWorkbookCell",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One source workbook row bound to file digest, worksheet, attribution, and Evidence.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.zenodo_cocr_corrosion_workbook_row.v1",
+      "default": "matintegrity.zenodo_cocr_corrosion_workbook_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-cocr-prosthesis-wear-corrosion",
+      "default": "zenodo-cocr-prosthesis-wear-corrosion",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.5281/zenodo.21253453",
+      "default": "10.5281/zenodo.21253453",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "provider_filename": {
+      "title": "Provider Filename",
+      "type": "string"
+    },
+    "provider_file_id": {
+      "title": "Provider File Id",
+      "type": "string"
+    },
+    "provider_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Provider Md5",
+      "type": "string"
+    },
+    "provider_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Sha256",
+      "type": "string"
+    },
+    "provider_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Provider Bytes",
+      "type": "integer"
+    },
+    "worksheet_name": {
+      "minLength": 1,
+      "title": "Worksheet Name",
+      "type": "string"
+    },
+    "provider_row_number": {
+      "minimum": 1,
+      "title": "Provider Row Number",
+      "type": "integer"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "cells": {
+      "items": {
+        "$ref": "#/$defs/CoCrWorkbookCell"
+      },
+      "title": "Cells",
+      "type": "array"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "formulas_evaluated": {
+      "const": false,
+      "default": false,
+      "title": "Formulas Evaluated",
+      "type": "boolean"
+    },
+    "units_converted": {
+      "const": false,
+      "default": false,
+      "title": "Units Converted",
+      "type": "boolean"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "remaining_life_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Remaining Life Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "provider_filename",
+    "provider_file_id",
+    "provider_md5",
+    "provider_sha256",
+    "provider_bytes",
+    "worksheet_name",
+    "provider_row_number",
+    "source_order",
+    "cells",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "CoCrCorrosionWorkbookRow",
+  "type": "object"
+}

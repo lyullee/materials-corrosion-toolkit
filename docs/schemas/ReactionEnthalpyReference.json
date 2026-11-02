@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "delta_h_reference_J_mol": {
+      "title": "Delta H Reference J Mol",
+      "type": "number"
+    },
+    "delta_cp_reference_J_mol_K": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Delta Cp Reference J Mol K"
+    },
+    "delta_cp_slope_J_mol_K2": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Delta Cp Slope J Mol K2"
+    },
+    "minimum_valid_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Valid Temperature K",
+      "type": "number"
+    },
+    "maximum_valid_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Valid Temperature K",
+      "type": "number"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "delta_h_reference_J_mol",
+    "minimum_valid_temperature_K",
+    "maximum_valid_temperature_K",
+    "source_record_id",
+    "evidence"
+  ],
+  "title": "ReactionEnthalpyReference",
+  "type": "object"
+}

@@ -1,0 +1,1488 @@
+# 개발 이력 · 개발·검증 과정의 상세 기록
+
+## 기록의 성격
+
+이 문서는 저장소의 기존 날짜별 개발 기록을 보존하고, 재현 가능한 코드·스키마·시험·영수증에 연결한다. 첫 공개 Git commit는 그 이전 로컬 개발의 누적 snapshot이다. 이전 작업 전체가 독립 commit나 완전한 채팅 기록으로 공개된다는 뜻은 아니다. 날짜별 항목은 당시 기록이며 현재 상태는 README와 RELEASE_STATUS_KO.md를 먼저 확인한다.
+
+반복된 완전히 같은 기록은 본문 SHA-256으로 한 번만 수록한다. 같은 날짜라도 내용이 다른 기록은 유지한다. 원자료와 로컬 실행 로그는 배포에서 제외하므로 공개 기록에는 코드·시험 ID·상태·해시·범위를 중심으로 남긴다. 과거의 시험 수가 현재 모델 수나 검증 완료율을 뜻하지는 않는다.
+
+## 1. 개발 목표와 설계 원칙
+
+재료 거동·부식·구조 건전성·제작·용접·검사 기능을 독립 Python 단위 모듈로 구성하고, 사용자가 파라미터·자료·판정 기준·외부 provider를 공급하도록 설계했다. 열역학이 필요한 부분에는 선택적 CoolProp 연동을 둔다. 후속 위험성 평가·FTA·다른 저장소 연동은 명시적인 단위·식별자·시간·결과 의미·해시를 통해 연결한다.
+
+재료 추천값이나 규격 표를 임의로 내장하지 않고, 물리 모델·입력 계약·자료 근거·판정 규칙·결과 소비를 구분했다. 계산 성공이 인증·실험 검증·현장 예측 정확도와 같아지는 것을 막는 것이 핵심 설계 원칙이다.
+
+## 2. 공통 코드 구조가 정해진 이유
+
+- `Contract`: 엄격한 Pydantic 입력 타입. 누락·잘못된 자료형·경계·중첩 일관성을 검사한다.
+- `RunContext`: 평가 설비·위치·시간 기준을 계산 입력과 묶는다.
+- `ModelSpec`/`ModelRegistry`: 문자열 ID로 단위 API를 찾고, 목적·스키마·단위·가정·provider·버전을 드러낸다.
+- `Calculation`/`AssessmentResult`: 값과 상태를 분리하고 입력·출력·근거·해시·실행 환경을 함께 전달한다.
+- `Evidence` 및 source/dataset catalogs: 합성·선언·실측·공개자료·예측의 출처 의미와 권리 상태를 구분한다.
+- 선택 provider: Python callable과 자료 공급자의 identity/revision·설정/관측 해시를 분리해 외부 코드의 숨은 실행을 줄인다.
+
+## 3. 구현 범위와 분모를 정리한 과정
+
+넓은 기술 범위의 backlog 101행, 이전 입력 감사 116개, 검토 기록의 고유 API 수, 현재 registry 757개가 서로 다른 집합임을 구분했다. 현재의 핵심 물리 묶음은 고정 63개이며 그 안의 개별 실행 감사 대상은 232개 API로 저장했다. 757개에는 자료 읽기·계약·교환·기록·workflow가 포함된다. 따라서 이를 모두 독립적인 검증 완료 물리 솔버로 부르지 않는다.
+
+고정 목록은 `tests/data/core_physics_full_run_targets.json`, 대표 수식 시험 연결은 `core_physics_formula_cases.json`, 입력 계약·연결·극단값의 세부 매핑은 다른 `tests/data` 파일에 있다. 이후에는 진행률을 각 고정 분모에 대해 따로 보고한다.
+
+## 4. 자료와 권리 검토의 원칙
+
+공개 공정·부식·피로·크리프·검사 자료를 dataset catalog에서 분류하고 버전·bytes·공급자 checksum·로컬 SHA-256·출처·라이선스·제약을 기록했다. 공개 편집본의 라이선스가 기초 논문·관측자료의 권리까지 자동 허가하는 것으로 판단하지 않았다. 원자료·파생 관측·장치 신호·상용 공급자 결과는 공개 소스와 분리했다.
+
+한 시편의 여러 시간점·공간점·노치·증강 이미지·여러 하중 단계가 독립 시편으로 집계되지 않도록 경계를 추가했다. 보정과 holdout의 시편·source group을 분리하고, 실제 측정과 재구성된 nominal 응력을 다른 근거로 기록했다. 관련 결정은 `THIRD_PARTY_NOTICES.md`와 데이터별 설명서에 남아 있다.
+
+## 5. 검증을 나누어 수행한 과정
+
+1. 입력 계약: 누락·자료형·단위 의미·범위·필드 관계·검토조건 차단을 검사했다.
+2. 계산식: 손계산 가능한 수치·폐형식 해·독립 적분 등과 비교했다.
+3. 극단값: 표현 범위·제로 한계·경계·외삽 금지·보류 상태를 확인했다.
+4. 연결: 선행 결과·문맥·단위·해시 전달과 실제 물리 체인 연결을 구분했다.
+5. 회귀: 수정 전후 기존 기준값과 계약을 재실행했다.
+6. 전수 실행: 고정된 개별 API를 public JSON registry 경로로 실행했다.
+7. 물리 검토: 수지·좌표 불변량·정수압·박육 극한·응력/온도 스케일·열역학 항등식과 적용 한계를 확인했다.
+8. 공개 전 검사: 설치 wheel과 소스 배포본, 선택 의존성 부재, 제한 자료·경로·키 패턴·테스트 fixture 포함 여부를 검사했다.
+
+이 단계들은 서로 대체되지 않는다. 수렴·피팅·실행 성공만으로 모든 물리 분기나 현장 정확도가 검증되었다고 기록하지 않는다.
+
+## 6. 전수 검사에서 드러난 수정 유형
+
+최근 전수 실행·정적 검사·깨끗한 설치에서 다음 유형을 수정했다. 정확한 함수와 재발 방지 사례는 관련 시험·영수증으로 추적한다.
+
+- legacy 피로 evaluator의 dict 반환과 표준 `Calculation` adapter 불일치.
+- SciPy에 없는 함수 사용, 입력·중첩 strict tuple 계약 불일치, 종단 배열 및 고체 재고 인덱스 오류.
+- CoolProp 포화 상태와 단상 퓨가시티 평가 경로, provider Evidence 직렬화 및 결과 분류 enum 불일치.
+- 원통 반응·스케일 적분의 wrapper/공간 요청 혼용, 성분 ID 대신 위치 배열 사용, 맨 표면 반경 경계 조건.
+- 기체↔액체 내부 전달을 외부 유입으로 다시 세는 원소 수지 중복.
+- 활동도 반복 예산이 부족한 합성 fixture, 보정 영역 밖 누설 예제, 불균형 접촉 예제와 평면 선택 오류.
+- 평면응력 중간 제곱 overflow 및 Basquin 양수 수명의 overflow/underflow.
+- 틈 형상 피드백의 공급자 인자 누락과 동적 수리 RHS의 외부 누적 변수 선언 누락.
+- 온도 슬라이스의 잘못된 변수, 응축막 구간 밀도 할당 순서, 스케일 성분 인덱스 누락.
+- 기본 설치에서 선택 SciPy를 먼저 불러오던 import, 소스 아카이브의 로컬 계산 로그 포함, JSON 이스케이프 경로 검사의 공백, tests/data JSON 누락.
+
+## 7. 첫 공개 시점의 사실과 미해결 항목
+
+대표 수학·물리 검토 63개 군, 공개 스키마 757개, 주 JSON 예제 400개 및 고정 전수 실행 232개를 구분해 기록한다. 정상 전수 계산은 230개이며 2개는 외부 근거가 필요하다. 주 예제 파일 완전성 검사 1건과 전체 정적 지적 885건은 남겨 두었다. 새 공개 문서가 추가되어도 이 과거 검사 결과를 현재의 전체 재검증으로 재명명하지 않는다.
+
+공개 준비에서 README를 목적·입출력 중심의 63개 핵심군 표와 전체 API 표로 재구성하고, 모든 API의 별도 입력·출력·스키마·구현 설명서를 생성했다. 첫 공개 이름은 `materials-corrosion-toolkit`, Python namespace는 `matintegrity`, 버전은 `0.1.0a1`이다. 기존 엄격한 전체 품질 workflow는 유지하며 알파 배포 검사와 구분한다.
+
+## 8. 이어서 읽을 기록
+
+- `docs/RESEARCH_CONTINUATION_KO.md`: 환경·자료·검증·모델 추가·병렬 계산 재개 순서.
+- `docs/CORE_EXECUTION_VERIFICATION_KO.md`: 232개 개별 정상 실행과 보류 사유.
+- `docs/PHYSICAL_REVIEW_KO.md`: 63개 군별 물리 관계와 적용 한계.
+- `docs/PREPUBLISH_CHECKS_KO.md`: 공개 전 실제 설치·패키지 경계 검사.
+- `validation/`: 공개 상태·해시·매핑·환경 영수증. 원자료·로컬 상세 로그와 다르다.
+- `docs/extension_requests/`: 관련 시스템에 요청할 계약·입출력·검사 조건.
+
+## 날짜별 기존 개발 기록
+
+아래는 기존 `STATUS_KO.md`에서 날짜가 있는 서로 다른 항목을 내용 그대로 보존한 기록이다. 동일 날짜 안의 순서는 원 기록의 순서를 따른다. 오래된 상태와 최신 상태가 다를 수 있으므로 현재 공개 상태 표를 우선한다.
+
+### 2026-10-30 — 가중 피로수명 lower-tail 평균
+
+다축 피로 가중 scenario 요약에 caller 지정 lower-tail mass levels를 추가했다. 가장 짧은 수명부터 정확히 지정 가중 질량까지 누적하고, 경계 시나리오의 일부 weight만 사용해 tail 평균을 계산한다. 가중 분위수 및 threshold summary와 같은 distribution-summary review가 필요하다. finite scenario lower-tail 평균은 probability, confidence 또는 continuous-distribution CVaR가 아니다. Python API/schema/catalog와 weighted scenario 설명·scope audit를 갱신했다. 테스트·수치 검증은 보류한다.
+
+### 2026-10-30 — coverage kinetics 구간별 Arrhenius 온도 이력
+
+`CallerScaleCoverageKinetics`에 interval temperature와 `interval_temperature_profile_reviewed`를 추가했다. Arrhenius를 선택하면 각 구간 온도에서 attachment/detachment rate를 다시 평가하고, 모든 구간 온도가 명시적 support 안에 있어야 한다. Chemistry→scale adapter의 coverage 경로도 검토된 왼쪽 절점 온도를 각 interval에 연결한다. coverage request의 첫 온도는 aqueous history 시작 온도와 일치해야 하며, interval 사이 온도 보간은 하지 않는다. API/schema/source 및 전용 coverage 문서를 갱신한다. 테스트·수치 검증은 보류한다.
+
+### 2026-10-30 — 가중 수명 분위수/threshold 조회 비용 절감
+
+가중 분위수와 cycle threshold 계산을 개선했다. 수명 순 정렬 후 Kahan 누적 가중치 배열을 한 번 만들고 이진 탐색으로 각 질의를 처리한다. 최대 10,000 시나리오·1,000 threshold에서 threshold마다 전체 ID 목록을 복제하던 출력을 threshold별 개수와 가중 몫으로 줄였으며, ID는 이미 hash-pinned `scenario_lives`에서 추적 가능하다. 분위수 q=1은 weight 합 허용오차와 무관하게 최대 수명 witness를 반환하도록 정의했다. 계산 의미/API 문서/source basis를 갱신한다. 테스트는 보류한다.
+
+### 2026-10-30 — 화학 포화도에서 스케일 coverage 이력 연결
+
+기존 `integration.aqueous_saturation_to_surface_scale_kinetics`에 선택형 `CallerScaleCoverageKinetics` 요청을 추가했다. 단일상 두께 kinetics와 같은 digest-검증 수용액 포화도 knot를 소비하며, coverage interval의 clocks가 모든 knot와 정확히 맞고 coverage 요청의 scale phase/specimen/condition이 두께 요청과 일치해야 한다. 이 기록 작성 당시에는 coverage 모델이 단일 온도만 받았다. 이후 구간별 상수 온도 및 Arrhenius 연동을 추가했다. 두 state law는 독립 계산이며 두께→coverage, scale→확산/부식 피드백은 구현하지 않았다. 기존 커버리지 속도 solver를 재사용하고 registry/schema/API/source 및 wet-CO2 범위 설명을 갱신했다. 테스트·수치검증은 보류한다.
+
+### 2026-10-30 — 다축 피로 시나리오 가중 분위수와 임계수명 몫
+
+기존 finite weighted-life moments에 선택형 weighted inverse-ECDF 분위수와 caller 정의 cycle-life threshold별 가중 scenario 몫을 추가했다. 분위수는 수명 오름순·동률 scenario ID 순으로 고정하고 누적 caller weight 기준으로 계산한다. 각 기능은 별도 review flag, 입력 threshold/quantile, witness ID를 결과에 남긴다. 임계수명 몫은 finite manifest의 가중 질량이며 failure probability나 신뢰구간으로 해석하지 않는다. API/모델범위/source derivation 문서를 갱신했다. 테스트·수치 검증은 보류한다.
+
+### 2026-10-30 — 스케일 kinetics의 온도 이력 처리
+
+수용액 포화도 이력은 절점별 온도를 가질 수 있지만 기존 단일상 스케일 kinetics는 온도 하나만 받았다. `SurfaceScaleKineticInterval.temperature_K`와 `interval_temperature_profile_reviewed`를 추가해 caller-reviewed 구간별 상수 온도를 지원한다. 각 구간의 Arrhenius 속도상수는 그 구간 온도에서 별도로 계산하며, 입력된 절점 온도는 Arrhenius support 안에 있어야 한다. 포화도→스케일 adapter는 온도 이력이 기준 온도와 다를 때 `temperature_knot_mapping_reviewed`를 요구하고 왼쪽 절점 온도를 구간 온도로 연결한다. 온도 보간이나 연속 온도-속도 적분을 주장하지 않는다. 계산 코드, 단위 metadata, API/source derivation 문서를 갱신했다. 테스트 및 수치 검증은 보류한다.
+
+### 2026-10-30 — 수용액 포화도→스케일 연동의 내부 절점 계보 확인 강화
+
+앞서 추가한 `integration.aqueous_saturation_to_surface_scale_kinetics` adapter의 입력 검증을 강화했다. 최상위 saturation AssessmentResult와 nested van't Hoff mass-action history의 registry input/result digest를 각각 재계산하고, 모든 knot의 source Calculation digest, time/temperature, 포화 screen의 upstream mass-action digest와 용해도 기록 digest를 상호 확인한 후에만 caller kinetic law를 호출한다. 해시가 있어도 입력과 결과 내부의 절점 연결이 서로 다르면 `needs_data`로 종료한다. API/source derivation 기록을 갱신했다. 테스트·수치 실행은 보류한다.
+
+### 2026-10-30 — 포화도 이력과 단일상 스케일 kinetics 연결
+
+`integration.aqueous_saturation_to_surface_scale_kinetics`를 추가했다. 입력된 van't Hoff 수용액 포화도 AssessmentResult의 전체 digest와 registry input digest를 확인하고, caller 선택 고체의 각 계산 knot가 정상인지 확인한 뒤 인접 knot의 포화비를 caller 정의 스케일 kinetics 구간에 연결한다. 구간 경계는 원 history 시간과 정확히 같아야 하고, 포화비 변환은 log10 범위 ±300으로 제한한다. 계수, 반응상 선택, kinetics 적용성은 caller 소유로 유지하며 값의 자동 추론이나 보간은 하지 않는다. API 설명 및 범위 추적 catalog를 갱신했다. 테스트와 수치 검증은 보류한다.
+
+# 최신 진행 현황 — 2026-10-30
+
+추가 구현: `screen_mass_action_calculation()`이 등록된 exact-knot B-dot history에서 caller가 지정한 절점의 활동도로 후보 고체 포화 선별을 구성한다. 전체 AssessmentResult input digest·history digest·선택 절점의 request/result digest·시간/온도·parameter-record hash를 교차 확인하고 결과에 절점 계보를 보존한다. 등록 단일 B-dot speciation AssessmentResult도 조합 지원 목록에 추가했다. 기존 포화 방정식과 screen API를 재사용하며 자동 고체 선택/침전량 계산은 하지 않는다. 합성 예제·API/source derivation·wet_CO2 범위 감사 근거를 갱신했다. 재생성 결과는 407 models, 171 interfaces, 679 capabilities(101 partial), 853 schemas, 470 source bases다. 범위 정적 감사는 101행/285 Python 경로/402 구성요소에서 누락·AST 실패·stale/unmapped·catalog drift가 0이다. 넓은 코드 지표는 여전히 47/101(46.5%)이며 code_incomplete 4, data_validation_pending 51, provider_dependent 46이다. 테스트·수치 실행·패키징은 보류한다.
+
+추가 연동 구현: `electrochemistry.crevice_mixed_potential_history`가 원 inventory digest만 가정하던 검증을 source-history lineage 비교로 바꿔 B-dot 유래 Nernst 반응들을 함께 사용할 수 있게 했다. 결과에는 aqueous knot-history와 upstream activity-result digest를 유지하고, 원 inventory digest를 임의로 만들지 않는다. `examples/aqueous_bdot_to_nernst_history.py`는 B-dot → Nernst 두 반응 → 혼합전위 연결을 합성 입력으로 보여준다. catalog/schema 정적 산출을 갱신했고, 부분범위 AST·경로 감사는 101행/283 Python 경로/402 구성요소, 누락·AST 실패·stale/unmapped·catalog drift 0이다. 101개 scope 중 code_incomplete 4, data_validation_pending 51, provider_dependent 46으로 분류되어 코딩 지표는 47/101(46.5%) 그대로다. 수치 실행·테스트·패키징은 보류한다.
+
+Crevice electrochemistry 연동을 확장했다. 기존 `integration.aqueous_mass_action_to_crevice_nernst_history`가 composition-origin mass-action 이력과 B-dot exact-knot speciation history를 모두 받으며, 각 knot의 무차원 활동도를 caller redox quotient 및 표준전위 이력에 연결한다. B-dot knot 시간·온도·parameter-record hash를 upstream 결과와 대조하고, 그 계보를 composition inventory와 구분해 출력한다. 정적 생성 결과 407 models, 171 interfaces, 679 capabilities(101 partial), 853 schemas, 470 source bases다. scope audit 101 rows/283 paths/402 components에서 누락 경로·AST·stale/unmapped 및 drift 0. 넓은 전체 코드 진행률은 47/101(46.5%)이며, 계산 테스트·수치 검증·패키징은 보류한다.
+
+추가 구현: `integration.aqueous_bdot_speciation_history`가 caller가 준 exact time knot별 B-dot/mass-action 입력을 독립 계산한다. knot 사이에는 보간하지 않고 첫 실패에서 계산 prefix와 실패 결과를 보존한다. 기존 B-dot speciation·transport·Ksp/고체 kinetics 연결도 함께 유지한다. 정적 생성 결과 407 models, 171 interfaces, 679 capabilities(101 partial), 853 schemas, 470 source bases, 400 standalone JSON inputs다. 101-row scope audit는 282 paths/402 components, missing/AST/stale/unmapped 및 재감사 capability drift가 모두 0이다. 전체 범위 코딩 지표는 47/101(46.5%) 그대로다. 테스트·계산 검증·패키징은 실행하지 않았다.
+
+추가 구현: `thermo.co2_mixture_fugacity_history`가 ordered 시점별 혼합기체 CO₂ 성분 fugacity를 평가한다. 성분 식별자/순서와 backend는 history 동안 고정하고 조성·온도·전체압은 각 절점에서 갱신하며 CoolProp 상태 객체를 재사용한다. review/provider 실패 시 완료 prefix와 실패 요청 digest를 반환한다. 전체 scope code-completion 수치는 47/101 (46.5%)이며 넓은 WCO₂ 범위의 단일상 외 다상/활동도 연성은 여전히 미완료다. 테스트·수치 검증·패키징은 실행하지 않았다.
+
+직전 정적 연동 기록은 B-dot API 추가로 대체되었다. 현재 정적 연동 결과와 audit 범위는 바로 위 최신 항목을 따른다. 생성·AST 감사는 계산 실행이나 물리 검증을 뜻하지 않는다.
+
+데이터 배포 메타데이터 보강: 로컬 raw cache와 정확히 일치하는 14개 asset을 해시·크기 고정하고 반복 검증 스크립트를 추가했다. dataset release-rights audit 경고는 checksum 18→6, byte size 10→6, 중복 basename 3건 유지로 줄었다. 이 변경은 권리 승인이 아니며, 12개 digest는 공급자 검증이 아닌 local snapshot pin이다. 전체 scope code-completion 지표는 47/101(46.5%)로 유지한다.
+
+최적화 추가: `thermo.co2_pure_fugacity_history`는 review를 통과한 첫 절점에서 CoolProp `AbstractState`를 한 번 생성하고 후속 절점에서 재사용한다. 각 점의 기존 phase 검사, provider revision 및 입력/출력 digest는 유지하며 첫 실패에서 prefix를 보존한다. 사용 불가 의존성이나 review 누락 상태에서 provider 객체를 불필요하게 만들지 않는다. 이는 코드 경로 최적화이며 계산 검증·테스트·패키징은 아직 실행하지 않았다. 진행률은 47/101 (46.5%)로 유지한다.
+
+현재 구현: `corrosion.planar_slit_transient_hydraulic_history`가 Evidence와 권리 근거로 고정된 구간별 간극·압력 이력을 받아 단일 또는 직렬 복수 slit cell의 signed 유량, 반전 시각, 구간 체적 및 누적 체적 history를 lumped inertance/resistance 식으로 연결한다. `fatigue.multiaxial_weighted_life_scenario_moments`는 digest-pinned 다축 수명 scenario 집합의 caller 지정 가중 기술통계를 반환한다. `chemistry.fixed_fugacity_carbonate_history`는 절점별 caller fugacity/Henry/alkalinity 입력으로 탄산 평형을 독립 계산하고 실패 prefix를 보존한다. `thermo.co2_pure_fugacity_history`는 절점별 pure-CO₂ PT 상태에 CoolProp evaluator를 적용하고 실패 요청 digest를 보존한다. 두 모델을 registry·capability/source catalog·schema·합성 JSON 입력·부분범위 감사에 연결했고, transient 유량을 기존 restricted transport의 해석적 속도 callback으로 잇는 public Python helper도 추가했다. 연동 시 선택 interval의 저항·관성·평형·끝 유량을 pinned 입력과 재대조해 불일치 결과를 거부한다. 데이터 공개 권리 정적 감사 산출물은 63개 dataset/276개 asset metadata를 기록하며 31개 경고(체크섬 누락·크기 미고정·중복 파일명)가 남아 있다. 전체 범위 진행률은 코드 완결 기준 47/101 (46.5%) 유지. 테스트·수치 검증·패키징·HPC는 실행하지 않았다. 정적 현황: 404 models, 169 interfaces, 674 capabilities(101 partial), 849 schemas, 469 source bases; 397 registry models have standalone JSON inputs. Scope audit: 101 rows, 281 source paths, 397 components; missing/AST-unavailable/stale-or-unmapped/unmapped=0.
+
+
+2026-10-30 추가: 자기일관 Davies/SIT 수용액 질량작용에서 molality 기준 `gamma_m`을 molarity 표준상태 solver에 그대로 전달하던 오류를 고쳤다. `gamma_c=gamma_m/w`로 환산해 반복·잔차에 사용하고 두 계수를 함께 기록한다. 정적 재생성 결과 391 models, 159 interfaces, 651 capabilities(101 partial), 828 schemas, 456 source bases다. 소스 감사 101행/266 paths/381 components, 누락·AST·stale·unmapped 0. 계산 검증·테스트·패키징은 미실행이며 진행률 47/101(46.5%)로 유지한다.
+
+2026-10-30 추가: `solve_crevice_transport_recession_feedback()`에 선택적 구간 내부 aperture fixed-point 경로를 구현했다. 선형 cell/face 단면·벽면/부피 이력을 restricted transport에 넣고 signed 금속 벽 원장으로 끝 aperture를 반복 갱신하며 잔차를 만족한 구간만 commit한다. 모드별 review·반복 예산이 필수이며 axial advection/hydraulic coupling은 명시적으로 차단한다. 당시 정적 재생성 결과는 391 models, 159 interfaces, 651 capabilities(101 partial), 828 schemas, 455 source bases였다. 101행 소스 감사는 266 paths/381 components, 누락·AST·stale·unmapped 0이다. 계산 테스트·패키징은 보류한다. 전체 범위 진행률은 코드 타깃 기준 47/101(46.5%)로 유지한다.
+
+2026-10-30 추가: `RestrictedTransportRequest`는 caller가 제공한 cell/face 단면적 이력을 선형 보간해 가변 cell volume에 맞는 보존적 농도 dilution/expansion 항을 적용한다. 벽면 source가 있으면 같은 시계의 벽면적 밀도 이력을 요구하며, Poisson 전위 reconstruction과 출력 inventory도 변화하는 geometry를 반영한다. 모든 geometry는 외생·digest-pinned 입력으로 남아 wall flux/chemistry에서 자동 예측하지 않는다. schema·catalog 재생성 후 model 391, interface 159, capability 651(부분범위 101), schema 828, source basis 454이며 정적 audit 경로 266·구성요소 381에서 누락/AST/stale/unmapped 0이다. 계산 테스트·패키징 미실행, 넓은 구현 진행은 47/101(46.5%) 유지.
+
+2026-10-30 추가: 다축 피로 API에 KBM 최대 전단면 parameter-to-life 경로를 연결했다. caller가 재료별 계수와 동일 상태 수명곡선을 제공하며, 현재 구현은 maximum-pairwise-chord로 구한 최대 전단 범위와 tie된 유한 sampled plane만 사용한다. 결과는 연속 평면 최적값·cycle counting·자격판정이 아니다. 정적 재생성 현황은 model 391, interface 159, capability 651(101 partial), 공개 schema 828, source basis 453이다. 범위 audit는 101행·266 경로·381 구성요소에서 누락/AST/stale/unmapped 0건이다. 계산 테스트와 패키징은 미실행, 전체 추적은 47/101(46.5%) 유지.
+
+registry model 391개로 확장하고, 새 API는 별도 실행형 example에서 digest-pinned van't Hoff history와 knotwise Ksp 입력의 연계를 보여준다. `examples/model_inputs.json`의 390개 standalone synthetic payload는 그대로 유지한다. 19개 context-dependent model은 strict payload와 분리된 root `run_contexts`를 사용하며 예제 harness가 해당 문맥을 공급한다. van't Hoff 기반 수용액 질량작용 이력은 caller가 절점별 Evidence-bound 활동도계수 및 ΔCp(T)=ΔCp_ref+slope·(T−Tref) 열용량 모델을 입력하는 경로를 제공한다. `integration.aqueous_vant_hoff_saturation_history`는 계산된 평형 절점별로 source-supported caller Ksp records를 연결해 별도 포화도 screen을 한다. 각 열용량/포화도 모드에는 review gate와 source lineage가 있다. Receipt-bound 외부 flange compliance 이력 및 Evidence-bound reaction-cycle API도 기존 등록 상태다. 진행률은 기존 47/101(46.5%); 이는 코드 항목 진행일 뿐 전체 기술범위 완성·수치 benchmark·물리 qualification을 뜻하지 않는다.
+
+계산 중 확인된 4개 연동 결함(wet-CO₂ formula ID comparison, electrochemical geometry reaction mapping iteration, mass-action strict JSON tuple reconstruction, chemistry boundary singleton scalar path)을 수정했다. 추가로 geometry support 이탈 시 `out_of_scope`를 유지하면서 이전 허용 geometry knot와 첫 실패 interval을 보존하고, aperture refinement 결과도 out-of-scope source의 부분 prefix이면 같은 상태를 유지하게 했다. reaction-cycle audit/mass-action integration 및 이번 receipt-bound flange compliance history를 registry·synthetic input·source catalog·schema·model reference·docs에 연결했다. 정적 scope source audit는 101행·265 경로·380 구성요소를 확인했고 누락 경로·AST 실패·stale/unmapped 심볼·미매핑 구성요소는 0건이다. 카탈로그/예제는 390개 모델 입력, 159 interface, 101 partial entry (650 capability), 공개 계약 schema 821개다. 정적 audit 분류는 code-incomplete 4, data/validation 대기 51, provider-dependent 46이며 진행률은 47/101 = 46.5%로 유지한다. 새 API는 WCO2 영역에서 caller 공급 반응 엔탈피 또는 constant-ΔCp와 절점별 활동도계수 아래 온도별 평형 재계산 경로를 제공하며, 기존 API들은 WCO2/GASK 범위의 계산·연동 경로를 확장했으며 101개 항목의 분류를 완료로 바꾸지 않았다. 테스트·패키징 및 HPC 제출은 하지 않았다.
+
+
+균질 수용액 kinetics의 optional gamma 보정 연결을 추가했다. `ElectrochemicalTransport.homogeneous_reaction_activity_correction_reviewed`를 명시하고, transport에 고정된 동일 activity-provider ID/configuration digest callback이 들어온 경우에만 mass-action source가 종별 유효농도를 `gamma × concentration`으로 사용한다. rate constants와 농도 기반 단위는 그대로 caller 제공값이며 보정 결과는 표준상태 변환·평형 활동도·자동 kinetic law가 아니다. provider lineage와 correction basis를 출력에 기록하고 synthetic wiring 예제를 추가했다. 정적 재생성 후 모델 385·인터페이스 159·partial 101·schema 821·source basis 441이며 source audit 101행·265 경로·379 구성요소에서 누락/AST/stale/unmapped 0이다. 전체 진행률은 47/101 = 46.5%로 유지한다. 계산 테스트·패키징·HPC 제출은 하지 않았다.
+
+침식·부식 손실 성분 장부 `degradation.erosion_corrosion_synergy_decomposition`를 추가했다. 동일 scope의 순수 침식·순수 부식·결합 손실률에서 signed 상호작용 잔차를 계산하고, 침식 중 부식률 관측값이 있으면 두 상호작용 성분을 따로 산출한다. record별 provider digest와 조건을 검증하고 음의 상호작용을 보존한다. 합성 registry 입력, source derivation/reference, API와 범위 문서를 연결했다. 정적 생성 결과 386 models·159 interfaces·101 partial entries (646)·821 schemas·443 source bases이며, source audit 101 rows·265 paths·380 components에서 누락/AST/stale/unmapped 0이다. 전체 code-completion 수치는 47/101=46.5%로 유지한다. 계산 테스트·패키징·HPC 제출은 하지 않았다.
+
+추가로 rate record별 caller 결정론적 하한·상한을 interval arithmetic으로 전달한다. residual synergy는 `T−E−C` 식에 대해 성분별 독립 구간의 바깥 범위를 계산하고, 누락 범위 또는 bounds review 미완료 시 aggregate range를 차단한다. 합성 입력에는 배선용 10% 범위만 넣었으며 이는 측정 불확실도나 통계적 신뢰구간이 아니다. 검증 테스트는 실행하지 않았다.
+
+
+벽두께 한계상태 연결을 추가했다. 침식·부식 평가에 선택적으로 digest-linked 초기 두께와 caller required minimum을 넣으면, asset/location/physical scope/material/geometry 일치 및 baseline 시각부터 모든 손실구간의 연속성을 확인하고 구간별 결정론적 thickness margin을 반환한다. 완전한 rate bounds가 있으면 margin envelope로 기준 위·아래·교차를 표시한다. 기준 두께 자체가 이미 요구 최소치 이하인 경우를 별도 초기 상태 필드로 드러내어, 첫 손실구간 끝점 계산이 시작 시점의 한계 상태를 가리지 않게 했다. 이는 FTA/신뢰성 모델로 넘길 수 있는 limit-state basis이며 실패확률이나 코드 합격 판정은 산출하지 않는다. review/계보/시간 경계가 맞지 않으면 이 연결만 needs_data로 둔다. 계산 테스트와 패키징은 보류했다. 전체 진행률 47/101(46.5%)은 유지한다.
+
+
+# 개발 상태
+
+2026-10-30 SIT provenance 보강: 방향성 `epsilon(i,j)`마다 source record ID와 원자료 파일 `Evidence.sha256`를 입력받고 exact source ID/hash match를 확인한다. 출력에는 두 계보값을 보존하며 row bytes digest로 오해하지 않도록 필드를 구분했다. 정적 생성 결과 386 models·159 interfaces·101 partial (646 total)·821 schemas·444 source bases; audit 101 rows·265 paths·380 components, missing/AST/stale/unmapped=0. 이는 registry/schema/source 정합성 확인만 나타낸다. 계산 검증은 미실행이며 전체 범위 진행 표시 47/101 (46.5%)는 그대로다.
+
+2026-10-30 수용액 열역학 cycle audit 추가: `chemistry.aqueous_thermodynamic_cycle_audit`는 caller 종·원소식·전하·반응·`log10(K)`의 Evidence/file hash lineage를 받고 반응별 원소·전하 balance와 SVD 오른쪽 null-space 기반 cycle closure를 진단한다. cycle basis, singular values, caller rank/closure tolerance와 residual norm을 반환하며 mismatch는 `needs_data`로 둔다. 이는 반응·상 자동발견이나 speciation 계산이 아니고 열역학 자료의 실험 자격화를 뜻하지 않는다. 합성 입력 및 공개 schema/API/근거 문서를 추가했다. 계산 테스트는 보류한다.
+
+2026-10-30 전기화학 금속손실 API 추가: `integration.electrochemical_partial_current_metal_loss`가 계산된 mixed-potential history에서 각 caller-selected reaction의 anodic·cathodic·signed charge를 구간별 선형 적분하고 금속 mol/kg 및 signed 평균 recession으로 변환한다. source/result/history digest, upstream electron number, reference/current area, alloy-metal mapping, material condition, property Evidence 및 reviewer gates를 보존한다. composition-derived Nernst 결과의 downstream mixed-potential 사용을 지원한다. capability 371 계산기·157 인터페이스·101 부분, 공개 schema 799, source basis 421. 정적 scope audit 101행·251경로·363구성요소에서 누락·AST 실패·미매핑 0. 예제/계산 회귀·HPC 제출·패키징은 미실행이다. 전체 모델과 objective는 진행 중이다.
+
+2026-10-30 잔여 코드 작업 명세: 넓은 4개 코드 공백을 8개 순차 작업으로 쪼개고 입력 전제·범위 한계·완료 증거를 `docs/REMAINING_IMPLEMENTATION_KO.md`에 기록했다. 첫 코딩 목표는 signed 전기화학 partial current를 caller 화학량론·면적·밀도와 연결하는 금속손실 ledger이며, 그 다음 crevice recession binding이다. 계획 추가는 구현 완료를 뜻하지 않는다. 한강 CPU 연결은 `HPC_LOGIN_NODE`/`HPC_USER`로 확인됐으나 scheduler 제출은 하지 않았다.
+
+2026-10-30 공개 출처 메타데이터 점검: `scripts/audit_release_rights.py --as-of 2026-10-30` 기준 데이터셋 63건과 출처 420건에서 구조 오류 0건, 365일 초과 검토 기록 0건으로 통과했다. 이는 URL·필수 필드·날짜·체크섬 선언 등의 장부 구조 점검일 뿐 실제 재배포 권리의 법률 검토나 과학적 자격화를 뜻하지 않는다. 상세 결과는 제외 임시경로 `tmp/rights-audit-current.json`에 있다.
+
+2026-10-30 두께방향 열응력 재료 profile 계보: 네 기계 물성 배열별 선택적 provider/revision/record·source SHA-256·Evidence 계약을 추가했다. 계보가 입력되면 material condition ID도 필수다. 결과에는 material condition과 축 위치/물성값 profile digest 및 provenance 유무가 기록된다. 미출처 caller 입력은 별도 상태로 남긴다. 전용 안내·API·합성 예제·개발/재개 기록과 공개 schema를 연결했다. schema 797개이며 capability는 계산기 370·인터페이스 157·부분 101이다. 정적 source audit은 101행·250경로·362구성요소, 누락 경로/AST 실패/미연결 구성요소 0이다. 계산 테스트·패키징은 실행하지 않았다.
+
+2026-10-30 단일상 scale 두께 속도 온도 보정: `chemistry.caller_surface_scale_kinetics`에 침전·용해 각각의 reference rate, activation energy 및 명시적 절대온도 support를 추가했다. 모두 caller 제공이며 Tref와 target T가 support 안에 있고 applicability review가 있을 때만 반응별 Arrhenius scaling한다. 결과에 입력·유효 rate, 정책과 구간별 실제 몰 flux를 남긴다. 과거 target-temperature 상수 입력은 계속 지원한다. 합성 예제·source derivation·API/전용 문서·스키마/모델 참조를 갱신했으며 계산 테스트는 실행하지 않았다.
+
+2026-10-30 scale coverage 속도 온도 보정: 기존 caller area-average coverage 모델에 선택적인 Arrhenius scaling을 추가했다. attachment/detachment rate 각각의 reference 계수, 활성화에너지, reference/valid temperature range를 요구하고 target/reference가 범위 안인지 계약에서 확인한다. applicability review가 없으면 거절하며 유효 수치 support의 overflow/underflow도 `out_of_scope`로 닫는다. 결과에 두 effective rate와 rate scaling policy를 남기며 기존 target-temperature 계수 방식은 유지된다. 합성 모델 입력, API/전용 설명, source ID와 공개 schema/model reference를 갱신했다. 이 변경은 wet-CO₂/scale 속도론의 caller 계수 온도 외삽 기능이지 실험 계수 검증이나 자동 kinetics 추정은 아니다. 계산 테스트·패키징은 실행하지 않았다.
+
+2026-10-30 gasket 누설 경로 후속 보강: calibration pressure축 bracket lookup을 bisect 이진 탐색으로 변경하고 contact-pressure knot 벡터를 평가당 1회만 구성한다. 사용자 지정 2M table-cell 상한 및 전체 campaign 적분 subinterval budget을 적용하며, node/aggregate/cumulative leakage rate의 비유한 수치 결과는 `out_of_scope` 또는 입력 거절로 닫는다. calibration map digest와 accepted interval split history가 결과에 포함된다. 이 변경은 큰 표의 실행 비용과 수치 overflow 위험을 줄이기 위한 것이다. 코드 import를 포함한 스키마 생성과 정적 source audit는 수행했지만, 모델 계산/수치 테스트는 여전히 보류했다.
+
+2026-10-30 gasket 누설 이력 시간적분 개선: `fabrication.gasket_calibrated_leakage_history`에서 시간 사이 평균 접촉압·차압이 선형 재구성되고 보정 flux 표가 압력축별 bilinear일 때, 각 node가 접촉압 보정 knot를 가로지르는 시각 및 차압 보정 knot 통과 시각으로 구간을 나눈 뒤 Simpson 3점 규칙으로 누설 몰수를 적분한다. 이 분할 구간에서 flux는 시간의 2차 이하이므로 선언된 재구성에 대해 Simpson 결과가 정확하다(부동소수점 오차 제외). 전체 campaign subinterval과 calibration table cell budget을 제한하고 결과에 분할 fraction·구간 수를 남긴다. 기존 flange-contact AssessmentResult adapter는 유지하며 누설/접촉 압력축 외삽이나 sealing acceptance는 추가하지 않았다. 전용 설명·API·source catalog·scope audit를 갱신했다. 공개 schema 782개, source base 411개, capability 619개(계산기 361·인터페이스 157·부분 101)다. 정적 감사는 101행·229경로·348구성요소, 누락/AST 실패/미연결 0이다. 테스트 및 패키징은 실행하지 않았다.
+
+2026-10-30 다축 수명 사용자 곡선 연결: `fatigue.multiaxial_life_campaign`에 caller 정의 `shear + weight × normal strain` 지표와 동일 재료상태 곡선의 외삽 없는 log-log 수명 보간을 추가했다. curve point order/digest, full calibration digest, Evidence↔curve-point source 연결, 권리·조건·보간 review, 유효 cycle support를 검증한다. `build_shear_normal_strain_life_calibration()`은 custom curve와 lineage에서 두 digest를 일관되게 생성한다. 합성 배선 예제와 API 매뉴얼·공개 schema·source catalog·model reference를 갱신했다. 이는 일반 사용자 지정 지표이며 특정 출판 criterion 재현 주장이 아니다. 카탈로그는 계산기 361개·인터페이스 157개·부분 scope 101개·공개 계약 schema 782개다. 정적 범위 소스 감사는 101행·229 경로·348 구성요소, 경로 누락/AST 실패/미연결 구성요소 0을 기록했다. 모델 계산 테스트와 패키징은 실행하지 않았다.
+
+2026-10-30 수용액 반응 후보 lineage 개선: 제한 원소·전하 균형 열거기가 정규화된 방향 중립 양론 분할마다 안정적인 digest 기반 `candidate_id`와 전체 `candidate_sha256`를 반환하도록 했다. downstream 네트워크 작성 도구가 행 순번 대신 후보 구성을 정확히 참조할 수 있다. 이는 화학적 실재성·반응 방향·평형상수 판정을 뜻하지 않는다. API reference와 source derivation을 갱신했다. 계산 실행·테스트는 하지 않았다.
+
+2026-10-30 수용액 반응 binding API: 후보 계산 결과를 수동 선택한 반응 ID·방향·온도별 caller `log10(K)`·Evidence SHA에 digest 검증으로 연결하고 mass-action signed term으로 변환하는 `bind_aqueous_candidate_reactions()`를 추가했다. 검토가 없거나 후보 lineage가 맞지 않으면 반응 목록을 제공하지 않는다. 이후 full system assembly adapter까지 연결해 현재 카탈로그는 계산기 360개·연동 interface 155개·계약 스키마 779개다. wet-CO₂ 정적 소스 감사는 101행·229경로·누락 0·AST 실패 0·미연결 component 0이다. 수치 실행과 테스트는 수행하지 않았다.
+
+Binding contract 정렬 보강: 반환 배열의 반응 객체에서 계보 키를 분리해 `AqueousEquilibriumReaction` strict input 형식으로 전달 가능하게 하고, target mass-action 온도·허용차와 `molarity_1_mol_L` 표준상태를 요청에 명시했다. 구조가 손상되거나 중복된 후보 term은 fail-closed 처리한다. 변경 후 요청 스키마 및 정적 소스 해시를 재생성했다. 계산·테스트는 실행하지 않았다.
+
+수용액 mass-action 전체 입력 조립: `assemble_aqueous_mass_action_system()`은 binding 결과의 반응/계보 배열, 대상 온도·표준상태, Evidence, 반응 보존 및 equation 수를 검증해 strict solver system 입력을 조립한다. aggregate equilibrium record digest에 순서 있는 반응별 계보를 연결하고, 합성 전체 배선 예제를 추가했다. 등록 연동 인터페이스와 조립 요청 스키마를 재생성했다. 비평형 계산 및 테스트는 실행하지 않았다.
+
+반응 payload lineage 검증 보강: 개별 signed `AqueousEquilibriumReaction`의 SHA-256, 원본/부호 적용 `log10(K)`, direction 및 enumeration result digest를 binding 계보에서 assembly가 상호 대조한다. 이는 호출 경계에서 실수로 바뀐 payload를 탐지하는 일관성 검사이며 서명 기반 진위 인증은 아니다. 코드를 반영하고 정적 범위 감사만 갱신했으며 계산·테스트는 실행하지 않았다.
+
+크리프 압력–간극 내부 구간 연결: recession-feedback campaign은 요청 시간 knot의 caller pressure 표본을 검토된 piecewise-linear 정책으로 보간해 time-substepped 또는 adaptive aperture 갱신 시점에서 steady slit flow를 다시 계산할 수 있다. 각 수락 유동 상태에 pressure bracket과 interpolation fraction을 기록하며, pressure 외삽·과도 유동·동시 연성은 지원하지 않는다. 공개 계약 schema·source/capability 카탈로그·feedback 매뉴얼 및 101행 소스 감사를 갱신했다. 계산과 테스트는 실행하지 않았다.
+
+기준일은 2026년 10월 30일이다. 전체 목표는 진행 상태다. 계산기·교환 인터페이스·공개 계약 스키마의 정확한 개수는 생성된 catalog와 `data/catalogs/objective_progress.json`을 기준으로 한다. 추가 확장 작업 101개는 일부 구성요소가 있으나 아직 완전 구현·검증 상태가 아니다. 계획 상태 항목이 0개인 것은 capability 목록에 첫 실행 경로가 있다는 뜻이며, 기술 전체 완성을 뜻하지 않는다. 일반 플러그인이나 규칙 엔진만으로 기술 전체를 구현됨으로 표시하지 않는다.
+
+2026-10-30 추가 구현: `chemistry.aqueous_reaction_candidate_enumeration`은 caller가 제공한 닫힌 수용액 종 목록의 원소식·전하 보존을 만족하는 제한 차수 정수 양론 후보를 예산 내 열거한다. 후보는 반응 발견·평형상수·속도법칙이 아니며, 수동 화학 검토를 요구한다. 계산기 359개, 교환 인터페이스 153개, 계약 스키마 774개로 카탈로그를 재생성했다. 테스트·수치 검증은 수행하지 않았다.
+
+2026-10-30 추가 데이터 API: Zenodo Ti-6Al-4V `Fig1.csv` 가져오기 기능을 추가했다. provider SHA-256과 source ID·record citation·CC0 Evidence를 함께 고정하고 PBS 조건을 선택해 net current와 Ti dissolution partial current를 분리한다. 단조 감소 branch만 통째로 뒤집어 API의 increasing-potential 조건에 맞추고 source row ID를 유지한다. 비단조 경로는 정렬하지 않고 거절한다. 공개 계약 스키마 775개로 재생성했다. API import/schema 생성만 수행했고 수치 처리 테스트는 보류했다.
+
+2026-10-30 고이온강도 활동도 확장: 단일 pure-salt caller 계수형 Pitzer mean-activity/osmotic/water-activity 계산기 `chemistry.pitzer_single_salt_activity`를 등록했다. 계수 provenance SHA-256, 온도 일치 tolerance, parameter ionic-strength 상한, electroneutral formula와 authorization을 요구한다. 혼합염 θ/ψ 및 개별이온 활동도 convention은 범위 밖이다. Pytzer GPL-3.0 패키지는 dependency로 포함하지 않았다. 카탈로그 614개, 계산기 360개, 공개 schema 776개로 생성했다. 정적 scope inventory는 101행·229경로·345구성요소로 갱신했으며 누락 경로는 0개다. 수치 계산과 테스트는 수행하지 않았다.
+
+최근 소스 대조에서 partial-scope audit의 기존 `code_incomplete` 13건 중 8건은 해당 bounded 계산 API가 이미 존재하는 것으로 확인되어 분류를 갱신했다. 현재 코드 공백은 네 범주다. 습식 CO₂에는 Davies 적용범위 밖 활동도, 경쟁 다상, autonomous scale morphology/adhesion beyond the caller-calibrated area-average coverage law과 전기화학의 완전 동시 연성, 이동경계가 남아 있다. 고정 scale 확산 상한으로 caller가 선언한 완전한 대상 종 생성 반응 집합을 경계에서 제한하는 adapter를 추가했고, tip/wall의 여러 종 상한을 동시에 적용하며 공유 branch에는 가장 제한적인 배율을 적용한다. 층별 caller 확산저항 및 병렬 피복면 flux 상한 `chemistry.layered_scale_diffusion_limit`와, exact scale-history knot를 명시 layer 하나에 digest 결속하는 `integration.layered_scale_history_transport_binding` adapter를 추가했다. 이 adapter는 별도 review와 caller 공급 특성두께·지수가 있을 때 제한된 thickness-to-coverage 관계도 적용한다. 둘 다 실제 보호율이나 부식률이 아니다. Crevice에는 완전 연성 형상·유동 및 동시 반응이 남아 있다. caller-pinned aperture history와 고정형상 transport를 구간별로 실행하는 one-way operator-split 캠페인을 추가했으며, transport에서 계산한 금속 벽 손실로 다음 구간 간극을 갱신하는 순차 recession feedback을 추가했다. 구간 내 moving boundary는 계산하지 않는다. 다축 피로 폐합 텐서 work-life에 caller 미분을 받는 cubic-Hermite 재구성과 구간 work의 정확 적분을 추가했다. memoryless caller damage-rate 함수를 선형 또는 cubic-Hermite 경로에서 적응형 Gauss-Legendre로 적분하는 provider 조합 API를 추가했고, Hermite 주기 경계의 응력·변형률 기울기 closure 허용치 검사도 추가했다. 법칙 자체, 상태변수·cycle 간 상호작용, provider qualification은 남아 있다. Gasket에는 caller nonlinear Maxwell branch와 flange compliance를 결합한 knotwise 공간 비선형 점탄성 접촉을 추가했다. 비양의 local tangent·Newton 미수렴은 실패 처리한다. caller 검토 아래 관측된 단일 전이 bracket은 샘플링·이분 재생으로 시간 오차를 제한할 수 있으나 숨은/복수 전이 검출과 exact root, FE 응답 생성·누설·seal 해석은 제공하지 않는다. knot별 caller compliance 이력은 검토된 선형 보간과 연산자 digest를 보존한다. caller 공급 상대 compliance와 단조 비선형 gasket 곡선을 결합하는 `fabrication.flange_nonlinear_contact_field`는 2026-10-29 추가했으며 실행 검증은 보류 중이다. 2026-10-29에 단방향 접촉 분리/재접촉 knotwise API를 추가했다. 분리 중 branch state 고정 및 knot 사이 전이시간 미해석 제한이 있다. 다축 피로의 interval-overlap pairing은 2026-10-29에 탐욕 배분을 전역 min-cost max-flow 제안기로 교체했으며, temporal proxy와 review gate라는 경계는 유지한다. CO₂에는 caller 정의 고정-gamma 및 Davies 자기일관 반복 외에, 종별 caller 활동도 표를 유한 이온강도 범위에서 반복 결합하는 `chemistry.aqueous_tabulated_activity_speciation`을 추가했다. 자동 완전 종 네트워크와 경쟁 다상은 별도 범위다. Crevice에는 시간변화·역류 face velocity callback과 pinned cellwise recession으로부터 provider aperture 범위 안의 순차 slit geometry remapping을 추가했다. 이 remapping은 다음 고정형상 수송 단계용이며 완전 연성 해석은 아니다. Gasket에는 caller 보정 선형 Prony 및 비선형 Maxwell branch 기반 조인트 이력, 선형/비선형 bolt 곡선과의 닫힌 접촉 평형을, 다축 피로에는 supplied sampled cycle의 icosphere/Lipschitz 연속면 상한, 면별 scalar rainflow, 선언 piecewise-linear 재구성 factor, 호출자 cycle map을 통한 제한적 FS/Miner 손상, nonlinear bolt/gasket 곡선의 준정적 접촉 평형을 추가했다. Cycle map은 명시적이어야 하며 모든 선택 채널 count가 배정되어야 aggregate를 낸다. 시간 factor는 finite plane과 선언 보간에만 정확하며 실제 미관측 거동의 복원이 아니다. 희귀사건은 독립 seed 반복 및 표준오차/상대오차 진단 코드가 있고, 수치 안정성·편향·물리 자격화가 검증 과제로 남아 있다. 감사표 `data/catalogs/implementation_scope_audit.json`에는 현 코드 경로를 증거로 연결했다. 이 재분류는 실행 시험이나 물리 자격화를 뜻하지 않는다.
+
+2026-10-30에 `solve_crevice_transport_recession_feedback`를 추가한 뒤, 출력 구간을 caller가 지정한 최대 간격 이하의 내부 수송 구간으로 나누는 선택 기능을 보강했다. 각 내부 구간은 시작 slit 형상에서 고정형상 수송을 수행하고, 선택 금속 종의 signed cellwise 벽 ledger를 몰질량·밀도·반응면적으로 셀 평균 recession에 변환한다. 양의 금속 제거 recession은 aperture를 넓히고 음의 재석출은 좁히며, 셀 inventory 보존 remap 이후에만 내부 구간 결과를 완료 prefix로 확정한다. 내부 구간 수 budget·시간 표본화 review·요청 시각별 snapshot·입구 이력 보간 정책을 결과에 기록한다. 선택적으로 최대 상대 aperture 변화 한도를 지정해 초과 시 계산 미확정 구간을 버리고 이등분 재계산할 수 있다. 이 기능은 callback 재실행 결정성 검토와 refinement/segment 예산을 요구하며, 거절 시도 digest와 수락 내부 시간 격자를 남긴다. 이것은 연속 moving-boundary 풀이가 아니라 명시적 operator split이며, 유동 재연성·화학 완전연성은 제공하지 않는다. 공개 feedback schema와 한글 범위 설명, capability/source catalog, backlog 및 101행 정적 소스 감사를 갱신했다. 최신 감사는 227경로·343구성요소, 경로누락/AST 실패/미연결 구성요소 0이다. 계산 테스트와 패키징은 지시대로 보류했다.
+
+2026-10-30 SIT 활동도 API 추가: `chemistry.sit_activity_coefficients`는 caller가 제공한 방향성 epsilon 계수, 온도별 Debye–Hückel A, 완전 이온목록, Evidence lineage 및 적용범위 검토를 받아 몰랄 표준상태 활동도 계수를 계산한다. 누락 pair를 0으로 보는 동작은 completeness review gate 뒤에서만 수행하며 수치 보정이나 종 speciation은 하지 않는다. 새 매뉴얼·합성 배선 예제, 모델 등록, capability/source catalog, API reference 및 공개 JSON 계약을 반영했다. 생성 스냅샷은 계산기 358개·인터페이스 153개·부분 capability 101개·스키마 772개다. 정적 scope audit는 101행·228경로·343구성요소이며 missing path, AST, symbol, unmapped component 항목은 0이다. 이는 구조 추적 결과다. SIT 입력/계산 테스트, 외부 파라미터 적합성 검증과 물리 검증은 사용자 지시대로 수행하지 않았다.
+2026-10-30 공개 활동도 자료 권리 검토: TUDOdata 공식 API metadata에서 mean ionic activity coefficient 자료의 CC BY 4.0, 파일 225개와 provider MD5 225개를 확인했다. 원 자료 설명에 Elsevier 1989 handbook 발췌와 모델 결과가 포함돼 있어 dataset-level license만으로 원 관측 권리와 독립 검증성을 단정하지 않고 `metadata_only`로 등록했다. 평균 이온 계수는 단일 이온 SIT 계수와 직접 호환되지 않으므로 importer·검증자료로 쓰지 않는다. catalog에는 61 dataset / 271 asset, 데이터 감사는 schema 일치·중복 ID·URL·hash 형식 및 로컬 checksum 상태를 기록했다. 실제 수치 API/계산 테스트는 수행하지 않았다.
+2026-10-30 Otto 수계 전해질 자료 연동: 공식 TRI provider page의 dataset CC BY 4.0 선언 아래 1,252,996-byte ZIP을 `data/raw/matr-aqueous-electrolytes/`에 취득했다. cryptographic provider checksum은 없어 로컬 snapshot hash와 JSON member SHA-256을 별도 scope로 기록한다. `otto_electrolyte_data.py`는 251개 고유 GUID/21 RUN_ID의 provider-native fixed-current trace, composition, derived metrics, attribution과 record/source digest를 보존한다. `scripts/inspect_otto_electrolyte_data.py`의 aggregate data audit에서 251 trace가 각각 601 aligned sample을 가지며 모두 0–60 s로 확인됐다. 이것은 Pt HER/OER electrolyte screening이지 부식 polarization scan이 아니므로 corrosion API나 보정자료로 바꾸지 않았다. conductivity/temperature unit은 JSON에 없어 변환하지 않는다. raw data는 ignore 대상이며 loader contract schema, example, manual, rights catalog와 objective log를 동기화했다. 수치 corrosion model 테스트·물리 검증은 수행하지 않았다.
+
+
+
+## 전체 목표 대비 판단
+
+최신 코드 추가: `chemistry.competitive_solid_kinetic_ledger`는 caller 공급 signed 속도 이력으로 경쟁 중성 고체상의 inventory를 보존 갱신하고, `chemistry.competitive_solid_saturation_kinetics`는 caller 공급 phase별 saturation ratio 및 보정 power-law 계수로 속도를 만들어 ledger에 연결한다. `integration.competitive_solid_kinetic_transport`는 추가로 매 transport 구간 종료 후 cell state에서 caller saturation callback을 평가하고 그 rate를 해당 구간의 ledger에 적용하는 경로를 제공한다. 이는 명시적인 lagged operator split이다. 포화비 계산·상평형·종/speciation·phase discovery·핵생성은 여전히 caller 의존 또는 범위 밖이며 속도·재료 적용성도 qualification되지 않았다. 전체 목표의 %는 여전히 분모·가중치가 합의되지 않아 미산정이다.
+
+2026-10-30 연동 무결성 보강: Ksp/evidence template로 만든 transport saturation callback의 activity 표준상태를 kinetic campaign의 `saturation_activity_standard_state`와 대조하고, template 고정온도도 campaign `temperature_K`와 계산 전 일치 검사한다. 공개 schema를 다시 생성했으며 총 760개다. 합성 배선 예제와 문서를 연결했고 101개 범위 감사의 source digest/AST 추적을 갱신했다. 예제 실행·계산 테스트·물리 검증은 수행하지 않았다.
+
+2026-10-30 활동도표 입력 보강: `AqueousTabulatedActivityIteration.activity_table_temperature_K`를 명시하고 용액 mass-action 온도와 다르면 입력 계약에서 거부한다. 기존 고정 온도 표에 더해 종별 온도 slice API를 추가해 `ln(gamma)`를 온도와 이온강도 양쪽에서 외삽 없이 보간하고 온도 support를 결과에 보존한다. 합성 입력·추가 API 예제·760개 public schema·모델 참조 및 catalog를 갱신했다. 표 밖 조건이나 계수 데이터의 열역학적 타당성을 보증하지 않으며 계산 테스트는 미실행이다.
+
+2026-10-30 재사용 lineage: tabulated activity 결과를 candidate-solid saturation screen 입력으로 합성할 때 표 온도, 종별 ionic-strength/temperature support, 보간 정책, table configuration/record digest를 `upstream_activity_table_lineage`로 보존한다. 실행 수치 검증은 계속 보류 중이다.
+
+공통 기반과 여러 기본 계산의 실행 경로를 갖췄으며, 기술 범위 확대와 실제 자료 검증을 진행하는 단계다. 2026-10-30 카탈로그 감사 기준 데이터 카탈로그는 63개 dataset·276개 asset의 rights/policy/checksum 상태를 기록하며, 다운로드 완료 자료와 metadata-only 후보를 분리한다. Strathclyde의 해상용 S355/HSS 피로·FCGR 자료 4개(총 5개 workbook asset)는 dataset package에 CC BY 4.0이 표시됐으나 제공 파일 요청이 403을 반환했고 underlying observation 권리를 확인하지 못해 취득 정책을 `metadata_only`로 둔다. 새 Dryad AM HEA 피로 자료 1개는 CC0 dataset metadata와 provider SHA-256을 확인했으나 익명 다운로드 API가 401을 반환해 metadata-only로 둔다. Mendeley S460 피로 자료 v2의 Paris-law workbook은 CC BY 4.0·provider SHA-256 일치로 data/raw에 취득했으며 6개 specimen sheet의 R과 ΔK/da/dN 구조를 확인했다. 주파수는 workbook에서 확인되지 않지만 선택 sheet·열·행을 명시하는 Excel FCGR importer와 frequency 미상 ΔK-rate/cycle query 경로를 추가했다. frequency가 필요한 life integration/family selection은 계속 fail-closed다. checksum 미상 자산 16개는 미검증 상태로 분리한다. Aalto EBSD용 Oxford/DefDAP reader와 실자료 집계 검증 command를 추가했으나 아직 실제 reader 검증은 실행하지 않았다. 계산기·인터페이스·추가 과제는 서로 다른 단위이므로 합산 개수로 전체 완성률을 계산하지 않는다. 추가 과제 101개의 일부 구현 상태도 기술 전체의 완료를 뜻하지 않는다.
+
+이전 문서의 전체 **78%**와 코딩만의 **80–85%** 표기는 재현 가능한 분모·가중치·완료 증거 기준을 갖추지 못해 전체 진행률로 사용하지 않는다. 전체 목표의 백분율은 계속 **미산정**이다. 코드만의 부분 지표로 101개 partial-scope 감사 항목 중 `code_incomplete`가 아닌 항목은 97개(단순 항목 수 기준 약 **96%**)이고, 명시적인 코드 공백은 4개다. 이 수치는 해당 감사표에서 코드 경로가 있거나 주된 미완료 사유가 데이터·검증 또는 provider인 항목의 비율이며, 각 기술의 완성도·깊이, 전체 도메인 범위, 데이터 권리, 독립 검증 또는 공개 배포 완료율을 뜻하지 않는다. 전체 목표의 가중 완료 기준은 아직 없으며 항목 수를 전체 목표의 백분율로 바꾸지 않는다. 근거가 있는 항목별 현황은 `data/catalogs/objective_progress.json`에 추적한다. MFL
+acquisition 계약과 공개 ILI 원자료 감사 뒤 표형 성장곡선·복수조건 선택, 공동 입력표본의 불확실성 전파, ordered sample-design 안정성 진단, 완전입력 시나리오 앙상블·휴대 가능한 HPC map/reduce, 과정잡음 포함 선형 두께 상태공간, Gaussian posterior 공동표본, 표본 기반 최초도달과 임계확률 기반 검사후보 선택 및 1년 대기부식 시나리오 요약까지 구현했다. 부식률 공동 시나리오 두께평가, 재사용 가능한 simulated/assumed rate-to-wall-loss exchange API를 더해 검토된 최초 통과·FTA event 경계까지 연결했고 under-deposit 환경이력 caller 기준 비교 API도 추가했다. CO₂ campaign에는 선택 가능한 signed wall metal-loss ledger 변환을 연결해 tip reaction 손실과 wall 손실을 별도 보고한다. 실제 설비 입력 통합, 전체 HPC
+회귀, 101개 partial 항목의 심화 구현, 독립 실제 시편 기반 검증이 큰 잔여 범위다.
+
+| 영역 | 현재 상태 | 남은 핵심 작업 |
+|---|---|---|
+| 공개 데이터 | 63개 데이터셋·276개 자산에 대한 취득/권리 카탈로그 기록, 구조 검사·해시·권리 조건 기록 | 누락 시험 조건, 독립 시편, 원 문헌별 권리와 모델별 활용성 검토 |
+| 공통 Python 기반 | 계약·단위·등록·확장·사용자 데이터 경로 구현 | 신규 기술에 따른 계약 확대와 실제 사용성 확인 |
+| 물리·통계 계산 | 361개 등록 계산기 및 정적 카탈로그 생성 | 추가 기술 범위, 실제 보정, 독립 실험 검증 |
+| 예제 사용성 | 346개 모델 입력 fixture와 개별 synthetic API 예제 | 예제를 도메인 변경에 맞춰 유지하고 누리온 회귀 실행 |
+| 신뢰성·타 모듈 | 157개 중립 계약·어댑터·확장 인터페이스와 요청서 구현 | 실제 설비 데이터 통합 검사와 공학 자격화 |
+| 고급 기술 전체 | 추가 101과제 일부 구현·계획 상태 0개 | 항목별 심화 구현·적용 범위·검증 근거 확보 |
+| 문서·배포 | 매뉴얼·개발/검증 기록·로컬 배포 경로 구축 | 신규 코드와의 동기화, 원격 공개와 호스팅된 CI 검증 |
+
+## 완료한 작업
+- `evaluate_fault_tree_inspection_risk_campaign`는 action별 FTA 결과를 strict `inspection.action_expected_loss` calculator로 실행하고, 모델 input/result digest와 action별 FTA model/input/result digest를 확인하는 report를 반환한다. review gate가 열려 있으면 그 상태를 보존한다.
+- `FaultTreeActionEventInput`과 `inspection_action_expected_loss_inputs_from_fault_trees`를 추가해 action별 FTA 결과를 기대손실 입력으로 구성한다. action coverage, 공통 사건/기간, 단일 baseline, 결과 lineage를 보존하며 행위 효과·비용·consequence는 caller가 제공한다.
+- `action_event_probability_from_fault_tree_result`는 기간 최초고장 확률 의미, 동일 conditioning, top-event `IntegrityEventBasis`와 full-result/input digest가 일치하는 FTA 결과만 검사행위 확률 교환 계약으로 변환한다. 행위별 FTA 계산을 요구하며 검사효과를 추정하지 않는다.
+- 사용자 크리프–피로 상호작용 곡선 API를 capability/source 카탈로그와 세 공개 schema에 연결했다. 곡선 밖 외삽을 거절하고 재료·손상 정의·온도 support 및 canonical digest를 보존한다.
+- `reliability_sampling.run_subset_simulation()`을 추가해 임의의 결정론적 scalar limit-state callback을 seeded pCN subset simulation에 연결한다. 임계값, 조건부 추정값, 제안 수락 진단, 부분 log probability와 evaluator revision/digest를 남긴다. 상관 체인의 오차막대는 보고하지 않는다. Python 예제·3개 공개 schema·source/capability·batch110을 등록했으며 계산 회귀는 미실행 상태다.
+- `fatigue.morrow_strain_life`와 `fatigue.swt_strain_life`를 추가해 caller 교정 strain-life 계수로 Morrow/SWT 평균응력 수명 모델을 계산하고 유효 cycle 구간 안에서 root를 푼다. 적용성·계수 검토와 tension-positive 부호 계약을 요구한다. synthetic 입력·문서·schema/source/catalog와 미실행 batch109 회귀를 등록했다.
+- `phase_map_topology.summarize_phase_map_topology()`는 선택 4/8 연결성의 범주별 pixel component와 격자 공유변 기반 sampled interface 길이를 산출한다. 결정립·3D 계면·물성 추정이 아니다. 예제, 상세 설명, API/schema/catalog 갱신과 batch108 미실행 회귀를 등록했다.
+- `materials.phase_fraction_linear_contrast`는 한 시편·영역·측정법에서 사용자 정의 상분율 선형 대비를 계산하고 caller-supplied 확장 공분산을 전달해 요구 범위와 비교한다. 공분산 행렬의 순서·대각·대칭·양의 준정부호를 확인하며 독립오차 가정을 자동 적용하지 않는다. 예제, 전용 설명, API/schema/source/capability 갱신 및 batch105 회귀를 추가했으며 로컬 pytest와 누리온 제출은 하지 않았다.
+- `phase_map_data.summarize_phase_label_map()`는 caller-supplied label image의 고정 ROI에서 상별 면적·분율을 해시 결속과 함께 집계하고 missing/unclassified pixel을 보존한다. 사용자 확장불확도 없이는 model observation으로 승격하지 않는다. batch106 회귀를 등록했다. Aalto EBSD archive의 CC BY 4.0·provider MD5·크기·취득 SHA-256 및 여섯 Oxford member를 확인했다. optional DefDAP reader, 입력 안전성·digest 회귀(batch107), 세 실제 map 집계 validation command를 추가했으나 회귀와 reader command 모두 아직 실행하지 않았다. 맵 좌표·상 ID·시편 계층의 공학적 검토도 남아 있다.
+- `fabrication.storage_preservation_history`는 기존 노출 합계와 더불어 horizon 전체를 evidence·inspection 경계별로 분할한 감사 가능한 환경 타임라인 및 점검 간격표를 반환한다. 기록 공백과 invalid 구간이 명시되며 보간은 하지 않는다. batch97 회귀를 HPC manifest에 등록했다. 정적 검사는 통과했고 테스트 실행 전이다.
+- `thermo.co2_fugacity_coolprop`은 순수 CO₂ 근사 경로, `thermo.co2_mixture_fugacity_coolprop`은 caller가 지정한 조성과 지원 EOS의 단일상 혼합기체에서 CO₂ 성분 fugacity를 계산한다. 두 경로 모두 리뷰 게이트·phase 분류·provider/version/configuration/record digest를 남기며 EOS 실패 시 대체 모델로 전환하지 않는다. carbonate와 AquaSolDB 비교 입력용 provenance adapter, 합성 예제, API 설명과 batch96 검증 command를 추가했다. 정적 검사는 통과했지만 CoolProp 계산과 focused 회귀는 HPC 일괄 실행 대기 중이다.
+- AquaSolDB v2.1을 provider MD5 및 SHA-256으로 고정하고 원본 ZIP은 `data/raw` 제외 경로에만 보관한다. CO₂ 용해도 7,194행을 원 논문 인용 필요성과 편집 표식·매질·압력 기준을 보존하는 typed reader에 연결했다. 41행·8개 출처의 탐색 subset은 저압 순수물/partial-CO₂/무표식 조건의 필터 집계이며, Henry 계수·부식 보정 데이터는 아니다. pointwise 값·출처 인용문은 배포하지 않는다. 누리온 batch65 회귀는 작성했으나 실행 전이다.
+- `chemistry.davies_activity_coefficients`는 완전한 이온 몰랄 목록에서 ionic strength, 전하 균형과 Davies 활동도 계수를 계산한다. 온도·용매별 A는 사용자가 출처와 함께 공급하고 적용 상한은 최대 0.5 mol/kg로 제한한다. 농축 염수, 기체 평형, 부식률은 모델 범위에 포함하지 않는다. 회귀 코드는 batch59에 등록했으나 실행 전이다.
+- `corrosion.material_rate_contrast` 비교 API와 `ct110_data.read_ct110_weld_corrosion_dataset()` 설치 reader를 추가했다. CT110 공개자료 여섯 WM/BM 비교값은 license·attribution·제공자 hash·단위변환 기록과 함께 wheel과 source에 싣는다. 이는 한 연구 예제이며 반복수·시편 식별자·불확실성 정보는 제공되지 않아 보편 모델이나 실험 보정으로 쓰지 않는다. 계산 회귀는 batch60, 설치 reader·해시·adapter 회귀는 batch61에 추가했으며 누리온에서 실행할 예정이다. 원본 workbook은 배포 대상에서 제외했다.
+- `corrosion.rate_sample_summary`는 사용자 제공 시편별 균일손실 속도를 동일 재료·시험 조건·측정법·출처 그룹 내에서 요약한다. 중복 물리 시편과 메타데이터 혼합을 거부하고, 사용자 지정 분위수·표본 계보를 반환한다. 경험 분위수는 신뢰구간이나 예측구간이 아니다. 독립 합성 예제·설명·회귀(batch62)를 추가했지만 검증은 미실행 상태다.
+- `corrosion.rate_quantile_forecast`는 사용자가 선택한 경험 분위수를 검토 게이트 후 고정 선형 두께 시나리오에 연결한다. 시편·관측 ID, 출처/조건 그룹과 서명 digest를 결과에 유지하며, 확률·FTA 사건·합격결론을 생성하지 않는다. 회귀는 batch63에 등록했으며 테스트는 누리온 일괄 검증에 남아 있다.
+- `corrosion.rate_joint_scenario`는 시편표본 계보와 caller-supplied 완전 rate-scenario 배열·정규화 가중치를 분리 유지하며 선형 두께변화, 요구두께 도달시간, 초과 가중질량과 벽 관통을 산출한다. 초과는 자동 확률로 승격하지 않고 시나리오 원본 digest·재료/조건/출처·물리 시편을 보존한다. 설명은 `CORROSION_RATE_JOINT_SCENARIO_KO.md`에 있고 회귀는 batch71로 작성했고 HPC 제출 범위 검사 회귀는 batch72에 두었으나 누리온 제출 전이다.
+- `wet_co2_data.read_wet_co2_simulation_grid`는 Mendeley CC BY 4.0 NORSOK 기반 시뮬레이션 243행을 단위표에 따라 SI로 읽고 DOI·행 ID·SHA-256·라이선스를 보존한다. `summarize_wet_co2_simulation_grid`는 동일 출처 subset의 범위·평균·균등행 경험 분위수만 요약하고 물리 실측·확률·보정 정보를 만들지 않는다. 계산결과는 공급자 모델 출력이며 실측 보정·자격화 자료가 아니다. 구현 회귀는 batch75에 등록했으나 실행 전이다.
+- `chemistry.fixed_fugacity_carbonate_equilibrium`은 사용자 검토 CO₂ fugacity, 같은 용매 조성의 Henry 계수, 활동도 상수 및 측정 알칼리도를 받아 탄산계만으로 수용액 pH·종농도를 푼다. 기상 fugacity 계산, 유한 기체량 보존, 비탄산 완충종, 부식률·위험도 계산은 포함하지 않는다. 합성 예제와 batch64 회귀 입력을 추가했으며 테스트는 누리온 일괄 검증 대기 상태다.
+- 직교 두께 지도 계산에 4방향/8방향 연결성 입력을 추가했다. 4방향 기본값과 기존 입력 호환성을 보존하며 대각선 접촉을 하나의 연결성분으로 보는 선택지를 추가했다. 미측정 셀은 계속 결측으로 남고 두께·손실 요약에 보간되지 않는다. 결과는 형상 요약이며 구조 합격이나 위험 판정이 아니다. 상세 설명은 `RECTILINEAR_THICKNESS_MAP_KO.md`를 따른다.
+
+
+- P0 데이터 조사: 40개 자료 묶음의 210개 고유 파일, 4,236,551,901바이트 확보 및 해시 기록. 새 CC BY 4.0 controlled-source AE 자료의 11개 waveform·180,224표본과 좌표/event table을 감사했다. C_A2·C_I2 source 좌표가 없고 C_A2 channel 10이 누락되어 자동 위치추정에 연결하지 않는다. Coating adhesion, 음극방식, pressure-decay, tribology metadata와 ESCAPE-1의 미확정 경계도 계속 유지한다.
+- 2026-10-29 추가 SCC 공개자료: Mendeley Data version 1의 dataset-level CC BY 4.0 선언 자료를 81,799바이트 로컬 제외 ZIP으로 취득했다. 관측 SHA-256을 고정했으나 제공자 checksum은 없으므로 publisher verification으로 표시하지 않는다. 중첩 Excel workbook은 5개 sheet, 총 550 formula cells이며 한 sheet의 reported width는 16,384열이다. 공개용 구조 감사만 제공하고 point values·headers·원문을 내보내지 않는다. formula cache, specimen grouping, 제3자 권리, 모델 사용성은 미확정이다. 해당 자료로 SCC crack-growth fit을 만들지 않았다.
+- HyMatBase 4130X 수소가스 피로 workbook을 provider MD5로 취득하고 R·주파수별 네 curve 271점을 감사했다. record 4.5 MPa와 workbook 45 MPa의 충돌을 별도 필드와 필수 승인으로 보존하며, Rights 미기재 때문에 원파일·점별 행은 배포하지 않는다. 물리 시편 identity·유효성 확인 전에는 서비스 성장곡선·수명·확률로 연결하지 않는다.
+- `fracture.tabulated_growth_rate`와 `fracture.tabulated_crack_growth`는 권한 있는 사용자 `ΔK–da/dN` 표를 로그–로그 보간하고 순서 있는 인장 block에 적분한다. 재료상태·환경·R·주파수·source hash·이용권한을 요구하고 외삽을 금지하며, 곡선 상한·인성·선언 깊이 종료를 분리한다. 작성한 3차 성장곡선의 독립 닫힌식과 대조했으며 HyMatBase 충돌 자료는 자동 연결하지 않는다.
+- `fracture.tabulated_curve_family_growth`는 동일 재료상태·환경의 복수 R·주파수 곡선에서 block별 유일한 최근접 후보를 명시적 허용차 안에서 선택한다. 후보 없음과 최소거리 동률은 별도 `out_of_scope` 사유이며 조건간 보간·평균은 하지 않는다. 두 조건의 순서 계산을 구간별 닫힌형식과 대조했다.
+- `fracture.tabulated_crack_growth_uncertainty`는 정규화 공동 표본의 성장률·형상·응력·인성 배수를 단일/곡선군 모델에 전파한다. 표본 의존성·ID·가중치·분포/설계/source digest를 보존하고 한 행이라도 적용범위 밖이면 집계를 전부 보류한다. 선언 깊이 초과질량은 입력불확실성 push-forward로 표시하며 기간 고장확률이나 FTA 기초사건으로 바꾸지 않는다.
+- `fracture.tabulated_crack_growth_uncertainty_convergence`는 같은 분포·기준모델의 ordered design 단계와 nested/refined/replicate 계보를 보존하고 평균·표준편차·분위수·초과질량 변화량을 검토된 허용값과 비교한다. 실패 단계는 버리지 않으며 기준 만족은 수렴 증명·오차상한·표본수 보증이 아니다.
+- `fracture.tabulated_crack_growth_scenario_ensemble`은 각 가중 행에 완전한 단일곡선/곡선군 입력을 보존해 곡선점·형상표·하중 block·인성·수치 제어를 공동 변경한다. 같은 물리 범위와 source/input digest를 요구하며 실패 시나리오가 있으면 집계를 보류한다. 시나리오 확률이나 model-form 타당성은 만들지 않는다.
+- `fracture.tabulated_crack_growth_scenario_reduction`은 같은 앙상블을 배열 작업으로 분리한다. 각 결과에 scenario/input/evaluator/configuration digest를 고정하고 reducer가 manifest의 정확한 전체 집합과 단일 평가자 리비전을 요구한다. 실패행을 보존하며 모든 행이 계산된 경우에만 프로세스 내 앙상블과 같은 집계를 만든다.
+- `inspection.threshold_inspection_schedule`은 동일 사건·물리 범위·생존 conditioning의 누적 최초기준도달 확률 forecast에서 사용자 notice·maximum deferral·확률기준을 만족하는 마지막 제공 후보를 선택한다. 점추정과 전 행 상한 기준을 분리하며 보간·consequence optimization·검사효과·규격판정을 만들지 않는다.
+- `inspection.action_expected_loss`는 같은 사건·범위·기간·생존 conditioning에서 zero-action-cost baseline과 완전한 검사·정비 행동의 외부 공급 잔여 최초고장확률을 검토된 행동비용·조건부 결과비용과 결합한다. 점추정 또는 완전한 상한 기준을 분리하고 동률의 임의 선택을 차단한다. 행동효과·확률·비용·위험허용도·규격판정을 만들지 않는다.
+- `inspection.disposition_decision_tree`는 상호배타·완전분할 검사결과의 외부 공급 확률, 결과별 처분비용과 처분 후 조건부 잔여 최초고장확률을 유한합으로 축약한다. 결과는 estimate-basis 행동 후보로 연결되며 POD·오탐·분기확률·상한·다기간 정책을 만들지 않는다.
+- `inspection.multi_period_policy_evaluation`은 외부에서 생성한 한 고정 다기간 정책의 완전한 유한 경로를 평가한다. 경로·행동모델 digest, 시간순 행동, 최초고장, 비용과 공급된 현재가치계수를 보존해 조건부 최초고장확률과 할인 기대손실을 계산하며 전이·할인·정책 최적성을 만들지 않는다.
+- `inspection.finite_policy_path_generation`은 검토된 초기상태·상태조건부 관측·고정 행동규칙·상태행동 전이표를 모든 비영 경로로 정확히 전개한다. failure에서 즉시 멈추고 경로한도 초과를 절단하지 않으며 실제 확률을 적합하거나 정책을 최적화하지 않는다.
+- `inspection.finite_policy_probability_calibration`은 검토된 실제상태·관측라벨과 행동조건부 종단 전이를 sequence/source-group 누출 없는 calibration/holdout으로 나눠 weighted frequency와 명시적 pseudocount만으로 확률표를 만든다. holdout log loss·Brier score와 0확률 사건을 보존하며 독립성·신뢰구간을 추정하지 않는다. 공개 ILI 320만 행은 feature identity와 굴착 truth가 없어 적용에서 제외했다.
+- `inspection.multi_period_policy_comparison`은 동일 사건문맥의 외부 평가 정책에 사용자 승인 확률·자원 hard constraint를 먼저 적용하고 통과한 후보에서만 기대손실을 비교한다. 제약을 완화하거나 동률을 임의 선택하지 않으며 전역 최적성·상세 자원일정·규격판정을 주장하지 않는다.
+- 일반 `fcgr_curve_import`는 caller-reviewed UTF-8 CSV의 명시된 ΔK/da/dN 단위를 SI로 변환해 `TabulatedCrackGrowthCurve`로 전달한다. 메모리 byte나 `FcgrCsvImportRequest.from_file()` 경로를 지원하고 expected SHA-256을 고정할 수 있다. 행별 명시적 include/exclude, 원본순서 증가 ΔK, source digest, stage 원문 및 citation/license/rights/applicability review ID를 보존한다. CSV workbook 전용 reader가 아니며 Strathclyde의 metadata-only 파일을 취득·검증하지 않았다. 공개 schema와 capability catalog에 연결했으며 계산 회귀는 실행하지 않았다.
+- `reliability.sampled_linear_thickness_first_passage`는 평가시점 생존을 조건으로 한 잔여두께-비음수 손실률 공동 표본을 선형 임계도달시각과 가중 누적확률로 변환한다. 0 손실률과 최종 후보 이후 질량을 직접 보존하고 이미 임계 이하인 행을 버리지 않는다. 점추정 forecast는 일정 계산과 조합되지만 실제 공동분포·과정잡음·비선형 성장·상한을 만들지 않는다.
+- `reliability.gaussian_thickness_posterior_sample_design`은 검토된 기준시점 두께-부호 있는 손실률 Gaussian posterior의 공분산을 보존해 재현 가능한 공동표본을 만든다. 비음수 손실률·평가시점 생존 조건, seed·고정 draw 예산·버전 고정 난수변환과 수락/거절 진단을 보존하고 부분표본을 차단한다. 두 adapter가 Bayesian 갱신부터 최초도달까지 연결하지만 과정잡음·비선형 성장·현장 타당성을 만들지 않는다.
+- `reliability.linear_thickness_state_space_update`는 시간순 반복 두께를 두께-부호 있는 손실률 상태로 순차 갱신하고 구간별로 검토된 2×2 과정잡음 공분산률을 누적한다. update에는 Joseph Kalman 갱신을 적용하고 holdout은 one-step-ahead 잔차만 만든다. 과정잡음 적합·smoother·비선형 성장·개입 또는 최초도달을 자동 생성하지 않는다.
+- P1: 입력·결과·근거·기록 계약, 모델 레지스트리, 단위 변환, 사용자 파라미터·물성 표·모델·규칙·워크플로.
+- P2~P4: 224개 물리·경험·확률·검증 계산을 제공한다. 최신 경로는 복수 material certificate requirement 대조, 독립 blank/test known-volume pressure rise, 이종용접 applicability evidence 조정이다. 내장 규격·자동 alloy compatibility·누설 원인분리·합격·확률을 만들지 않는다. 전체 모델 목록과 가정은 `MODEL_REFERENCE_KO.md`를 기준으로 한다.
+- 재료 명칭의 명시적 일대일 조회, 성분 확인 계약, 계산 완료와 사용자 요구 충족을 구분하는 워크플로 중지 조건을 추가했다.
+- 외부 배관 툴킷의 공통 평가 결과 전체를 모델·단위·asset/scenario/clock·evidence·qualification 및 source-tree digest에 결속하는 `PipelineAssessmentRecord`를 추가했다. 상대 저장소가 이미 제공하는 MatIntegrity 호출 경로와 기존 운전·tensor 계약은 중복 구현하지 않았다. 실제 provider geometry 예제를 실행했으나 이는 software exchange 확인이며 설계·현장·물리 검증이 아니다.
+- `welding.hydrogen_bakeout_slab`은 사용자 승인 양면 방출 두께·초기 확산성 수소·temperature/effective-diffusivity 이력에서 누적 확산시간과 유한 평판 급수로 잔류·방출 이력을 계산한다. 급수 tail 상한을 기록하고 기존 무트랩 유한체적 수송기와 교차검증했다. 재료계수·trap·용접부 이질성·균열·절차 합격은 만들지 않아 상위 bakeout 기술은 partial이다.
+- 동일 노출의 면적 최대 pit 깊이 모델에 SciPy MLE·재적합 적합도 진단·파라미터 bootstrap을 추가했다. 공간 초과·POD·기간 최초고장 확률을 결과 계약에서 구분하고 잘못된 사건 변환을 거절한다.
+- 사용 설명·API·개발기록·검증 설명·라이브러리 선택·배포 자료 관리·다른 프로젝트 확장 요청서 작성.
+- Sandia HELPR 공식 v2.1.0·고정 commit·BSD-3-Clause 선언을 검토하고 별도 제외 환경에서 대표 입력을 실제 실행했다. HELPR 코드·규격표·곡선과 원 출력 CSV를 공개 경로에 복제하지 않고 공급자 리비전·환경·설정 digest·출력 해시·자산·부위·재료·하중·sample ID와 두 실행 경고를 복원하는 선택적 수신 계약을 추가했다. 이는 소프트웨어 통합 검사이며 독립 실험 검증이나 규격 판정이 아니다.
+- 직전 공개 wheel을 비편집 core/full 환경에 다시 설치한 과거 전체 회귀는 당시 139개 모델·1,253개 검사가 통과했으며 이후 코드 변경을 검증하지 않는다. 현재 변경의 집중·전체 테스트는 사용자 지시에 따라 누리온에서 수행할 예정이다. 기존 작업 `24229540.pbs`는 이전 source snapshot으로 종료했고 71개 task를 완료했으나 2,333개 테스트 중 25개 실패해 exit status 123을 반환했다. 실패는 예제 context와 test expectation, FABEST 빈 필드 numeric scan, Ruff format이었다. 관련 코드를 수정해 batch49에 회귀를 추가했지만 현재 코드 revision은 기존 snapshot에 포함되지 않는다. 이번 CUI/NIST/schema/Mendeley SCC/FABEST/example-context 변경을 검증할 누리온 재실행은 아직 제출되지 않았다.
+
+## 진행 중인 작업
+
+최신 wheel·sdist·review ZIP은 모두 제한 원자료 제외 검사를 통과했다. 파일 수와 감사 상태는
+`validation/package_audit.json`, 정확한 SHA-256은 배포물 바깥의 `dist/checksums.json`에 둔다.
+
+- 316L SECCM-SEM/EBSD CC BY 4.0 ZIP 9,683,560바이트를 제공자 MD5와 프로젝트 SHA-256으로
+  고정했다. 열 개 member와 raw CA 205개 위치 × 7,782개 시료를 전수 감사하고 초·A 배열을 반환하는
+  reader를 추가했다. map point의 물리 독립성 및 parameter·descriptor·label·footprint·SEM/EBSD 정합은
+  확인되지 않아 표 결합, 분류 truth, pit 치수·POD·수명은 만들지 않는다.
+
+- `corrosion.chronoamperometry_window_summary`는 사용자 지정 분석·baseline 창에서 비균일 시간축의
+  signed/absolute piecewise-linear charge, 시간가중 평균, plateau의 첫/마지막 극값 시각을 계산한다.
+  exact endpoint와 명시적 선형 경계보간을 구분하며 정렬·필터·event classification을 하지 않는다.
+  SECCM adapter는 archive/member/선택배열 해시를 함께 전달한다. 작성 affine 닫힌식 오차는 0이고
+  고정 raw map 1에 실제 적용했지만 이는 한 위치 기술량이지 독립 실험·pit truth가 아니다.
+
+- FABEST LCF 공개 규칙에서 분리한 세 계산 계약을 독립 구현했다. 주기응답 오차는 명시적 양수
+  정규화와 시험내-시험간 2단 평균을 사용하고, 수명 RMS 로그오차는 양의 비검열 결과만 받는다.
+  동적탄성률 저하 종료점은 관측점과 명시적 선형보간을 구분하며 닫힌 무교차 관측을 우측 검열로
+  보존한다. 합성 산술 단위시험 12건과 고정 JSON 검증이 통과했다. 531,469,245바이트 LCF v2 원본은
+  제공자 MD5와 프로젝트 SHA-256으로 고정했다. 압축을 풀지 않은 감사에서 24개 calibration 실험,
+  96개 수치표, 25,213,349행과 7개 header 계열을 확인했다. calibration 1-3과 blind 4-5를 분리한다.
+
+- AA7050 한 시편의 2일·6일 국부 공식 형태와 stress·strain MAT 네 파일 127,766,005바이트를
+  고정 URL·제공자 SHA-256으로 취득했다. 2일·6일 형태 shape는 각각 2,845×3,931과 2,849×3,968,
+  strain은 851×1,199, stress는 230×291로 서로 다르다. 전 값은 유한하지만 직접 index 정렬·차분은
+  차단한다. 단위·좌표·pit 정의를 추정하지 않고 모델 유도 stress/같은 연구 strain을 독립 truth로
+  쓰지 않는다. `AA7050_LOCAL_PITTING_DATA_KO.md`에 경계와 재현법이 있다.
+
+- `spatial_fields.py`는 별도 2차원 배열을 dtype·shape·바이트 해시와 검토된 직교 좌표축에 결속하고
+  nearest/bilinear 표본화를 제공한다. 서로 다른 좌표계에는 사용자가 검토한 direct affine 변환이
+  필수이며 격자 밖·결측 support는 명시적으로 거절하거나 결측 상태로 반환한다. AA7050 배열에는
+  좌표·단위·정합 근거가 없으므로 아직 적용하지 않았다. 이 수치 인터페이스는 정합 품질, pit 분할,
+  성장·POD·수명을 검증하지 않는다. `SPATIAL_FIELD_EXCHANGE_KO.md`에 경계가 있다.
+
+- 누설자속검사는 magnetizer·sensor component mapping·reference feature·H/B field checkpoint·encoded
+  scan과 indication을 보존한다. encoder span과 vector magnitude만 계산하며 saturation·field uniformity·
+  anomaly classification·sizing·합격·POD는 남아 있다. 공개 연속 ILI 자료는 MFL raw flux나 excavation
+  truth가 아니므로 검증으로 승격하지 않았다. `MAGNETIC_FLUX_LEAKAGE_KO.md`에 경계가 있다.
+
+- 와전류검사는 probe·주파수·reference standard·encoded raster·indication과 고전 skin-depth 적용 근거를
+  보존한다. 선택적 DICONDE reader는 저장 정수 component와 좌표·rescale metadata를 읽지만 자동
+  보정·phase rotation·filtering·검출·치수·합격·POD를 수행하지 않는다. BAM 공개자료 12개 simulation
+  CSV와 10개 laboratory DICONDE는 구조 감사까지 완료했으며 독립 결함 truth와 field qualification은
+  남아 있다. `EDDY_CURRENT_KO.md`에 경계가 있다.
+
+- TOFD는 distinct transmit/receive probe·wedge, index separation, velocity/wall basis, encoder frame hash,
+  lateral/backwall time과 upper/lower diffraction pick을 보존한다. 검토된 평판 대칭 직선경로에서만
+  tip depth·tip separation·backwall timing 진단을 계산하며 자동 picking, dead-zone, 곡면 ray tracing,
+  합격·POD는 남아 있다. `TOFD_KO.md`에 경계가 있다.
+
+- 위상배열 초음파는 probe/wedge, material velocity, conventional focal law 또는 FMC, encoder와 원 frame hash를 보존하고 aperture·nominal wavelength·pitch ratio·delay span·encoder spacing만 계산한다. ML-NDT 고정 commit의 804 data blob·199/2 batch와 LGPL-3.0을 확인했고, 별도 local clone에서 UUID quartet·형상·label/JSON·SHA-256을 검사하고 한 영상을 명시적 byte order로 읽는 인터페이스를 추가했다. 한 물리 pipe·세 crack에서 만든 virtual-flaw 영상이므로 독립 시편/POD로 세지 않는다. Strathclyde의 CC BY 4.0 98.9 MB 자료는 checksum 미제공과 현재 403 challenge 때문에 metadata-only다. 실제 원 waveform adapter, TFM, beam-field와 물리 시편 holdout은 남아 있다. `PHASED_ARRAY_KO.md`와 `PHASED_ARRAY_DATA_REVIEW_KO.md`에 경계가 있다.
+
+- 방사선투과검사는 X-ray/gamma source, exposure, detector, 원 영상 hash, IQI와 image-space indication을 보존하고 pinhole magnification·geometric unsharpness·object-plane pixel pitch를 계산한다. 규격 한계와 합격/POD는 내장하지 않는다. X-weld Zenodo 후보는 metadata상 Apache-2.0이지만 촬영조건·시편·truth가 없어 optional·unqualified로만 등록했고, GDXray와 RIAWELC는 각각 이용제한과 명시적 license 부재 때문에 공개 취득 대상에서 제외했다. 실제 절차 export, detector calibration, 물리 시편 단위 독립 holdout은 남아 있다. `RADIOGRAPHY_KO.md`와 `RADIOGRAPHY_DATA_REVIEW_KO.md`에 경계가 있다.
+
+- 습식 CO₂ 후보 편집본 427행을 CC0 표시와 제공자 체크섬으로 확보했다. CSV에는 단위가 없지만 CC BY 4.0 연계 preprint의 동일 통계표에서 °C·m/s·bar·%·Pa·mm/year 열 단위와 243개 NORSOK 생성값, 50개 오토클레이브 중량감소, 60개 중국 현장, 74개 나이지리아 현장이라는 집계를 확인했다. 별도 CC BY 4.0 Mendeley workbook과 header·위치·8개 수치를 전수 대조해 CSV source row 2–244의 243행을 동일한 시뮬레이션 모델 출력 source group으로 정확히 연결했다. 이들은 물리 관측이나 독립 검증이 아니다. 오토클레이브 근거 문헌의 부록 22행은 온도·유속·pH·부식속도 순서에서 source row 334–355의 유일한 후보지만, 연계 논문의 50개 집계와 수가 다르고 MPa→bar 압력 3개가 불일치한다. 호출자 보유 문헌 값을 명시적 affine/평균 변환으로 대조하고 불일치를 보존하는 공개 계약을 추가했지만 이 후보는 source group으로 확정하지 않았다. 동부 하이난은 공식 2차 논문이 재수록한 원 위치 1~4·60의 여섯 비응답 필드를 대조해 source row 245~248·304의 유일 후보를 확인했다. 다섯 행 중 위치 60의 부식속도는 3.11 대 2.86 mm/year로 달라 자동 수정하지 않았고, 누락된 55행을 추정하지 않았다. Egua-2 출판사 미리보기 12쪽은 목차에만 대상 제목이 있고 실제 본문·관측 표가 없어 74행의 근거가 되지 못한다. 모든 문헌 PDF·API 응답·점별 표는 배포하지 않는다. 나머지 184행의 원 문헌·행별 현장/실험 구분·시편·재료·노출시간·수화학·측정법은 미확정이므로 경험·기구 보정은 차단한다. 정확한 단위 근거를 호출자가 승인할 때만 SI view를 만들며 CoolProp 또는 fugacity로 연결하지 않는다. `WET_CO2_DATA_KO.md`에 근거와 경계가 있다.
+- 탄소강 1년 대기부식 공개자료의 프로그램 617행과 독립 연구 106행을 source group·품질등급·원행·기후 공변량 출처를 보존해 읽는다. 프로그램을 보정하고 독립 A/B 83행을 보류한 로그선형 모델은 수학 구현 대조에는 통과했지만, 보류 log-RMSE 약 1.205와 지원범위 이탈 33/83으로 사전 전이 기준을 충족하지 못했다. 실패 상태를 모델에 고정하고 무검토 예측을 기본 차단한다. 지역·재료상태별 독립 검증, 국부·다년 성장과 습식 CO2는 미구현이다. `ATMOSPHERIC_CORROSION_KO.md`에 재현·권리·해석 경계가 있다.
+- COQTEL의 CC BY 4.0 HDF5 두 파일을 고정 체크섬으로 전수 감사했다. 두 316L 판은 독립 실험 두 개이고 파일 내부 166·263상태는 같은 시편의 반복 관측이다. 총 429 EC 행과 1,716 actuator 파형은 상태 번호로 정렬되며, 같은 시각 10·2구간과 실험 2의 공기방울 교란 state 30~100을 보존한다. Root image에는 state 연결·길이 보정이 없고 상태별 pit 치수도 없어 전하·파형 차이를 pit-sizing·POD·수명 검증으로 표시하지 않는다. `COQTEL_DATA_KO.md`에 경계와 재현법이 있다.
+- CEIT 해안 노출 균일부식 CC BY 4.0 JSON을 고정 체크섬으로 확보해 단일 S355 표식 시편의 2,715개 레코드와 raw·filtered·correlation·envelope 배열을 전수 검사했다. 엄격 증가 원 시계, 장치 ID와 모든 raw 파형의 ADC rail 표본을 보존한다. 파일 자체에 ToF·온도·sample-clock 단위, 음속·경로·교정·독립 두께가 없어 제공자 요약 134 µm/year를 재현된 값으로 표시하거나 두께·수명 입력으로 연결하지 않는다. `FIELD_UNIFORM_CORROSION_KO.md`에 경계와 후속 자격 조건이 있다.
+- K·파괴저항과 reference stress·정규화 강도를 사용자 허가 FAD 경계에 연결하는 평가점 계산기를 추가했다. 규격 곡선·cutoff·factor는 내장하지 않고 source/basis/digest·material/location/load/solution ID를 유지한다. CC BY 4.0 C1/C2 crack-arrest raw 18파일·79,341행도 확보했지만 initiation toughness나 FAD 검증으로 바꾸지 않는다. 시편 기하·동적 reduction·유효성 검토와 initiation/tearing 자료, 실제 부품 파괴 독립 검증은 남아 있다. `FRACTURE_ASSESSMENT_KO.md`에 계약과 경계가 있다.
+
+- CC BY 4.0 전이구간 파괴인성 편집 workbook에서 provider training 448행과 test 192행, 14개 재료의 보고 KJc를 분리해 읽는다. Workbook의 `K` 표기와 음수 값 충돌은 연계 논문이 시험 온도 특징과 재료 범위를 °C로 명시한 근거를 기록해 기본 SI 온도를 만든다. W·B·a에는 workbook 단위 표기가 없지만 논문의 T 크기 mm 정의와 전 행의 4.07~101.6 두께 척도를 대조해 기본 `article_mm` 변환을 제공하며 검토 비활성화·명시적 override를 지원한다. 34개 형상 조건 그룹이 모두 두 partition에 존재하므로 누설 층으로 기록하고 물리 시편 독립성을 주장하지 않는다. 논문 표의 재료·참고문헌 그룹은 정확 614행·이름 변형 유력 18행·미해결 8행으로 구분한다. 9개 참고문헌 중 DOI 7개를 확인했으며 workbook에서는 DOI 그룹 176행·서지만 확인된 그룹 456행·출처 그룹 미해결 8행이다. 원 관측 재배포 권리는 640행 모두 미확정이다. 행별 원 문헌·물리 시편 ID·시험 유효성도 미확정이고 FAD 파괴저항이나 독립 검증으로 자동 연결하지 않는다.
+
+- 평판·원통 반경 방향의 온도 의존 1D 유한체적 열전도와 두께방향 탄성 열응력을 추가했다. 부호 있는 열경계, 대류·복사·발열, 엔탈피 저장량·에너지 잔차, 평면 조건·단면 합력·탄성 한계를 보존한다. Fourier 해와 공간·시간 수렴을 확인했고 공개 rod 시험은 같은 자료에서 적합된 계수를 사용한 재현으로만 기록한다. 독립 시험, 잠열·이력, 이동 열원, 소성·크리프·압력 결합은 남아 있다. `THERMAL_GRADIENT_KO.md`에 계약과 재현 절차가 있다.
+
+- 부호 있는 비선형 분극 곡선의 면적별 전류 평형을 추가했다. 전위 기준·단위·원 분기/점 ID를 보존하고 다중/평탄 평형과 수치 미해상을 대표 결과로 채우지 않는다. 24곡선·19,680점과 공개 시험 방법을 대조했으며 실제 결합 면적·저항·준정상 전달·독립 실험 검증은 남아 있다. 조건과 재현 경로는 `ELECTROCHEMISTRY_KO.md`에 있다.
+
+- CC BY 4.0 부식저항 합금 지표 workbook을 고정 체크섬으로 확보하고 6개 지표 시트의 1,268개 원행·3,579개 지표 셀을 읽는 로더를 추가했다. Exact 1,605·문자 숫자 1·하한 14·상한 2·정성 44·누락 1,913을 분리하고, SCE 기준 전위와 시험환경·방법·참조번호를 보존한다. 공개 설명의 81개 문헌과 workbook 참조번호 85개의 차이를 유지하며, 사용된 84개 참조번호 중 78개에 DOI가 있다. 참조번호를 물리 시편 ID로 바꾸지 않고 시험 유효성·원 관측 권리를 전부 미확정으로 둔다. 서로 다른 전기화학 끝점을 재료 순위·합격값·수명으로 합치지 않는다.
+
+- 독립 입력의 Sobol 주/총 분산 민감도에 단위·분포·근거·모델 버전, 분리 가능한 설계/평가/분석 JSON 계약과 등록 계산기 연결을 추가했다. 반복 scramble 근사 구간·표본 크기 비교·미계산/비재현 중지·음수 추정 보존을 검사했다. 예제 범위는 합성이며 실제 입력 상관·분포 추정·관측 잡음·희귀 응답의 별도 검증은 남아 있다. `SENSITIVITY_KO.md`에 조건과 재현 절차가 있다.
+
+- 수소의 유한 평판 및 반경–축 유한 원통·고정 단일 점유 트랩 속도식 모델을 추가했다. 사용자 초기 분포·고정농도/무유량/선형 표면전달/축약 해리 표면반응 경계·변온·확산계수와 트랩별 속도 이력을 받고, 원통에서는 곡면과 두 끝단 교환 및 전체 mol 재고를 각각 보존한다. 각 트랩은 검토된 결합에너지 기반 방출/포획 비 또는 근거 있는 독립 capture/release 이력을 선택한다. 별도 열활성화 공급자는 capture/release 각각의 Arrhenius 또는 Eyring 파라미터를 검토된 온도 knot의 독립 속도 이력으로 만들고 에너지 기준·지원 범위·digest를 보존한다. 축약 표면 공급자는 caller-supplied H₂ fugacity 또는 명시적으로 검토한 ideal-gas partial pressure와 두 Arrhenius capacity로 `J_abs(1-theta)-J_des theta` 경계를 만들며 반 셀 확산저항과 결합한다. CoolProp으로 fugacity를 추정하지 않는다. 평판 해석식·독립 ODE·Oriani 한계, 속도/표면반응 항등식과 원통 Bessel 체적평균·축방향 정상해·시간/공간 세분화를 검사했다. 실제 surface parameter 보정, 상세 다중상태 반응·오염/산화막, 트랩 생성·응력 결합과 실제 투과/TDS 검증은 후속 과제다. 설명은 `HYDROGEN_TRANSPORT_KO.md`에 있다.
+
+- 검토된 평판 표면의 signed outward 수소 atom-molar flow에서 하나의 사전 선언된 수송 파라미터 이력 배수만 적합하는 `transport.hydrogen_slab_flow_multiplier_fit`을 추가했다. 관측·시편·검출기·표면·경계·source group·partition·정확한 시계와 실제 면적을 보존하고 calibration 행만 목적함수에 사용한다. 합성 확산계수 배수 2.0 복원, fitted slab 재사용, holdout 값 변경에 대한 적합 불변과 질량보존을 검사했다. 실제 원신호 보정, 다중 모수·전역 식별성, 고정입력·모델형식·검출기·source-group 불확실성과 독립 실험 검증은 남아 있다.
+
+- 수소 자료 2묶음을 추가했다. HE-Austenite의 113개 보고 행에서 성분 연결 불일치 15개·미확정 소성 변형률 단위 4개·동일 조건/값 13행을 보존한다. 2.64 GB의 1차 트랩 실험 자료는 제공자 체크섬을 대조했다. OPJU 두 개에서 고유 CSV 9개·중복 2개를 기록하고 투과 40,859행·열탈착 18곡선 98,983점을 읽었다. 시간 기준 1초 차이·쉼표 분리·음수 신호·미기록 꼬리·미충전 대조를 보존한다. 공개 보충자료로 TDS의 시편 질량 기준 수소 질량 ppm과 투과 요약의 표준편차 의미를 확인했다. 검토된 전류·시계·면적·전자수·효율을 signed 원자 플럭스로 바꾸고, 검토된 질량 ppm은 TDS mol/(kg-sample·s)로 변환한다. 전체 mol/s는 검토된 시편 질량이 있을 때만 만든다. 경계농도나 TDS clock은 추정하지 않는다. 투과막 두께·면적·전위 기준, 검출기 응답과 곡선별 실제 시편은 아직 미확정이며 수소 균열·투과·TDS 보정으로 표시하지 않는다. 절차는 `HYDROGEN_EXPORTS_KO.md`에 있다.
+- 고정 유도초음파 archive의 같은 관·archive에서 서로 다른 acquisition, 정확한 주파수/모드, 정렬 거리 grid와 호출자 공간창을 요구하는 pairwise·reference-ensemble 계산기와 reader adapter를 추가했다. 반복 거리는 보존·정렬쌍 평균·거절 정책으로 명시한다. Ensemble은 세 개 이상의 고유 baseline, source group·선택 근거, mean/median reference, baseline spread와 leave-one-out 변동을 보존한다. 건강기간에 분산한 7개 baseline과 1901/1902/1930의 14 kHz 두 모드를 기술 비교했다. 한 관의 반복 집계는 여섯 가공 단계·결함 크기·두께·threshold·POD·수명·고장확률의 보정이나 독립 검증이 아니다.
+- BAM CMSX-6의 정하중 크리프 12시편·13파일을 확보했다. 파단 9개와 시간 한도 미파단 3개를 구분하고 처리 시계열 140,032행·중복 시각 23구간을 보존한다. 검열 로그정규 수명 적합·조건부 확률 API를 추가했으며 단일 온도 시범 적합은 8개 보정·4개 보류 비교로 제한했다. 다중 온도의 실제 검증·모수 불확실성·기구 전이는 진행 대상이다.
+- FABEST의 60개 고주기 그룹에서 관측 663행·별도 변형률 수명 8행을 읽고 정적 기준점 60개·회귀 출력점 2,885개를 분리했다. Break cycle 보고 567행·provider interruption 95행·미확정 1행을 구분한다. 곡선별 END 기준은 60그룹 모두 없고, 문자 접미사 54행은 재시험 의미 미확정, 끝점 주석 89행은 검토 태그일 뿐이다. Interruption을 자동 runout으로, 온도 주석을 검증된 self-heating으로 바꾸지 않는다.
+- 별도 FABEST HCF blind package v2.1.2의 46,329,584바이트 ZIP과 20개 목표조건을 감사했다. 네 프로토콜 문서의 내부 경로·크기·해시와 10% 급격 압력저하+시편 기원 확인 끝점, 2,000,000 cycle runout, 같은 온전한 시편 재개 시 유효 cycle 누적 규칙을 고정했다. 이 기준은 별도 경쟁 패키지에만 적용하며 기존 FABEST workbook의 누락 END 기준을 채우지 않는다. 결과 칸은 모두 비어 있어 수명모델 검증에는 쓰지 않는다. `fatigue.pressurized_annulus_load_state`는 환형단면 하중을 분리하고, `fatigue.pressure_loss_endpoint`는 시험 끝점 종류를 분리한다. `fatigue.hemisphere_plane_grid`와 `fatigue.area_uniform_fibonacci_plane_grid`는 각각 위도형 및 동일면적 `z` 층화 유한 후보를 만든다. 후자의 명목 가중치는 실제 Voronoi cell 면적이 아니다. 임계면 계산기는 한 면내 성분, 두 성분의 이산 최대 chord 또는 유한 표본 minimum-enclosing-circle 반지름으로 FS/SWT 계수를 분리해 계산한다. 원 계산기는 최대 3개 support 표본·좌표계 중심과 chord 비교값을 보존한다. 평면 세분화·격자 계열/phase 교차 비교·시간 세분화 계산기는 최대계수 변화와 지배 법선 이동을 각각 기록한다. 적응형 계산기는 유한 격자 FS/SWT seed에서 각 목적함수를 별도로 축소 tangent ring으로 탐색하고 단계별 반경·계수·법선을 보존한다. 엄격한 교차격자 진단은 수학 검증 통과와 별개로 미충족을 보존한다. 두 경로 range 모두 continuous-time extremum이나 cycle counting이 아니고, 선언 안정성 또는 적응형 마지막 단계의 작은 변화도 전역 최적·수렴 증명이 아니다. 노치 뿌리의 안정화 단축 진폭은 `fatigue.neuber_notch_strain_amplitude`에서 사용자 검토 Kt와 반복 물성으로 계산한다. 다축 임계면 이력의 국부 탄소성 재구성, 피로강도·수명 및 자격화된 노치 보정은 남은 과제다. 자세한 계약은 `NEUBER_NOTCH_STRAIN_AMPLITUDE_KO.md`에 기록했다. `CRITICAL_PLANE_FATIGUE_KO.md`가 경계를 설명한다.
+- `fatigue.neuber_strain_life_chain`은 reviewed scalar Neuber/Ramberg–Osgood 계산과 기존 피로 수명식을 하나의 registry API로 연결한다. Neuber 미검토·미수렴 시 life 계산을 중단하고, 보정 주기 범위 밖 수명은 미생성으로 남긴다. 상세 범위와 예제는 `NEUBER_NOTCH_STRAIN_AMPLITUDE_KO.md`와 `examples/model_inputs.json`에 있다. 이 API는 caller-owned 재료 보정과 노치 평가를 대체하지 않는다.
+- CC BY 4.0의 ECP 다축 피로 자료 28파일을 제공자 MD5와 대조했다. FS/SWT 각 147개의 처리행은 같은 147개 보고 실험수명을 반복하므로 `read_ecp_multiaxial_fatigue`가 실험 관측과 방법별 파생값을 분리한다. 14개 조건은 비례 및 45°·90° 비비례 하중을 포함하지만 물리 시편 ID·검열·끝점·국부 tensor/FE field가 없어 임계면 모델의 독립 보정 자료로 아직 승격하지 않는다. `MULTIAXIAL_FATIGUE_DATA_KO.md`가 계약을 설명한다.
+- `matintegrity.local_tensor_history.v1` 중립 교환 계약과 어댑터를 추가했다. 공급자·solver·revision, mesh·field location·공간 평균, 표본 시계, 오른손 직교 좌표계, stress/strain measure, shear convention, 원본 SHA-256과 설정 digest를 보존한다. 합성 engineering-shear 경로가 tensor shear로 변환되어 chord와 minimum-enclosing-circle 계산에 조합되는지 검사했다. 실제 FE 해의 정확도·mesh 수렴·노치장·수명 또는 실험 검증은 아직 아니다.
+- `degradation.cavitation_margin`은 검토된 절대 국부 정압과 평형 증기압의 부호 있는 여유, 정수두, 동압과 호출자 정의 국부 캐비테이션 수를 계산한다. `degradation.cavitation_history`는 정렬된 표본의 선형 0 교차, 비양수 여유 구간·지속시간과 clipped pressure-deficit을 보존하며 무효 표본을 거절한다. CoolProp 조합은 각 온도의 포화압·포화액 밀도와 표본별/전체 상태 digest를 보존한다. 이는 열역학 선별이며 기포핵, 미표본 비정상 극값, inception, 붕괴·침식률·재료 손상·수명 또는 실험 검증이 아니다.
+- `reliability.joint_event_probability`는 동일 범위·기간·생존조건의 완전한 이진 공동 상태표에서 상위사건 확률과 주변·쌍별 의존 진단을 계산한다. 빠진 상태를 재정규화하거나 공통원인율을 추정하지 않으며 독립 비교값을 별도 근거로 승격하지 않는다. 현재 검증은 작성된 정확 분포의 산술·계약 검사이고 실제 공동분포 보정, 시간 변화·수리·교체 및 소비자 통합 검증은 남아 있다.
+- `reliability.continuous_time_markov_chain`과 `reliability.piecewise_continuous_time_markov_chain`은 검토된 시간 불변 또는 연속 구간별 상수 생성행렬에서 종료·경계 상태 점유, 구간별·누적 기대 점유시간·전이횟수와 상위사건 상태 최초진입확률을 분리한다. 구간 순서·경계·근거 ID·리비전·해시를 보존하고 공백·중첩·암묵 정렬을 거절한다. 두 상태 고장·수리 폐형식, 분할 불변성과 흡수 한계를 검사했다. 실제 운전조건별 고장·수리율 보정, 연속 시간 의존·노화·semi-Markov 전이, 모수 불확실성 및 소비자 통합 검증은 남아 있다.
+- `reliability.bayesian_linear_thickness_update`는 한 물리 위치의 기준시점 잔여두께와 일정 손실률 Gaussian prior를 반복 검사 두께로 갱신한다. update/holdout·campaign/source group·측정법/교정·공분산과 review gate를 보존하고 holdout 값은 posterior에 쓰지 않는다. 독립 정보형 해, batch/sequential 동치와 특정 시점 확률 의미를 검사했다. 실제 반복 CML 자료의 측정오차·성장모형 보정, 과정/모델형식 불확실성, POD와 최초통과·검사계획 결합은 남아 있다.
+- `reliability.gaussian_mean_shift_importance_sampling`은 표준정규 잠재공간의 unit-covariance 평균이동 제안표본과 외부 결정론 평가자의 사건 지시값에 정확 우도비를 적용한다. sample·design·생성기·잠재 매핑·평가자와 자산·범위·기간·생존조건을 보존하고 비정규화 추정량, 표준오차·정규구간, 전체/사건 ESS를 분리한다. `Z>4` 합성 꼬리의 32,768개 고정 seed 검증은 정확값 대비 약 1.42 표준오차였고 0이동·직접 우도비·0사건·정렬/gate를 검사했다. 실제 물리분포·한계상태 보정, 적응형·혼합 제안, subset simulation과 독립 실험 검증은 남아 있다.
+- BAM 3개 시험의 기록 사이클·최대/최소 표를 대조했다. 열린 경로의 일을 폐곡선 소산으로 바꾸지 않는다. POD의 독립 실험·클러스터 검증과 Paris의 closure·지연·소성·환경 성장 검증은 진행 대상이다.
+- 충격시험 편집 자료 4,961행에서 수치·형상이 유효한 4,871행을 구분했다. 보고된 곡선 ID 2개가 조사 조건을 섞으므로 재료·처리·형상·조사 조건별로 분리한다. 원 문헌별 권리·시편 독립성 검토와 별도 시험 검증은 남아 있다.
+- WILLOW 합성 2,000건의 MAT·특징표 기하를 전수 대조했고 실제 기록 774건의 시각을 일대일 연결했다. 실제 170건의 처리 실패, 약 48일의 기록 공백, 장치 설정 변화를 보존했다. 반복 노출 시계열을 독립 면적 최대값으로 취급하지 않는다.
+- 배관 파열 편집본을 공개 UI의 ZIP·제공자 SHA-256으로 취득했다. 주 표의 시험 파열압 102건·FEM 실패압 351건을 구분하고 보완 물성 388셀·추정 폭 302셀을 보존한다. 편집본 범례 문헌 430행과 `Ma13Otros` 미해결 표식 23행, 미제공 물리 시편 ID와 미검토 원 관측 권리를 분리했다. Ma 논문 출판사 페이지의 수집 시험 79그룹과 직접 문헌 연결 실험 79행의 수가 같아도 행 대응으로 간주하지 않는다. `Ma13Otros`의 원 문헌·중복·권리와 지름·압력 기준은 계속 검토 중이다.
+- 국부감육의 절점 구간 면적 스캔과 사용자 기준 압력·형상 보정 공급자를 추가했다. 계산된 정적 용량은 완전한 규격 판정·허용운전압력·기간 고장확률이 아니다. 실제 파열압 비교에는 적합한 공급자·치수·원 시험 조건이 추가로 필요하다.
+- 사용자·상용·외부 저장소의 파열압 예측을 자격화된 실제 시험과 비교하는 `structural.burst_pressure_comparison`을 추가했다. 물리 시편·source group·calibration/holdout/external-validation·재료·형상·하중·압력 기준·원본/예측 digest를 보존하고 분할 누설, 중복 시편, 미검토 권리·끝점·압력 기준과 평가 후 고정 예측을 차단한다. 합성 산술 검증만 완료했으며 현재 편집본은 입력 자격이 없다.
+- 공개 pulse-echo 연구에서 왕복 에코 두께 항등식, V111과 S355J2G3의 실온 5950 m/s 교정 절차를 확인했다. `PulseEchoThicknessCalibration`은 검토된 시편·probe·음속·zero offset·raw/보정 ToF 선택과 근거를 요구하며 ID·단위·검토 불일치를 차단한다. 합성 항등식은 통과했지만 현장 JSON과 연구 교정의 lineage, `tof_c` 정의, 독립 치수·위치·불확실성이 없어 field thickness·부식률은 계속 미자격이다. `FIELD_UNIFORM_CORROSION_KO.md`에 근거와 다음 조건이 있다.
+- 사용자 보유 기준시편의 calibration 위치 세 곳 이상으로 음속을 적합하고 별도 holdout 위치를 평가하는 `inspection.pulse_echo_sound_speed_fit`을 추가했다. 물리 위치·source group의 분할 누수를 거절하고, 반환 교정 조각은 무시편 범위·미검토 상태로 유지한다. 합성 5920 m/s 닫힌 식과 holdout 제외를 독립 검증했으며 실제 기준시편·현장 전달 검증은 남아 있다.
+- `inspection.visual_surface_summary`는 사용자 절차·개정, direct/remote 방식, 표면 준비·상태, 조명·분해능 확인 근거, 상호배타 target/examined 영역과 미검사 사유, 위치별 지시와 증거를 보존한다. 면적 coverage와 기술적 집계만 계산하며 빈 지시 목록은 별도 negative-result 검토를 요구한다. 합격·결함 분류·POD·수명·고장확률은 만들지 않는다. 실제 절차·검사자·표면·검출성능 검증은 남아 있다.
+- 침투검사는 visible/fluorescent·제거방식·네 소모품 batch·재료/표면·전처리/건조·온도·침투/현상시간·관찰·후세정을, 자분검사는 강자성 검토·particle/carrier·장비·pass별 current mode·무방향 field 각도와 adequacy를 보존한다. 자분 방향 coverage는 사용자 승인 최소각과 비교하며 0°/180°를 다른 방향으로 세지 않는다. 두 계산기 모두 기술 기록만 제공하고 indication relevance·합격·POD를 만들지 않는다.
+- CC BY 4.0의 판재 균열 다시점 영상 `10.5281/zenodo.18731788`을 optional 자료로 등록했다. 한 물리 부품의 네 view를 독립 시편으로 세지 않고, image-level label을 균열 치수·POD·합격 truth로 승격하지 않는다. 676,496,455바이트 ZIP 취득은 제공자 timeout 뒤 Range 재개가 가능한 부분 상태이며, 전체 MD5가 맞기 전에는 27개 취득 묶음·104개 파일 집계에 넣지 않는다.
+- 배포 파일의 실제 포함 목록과 최종 검증 기록은 `validation/`에서 확인한다. 변경 후 카탈로그와 배포물을 다시 생성한다.
+- 재료·제품형태·상태·방향·기준 판본을 정확히 대조하는 사용자 물성 공급자를 구현했다. 실제 허용값 테이블은 포함하지 않는다. 추가 계산·자료 확보를 순차 진행한다.
+
+- 승인된 caller 시험조건의 가스켓 preload-retention 시계열을 source/specimen/condition digest와 computational-use authorization에 묶어, 입력 시간 support 안에서만 잔류 preload를 보간하는 `fabrication.gasket_relaxation_curve`를 추가했다. 범용 재료법칙·외삽·누설·히스테리시스는 계산하지 않는다. 계산 테스트와 물리 검증은 미실행이다.
+
+- `corrosion.coupled_wall_metal_loss`를 추가해 계산 완료된 electrochemical/CO₂ campaign의 signed lateral-wall species ledger를 금속 몰·질량·부피 변화와 caller 검토 반응면적 기준 평균 recession으로 환산한다. 참조 면적, 반응 면적, 금속종 순서·해석, 물성 및 전체 coupled-result digest를 고정한다. 국부 두께분포, 합금 선택용해와 움직이는 면은 계산하지 않는다. numerical/physical tests는 미실행이다.
+
+## 다음 작업
+
+1. 추가 데이터의 구조·단위·검열·권리를 조사하고 `data/data_inventory.json`을 갱신한다.
+2. 미구현 목록에서 공개 근거와 검증 자료가 있는 항목부터 독립적으로 구현한다.
+3. 감육·공식·균열·열화·열처리·검사 등 적용 범위와 수치 검증을 확대한다.
+4. 상대 프로젝트의 실제 확장은 `docs/extension_requests/`에 따라 별도 작업하고 연동 시험을 기록한다.
+
+기존 분석 대화가 없어도 이 파일, 능력·데이터·근거 카탈로그와 재현 명령으로 작업을 이어간다. 카탈로그는 계산기·인터페이스·확장 작업을 합쳐 561개 고유 기록을 갖는다. 기술 영역 전체의 구현이나 실험 검증이 끝났다는 상태는 아니다. 우선순위와 추가 완료 조건은 `ARCHITECTURE_KO.md`에서 확인한다.
+
+
+
+
+- HPC 결과 계보를 위해 실행 소스 snapshot SHA-256 및 파일 수를 각 task result에 기록하고 collector가 manifest/source 일치를 강제한다. batch98 regression을 추가했고 manifest는 129 tasks(0–128)다. 해당 regression은 아직 실행되지 않았다.
+
+
+진행률 산정 상태: 전체 목표 백분율은 재현 가능한 가중 분모·완료 기준이 없어 미산정이다. 101개 부분범위 감사 항목은 code_incomplete 4, data_validation_pending 51, provider_dependent 46이다. 공개 capability catalog에는 계산기 370개·인터페이스 157개·부분 101개(총 628개 capability), 공개 contract schema 795개가 기록된다. 최신 정적 감사는 101행·250개 Python 경로·362개 구성요소를 연결했으며 누락 경로, AST 실패, 미연결 구성요소, stale/unmapped symbol은 0이다. 이는 코드/카탈로그 연결 상태이지 구현 깊이·계산 정확성·실험 검증·배포 완료율이 아니다. 상세 근거는 `data/catalogs/implementation_scope_audit.json` 및 `docs/IMPLEMENTATION_BACKLOG_KO.md`에 있다.
+
+
+
+
+2026-10-30 추가: 비선형 공간 gasket 접촉 API에 caller가 검토한 최대 시간 간격 기반 선형 보간 샘플링을 연결했다. 인접 샘플의 접촉 상태 변화는 폭이 지정 간격 이하인 bracket으로 기록한다. 정확 전이 root 및 한 bracket 안의 복수 전이는 해석하지 않는다. knot 생성은 전체 10,000개 제한과 계약 재검증을 적용한다. 이 bounded 기능은 gasket의 FE 응답, 밀봉 성능, 누설/합격 판단 공백을 해소하지 않는다. 수치 시험은 수행하지 않았다.
+
+
+2026-10-30 추가: caller가 선언한 경쟁 중성 고체상 Gibbs 평형과 Davies 활동도 반복을 연결하는 `chemistry.competitive_solid_davies_equilibrium` bounded API를 추가했다. 액상 조성에서 몰랄 이온강도를 계산하고 caller의 Davies A로 gamma를 갱신해 평형을 반복하며, 전하·이온강도·포화 complementarity·KKT·extent balance가 범위 안일 때만 계산 완료로 반환한다. 자동 종/상 생성, 고체 kinetics, scale/부식 예측은 포함하지 않는다. 전체 `degradation.wet_co2` 범위는 여전히 미완성이다. 계산 시험은 실행하지 않았다.
+
+
+2026-10-30 추가: 고정형상 수송 output interval마다 셀별 경쟁 중성 고체상–Davies 평형을 적용하는 direct callback interface를 추가했다. phase/source와 transport/source ledger를 분리하고 초기 상 projection을 포함한 aqueous inventory closure를 계산한다. 수송 activity callback의 provider/configuration digest는 phase Davies 설정과 일치시켜야 한다. 이 경로는 operator split이며 fully coupled transport/chemistry, phase kinetics와 moving geometry는 여전히 미구현이다. 정적 산출물은 갱신했으며 계산 시험은 실행하지 않았다.
+
+
+연성 interface 후속 보강: transport와 equilibrium의 종목록·전하 inventory를 완전히 일치시키고 callback activity 설정의 공통 digest gate를 둔다. interval 단위 phase/transport state의 transaction commit, 오류 시 prefix 보존, 계산 record 예산과 physical scope 추적을 추가했다. 정적 계약·소스 감사 이후 수치 검증은 후속 HPC 일괄 작업에 남아 있다.
+
+
+2026-10-30 추가: activity-table knot별 source_record_id, open-dataset license/reuse policy, 기본 250,000점·최대 10,000,000점 표 크기 budget 및 slice별 row ID digest 요약을 구현했다. saturation adapter는 table evidence·point count·row digest 형식을 확인하고 유효 lineage를 전달한다. 공개 schema/catalog 재생성과 101-row 정적 소스 감사(225 경로, 338 구성요소, 누락·미매핑 0)를 마쳤다. 수치 테스트와 과학적 자격화는 실행하지 않았다.
+
+
+2026-10-30 코드 대조 수정: `planar_slit_aperture_history`에서 signed recession 부호가 다른 crevice feedback API와 반대로 적용되어 있었다. 양의 recession은 금속 제거·간극 증가, 음의 recession은 재석출·간극 감소로 일관되도록 `initial_aperture + face_count * recession`으로 수정했다. 공개 schema/catalog와 implementation scope 정적 감사(101행, 225 경로, 338 구성요소)를 재생성했다. 계산 시험은 지시대로 실행하지 않아 방향 동작은 아직 수치 검증 전이다.
+
+2026-10-30 추가: `build_tabulated_activity_transport_callback()`를 구현해 수계 activity table을 restricted transport 활동도 계산에 재사용할 수 있게 했다. Callback은 고정 종 순서·system 온도·물 환산 기반 몰랄농도와 이온강도 상한·표 보간 범위를 검사하고 transport가 검증하는 provider/configuration digest를 노출한다. 공개 인터페이스 catalog에 등록했으며 산출물은 계산 355개·interface 151개·schema 760개다. 정적 감사는 101개 범위 행, 225 source path, 338 component 연결에서 누락·미매핑 0이다. 수치 테스트와 전기화학/물리 자격화는 미실행 상태다.
+
+2026-10-30 추가: `solve_electrochemical_transport(..., phase_transport=...)`가 기존 단일 고체상 경로 외에 경쟁 중성 고체상 Davies transport contract를 받아, 수송+전극반응 뒤 output knot마다 cellwise phase projection을 수행하게 연결했다. 종·전하·원소 및 request/digest 정합을 확인하며 공개 interface catalog에 등록했다. 이는 output-clock operator split이고 동시 연성/phase kinetics가 아니다. 공개 catalog는 계산 355·interface 152·schema 760개다. 정적 감사는 101행·225경로·338구성요소에서 누락 및 미매핑 0이다. 수치 검증은 보류 중이다.
+
+2026-10-30 조합 경계 정적 대조: `CompetitiveSolidEquilibriumTransport` phase parameter가 cell equilibrium의 `equilibrium.aqueous_species`를 통해 reaction-network 원소 inventory와 비교되는지 확인했다. 이는 Python callback 조합이라 별도 JSON schema 변경 없이 `integration.electrochemical_competitive_solid_transport` interface catalog로 등록된다. registry 기반 model reference와 catalog 생성을 완료해 import/catalog linkage를 확인했고, 전체 scope 정적 감사는 101행·225 경로·338 components, 누락·미매핑 0이다. 이 절차는 수치 계산 검증이 아니다.
+
+2026-10-30 사용 경로 문서화: electrochemical request와 competitive phase request를 `solve_electrochemical_transport(..., phase_transport=..., activity_coefficients=..., axial_advection_velocity=...)`로 결합하는 호출 예와 종/원소/digest 정합 요구를 공개 매뉴얼에 추가했다. Python composition이며 합성 또는 물리 결과를 검증하는 예제는 아니다.
+
+2026-10-30 API 의미 명확화: `surface_history`는 출력 시각 반환 상태(phase operator 사용 시 projection 이후)에서 반응을 다시 평가한 진단이며, solver가 적분한 실제 경계 flux history가 아님을 `surface_history_basis`에 표시한다. 실제 물질수지는 transport_result ledger로 안내한다. Model reference/catalog 및 정적 소스 감사 재생성 완료(101 scope rows, 225 source paths, 338 components; 누락·미매핑 0). 수치 계산 및 regression 검증은 미실행이다.
+
+2026-10-30 phase lineage 요약 추가: electrochemical/competitive-solid composition result에 `phase_transport_lineage`를 포함시켜 adapter 유형, campaign·physical scope, phase/transport request digest, activity provider/configuration digest, phase IDs, 온도와 phase review flag를 노출한다. 전체 combined request는 최상위 input digest에 결합된다. API 문서와 registry-generated catalogs를 갱신했고 정적 감사 101행·225 path·338 component에서 누락·미매핑 0; 수치 검증은 미실행.
+
+2026-10-30 범위 감사 정정: wet-CO2 범위표의 예전 문구가 caller-declared competing neutral-solid equilibrium 및 scale-limited electrochemical composition을 미구현으로 오인할 수 있어 정정했다. 현재 구현을 통해 경쟁 고체 Davies 평형, output-knot transport split, electrode kinetics 조합, fixed-state scale cap을 명시하고 자동 반응/상 탐색·침전 kinetics·자율 scale 진화·완전 연성 보호/이동경계·검증된 부식률을 잔여 범위로 기록했다. 새 interface 두 개를 구현 component로 연결했다. 정적 감사는 101행·225 경로·340 구성요소이며 누락/미매핑 0; 코드 미완성 4, validation 대기 51, provider 의존 46 분류는 유지한다.
+
+2026-10-30 gasket transition refinement API: added optional replayed-path bisection for observed contact open/closed transitions, caller tolerance, one-transition-per-refined-interval review, solve/work budgets, and midpoint/replay-input digests. Budget/replay failure returns out_of_scope instead of claiming a refined event. The new fields are present in the generated public schema; registry/model/capability generation passed, and static audit reports 101 rows, 225 source paths, 340 components, zero missing/unmapped. No numerical solver, tests, or package build were run; bracket behavior still requires batch verification.
+
+2026-10-30 gasket transition budget edge-cases: contact replay now counts work from failed solver replays before reporting; sets `transition_refinement_complete=false` for failed/budget-exhausted refinements; and explicitly returns out_of_scope when a midpoint is unrepresentable or the 10,000-knot limit prevents insertion. Generated 760 schemas and registry catalogs successfully; static scope audit is 101 rows / 225 paths / 340 components with zero missing or unmapped entries. No numerical execution or tests were run.
+
+2026-10-30 gasket replay budget correction: aggregate work-unit totals now include solver replays that return a non-computed status when they expose a valid work count. Every early refinement failure sets `transition_refinement_complete=false`; an adjacent floating-point bracket with no representable midpoint and a full 10,000-knot replay path fail as out_of_scope. Public schema/model catalogs regenerated; static audit is current at 101 rows, 225 paths, 340 components, zero missing/unmapped. No numerical solver run.
+
+2026-10-30 gasket history extension: nonlinear viscoelastic contact accepts optional time-knot-aligned caller flange-compliance matrices. Reviewed componentwise interpolation is carried into max-step sampling and event-bracket replay; every evaluated matrix is symmetry/PSD checked and the worst minimum eigenvalue is recorded. Contract schemas and model reference were regenerated. Numerical tests and package build remain deferred.
+
+2026-10-30 갱신: gasket joint 범위에 caller 보정 누설 flux 이력 API를 추가했다. local leakage flux를 contact pressure·차압 입력에서 계산해 caller 검토 면적 partition으로 합산하며, universal gasket law 또는 seal acceptance를 만들지 않는다. 최신 registry 356 models·152 interfaces·101 partial capabilities, 767 schemas; 101행 정적 scope audit는 226 경로와 341 component를 연결하고 누락·미매핑은 0이다. 이 구조 감사는 수치 및 물리 검증이 아니다.
+
+2026-10-30 추가 연동 갱신: `integration.gasket_contact_to_leakage`를 공개 capability/interface catalog에 등록하고 API 레퍼런스와 scope audit를 다시 생성했다. 현재 합계는 models 356, interfaces 153, capability rows 610 (partial 101), schema 767이다. scope audit 연결 결과는 101행·226 source path·342 component, 누락 및 미연결 0이다. 수치 시험 및 패키지 검증은 아직 하지 않았다.
+
+2026-10-30 update: Wet-CO2 scale state now has a caller-parameterized first-order coverage attachment/detachment history. Its exact interval solution can feed the existing exact-knot layered scale transport binding and sequential scale-limited electrochemical campaign; caller transport layer properties remain explicit inputs. This does not predict morphology, adhesion or corrosion protection. Catalog: 357 models, 153 interfaces, 611 capability rows, 768 schemas. Scope source audit: 227 paths and 343 components across 101 rows, with zero missing/unmapped links. Calculation tests and package build remain deferred.
+
+2026-10-30 구현 원장: caller scale coverage kinetics는 구간·전체 누적 피복률 물질수지 잔차를 보고하고 부동소수점 폐합 허용치를 확인한다. public schemas 768, catalog 357 models/153 interfaces/101 partial rows(611 total), static source audit 101 rows/227 paths/343 components, missing and unmapped 0. 실행 시험·물리 qualification은 미수행이며 전체 목표 완료를 뜻하지 않는다.
+
+2026-10-30 피복률 kinetics는 상수 포화비 닫힌형식 외에 caller 검토 piecewise-linear 포화비 경로를 adaptive RK4로 적분한다. 피복률 및 부착·이탈 재고별 허용오차와 계산 budget, 물질수지 폐합 진단이 포함된다. 합성 예제가 두 경로를 표현하며 768 스키마와 API 문서를 재생성했다. 계산 시험·물리 qualification 미수행.
+
+2026-10-30 stateful 다축 피로 API는 선형 이력에 time vector만 허용하고 Hermite에만 두 미분 이력을 요구한다. cycle 입력 유한성, 양의 정수 반복수, 최소 provider 계산 budget을 사전 확인하며, 반복 path의 마지막 두 상태 차이를 caller review/tolerance 아래 선택적으로 보고한다. 적응형 적분 수치정확도·주기 고정점·물리 적격성 검증은 미수행이다. 공개 schema와 catalog/backlog 갱신.
+2026-10-30 크리프 sequential hydraulics: recession campaign이 선택적으로 pressure-aligned steady slit flow를 계산한다. 초기 face velocity가 첫 고정형상 transport에 들어가고 각 확정된 간극/압력 knot에서 다시 계산한 velocity가 다음 segment에 적용된다. caller source digest·점도·밀도·유동 가정 review·연속성/clock review가 필수이며 다른 advection provider와 동시 사용하지 않는다. 이 경로는 quasi-steady operator split이다. 과도 운동량, 구간 내부 형상 변화, adaptive subdivision과 pressure interpolation은 처리하지 않는다. API schema/catalog/backlog 및 정적 scope audit를 갱신했다. 계산 시험은 요청에 따라 보류했다.
+2026-10-30 gasket 전이 추적 개선: 전이 구간의 양 끝에 적용된 flange compliance operator SHA-256을 결과 bracket에 포함한다. 시간변화 행렬의 caller-reviewed componentwise 선형 보간이 샘플 refinement 및 replay bisection에 적용됨을 방법/범위 기록에 명시했다. exact root·비관찰/다중 transition·FE 응답 생성·leakage 및 seal qualification은 여전히 범위 밖이며 계산 시험은 보류했다.
+2026-10-30 습식 CO₂ activity table 확장: `ln(gamma)`의 ionic strength·선택적 온도 보간에 기본 선형 외 caller-reviewed shape-preserving PCHIP을 추가했다. 외삽은 금지하고 PCHIP review gate, 방법 출력·입력 digest 연결 및 synthetic wiring example/문서를 갱신했다. 이 기능은 thermodynamic activity law나 실험 자격화를 제공하지 않는다. 계산 테스트와 패키징은 보류했다.
+2026-10-30 PCHIP 구현 선택: 자체 cubic slope 구현 대신 이미 선언된 optional `science` extra의 SciPy `PchipInterpolator`를 lazy import로 사용한다. 기본 선형 모드는 core 의존성을 추가하지 않으며, PCHIP 선택 시 extra가 없으면 명시적인 오류와 설치 경로를 제공한다. 문서 및 residual-scope 표현을 갱신했다. 계산 시험과 패키징은 보류했다.
+2026-10-30 activity table provenance 강화: 실측/공개 knot에 source_id-source_record_id 쌍을 요구하고 source_id를 허용된 Evidence에 연결한다. 정규화 표·행 계보·Evidence digest를 speciation 결과에서 restricted-transport callback 결과까지 전달하도록 보강했다. 공개 입력 schema와 문서 및 정적 감사만 갱신했고 계산 테스트는 보류했다.
+
+
+2026-10-30 다축 피로 시간 재구성 확장: `fatigue.closed_tensor_work_life`, memoryless damage-rate 적분 및 stateful damage 적분에 `piecewise_pchip`을 추가했다. caller가 제공한 strictly ordered tensor samples로 성분별 Fritsch–Butland shape-preserving cubic slopes를 구성하며, work-life 경로일은 구간별 다항식 곱으로 정확 적분한다. damage provider 경로는 재구성 텐서 미분을 callback에 제공하고, 유도된 주기 경계 기울기 차이를 caller 허용치로 확인한다. PCHIP는 물리 경로·피로법칙의 qualification이 아니다. 공개 계약 스키마, 모델 API 참조, source/capability catalogs 및 정적 scope audit를 갱신했다. 계산 테스트·수치 적분·HPC·패키징은 지시대로 실행하지 않았다.
+
+2026-10-30 다축 주기 시간 재구성 확장: work-life 계산, memoryless damage-rate callback 및 stateful damage callback의 시간 재구성 선택지에 `piecewise_periodic_cubic_spline`을 추가했다. 정확히 일치하는 endpoint 응력·변형률, 증가 시각, 주기 재구성 검토와 별도 응력률·변형률률 폐합 한계를 요구한다. callback에는 spline 경로값과 미분이 전달되고 경계 미분 차이가 caller 기준을 넘으면 aggregate를 내지 않는다. work-life 경로일은 구간별 3차 계수 곱을 적분한다. SciPy는 `science` extra 선택 의존성이고 해당 경로에서만 lazy import한다. synthetic wiring 예제, 사용자 문서, API 계약 스키마, capability/model reference 및 101-row 구현 범위 정적 감사를 동기화했다. 실제 계산·테스트·패키징은 실행하지 않았다.
+
+
+2026-10-30 수용액 mass-action 보존식 계약 보강: `AqueousActivitySpecies`에 선택적 원소 조성을 추가했다. 네트워크 요청은 평형 반응의 전하 보존을 항상 확인하고, caller가 모든 종의 원소식을 제공하면 반응별 원소 보존도 확인한다. 원소식 사용은 별도 검토 게이트를 요구하며, 계산 결과에 반응별 전하/원소 잔차와 해당 검토 상태를 기록한다. 불완전한 원소식 집합은 거절한다. 문서·source basis·schema/model reference를 갱신했다. 수치 테스트는 실행하지 않는다.
+
+
+2026-10-30 API 사용 예제 보강: `examples/pchip_tensor_work_life.py`를 추가하고 memoryless/stateful 피로 provider 예제에 PCHIP 요청 변형을 포함했다. `examples/aqueous_elemental_balance.py`는 signed 반응식을 가진 완전 원소식 acid dissociation system에서 전하·원소 balance review를 배선한다. 합성 코드 예제이며 실행·수치 검증은 하지 않았다. Rate-closure 입력 오류 설명도 Hermite/PCHIP 모두를 가리키도록 수정했다.
+2026-10-30 가스켓 전이 재현 관찰량 추가: 공간 비선형 점탄성 접촉 계산의 각 sampled transition bracket에 하한·상한의 접촉력, 평균압력, 압축·변형률·구성 응력·간극을 저장한다. 이분 replay midpoint마다 같은 응답량, 적용 flange compliance operator digest, replay request digest를 기록하고 output unit catalog와 공개 설명서를 갱신했다. 이는 bracket 관측 이력이지 exact event root 또는 미관찰 전이 탐지가 아니다. 계산 테스트·FE 생성·패키징은 미실행이다.
+2026-10-30 수용액 SIT 자기일관 평형 결합: `chemistry.aqueous_sit_self_consistent_speciation`를 추가했다. caller가 지정한 aqueous mass-action system을 매 반복 풀고 결과 molality에서 ionic strength·charge residual 및 방향별 SIT gamma를 갱신한다. 로그 활동도 계수 공간의 damping과 허용 잔차 수렴만 computed로 반환하며, parameter/evidence/interaction lineage digest를 보존한다. mass-action 표준상태와 molality 간 물 질량 환산, 온도별 A, complete interaction set, 전하·단일액상 review를 요구한다. 공개 input schema와 계산기 catalog, API reference, 상세 방법서 및 합성 wiring 예제를 추가했다. 실험 검증·수치 테스트·패키징은 미실행이다.
+
+2026-10-30 SIT 수송 연동: `build_sit_transport_activity_callback()`이 restricted transport의 종×mouth/cell 농도 배열에서 SIT gamma를 위치별 계산하도록 연결했다. 종 순서·온도를 고정하고 용액 부피당 물 질량으로 molality를 산출하며 ionic strength 한계를 강제한다. callback configuration·provider record·요청·방향별 epsilon·Evidence digest를 결과 계보에 남긴다. 해당 adapter를 습식 CO₂ partial capability 인터페이스에 등록하고 synthetic wiring example 및 방법서를 갱신했다. 재생성 카탈로그는 618 capability, 361 calculator, 156 interface, 101 partial 항목이다. 계산 테스트, 실험 검증 및 패키징은 수행하지 않았다.
+
+2026-10-30 SIT–다상 속도 연동: `build_sit_transport_saturation_callback()`을 추가해 수송 후 각 cell 조성의 SIT molality 활동도를 caller Ksp 화면에 전달하고, competing-solid kinetic transport용 포화비 callback을 생성한다. kinetic 결과는 SIT provider·record·원 요청·epsilon parameter·Evidence 계보와 aggregate digest를 보존한다. 기존 수송→kinetics 순차 operator split과 caller 제공 고체 반응·속도법칙을 그대로 사용하며 구간 내 평형/자동 상선택/완전 동시 연성은 제공하지 않는다. 합성 배선 예제, 습식 CO₂ capability/interface 카탈로그 및 범위 감사 추적을 갱신했다. 생성 카탈로그는 619 capability, 361 calculator, 157 interface다. 계산 테스트 및 패키징은 보류했다.
+
+2026-10-30 경쟁 고체 kinetic 온도 의존성: `SolidSaturationRateLaw`에 선택적 기준온도·유효 온도범위 및 침전/용해별 caller 활성화에너지를 추가하고 Arrhenius 배율을 kinetic ledger와 transport 경로에 연결했다. 계수 변화 적용 review, 기준온도, 온도범위가 없거나 범위 밖이면 거부하며, 결과별 유효 속도상수·온도를 노출한다. 합성 입력과 JSON schema/API 설명서를 갱신했다. 이 모델은 활성화에너지를 추정·검증하지 않는다. 테스트와 패키징은 수행하지 않았다.
+
+2026-10-30 구간별 열이력 보강: 포화비 기반 다상 kinetics 입력에 선택적 interval `temperature_K`를 추가했다. 구간별 temperature가 Arrhenius rate law와 온도 지원범위 검사에 적용되고, 생략하면 campaign 기준온도를 사용한다. 합성 fixture와 공개 스키마/API/재개 문서를 갱신했다. 이는 piecewise-constant 구간 온도 모델이며 연속 열전달 연성이나 계산 검증은 아니다.
+
+
+`fabrication.gasket_calibrated_leakage_rate_envelope`는 caller가 선언한 절점별 독립 압력 구간과 고정 bilinear calibration에서 순간 누설률의 정확한 면적가중 상·하한을 계산한다. 이는 확률구간이 아니며 calibration/면적 불확실성, 공간 상관과 누설 acceptance는 별도 과제다. 상세 방법 및 synthetic 입력은 `docs/GASKET_LEAKAGE_RATE_ENVELOPE_KO.md`, `examples/gasket_leakage_rate_envelope.py`를 참조한다.
+
+
+최근 코드 확장: (1) 고정 gamma aqueous mass-action 해의 implicit Jacobian sensitivity, (2) caller activity/E0 기반 crevice Nernst half-cell potential history, (3) certified continuous-plane Fatemi–Socie factor bound의 caller calibration 기반 life interval 변환, (4) gasket pressure uncertainty rectangle의 exact deterministic leakage-rate envelope를 추가했다. 각각 전용 방법서·합성 wiring example을 둔다. 확률/실험 validation 또는 범위 외의 물리 연성을 대신하지 않는다.
+
+
+Crevice electrochemistry 연동으로 `electrochemistry.nernst_driven_butler_volmer_history`를 추가했다. 상류 Nernst 계산의 전체 결과·input/history digest를 확인하고 동일 반응·기준전극·시간 knot에서 caller Butler–Volmer 계수와 표면 전위를 연결해 부분 전류밀도와 종 flux를 반환한다. 다중 반응 혼합전위, 시간 적분 및 총 금속손실 계산은 범위 밖이다.
+
+
+Nernst→Butler–Volmer 조합 입력에 공통 `clock_id` 일치를 필수화했다. 값이 같은 time array만으로 서로 다른 시계·기준을 동일시하지 않으며, 기존의 반응·전극 reference·digest 검사는 유지한다.
+
+
+2026-10-30 crevice electrochemistry extension: multi-reaction Nernst/Butler–Volmer mixed-potential histories now expose a common zero-net-current potential at aligned knots. Added a digest-pinned, caller-reviewed piecewise-linear flux interval integrator that produces signed/inward/outward species transfer on the same reference-area basis. Registry, 793 public schemas, capability/source catalogs and Korean manuals were regenerated. The transfer-to-composition adapter also consumes caller initial species moles and exact-knot liquid volumes, subject to inventory/other-source-sink/well-mixed review. Static scope audit now has 101 rows, 246 Python source paths, 358 components, with zero missing paths, AST failures, unmapped components or stale symbols. Numerical tests, physical validation and packaging remain deferred; the composition adapter reports caller-volume well-mixed concentrations, but does not solve thermodynamic speciation, transport, precipitation or wall-loss predictions.
+
+
+2026-10-30 sequential aqueous-to-redox bridge: added `integration.aqueous_mass_action_to_crevice_nernst_history` to map digest-checked, dimensionless mass-action activities into a caller-reaction Nernst profile at exact shared time/temperature knots. Request inputs now retain asset/location/physical-scope/clock identifiers so downstream mixed-potential lineage checks can accept the result; the context validator enforces agreement with the upstream aqueous result. The existing Nernst calculator is reused, and caller supplies reaction quotient, E0 history and reference evidence. This remains a sequential handoff, not a converged or simultaneous electrochemistry/chemistry simulation. Exported 795 schemas; catalog: 370 calculator APIs, 157 interfaces, 101 partial (628 total). Static audit is 101 rows/250 paths/362 components, with zero missing/unmapped. No tests or example execution were performed.
+
+
+
+
+2026-10-30 current registry/source snapshot after the per-knot van't Hoff saturation adapter: 391 models, 159 interfaces, 101 partial rows (651 capabilities), 452 source bases, 827 schemas. Static scope audit confirms 266 source paths / 381 components with no missing paths, AST failures, stale symbols or unmapped components. Public-boundary audit passed its local allowlist check; it does not constitute legal review. Strict scope status stays 47/101 (46.5%) because this adapter expands one WCO2 pathway without completing the broad capability. Tests, numerical calculations, package builds and HPC were not run.
+
+### 2026-10-30 — 현행 정적 상태와 이어서 할 일
+
+경쟁 고체 활동도 평형은 caller parameter 기반 Davies/SIT/B-dot를 선택할 수 있고, 셀별 fixed-geometry transport 및 전기화학 연동은 output-knot operator split 방식으로 연결돼 있다. B-dot는 temperature-matched A/B와 종별 Evidence-linked ion-size/b 계수, `gamma_m`→`gamma_c` 변환을 요구한다. 자동 aqueous reaction/phase discovery, simultaneous phase–transport–electrode/moving-boundary coupling, 화학 유도 kinetics 및 independent physical validation은 여전히 미완성이다. 현재 코드 범위 지표 47/101(46.5%); scope classification은 code_incomplete 4, data_validation_pending 51, provider_dependent 46이다. 정적 catalog: 410 calculators, 171 interfaces, 101 partial / 682 entries; public schemas 855; static scope audit 101 rows, 286 source paths, 403 components, no missing/unmapped/drift findings. 테스트·HPC·패키징 미실행.
+2026-10-30 연속 구현: phase transport adapter/parameter digest를 분리하고 callback provider/revision/species/temperature/water/A/B/parameter-array 계보를 대조한다. strict request binder와 공개 schema/catalog 연결을 추가했다. Candidate network는 최초 미완료 단계에서 원 status와 prefix를 유지하며, downstream speciation이 workflow/각 단계 input/result digest를 검사한다. 후보 생성은 pair-budget 조기 중단·unordered pair 평가·종별 조성 벡터 사전계산을 적용했다. 계산 검증과 성능 측정은 수행하지 않았다. 범위 지표47/101(46.5%), 미완성 broad code scope 4개 유지. 테스트·HPC·패키징 보류.
+
+2026-10-30 gasket interval 확장은 선택적 기준값 초과 지속시간/positive excess integral/구간 경계 시각을 제공한다. Equality plateau는 strict 초과가 아니며 미초과 경계는 null이다. Schema855와 capability682/410 model/171 interface 및 API reference 재생성을 완료했다. 시간차 overflow 입력 거부와 평균률 중간 overflow 방지도 구현했다. 테스트·수치 검증·HPC·패키징 미실행; 넓은 범위47/101(46.5%) 유지.
+
+### 2026-10-31 — API 증분과 잔여 범위 검토
+
+- 중앙 카탈로그 최신값: 806 capabilities (526 models, 179 interfaces, 101 partial), 1,082 public schemas, 594 source records. API model reference와 package metadata를 재생성·동기화했다.
+- 정적 범위 감사: 101개 행, 358개 경로, 477개 구성요소, 누락/AST 실패/낡은 symbol/미매핑 구성요소 0. 파일 존재·선언 symbol 추적 결과이며 실행 성공, 방정식 정확성, 물리 적합성의 증거는 아니다.
+- 새 API 범위는 wet CO₂의 기·액막 전달계수/유한 저장조/구역별 전달/탄산 종분포/반응성 액막/응축 상태; crevice의 Arrhenius 적합·적용, 다성분 wall-flux callback·구간 재고·geometry 경계 이전·포화도 경로 평균; multiaxial fatigue의 Papadopoulos P1 계수·한계·life·Miner, Carpinteri–Spagnoli screen/life, Fourier tensor 재구성·미분·work·work-life로 확장했다. 모델별 적용 조건과 제외 범위는 `docs/models/` 및 API guide에 기록했다.
+- 남은 wet CO₂ 코드 의존성은 validated multiphase hydrodynamics, interfacial area/wetting, top-wall heat/condensation 및 evolving protective-scale coupling이다. 비이상 brine/MEG fugacity·활동도와 rate constants는 조성/온도별 provider 데이터가 필요하다. CoolProp만으로 전해질 활동도나 mixed-solvent 특성을 대체하지 않는다.
+- 남은 crevice 의존성은 변화 aperture·운동량·유동·speciation/phase kinetics의 simultaneous coupling, 종별 평형/속도상수와 wall-law 데이터, 독립 실험 검증·qualification이다. Fatigue 잔여는 재료별 비비례 손상법의 사양, 교정곡선 간 재료 전이, independent validation에 달려 있다. Gasket은 external contact/FE provider 및 적합한 공개 leakage calibration raw data 부재가 계속 경계다.
+- 넓은 101개 범위의 tracked code estimate는 47/101 (46.5%)로 유지한다. 하위 API 추가를 broad parent completion으로 오인하지 않는다. 테스트, 모델 수치 실행, 예제, HPC 제출과 패키징은 실행하지 않았다.
+- `thermo.coolprop_pure_water_saturated_vapor_fugacity`를 옵션 CoolProp provider로 등록했다. 순수 물의 wall-temperature 포화증기 압력·fugacity coefficient만 반환하며, 혼합가스 수증기 fugacity·염수/MEG 활동도·응축량은 계산하지 않는다. registry/schema/source/capability/model reference 및 패키지 카탈로그를 재생성·동기화했고 현재 정적 추적성 감사는 101행·354경로·475구성요소, 누락/미매핑 0이다. CoolProp dependency extra `thermo`는 기존 프로젝트 설정을 사용한다. 테스트·계산·패키지 빌드는 수행하지 않았다.
+- `integration.wet_co2_condensate_film_history`는 caller 제공 net retained-water flux를 고정 벽 patch의 면적 재고·등가 두께·젖음시간·dryout history로 적산한다. `integration.crevice_geometry_aware_aqueous_chemistry_provider`는 typed, stoichiometrically balanced caller reaction contract를 기존 bounded recession fixed-point solve에 연결한다. 관련 schemas/capabilities/source/API guide/model reference/package catalog를 생성·동기화했다. 정적 감사는 101행·354경로·475구성요소, 누락·AST 실패·낡은 symbol·미매핑 0이다. 두 provider 모두 외부 물리 자격/검증을 대신하지 않으며 테스트·실제 계산은 보류했다.
+- `integration.wet_co2_condensate_film_history`는 caller 제공 net retained-water flux를 고정 벽 patch의 면적 재고·등가 두께·젖음시간·dryout history로 적산한다. `integration.wet_co2_variable_condensate_transfer_history`는 액상 체적과 CO₂* 재고를 구간별 기·액막 전달 및 condensate 유입/완전혼합 유출과 함께 갱신한다. `integration.crevice_geometry_aware_aqueous_chemistry_provider`는 typed, stoichiometrically balanced caller reaction contract를 기존 bounded recession fixed-point solve에 연결한다. 관련 schemas/capabilities/source/API guide/model reference/package catalog를 생성·동기화했다. 정적 감사는 101행·357경로·476구성요소, 누락·AST 실패·낡은 symbol·미매핑 0이다. 적용범위가 제한된 caller-input APIs이며 외부 물리 자격/검증을 대신하지 않는다.
+- `integration.wet_co2_finite_gas_variable_liquid_history`는 유한 기상 재고와 변하는 액상 부피·CO₂* 재고를 caller가 준 물성/flux로 SciPy DOP853 적분한다. `dryad-downhole-tool-co2-corrosion-candidate`를 메타데이터-only 상태로 등록하고, 실제 파일·행 범위·중복 출처 확인 전까지 reader 구현과 원자료 배포를 보류한다. schema/source/capability/model reference/API metadata 동기화와 101행·358경로·477구성요소 감사가 완료됐다. broad 진행률은 47/101로 유지한다.
+- 공개 경계와 dataset release-rights 메타데이터 감사도 실행했다. 공개 경계 allowlist 감사는 2,716개 파일에서 통과했고 restricted data roots의 prune 선언을 확인했다. Rights metadata는 68 records/291 assets, errors 0, warnings 16으로 통과했다. CT110 Figshare 레코드의 기존 flattening 누락은 provider 선언/rights evidence/선택 asset 정보를 명시해 보완했다. warnings는 일부 checksum·byte size 미고정과 여러 source 간 같은 basename이며 재배포 권한 판정으로 해석하지 않는다.
+- 추가 registry 모델: `degradation.wet_co2_two_film_transfer_history`, `fatigue.multiaxial_sines_mean_limit_screen`, `fatigue.papadopoulos_p2_finite_sample_limit_screen`, `fatigue.dang_van_finite_sample_limit_screen`, `degradation.crevice_aperture_displacement_flow`, `integration.crevice_solid_volume_inventory`. 각각 exact-knot 2막 전달 history, 유한표본 Sines/Papadopoulos/Dang Van limit screens, aperture 변화 기반 비압축성 displacement-flow 장부, 고체 몰 inventory에서 유도한 셀별 체적 장부를 제공하며 적용성 경계는 model별 문서에 남겼다. 가스켓 공개자료 검토는 직접 누설률·접촉 보정에 적합하고 재배포가 허용된 공개 raw data를 찾지 못했다. gasketdata.org는 데이터 이용 전 권리자의 사전 서면 허가가 필요하고 공개 CC BY 후보들은 seal/PVC signal 또는 재료시험 범위라 직접 calibration이 불가하다. [데이터·권리 검토](datasets/GASKET_OPEN_DATA_REUSE_REVIEW_KO.md). 남은 FE 응답 생성·숨은 사건 탐지·local stress·seal qualification은 실제 외부 solver/자료가 필요한 경계로 기록했다. 최신 카탈로그는 764 capabilities (485 models), 1,022 schemas, 546 sources이며, 정적 범위 감사는 101행·318경로·435구성요소와 누락 0이다.
+
+### 2026-10-31 — 병렬 구현 증분 재개점
+
+- 신규 포화도 이벤트 API는 caller 절점형 외에 digest와 RunContext를 검증하는 van't Hoff AssessmentResult 직접 연결도 제공한다. 단일 solid 후보가 각 exact knot에서 한 번씩 computed돼야 한다.
+- Ti-12Mo-5Zr 코드 경로는 AESEC signed mass-flux→등가 침투량→기준두께 기반 균일 잔여두께 history로 연결했다. 전 구간 원자료·AssessmentResult digest와 caller density/기준두께 Evidence를 보존한다.
+- 다축 피로 cycle handoff는 finite-plane features를 adaptive integer-cycle parameter block에 결속한다. strict JSON contract 재구성 경로를 보완했다.
+- 신규 `fabrication.gasket_contact_pressure_window_events`는 digest가 확인된 접촉 이력에서 caller 기준 압력창 이탈 시간·구간을 계산한다. acceptance·누설·고장확률은 추론하지 않는다.
+- Ti‑12Mo‑5Zr EIS API는 complete 74-row allowlisted spectrum에서 frequency·scan time·|Z|·phase를 보존하고 Evidence-reviewed phase sign으로 complex impedance를 산출한다. 면적 정규화·circuit fitting·exposure-time 추론은 하지 않는다. 독립 정적 리뷰에서 수정할 결함은 찾지 못했다.
+- 최신 생성 카탈로그: 706 capabilities(427 calculators, 178 interfaces, 101 partial), 903 public schemas, 490 source records. 이는 전체 기술 구현률이 아니다.
+- scope progress는 47/101=46.5%다. 새 API는 상위 scope 일부이므로 parent capability 완료로 계산하지 않았다. 테스트·실제 계산·예제 실행·패키징은 미실행이다.
+- 새 `adapter.corrosion_rate_history_to_fault_tree_basic_event`는 caller가 제공한 probability evidence만 FTA basic-event 계약에 연결한다. 결정론적 부식 결과로 확률을 생성하지 않으며 registry RunContext도 자산·위치·시간기준 일치를 요구한다.
+- `data.coqtel_typed_electrochemistry_rows`는 checksum-pinned COQTEL HDF5의 행 순서, 반복 시각, row/file/auth digest와 Evidence를 보존하는 로컬 typed reader다. standalone schema 3종과 registry/capability/source/model reference가 동기화됐다. 원자료를 읽거나 전송하지 않았고, Hangang schema-rights·lineage-fail-closed snapshot은 session `84577`, receipt `hpc-results/hangang-coqtel-typed-20261030T190558Z/dispatch.json`, SHA `282566bb9904dc563c2d64c805d6204a824657d7b2b971eeff7123b9c030301a`; 아직 job ID/검증 결과는 없다.
+- `chemistry.scale_precipitation_inventory_budget`는 computed scale-history gross precipitation을 caller의 Evidence-bound 초기 재고 및 interval 공급과 화학량론에 대조한다. 최초 부족 interval은 commit하지 않고 성공 prefix를 반환하며 용해 재생·평형·부식률은 추론하지 않는다. RunContext asset/location/time basis를 upstream scale AssessmentResult와 맞춘다. 최종 모듈 SHA-256 `5e0a27f0a50fde2f159f598583d1509ecaf2176374b1fc5536d4f0f158405490`.
+- Scale 재고 장부 전용 Hangang job `1186303`은 session `17675`, receipt `hpc-results/hangang-inventory-bridge-20261030T191202Z/dispatch.json`, archive SHA-256 `32b5a6b8cd0d11d77b348d843119fe7b0b4a3e28df94e09fa3f7730422380282`로 제출됐다. 두 partition은 `inventory-lineage`와 `shortage-fail-closed`; 상태 `submitted_not_validated`이며 결과를 조회하지 않았다.
+- `corrosion.scale_diffusion_metal_loss_bound`는 caller가 선언한 반응 경로와 Evidence-pinned 금속 물성을 정상 스케일 확산 flux ceiling에 연결해 조건부 균일 침투율·기간 손실 상한을 구한다. Registry RunContext는 상류 결과의 자산·위치·시계와 일치해야 한다. 실제 부식률·수명·확률을 추론하지 않는다.
+- Mendeley thermal-rod typed row API는 공식 DOI 기록에서 CC BY 4.0 선언을 2026-10-31 재확인했다. 행 순서·단위·파일 및 row digest·Evidence·사용자 authorization을 보존하지만 archive 원행은 로컬 전용이며 배포물에 넣지 않는다.
+- `chemistry.aqueous_mass_action_scenario_envelope` 및 `chemistry.aqueous_mass_action_topology_envelope`는 caller가 명시한 서로 다른 완전 입력계만 각각 계산해 비가중 유한집합 extrema를 제공한다. 실패 사례를 누락하지 않고 성공 prefix와 첫 실패를 보존한다. 확률·전역 bound·자동 네트워크 생성·부식 추론은 없다.
+- `data.mendeley_crack_arrest_typed_rows`는 CC BY 4.0 C1/C2 archive의 exact pin 뒤에 existing row parser를 사용해 specimen별 raw order, signed force/displacement, filename-only temperature provenance 및 Evidence/digest lineage를 보존한다. archive/point rows는 배포하지 않고 toughness·acceptance를 추정하지 않는다. `data.mendeley_guided_wave_typed_sample_rows`는 고정 parser 위에 선택한 acquisition/frequency 행 iterator를 얹어 원 순서·반복 거리·전압·authorization/Evidence digest를 보존하며 부식률/감육/POD를 추론하지 않는다. `data.zenodo_ceit_uniform_corrosion_field_typed_rows`는 local CEIT 원파일의 MD5/SHA/크기 pin 뒤 기존 parser 출력의 observation order와 caller unit/clock choice를 typed Evidence/auth rows로 보존한다. `data.figshare_corrosion_alloy_metrics_typed_rows`는 workbook pin과 원행·censoring·단위·권리 계보를 보존하되 compilation 밖 원 논문 관측 권리를 unresolved/local-only로 유지한다. `integration.crevice_spatial_mass_action_workflow`는 완전 caller-defined 셀별 mass-action을 기존 solver로 풀고 모두 성공한 경우에만 ledger를 조립한다.
+- Hangang `1186347` (thermal typed rows)과 `1186348` (mass-action topology envelope)은 `submitted_not_validated`; scale diffusion bound와 mass-action scenario envelope는 scheduler capacity를 기다리는 비동기 재시도 상태로 job ID가 없다. Crack-arrest job `1186352` (session `21168`, receipt `hpc-results/hangang-crack-arrest-typed-20261030T193216Z/dispatch.json`, archive SHA-256 `8dda98bec4f4372e909324af26b3262bb0b7127b96fa2725fb0ded397b8e441f`)은 `submitted_not_validated`다. 계산 결과는 조회하지 않았다.
+- 현재 static scope audit는 101행·316경로·433구성요소이며 경로 누락/AST 실패/stale·unmapped symbol/unmapped component는 0이다. 새 하위 API 때문에 parent scope 진행률은 47/101(46.5%)로 유지한다.
+- Hangang job `1185869`(remaining/saturation/strict-JSON, 4 tasks)와 `1185890`(gasket contact window, 3 tasks)는 별도 immutable snapshot으로 제출됐으며 결과를 조회하지 않았다. Receipts는 각각 `hpc-results/hangang-remaining-saturation-20261030T165615Z/dispatch.json` (session `71737`, SHA-256 `1c97739a9f2cbbee8576476bbd3f838b41f00e02e76bccddafeebd6928975008`) 및 `hpc-results/hangang-gasket-window-20261030T165758Z/dispatch.json` (session `63372`, SHA-256 `2349573820793325f7938dbcd46da2306f19d22d4abf13e242eb2f8a6699d446`)다.
+- 별도 정적 코드 검토에서 gasket pressure-window 및 EIS complex-impedance API의 경계·행 계보·digest·이용권리 조건에 수정할 결함은 발견되지 않았다.
+- AESEC dataset manual은 mass-balance와 잔여두께 파생 API를 기록하며, EIS conversion 경계를 `docs/models/TI12MO5ZR_EIS_COMPLEX_KO.md`에 추가했다.
+- EIS 검증 delta는 별도 immutable snapshot으로 staging 중이다. 이전 job 결과는 조회하지 않는다.
+
+### 2026-10-31 — 가역 crevice kinetics·GSA·공개 DEIS 자료 API
+
+추가 API에는 caller 가역 crevice network, quasi-steady crevice wall-shear 기술량, finite-plane Ince–Glinka 지표, planar scale reaction-demand balance, 정수 cycle-block caller ODE, caller 제안 고체상의 유한 화학량론 후보 검색, gasket 유한 scenario 의존성, Ti‑12Mo‑5Hf/5Zr archive reader가 있다. AESEC reader는 명시된 헤더/단위와 행 순서를 보존하며 계산용 변환·구간 추출·부식률 추정은 하지 않는다. ICP‑MS 시트는 시점·반복행 의미가 불명확해 import하지 않았다. 피로 API는 기존 stress-time tensor solver와 다른 cycle-count 영역이며 재료 피로법칙을 추정하지 않는다. Catalog는 695 capabilities(420 calculators, 174 interfaces, 101 partial), 887 public schemas, 484 source bases다. Ti‑12Mo‑5Hf archive는 CC0 게시자 checksum과 local SHA‑256이 맞고 압축 없이 51 members/130,696,187 bytes만 inventory했다. 정적 범위 감사는 101행/294 path/411 components, missing/AST/stale/unmapped 0이다.
+
+### 2026-10-31 — Ti‑12Mo‑5Hf CC0 dataset metadata/audit API
+
+공식 Zenodo record 10.5281/zenodo.19462164는 dataset을 CC0-1.0으로 표시하고 Ti‑12Mo‑5Hf / Ti‑12Mo‑5Hf‑0.3O, PBS+33 mM H2O2, AESEC·ICP‑MS 실험 파일을 설명한다. [공식 Zenodo 레코드](https://zenodo.org/records/19462164). README 4,175 bytes는 publisher MD5와 로컬 SHA‑256(`71c6d8984747a6342751733d60a8b2f39cc273d5b9a8605f2f1de5e9d352017c`)를 확인했다. 원본 ZIP은 47,558,332 bytes / publisher MD5 `36611789e98e7608a99841541447a918`, 로컬 SHA‑256 `0d50714744e0c6b1b2359beedde96f6b8842ad45ba19c6fcc224b90fd95d6915`로 고정했다. 압축을 풀지 않은 bounded inventory에서 51 members/130,696,187 expanded bytes를 확인했다. 원시 측정값·시트·이미지는 열거나 해석하지 않았다. Dataset catalog는 65 dataset/281 assets로 갱신했다.
+
+Zenodo record 10.5281/zenodo.10482561는 depositor가 CC0-1.0을 선언한다. 선택 archive 30,886,921 bytes를 ignored `data/raw/az-we43-az31-molybdate-eis/`에 받아 publisher MD5와 로컬 SHA-256(`38d69f883ede6caaf988c3af9dd56f34c071f97b668d93fad778428c26dbed7c`)를 기록했다. archive는 16개 member이며 두 DEIS 행렬은 54×8,640이고 importer가 숫자 내용을 package/catalog fixture에 복사하지 않는다. 헤더가 없어 시간·주파수축, 열 의미, complex pair 및 spectrum 경계는 아직 추정하지 않는다.
+
+최신 데이터 카탈로그 감사는 66 dataset/282 asset에서 오류 0건이며 15건의 checksum/metadata warning이 남았다. Release-rights 구조 감사는 66 dataset/484 source records에서 통과했다(법률 승인 아님). 공개 소스 경계 감사는 2,244개 파일에서 통과했고 `data/raw`, `data/derived`, `data/evidence`, `artifacts`, `tmp`를 제외했다. 신규 raw archive는 ignored local 경로에만 있고 source/package 경계에는 포함되지 않는다.
+
+신규 계산기와 실제 DEIS/Ti12Mo5Hf 값은 아직 실행·수치 비교·실험 검증되지 않았다. 테스트와 패키징은 보류 중이다. scale balance 정적 검토는 작은 양의 두께 변화가 부동소수점에서 사라지는 경우도 막는다. 현재 101개 scope 기준 진행률은 47/101=46.5%로 유지하며 분류는 code-incomplete 4, data-validation-pending 51, provider-dependent 46이다. Hangang 병렬 제출: crevice/GSA/DEIS job `1185378`, scale-demand job `1185416`, scale-underflow job `1185417`; 결과를 기다리지 않고 AESEC/roundoff 증분 묶음을 제출 중이다.
+
+### 2026-10-31 — scale 이동 경계·gasket 누설 표면 적합 API 연동
+
+`chemistry.planar_scale_diffusion_reaction_history`와 `fabrication.gasket_leakage_map_fit` 계산기를 registry 및 schema generator에 등록했다. 독립 수학 근거 source record를 추가하고 package catalog를 동기화했다. scale 모델은 사용자 제공 확산/계면 저항과 부호 있는 농도 구동력으로 층 두께·소진을 계산한다. gasket 모델은 비음수 bilinear 표면을 caller 관측 calibration 행에서 적합하고 holdout을 분리한다. 두 모델의 합성 API 예제와 권리/범위 설명을 추가했다. gasket solver의 rank 및 numerical exception은 미완성 map을 반환하지 않도록 처리한다. **예제는 실행하지 않았고 테스트·수치 검증·패키징도 아직 하지 않았다.** 정적 감사는 101 scope rows, 288 source paths, 405 components이며 missing paths, AST parse failures, stale symbols, unmapped components는 각각 0이다. 해당 감사에서 신규 구성요소 2개를 상위 범위에 반영했다. 넓은 범위 진행률은 기존 47/101=46.5%를 유지한다(code-incomplete 4, data-validation pending 51, provider-dependent 46). 최초 한강 57개 task bundle은 job 1185188로 제출됐지만 본 변경 전 source snapshot을 사용한다. 증분 검증은 별도 최신 snapshot으로 준비 중이다.
+
+### 2026-10-31 — 고체상·AESEC·crevice 전단 병렬 구현 최신 기록
+
+`corrosion.crevice_wall_shear_exposure`는 digest-pinned slit-flow AssessmentResult에서 cell별 signed/absolute 벽면 전단 지표와 역전 시점을 반영한 노출량을 유도한다. `chemistry.aqueous_solid_phase_candidates`는 caller가 직접 검토한 중성 고체식과 닫힌 수용액 종 목록에서 원소·전하 균형 용해식만 예산 내에서 제안한다. Ti AESEC reader는 단위가 명시된 두 워크북을 원행 그대로 스트리밍한다. 이 세 API는 상위 crevice/wet-CO2 범위를 완성하지 않는다.
+
+현재 코드 범위 표시는 47/101=46.5% 그대로다(code-incomplete 4, data/validation pending 51, provider-dependent 46). 최신 정적 현황은 695 capabilities(420 calculators, 174 interfaces, 101 partial), 887 schemas, 484 source records; source-path 감사 101 rows/294 paths/411 components, 문제 0이다. 공개 경계와 release-rights 감사 결과는 아래 최신 재개점 기록을 따른다. 이 구조 감사들은 법률 승인이나 과학 검증이 아니다.
+
+개발 가속: 세 모듈을 서로 다른 코드 작업으로 병렬 작성했다. Hangang AESEC/반올림 6-task immutable delta는 job `1185592`, phase-candidate/wall-shear 4-task delta는 job `1185622`로 제출됐다. 두 HPC 결과는 확인하지 않았고 unit test·예제 실행·계산·패키징도 하지 않았다.
+
+### 2026-10-31 — 새 공개 자료/API 병렬 통합
+
+Ti‑12Mo‑5Zr 원자료(official Zenodo v2 CC0; MD5와 SHA‑256 확인)를 수집해 로컬-only OCP/EIS/AESEC raw-row reader로 연결했다. Dataset catalog는 66 datasets/282 assets가 됐고, 정적 catalog audit errors=0 (15 warnings), release-rights structural audit 66 datasets/484 sources에서 passed다. 공개 소스 경계는 2,244개 파일에서 통과했고 raw data/evidence는 배포 경계 밖이다.
+
+이번 병렬 코딩에는 Ti-Zr reader, caller 고체상 후보 검색, crevice wall shear, gasket finite-scenario dependence가 포함된다. 공개 API/catalog 상태는 695 capabilities(420 calculators,174 interfaces,101 partial), 887 schemas, 484 sources; scope audit 101 rows/294 paths/411 components, findings 0이다. 공개 소스 경계 audit은 2,244개 파일에서 통과했다.
+
+범위 진척은 47/101=46.5%다(code-incomplete 4, data/validation pending 51, provider-dependent 46). 새 하위 API는 각 분야의 상위 code-incomplete 항목을 완료로 승격하지 않는다. Hangang job `1185592`(6 tasks)·`1185622`(4 tasks)는 immutable snapshot으로 제출됐으며 결과를 확인하지 않았다. gasket delta와 추가 dataset 검토는 별도 agent로 진행 중이다. 테스트·예제 실행·실제 계산·패키징은 사용자의 지시에 따라 보류한다.
+
+### 2026-10-31 parallel implementation update
+
+Two bounded APIs were centrally connected: `corrosion.ti12mo5zr_ocp_signed_window_summary` and `integration.spatial_piecewise_mass_action`. Registry and public schemas are updated; static generation is 708 capability entries (429 calculators, 178 interfaces, 101 partial) and 907 schemas. Source catalog contains 492 records after two direct additions; its generator still encounters missing basis record `caller-baseline-thickness-evidence`, so source generation itself is not claimed complete. The 101-item code-only scope estimate remains 47/101 (46.5%); tests, examples, calculations, package build and HPC result inspection have not been run. Spatial callback Hangang job 1185921 is submitted/not validated; EIS delta is still retrying QoS without an assigned job ID.
+
+### 2026-10-31 current central generation correction
+
+After the additional wet-CO2 matched contrast, external flange diagnostic screen and multiaxial cycle-block result summary integrations, latest generated metadata is 711 capabilities (432 calculators, 178 interfaces, 101 partial), 911 public contract schemas and 495 source records. Source catalog generation and package catalog synchronization completed. Code-only broad-scope progress remains 47/101 (46.5%), classified as 4 code-incomplete, 51 data/validation-pending and 46 provider-dependent. No tests, examples, calculations, package build or HPC result inspection were run.
+
+추가 기록: spatial reaction registry 결과는 callable 객체를 직렬화 생성했다고 오해하지 않도록 callback 계약 준비 상태와 activity-provider callback 필요 여부를 반환한다. 실제 callback 생성은 Python의 `build_spatial_reaction_callback` 호출에서 수행한다. 최신 한강 wet-CO2/flange/cycle summary delta는 session 23392, SHA-256 `a5d1dfe301aaba6bf1acf1777e73325c63bbcde67029c75fbea0008bdff67d0d`이며 3개 독립 partition으로 staging/비동기 제출 중이다. 검증 완료나 결과 수신으로 계산하지 않는다.
+
+한강 제출 상태 정정: wet-CO2/flange/cycle-summary delta는 job `1185960`로 제출됐고 상태는 `submitted_not_validated`다. snapshot SHA-256은 `a5d1dfe301aaba6bf1acf1777e73325c63bbcde67029c75fbea0008bdff67d0d`; 결과는 조회하지 않았다.
+
+## Latest CREV/WCO2 code increment
+
+`integration.electrochemical_wall_flux_schedule` and `integration.wco2_species_transfer_audit` are centrally registered and metadata-generated. The former requires caller review for area, time-origin and uniform spatial mapping; the latter validates declared element/charge bookkeeping, not mechanisms. Current generated catalogs: 713 capabilities, 916 schemas, 497 sources. Broad code-only progress remains 47/101 (46.5%). A new three-partition Hangang validation snapshot is being queued; results have not been inspected.
+
+한강 상태: WCO2 species transfer와 CREV wall-flux snapshot은 SHA-256 `5c5fd4abec69c69b24308aa9b6d07b6808a5eace4059cd27d1ab55c530b7c387` (36,446 bytes), session `11011`, receipt `hpc-results/hangang-transfer-wallflux-20261030T172854Z/dispatch.json`로 고정됐다. 원소·전하 closure, 시간/prefix 경계, mapping·geometry 제한 3개 partition이다. scheduler 신규 제출은 비동기 진행 중이며 결과를 조회하지 않았다.
+
+한강 제출 정정: WCO2/CREV 3-partition snapshot은 Hangang job `1185982`로 제출됐다. 검증 완료는 아니며 결과는 조회하지 않았다.
+
+## Release boundary and Hangang update
+
+The public release checker no longer embeds source-identifying text. Its local-path and binary-asset checks remain; source distribution rules and `.gitignore` now explicitly exclude `tmp/` along with local raw/evidence trees. No source archive was built. Hangang job `1185982` (WCO2/CREV, 3 partitions) is submitted_not_validated; its receipt and SHA-256 are recorded in `CONTINUATION_KO.md`; no results were queried.
+
+Incremental scope trace update: the four existing code-incomplete parent rows now list the latest wet-CO2, crevice, fatigue and gasket child components and source paths. Audit date is 2026-10-31, but no full audit generator was run and no parent was promoted. The 47/101 code-only classification is unchanged.
+
+## MetroPT-3 integration checkpoint
+
+UCI MetroPT-3 now has a metadata-only registered archive audit plus a lazy local streaming reader. Registry/schema/source/capability generation and package catalog synchronization completed at 714 capabilities (435 calculators, 178 interfaces, 101 partial), 920 schemas and 498 sources. Rights and raw-data handling are recorded in `docs/datasets/METROPT3_PROCESS_HISTORY_KO.md`. This process/predictive-maintenance dataset is not corrosion evidence. The full 101-scope code-only progress remains 47/101 (46.5%).
+
+## Pressure-decay typed rows
+
+The digest-pinned CC BY 4.0 leak-test workbook now has typed row-level records carrying caller attribution and a registered metadata-only audit. It preserves provider series, exact sample grid and pressure/temperature meaning, without leak-rate, defect-size or acceptance inference. Schema, source and capability catalogs were generated and synchronized with the MetroPT-3 adapter: 715 capabilities, 923 schemas, 499 sources. The source workbook remains in the excluded local raw-data tree.
+
+- Guided-wave typed-row 독립 contract snapshot은 session 90065, receipt hpc-results/hangang-guided-wave-typed-20261030T193838Z/dispatch.json, archive SHA 3d69058ed711fb2bd6e1e847130c13a0627333d806ae39f0f59b460bb56ecc7d로 제출됐으며 상태는 `submitted_not_validated`다. 결과는 조회하지 않았다. 원 archive와 기존 결과는 조회하지 않았다.
+
+- Carbonate→scale SHA `d5aa5781696c251d90eeaef36117a493795f9db40ccae3e8d314594070169fd3`는 record별 Ksp 온도적용성 누락 시 fail-closed 처리한다. 최신 gate snapshot은 session `64932`, receipt `hpc-results/hangang-carbonate-record-review-20261030T195437Z/dispatch.json`, SHA `741af242d659d49eeefe4e22d95e91e3bbbd83065afb0e14eb2d91c5d6491fb6`; scheduler job ID는 아직 없다. 앞선 job `1186383`은 이 gate 변경 이전 revision이므로 새 gate의 검증근거가 아니다.
+
+- CEIT typed-row synthetic snapshot은 session `94164`, receipt `hpc-results/hangang-ceit-typed-20261030T200331Z/dispatch.json`, archive SHA-256 `a5f87c982d228b205094f1fe52c499f1c6984984062b1caf1197ec6d0ae95fb5`로 전송 중이며 아직 scheduler job ID가 없다. DEIS typed-row snapshot은 별도 병렬 제출 준비 중이다. 두 verifier 모두 mock parser row만 사용하며 provider 원자료는 전송하지 않는다.
+
+- DEIS typed-row Hangang snapshot은 session `23390`, receipt `hpc-results/hangang-deis-typed-20261030T200500Z/dispatch.json`, archive SHA-256 `dfce615d96b3e793f645494d7af782142a93c824855a5ffceba8774eca541fea`로 별도 전송 중이며 scheduler job ID는 아직 없다. CEIT `94164`, carbonate record-review `64932`와 서로 독립이다. 원자료 및 이전 결과는 조회하지 않았다.
+
+- 최신 dispatcher 확인: CEIT session `94164`의 원격 staging SHA 검증은 통과했으나 scheduler QoS retry 상태이며 job ID는 없다. DEIS session `23390`은 별도 전송/제출 중이다. carbonate `64932` snapshot은 그대로 유지한다. 새 sbatch 재시도만 하며 기존 결과는 조회하지 않았다.
+
+### 2026-10-31 — 최신 중앙 연결 및 Hangang 영수증
+
+GSA Miner campaign과 fracture-toughness typed rows를 registry·스키마·source/capability catalog·model reference에 연결했다. fracture reader는 기존 parser의 `training`/`test` 문자열을 그대로 보존하도록 수정했고 최신 모듈 SHA는 `f74c4b5f9109fa521a51809f84f8dba420754f432585345c46bd25c0f91f2355`다.
+
+Hangang local dispatch receipts 기준: carbonate Ksp gate `1186403`, CEIT `1186424`, DEIS `1186425`, alloy metrics `1186435`, crevice workflow `1186436`는 모두 `submitted_not_validated`다. GSA Miner job `1186439`/session `86621`은 `submitted_not_validated`다. Receipt `hpc-results/hangang-gsaminer-bridge-20261030T201648Z/dispatch.json`, archive SHA `88f1946aa8d71de9a930165c7e5dff0f08d740261195233f10fdbfa6325169f2`. fracture adapter는 수정 SHA 기준 별도 스냅샷 준비 중이다. 결과는 조회하지 않았다.
+
+현행 정적 카탈로그는 742 capabilities, 989 schemas, 525 sources이고 scope audit는 101행·317경로·434구성요소에서 누락 및 연결오류 0이다. 코드 범위는 47/101(46.5%)다. 테스트·계산·패키징은 계속 보류한다.
+
+- Fracture-toughness typed reader의 수정 SHA `f74c4b5f9109fa521a51809f84f8dba420754f432585345c46bd25c0f91f2355` 기준 Hangang snapshot은 session `26651`, receipt `hpc-results/hangang-fracturecomp-corrected-20261030T202213Z/dispatch.json`, archive SHA-256 `e6682fc2211e18f0c977a38f68742e61a334d5ae848f35a574394916bc67b8d2`로 전송 중이며 job ID는 아직 없다. `training`/`test` 원 label 검증, compilation-rights-local-only partition을 사용한다. 원 workbook/기존 결과는 조회하지 않았다.
+
+### 2026-10-31 — 활동도 기울기 보정 간극 면 플럭스 구현
+
+integration.crevice_activity_gradient_nernst_planck_flux_1d 계산기를 추가했다. 단일 간극 면에서 caller 농도 구배와 ln(활동도계수) 구배, 확산계수 및 방향성 유속으로 종별 플럭스를 계산하고 전하 플럭스 합이 0이 되도록 무차원 전위 기울기를 닫는다. 좌우 상태 전기중성, 활동도 표준상태·단일 이온 관례, 열역학 일관성, provider 근거와 사용 권한을 계약 검증한다. 자동 speciation·활동도 추정·상평형·벽 반응·부식률은 범위 밖이다. 한국어 경계 문서는 docs/models/CREVICE_ACTIVITY_GRADIENT_FLUX_KO.md다. 이전에 감사된 883/1,278/774 generated totals에는 아직 새 API 생성 결과가 포함되지 않았다. 테스트, 수치 검증, 패키징, HPC는 실행하지 않았다.
+
+
+
+
+
+
+integration.wet_co2_cylindrical_shear_limited_scale_removal도 registry/schema/catalog/scope에 연결했다. caller가 digest와 사용권한 Evidence를 제공한 shear knot·detachment law를 사용하고, 단계별 요청 제거량은 실제 해당 scale 재고로 제한한다. 이는 별도 shear-removal 후처리로서 wet CO₂ parent를 닫지 않는다.
+
+### 2026-11-01 — 주조·HIP·이음 품질계수 범위 대조
+
+주철·주강·HIP와 이음효율·주조 품질계수의 두 본문을 추가 부분 대조했다. 부분 검토는 179/233절(76.8%)이다. 관측·검사 범위·선언 기준 대조와 응고·흑연화·HIP 기공 폐쇄의 물리 예측을 구분했다. 공정명으로 무기공·완전 치밀화·물성 향상을 보장하지 않는다. 용기 이음효율·배관 이음계수·주조 품질계수·고온 용접계수는 별도 적용 근거가 필요하며 검사 비율에서 자동 추론하지 않는다. 계산 검토 87개·신규 API 확인 47개는 유지한다. 이번 변경은 분류·문서이며 계산 코드·테스트 변경은 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 온도 보정 변형률속도·크리프 설계 범위
+
+creep.zener_hollomon_parameter를 추가해 공급된 양의 변형률속도와 절대온도, 사용자 활성화에너지·기체상수에서 직접 값과 로그값을 계산한다. 직접 값만 표현 불가능하면 로그값을 보존하며 지수 자체가 미지원이면 보류한다. 관련 11개 테스트와 기본 레지스트리 Python/JSON 교환 및 정적 검사가 통과했다. 계산 검토 87개·신규 API 확인 47개·부분 검토 177/233절(76.0%)이다. Omega 손상·다축 효과, 열이력 기반 뜨임, 규격 용접강도·압축 규칙은 별도 미완료 과제로 남겼다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 피로 설계 범위 대조·탄소당량 수치 범위 수정
+
+피로 설계 본문을 추가 부분 대조해 176/233절(75.5%)로 반영했다. 기존 사이클 계수·누적 손상·변위응력 계산과 설계 곡선 선택·보정계수 방향·하중 이력 대응·국부 효과 중복 방지를 구분해 남은 과제로 기록했다. welding.carbon_equivalent_recipe 0.1.1은 비율 항의 중간 곱셈 오버플로를 피하고, 표현 불가능한 항·응답·합계 및 비영 항의 언더플로를 out_of_scope로 처리한다. 조성 합계의 극단 입력도 검증 오류로 반환한다. 관련 11개 테스트와 정적 검사가 통과했다. 계산 검토 86개·신규 API 확인 46개는 유지하며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 두께 기준·인증 범위 대조
+
+두께 요구와 인증 범위의 두 본문을 부분 대조했다. 부분 검토는 175/233절(75.1%)이다. 기존 두께 예산·순차 잔존율 계산과 규격별 최소/최대 두께·공차·게이지 선택을 구분했다. 부식여유 포함 여부, 발주/최소 공급/가공 후 실측 두께, 피복과 모재, 홈 바닥 기준은 별도로 대응해야 한다. 인증의 발급자·보유자·유효기간·활동 범위는 입력 근거 관리 과제이며 계산 완료가 인증을 뜻하지 않는다. 계산 검토 86개·신규 API 확인 46개는 유지한다. 이번에는 코드·테스트 변경이 없으며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 설계 산출물·적용 근거 관리 대조
+
+설계 단계별 산출물과 적용 판본·해석 관리의 두 본문을 부분 대조했다. 부분 검토는 173/233절(74.2%)이다. 단계명·문서 개정·의존성·배포 승인과 관할·판본·해석·채택 근거의 관리 기능은 대응 과제로 남겼다. 계산 업무의 언급을 실제 해석기 구현으로 간주하지 않으며 과거 발행 일정·예산 예시를 기본 규칙으로 내장하지 않는다. 계산 검토 86개·신규 API 확인 46개는 유지한다. 이번 변경은 분류·문서이며 계산 코드와 테스트 변경은 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 단조·금속 접합·듀플렉스 용접 추가 대조
+
+단조 재료, 금속 접합·라이닝/HIP, 듀플렉스 용접의 3개 본문을 추가 부분 대조했다. 부분 검토는 171/233절(73.4%)이다. 성형·상/페라이트 관측·접합 증거와 실제 재결정·치밀화·확산·기계적 그립·질소 손실/상변태 예측을 구분해 대응 과제로 기록했다. 공정명만으로 무결함·내취성·강도·완전 접합을 보장하지 않으며 단위가 모호한 경험적 충격 에너지/횡팽창 환산은 내장하지 않았다. MATERIAL_SPECIFIC_JOINING_SCOPE_KO.md에 추가 지원·범위를 기록했다. 계산 검토 86개·신규 API 확인 46개는 유지하며 이번에는 계산 코드·테스트 변경이 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 두께별 변화율 한계·수소 로그 지표
+
+thermal.thickness_scaled_rate_limit와 welding.declared_hydrogen_susceptibility_index를 추가했다. 두께 지원·온도 활성·상한을 명시하고 비활성 규칙을 허용 판정으로 바꾸지 않는다. 수소의 측정량/범주값·단위·기준값을 구분하며 1 근처와 극단 로그 비율을 계산한다. 관련 19개 테스트와 두 API의 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 86개·신규 API 확인 46개·부분 검토 168/233절이다. THICKNESS_RATE_AND_HYDROGEN_INDEX_KO.md에 사용·수치 범위·한계·검증을 기록했다. 규격 계수·예열·재료 적합성·균열 확률은 생성하지 않으며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 용접 정의·클래드 상세·폐합 용접·탄소당량 대조
+
+용접 기준/정의, 특수 이음 상세, 폐합 용접, 탄소당량의 4개 본문을 추가 부분 대조했다. 부분 검토는 168/233절(72.1%)이다. 기존 탄소당량 API가 비율·역수·비선형 항을 지원함을 확인해 중복 구현을 제외했다. 두께 역비례 열처리 변화율 한계와 명시된 수소 기준의 로그 지표 연산은 코드 공백으로 등록했다. 규격 계수·분류표·예열 승인과 계산을 구분한다. WELD_DEFINITION_AND_CARBON_SCOPE_KO.md에 지원과 남은 작업을 정리했다. 계산 검토 84개·신규 API 확인 44개는 유지하며 이번에는 계산 코드·테스트 변경이 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 운전 중 용접·후육/박육·시험수와 분기관 시험압
+
+운전 중 용접, 후육·박육 용접, 수압시험·세정수 품질의 3개 본문을 추가 부분 대조했다. 부분 검토는 164/233절(70.4%)이다. 확인한 분기관 시험압 상한은 inspection.hot_tap_branch_test_pressure_cap으로 구현해 모관 운전 절대압·허용 외압 차압·분기관 한계를 결합한다. 제안압 여유·상한 내 여부와 지배 한계를 보존하며 실제 좌굴·고온 용량은 생성하지 않는다. 관련 7개 테스트와 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 84개·신규 API 확인 44개다. HOT_TAP_PRESSURE_AND_WATER_SCOPE_KO.md에 사용·제약·수질/절차 대응·검증을 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 검사 자격·UT·상시 계측 본문 추가 대조
+
+검사 기준·역할, UT 기법·대체 자격, 운전 중 검사·샘플링·변형률 계측의 3개 본문을 추가 부분 대조했다. 부분 검토는 161/233절(69.1%)이다. UT 취득·기하와 실제 결함 크기/검사 대체 자격, 전열관 스캔과 미세조직 복제, 스쿱 시편과 표준 시편, 단축 변형률과 다축 응력을 구분했다. INSPECTION_METHOD_SCOPE_KO.md에 추가 대응을 기록했다. 계산 검토 83개·신규 API 확인 43개는 유지하며 이번 추가 분류에는 계산 코드·테스트 변경이 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 임의 길이 창의 지시 누적 계산
+
+inspection.indication_window_accumulation을 추가해 검토한 공통 1차원 좌표에서 고정 길이 창의 지시 누적 최댓값과 창 위치를 계산한다. 중복 합산·합집합 의미를 분리하고 대표 창의 원래 지시를 추적한다. 창 좌표가 구분되지 않거나 합계가 수치 범위를 벗어나면 보류한다. 관련 12개 테스트와 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 83개·신규 API 확인 43개·부분 검토 158/233절이다. INDICATION_WINDOW_ACCUMULATION_KO.md에 산술 원리·사용·한계·검증을 기록했다. 규격 창·허용값·지시 동일성·불확도·합격은 별도 근거가 필요하며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 상위 절의 독립 기술 본문 7개 대조
+
+저온·고온 개요, 세정·제어 침착·재료별 용접의 상위 본문, 검사·압력시험 개요의 7개 본문을 추가 부분 대조했다. 부분 검토는 158/233절(67.8%)이다. 하위 절의 검토만으로 상위 본문에 끼어 있는 볼팅·지시 누적 기준표까지 완료로 보지 않았다. 임의 검사 길이 구간의 지시 누적 길이는 현재 그룹 합계 입력 API가 계산하지 않아 별도 코드 공백으로 등록했다. PARENT_BODY_REQUIREMENTS_KO.md에 의미와 남은 과업을 기록했다. 계산 검토 82개·신규 API 확인 42개는 유지하며 이번에는 계산 코드·테스트 변경이 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 재료별 용접·브레이징·피복 접합 6개 추가 대조
+
+저온 니켈강·구리합금·지르코늄 용접, 브레이징, 오버레이, 폭발 피복 접합의 6개 본문을 추가 부분 대조했다. 부분 검토는 151/233절(64.8%)이다. 기존 희석 계산·층별 기하·용가재 및 접합 증거 API를 연결하고 모세관 충전·차폐 오염/취화·공정에서의 희석 예측·실제 접합 형성 계산은 별도 대응 대상으로 남겼다. 다른 재료 표가 본문에 끼어드는 위치를 구분했고 고정 계수·재료 선택표·성능 주장을 내장하지 않았다. MATERIAL_SPECIFIC_JOINING_SCOPE_KO.md에 지원과 남은 과업을 기록했다. 계산 검토 82개·신규 API 확인 42개는 유지하며 이번에는 계산 코드·테스트 변경이 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 두께 구간별 누적 유지시간
+
+thermal.piecewise_thickness_soak_duration를 추가해 사용자 두께 구간의 시간 계수를 누적하고 가산 기준시간·최소시간·지원 범위를 적용한다. 구간별 적용 두께·기여시간과 동률 지배 조건을 보존하며 수치 범위 이탈과 외삽은 보류한다. 입력·계수·절차·권한은 근거 해시에 연결된다. 관련 12개 테스트와 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 82개·신규 API 확인 42개·부분 검토 145/233절이다. PIECEWISE_THICKNESS_SOAK_KO.md에 사용·제약·검증을 기록했다. 실제 조직 변화·온도 균일성·열처리 적합성은 별도 근거가 필요하며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 용접 열입력·제어·국부 열처리 추가 대조
+
+열입력, 고급 용접 공정, 국부 PWHT, 노멀라이징의 4개 본문을 추가 부분 대조했다. 부분 검토는 145/233절(62.2%)이다. 기존 유지시간 계산은 단일 비례 계수와 최소값만 지원하므로 두께 구간별 누적 계수·가산 기준시간을 사용하는 계산을 코드 공백으로 등록했다. 파형 제어의 실제 에너지 취득, 상용 용접 제어기, 국부 열처리 전체 체적의 온도 적합성은 단순 열입력·센서 요약과 구분한다. WELD_HEAT_PROCESS_SCOPE_KO.md에 지원·남은 과업을 기록했다. 계산 검토 81개·신규 API 확인 41개는 유지하며 이번에는 계산 코드·테스트 변경이 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 압력·금속 온도 변화 속도
+
+structural.pressure_temperature_ramp_limits를 추가해 검토된 구간 선형 이력의 부호 있는 압력·금속 온도 변화율과 승온·냉각·승압·감압 한계를 비교한다. 실제 위치·시계·입력·한계는 근거 해시에 연결된다. 0이 아닌 변화율의 언더플로와 비유한 값은 보류하며 한계 초과와 계산 상태를 구분한다. 관련 12개 테스트와 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 81개·신규 API 확인 41개·부분 검토 141/233절이다. PRESSURE_TEMPERATURE_RAMP_LIMITS_KO.md에 사용·제약·검증을 기록했다. MPT 생성·수소 탈기·취성파괴·운전 승인은 별도 근거가 필요하며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 설계·제작·용접 본문 8개 추가 대조
+
+MDMT·신재료 근거·최소 가압 온도, 제작 계획·부품 제작·순서, 용접성·용접 불연속의 8개 본문을 추가 부분 대조했다. 부분 검토는 141/233절(60.5%)이다. 기존 압력–온도 경계 API에는 시계와 승온·냉각·승압·감압 속도 연산이 없어 별도 코드 공백으로 등록했다. MDMT와 시험 전이온도, 응력–변형률과 피로 S–N 자료, 관측 지시와 원인·합격 판단을 구분한다. DESIGN_FABRICATION_SCOPE_KO.md에 지원과 남은 작업을 정리했다. 계산 검토 80개·신규 API 확인 40개는 유지한다. 이번에는 계산 코드·테스트 변경이 없으며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 소형 충격시편의 선언된 시험 요구
+
+inspection.declared_impact_subsize_requirements를 추가해 승인된 폭 비례 에너지 요구와 사용자 온도 감소량 표의 유계 선형 보간을 계산한다. 측정 에너지를 정규화하거나 면제·합격을 추론하지 않는다. 입력·표·기준은 권한과 검토 근거의 해시에 연결되며 외삽·유효 절대온도 밖 계산은 보류한다. 관련 10개 테스트와 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 80개·신규 API 확인 40개·부분 검토 133/233절이다. DECLARED_IMPACT_SUBSIZE_KO.md에 사용·제약·검증을 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 재료 그룹·저온 시험·손상 기구 추가 대조
+
+재료 그룹, 저온 충격시험·극저온 적용, 열가공·응고/액화균열·재열균열·크리프, 재료 확인의 9개 본문을 추가 부분 대조했다. 부분 검토는 133/233절(57.1%)이다. 소형 충격 시편의 사용자 승인 시험 요구 계산은 기존 관측 비교와 구분해 미완성 계산 과제로 등록했다. 재료 그룹 표와 기체/재료 표는 코드 분류·상평형·재료 적합성 검증으로 간주하지 않는다. MATERIAL_MECHANISM_SCOPE_KO.md에 지원 범위와 남은 작업을 기록했다. 이번에는 계산 변경·테스트 실행이 없으며 계산 검토 79개·신규 API 확인 39개를 유지한다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 설계·단위 요구 19개와 지배 강도 계산
+
+설계 기초·수명·기준·기록·압력·온도·요구 통계 의미의 19개 본문을 추가 부분 대조했다. 부분 검토는 124/233절(53.2%)이다. 확인한 강도 후보 계수 적용·최솟값 계산은 materials.scaled_strength_minimum으로 구현했고 동률 후보와 입력 근거를 보존한다. 규격 계수나 허용응력 승인은 생성하지 않는다. units.absolute_pressure의 합산 비유한 값과 불리언 대기압을 거부하도록 수정했다. 강도 API 7개 및 단위 경계·기존 공학 계산 17개 테스트가 통과했다. 계산 검토 79개·신규 API 확인 39개다. DESIGN_BASIS_AND_STRENGTH_MINIMUM_KO.md에 사용·범위·검증을 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 검사·시험 요구 10개 추가 대조
+
+검사 책임, 파괴시험 분류, NDE 방법, 방사선·표면·OCTG 검사 기준, 금속조직 분석, 전열관 검사, 기포 누설·극저온 밸브 시험의 10개 본문을 부분 대조했다. 부분 검토는 105/233절(45.1%)이며 별도 표·그림까지 완료한 의미는 아니다. 열화상 정량 해석, IRIS 위치·신호 처리, RFECT 위상/진폭 역해석, 자기 바이어스 전열관 해석, 기포 관측의 누설량 의미는 기존 일반 API와 구분해 추가 대응 대상으로 기록했다. INSPECTION_METHOD_SCOPE_KO.md에 지원·미완료 범위를 정리했다. 이번에는 계산 코드·수치 테스트 변경이 없고 계산 검토 78개·신규 API 확인 38개를 유지한다. 전체 구현 완료율은 미확정이다.
+
+### 2026-11-01 — 재료별 용접·열처리 본문 추가 대조
+
+니켈·티타늄·탄탈럼 용접, 열처리 목적·분류·템퍼링 순서·안정화·저온 처리·피닝의 9개 본문을 추가 부분 대조했다. 부분 검토는 95/233절(40.8%)이다. 별도 표·그림을 참조하는 본문은 해당 표·그림까지 완료한 것으로 세지 않았고 제목만 있는 항목은 제외했다. 온도·시간 이력 및 증거 비교 기능을 실제 조직 변화·응력 완화·수축·표면 강화 계산과 구분해 남은 대응 과제로 기록했다. 계산 검토 78개·신규 API 확인 38개는 유지한다. 이번 추가 작업은 범위 분류이며 새 수치 검증 실적은 없다.
+
+### 2026-11-01 — 침착·제거 후 층별 잔여 형상
+
+fabrication.deposition_removal_history를 추가해 국부 균일 두께 층의 침착·표면 제거 이력을 계산한다. 초기 층부터 위쪽 순서와 이벤트 실행 순서, 층 식별자·재료 상태·입력 출처·해시를 보존한다. 여러 층을 가로지르는 제거와 완전 제거를 처리하며 모재 범위를 넘는 제거는 보류한다. 관련 11개 테스트, 기본 레지스트리 Python/JSON 교환·정적 검사·소스 추적 검사가 통과했다. 계산 검토 78개·신규 API 확인 38개·부분 검토 86/233절이다. 기능 995개·스키마 1529개·구현 근거 943개로 갱신했다. DEPOSITION_REMOVAL_HISTORY_KO.md에 사용·한계·검증을 기록했다. 희석·열·조직·시공 절차의 전체 검증은 포함하지 않으며 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 후열·버터링·운전 중 용접 요구 분류
+
+용접성 요인, 후열, 하프 비드, 버터링, 운전 중 용접, 용가재 표시의 9개 요구를 기존 코드와 대조했다. 부분 검토는 86/233절(36.9%)이다. 템퍼 비드·층 적합성 계약은 층별 침착·연삭 후 잔여 형상 계산을 제공하지 않아 전용 기하 이력 연산을 코드 공백으로 기록했다. 운전 중 용접 API의 공급자 결과 비교는 실제 열·용락·수소 계산기 구현과 구분한다. WELDING_PROCEDURE_SCOPE_KO.md에 지원 범위와 남은 과업을 정리했다. 이번에는 계산 코드 변경·수치 테스트 실행이 없으며 계산 검토 77개·신규 API 확인 37개를 유지한다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 용접 요구 분류와 조성 하한 계산
+
+용접 변형·경도·잔류응력·층상파괴·응고균열·수소 관련 11개 절을 요구별로 부분 대조했다. 부분 검토는 77/233절이며 전체 완료율은 아니다. 확인한 조성 하한 계산 공백은 materials.floored_composition_index_recipe로 구현했다. 원래 분석값과 유효값을 분리하고 질량 기준·계수·하한·해시·사용 권한을 보존한다. 기존 조성 API를 변경하지 않았다. 관련 26개 테스트와 기본 레지스트리 Python/JSON 교환이 통과했다. 계산 검토 77개·신규 API 연결 확인 37개다. FLOORED_COMPOSITION_RECIPE_KO.md에 사용과 검증 범위를 기록했다. 절차별 물리 모델 대응과 독립 데이터 검증은 계속 필요하다.
+
+### 2026-11-01 — 보존·운송 요구 분류와 저온 기동
+
+보존·운송·동절기 보호 요구 12개를 기존 계산, 공급자·데이터 의존, 절차 대응 검토 대상으로 분류했다. 부분 검토는 66/233절이며 전체 절 완료는 아니다. fabrication.winterization_inventory 1.1.0은 초기 하한 미달 상태에서의 단일상 가열을 지원하고 최초 미달 시각과 최소 음의 여유를 유지한다. 관련 11개 테스트와 정적 검사가 통과했다. 계산 검토 76개·신규 API 연결 36개는 유지한다. PRESERVATION_TRANSPORT_SCOPE_KO.md에 구현 범위와 남은 근거를 정리했다. 카탈로그·스키마·모델 설명을 갱신했다.
+
+### 2026-11-01 — 동절기 열수지 수치 범위 보강
+
+fabrication.winterization_inventory 1.0.1은 expm1 기반 온도 증분으로 작은 변화를 보존하고, 열용량의 오버플로·언더플로 및 비유한 평형온도·감쇠척도·온도·에너지를 out_of_scope로 반환한다. 양의 입력도 표현 가능한 계산을 보장하지 않으므로 미지원 범위에서 NaN 결과를 제공하지 않는다. 기존 정상 해석·문턱 도달 시간·에너지 수지·CoolProp 연결을 포함한 관련 10개 테스트와 정적 검사가 통과했다. 카탈로그와 모델 설명을 다시 생성했다. 기존 모델 보강으로 계산 검토 76개·부분 대조 64/233절·신규 API 확인 36개는 유지한다. 이 결과는 단일상 혼합 재고의 수학·소프트웨어 확인이며 상변화·수화물·배관별 동절기 설계 검증이 아니다.
+
+### 2026-11-01 — 프로파일 조도 지표와 도막 소요량 범위 검사
+
+inspection.surface_profile_roughness를 추가했다. 검토된 위치·높이 프로파일의 길이 가중 평균을 제거하고 구간 선형 절댓값·제곱 적분으로 Ra/Rq 및 전체 평가 구간의 Rp/Rv/Rt를 계산한다. 필터·컷오프·Rz 환산·허용 기준은 내장하지 않는다. protection.coating_coverage 1.0.1은 양의 유한 도막 두께·부피 범위를 확인한다. 관련 15개 테스트와 신규 및 기존 API의 Python/JSON 교환·정적 검사·소스 추적 검사를 통과했다. 계산 검토 76개, 부분 대조 64/233절, 신규 API 연결 확인 36개다. 생성 현황은 기능 993개·스키마 1525개·구현 근거 942개다. SURFACE_PROFILE_ROUGHNESS_KO.md에 처리·검증·정의 범위를 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 농도 기준 변환과 세정 지지영역의 재료 연결
+
+chemistry.solution_concentration_conversion을 추가해 질량·물질량·순수 성분 부피 기준을 명시된 밀도·몰질량으로 변환한다. 필요한 물성이 없는 변환은 미정이며 부피 가산성·원액 순도·pH를 추론하지 않는다. fabrication.chemical_cleaning_envelope 1.1.0은 사용 지지영역의 실제 재료 상태와 요청 재료를 대조하고 실행 자산·위치를 확인한다. 기존 무연결 지지영역은 파싱되지만 적합성 비교는 보류한다. 관련 18개 테스트, 신규 및 기존 API의 Python/JSON 교환·정적 검사·소스 추적 검사를 통과했다. 계산 검토 75개, 부분 대조 62/233절, 신규 API 연결 확인 35개다. 생성 현황은 기능 992개·스키마 1524개·구현 근거 941개다. SOLUTION_BASIS_AND_CLEANING_BINDING_KO.md에 기준·물성·마이그레이션·범위를 기록했다. 세정 절의 절차별 센서·쿠폰·검증 근거와 공급자 조건 검토는 남아 있다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 코팅 손상 면적과 빈 세정조 농도 의미
+
+fabrication.coating_damage_area_inventory를 추가해 검사 범위 안의 손상 면적·개별 패치 크기와 부분 검사 범위를 구분했다. fabrication.chemical_cleaning_bath_component_inventory 1.0.1은 빈 조의 미정 농도를 0 대신 null로 반환하고 재고·농도의 비유한 값 및 실행 자산·위치 불일치를 차단한다. 관련 19개 테스트, 신규 및 기존 API의 Python/JSON 교환·정적 검사·소스 추적 검사를 통과했다. 계산 검토 74개, 부분 대조 62/233절, 신규 API 연결 확인 34개다. 생성 현황은 기능 991개·스키마 1520개·구현 근거 941개다. 보수 경로·세정 반응·코팅 수명 qualification 전체를 완료한 의미는 아니다. COATING_DAMAGE_BATH_INVENTORY_KO.md에 사용 범위와 null 출력 변경을 기록했다. 화학 세정의 나머지 요구는 별도 검토가 남아 있다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 지시용 구멍과 마찰·응력 기준 볼트 토크
+
+inspection.blind_indicator_hole_ligament, fabrication.friction_resolved_bolt_torque, fabrication.bolt_reference_torque_scaling을 추가했다. 구멍은 같은 위치의 잔여두께와 기준 비율을 보존하며 관통·과깊이는 적용 범위 밖이다. 볼트는 나사산·받침면 토크를 분리하고 리드·반각·마찰 조건을 명시하며, 기준 토크 비례 환산은 동일 조건 검토를 요구한다. 관련 18개 테스트와 세 API의 Python/JSON 교환·정적 검사를 통과했다. 계산 검토 72개, 부분 대조 57/233절, 신규 API 연결 확인 33개다. 현재 생성 현황은 기능 990개·스키마 1518개·구현 근거 940개다. 규격 토크·마찰·순서 표는 포함하지 않는다. BLIND_HOLE_AND_BOLT_TORQUE_KO.md에 입력·독립 공개 근거·검증·한계를 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 보온 표면 열수지의 비활성 경로와 수렴 검사
+
+thermal.insulation_surface_balance 1.0.1은 비활성 대류·복사 경로가 온도 탐색 구간과 열량에 영향을 주지 않도록 수정했다. 원통 반경 로그를 안정화하고 비유한 열량과 열수지 잔차 미수렴을 out_of_scope로 반환한다. 온도 구간 폭만으로 수렴을 선언하지 않는다. 관련 19개 테스트와 기존 API의 Python/JSON 교환을 확인했다. 계산 검토 69개, 부분 대조 57/233절이며 신규 API 수는 30개다. 내화물 건조·폭렬, 방화 등급, 핫박스 스커트 좌굴의 물리 qualification을 완료한 의미는 아니다. 지시용 막힌 구멍의 잔여 벽두께 계산은 후속 코드 공백으로 기록했다. INSULATION_SURFACE_NUMERICS_KO.md에 수렴 기준·한계를 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 가스켓 접합부의 수치 범위·착좌 기록 수
+
+fabrication.elastic_joint_load 1.0.1은 정규화 강성 분담과 안정적인 직렬 강성으로 불필요한 중간 오버플로·언더플로를 줄였다. 실제 비유한 힘은 out_of_scope다. fabrication.gasket_joint_evidence 1.0.1은 단일 착좌 결과로 최소 기록 수 2 이상을 충족시키던 누락을 수정했다. 관련 12개 테스트와 기존 두 API의 Python/JSON 교환을 확인했다. 계산 검토 68개, 부분 대조 54/233절이다. 신규 API 수는 30개로 유지한다. 가스켓 재료·서비스 선택, 청정도·인증·공급자 데이터 qualification 전체를 완료한 의미는 아니다. GASKET_JOINT_REVIEW_KO.md에 수정·검증 범위를 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 검사 모집단·표본 및 범위 확대
+
+inspection.lot_sampling_escalation은 명시적 물리 모집단·초기 표본·필수 부품과 사용자 계획에 따라 검사 범위를 집계한다. 실패는 검사 완료 수와 제품 실패 목록을 분리하고, 후속 통과가 최초 실패·확대 조건을 지우지 않도록 했다. 초기 결과의 확대 단계 재사용 여부를 명시하며 미검사·판정불가는 확정 수에 포함하지 않는다. 관련 13개 테스트와 Python/JSON 교환을 확인했다. 신규 API 교환 확인 30개, 계산 검토 67개, 부분 대조 53/233절이다. 이번 절차 API를 물리 계산 검토 수에 추가하지 않는다. 생성 현황은 기능 987개·스키마 1515개·구현 근거 939개다. 통계적 합격표·POD·제품 허용 판정은 제공하지 않는다. INSPECTION_SAMPLING_KO.md에 계약·확대·결과 재사용 정책을 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-01 — 배관 굽힘 여유두께와 두께 비례 유지시간
+
+fabrication.pipe_bend_wall_allowance 및 thermal.thickness_soak_duration을 추가했다. 사용자 보유율·부식여유·압력 및 인접관 요구를 구분하고, 유지시간은 사용자 비례식과 최소시간 중 큰 값을 계산한다. 관련 19개 테스트와 두 API의 Python/JSON 교환을 통과했다. 규격 상수와 실제 측정 두께·온도 이력을 대체하지 않는다. PIPE_BEND_ALLOWANCES_KO.md에 입력·부호 있는 여유·범위를 기록했다. 표본검사 실패 시 검사 확대를 계산하는 명시적 모집단 API는 후속 미완성 과제로 기록했다. 전체 완료율은 아직 미확정이다.
+
+### 2026-11-01 — 질량·무게중심과 평면 두 지지점 반력
+
+fabrication.equipment_mass_properties 및 fabrication.equipment_two_support_lift를 추가하여 확인된 운송 계산 공백 2개를 닫았다. 반력 모델은 동일 질량 목록을 직접 사용하며 회전된 상대 지레팔로 평형을 계산한다. 음의 반력·특이 수평 투영·수치 범위 초과를 적용 범위 밖으로 처리한다. 관련 21개 테스트와 두 API의 Python/JSON 교환·정적 검사를 통과했다. 계산 검토 65개, 부분 대조 48/233절, 신규 API 교환 확인 27개다. 현재 생성 현황은 기능 984개·스키마 1509개·구현 근거 938개다. 상세 러그 강도·좌굴·슬링·크레인 성능·동역학·양중 승인을 포함하는 의미는 아니다. 전체 범위 완료율은 미확정이다. EQUIPMENT_MASS_LIFT_KO.md에 입력·좌표 회전·물리 범위·연동 조건을 기록했다.
+
+### 2026-11-01 — 관 팽창·굽힘 전 요구두께와 운송 계산 공백
+
+관 팽창의 초기 간극 해소와 벽 감소를 구분하는 fabrication.tube_expansion_wall_reduction 및 사용자 곡률 계수로 굽힘 전 두께를 계산하는 fabrication.tube_bend_preform_thickness를 추가했다. 관련 15개 테스트와 두 API의 Python/JSON 교환을 통과했다. 계산 검토 63개, 부분 대조 48/233절, 신규 API 교환 확인 25개다. 운송·양중 기록 비교와 실제 계산을 구분하여 질량·무게중심 집계와 제한된 평면 두 지지점 정적 반력 계산 2개를 미완성 코드 과제로 등록했다. 상세 강도·크레인 성능·규정 기준은 별도 공급자 의존이다. 현재 생성 현황은 기능 982개·스키마 1506개·구현 근거 936개다. 전체 완료율은 미확정이다. TUBE_FABRICATION_CALCULATIONS_KO.md에 산술·입력·한계를 기록했다.
+
+### 2026-11-01 — 지배두께의 명시적 선택식 계산
+
+fabrication.governing_thickness_recipe는 목적·재료 상태·이음 형상·선택 사례와 치수 기록을 해시로 묶고 최소·최대·합의 의존 그래프를 계산한다. 최대·최소 동률과 합의 반복 항을 보존하고 잘못된 참조 및 수치 범위 초과를 차단한다. 규격별 자동 형상 선택과 면제 판단은 포함하지 않는다. 관련 27개 테스트와 Python/JSON 교환·정적 검사 및 소스 추적 검사를 통과했다. 계산 검토 61개, 부분 대조 45/233절, 신규 API 교환 확인 23개다. 현재 생성 현황은 기능 980개·스키마 1504개·구현 근거 936개다. 전체 완료율은 미확정이다. GOVERNING_THICKNESS_RECIPE_KO.md에 사용 계약과 범위를 기록했다.
+
+### 2026-11-01 — 다단계 성형의 중간 냉각과 조건 분기
+
+fabrication.forming_process_sequence는 사용자가 선택한 재료별 계획에 따라 공정 횟수·온도·단일 및 누적 시간을 비교하고, 연속 공정 사이의 명시적 냉각 관측과 종료 온도·최종 단면 감소율의 조건 분기를 평가한다. 규격 상수나 실제 처리 생략 권한은 내장하지 않는다. 관련 21개 테스트와 Python/JSON 동일성, 정적 검사 및 소스 추적 검사를 통과했다. 신규 API 교환 확인 22개, 계산 검토 60개, 부분 대조 43/233절이다. 이번 순서 API는 계산 검토 수를 별도로 늘리지 않고 워크플로 근거로 기록한다. 현재 생성 현황은 기능 979개·스키마 1501개·구현 근거 936개다. 전체 완료율은 미확정이다. FORMING_PROCESS_SEQUENCE_KO.md에 계약·시간 경계·한계를 기록했다.
+
+### 2026-11-01 — 형상 편차와 제작 요구별 잔여 분류
+
+형상 기준점·측정점의 명시적 대응과 단위 외향 법선에서 편차를 산출하는 fabrication.surface_profile_deviation을 추가했다. 불확실성 구간과 사용자 경계의 관계를 계산하되 계산 완료와 허용 판정을 구분한다. 성형 지지영역 1.0.2는 지표 정의·방향이 같은 복수 기록을 거부하여 마지막 값 덮어쓰기를 방지한다. 관련 18개 테스트와 정적 검사가 통과했다. 계산 검토 60개, 부분 대조 43/233절이며 전체 완료율은 미확정이다. 다단계 성형·지배두께·이음부 게이지의 남은 요구는 잔여 작업 문서에 명시했다. 사용법은 SURFACE_PROFILE_DEVIATION_KO.md를 따른다.
+
+### 2026-11-01 — 단면 감소율 계산과 성형 지지영역 선택
+
+같은 재료 구간의 원래·변형 후 단면적에서 감소율과 로그 면적 비율을 계산하는 fabrication.forming_area_reduction을 추가했다. 신규 API의 Python/JSON 동일성과 크기 배율·수치 범위 경계를 확인했다. 성형 지지영역 1.0.1은 복수 일치에서 명시적 선택을 요구한다. 성형 관련 20개 사례 통과이며 기존 누적 테스트 수와 별도로 기록한다. 계산 검토 59개, 부분 대조 43/233절이다. 전체 필수 계산 분모와 전체 완료율은 미확정이다. 상세 사용 범위는 FORMING_AREA_REDUCTION_KO.md를 따른다.
+
+### 2026-11-01 — 잔여 작업 분류와 성형 계산 경계 수정
+
+잔여 납품 큐를 정리했다. 기존 101개는 데이터 검증 대기 52개, 공급자 의존 48개, 필수 요구 대응 확인 대기 1개로 구분한다. 상세 처리 기준은 REMAINING_DELIVERY_QUEUE_KO.md에 기록했다. 전체 필수 계산 분모는 아직 미확정이다.
+
+성형 기하 API 1.0.1은 반경 0에서 진변형률 계산이 중단되던 경계를 out_of_scope로 처리하고, 매우 작은 양수 반경의 로그 계산을 안정화했다. 해당 모듈 테스트 6개와 관련 정적 검사가 통과했다. 기존 누적 327개와 중복 여부를 대조하기 전에는 합산하지 않는다. FORMING_GEOMETRY_NUMERICS_KO.md에 출력 의미와 검증 범위를 기록했다.
+
+### 2026-11-01 — 용접 생산 시험의 구간 집계·독립성 처리
+
+생산 캠페인 API 1.0.1은 최소·최대에 평균 불확실성 식을 적용하던 오류와 출처 이름만으로 독립성 최소 조건을 충족시키던 오류를 수정했다. 이번 용접 증거·API 묶음 29개, 관련 테스트 누적 327개 통과다. 현재 계산 검토 58개이며 기존 용접 API 5개의 Python/JSON 교환을 확인했다. 문서·모델 참조·기능 카탈로그·소스 추적을 갱신했다. 입력 계약은 같아 스키마 재생성은 하지 않았다. WPS/PQR나 표준 용접 시험 전체의 qualification을 완료한 의미는 아니다.
+
+### 2026-11-01 — 충격·인성의 관측 교차점과 반복 시험편 검사
+
+동일 물리 시험편의 반복 집계를 거부하도록 충격 캠페인 API 1.0.1을 수정했다. 에너지·전단 파면 비율·횡팽창량의 관측 교차점 API를 추가하고 다중 교차와 평탄 구간의 관측 ID를 보존한다. 현재 계산 검토 56개, 관련 테스트 누적 298개 통과이며 이번 고유 사례는 40개다. 신규 API 누적 19개와 기존 인성 API 5개의 교환 확인을 구분한다. 생성 현황 976 capabilities / 1,493 schemas / 933 source records. 상위 시험 방법 전체나 물리 qualification의 완료를 뜻하지 않는다.
+
+### 2026-11-01 — 환경 적용성·등가 노출·조성 지표 검토
+
+등가 노출 API 1.0.1은 관측 공백을 0 노출로 처리하지 않고 판단을 보류한다. 범용 조성 다항식과 J/X/RCS/K 구조 API를 추가했다. 이번 묶음 72개, 관련 테스트 누적 258개 통과다. 현재 계산 검토 53개이며 적용성 API 7개는 보편적인 손상 법칙이나 물리 qualification과 구분한다. 신규 API 누적 18개, 기존 핵심 API 12개·환경 API 9개의 Python/JSON 교환을 확인했다. 생성 현황은 975 capabilities / 1,491 schemas / 932 source records다. 전체 범위 완료율은 아직 미확정이다.
+
+### 2026-11-01 — 기존 구조·재료·열 계산 묶음 검토
+
+기존 계산 12개를 추가 검토하고 Python/JSON 교환을 확인했다. 열처리 유지 시간 API 1.0.1은 고정 시간 허용오차가 실제 이탈 구간을 연결하던 문제를 수정했다. 현재 개별 계산 검토 46개, 관련 테스트 누적 186개 통과다. 신규 API 16개와 이번 기존 API 12개의 교환 확인을 구분한다. 보조 계산 검토로 상위 표준 방법·절차 전체를 완료 처리하지 않는다. 생성 모델 참조, 기능 카탈로그 및 범위 소스 추적을 갱신했다.
+
+### 2026-11-01 — 성적서 식별자 수정과 배관 클래스 연결
+
+성적서 상위 API 1.1.0은 제품·추적번호를 명시적으로 묶고 잘못된 문서 범위와 실행 컨텍스트를 거부한다. 배관 클래스 API는 기존 압력–온도 계산과 사용자 부품 기준을 연결한다. 현재 계산 34개 검토, 절 12개 부분 대조, 신규 API 16개 교환 확인, 관련 테스트 150개 통과다. 이번 변경은 22개 테스트로 확인했으며 전체 완료율이나 물리 qualification을 뜻하지 않는다. 정확한 생성 수치는 `data/catalogs/delivery_progress.json`을 따른다.
+
+### 2026-11-01 — 보존 이력·진공·압력 한계와 기화량 계산
+
+포화 기화량 열수지와 사용자 압력 한계 API를 추가했다. 기존 보관 이력·진공 기울기 계산을 재검토했다. 현재 계산 33개 검토, 신규 API 교환 15개 확인, 관련 테스트 누적 128개 통과다. 이번 생성 묶음은 972 capabilities / 1,484 schemas / 929 source records이며 전체 범위 완료율은 미확정이다. 물리 실험 qualification과 제공되지 않은 규격 요구는 완료로 처리하지 않는다.
+
+### 2026-11-01 — 깊이·압입 경도 계산 연결
+
+Rockwell 깊이 척도와 Knoop 기하 계산 API 2개를 추가하고 관련 테스트 8개를 통과했다. 현재 개별 계산 검토 29개, 신규 API 교환 확인 13개, 관련 테스트 누적 103개다. 이 수치는 전체 모델 완료율이나 물리 실험 qualification이 아니다. 기능·스키마·구현 근거의 최신 수치는 `data/catalogs/delivery_progress.json`을 따른다.
+
+### 2026-11-01 — 최신 생성 묶음 확인
+
+현재 개별 계산 27개를 검토했고, 확인된 산술 공백 11항목은 구현했다. 신규 API 11개의 Python/JSON 교환과 외부 연동 계약 4묶음을 확인했다. 관련 테스트 95개 통과는 수학·API·계약 확인이며 물리 실험 qualification이 아니다. 생성 현황은 968 capabilities / 1,479 schemas / 927 source records이며 신규 API 2개 반영 대기를 해소했다. 전체 범위의 분모는 미확정이며 이 수치를 전체 완료율로 사용하지 않는다. 최신 기록은 `data/catalogs/delivery_progress.json`을 따른다.
+
+### 2026-11-01 — 완료 기준 재정리와 계산 묶음 일괄 연결
+
+현재 완료 기준은 `DELIVERY_SCOPE_KO.md`다. 기존 101행 추적률과 구현 분류는 전체 납품 진도율이 아니다. 전체 기술·절차 목록의 검토는 진행 중이며, 현재 개별 계산 16개를 대조하고 발견한 산술 공백 11항목을 9개 API로 추가했다. 새 API 9개의 Python/JSON registry 교환과 현재 묶음의 수학 검증은 총 49개 테스트를 통과했다. 실제 재료·절차 qualification은 이 테스트 결과에 포함되지 않는다.
+
+이 묶음의 schema/source/capability 생성·mirror 동기화·모델 참조·백로그를 일괄 갱신했다: 966 capabilities, 1,475 schemas, 925 source records. 정적 범위 추적은 101/101행, 482 source paths, 605 components, 누락·AST 실패·심볼/구성요소 미매핑 0이다. 신규 API 9개가 생성 카탈로그·스키마·모델 참조에 들어간 것을 별도로 확인했다. 번호별 최신 상태는 `data/catalogs/delivery_progress.json`에 보존한다. 전체 목표 완료율은 아직 산정하지 않는다.
+
+### 2026-11-01 — caller-curve dynamic double-layer/Faradaic history
+
+`integration.crevice_dynamic_double_layer_faradaic_history`를 추가했다. caller-provided signed polarization tables와 exact-knot total-current, active-area histories 및 piecewise-linear differential-Cdl curve를 사용해 독립 lumped cell별 전위를 BDF로 적분한다. 저장전하는 `Q=A∫C_d(E)dE`로 계산하고 area 변화율도 `dQ/dt`에 포함한다. 지원 구간 외삽은 거부하며 입력 record별 digest/Evidence, current closure residual, solver-work 한도를 보존한다. 이 API는 electrolyte ohmic/NP transport, cell간 current, component-state BDF, geometry evolution 또는 절차 qualification과 연성되지 않는다.
+
+registry, schemas, catalogs, API/모델 문서, synthetic example, downstream extension request와 101행 scope trace를 갱신했다. 생성 현황 954 capabilities / 1,461 schemas / 917 sources; static trace 101/101 (100%), 479 paths / 602 components, missing/AST/symbol/unmapped errors 0. `degradation.crevice_chemistry`는 공간연성 Cdl, pressure/moving-volume momentum, stage-kinetic precipitation 잔여 코드로 `code_incomplete` 유지한다. 공개 경계 감사 통과: 3,427 files / 61,815,624 bytes (법률 clearance 아님). 수치 테스트·패키징·HPC는 실행하지 않았다.
+
+### 2026-11-01 — 우선순위 묶음 처리 및 중앙 연결 갱신
+
+이번 우선순위 10개 실행 묶음은 코드/데이터 검증/공급자 의존 과제를 섞지 않고, 지금 닫을 수 있는 중앙 연동과 추적 작업부터 처리했다. 새 `integration.crevice_bdf_nucleation_operator_split` API를 registry, JSON Schema, source/capability catalog, model reference, scope audit, API 문서, 한국어 모델 안내와 downstream extension request에 연결했다. 로컬 시간 원점 ledger를 절대 시간 구간에 매핑하는 방식과 operator-split/고정 체적 제한도 기록했다.
+
+현재 생성 카탈로그: 956 capabilities, 1,464 schemas, 920 implementation source entries. 정적 scope audit: 101 rows / 481 source paths / 604 components; missing paths 0, AST unavailable 0, stale/unmapped symbols 0, unmapped components 0. 분류는 provider-dependent 48 / data-validation-pending 52 / code-incomplete 1이며, 이 코딩 상태는 수치 검증 완료를 뜻하지 않는다. 코드 위치 추적률은 101/101 (100.0%)이다. 구현 상태는 별도 지표로 100/101 (99.0%)이며 Crevice parent 1개가 code_incomplete로 남는다. 두 지표를 혼용하지 않는다. 세부 정의는 `docs/CODE_SCOPE_TRACE_KO.md`에 기록했다. 전체 연구 완료율은 산정하지 않는다.
+
+공개 배포 경계 정적 감사는 통과했다 (3,420 files / 61,729,767 bytes, path manifest `33e5e08bdd92ee1e48872102c53222526bfd2fe9f70b2a9016f0ac735672dc8e`). 제외 비공개 루트는 `data/raw`, `data/derived`, `data/evidence`, `artifacts`, `tmp`다. 이 감사는 분배 파일 경계 점검이지 법률 검토나 저작권 clearance가 아니다. 이번 작업에서 수치 모델 테스트, 패키지 빌드, HPC 계산은 실행하지 않았다.
+
+### 2026-11-01 — caller nucleation kinetics and component-state segment transition
+
+Added two independently registered calculations. `chemistry.crevice_nucleation_kinetic_history` applies digest/Evidence-bound, caller-provided saturation intervals, phase-specific molar nucleation source laws, an explicit seed-inventory threshold, and caller seeded growth/dissolution laws. Each interval advances aqueous concentrations and solid inventories through the existing conservative kinetic ledger with element/charge checks. No automatic phase discovery, particle population balance or universal nucleation law is claimed.
+
+`integration.crevice_component_state_segment_transition` binds an exact committed component-state BDF result to a caller-evidenced next-segment geometry/template. It transfers final component moles cellwise, verifies component/species identity and aperture-derived cell-volume closure, and creates a typed next BDF request. Geometry remains caller supplied and changes only at the segment boundary; there is no intrastep moving-boundary feedback, deposit-derived aperture or changing-cell topology remap.
+
+Both modules include ModelSpec and Korean model/extension documentation. Central registry/schema/source/capability/scope wiring is complete: 948 capabilities (665 models, 190 interfaces, 101 partial), 1,450 public schemas, and 909 implementation bases. Package catalog sync is complete. Static scope audit: 101 rows / 474 source paths / 597 components, missing/unmapped/stale-symbol count 0. Numerical tests, package build and HPC remain deferred.
+
+### 2026-11-01 — Crevice BDF capacitive forcing and fixed-volume advection
+
+`integration.crevice_component_state_bdf` schema v3 adds two opt-in schedules. A digest/Evidence-pinned exact-knot, per-cell capacitive-current input enters the ionic charge-continuity balance and has an integrated charge ledger; it remains prescribed-current forcing and does not solve dynamic electrode potential or monolithic BV/Cdl coupling. A digest-bound transient planar-slit inertance input drives signed upwind component advection at each BDF RHS from the reconstructed stage chemistry. Left/right inlet/outlet component, element and charge reservoir changes are integrated as BDF states and included in closure records. The advection mode requires fixed aperture and volume and electroneutral caller reservoir compositions. It does not implement moving-boundary remap or pressure-flow feedback from the evolving chemistry. Numerical verification and package build are deferred. Central catalogs currently contain 946 capabilities (663 models, 190 interfaces, 101 partial), 1,444 schemas and 906 implementation bases; package catalog sync and static scope audit completed (101 rows, 472 paths, 595 components, 0 missing paths/unmapped components).
+
+### 2026-11-01 — 빠른 우선순위 10개 통합 완료
+
+이번 회차에서 합의한 10개 실행 항목을 연결했다: (1) BDF 결과→다음 고정 구간 재고 인계 API 확인, (2) registry 등록, (3) 입력/결과 schema export, (4) source identity 추가, (5) capability/model index 재생성, (6) package catalog mirror 동기화, (7) 101행 scope source mapping, (8) API·사용자 매뉴얼·모델 가이드·downstream extension request 반영, (9) 공개 Mendeley 부식 데이터 후보 2건을 metadata-only로 기록, (10) dataset rights/catalog 및 공개 경계 감사와 backlog 기록 갱신.
+
+최신 생성물: 946 capabilities(663 models, 190 interfaces, 101 partial), 1,442 schemas, 904 implementation bases. 정적 scope audit: 101 rows / 471 source paths / 595 components, missing paths 및 unmapped symbols/components 0; classification 48 provider-dependent / 52 data-validation-pending / 1 code-incomplete. 데이터 카탈로그 감사: 83 datasets / 510 assets, publisher checksum 누락 5, local checksum-verified assets 171; rights audit 0 errors / 14 warnings. release boundary: passed, 3,377 files / 59,531,609 bytes. 전체 목표 완료율은 산정하지 않으며 bounded code trace 100/101은 unchanged. 수치 테스트·패키지 빌드·HPC job 제출은 하지 않았다.
+
+# 현재 구현 상태 — 2026-11-01
+
+2026-11-01 병렬 확장 2개 중앙 연결: `integration.tube_bundle_lame_stress_history`가 caller 제공 geometry/absolute-pressure exact-knot records를 재사용 Lamé 원통 해석으로 내·외면 응력으로 변환한다. `welding.waveform_energy_uncertainty`는 기존 `WaveformEnergy` 적분에 V/I/효율/이동거리의 digest-bound full covariance를 1차 전파한다. 두 모델 모두 권리 Evidence, review gate, 범위/계산량 제한을 두고 acceptance, 수명, probability 또는 qualification을 추론하지 않는다. 두 개의 합성 예제, 사용자 가이드와 downstream extension request를 추가했다. 중앙 연결 완료: 945 capabilities(662 models, 190 interfaces, 101 partial), 1,440 schemas, 903 source bases. 정적 범위 감사 101행·470경로·594구성요소, 누락/AST/symbol/unmapped/drift 0. code trace 100/101 유지, 전체 연구 목표율은 미산정. 공개 경계 감사 passed (비법률 검토). 테스트·패키징·HPC 미실행.
+2026-11-01 통합 업데이트: 선택형 `instantaneous_solid_equilibrium` 모드를 `integration.crevice_component_state_bdf`에 연결했다. 각 BDF trial에서 per-cell total aqueous+solid component inventory를 bounded solid partitioner에 전달하고, NP/Faradaic 항은 재구성한 aqueous chemistry를 사용하며 knot 결과에 액상/고체 재고와 성분·원소·전하 ledger를 기록한다. Schema v2는 opt-in 경로이며 기본 aqueous-only 동작은 유지한다. 자동 상 탐색, 핵생성/침전 속도, 이동 경계, 전역 Gibbs 최소, 물리 qualification은 포함하지 않는다. `CellSolidPhaseSet` 공개 스키마, 공급원 설명, 101-row 범위 추적과 backlog를 갱신했다. 중앙 재생성: 943 capabilities(660 models, 190 interfaces, 101 partial) / 1,435 schemas / 901 source bases. 정적 scope audit 101행·470경로·594구성요소, 누락 경로·AST·symbol·unmapped·drift 0. bounded code trace 100/101 (99.0%) 유지; 전체 목표율 미산정. 공개 경계 감사 passed(3,358 files, 59,014,372 bytes; 법률 clearance 아님). 테스트·패키징·HPC 미실행.
+
+2026-11-01 SCC→FTA 연동 및 10개 우선 과제 마무리: `adapter.scc_crack_growth_to_fault_tree_basic_event`를 추가해 정확한 SCC source request/result의 재계산 digest를 확인하고, caller가 별도로 제공한 기간 최초고장확률·조건화·Evidence·권리 경계를 기존 FTA basic event 계약에 바인딩한다. 결정론 SCC 계산에서 확률이나 정확 통과시각을 만들지 않는다. 요청·확률·응답 스키마, registry, source/capability/model-reference/backlog 및 한국어 가이드를 연결했다. 최신 중앙 생성 수치는 1,425 schemas / 897 implementation source bases / 939 capabilities(656 models, 190 interfaces, 101 partial). 정적 scope audit 101행·469경로·593구성요소, 누락/AST/symbol/mapping/drift 0. 공개 경계 감사 passed(3,337 files, 58,581,181 bytes). bounded code trace는 100/101 (99.0%)이며 상위 Crevice 범위 1개는 미완성으로 유지; 전체 목표 달성률은 산정하지 않았다. 테스트·수치 검증·패키징·HPC는 실행하지 않았다.
+
+2026-11-01 추가 SCC 시간성장 API: `degradation.scc_crack_velocity_history`는 caller가 제공한 thresholded `da/dt(K_I)` 표와 유한 `K_I(t)` knot 이력을 support 내에서 적분한다. 표와 이력은 source/license Evidence 및 digest에 묶이고 재료상태·야금·환경·하중 ID, RunContext 자산/위치/clock, 계산량 제한을 확인한다. 교차된 표 knot에서 구간을 나눠 선형 속도를 사다리꼴로 정확 적분하며 support 초과는 extrapolation이나 부분성장 없이 반환한다. Crack geometry feedback, SCC 개시·파괴인성·확률·qualification은 포함하지 않는다. 304L local workbook은 시편·문헌 계보가 미해결이라 fitting에 사용하지 않았다. 스키마·source·capability/model reference/backlog 연결 완료: 938 capabilities(655 models)/1,422 schemas/896 source bases. 정적 scope audit 101행·469경로·593구성요소, 누락/AST/symbol/mapping/drift 오류 0. 공개 경계 감사 passed(3,329 files); 전체 goal 퍼센트 미산정, bounded code trace 100/101 유지. 수치 테스트·패키징·HPC 미실행.
+
+2026-11-01 추가 구현: `integration.crevice_double_layer_charge_history`는 caller가 제공한 전위·면적 이력과 전위 의존 차분용량으로 knot별 저장전하와 구간 평균 용량전류를 계산한다. BDF/Faradaic 혼합전위 RHS와는 아직 연성되지 않아 Crevice 상위 범위는 `code_incomplete` 유지. `adapter.corrosion_rate_history_to_fault_tree_basic_event`의 사건은 요구두께 최초 통과 기간 사건이므로 확률 의미를 `conditional_first_failure_in_period`로 제한하고 문서화했다. 1,420 schemas / 895 implementation bases / 937 capabilities(654 models, 190 interfaces, 101 partial) 재생성; 정적 scope audit 101행·469경로·593구성요소, missing/AST/symbol/mapping/drift 오류 0. 공개 경계 감사 passed: 3,325 files, 58,411,987 bytes, 제외 비공개 루트 유지. bounded-code 추적 100/101 (99.0%) 그대로이며 전체 목표율 미산정. 수치 테스트·패키징·HPC 계산 미실행.
+
+2026-11-01 신규 Crevice 연동: `integration.crevice_component_state_bdf`에 `faradaic_stage_coupling`을 추가했다. BDF trial의 보존 성분 재고에서 Davies/mass-action 조성을 매 stage 다시 계산하고, 그 조성으로 공간 Ohmic/Butler–Volmer mixed potential을 다시 풀어 얻은 Faradaic extent와 동일 stage face current를 한 component-state RHS에 반영한다. Caller 정적 extent/current schedule과 새 모드는 상호 배타적이다. clock·cell·species identity, fixed area/volume 및 NP geometry 매핑, A 단위 charge/current closure, caller extent 상한과 mixed-potential solver-work budget을 gate로 둔다. 이 모드는 이동경계·고체상·double layer를 포함하지 않는다.
+
+등록/API 참조 갱신 후 catalog는 936 capabilities / 1,420 schemas / 894 implementation bases다. 정적 scope audit은 101행·469경로·593구성요소, missing/AST/symbol/mapping/drift 문제 0이다. bounded-code 추적은 100/101 (99.0%) 그대로며 Crevice 상위 항목은 다른 통합 공백과 물리 검증이 남아 `code_incomplete`다. 공개자료 조사 문서 [Crevice 전기화학 후보](datasets/CREVICE_ELECTROCHEMICAL_OPEN_DATA_CANDIDATES_KO.md)를 추가했으나 파일 pin/manifest가 불충분해 새 원자료나 importer는 등록하지 않았다. 이번 회차 수치 테스트·패키징·HPC 미실행.
+
+2026-11-01 추가 Crevice adapter: `integration.crevice_component_state_faradaic_schedule_binding`은 digest-matched 계산 결과의 exact-knot face current와 branch current density를 component-state BDF source/current schedules로 변환한다. producer/base의 species·charge·cell order·time knots 및 초기 component moles를 대조하고, branch map에서 source/reservoir 계정을 구성해 BDF request를 다시 검증한다. BDF-stage에서 혼합전위를 재계산하지 않으며, 그 producer mode는 이 endpoint adapter에서 거절한다. 신규 요청 스키마와 registry/capability/source/model-reference 연결 완료: 936 capabilities / 1,420 schemas / 893 sources. 정적 scope audit: 101행·469경로·593구성요소, 누락·AST·심볼·매핑 문제 0. bounded-code 추적은 100/101 (99.0%)이며 code-incomplete Crevice parent 1개 유지. 테스트·패키징·HPC 미실행.
+
+2026-11-01 Crevice lineage 정리: BDF component source의 이전 식별자 `caller_evidenced_charge_neutral_component_source_extent_schedule`가 현재의 charged-source + prescribed-current 경로를 설명하지 못해, ModelSpec에는 일반화된 `caller_evidenced_component_source_extent_schedule`을 연결했다. 이전 catalog record는 lineage 이력을 위해 보존했다. source/capability/model reference 재생성 완료(935 capabilities, 892 implementation bases). 정적 scope audit은 100/101 bounded-code 상태를 유지하며 1개 code-incomplete Crevice parent가 남는다. 수치 테스트·패키징·HPC 미실행.
+
+2026-11-01 범위 재감사: `degradation.wet_co2`의 등록된 유한기체·원통형 BDF 구현은 수용액 stage 평형, BV/수송, gas transfer, scale/wall inventory와 live geometry를 한 interval solver에서 다룬다. 최신 shear opt-in은 고체 탈락/export까지 같은 상태계에 둔다. 이 항목의 “통합 solver가 필요” 잔여 문구가 현 코드와 불일치해 `data_validation_pending` / `implemented_unverified`로 정정했다. 자동 반응망·상 발견, 실험 자료 비교와 물리 qualification은 여전히 미완료다. bounded-code 추적 **100/101 (99.0%)**, 분류상 code-incomplete 1개, data-validation-pending 52개, provider-dependent 48개. 전체 목표 완료율은 미산정. 정적 scope audit: 101행·468경로·592구성요소, 누락·AST·심볼·매핑 문제 0. 수치 테스트·패키징·HPC 미실행.
+
+2026-11-01 추가 구현: `integration.crevice_component_state_bdf`에 review-gated exact-knot ionic face-current schedule을 연결했다. 비영 aqueous charge extent는 동일 knot 시간·모든 face 전류 기록과 외부 경계 0 A를 요구하고, 각 cell/knot에서 `I_right − I_left = FΣ(zνr)`를 확인한다. Nernst–Planck migration gradient로 caller interior current를 맞추고 A 잔차, 적분 전하 C, digest 및 계산 budget을 기록한다. 전류는 입력 schedule이며 BV/혼합전위에서 유도되지 않는다. 스키마/API/source 갱신 완료: 935 capabilities / 1,417 schemas / 892 source bases. 정적 scope audit 101행·468경로·592구성요소, 누락·AST·심볼·매핑 오류 0. bounded-code 추적은 99/101; 전체 완료율은 미산정이다. 테스트·패키징·HPC 미실행.
+
+# 현재 구현 상태 — 2026-11-01
+
+2026-11-01 추가 구현: `integration.crevice_component_state_bdf`는 opt-in signed extent source schedule을 받으며, exact-knot·cell별 caller rate를 BDF stage에서 선형 보간해 conserved-component 상태와 별도 외부 reservoir element/component/charge ledger에 기록한다. charge-neutral source만 interior zero-current closure와 호환되어 허용되고 비영 aqueous charge source는 fail-closed한다; 이는 아직 Faradaic current coupling이 아니다. face-current 잔차/허용오차에는 Faraday constant를 적용해 A 단위로 고쳤다. 공개자료 조사에서는 직접 scale adhesion/detachment 실측 파일과 재배포 가능한 manifest/license 조합을 확인하지 못했다. 기존 NORSOK M-506 파일은 shear/flow 값이 계산 생성 행이므로 detachment-law 검증에 사용할 수 없다는 제한을 데이터 카탈로그와 가이드에 추가했다. 생성값 935 capabilities / 1,416 schemas / 891 sources; scope audit 101행·468 경로·592 구성요소, 구조 오류 0. bounded-code 추적은 99/101이며 전체 목표 완료율은 미산정이다. 수치 테스트·패키징·HPC 미실행.
+
+2026-11-01 추가 병렬 구현: `integration.crevice_component_state_bdf`는 고정 부피의 닫힌 mesh에서 보존 성분 몰수를 BDF 상태로 두고, 매 stage에서 Davies 평형과 zero-ionic-current Nernst–Planck 확산을 재계산해 flux를 성분 ledger로 투영한다. 혼합전위·Faradaic source·고체상·유동/가변 형상은 아직 이 child solver에 연결하지 않았다. `integration.wet_co2_cylindrical_finite_gas_stage_geometry_feedback` schema v2는 전단 탈락을 유한 기체–수용액–상재고–원통 geometry BDF 상태에 넣고 detached-solid export를 원소 closure에 포함한다. synthetic-only 미승인 입력 draft와 두 모델 가이드·Crevice 확장 요청도 추가했다. 정적 생성: 935 capabilities / 1,412 schemas / 890 sources; 101행·468 경로·592 구성요소, 누락 경로·AST·심볼·구성요소 오류 0. Bounded-code 추적은 99/101로 유지되며 전체 완료율/물리 검증률이 아니다. tests/package/HPC 미실행.
+
+2026-11-01 신규 계산 increment: Crevice에는 초기 종 몰수·고정 부피에서 conserved-component 목표를 구성해 기존 caller Davies mass-action solver로 닫힌 단일 액상 batch 평형을 계산하고 성분 inventory closure를 확인하는 `chemistry.crevice_closed_batch_aqueous_equilibrium`를 추가했다. Wet-CO₂ stage speciation/scale feedback schema v5에는 선택형 BDF 내부 전단 제거를 추가했다. caller의 정확 절점 전단 기록과 phase별 임계 detachment law를 Evidence/digest에 묶고, phase inventory에서 탈락량을 제한하며 분리된 solid-export와 원소수지를 기록한다. 두 API의 schema·source·capability·model reference 생성 및 101행 정적 scope 감사가 완료됐다: 934 capabilities / 1,408 schemas / 887 sources; 101행·466 경로·590 구성요소, 누락·AST·stale symbol·unmapped 0. 공개 경계 검사는 3,311 파일·57,727,515 bytes에서 통과했으나 법적 clearance는 아니다. Bounded-code 추적은 99/101 (98.0%)로 유지되며 code_incomplete 2, data_validation_pending 51, provider_dependent 48이다. 이 숫자는 전체 목표 완료율이나 물리 검증률이 아니다. 테스트·패키징·HPC는 실행하지 않았다.
+
+2026-11-01 병렬 구현·공개자료 증분: wet-CO₂ BDF stage 진단에 실제 종별 농도(mol/L)·활동도계수(무차원)를 보존하고, Crevice의 review-gated spatial BDF mode에 구간별 caller-evidence-bound B-dot 계수 재평가·별도 budget·digest lineage를 추가했다. 별도 CoolProp 순수 물 P–T 단일상 provider는 상태 라벨 검토 후 밀도·엔탈피·비열·점도·열전도도·음속·압축성계수를 반환하며, 2상 및 선언 불일치를 거절한다. CoolProp API는 공식 Low-Level API phase enum 문서 기준으로 정적 검토했다. 알칼라인 전해조 Ni–P 부식 후보는 Mendeley CC BY 4.0 선언과 제3자 권리 한계를 기록하고 155개 asset의 ID·원래 파일명·크기·제공자 SHA-256만 메타데이터로 추가했다. 지원 논문 Yang et al., *Electrochimica Acta* 541 (2025), 147331 (DOI 10.1016/j.electacta.2025.147331)도 별도로 연결했다. 논문 시험 맥락은 파일별 단위·시편·조건 매핑을 확정하지 않으며 원문/측정값은 복사하지 않았다. catalog filename 중복은 제공자 ID 접두어의 내부 식별명으로 해소하고 원래 이름을 보존했다. 최신 생성값: 932 capabilities / 1,400 schemas / 883 sources; scope 구조 감사 101행·466 경로·590 구성요소, missing/AST/stale symbol/unmapped 0. Dataset audit 82건·511 assets·provider checksum 누락 6건(이번 자료 누락 없음), rights metadata 82 datasets/883 sources·finding 0; 공개 경계 3,292 files·57,229,499 bytes 통과(법적 clearance 아님). bounded-code 추적은 99/101 (98.0%)이며 `code_incomplete` 2, `data_validation_pending` 51, `provider_dependent` 48로 유지했다. 수치 테스트·패키징·HPC 제출은 실행하지 않았다.
+
+2026-11-01 stage coupling 추가: wet-CO₂ stage speciation API는 v3 SIT와 v4 B-dot caller-evidence-bound 활동도 반복을 지원하고, Davies v2/기존 fixed v1은 유지한다. Crevice current-carrying API는 기본 endpoint 적분과 opt-in 선형 branch-current 적분을 유지하면서, 별도 gated `bdf_stage_spatial_mixed_potential` 모드에서 BDF RHS마다 stage 조성·caller 입력으로 공간 ohmic/BV를 다시 푼다. 중앙 재생성: 931 capabilities / 1,399 schemas / 880 sources; 정적 감사 101행·466 경로·590 구성요소, 누락/AST/심볼/매핑 문제 0. bounded 추적은 99/101 (98.0%) 유지하고 두 부모는 `code_incomplete`다. 테스트·패키징·HPC 미실행.
+
+2026-11-01 병렬 코드 increment 중앙 통합: wet-CO₂ stage-speciation API에 caller Evidence 기반 선택형 Davies 이온강도/활동도 반복을 BDF stage마다 추가했다. Crevice current-carrying Nernst–Planck/Faradaic API에는 기본 endpoint mode를 유지하면서 검토 gate가 있는 선택형 BDF-stage branch-current source/extent 적분을 추가했다. 두 부모는 미완성 화학·전기화학 연성과 qualification이 남아 `code_incomplete` 유지. schema·source·capability·API/model reference 생성 완료: 931 capabilities / 1,399 schemas / 879 sources. 전체 scope AST 감사는 101행, 경로 466, 구성요소 590, 누락/미연결 0. bounded-code 추적 99/101 (98.0%) 유지. 테스트·패키징·HPC 미실행.
+
+2026-11-01 provider-dependent bounded 경로 28개 정적 조정 완료: 추가 검토에서 등록 API·심볼·해시를 확인한 fabrication 7, structural 6, welding/inspection 15개를 `implemented_unverified`로 기록했다. bounded-code 추적은 **99/101 (98.0%)**이다. 분류는 code_incomplete 2, data_validation_pending 51, provider_dependent 48로 그대로 유지한다. 이는 99개 bounded API 경로의 추적 상태이며 전체 도메인 qualification·검증 완료율이 아니다. 테스트·패키징·HPC 미실행.
+
+2026-11-01 추가 10개 bounded 경로 정적 조정: `degradation.microbial`, `degradation.cavitation`, `degradation.high_temperature_hydrogen`, `degradation.sulfidation`, `degradation.carburization`, `degradation.nitriding`, `degradation.liquid_metal`, `structural.crack_fad`, `structural.variable_amplitude_crack`, `fabrication.joint_efficiency`를 구현 완료/미검증으로 기록했다. 현재 bounded-code 추적은 71/101 (70.3%); provider-dependent 분류는 유지하며 공급자 법칙·물성 qualification·독립 검증은 남는다. 소스 심볼·AST 위치·SHA-256 확인 완료. 테스트·패키징·HPC 미실행.
+
+2026-11-01 우선순위 후보 10개 정적 범위조정을 완료했다. 등록된 bounded applicability/evidence API가 실제 존재하는 10개 행만 `implementation_complete=true` / `implemented_unverified`로 기록했다. 진행 추적은 61/101 (60.4%); 분류는 code_incomplete 2, data_validation_pending 51, provider_dependent 48로 유지한다. 10개 모두 provider_dependent를 유지하며 재료·환경별 한계, 공급자 데이터와 물리 qualification은 완료로 간주하지 않는다. 테스트·패키징·HPC는 실행하지 않았다.
+
+2026-10-31 우선순위 3·4 bounded-scope reconciliation: `materials.cryogenic_property_provider`의 caller-owned 온도표/접선 열팽창 적분 경로와 `structural.strain_life`의 fully reversed/Morrow/SWT 및 명시적 블록 누적 경로를 bounded 코드 완료로 기록했다. 두 항목 모두 `data_validation_pending` 유지: 극저온 물성 자격화와 독립 검증, strain-life 보정 적용성 및 이력 검증이 남아 있다. 현재 bounded-code 추적은 51/101 (50.5%)이며 테스트·패키징·HPC는 실행하지 않았다.
+
+2026-10-31 second-fastest bounded-scope reconciliation: `fabrication.fire_protection` now records its existing catalog-linked absorbed-flux/multilayer transient conduction API as bounded calculation code complete. Classification stays `data_validation_pending`; independent validation and qualified fire/absorption/ablation/intumescence providers remain open. Bounded-code progress is 49/101 (48.5%); no tests, package build or HPC calculation was performed.
+
+2026-10-31 fastest bounded-scope reconciliation: `fabrication.insulation_design` now records its existing catalog-linked steady cylindrical conduction/convection/radiation API as bounded calculation code complete. Its classification remains `data_validation_pending`; independent numerical/physical validation, qualified temperature-dependent material data, and transient/environmental extensions are still open. This traceability correction changes the bounded-code count from 47/101 (46.5%) to 48/101 (47.5%); it is not a test or qualification result.
+
+2026-10-31 latest local increment: added `integration.crevice_current_carrying_extent_to_metal_loss`, which consumes a completed, digest-pinned `integration.crevice_current_carrying_np_faradaic` assessment and maps its already integrated reaction extents to caller-defined per-cell metal moles, mass, volume and uniform recession. Every branch must be mapped as net dissolution or digest-pinned as excluded; current is not integrated twice. `integration.electrochemical_metal_loss_to_crevice_geometry` now accepts this result and consumes its exact cellwise volume history directly when source cell IDs/order match the geometry request. Catalogs report 931 capability rows (648 models/190 interfaces/101 partial), 1,399 schemas and 877 sources. Scope audit: 101 rows/466 source paths/590 components, with missing paths, AST failures, stale symbols, unmapped components and catalog drift all zero. Dataset rights audit: 81 datasets/356 assets, 0 errors/16 warnings; release-rights metadata audit passed for 81 datasets/877 sources with no findings. Public source boundary audit passed; this is a structural exclusion check, not legal clearance. Broad-scope metric remains 47/101 (46.5%); the child bridge does not complete the Crevice parent. Tests, numerical calculations, package build and HPC were not run.
+
+2026-10-31 latest local increment: registered the wet-CO2 BDF-stage activity-driven scale kinetic model and the crevice endpoint Faradaic/mixed-potential chemistry coupling, including ModelSpec, API/model guides, schemas, capability/source records, and parent scope evidence. The wet-CO2 path reevaluates caller log-saturation kinetics from each BDF wall-concentration stage and limits shared cylindrical reactant supply and live phase inventory. The crevice path applies caller Faradaic extents and chemistry at exact interval endpoints, but rejects nonzero electrolyte face current under the reused zero-current transport kernel. Added the ZE41/AZ91D friction-stir-process SCC typed reader; four raw files match publisher sizes and SHA-256, and CC BY 4.0 with third-party-rights caveats is recorded. Latest generation: 921 capability rows (638 models, 187 interface bindings, 101 partial scope rows), 1,372 public schemas and 858 source records. Static scope audit: 101 rows, 461 source paths, 584 components; missing paths, AST failures, stale symbols and unmapped components are zero; two new child links were reconciled. Dataset rights audit: 79 datasets, 333 assets, zero errors and 16 existing warnings. Parent bounded-code count remains 47/101 (46.5%); code-incomplete 2, data-validation-pending 51, provider-dependent 48. Three new local parallel tasks target dynamic wet-CO2 aqueous chemistry, current-carrying crevice transport and another public dataset. Numerical tests, package build and HPC were not run; full public-boundary audit has not been rerun after the new raw dataset addition.
+2026-10-31 local parallel code increment: registered `integration.wet_co2_cylindrical_geometry_coupled_history`, a bounded exact-knot Picard loop around the spatial BV/transient radial transport solver and cylindrical wall-recession balance. It preserves trial/result digests, checks per-knot bore-radius and alloy-element inventory residuals, and requires a final strict spatial solve. Caller scale inventories are held fixed; scale chemistry/kinetics and physical qualification remain open. Static review corrected a trial-history indexing shift before catalog generation. Central generation: 912 capabilities (629 models, 182 interfaces, 101 partial), 1,347 schemas, 839 source records. Scope audit: 101 rows/454 path records/578 component links; missing paths, AST failures, stale symbols, unmapped components and catalog drift are zero after reconciliation. Public boundary: passed, 3,200 files/52,486,117 bytes, manifest `f094476ddacb29c45524df1f5d23631d2b49182b286e9e00afe935cf063ba158`; this checks packaging boundaries, not legal clearance. Broad coding estimate remains 47/101 (46.5%); this bounded child path does not close the broader wet-CO2 parent. No numerical tests, package build or HPC job was run.
+
+2026-10-31 local increment: external-activity crevice saturation results now expose `physical_scope_id` and exact `elapsed_time_s` required by the existing saturation-exposure history API. Added `crevice_saturation_history_knot()` to validate computed status and construct a digest-pinned history knot directly from a result; API/model documentation describes candidate/cell order and clock requirements. Central catalog regenerated at 911 capabilities (628 models, 182 interfaces, 101 partial), 1,346 schemas and 838 sources. Partial-scope static audit: 101 rows/453 source paths/577 components; missing paths, AST failures, stale symbols, unmapped components and catalog drift are 0. Public source boundary audit passed for 3,198 files / 52,452,481 bytes (path manifest `f4f29df9d838de8dde0292f6e96cb48ef92bfe8c868d6a45d2eee60600e68695`); structural audit only, not legal clearance. Overall coding estimate stays 47/101 (46.5%), with 4 code-incomplete, 51 data/validation-pending, 46 provider-dependent. No numerical tests, packaging or HPC run.
+
+최신 로컬 생성 카탈로그: **913 capabilities** (630 registered models, 182 interfaces, 101 partial), **1,349 public schemas**, **841 source records**. 상위 범위의 `implementation_complete=true`는 **47/101 (46.5%)**다. 최신 분류는 code-incomplete 2, data-validation-pending 51, provider-dependent 48이며, 분류와 계산 코드 작성 수는 서로 다른 지표다. 하위 API 증가는 상위 항목 전체 완료를 뜻하지 않는다.
+
+2026-10-31 local increment: added exact-knot/cell crevice mass-action projection with explicitly selected composition-derived constraint targets, fixed-activity initial guesses, per-cell lineage, and whole-knot prefix commitment. Also integrated variable-area crevice transport, the local-only Mendeley X80/SRB SCC reader, and the spatial wet-CO2 fixed-point adapter. Latest static scope audit: 101 rows, 452 source-path evidence records (401 unique paths), and 576 component links (545 unique components); missing paths, AST failures, stale/unmapped symbols, and unmapped components are 0. Dataset audit: 77 datasets/321 assets, 0 errors/16 warnings; 6 publisher checksums unavailable. Numerical model tests, packaging and HPC were not run. Parent coding progress remains 47/101 (46.5%).
+
+2026-10-31 local increment: added `integration.crevice_local_external_activity_projection`. It reuses the exact-knot/cell transport binding and selected component constraints, injects the reviewed external activity provider as an explicit registry runtime dependency, and couples each cell's mass-action solve with the existing damped gamma fixed-point API. The converged inner-solver activity vector is reconstructed into its exact request digest before the cell result enters the spatial inventory ledger. The ledger now exposes cellwise molarity-standard-state activity coefficients, provider/configuration lineage, iteration count, final residual and transcript digest for downstream thermodynamic screening. Registry/schema/source/capability and scope mappings are connected. Latest static audit: 101 rows, 452 source-path evidence records (401 unique paths), 576 component links (545 unique components), no missing paths, AST failures, stale symbols or unmapped components. Catalog: 910 capabilities, 1,345 schemas and 837 sources. This child API does not close the crevice parent or change 47/101 (46.5%). No numerical tests, package build or HPC execution was performed.
+
+Public source boundary audit after this increment passed for 3,198 public files; path manifest SHA-256 `f4f29df9d838de8dde0292f6e96cb48ef92bfe8c868d6a45d2eee60600e68695`. Private raw, derived, evidence, artifact and temporary roots remain excluded. This is a structural boundary audit, not legal clearance.
+
+2026-10-31 local increment: added `integration.crevice_external_activity_local_solid_saturation`. It accepts a digest-bound exact knot from the cellwise external-activity projection, reconstructs each positive dimensionless aqueous activity as `gamma_molarity * concentration_mol_L`, checks the transport-cell and provider digests, and invokes the existing saturation screen separately for each cell. Caller Ksp/Evidence/temperature reviews are required; phase choice and precipitated amount are not inferred. Public schema, registry, source/capability catalog, API/model docs and partial-scope mapping are connected. Latest static audit: 101 rows, 453 path-evidence records (402 unique paths), 577 component links (546 unique components); missing paths, AST failures, stale symbols and unmapped components are 0. Catalog: 911 capabilities, 1,346 schemas and 838 sources. Parent estimate remains 47/101 (46.5%); no numerical tests, package build or HPC run was performed.
+
+Local schema/catalog generation now includes Mendeley MDEA EIS rows plus explicit complex-channel conversion; a version-pinned internal-corrosion DOOBN workbook reader; a caller-solver wet-CO2 geometry fixed-point controller; and a sequential crevice transport/aperture campaign. Child APIs do not close the wet-CO2/crevice parent gaps or change 47/101 (46.5%). Numerical model tests, package builds and HPC were not performed.
+
+정적 scope audit에서 최신 576은 구성요소 연결 레코드 수이며 고유 구성요소 수는 545다. 452는 source-path 근거 레코드 수이며 고유 경로는 401이다. 이 결과는 코드 추적성만 확인하며 runtime/과학적 정확도·물리 qualification을 확인하지 않는다.
+
+최근 추가된 계산 경로는 crevice 이온 반응 수송, gasket 강도·누설압력·접촉경로·압축곡선/열팽창/공분산, multiaxial finite-plane 및 쌍별 life-transfer, 원통형 wet-CO₂ geometry·수송·scale-kinetics 연결, provider FE 필드 import와 von Mises caller-limit screen 등이다. 316L metastable pitting, Co-Cr wear/corrosion 및 AHSS1300은 typed local-reader/schema 경계로만 추가됐고 원자료는 공개 배포 경계 밖에 둔다. CCPS dense-gas 연결은 pinned contract adapter이며 외부 엔진을 실행하지 않는다.
+
+최신 release audit는 위에서 기록한 3,137개 파일 public boundary 결과다. Dataset catalog는 73 datasets/302 assets를 포함하며 publisher checksum 부재 6건이 식별됐다. `data/raw`, `data/derived`, `data/evidence`는 공개 경계에서 제외된다. 구조 감사는 법적 clearance가 아니다.
+
+`integration.wet_co2_finite_inventory_electrode_mixed_potential`은 두 유한 액상 구획의 lumped BV mixed-potential 원장을 추가한다. spatial electrode PDE 및 진화하는 geometry와의 완전 동시해석은 남아 wet_CO2 parent를 code-incomplete로 유지한다.
+
+최근 추가 중앙 계산기에는 활동도 보정 유한체적 반응-수송 `transport.crevice_activity_corrected_reactive_nernst_planck_1d`와 wet-CO₂ 원통형 liquid transfer-capacity 연결이 포함된다. 전자는 caller gamma/kinetics를 사용하며 full speciation·상 선택·벽 반응은 계산하지 않는다.
+
+이 증분에서 schema export, Registry/capability/source generation, scope audit와 catalog sync를 수행했다. 모델 계산 테스트, 과학/실험 검증, 예제 실행, package build 및 HPC 제출은 수행하지 않았다.
+
+- 중앙 연결 완료: `integration.crevice_deposition_aperture_history`, `integration.crevice_local_solid_saturation`, `integration.crevice_saturation_exposure_history`, `integration.crevice_deposition_transport_geometry`, `fatigue.multiaxial_sampled_shear_path_area`, `fatigue.multiaxial_principal_stress_axis_rotation`, `fabrication.gasket_contact_root_localization` 및 2026-10-31 병렬 후속 모델. 공개 계약 schema, source record, API guide, model reference와 package catalog 동기화를 반영했다.
+- `data.plos_ct110_wet_co2_typed_rows`는 CC BY 4.0 공개 CT110 workbook을 해시 고정한 로컬 전용 row reader다. 3개 온도 행, WM/BM 열 구조만 확인했고 점별 값을 배포하지 않는다. XLSX는 ignored `data/raw/`에 두고 reader/문서/catalog metadata만 공개 경계에 둔다.
+
+- `data.zenodo_zr_nb_sn_electrochemical_typed_rows`는 Zenodo v2의 8개 공개 XLSX 파일에 대해 파일명·크기·SHA-256을 고정한 로컬 전용 row reader를 제공한다. workbook/sheet/row/cell 순서, 셀 종류, 수식 문자열, CC BY 4.0 attribution과 authorization/Evidence digest를 보존한다. 원본 배포·공정 부식률 재해석·시편 독립성 추론은 하지 않는다. 공개 catalog에는 데이터셋·asset pin을 추가하고 reader와 세 공개 계약을 schema로 노출했다.
+
+### 2026-11-01 — crevice 10개 우선 과제 구현 및 통합 진행
+
+이번 작업 묶음에서 동적 고체 점유 간극 BDF stage, 핵생성 임계 event substep, slit hydraulic parameter-fit/transfer 경로의 계산 코드를 추가했다. 동적 geometry는 Evidence/digest로 고정한 caller phase molar volume·occupancy에 기반하고 fixed-point residual 및 work budget을 검사한다. 핵생성 event는 재고 임계 deficit/source-rate로 시간을 구해 기존 보수 ledger로 확인하고, 자원 제한으로 임계 도달하지 않으면 미확정 interval로 실패한다. Hydraulic fit은 분리된 group holdout과 support-bound parameter transfer를 제공한다. API/model guide, extension request, registry/source/scope/schema 연결까지 마쳤다. 수치 테스트·패키지·HPC는 실행하지 않는다.
+
+통합 결과: 952 capabilities(669 models, 190 interfaces, 101 partial), 1,458 schemas, 914 implementation bases. Package catalog mirror 동기화 완료. 정적 scope audit 101 rows / 477 source paths / 600 components이며 누락 경로·stale/unmapped symbol·unmapped component는 0이다. 분류는 provider-dependent 48, data-validation-pending 52, code-incomplete 1로 유지된다. 이 1개는 broader `degradation.crevice_chemistry` scope여서 새 bounded child 기능만으로 승격하지 않았다. Model reference와 backlog를 재생성했다.
+
+공개 source boundary audit 통과: 3,416 files / 61,178,814 bytes; 제외 private roots가 경계 밖인지 확인했다. 이는 allowlist·restricted asset·local/source-document marker 정적 감사이며 법률 검토가 아니다.
+
+후속 bounded API 3개도 추가 및 통합했다: (a) 현재 slit geometry/pressure로부터 stage `dQ/dt`를 계산하는 수력 RHS, (b) 이중층 저장전하 변화와 caller capacitive-current 적분을 셀·구간별 대조해 BDF 요청을 만드는 operator-split binding, (c) 고정 셀별 seed-threshold kinetic ledger와 몰수 합산 adapter. 이들 역시 integrated moving-volume/momentum/potential/transport solver를 대체하지 않는다. 공개 카탈로그·schema mirror 통합을 마쳤다.
+
+### 2026-11-02 — 압력차·공통 기준압 연결 계약 구현
+
+bind_pressure_relation_component_limit와 PressureLimitBinding을 구현했다. 정방향 용량만 명시적 외압·공통 절대 기준압으로 변환하며 계산 입력·문맥·부품 한계를 해시로 묶고 재검산한다. verify_pressure_reference_bindings는 일대일 연결 및 설비·위치·물리 범위·시나리오·좌표계·압력 기준을 대조한다. 신규 연결 15개와 앞선 계산 28개, 총 43개 검사 통과다. 계산 검토 119건·추적 등록 API 교환 82개는 유지하고 새 솔버로 세지 않는다. 설명 PRESSURE_LIMIT_BINDING_KO.md, 예제 examples/pressure_limit_binding.py. 스키마 감사 후 근거를 갱신한다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 111개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 207/233절(88.8%)·계산 검토 119개·신규 API 확인 82개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 사용자 압력·두께 양방향 관계 구현
+
+structural.declared_pressure_thickness_relation 1.0.0을 추가했다. 사용자가 승인한 계수·길이 정의·허용응력·접합 효율·적용 범위를 해시에 묶고 압력차와 유효 두께를 서로 계산한다. 분모 비양수·범위 이탈·수치 표현 불가는 보류한다. 신규 15개와 기존 기준면 집계 13개, 총 28개 검사 통과. 계산 검토 119건·추적 API 교환 82개, 등록 모델 754개다. 입력 스키마 754/754 감사 통과, 독립 계약 1802개다. 형상별 규격 매핑·물성·여유 두께·다른 하중·인증은 완료로 세지 않았다. 전체 완료율 미확정. 설명 DECLARED_PRESSURE_THICKNESS_KO.md, 실행 예제 examples/declared_pressure_thickness.py.
+
+### 2026-11-02 — 기계시험 13개 하위 요구 분리
+
+기계시험 본문을 대조하고 상온·고온·두께 방향 인장, 크리프·피로·전단·접합층·내압 증명·굽힘·압궤·편평/역편평·확관·플랜지의 요구를 별도 기록했다. 기존 오프셋 항복점 계산 및 인장 캠페인 연결을 보강했다. 제조 확관·성형 변형률이 시험 절차를 대체하지 않음을 명시했다. 새 솔버·검증 완료 실적은 추가하지 않았다. 설명 MECHANICAL_TEST_SCOPE_KO.md. 코드 변경이 없어 테스트·스키마 재생성을 생략했다.
+
+### 2026-11-02 — 부품 압력 한계 공통 기준면 집계 구현
+
+structural.component_pressure_reference 1.0.0을 추가했다. 명시적 밀도·중력·표고·공통 압력 기준과 부품별 조건·용량 해시를 받아 환산 상한 및 동률 지배 부품을 반환한다. 정지·균일·연결 유체 범위이며 형상별 용량식·규격 판정을 제공하지 않는다. 자체 작성 13개 산술·계약·Python/JSON 검사 통과. 계산 검토 118건·추적 API 교환 81개, 등록 모델 753개다. 753/753 입력 스키마 감사 통과·독립 계약 1801개다. 전체 완료율은 미확정. 설명 COMPONENT_PRESSURE_REFERENCE_KO.md, 예제 examples/component_pressure_reference.py.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 110개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 207/233절(88.8%)·계산 검토 118개·신규 API 확인 81개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 109개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 207/233절(88.8%)·계산 검토 117개·신규 API 확인 80개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 압력 한계 보간 수치 보완·용량 산정 요구 분리
+
+압력–온도 한계 보간을 정확 비율 산술로 보완해 끝점 소실과 이용률 범위 이탈을 처리했다. API 1.0.1, 관련 8개 검사 및 정적 검사 통과. 입력 계약은 유지한다. 부품별 형상 기반 용량·정수두 기준면·지배 부품 집계는 보간과 구분해 후속 코드 감사 대상으로 기록했다. 구간 근거 누락은 16개다. 전체 완료율 미확정. 설명: PRESSURE_ENVELOPE_NUMERICS_KO.md.
+
+### 2026-11-02 — 생산 시험 누락 계약 수정·냉각 계산 버전 동기화
+
+누락·무효 측정에 결과 해시를 허용하던 불일치를 수정했다. 생산 시험 API 1.0.2, 냉각 상관식 0.1.1이며 입력 필드는 유지한다. 관련 20개 검사 통과, 공개·패키지 카탈로그 3쌍 일치 확인. 조건별 규격 기준 선택은 검사한 계약에서 제공하지 않아 범위 확인 대상으로 유지한다. 전체 구현·물리 검증 완료율은 미확정이며 구간 근거 누락은 17개다. 설명: PRODUCTION_WELD_MISSINGNESS_KO.md 및 WELD_COOLING_NUMERICS_KO.md.
+
+### 2026-11-02 — 용접 판정 요구의 분산 구간 추적
+
+색인 밖으로 이어지는 기준 설명 구간을 별도 대조하고 기존 시험 근거 API와 이동창 누적 계산의 역할을 구분했다. 문맥별 기준 선택·복합 제한·해당 없음 처리·결과 연결의 코드 충족 여부는 후속 감사 대상으로 남겼다. 구간 근거 누락은 17개이며 완료율로 환산하지 않는다. 냉각 상관식 수치 보완의 12개 검사 영수증과 해시를 진행 기록에 연결했다. 신규 모델·물리 검증 완료 실적은 추가하지 않았다.
+
+### 2026-11-02 — 용접 냉각 상관식 수치 범위 보완
+
+기존 2D·3D 냉각 상관식과 측정 교차·Rosenthal 연결의 요구 대응을 구분했다. 상관식의 온도 역수 차와 열입력 제곱을 정확 비율 산술로 결합해 중간 넘침·소실을 방지하고 최종 표현 불가 결과는 보류한다. 관련 12개 검사와 정적 검사 통과. 전체 구현 완료나 물리 검증 실적으로 확대하지 않는다. 검토 구간 근거 누락은 18개다. 입력 계약 변경이 없어 스키마 전체 재생성은 생략했다. 설명: WELD_COOLING_NUMERICS_KO.md.
+
+### 2026-11-02 — 구조 제목 분리·검토 구간 보강·기존 열구배 계산 재확인
+
+207개 부분 검토 기록과 26개 추출 상위 제목의 구조 분류를 분리했다. 구조 분류에 물리 완료 실적을 주지 않는다. 구간 근거가 없던 기록 중 짧은 6개 본문을 직접 대조해 대조 구간을 보강했다. 열충격 항목의 균일 구속식만 있다는 오래된 메모를 바로잡아 기존 1-D 과도 열전도·두께 방향 열응력 계산을 연결했다. 새 솔버 구현이 아니라 기존 기능 2개의 요구·검증 연결이다. 기존 열 계산 27개와 새 Python/JSON 교환 2개, 총 29개 통과. 계산 검토 117건·확인 API 80개이며 등록 계산 수는 늘리지 않았다. 본문·그림·부록·자료 적용성과 물리 검증은 남아 있다. 코드·입력 계약 변경이 없어 스키마와 전체 모델 설명을 재생성하지 않는다. 전체 완료율 미확정.
+
+### 2026-11-02 — 짧은 추출 항목의 그림·표 요구 확인
+
+두 짧은 항목의 실제 그림·표를 확인해 공정 분류와 시험 목적·매체의 의미를 기존 WPS·시험 적격성·가스 수지 API에 대응시켰다. 추가 독립 계산식은 확인되지 않았으며 분류·선정 자료와 절차·검증 근거는 잔여 과업으로 남겼다. 부분 검토 207/233절(88.8%)·계산 검토 115건·확인 API 78개 유지. 모든 말단 항목에 최소 부분 검토 기록이 생겼지만 전체 본문·참조 자료·물리 구현 완료를 뜻하지 않는다. 설명은 METHOD_IDENTITY_AND_TEST_PURPOSE_KO.md다. 코드·계약을 바꾸지 않아 검사와 전체 생성 작업을 반복하지 않았다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 107개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 205/233절(88.0%)·계산 검토 115개·신규 API 확인 78개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 물성 보간·조회 묶음 상태 보완
+
+공통 선형 보간을 정확 비율 계산으로 바꾸고 큰 값의 중간 넘침과 비영 소실을 처리했다. 물성 제공자는 수치 범위 이탈을 보류하며 정상적인 절편 단위 변환의 0은 유지한다. materials.allowable_property_provider 1.0.1은 일부 조회의 범위 이탈을 묶음 computed로 가리지 않는다. 관련 25개 검사·기존 제공자·자료 계약·Python/JSON 교환 통과다. 부분 검토 205/233절(88.0%)·계산 검토 115건·확인 API 78개 유지. 재료 표 도입만 검토했으며 개별 제품 표·사용 권한·물리 검증은 남아 있다. 입력 변경이 없어 스키마 재생성은 생략하고 버전 설명·카탈로그만 병렬 갱신한다. 설명은 PROPERTY_PROVIDER_NUMERICS_KO.md다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 107개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 204/233절(87.6%)·계산 검토 115개·신규 API 확인 78개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 분류번호와 WPS 변수의 물리 품목 연결 보존
+
+classification_to_wps_variable은 ClassificationWPSBinding을 반환하며 조회·물리 품목·호칭·문맥·할당 기록·입력 해시와 생산 변수를 하나의 연결 해시로 보존한다. WPS 입력에는 production_variable을 사용하고 전체 연결 결과를 함께 보관한다. 품목 변경 시 연결 해시 불일치를 거부한다. 분류·연결 22개와 기존 스키마 생성 7개, 총 29개 검사 통과이며 이전 21개 기록과 중복되므로 합산하지 않는다. 스키마 생성기는 내용이 같은 파일의 덮어쓰기를 생략하도록 보완했다. 부분 검토 204/233절·계산 검토 115건·확인 API 78개 유지. 전체 입력 감사와 동기화를 이어서 수행한다. 전체 완료율 미확정.
+
+### 2026-11-02 — 분류번호 할당 조회·WPS 계약 연결
+
+materials.declared_classification_assignment와 classification_to_wps_variable을 구현했다. 규격·판본·제품·상태·공정·대상·목적이 정확히 맞는 사용자 기록만 조회하며 문자 토큰·권한·해시를 보존한다. 미할당·미상·모호함을 구분하고 단일 할당만 기존 WPS 범주형 변수로 연결한다. 규격 표나 번호 기본값은 내장하지 않았다. 기본 레지스트리 교환·변조 거부·기존 변수 계약 연결 21개 검사 통과. 부분 검토 204/233절(87.6%)·확인 API 78개다. 순수 조회·계약 기능이므로 계산 검토 115건에는 더하지 않았다. 설명은 CLASSIFICATION_ASSIGNMENT_KO.md다. 독립 생성은 병렬 처리했다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 107개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 203/233절(87.1%)·계산 검토 115개·신규 API 확인 77개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 사용자 서비스 범주 선별 API 구현
+
+workflow.service_category_screening을 추가했다. 사용자 규격·판본·설비 경계·권한·필수 사실과 조건을 해시에 묶어 비교하고, 자료 누락·무효·단위 불일치는 미확정으로 남긴다. 범주 중복은 보존하고 기본 범주·우선순위·고장확률·최종 분류를 추론하지 않는다. 수치와 불리언의 암묵 변환을 거부한다. 기본 레지스트리 교환·범위 검사와 기존 손상기구 회귀 포함 27개 검사 통과. 부분 검토 203/233절(87.1%)·확인 API 77개다. 순수 규칙 기능이므로 계산 검토 115건에는 더하지 않았다. 입력 스키마·카탈로그 생성과 감사를 진행하며 독립 생성은 병렬 처리했다. 설명은 SERVICE_CATEGORY_SCREENING_KO.md다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 107개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 202/233절(86.7%)·계산 검토 115개·신규 API 확인 76개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 열전도도 예열 상관식 구현
+
+welding.conductivity_preheat_correlation를 추가했다. 고상선·열전도도·사용자 SI 계수와 물성 적용 범위로 온도 차를 계산한다. 적용 범위 이탈·비양의 절대온도·수치 소실은 out_of_scope이며 주변 온도 클램프나 용접 수락을 추론하지 않는다. 새 계산 8개와 이전 온도 배수 회귀 11개, 총 19개 검사 통과다. 부분 검토 202/233절(86.7%)·계산 검토 115건·확인 API 76개다. 상위 항목과 말단 본문의 미검토 구조를 별도로 분류했으며 도표·적용성·실험 검증은 남아 있다. 설명은 CONDUCTIVITY_PREHEAT_CORRELATION_KO.md다. 독립 생성은 병렬 처리했다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 106개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 201/233절(86.3%)·계산 검토 114개·신규 API 확인 75개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 온도 간격별 속도 배수 구현
+
+degradation.declared_temperature_rate_factor를 추가했다. 재료 상태·기구·온도 간격·간격당 비율과 적용 범위를 입력받아 기준 온도 대비 속도 배수를 계산한다. 기존 등가 열화 노출 입력으로 전달할 수 있으며 구간·기준 온도·제공자 일치는 별도 확인한다. 외삽·수치 소실 시 배수를 반환하지 않는다. 기본 레지스트리 교환 포함 11개 검사 통과. 부분 검토 201/233절·계산 검토 114건·확인 API 75개다. 비철합금의 주조 미세조직·기구 구간을 추가 대조했으나 실제 크리프·침탄·취화 검증은 남아 있다. 독립 스키마·카탈로그 생성은 병렬 처리했다. 설명은 DECLARED_TEMPERATURE_RATE_FACTOR_KO.md다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 105개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 201/233절(86.3%)·계산 검토 113개·신규 API 확인 74개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 결정립 번호 수치 보완·비철합금 초기 검토
+
+결정립 번호의 보정항·기준값 결합을 정확 산술로 바꾸고 API를 1.0.1로 갱신했다. 중간 곱의 넘침 후 상쇄를 보존하며 비영 번호가 0으로 소실되면 out_of_scope다. 관련 10개 검사가 통과했다. 비철합금 절의 니켈 합금 도입·제품 상태·물성 구간을 대조해 부분 검토 201/233절(86.3%)·미검토 32절이다. 계산 검토 113건·확인 API 74개 유지. 본문 일부 검토가 물리 구현 완료를 뜻하지 않는다. 입력 변경이 없어 전체 스키마 생성을 생략하고 버전 설명·카탈로그를 병렬 갱신한다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 105개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 200/233절(85.8%)·계산 검토 113개·신규 API 확인 74개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 결정립 평면 계수 API 구현
+
+testing.grain_planimetry_summary를 구현해 같은 시편의 유효 계수와 실제 평면 면적을 합산하고 면적 밀도·평균 평면 면적·사용자 보정 입도 번호를 계산한다. 같은 영상·영역 중복을 거부하며 경계 처리·모집단·보정 근거를 명시한다. 기본 레지스트리 Python/JSON 교환 포함 8개 검사 통과다. 부분 검토 200/233절·계산 검토 113건·확인 API 74개다. 재료 분류 절의 추출 본문을 끝까지 대조했으나 참조 도표·규격 적용성·실험 검증은 남아 있다. 새 API 스키마·카탈로그 생성과 감사를 진행한다. 규격 도판이나 계수 기준을 내장하지 않았다. 설명은 GRAIN_PLANIMETRY_KO.md다. 독립 생성은 병렬 처리했다. 전체 완료율 미확정.
+
+### 2026-11-02 — 조성 역수 API 교환 확인·재료 요구 분류
+
+역수 조성식과 온도 상관식의 Python/JSON 결과·상태·버전을 분모 0까지 대조했다. 기존 회귀 포함 51개 검사 통과이며 앞선 47개와 중복되므로 합산하지 않는다. 재료 호칭·제품 상태, 사용 온도 근거, 합금·열처리 응답을 코드 산술과 공급 자료·물리 검증 요구로 구분해 잔여 목록에 기록했다. 부분 검토 200/233절·계산 검토 112건·확인 API 73개 유지. 입력 변경이 없는 이번 확인에서는 전체 스키마 생성을 반복하지 않았다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 104개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 200/233절(85.8%)·계산 검토 112개·신규 API 확인 73개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 조성 비율·역수 인자 구현
+
+범용·하한 적용 조성식 두 API에 음의 정수 지수를 추가해 별도 탄소 입력 없이 원소 비율을 계산한다. 분모 0은 계산하지 않으며 명시적 하한 적용 여부와 원래 관측값을 보존한다. 두 API는 0.1.2, 같은 인자를 사용하는 온도 상관식은 1.0.1이다. 중간 역수 상쇄·단위 기준·기존 조성 및 온도 회귀 47개가 통과했다. 부분 검토 200/233절·계산 검토 112건·확인 API 73개 유지. 새 입력 범위의 스키마·카탈로그 생성과 감사를 진행한다. 함량 비율 기준과 실제 재료 응답 검증은 별도다. 독립 생성은 병렬 수행했다. 전체 완료율 미확정.
+
+### 2026-11-02 — 기본 재료 계산 수치 보완
+
+인장 변환·연성 유지율·전하 기반 손실 계산을 정확 입력 산술로 보완하고 세 API를 1.0.1로 갱신했다. 필수 비영 출력의 표현 불가능 상태는 out_of_scope이며 부분 수치를 반환하지 않는다. 명시적 영 입력과 균일 변형 게이트·음의 연성 손실을 유지했다. 관련 26개 검사가 통과했다. 부분 검토 200/233절·계산 검토 112건·확인 API 73개 유지. 입력 계약 변경이 없어 스키마 재생성은 생략하고 버전 카탈로그는 묶어 갱신한다. 실제 물성·부식 검증은 별도다. 설명은 MATERIAL_BASIC_NUMERICS_KO.md다. 전체 완료율 미확정.
+
+### 2026-11-02 — 재료 분류 초기 구간 요구 대조
+
+재료 분류·합금 성분·호칭의 초기 구간을 대조했다. 정성 분류를 수치 물성 곡선으로 바꾸거나 재료 호칭에서 두께·열처리·온도별 항복 강도와 제품 동등성을 추론하지 않는다. 기존 사용자 재료 조건 비교 API의 범위와 구분했다. 부분 검토는 200/233절(85.8%)·미검토 33절이며 전체 완료율이 아니다. 해당 절의 나머지 본문과 도표 요구는 검토 대기다. 계산 검토 112건·확인 API 73개 유지. 필수성이 확인되지 않은 고급 결합 확장은 남겨두고 원래 요구 대조를 병행해 범위 확장에 따른 지연을 줄인다.
+
+### 2026-11-02 — BDF 순유입 누적 상태 연결
+
+내부 핵생성 BDF 구동기에 선택적 성분·셀별 순유입 누적 상태를 연결했다. 같은 단계의 성분 미분을 적분하고 이벤트 재시작 뒤에도 누적량을 유지한다. 요청 시각별 수지 초과·솔버 실패 시 궤적과 누적량을 확정하지 않는다. 시간 가변 공급의 해석해·핵생성 재시작·기존 상태 계산을 포함한 21개 검사가 통과했다. 이는 내부 수치 일관성 검사이며 경계 유량의 독립 물리 검증은 아니다. 소진·재생성과 원소·전하 수지는 남아 있다. 부분 검토 199/233절·계산 검토 112건·확인 API 73개 유지. 공개 계약 변경이 없어 스키마 전체 생성은 생략했다. 전체 완료율 미확정.
+
+### 2026-11-02 — 결합 상태의 셀별 성분 수지 구현
+
+내부 상태 레이아웃에 초기·최종 총량과 독립적인 순유입 누적량을 비교하는 성분 수지를 추가했다. 용존·고체 변화와 셀별 잔차를 보존하며 셀 간 오차 상쇄로 통과하지 않는다. 관련 상태 회귀 포함 11개 검사가 통과했다. 누적 유량의 BDF 연결, 소진·재생성과 원소·전하 수지는 남아 있다. 부분 검토 199/233절·계산 검토 112건·확인 API 73개 유지. 공개 API·입력 계약 변경이 없어 카탈로그·스키마 재생성은 생략했다. 설명은 CREVICE_COMPONENT_BALANCE_KO.md에 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 104개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 199/233절(85.4%)·계산 검토 112개·신규 API 확인 73개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 분극 회로 수치 보완
+
+Stern-Geary와 선형 갈바닉 회로를 정확 비율 계산으로 보완하고 두 API를 1.0.1로 갱신했다. 작은 Tafel 기울기의 역수나 큰 직렬 저항 합 때문에 비영 결과가 0이 되지 않으며, 필수 출력의 표현 불가능 상태는 out_of_scope다. 전극 역할·선형 과전압 범위·자기 부식과 추가 결합 전류의 구분을 유지했다. 관련 22개 사례·Python/JSON 교환이 통과했다. 부분 검토 199/233절·계산 검토 112건·확인 API 73개 유지. 문서는 docs/POLARIZATION_CIRCUIT_NUMERICS_KO.md다. 측정 보정·반응 적용성·실제 부식 검증은 남아 있다. 입력 계약을 바꾸지 않아 스키마 재생성은 생략하고 버전 설명·카탈로그만 묶어 갱신한다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 사용자 손상기구 선별 API 구현
+
+degradation.damage_mechanism_screening을 추가했다. 재료·환경·응력·형상·유동·열이력·검사·공정 사실을 사용자 소유 규칙으로 비교하고 기구별 필수 사실·개정·허용된 근거 해시를 보존한다. 미상·단위 불일치가 있으면 다른 거짓 조건에 가려 not_indicated가 되지 않으며 보수적 포함도 needs_data를 유지한다. 새 계약·기존 SCC 회귀 17개 사례·Python/JSON 교환·정적 검사가 통과했다. 부분 검토 199/233절(85.4%)·미검토 34절, 계산 검토 112건·확인 API 73개다. 규칙 기능은 물리 계산 실적에 더하지 않았다. 스키마 1785종·카탈로그 1030개 생성, 실제 등록 입력 747/747개·누락/불일치 0건을 확인했다. 문서는 docs/DAMAGE_MECHANISM_SCREENING_KO.md다. 실제 감수성·검사 성능·수명·고장확률 검증은 남아 있다. 공통 조건 비교 재사용과 생성·감사 병렬 처리로 반복 작업을 줄였다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 104개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 198/233절(85.0%)·계산 검토 112개·신규 API 확인 72개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 조성 기반 온도 상관식 API 구현
+
+materials.composition_temperature_correlation을 추가했다. 사용자 다항식 계수·재료 상태·보정 모집단·온도 의미와 조성 적용 범위를 보존하며 단일 원소/합계 범위를 벗어나면 외삽하지 않는다. K·섭씨·화씨를 구분하고 양의 Kelvin 결과만 반환한다. 고정 합금 계수·변태 분율·열처리 결과·수락을 추론하지 않는다. 관련 조성식 회귀 포함 40개 사례·Python/JSON 교환·정적 검사가 통과했다. 부분 검토 198/233절·계산 검토 112건·확인 API 72개다. 스키마 1782종·카탈로그 1029개 생성, 실제 등록 입력 746/746개·누락/불일치 0건을 확인했다. 문서는 docs/COMPOSITION_TEMPERATURE_CORRELATION_KO.md다. 스테인리스 절의 본문은 작은 구간으로 끝까지 대조했으나 자료·규격·실제 물성 검증은 남아 있다. 기존 정확 산술 재사용과 독립 생성 병렬 처리로 중복 작업을 줄였다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 103개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 198/233절(85.0%)·계산 검토 111개·신규 API 확인 71개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 같은 시료의 선형 화학 조건 구현
+
+화학 분석 비교 API를 0.1.2로 확장해 사용자 계수·상수·경계의 선형 조건과 보수적 불확도 구간을 비교한다. 같은 시료의 서로 다른 원소만 결합하며 누락은 unknown, 수치 소실은 out_of_scope로 유지하고 규칙은 자동 선정하지 않는다. 기존 원소별 허용차·단순 합계의 의미를 유지하고 선형 경계를 자동 완화하지 않는다. 관련 38개 사례·Python/JSON 교환·정적 검사가 통과했다. 부분 검토 198/233절·계산 검토 111건·확인 API 71개다. 스키마 1780종·카탈로그 1028개를 생성했고 등록 입력 745/745개·누락/불일치 0건을 실제 파일과 실행 계약으로 다시 확인했다. 문서는 docs/CHEMICAL_ANALYSIS_COMPARISON_KO.md다. 상 분포·내식성·규격 수락의 검증은 아니다. 기존 API를 확장하고 독립 생성 작업을 병렬 처리했다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 등록 API 입력 스키마 745/745 연결 확인
+
+등록 API 전체와 수동 내보내기 목록을 대조해 192개 API가 사용하는 입력 계약 190종의 누락을 확인하고, 레지스트리 입력 자동 합집합 방식으로 수정했다. 기존 중첩 계약과 파일명을 유지하며 계약 1779종을 생성했다. schema_index.json에 API별 파일·계약 식별자·SHA-256을 연결하고, 감사 스크립트로 745/745개 API·고유 입력 736종의 실제 파일 해시와 실행 계약 내용을 대조했다. 누락·불일치 0건, 관련 검사 7개 통과다. 입력 스키마 연결률 100%는 전체 구현·물리 검증 완료율이 아니다. 부분 검토 198/233절·계산 검토 110건·확인 API 71개는 유지한다. 문서는 docs/PUBLIC_SCHEMA_COVERAGE_KO.md다. 190종의 개별 수동 추가를 자동 연결로 바꾸고 생성·감사를 병렬 처리해 반복 작업을 줄였다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 103개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 198/233절(85.0%)·계산 검토 110개·신규 API 확인 71개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — Faraday 수치 보완·기본 입력 스키마 연결
+
+corrosion.faraday를 정확 비율 계산과 명시적 영 전류/효율 처리로 보완하고 0.1.1로 갱신했다. 필수 비영 출력의 범위 초과는 out_of_scope이며 부분 결과를 반환하지 않는다. 쿠폰 회귀·Python/JSON 교환을 포함한 20개 사례와 정적 검사가 통과했다. 내보내기 목록에서 빠져 있던 FaradayLoss·CouponLoss 기본 계약을 추가하고 생성 스키마의 효율 하한 0을 직접 확인했다. 스테인리스 분류 첫 구간을 대조해 부분 검토 198/233절(85.0%)·미검토 35절이며 전체 개발 완료율이 아니다. 계산 검토 110건·확인 API 71개 유지, 스키마 1589개·카탈로그 1028개다. 문서는 docs/FARADAY_LOSS_KO.md다. 실제 용해 전류 분리·국부 부식·사용 적합성 검증은 남아 있다. 독립 생성 작업을 병렬 수행하고 기존 산술 함수를 재사용했다. 전체 완료율 미확정.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 103개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 197/233절(84.5%)·계산 검토 110개·신규 API 확인 71개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 열화 등가 노출 수치 보완·재료 취약성 요구 분류
+
+등가 열화 노출 API를 정확 구간 기여량·총량·한계 비교로 보완하고 1.0.2로 갱신했다. 비영 기여량의 소실과 범위 초과는 out_of_scope이며 부분 기여량으로 통과 판정을 만들지 않는다. 관련 10개 사례가 통과했다. 재료 취약성의 잔여 요구를 석출/물성 응답, LME, 정지 중 환경, 재열 구속, 표면/자기 관측으로 분리했다. 부분 검토 197/233절·계산 검토 110건·확인 API 71개 유지. 본문 대조 완료는 기법 구현 완료가 아니다. 카탈로그·버전 설명은 묶음 대기이며 전체 완료율은 미확정이다. 기존 노출 계산을 재사용하고 공급 자료·물리 예측과의 경계를 정리해 중복 작업을 줄였다.
+
+### 2026-11-02 — 쿠폰 손실·불확도 수치 보완
+
+기본 쿠폰 손실과 공분산 전파를 정확 비율·스케일 제곱근으로 보완하고 두 API를 0.1.1로 갱신했다. 중간 곱의 넘침/소실이나 분산 표현 범위 때문에 지원 가능한 평균 손실·표준불확도가 0으로 바뀌지 않게 했다. 관련 21개 사례·Python/JSON 교환·정적 검사가 통과했다. 부분 검토 197/233절·계산 검토 110건·확인 API 71개 유지. 정성 입계부식 시험·열화 노출·기계적 응답의 범위를 구분했고 실제 시험 자격과 물성 변화 검증은 남아 있다. 생성 카탈로그·버전 설명은 묶음 대기다. 기존 핵심 계산을 함께 수정해 중복 구현을 줄였다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 상별 점계수 집계 API 구현
+
+testing.phase_point_count_summary를 추가했다. 시야별 상 점수와 미분류 점수·시편·이미지/격자 해시를 유지하고 전체 점수 가중 집계와 식별 범위를 계산한다. 미분류와 비중복 검토 누락은 needs_data이며 체적 분율·FN 변환·통계 신뢰구간·수락을 추론하지 않는다. 관련 7개 사례·정적 검사·Python/JSON 교환이 통과했다. 부분 검토 197/233절·계산 검토 110건·확인 API 71개다. 스키마 1587개·카탈로그 1028개를 생성했다. 조성식 두 API 0.1.1 버전도 확인했다. 문서는 docs/PHASE_POINT_COUNT_KO.md, 검증 기록은 artifacts/validation/phase_point_count.xml이다. 원문 해당 절의 나머지 구간과 실험적 상 식별·대표성 검증은 남아 있으며 전체 완료율은 미확정이다. 독립 생성 작업을 병렬 수행하고 동기화는 묶어서 처리했다.
+
+### 2026-11-02 — 조성 다항식 수치 범위 보완
+
+재료 취약성 본문의 응고·조성 부분을 추가 대조했다. 기존 조성 다항식은 제곱·교차항을 지원하지만 비영 항의 중간 언더플로가 가능해 기본·하한 적용 API 두 개를 정확 산술 공통 함수로 보완하고 0.1.1로 갱신했다. 관련 32개 사례·정적 검사가 통과했다. 부분 검토 197/233절·계산 검토 109건·확인 API 70개 유지. 도표별 페라이트 예측·규격 허용치·실제 균열 검증은 미완료다. 버전 설명·카탈로그 동기화는 묶음 대기이며 전체 완료율은 미확정이다. 기존 API 공통 수정을 통해 중복 모델 구현을 피했다.
+
+### 2026-11-02 — 국부 부식 요구 대응·고급 확장 범위 구분
+
+국부 부식 본문 일부를 검토하고 관측 국부 환경·틈 형상·시험별 CPT/CCT 요구를 기존 코드와 대조했다. 부분 검토 197/233절(84.5%), 미검토 36절이며 해당 절의 다른 구간은 미검토다. 전체 완료율이 아니다. 검토 구간만으로 완전 결합 이동 경계/전극/석출 BDF가 필수라는 근거는 확인하지 못했다. 기존 고급 확장 과제는 삭제·완료 처리하지 않고 필수 요구 대응 미확정으로 보존했다. 계산 검토 109건·확인 API 70개 유지, 신규 수치 검증 실적 없음. docs/LOCALIZED_CORROSION_SCOPE_KO.md에 기능 경계를 정리했다. 범위 대응을 먼저 확인해 미확정 고급 결합 과제의 선행 작업이 전체 납품을 지연하지 않도록 한다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 102개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 196/233절(84.1%)·계산 검토 109개·신규 API 확인 70개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 동시 종자 이벤트 처리
+
+내부 BDF 드라이버에서 동일 경계의 상승 종자 이벤트를 반올림 범위로 묶고 가까운 별도 사건은 유지한다. 전환 그룹은 이벤트 예산을 먼저 검사해 일부만 변경하지 않는다. 두 셀 동시·근접 별도·예산 실패 등 관련 14개 사례가 통과했다. 소진/재출현·생산용 계약·전체 공간 수지 검증은 남아 있다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개 유지, 전체 완료율 미확정. 독립적인 모델 설명·카탈로그 갱신을 병렬 실행했다.
+
+### 2026-11-02 — 종자 임계 이벤트 BDF 구현
+
+내부 적분기가 종자 임계 도달 이벤트에서 BDF를 다시 시작하고 확정 경계에서만 성장 모드를 유지하도록 추가했다. 단일 셀 피드백 계산의 전환 시각과 전환 후 결과를 구간별 해석해와 비교했으며 관련 11개 사례가 통과했다. 실패 시 부분 궤적을 완료 결과로 반환하지 않는다. 고체 소진/재출현·동시 다중 이벤트·생산용 근거 계약·전체 수지 검증은 미완료다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개 유지, 전체 완료율 미확정. 기존 RHS를 재사용해 이벤트 연결만 추가했다.
+
+### 2026-11-02 — 화학·고체 반응 대응 검사 연결
+
+build_coupled_davies_phase_rhs가 실제 셀 평형 템플릿으로 내부 RHS를 구성하기 전에 고체 반응의 전하·원소 보존과 성분-고체 대응표를 검사한다. 체적·온도는 동일 템플릿에서 가져와 독립 입력 간 불일치를 줄인다. 물 성분과 고정 용매 조건을 명시한 실제 평형-속도 연결 및 잘못된 대응 거부 등 6개 사례가 통과했다. 임계/소진 이벤트·생산용 요청 근거·전체 원소/외부 저장소 수지 검증은 미완료다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개 유지, 전체 완료율 미확정. 기존 화학·상태·속도 계산을 연결해 중복 구현을 줄였다.
+
+### 2026-11-02 — 실제 단계별 Davies 화학 어댑터 구현
+
+CoupledPhaseDaviesChemistry가 단계별 용존 성분량으로 기존 평형 계산 입력을 만들고 같은 단계 활동도를 내부 RHS 계약으로 반환한다. 실제 희석 수용액 계산 2개 사례가 통과했으며 셀/성분 순서·계산 예산·원본 불변성과 단계별 입력/결과 해시를 확인했다. 수송은 명시적 함수로 공급하며 없는 경계 조건을 만들지 않는다. 이벤트 적분기·생산용 근거 연결·결합 수지 검증은 남아 있다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개는 유지하며 전체 완료율은 미확정이다. 기존 평형 계산을 재사용해 새 화학 해법 구현을 중복하지 않았다.
+
+### 2026-11-02 — 같은 단계 화학·고체 변화율 RHS 연결
+
+내부 CoupledPhaseRHS를 공동 상태·활동도 과포화도·석출 속도에 연결했다. 매 호출의 용존량으로 화학 함수를 호출하며 이전 단계 화학을 캐시하지 않는다. 단순 종자 보유 폐쇄계의 BDF 결과가 해석해와 일치하며 관련 내부 사례 합계 21개가 통과했다. 생산용 근거 계약·실제 공간 화학 연결·임계/소진 이벤트·통합 수지 검증은 미완료다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개 유지, 전체 완료율 미확정. 내부 계산 재사용으로 같은 단계 연결의 중복 코드를 줄였으며 공개 완성 모델 실적은 추가하지 않았다.
+
+### 2026-11-02 — 총 성분·고체 공동 상태 구현
+
+CoupledPhaseStateLayout에 총 성분·고체 상태 배치와 같은 단계 용존량 복원, 변화율 배치를 구현했다. 초기 용존량의 반올림 소실, 음의 고체량, 총 성분보다 큰 고체 성분량, 식별자·배치 불일치를 거부한다. 기존 내부 속도·교환 함수를 포함해 18개 사례가 통과했다. BDF 실행 경로 연결·단계 화학·임계 및 소진 이벤트·통합 수지 검증은 여전히 미완료다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개는 유지하며 전체 완료율은 미확정이다. 물리 계산 완료 실적은 추가하지 않았다. 정확한 상태 재사용으로 향후 결합의 중복 투영을 줄인다.
+
+### 2026-11-02 — 석출 단계 과포화도·성분 변화율 구현
+
+같은 단계의 명시적 무차원 활동도에서 과포화도를 계산하고, 고체 반응 속도를 용존·고체 성분의 반대 변화율로 투영하는 내부 함수를 추가했다. 경쟁 반응의 상쇄는 정확 산술로 합산하며 전하 비보존·누락 상·표현 불가능한 비영 과포화도를 거부한다. 기존 속도 함수와 합계 13개 사례가 통과했다. 고체 상태의 BDF 결합·종자/소진 이벤트·통합 수지 검증은 남아 있다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개 유지. 전체 완료율은 미확정이며 공개 모델 완성 실적을 추가하지 않는다. 기존 활동도·속도 입력 계약을 재사용해 중복 구현을 줄였다.
+
+### 2026-11-02 — 단계별 석출 속도 내부 함수 구현
+
+crevice_stage_kinetic_rates.py에 시도 상태의 종자 임계·핵생성·성장·용해 속도를 계산하는 내부 함수를 추가했다. 기존 속도식과 열적 적용 범위를 재사용한다. 작성한 6개 산술 사례가 통과했다. BDF 상태·동일 단계 과포화도·임계 및 소진 이벤트·보존 수지 연결은 남아 있으며 공개 API나 완성 모델로 집계하지 않는다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개는 유지한다. 모델 설명 갱신은 대기다.
+
+### 2026-11-02 — 틈부식 잔여 요구 분해
+
+기존 코드 미완성 한 묶음을 단계 결합 코드 3건, 열화학 코드·공급 자료 의존 1건, 독립 실험 검증 대기 1건으로 분해했다. 전체 범위 확정이나 구현 완료 실적을 추가하지 않는다. BDF 설명에서 기본 고정 체적과 선택적 고체 점유 형상 모드를 구분하도록 모순된 문구를 수정했다. 계산 동작 변경은 없다. 부분 검토 196/233절·계산 검토 109건·확인 API 70개를 유지한다. 모델 설명 재생성은 대기다. 상세 내용은 docs/CREVICE_REMAINING_IMPLEMENTATION_KO.md다.
+
+### 2026-11-02 — 부품 재료 클래스 계약 API 구현
+
+materials.component_material_class_assessment를 등록하고 스키마 내보내기 대상에 추가했다. 부품 역할·재료 상태·필수 속성·개수와 원자료 해시를 비교하며 기존 배관 API와 비교 함수를 공유한다. 신규 계약과 배관 회귀 20개 사례가 통과했다. 물리 계산 실적으로 추가하지 않는다. 부분 검토 196/233절·계산 검토 109건은 유지한다. 신규 API의 Python/JSON 교환은 확인했으나 집계 및 생성 카탈로그·스키마·미러 갱신은 대기 상태로 기록했다. 설명은 docs/COMPONENT_MATERIAL_CLASS_KO.md다. 전체 완료율은 미확정이다. 반복 생성을 줄이기 위해 문서 생성은 묶어서 수행한다.
+
+### 2026-11-02 — 펌프·밸브 재료 역할 대조·맞물림 경도 차 구현
+
+펌프/밸브 재료 클래스 본문의 앞부분을 대조하고 testing.mating_brinell_hardness_difference를 추가했다. 보고된 HBW 값과 불확도 구간을 같은 척도·방법·시험력·압입자·유지시간·온도에서만 비교하고 방향 또는 절댓값 차이를 사용자 경계와 대조한다. 0을 가로지르는 차이 구간을 보존하며 HB/HBS/HBW 자동 변환이나 고정 경도 차·트림 표를 내장하지 않는다. 관련 14개 테스트·정적 검사·Python/JSON 교환이 통과했다. 부분 검토 196/233절(84.1%), 미검토 37절, 계산 검토 109건·확인 API 69개다. 스키마 1582개·카탈로그 1026개 생성, 전체 설명의 연결 API 102개·미러 3종 일치를 확인했다. 본문 후반 재료/경도 표는 미검토이며 실제 마모·갤링·씰 성능·열간극·재료 적합성은 검증하지 않았다. 문서는 docs/MATING_BRINELL_DIFFERENCE_KO.md, 영수증은 artifacts/validation/scope_reset_mating_brinell.xml이다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 102개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 196/233절(84.1%)·계산 검토 109개·신규 API 확인 69개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 용접 공정 후반·플럭스 조성 비율 구현
+
+아크 용접 공정 후반까지 추가 대조하고 welding.declared_flux_basicity_ratio를 추가했다. 사용자가 명시한 화합물 질량 조성과 분자/분모 가중치로 비율을 계산하며 계수표·플럭스 분류·산소/수소·인성 예측을 내장하지 않는다. 관련 11개 테스트·정적 검사·Python/JSON 교환이 통과했다. 기체-슬래그-금속 열역학은 별도 공급자/데이터/검증 과제로 요청서를 작성했으며 구현 완료로 집계하지 않았다. 같은 절의 검토 확장이므로 부분 검토 195/233절은 유지한다. 계산 검토 108건·확인 API 68개, 스키마 1580개·카탈로그 1025개다. 전체 설명의 검토 연결 API 101개·미러 3종 일치를 확인했고 요청서 색인은 실제 46개 파일과 대조했다. 문서는 docs/FLUX_BASICITY_RATIO_KO.md 및 docs/extension_requests/FLUX_GAS_SLAG_METAL_THERMODYNAMICS_KO.md, 영수증은 artifacts/validation/scope_reset_flux_basicity.xml이다. 지배 규칙·자격 및 생산 조건·실제 성분 이동은 미완료이며 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 101개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 195/233절(83.7%)·계산 검토 108개·신규 API 확인 68개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 연속 공급 소모재 질량률 지원 계산
+
+아크 용접 공정 본문의 앞부분을 대조하고 welding.declared_consumable_deposition_rate를 추가했다. 사용자 재료 단면·밀도·아크 가동 중 공급 속도·포집률·가동 비율로 공급/용착/시간 평균 질량률을 구분한다. 전형적인 공정별 용착률·희석률을 재현하거나 모재 용융·용입·품질을 예측하지 않는다. 관련 10개 테스트·정적 검사·Python/JSON 교환이 통과했다. 부분 검토 195/233절(83.7%), 미검토 38절이며 공정 본문 후반은 미검토다. 계산 검토 107건·확인 API 67개, 스키마 1579개·카탈로그 1024개다. 전체 설명의 검토 연결 API 100개와 미러 3종 일치를 확인했다. 문서는 docs/CONSUMABLE_DEPOSITION_RATE_KO.md, 영수증은 artifacts/validation/scope_reset_consumable_deposition.xml이다. 지원 질량 수지와 실험적 공정 성능 검증을 구분하며 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 100개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 195/233절(83.7%)·계산 검토 107개·신규 API 확인 67개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 예열 후반 대조·독립 패스 간 하한 구현
+
+예열 본문 후반까지 추가 대조하고 기존 예열 평가와 이력 연결을 0.1.1로 확장했다. 최소 패스 간 온도는 예열 하한과 별도이며 미제공 하한을 자동 대입하지 않는다. 하한을 선언하면 관측 최솟값과 하한 이탈 시간이 필요하고, 이력 연결은 패스 간 구간에서 이를 유도한다. 예열 단계와 패스 간 단계의 범위를 자동 결합하지 않으며 관측 극값의 역전도 거부한다. 관련 묶음 22개와 추가 극값 순서 1개 테스트, 정적 검사가 통과했다. 문서·스키마·카탈로그와 미러 3종을 동기화했다. 기존 API 보완이므로 부분 검토 194/233절·계산 검토 106건·확인 API 66개는 유지한다. 지배 판본/초안/회사 권고의 구분, 표 자동 선정, 실제 온도 분포·수소 방출·균열 검증은 미완료다. 문서는 docs/PREHEAT_MEASUREMENT_BINDING_KO.md, 영수증은 artifacts/validation/scope_reset_interpass_minimum.xml 및 scope_reset_interpass_extrema.xml이다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 99개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 194/233절(83.3%)·계산 검토 106개·신규 API 확인 66개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 예열 측정 이력·절차 연결 구현
+
+welding.preheat_history_binding을 추가했다. 요구 센서의 내외면·물리 범위·위치·용접부·시계·배치와 실제 기록을 대조하고, 명시적 예열/패스 간 구간의 극값과 이탈 시간을 기존 절차 평가에 전달한다. 이탈 시간은 센서별 시간의 합집합으로 중복 계산을 막으며, 표본 지점이 달라도 같은 시계의 선형 교차를 처리한다. 최대 샘플 간격·관측 지원·작업 예산을 검사하고 네 집계 입력을 임의로 덮어쓸 수 없도록 했다. 새 연결 13개와 기존 절차 4개를 포함한 17개 테스트, 정적 검사·Python/JSON 교환이 통과했다. 부분 검토 194/233절(83.3%), 계산 검토 106건·확인 API 66개다. 스키마 1578개·카탈로그 1023개 생성, 전체 설명의 연결 API 99개·미러 3종 일치를 확인했다. 검토 부분집합의 등록된 측정 이력 연결 공백은 해소했으나 후반 예열 표·재료별 규칙과 실제 관통 두께 온도·센서 자격 검증은 미완료다. 문서는 docs/PREHEAT_MEASUREMENT_BINDING_KO.md, 영수증은 artifacts/validation/scope_reset_preheat_history.xml이다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 예열 측정 이력 연결의 실제 공백 확인
+
+예열/패스 간 온도 본문의 첫 부분을 대조하고 기존 preheat envelope·thermohistory·local heat treatment 구현을 읽었다. 기존 온도 보간/유지시간 계산은 재사용 가능하지만 예열/패스 간 측정 구간·내외면·센서 위치와 실제 절차 평가 입력을 묶는 기능은 없어 미완성 코드 1건으로 등록했다. 부분 검토 194/233절(83.3%), 미검토 39절이며 해당 본문 후반 표/주석은 미검토로 유지한다. 계산 검토 105건·확인 API 65개는 그대로다. 구현 요청은 docs/PREHEAT_MEASUREMENT_BINDING_KO.md다. 이번 변경은 요구 분류·문서로 코드 구현이나 수치 검증 실적을 추가하지 않았다. 다음 작업은 기존 구간별 선형 계산을 재사용한 측정 이력/절차 binding이다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — OEE·파레토 산술 구현
+
+maintenance.declared_equipment_effectiveness와 maintenance.declared_pareto_summary를 추가했다. 같은 관측 창의 가동·속도·품질 비율과 건수/비용 순위를 계산하며 고장확률·위험도·정비 결정을 자동 추정하지 않는다. OEE 자산은 실행 문맥과 일치해야 하고, 파레토 동률·0 합계·미제공 비용을 구분한다. 관련 15개 테스트·정적 검사·Python/JSON 교환이 통과했다. 부분 검토 193/233절(82.8%), 미검토 40절, 계산 검토 105건·확인 API 65개다. 스키마 1573개·카탈로그 1022개 생성, 전체 설명의 검토 연결 API 98개·미러 3종 일치를 확인했다. 문서는 docs/MAINTENANCE_DESCRIPTORS_KO.md, 영수증은 artifacts/validation/scope_reset_maintenance_descriptors.xml이다. 상용 정비 프로그램·인증·점수표를 복제하거나 전체 위험성 물리 검증으로 범위를 확대하지 않았다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 98개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 193/233절(82.8%)·계산 검토 105개·신규 API 확인 65개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 오스테나이트 용접 후반·희석 수치 범위 수정
+
+오스테나이트 용접 본문 후반까지 추가 대조했다. 용가재 이름·PREN·페라이트 관측을 내식성·균열·인성 보증으로 확대하지 않으며, 칼날선 부식의 국부 열주기와 탄화물 용해/재석출 계산은 미완료로 유지했다. 기존 희석 API 두 개는 유리수 질량 수지로 총질량 표현 범위와 조성/질량비 계산을 분리했다. 총질량만 표현 불가능하면 null이며 지원 가능한 비율·제공된 공분산 전파는 보존한다. 비영 역할/구성 질량비나 조성의 수치 소실은 거부한다. 새 수치 9개와 기존 희석 1개를 포함한 10개 테스트·정적 검사가 통과했다. 문서는 docs/MATERIAL_SPECIFIC_JOINING_SCOPE_KO.md, 영수증은 artifacts/validation/scope_reset_dilution_numeric.xml이다. 기존 API 수정이므로 부분 검토 192/233절·계산 검토 103건·확인 API 63개는 유지한다. 전체 물리 검증 완료가 아니다.
+
+### 2026-11-02 — 구간별 완전 혼합 가스 퍼지 구현
+
+welding.well_mixed_gas_purge를 추가했다. 일정 체적·압력·온도, 같은 유입/유출 유량과 무반응·무누설·무흡착 가정을 명시하고 사용자 구간별 유량·유입 성분 몰분율로 수지를 계산한다. 실제 구획 상태 체적유량과 표준상태 유량을 구분한다. 사각부·산화색·산소 승인 기준·고정 교환 횟수를 추론하지 않는다. 관련 10개 테스트·Python/JSON 교환·정적 검사가 통과했다. 부분 검토 192/233절(82.4%), 미검토 41절이며 이번 용접 본문의 후반은 미검토다. 계산 검토 103건·확인 API 63개, 스키마 1570개·카탈로그 1020개다. 전체 모델 설명의 연결 API 96개·카탈로그 미러 3종 일치를 확인했다. 문서는 docs/WELL_MIXED_GAS_PURGE_KO.md, 영수증은 artifacts/validation/scope_reset_well_mixed_purge.xml이다. 전체 물리 검증이나 납품 완료는 아니다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 96개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 192/233절(82.4%)·계산 검토 103개·신규 API 확인 63개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 원래 경계 기반 제품 분석 허용차 산술
+
+materials.declared_analysis_tolerance_recipe를 추가했다. 측정값 대신 원래 지정된 최소/최대 경계로 사용자 구간을 선택하며 구간 포함 여부·일차 계수·가산항을 명시한다. 공백/중복 구간이나 범위 밖 결과는 임의 보정하지 않는다. 기존 비교 API와 묶은 30개 테스트, 정적 검사 및 Python/JSON 교환이 통과했다. 2.5.2 본문의 후반까지 대조했지만 표 자동 선정·판본·반올림·의심스러운 원소 기호/수치의 독립 확인은 미완료로 유지했다. 부분 검토 191/233절, 계산 검토 102건·확인 API 62개다. 스키마 1568개·카탈로그 1019개 생성 및 모델 설명의 연결 API 95개·미러 3종 일치를 확인했다. 문서는 docs/CHEMICAL_ANALYSIS_COMPARISON_KO.md, 영수증은 artifacts/validation/scope_reset_analysis_tolerance_recipe.xml이다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 95개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 191/233절(82.0%)·계산 검토 102개·신규 API 확인 62개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 조성 합산 규칙 구현·검증
+
+materials.declared_chemical_analysis_comparison 0.1.1에 명시적 동일 시료 원소 합산 규칙을 추가했다. 관측 ID를 지정하고 중복 원소·다른 시료·없는 ID는 거부한다. 개별 허용차를 합산 한계에 자동 이전하지 않으며 제공된 확장불확도는 산술 경계로 합산한다. 통계적 독립성·신뢰수준은 추정하지 않는다. 관련 20개 테스트와 정적 검사, 개별/합산 Python/JSON 교환이 통과했다. 스키마 1566개·카탈로그 1018개, 전체 모델 설명 및 미러 3종 동기화를 확인했다. 부분 검토 191/233절·계산 검토 101건·확인 API 61개는 유지한다. 같은 본문의 검토 범위를 넓혔으며 후반 표·주석은 미검토로 남겼다. 새 sum_rules 기본 필드를 포함한 정규화 요청으로 해시 재생성이 필요함을 API 문서에 기록했다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 94개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 191/233절(82.0%)·계산 검토 101개·신규 API 확인 61개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 분석 종류별 조성 경계 비교 구현
+
+materials.declared_chemical_analysis_comparison을 추가했다. 용탕/제품 분석을 분리하고 원래 경계와 허용차·적용 권한을 명시한다. 반복 시료·측정 불확도·누락 원소를 보존하며 상용 허용차 표·반올림·PMI 동등성·재료 승인을 추론하지 않는다. 관련 13개 테스트와 정적 검사, Python/JSON 교환이 통과했다. 부분 검토 191/233절(82.0%), 미검토 42절이며 이번 본문의 후반 표·주석은 미검토로 유지한다. 계산 검토 101건·확인 API 61개, 스키마 1565개·카탈로그 1018개다. 전체 모델 설명의 검토 연결 API 94개와 카탈로그 미러 3종 일치를 확인했다. 문서는 docs/CHEMICAL_ANALYSIS_COMPARISON_KO.md다. 전체 완료율·최종 필수 분모는 미확정이다.
+
+### 2026-11-02 — 압력시험 본문 대조·수치 범위 수정
+
+부분 검토 190/233절(81.5%), 미검토 43절이다. 선언 시험압력·수두, 관막응력, 커플링/나사 저항, 팽창 일과 기준 에너지 정규화를 시험 승인·안전거리·취성파괴 적합성과 구분했다. 기존 압력·관막응력 중간 곱과 기체 압력비의 수치 범위를 수정했다. 관련 10개 신규 산술 사례와 기존 경계 8개를 포함한 18개 테스트가 통과했다. 문서는 docs/PRESSURE_TEST_ARITHMETIC_SCOPE_KO.md, 영수증은 artifacts/validation/scope_reset_pressure_test_numeric.xml이다. 기존 API 수정으로 계산 검토 100건·확인 API 60개 집계는 유지한다. 표준 계수·유지시간·안전거리 표는 내장하지 않았다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 주철 보수 범위·단계 위치 연결 수정
+
+부분 검토 189/233절(81.1%), 미검토 44절이다. 주철 흑연/기지 상태와 실제 보수 절차·재료 응답을 구분했다. 기존 희석·냉각 관측·순서 API를 균열/조직/강도 회복 예측으로 계산하지 않는다. repair_welding_history의 단계 위치가 상위 이력 위치와 일치하도록 수정해 다른 위치의 제거·검사 기록을 완료 근거로 쓰지 못하게 했다. 관련 9개 테스트와 정적 검사가 통과했으며 영수증은 artifacts/validation/scope_reset_repair_location.xml이다. 새 API나 스키마가 아니므로 계산 검토 100건·확인 API 60개 집계를 유지한다. 문서와 남은 납품 목록을 갱신했다. 전체 물리 검증 완료는 아니다.
+
+### 2026-11-02 — 이종재 용접 범위·자유 열팽창 수치 수정
+
+부분 검토 188/233절(80.7%), 미검토 45절이다. 희석·적합성 근거와 국부 경도·탄소 이동·수소 충전·구속 열응력 예측을 구분해 남은 모델 대응을 기록했다. 자유 열팽창의 구간별 선형 적분을 유리수 중간 연산으로 수정하고 최종 범위·비영 적분 소실·표현 불가능한 수축을 거부한다. 관련 7개 테스트와 정적 검사가 통과했다. 기존 API 수정이므로 계산 검토 100건·신규 API 60개 집계는 늘리지 않았다. 전체 물리 검증이나 이종재 손상 예측 완료는 아니다. 새 스키마나 모델 ID는 없다.
+
+### 2026-11-02 — 재료별 용접 추가 범위 확인
+
+부분 검토 187/233절(80.3%), 미검토 46절이다. 마르텐사이트·페라이트·석출경화계 용접의 재료 상태·열이력·용가재·서비스 적용 권한을 구분했다. 기존 열이력 지표를 변태응력·수소 균열·입자 성장·석출물 진화 예측으로 인정하지 않았고 해당 모델 선정·보정·연결은 미완료 대응으로 기록했다. 이번 분류로 계산 구현 실적을 늘리지 않았다. 계산 검토 100건·신규 API 확인 60개, 생성 스키마 1562개·카탈로그 1017개다. 전체 모델 설명과 카탈로그 3종 미러의 일치를 확인했다. 전체 완료율과 최종 필수 계산 분모는 여전히 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 93개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 186/233절(79.8%)·계산 검토 100개·신규 API 확인 60개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 파일 기반 FMC 청크 재구성 검증
+
+inspection.file_homogeneous_fmc_tfm 및 inspection.file_planar_multiview_fmc_tfm을 추가했다. 명시적 행 매핑·dtype·파일 및 행 해시와 읽기 전용 NPY 매핑을 사용하며 전체 성공 시에만 영상을 반환한다. 관련 59개 테스트가 경고를 오류로 처리한 실행에서 통과했고 정적 검사도 통과했다. 스키마 1562개·카탈로그 1017개 생성이 완료됐다. 문서는 docs/FILE_FMC_TFM_KO.md, 영수증은 artifacts/validation/scope_reset_file_fmc_tfm.xml이다. 전체 모델 설명·패키지 미러·진행 JSON과 요구별 기록 반영은 남았다. 공식 계산 검토 98건·신규 API 58개 집계는 후속 기록 전까지 유지한다. 256개 요소 합성 실행은 대형 실측 파일 성능이나 검사 자격 검증이 아니다.
+
+### 2026-11-02 — 평면 굴절·반사·모드별 다중 뷰 TFM
+
+inspection.planar_multiview_fmc_tfm을 추가했다. 평면 경계의 Fermat/Snell 경로, 평행 뒷면의 같은 모드 반사와 송수신별 재료 종파/전단파 지연을 계산하고 공통 RF 보간·합산 커널을 재사용한다. 모든 뷰의 예산과 시계 지원을 확인하며 하나라도 실패하면 부분 영상을 제공하지 않는다. 기존 직접 경로 17개와 새 경로/뷰 16개를 포함한 33개 테스트 및 정적 검사·Python/JSON 교환이 통과했다. 계산 검토 98개·신규 API 확인 58개·부분 검토 186/233절(79.8%)이다. 현재 증분은 평면 기하 지연이며 변환 진폭·편광·일반 곡면·검출/크기/검사 자격을 보증하지 않는다. 대형 FMC 파일/청크 백엔드는 남은 코드 과제로 유지했다. 공개 스키마 1558개·카탈로그 1015개를 갱신했으며 전체 설명·미러는 다음 묶음으로 남겼다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 일반 NDE 대조·실제 FMC TFM 재구성
+
+일반 NDE 특성·인수 기준의 두 본문을 부분 대조하고 inspection.homogeneous_fmc_tfm을 구현했다. 명시적 송수신 전체 쌍·샘플 해시·실물/범위/출처·시계·좌표·음속을 보존하고 부호 있는 RF를 직접 경로의 지연 시간에서 보간·합산한다. 관련 17개 테스트·기본 레지스트리 Python/JSON 교환·정적 검사가 통과했다. 계산 검토 97개·신규 API 확인 57개·부분 검토 186/233절(79.8%)이다. 동종 직접 종파의 제한된 커널이며 다중 경로·웨지/굴절·대형 프레임 백엔드와 검출/크기/승인 대응은 미완료로 유지했다. 공개 스키마 1556개·카탈로그 1014개를 갱신했으며 전체 설명·미러는 다음 묶음에 갱신한다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 비금속 본문·수지 HDT 온도 여유
+
+비금속 재료 본문을 부분 대조하고 materials.resin_hdt_headroom을 추가했다. 시험 방법·하중·재료 상태와 사용자 요구 여유를 보존하며 온도 차 만족을 장기 사용온도·크리프·화학/접착 적합성으로 바꾸지 않는다. 관련 12개 테스트·기본 레지스트리 Python/JSON 교환·정적 검사가 통과했다. 계산 검토 96개·신규 API 확인 56개·부분 검토 184/233절(79.0%)이다. 물성 범위·저항성 서열·공란·단위와 실제 보증값을 구분하며 상용 물성표와 기본 여유·하중은 내장하지 않았다. 공개 스키마 1552개·카탈로그 1013개로 갱신했으며 전체 설명·미러는 다음 묶음으로 남겼다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+현재 계산 검토 기록의 고유 API 88개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 183/233절(78.5%)·계산 검토 95개·신규 API 확인 55개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 로그 기울기 계수·온도 경향 강도 환산 구현
+
+응력 설계에서 등록한 두 산술 공백을 전용 API로 구현했다. 로그 밑·음의 시간/응력 로그 기울기·상한을 명시하며, 온도 경향 비율의 중간 수치 범위와 최종 강도 표현 가능성을 구분한다. 같은 온도의 모순된 경향 입력은 거부한다. 관련 20개 테스트·두 API의 기본 레지스트리 Python/JSON 교환·정적 검사가 통과했다. 계산 검토 95개·신규 API 확인 55개·부분 검토 183/233절(78.5%)이다. 공개 스키마 1551개·카탈로그 1012개로 갱신했으며 전체 모델 설명·패키지 미러는 생성 대기로 기록했다. 검토 부분집합의 등록된 산술 공백 두 개는 해소했으나 전체 범위·물리 검증 완료는 아니다.
+
+### 2026-11-02 — 응력 성분 선형화·전단·셸 특성길이 구현
+
+응력 설계 본문을 부분 대조하고 평면 두께 방향 성분 선형화, 부호 있는 평균 전단응력, 사용자 배율의 셸 특성길이 계산을 구현했다. 구간별 선형 성분의 막 힘과 중심 모멘트를 보존하며 곡률·좌표 변환·등가응력·응력 범주·규격 판정은 자동 추론하지 않는다. 관련 21개 테스트·세 API의 기본 레지스트리 Python/JSON 교환·정적 검사가 통과했다. 계산 검토 93개·신규 API 확인 53개·부분 검토 183/233절(78.5%)이다. 로그 기울기 파단강도 계수와 온도별 경향 강도 비율 계산은 미완료 2개로 등록했다. 공개 스키마 1549개·카탈로그 1010개로 갱신했으며 전체 모델 설명·패키지 미러는 다음 묶음에 갱신한다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 보류한 전체 모델 설명·카탈로그 동기화 완료
+
+혼합밀도·속도·장치 캐비테이션 지표 3개가 전체 모델 설명에 포함됨을 확인했다. capabilities·datasets·sources의 공개 카탈로그와 Python 패키지 미러가 바이트 단위로 일치하며 해시를 진행 기록에 보존했다. 이전 묶음의 생성 대기 표시는 해제했다. 부분 검토 182/233절(78.1%)·계산 검토 90개·신규 API 확인 50개는 유지한다. 문서 동기화로 물리 모델 검증이나 전체 납품 완료를 주장하지 않는다.
+
+### 2026-11-02 — 적용 범위·부품 역할·비금속 근거 대조
+
+적용 범위 본문을 추가 부분 대조해 182/233절(78.1%)로 반영했다. 지배 판본과 참조 판본, 압력 경계와 지지·부착 역할, 설계·제작·자격의 역할 차이를 구분했다. 비금속 수지·적층체의 온도별 물성·환경·시간 영향과 원형 파괴시험/설계해석 자격의 연결은 미완료 대응이다. 기존 시험하중 배율·강도 최솟값 계산을 전체 적용 범위 선정이나 비금속 자격 구현으로 보지 않는다. 계산 검토 90개·신규 API 확인 50개는 유지한다. 이번 변경은 분류·문서이며 계산 코드·테스트 변경은 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — 혼합밀도·속도·장치 캐비테이션 지표 구현
+
+확인한 계산 공백 3개를 전용 API로 구현했다. 무슬립 혼합밀도는 유량 합계의 수치 범위와 밀도 비율을 구분하며, 속도 지표는 사용자 SI 계수만 사용한다. 장치 차압 기준 캐비테이션 지표는 압력 위치·절대압·증기압 근거와 음의 여유를 보존한다. 관련 21개 테스트·세 API의 기본 레지스트리 Python/JSON 교환·정적 검사가 통과했다. 계산 검토 90개·신규 API 확인 50개·부분 검토 181/233절(77.7%)이다. 공개 스키마 1546개·카탈로그 1007개로 갱신했으며 전체 모델 설명과 카탈로그 미러 동기화는 다음 묶음으로 남겼다. 이번 검토 부분집합의 등록된 계산 공백 3개는 해소됐지만 전체 물리 모델·검증 완료는 아니다.
+
+### 2026-11-02 — 기준 목차·침식·마찰 본문 대조
+
+기준 목차와 침식·마모·마찰의 두 본문을 추가 부분 대조해 181/233절(77.7%)로 반영했다. 기존 Archard·보정 손실률·상승작용·단상 Colebrook 계산과 기구별 예측을 구분했다. 무슬립 혼합밀도, 사용자 계수의 밀도 역제곱근 속도, 장치 차압 기준 캐비테이션 지표의 계산 API 3개는 미구현 과제로 등록했다. 마찰계수 정의와 전단응력 환산을 구분하며 표의 계수·제한값·도표를 내장하지 않는다. 계산 검토 87개·신규 API 확인 47개는 유지한다. 이번 변경은 분류·문서이며 계산 코드·테스트 변경은 없다. 전체 완료율은 미확정이다.
+
+### 2026-11-02 — WPS 자격 변수 분류와 이탈 결과 보강
+
+`welding.wps_qualification_envelope` 1.1.0에 필수·보충 필수·비필수 분류를 추가했다. 분류별 범위 이탈 3개 목록과 필수/보충 필수 이탈의 재자격 검토 목록을 결과로 노출한다. 분류 기본값은 기존 입력과 호환되도록 필수이며 규격·판본별 분류표는 호출자가 선언한다. 한국어 사용 설명을 추가했다. 스키마 1804개 내보내기와 754개 API 모델 레퍼런스 생성은 완료했다. 전체 소스 카탈로그 생성은 기존 `caller_declared_pressure_thickness_relation` 근거 레코드 누락으로 실패했으며 카탈로그 전체 동기화 완료로 세지 않는다. 이번 변경 테스트는 실행하지 않았다. 전체 구현 완료율은 미확정.
+
+### 2026-11-02 — WPS 계약·카탈로그 동기화 완료, 크리비스 이벤트 코드 보강
+
+WPS 자격 범위 API 1.1.0에 필수·보충 필수·비필수 변수를 구분하고 분류별 범위 이탈 및 재자격 검토 ID를 추가했다. 한국어 사용 문서를 작성하고 스키마 1804개, 모델 레퍼런스 754개, source 근거 945개를 생성했다. 초기 source 생성에서 누락됐던 `caller_declared_pressure_thickness_relation` 및 `hydrostatic_pressure_balance`의 구현 근거를 보완한 뒤 source 카탈로그와 패키지 미러 3종(capabilities·datasets·sources)의 SHA-256이 각각 일치함을 확인했다. 상세 요구 큐에는 코드 미완성 3건이 있으며, 기존 레거시 분류의 코드 미완성 1건과 분모가 다르므로 합치지 않는다.
+
+내부 크리비스 seed BDF 드라이버가 수락된 고체 고갈 root에서 seed latch를 해제하고, 이후 재생성·재핵생성 임계 전이를 허용하도록 바꿨다. 고갈은 `phase_depletions`로 기록하며 이벤트 예산에 포함한다. 일반 BDF trial clipping은 하지 않는다. 문서 CREVICE_COUPLED_SEED_BDF_KO.md를 추가했다. 이 변경은 내부 이벤트 드라이버 개선이며 공개 연동형 크리비스 모델 완성이 아니다. 이번 코드 변경의 테스트·패키징·수치 검증은 실행하지 않았다. 전체 완료율은 미확정.
+
+### 2026-11-02 — 크리비스 동적 전위 공백을 세 전기화학 경로 대조로 재정의
+
+`integration.crevice_component_state_bdf`는 현재 BDF trial 조성에서 Davies 화학·전도도·Nernst 평형전위를 다시 계산하고 공간 준정상 Ohmic/BV 혼합전위, Faradaic extent와 face-current/전하 연속성을 결합한다. 별도 dynamic double-layer solver는 사용자 전류와 분극·Cdl 곡선으로 독립 셀 전위를 적분하지만 공간 화학에 피드백하지 않는다. binding API는 그 결과를 exact-knot schedule로 넘기는 operator split이다. 따라서 남은 동시 결합 공백은 trial 상태에 이중층 전하/전위 미분 상태를 추가해 회로 경계, 공간 Ohmic 전류, 국부 Faradaic source와 성분/원소/전하 장부를 함께 닫는 것이다. 요구 레코드와 설계 메모 CREVICE_DYNAMIC_POTENTIAL_DESIGN_KO.md를 갱신했다. 공백은 코드 미완성 3건 중 하나로 유지한다. 이번 조사에는 신규 계산 코드를 추가하지 않았고 테스트도 실행하지 않았다.
+
+### 2026-11-02 — 동적 Cdl 결합 API의 기존 same-stage 범위 추가 대조
+
+`CreviceComponentStateBDFRequest`와 RHS를 재확인했다. 현재 `faradaic_stage_coupling`은 성분 trial 농도로 공간 mixed-potential root를 매 RHS마다 다시 풀고, Faradaic source extent·face current·전하 연속성을 성분 수송에 반영한다. 여전히 Cdl current schedule과 stage Faradaic coupling은 상호 배타적이며, potential/Cdl charge는 ODE 상태 벡터에 없다. 별도 dynamic-history 경로와 schedule binder는 화학 BDF에 feed-back하지 않는다. 따라서 코드 미완성 요구는 이미 있는 same-stage quasi-steady 전위를 중복 구현하는 일이 아니라, 이 전기화학 RHS에 계면 charge/potential differential state와 명시 회로 구동을 결합하는 일로 한정했다. 상세 처분 기록과 CREVICE_DYNAMIC_POTENTIAL_DESIGN_KO.md를 동기화했다. 새 실행 코드나 수치 검증은 이번 대조에서 추가하지 않았다.
+
+### 2026-11-02 — 동적 이중층 결합 대상의 기존 모듈 4개 실경로 확인
+
+동적 전위 공백의 코드 근거를 공개 파일에서 다시 확인했다. `crevice_component_state_bdf.py`에는 trial 화학과 공간 준정상 BV/Ohmic current 계산이 있고, `crevice_dynamic_double_layer_faradaic_history.py`에는 독립 셀의 Q·Faradaic·capacitive 전류 BDF가 있다. `crevice_double_layer_bdf_binding.py`는 외부 전하 결과를 current knot schedule로, `crevice_dynamic_double_layer_bdf_binding.py`는 독립 dynamic 결과를 branch/current schedules로 넘기는 operator-split adapter다. 따라서 네 모듈 가운데 새로 같은 기능을 하나 더 만드는 대신 해당 ODE/대수 제약을 동일 state solve로 연결해야 한다. 상세 요구 레코드와 remaining queue를 다시 생성했다. 공개 API 구현은 아직 추가되지 않았으며 코드 미완성 3건은 그대로다.
+
+### 2026-11-02 — 이동 체적 유압 구간의 잘못된 BDF 출력 형상 검사 수정
+
+`crevice_moving_volume_hydraulic_history.py`는 구간별 BDF 2개 상태(유량·누적 유입 체적)에서 중간점과 종료점 두 시각을 요청하고 두 결과 열을 사용한다. 기존 성공 검사가 열 수를 1로 요구해 정상 반환 형상을 거부하던 조건을 기대 형상 `(2, 2)`와 비교하도록 고쳤다. 관련 요구 기록과 remaining queue를 재생성했다. 이번 수정은 moving-volume 유압 하위 계산의 형상 검사 결함 1건을 고친 것이며, 압력·유량·고체 변위·반응 수송의 동시 결합 공백을 닫지 않는다. 테스트·수치 검증은 실행하지 않았다.
+
+### 2026-11-02 — 이동 체적 유압 continuity 잔차와 총 체적 폐쇄 명시
+
+`corrosion.crevice_moving_volume_hydraulic_history`에 셀별 `Q_left - Q_right - dV/dt` continuity 잔차와 구간 적분 경계 체적 잔차 `(Q_in - Q_out) Δt - ΔV_total`을 계산해 호출자 flow tolerance로 거부/수락하는 검사가 들어 있다. 구간별 잔차 배열과 최대 절대 잔차 4개 출력은 공개 실행 결과와 Model Reference에 연결되어 있음을 정적으로 확인했다. 모델 가이드에 잔차 뜻과 내부 보존 검사라는 한계를 추가했다. 요청 스키마 1종, capability 입력 계약 1종과 기존 Model Reference 연결은 이미 존재한다. 전체 source/capability 재생성·패키지 미러 동기화와 수치 실행은 하지 않았다. 이 변경은 moving-volume reactive transport 동시 결합 요구를 닫지 않으며 상세 코드 미완성 3건은 유지한다.
+
+### 2026-11-02 — 유압 stage RHS v2에 이동 액체 체적 continuity 추가
+
+`corrosion.crevice_hydraulic_stage_rhs`를 확장해 schema v2에서 셀별 순간 액체 체적 변화율을 받는다. 입구 유량으로부터 `Q_right = Q_left - dV/dt`를 셀별 누적 적용하고, 셀 평균 유량으로 점성항을 계산해 관성항과 함께 series 압력 강하를 닫는다. 결과에 face/cell 평균 유량, 셀 continuity residual, 셀 pressure drop, 전체 pressure residual 및 셀별 Reynolds 수를 노출한다. v2 형상 digest에는 ordered volume-rate 벡터가 포함되고 v1은 기존 digest 호환을 유지하며 비영 체적 변화율을 거부한다. 요청 schema·capability 입력 계약·Model Reference·한국어 모델 가이드를 맞췄고 capability package mirror SHA-256 일치를 확인했다. 이 코드는 호출자가 제공한 stage volume rate를 소비하는 primitive이며 고체 점유로부터 체적률 도출, BDF flow state 적분, 반응 수송 동시결합은 아직 하지 않는다. 수치 실행·테스트·패키징은 실시하지 않았다.
+
+### 2026-11-02 — 유압 stage 압력 폐쇄 실패 시 결과 거부
+
+이전 stage RHS는 pressure closure residual을 반환하지만 그 값이 수치 오차를 넘어도 결과 상태가 `computed`일 수 있었다. 현재는 셀별 압력 항의 절대합과 적용 압력으로 스케일한 64-ULP 부동소수점 한계를 사용하며, 한계를 넘으면 stage 결과를 폐기한다. 허용 roundoff와 pass flag도 출력·Model Reference에 기록했다. 이는 대수 폐쇄 수치 조건이며 모델의 실험 검증·수렴 검증을 대체하지 않는다. 이번 변경에 대한 수치 실행, 테스트와 패키징은 하지 않았다.
+
+### 2026-11-02 — 고체상 생성·용해 속도에서 크리비스 체적률 계산 API 추가
+
+`corrosion.crevice_solid_volume_rate`를 공개 registry 계산으로 추가했다. ordered cell/phase별 signed kinetic molar rate와 evidence-bound molar volume·gap occupancy map을 분리 digest로 고정한다. gap을 차지하는 상의 생성률만 합산하고 `dV_liquid/dt = -Σ(Vm × dn_solid/dt)`로 액체 체적률을 반환하며, 침전·용해의 부호와 체적 폐쇄 residual을 보존한다. schema/capability/source/model reference 생성과 package mirror 동기화는 이어서 확인한다. 이 API의 결과는 유압 stage RHS v2 입력으로 전달할 수 있지만 두 호출은 아직 BDF RHS 한 곳에서 반복 폐쇄·동시 적분되지 않는다. 수치 검증·테스트·패키징은 실시하지 않았다.
+
+### 2026-11-02 — 체적률 API 카탈로그 연계 완료 기록
+
+`corrosion.crevice_solid_volume_rate` registry 등록 뒤 공개 생성물을 갱신했다: API 755개, 입력 스키마 1,805개, capability 1,038개, source 기록 947개. Python package catalog mirror 3종(capabilities, datasets, sources)은 재동기화했다. 새 입력 계약은 export되어 schema index에 포함됐으나, schema-coverage audit 파일은 기존 754개 상태여서 신규 계약 audit은 보류로 기록한다(누적 표기 754/755, 99.87%). 공개 Model Reference와 scope 잔여 작업표도 새 API 및 경계를 기술한다. 수치 계산·테스트·패키징은 실행하지 않았으며 전체 납품 완료율은 미확정이다.
+
+### 2026-11-02 — 크리비스 고체 체적률에서 유압 stage까지 권한·digest 연결
+
+`corrosion.crevice_solid_volume_rate`에 `bind_solid_volume_rates_to_hydraulic_stage()`를 추가해 계산 결과를 유압 v2 요청의 셀별 액체 체적률(`m³/s`)로 연결한다. assessment, physical scope, 정확 stage 시각, 순서가 같은 셀 ID, committed 결과와 원 요청 digest를 검사한다. 합성 geometry/rate 결과에는 입력 라이선스가 자동 승계된다고 가정하지 않고, 호출자가 정확한 합성 digest와 license ID를 가진 composition authorization을 제공하게 했다. Model Reference·capability·source 문서 및 패키지 카탈로그 미러를 재생성했다: 등록 모델 755, 스키마 계약 1,805(감사 완료 754/755), capability 1,038(755 model / 190 interface / 101 partial), source record 948; 공개·패키지 카탈로그 3/3 쌍 SHA-256 일치. 기존 과업 분류는 101행 중 code-incomplete 1, data-validation-pending 52, provider-dependent 48로 유지한다. 이 어댑터는 순차 API composition이며 same-stage BDF 유동·반응 solver가 아니다. 테스트·패키징은 요청에 따라 보류했고, 수치 검증 실적에 추가하지 않았다.
+
+### 2026-11-02 — 크리비스 체적률·유압 RHS 등록형 API composition
+
+`integration.crevice_solid_volume_hydraulic_stage`를 등록해 committed `corrosion.crevice_solid_volume_rate` 결과와 hydraulic stage 요청을 한 JSON/Python API 호출로 묶었다. 요청에 계산 결과·원 요청·순서가 같은 셀·물리 범위·정확 stage 시각 및 합성 사용권한을 함께 전달하고, 권한 Evidence의 digest가 geometry·체적률·전체 원 결과 digest와 다르면 거부한다. 합성 hydraulic v2 입력을 만들고 RHS 결과와 입력계를 반환한다. 예제와 Model Reference 연결을 추가했다. 등록 모델은 756개로 +1, 전체 요구의 분모는 여전히 확정되지 않았다. 이 composition은 BDF 안의 동시 화학·고체·유량 결합 적분이 아니다. schema 1806개, capability 1039개, source 948개 재생성; 카탈로그 미러 3/3쌍 일치. 입력 스키마 coverage는 754/756이며 신규 API 감사는 미실시다. 이번 변경의 수치 검증은 0건이고 테스트·패키징도 실행하지 않았다.
+
+### 2026-11-02 — 이동 체적 틈 유압·성분 이류 코드 접합 및 추적 동기화
+
+`integration.crevice_component_state_bdf` schema v5에 `CreviceDynamicHydraulicAdvection` schedule을 등록했다. 해시 고정 pressure/reservoir composition, inlet flow BDF 상태, trial solid-equilibrium aperture·liquid volume, 유한차분 체적률, slit momentum, face flow continuity, upwind component flux, 좌우 component/element/charge reservoir ledger를 RHS fixed point로 연결했다. global component 수지에 유압 경계 교환을 반영하고 dynamic face flux도 적분 face-state ledger에 넣었다. 후속 코드 검토에서 기존 fixed-geometry helper의 null 호출 위험을 닫고 hydraulic physical scope 및 폭을 고체 phase/geometry 입력과 결속했다. 수렴 허용오차를 통과한 체적률을 같은 RHS 평가에 보존하며 실패 결과에 hydraulic 반복 수·최대 잔차·허용오차·예산을 기록하도록 했다. 틈부식 잔여 범위 기록은 기존 독립 계산 및 검증 의존과 분리해 갱신했다. 정적 범위 추적은 101/101 행, 483/483 경로, 605/605 구성요소 매핑이며 누락·unmapped는 0이다. 추적 JSON·전체 모델 레퍼런스·카탈로그·package mirror를 최신 코드로 동기화했다. 수량: 모델 756개, schema 색인 756/756개, 공개 계약 1,807개, capability 1,039개, 출처 949개. 이전 실행 coverage audit은 754/756이며 새 계약 실행 감사는 보류다. 생성과 코드 검토는 실행/수치/물리 검증이 아니다. 테스트·패키징은 실행하지 않았고 대량 검증에 남긴다. Faradaic area feedback은 제외한다.
+
+### 2026-11-02 — Crevice same-stage kinetic BDF 코드 접합
+
+`integration.crevice_component_state_bdf` schema v6에 digest-bound 셀별 kinetic phase set과 핵생성·성장 법칙 입력을 추가했다. kinetic 모드는 총 성분량과 상별 고체 mol을 함께 적분하고, 매 trial에서 용존 성분으로 aqueous Davies 재평형 후 활동도·포화비·반응속도를 계산하도록 연결했다. seed threshold·고체 고갈 이벤트에는 event-driven BDF 경로를 접합하고, 고체 inventory에서 이동 간극·용액 부피를 계산해 dynamic hydraulic 체적률 경로와 연결했다. Python 문법 컴파일만 5개 파일에서 통과했으며 계산 테스트·패키지 작업은 실행하지 않았다. 이벤트 재시작·누적 적분 장부·동적 부피 문턱 계산을 포함한 수치 검증은 남아 있다. 기존 추적 현황은 scope rows 101/101, source paths 483개, mapped components 605개, missing 0개; 본문 위치 명시 33,402/70,251줄; 기록된 Python/JSON 교환 82개이며 현재 등록 입력 schema는 757/757 모델, 1,809 계약이다. 이는 전체 구현률이 아니며 요구 분모가 미확정이라 전체 목표율은 산정하지 않는다.
+
+### 2026-11-02 — schema v6 BDF kinetics 종단간 검증 업데이트
+
+공개 요청 모델을 정상 계약으로 구성한 2-cell synthetic NaCl seed case에서 schema-v6 `solve_crevice_component_state_bdf()`를 실행했다. Davies stage equilibrium, trial kinetics, event restart, 동시 cell seed event, solid inventory 출력과 normalized component closure가 통과했다. 이 검증을 만드는 과정에서 초기화 순서, cell ID 바인딩, NumPy bool 타입, event 경계 vector 변환 결함을 고쳤다. 관련 kinetics/event/BDF/double-layer 테스트 묶음은 30/30 통과했고 단독 dynamic-double-layer RC 해석해 사례도 포함한다. 이는 caller-authored synthetic 값에 대한 수치 검증이다. 남은 코드 공백은 동적 Cdl/Faradaic potential과 공간 화학의 동일 trial 피드백 및 자동 thermochemical phase selection/discovery다. scope 분류는 코드 미완성 1개 parent row, 데이터/검증 대기 52, 공급자 의존 48이며 이 row의 구현 하위 항목은 여러 개다. 전체 분모가 없어 전체 진행률은 계산하지 않는다.
+
+### 2026-11-02 — 크리비스 마감 점검 및 집중 수치 재검증
+
+범위 감사 스크립트를 다시 실행해 101/101 scope row 추적, 소스 경로 483/483 존재·AST 확인, 구성요소 605/605 매핑을 확인했다. 누락 경로·AST 실패·stale/unmapped symbol·unmapped component는 모두 0이다. 스키마 감사는 등록 모델 757/757, 고유 입력 계약 748종, 내보낸 계약 1,809개이며 누락/불일치가 없다. 이는 추적·스키마 coverage이며 전체 기능 완료율을 뜻하지 않는다.
+
+집중 크리비스 검증 묶음을 재실행해 30/30 통과(122.76초)를 확인했다. 이동 유압 kinetic 경로 및 dynamic double-layer potential과 공간 chemistry의 same-stage feedback은 이 검증에 포함되지 않았다. caller가 명시한 후보 집합에 대한 competing-solid equilibrium 계산은 기존 API에 있으며 후보 밖 상 자동 발견은 thermochemical data provider가 필요한 외부 의존으로 정리했다. 남은 코드 공백은 BDF 내 동적 전극 전위·이중층 전하와 공간 전해질·Faradaic chemistry의 동시 결합이다. procedure-qualified wall law와 독립 실험 자료도 미검증 상태다. 전체 목표 완료율은 요구 분모·가중치가 확정되지 않아 산정하지 않는다.
+
+### 2026-11-02 — schema v7 same-stage 이중층·Faradaic 구현 및 추적 동기화
+
+`integration.crevice_component_state_bdf`에 opt-in schema v7 경로를 추가했다. 셀별 Cdl 상태를 BDF에 포함하고, trial 화학에서 재계산한 Nernst 전위·전도도와 공간 Ohmic current, Butler–Volmer branch, 보존 성분 source/charge continuity를 동일 RHS에서 계산한다. 입력 Cdl/초기 전위의 digest·Evidence, curve support 밖 비외삽, 고정 형상·절연 경계·기존 schedule 배타 규칙을 적용했다. 단위/API 설명과 잔여 과업 문서를 최신화했다. 스키마 757/757·계약 1,809개, 부분 범위 경로 추적 101/101(경로 483/483, 구성요소 605/605; 누락·미매핑 0) 확인. Cdl 역산·계약 및 기존 회귀 중심 focused test 4/4는 앞서 실행되었으나 v7 요청 전체 종단간 실행, 물리/재료 적용성 검증, 전체 테스트와 패키징은 대기다. capability 카탈로그 757 모델·190 인터페이스·101 partial이며 이것은 전체 목표 완료율이 아니다.
+
+### 2026-11-03 — GitHub 공개 전 추가 검사
+
+공개 전 점검에서 명백한 미정의 변수·외부 누적 변수 선언 문제 등 선택 실행 정적 오류 54건을 수정해 0건으로 만들었다. 형상 피드백 공급자 인자, BDF 동적 수리 누적 변수, 활동도 온도 슬라이스 변수, 응축막 구간 밀도, 스케일 성분 인덱스를 보완했다. 기본 설치에서 SciPy가 없으면 전체 API 등록이 실패하던 모듈도 지연 import로 수정했다.
+
+스키마 757/757 일치, 추가 분기·배포 경계 시험 25/25, 주 예제 실행 400/400, 실제 설치 wheel의 작업 폴더 밖 수치 검사 59/59가 통과했다. 기본/선택 의존성 설치본 2개 모두 원본 Python·카탈로그 해시와 일치했고 기본 환경에는 SciPy·CoolProp·pandas·rainflow가 없다. Python 3.11 문법은 1,253개 파일에서 확인했지만 3.11 실환경 전체 시험을 뜻하지 않는다.
+
+로컬 수퍼컴 계산 로그·공백으로 시작하는 임시 소스 폴더·임시 수정 스크립트를 공개 제외 규칙에 반영하고 JSON 이스케이프 경로 검사 및 sdist 테스트 JSON 포함 규칙을 보완했다. 실제 wheel·sdist의 제한 자산 제외와 고신뢰 키 패턴 검사도 통과했다. 전체 Ruff 지적은 942→885건이며 이 중 남은 항목을 모두 서식 문제로 간주하지 않는다. 주 예제 파일 완전성 검사 1건과 외부 근거 보류 2건도 유지한다. 자동 CI/공개 준비 전체 완료로 표시하지 않았다.
+
+상세: [PREPUBLISH_CHECKS_KO.md](PREPUBLISH_CHECKS_KO.md). 공개 영수증: `validation/prepublish_checks.json`, `validation/prepublish_artifact_audit.json`. 검사한 새 wheel·sdist는 `artifacts/prepublish-dist/`에 있다. GitHub 업로드는 하지 않았다.
+
+### 2026-11-03 — 가능한 범위의 물리 일관성 검토
+
+고정 63개 계산군의 대표 물리 관계와 적용 한계를 군별로 정리했다. 기준값·물리 항등식 비교 79개가 63/63개 군에서 통과했다. 새 스케일·불변량 검사 54개(13개 군)와 선택 수소·열수지 3개를 합친 57개도 통과했다. 두 묶음은 일부 중복하므로 합산하지 않는다. 40번 군의 파라미터 적용 시험을 실제 Basquin·Goodman 식 비교로 교체했고 52번 군에는 포화 Clapeyron 항등식을 보강했다. EOS 자체의 자기 일관성을 독립 실험 검증으로 세지 않는다.
+
+새 생산 계산식 오류는 발견하지 않았으며 시험의 Faraday 부동소수점 허용오차만 바로잡았다. 232개 전체 분기·현장 재료 보정·비선형 결합 전체의 물리 검증을 주장하지 않는다. 실측 두께와 관측자료 권한이 없는 2건도 계속 보류다. 결과·63개 군별 가정과 한계: [PHYSICAL_REVIEW_KO.md](PHYSICAL_REVIEW_KO.md). 공개 영수증: `validation/physical_review_receipt.json`. 신규 시험·보고 도구의 정적 검사도 통과했다.
+
+### 2026-11-03 — 개별 API 전수 실행 및 누락 검사 보완
+
+고정 63개 계산군에 배정된 고유 API 232개를 공개 JSON 경로로 새로 실행해 230개 계산을 완료했다. 2개는 실측 초기 두께 근거·기초 관측자료 사용권한 미확보로 보류했다. 이를 정상 계산 완료로 세지 않는다. 계산식 대표 70개, 극단값 69개, 물리 계산 연결 14개, 결과→규칙 모듈 연결 63개, 선택 회귀 299개가 통과했다. 물리 연결 대표 근거는 15/63개 군이며 규칙 소비 연결 63/63과 구분한다.
+
+전수 시험 15,693개 실행 후 발견한 예제·검토조건 시험·버전 불일치를 보완했다. 수정 파일의 재실행 및 신규 시험을 파일별로 대체 대조하면 15,706개 중 15,702개 통과·1개 실패·3개 건너뜀이다. 수정 후 전체를 새로 재실행했다는 뜻은 아니다. 남은 실패는 주 예제 JSON(400개 API)이 전체 등록 API(757개)를 모두 포함해야 한다는 기존 검사다. 357개는 그 단일 파일에 없는 API 수이지 계산 코드 미구현 수가 아니다. 기존 116개 입력 감사 범위 밖이라 건너뛴 3개 모델도 232개 공개 API 실행에서는 계산 완료했다.
+
+실행 기록·232개 개별 목록·보류 사유·재현 절차: [CORE_EXECUTION_VERIFICATION_KO.md](CORE_EXECUTION_VERIFICATION_KO.md). 공개 집계 영수증은 `validation/core_execution_receipt.json`이며 제3자 관측행·원자료·로컬 절대 경로를 포함하지 않는다. 추가 정적 검사에서 선택 계산 소스 15개 파일의 지적 207개는 남아 있어 전체 정적 검사 통과나 공개 배포 준비 완료를 주장하지 않는다. 신규 도구·시험의 선택 정적 검사는 통과했다.

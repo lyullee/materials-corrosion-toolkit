@@ -1,0 +1,553 @@
+{
+  "$defs": {
+    "CallerProductionTestRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "test_kind": {
+          "enum": [
+            "destructive",
+            "nde"
+          ],
+          "title": "Test Kind",
+          "type": "string"
+        },
+        "test_method_id": {
+          "minLength": 1,
+          "title": "Test Method Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "maximum_expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Expanded Uncertainty"
+        },
+        "minimum_available_record_count": {
+          "minimum": 1,
+          "title": "Minimum Available Record Count",
+          "type": "integer"
+        },
+        "minimum_distinct_physical_source_groups": {
+          "minimum": 1,
+          "title": "Minimum Distinct Physical Source Groups",
+          "type": "integer"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "disposition_id_if_outside": {
+          "minLength": 1,
+          "title": "Disposition Id If Outside",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "test_kind",
+        "test_method_id",
+        "metric_definition",
+        "unit",
+        "minimum_available_record_count",
+        "minimum_distinct_physical_source_groups",
+        "requirement_basis",
+        "disposition_id_if_outside",
+        "evidence"
+      ],
+      "title": "CallerProductionTestRequirement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ProductionTestObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "test_kind": {
+          "enum": [
+            "destructive",
+            "nde"
+          ],
+          "title": "Test Kind",
+          "type": "string"
+        },
+        "test_method_id": {
+          "minLength": 1,
+          "title": "Test Method Id",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Specimen Id"
+        },
+        "examination_location": {
+          "minLength": 1,
+          "title": "Examination Location",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "observed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage Factor"
+        },
+        "uncertainty_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_available": {
+          "title": "Record Available",
+          "type": "boolean"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "requirement_id",
+        "test_kind",
+        "test_method_id",
+        "physical_source_group_id",
+        "examination_location",
+        "metric_definition",
+        "unit",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "record_available",
+        "evidence"
+      ],
+      "title": "ProductionTestObservation",
+      "type": "object"
+    },
+    "ProductionTestSpecimen": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "extraction_location": {
+          "minLength": 1,
+          "title": "Extraction Location",
+          "type": "string"
+        },
+        "orientation_definition": {
+          "minLength": 1,
+          "title": "Orientation Definition",
+          "type": "string"
+        },
+        "specimen_preparation_id": {
+          "minLength": 1,
+          "title": "Specimen Preparation Id",
+          "type": "string"
+        },
+        "source_mapping_valid": {
+          "title": "Source Mapping Valid",
+          "type": "boolean"
+        },
+        "invalid_mapping_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Mapping Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "specimen_id",
+        "physical_source_group_id",
+        "extraction_location",
+        "orientation_definition",
+        "specimen_preparation_id",
+        "source_mapping_valid",
+        "evidence"
+      ],
+      "title": "ProductionTestSpecimen",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "production_weld_id": {
+      "minLength": 1,
+      "title": "Production Weld Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "consumable_lot_id": {
+      "minLength": 1,
+      "title": "Consumable Lot Id",
+      "type": "string"
+    },
+    "material_lot_id": {
+      "minLength": 1,
+      "title": "Material Lot Id",
+      "type": "string"
+    },
+    "specimens": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ProductionTestSpecimen"
+      },
+      "title": "Specimens",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ProductionTestObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/CallerProductionTestRequirement"
+      },
+      "minItems": 1,
+      "title": "Requirements",
+      "type": "array"
+    },
+    "weld_procedure_and_lot_identity_reviewed": {
+      "title": "Weld Procedure And Lot Identity Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_mapping_reviewed": {
+      "title": "Specimen Source Mapping Reviewed",
+      "type": "boolean"
+    },
+    "test_method_and_location_reviewed": {
+      "title": "Test Method And Location Reviewed",
+      "type": "boolean"
+    },
+    "metric_definitions_and_units_reviewed": {
+      "title": "Metric Definitions And Units Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_records_reviewed": {
+      "title": "Uncertainty Records Reviewed",
+      "type": "boolean"
+    },
+    "provider_identity_and_state_reviewed": {
+      "title": "Provider Identity And State Reviewed",
+      "type": "boolean"
+    },
+    "result_digests_reviewed": {
+      "title": "Result Digests Reviewed",
+      "type": "boolean"
+    },
+    "missingness_reviewed": {
+      "title": "Missingness Reviewed",
+      "type": "boolean"
+    },
+    "caller_requirement_authority_reviewed": {
+      "title": "Caller Requirement Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "production_weld_id",
+    "procedure_id",
+    "procedure_revision",
+    "consumable_lot_id",
+    "material_lot_id",
+    "observations",
+    "requirements",
+    "weld_procedure_and_lot_identity_reviewed",
+    "specimen_source_mapping_reviewed",
+    "test_method_and_location_reviewed",
+    "metric_definitions_and_units_reviewed",
+    "uncertainty_records_reviewed",
+    "provider_identity_and_state_reviewed",
+    "result_digests_reviewed",
+    "missingness_reviewed",
+    "caller_requirement_authority_reviewed",
+    "evidence"
+  ],
+  "title": "ProductionWeldTestEvidenceAssessment",
+  "type": "object"
+}

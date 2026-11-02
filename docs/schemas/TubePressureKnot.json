@@ -1,0 +1,174 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One exact pressure sample for one tube; pressure values are absolute Pa.",
+  "properties": {
+    "knot_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Knot Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "exchanger_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Exchanger Id",
+      "type": "string"
+    },
+    "bundle_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Bundle Id",
+      "type": "string"
+    },
+    "tube_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Tube Id",
+      "type": "string"
+    },
+    "time_basis_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Time Basis Id",
+      "type": "string"
+    },
+    "pressure_reference_basis_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Pressure Reference Basis Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0.0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "internal_pressure_Pa": {
+      "minimum": 0.0,
+      "title": "Internal Pressure Pa",
+      "type": "number"
+    },
+    "external_pressure_Pa": {
+      "minimum": 0.0,
+      "title": "External Pressure Pa",
+      "type": "number"
+    },
+    "source_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_record_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "source_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "knot_id",
+    "asset_id",
+    "location_id",
+    "exchanger_id",
+    "bundle_id",
+    "tube_id",
+    "time_basis_id",
+    "pressure_reference_basis_id",
+    "time_s",
+    "internal_pressure_Pa",
+    "external_pressure_Pa",
+    "source_id",
+    "source_record_id",
+    "source_record_sha256",
+    "evidence"
+  ],
+  "title": "TubePressureKnot",
+  "type": "object"
+}

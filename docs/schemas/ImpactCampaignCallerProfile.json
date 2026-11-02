@@ -1,0 +1,287 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ImpactMetricCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "absorbed_energy",
+            "lateral_expansion",
+            "shear_fracture"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric",
+        "unit_token",
+        "criterion_basis",
+        "evidence"
+      ],
+      "title": "ImpactMetricCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "product_id": {
+      "minLength": 1,
+      "title": "Product Id",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "orientation_id": {
+      "minLength": 1,
+      "title": "Orientation Id",
+      "type": "string"
+    },
+    "notch_id": {
+      "minLength": 1,
+      "title": "Notch Id",
+      "type": "string"
+    },
+    "size_id": {
+      "minLength": 1,
+      "title": "Size Id",
+      "type": "string"
+    },
+    "specimen_dimension_unit_token": {
+      "minLength": 1,
+      "title": "Specimen Dimension Unit Token",
+      "type": "string"
+    },
+    "minimum_test_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Test Temperature K",
+      "type": "number"
+    },
+    "maximum_test_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Test Temperature K",
+      "type": "number"
+    },
+    "required_metrics": {
+      "items": {
+        "enum": [
+          "absorbed_energy",
+          "lateral_expansion",
+          "shear_fracture"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Metrics",
+      "type": "array"
+    },
+    "metric_criteria": {
+      "items": {
+        "$ref": "#/$defs/ImpactMetricCriterion"
+      },
+      "minItems": 1,
+      "title": "Metric Criteria",
+      "type": "array"
+    },
+    "minimum_valid_replicates_per_exact_temperature": {
+      "minimum": 1,
+      "title": "Minimum Valid Replicates Per Exact Temperature",
+      "type": "integer"
+    },
+    "minimum_independence_group_count": {
+      "minimum": 1,
+      "title": "Minimum Independence Group Count",
+      "type": "integer"
+    },
+    "required_machine_id": {
+      "minLength": 1,
+      "title": "Required Machine Id",
+      "type": "string"
+    },
+    "required_striker_id": {
+      "minLength": 1,
+      "title": "Required Striker Id",
+      "type": "string"
+    },
+    "required_calibration_id": {
+      "minLength": 1,
+      "title": "Required Calibration Id",
+      "type": "string"
+    },
+    "caller_validity_policy_id": {
+      "minLength": 1,
+      "title": "Caller Validity Policy Id",
+      "type": "string"
+    },
+    "profile_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Source Digest",
+      "type": "string"
+    },
+    "built_in_standard_criteria_used": {
+      "const": false,
+      "default": false,
+      "title": "Built In Standard Criteria Used",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "product_id",
+    "heat_id",
+    "material_condition_id",
+    "orientation_id",
+    "notch_id",
+    "size_id",
+    "specimen_dimension_unit_token",
+    "minimum_test_temperature_K",
+    "maximum_test_temperature_K",
+    "required_metrics",
+    "metric_criteria",
+    "minimum_valid_replicates_per_exact_temperature",
+    "minimum_independence_group_count",
+    "required_machine_id",
+    "required_striker_id",
+    "required_calibration_id",
+    "caller_validity_policy_id",
+    "profile_source_digest",
+    "evidence"
+  ],
+  "title": "ImpactCampaignCallerProfile",
+  "type": "object"
+}

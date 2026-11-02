@@ -1,0 +1,424 @@
+{
+  "$defs": {
+    "CriticalPlaneCandidate": {
+      "additionalProperties": false,
+      "description": "One caller-declared plane normal and one shear direction in that plane.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Normal",
+          "type": "array"
+        },
+        "in_plane_direction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "In Plane Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "in_plane_direction"
+      ],
+      "title": "CriticalPlaneCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed local tensor history for a declared representative cycle.",
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "load_case_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Load Case Id"
+    },
+    "tensor_provider_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tensor Provider Id"
+    },
+    "tensor_provider_version": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tensor Provider Version"
+    },
+    "solver_name": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Solver Name"
+    },
+    "solver_version": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Solver Version"
+    },
+    "analysis_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Analysis Id"
+    },
+    "solution_revision": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Solution Revision"
+    },
+    "mesh_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mesh Id"
+    },
+    "field_location_kind": {
+      "anyOf": [
+        {
+          "enum": [
+            "node",
+            "integration_point",
+            "surface_point",
+            "user_defined"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Field Location Kind"
+    },
+    "field_location_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Field Location Id"
+    },
+    "spatial_averaging": {
+      "anyOf": [
+        {
+          "enum": [
+            "none",
+            "nodal_averaged",
+            "element_averaged",
+            "other"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Spatial Averaging"
+    },
+    "coordinate_frame_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coordinate Frame Id"
+    },
+    "coordinate_basis_vectors_global": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coordinate Basis Vectors Global"
+    },
+    "stress_measure": {
+      "anyOf": [
+        {
+          "const": "cauchy",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stress Measure"
+    },
+    "strain_measure": {
+      "anyOf": [
+        {
+          "const": "infinitesimal",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Strain Measure"
+    },
+    "input_strain_shear_convention": {
+      "anyOf": [
+        {
+          "enum": [
+            "tensor",
+            "engineering"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Input Strain Shear Convention"
+    },
+    "source_content_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Content Sha256"
+    },
+    "provider_configuration_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Configuration Digest"
+    },
+    "tensor_history_record_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tensor History Record Digest"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "sample_times_s": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sample Times S"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/CriticalPlaneCandidate"
+      },
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "representative_cycle_declared": {
+      "title": "Representative Cycle Declared",
+      "type": "boolean"
+    },
+    "maximum_stress_closure_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Stress Closure Error Pa",
+      "type": "number"
+    },
+    "maximum_strain_closure_error": {
+      "minimum": 0,
+      "title": "Maximum Strain Closure Error",
+      "type": "number"
+    },
+    "fatemi_socie_coefficient": {
+      "minimum": 0,
+      "title": "Fatemi Socie Coefficient",
+      "type": "number"
+    },
+    "normalization_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Normalization Stress Pa",
+      "type": "number"
+    }
+  },
+  "required": [
+    "history_id",
+    "material_condition_id",
+    "location_id",
+    "tensor_source_id",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "candidate_planes",
+    "representative_cycle_declared",
+    "maximum_stress_closure_error_Pa",
+    "maximum_strain_closure_error",
+    "fatemi_socie_coefficient",
+    "normalization_stress_Pa"
+  ],
+  "title": "CriticalPlaneHistory",
+  "type": "object"
+}

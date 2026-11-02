@@ -1,0 +1,644 @@
+{
+  "$defs": {
+    "DistributedHeatExchange": {
+      "additionalProperties": false,
+      "properties": {
+        "area_per_volume_m_inv": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 500,
+          "minItems": 1,
+          "title": "Area Per Volume M Inv",
+          "type": "array"
+        },
+        "convection_W_m2_K": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "title": "Convection W M2 K",
+          "type": "array"
+        },
+        "ambient_temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "title": "Ambient Temperature K",
+          "type": "array"
+        },
+        "emissivity": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Emissivity"
+        },
+        "emissivity_history": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 5000,
+              "minItems": 2,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Emissivity History"
+        },
+        "radiative_environment_temperature_K": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Radiative Environment Temperature K"
+        },
+        "radiation_exchange_basis_reviewed": {
+          "default": false,
+          "title": "Radiation Exchange Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "area_per_volume_m_inv",
+        "convection_W_m2_K",
+        "ambient_temperature_K"
+      ],
+      "title": "DistributedHeatExchange",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermalBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "minLength": 1,
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "adiabatic",
+            "prescribed_temperature",
+            "prescribed_heat_flux",
+            "convection_radiation"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "heat_flux_into_solid_W_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Flux Into Solid W M2"
+        },
+        "convection_W_m2_K": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Convection W M2 K"
+        },
+        "ambient_temperature_K": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ambient Temperature K"
+        },
+        "emissivity": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Emissivity"
+        },
+        "radiative_environment_temperature_K": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Radiative Environment Temperature K"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "kind"
+      ],
+      "title": "ThermalBoundary",
+      "type": "object"
+    },
+    "ThermalMaterialProperties": {
+      "additionalProperties": false,
+      "properties": {
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material Condition Id"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Temperature K",
+          "type": "array"
+        },
+        "conductivity_W_m_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Conductivity W M K",
+          "type": "array"
+        },
+        "volumetric_heat_capacity_J_m3_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Volumetric Heat Capacity J M3 K",
+          "type": "array"
+        },
+        "property_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Provider Id"
+        },
+        "property_provider_revision": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Provider Revision"
+        },
+        "property_record_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Record Id"
+        },
+        "property_source_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Source Sha256"
+        },
+        "property_evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Property Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "material_id",
+        "temperature_K",
+        "conductivity_W_m_K",
+        "volumetric_heat_capacity_J_m3_K"
+      ],
+      "title": "ThermalMaterialProperties",
+      "type": "object"
+    },
+    "TransientConduction1D": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.transient_conduction_1d.v1",
+          "default": "matintegrity.transient_conduction_1d.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "geometry": {
+          "enum": [
+            "planar",
+            "cylindrical"
+          ],
+          "title": "Geometry",
+          "type": "string"
+        },
+        "cell_edges_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 501,
+          "minItems": 3,
+          "title": "Cell Edges M",
+          "type": "array"
+        },
+        "planar_area_m2": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planar Area M2"
+        },
+        "cylinder_length_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cylinder Length M"
+        },
+        "materials": {
+          "items": {
+            "$ref": "#/$defs/ThermalMaterialProperties"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Materials",
+          "type": "array"
+        },
+        "cell_material_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Cell Material Ids",
+          "type": "array"
+        },
+        "initial_temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 500,
+          "minItems": 2,
+          "title": "Initial Temperature K",
+          "type": "array"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "left_boundary": {
+          "$ref": "#/$defs/ThermalBoundary"
+        },
+        "right_boundary": {
+          "$ref": "#/$defs/ThermalBoundary"
+        },
+        "volumetric_heat_generation_W_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Volumetric Heat Generation W M3"
+        },
+        "distributed_exchange": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DistributedHeatExchange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "maximum_step_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Step S",
+          "type": "number"
+        },
+        "nonlinear_absolute_tolerance_K": {
+          "default": 1e-08,
+          "exclusiveMinimum": 0,
+          "title": "Nonlinear Absolute Tolerance K",
+          "type": "number"
+        },
+        "nonlinear_relative_tolerance": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Nonlinear Relative Tolerance",
+          "type": "number"
+        },
+        "maximum_nonlinear_iterations": {
+          "default": 80,
+          "maximum": 500,
+          "minimum": 2,
+          "title": "Maximum Nonlinear Iterations",
+          "type": "integer"
+        },
+        "maximum_relative_energy_balance_error": {
+          "default": 1e-07,
+          "exclusiveMinimum": 0,
+          "title": "Maximum Relative Energy Balance Error",
+          "type": "number"
+        },
+        "one_dimensional_geometry_reviewed": {
+          "title": "One Dimensional Geometry Reviewed",
+          "type": "boolean"
+        },
+        "material_property_support_reviewed": {
+          "title": "Material Property Support Reviewed",
+          "type": "boolean"
+        },
+        "boundary_conditions_reviewed": {
+          "title": "Boundary Conditions Reviewed",
+          "type": "boolean"
+        },
+        "phase_change_absent_or_included_in_capacity_reviewed": {
+          "title": "Phase Change Absent Or Included In Capacity Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "geometry",
+        "cell_edges_m",
+        "materials",
+        "cell_material_ids",
+        "initial_temperature_K",
+        "time_s",
+        "left_boundary",
+        "right_boundary",
+        "maximum_step_s",
+        "one_dimensional_geometry_reviewed",
+        "material_property_support_reviewed",
+        "boundary_conditions_reviewed",
+        "phase_change_absent_or_included_in_capacity_reviewed"
+      ],
+      "title": "TransientConduction1D",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "incident_flux_W_m2": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Incident Flux W M2",
+      "type": "array"
+    },
+    "absorbed_fraction": {
+      "items": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Absorbed Fraction",
+      "type": "array"
+    },
+    "incident_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Incident History Sha256",
+      "type": "string"
+    },
+    "protection_material_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Protection Material Configuration Sha256",
+      "type": "string"
+    },
+    "thermal_model": {
+      "$ref": "#/$defs/TransientConduction1D"
+    },
+    "incident_absorption_and_exposed_face_reviewed": {
+      "title": "Incident Absorption And Exposed Face Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "incident_flux_W_m2",
+    "absorbed_fraction",
+    "incident_history_sha256",
+    "protection_material_configuration_sha256",
+    "thermal_model",
+    "incident_absorption_and_exposed_face_reviewed"
+  ],
+  "title": "FireThermalResponse",
+  "type": "object"
+}

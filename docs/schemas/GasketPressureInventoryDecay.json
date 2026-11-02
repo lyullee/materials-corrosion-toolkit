@@ -1,0 +1,432 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationMap": {
+      "additionalProperties": false,
+      "properties": {
+        "differential_pressure_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Differential Pressure Pa",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/GasketLeakageCalibrationRow"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "differential_pressure_Pa",
+        "rows"
+      ],
+      "title": "GasketLeakageCalibrationMap",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationRow": {
+      "additionalProperties": false,
+      "properties": {
+        "contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Contact Pressure Pa",
+          "type": "number"
+        },
+        "molar_leak_flux_by_delta_pressure_mol_s_m2": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Molar Leak Flux By Delta Pressure Mol S M2",
+          "type": "array"
+        }
+      },
+      "required": [
+        "contact_pressure_Pa",
+        "molar_leak_flux_by_delta_pressure_mol_s_m2"
+      ],
+      "title": "GasketLeakageCalibrationRow",
+      "type": "object"
+    },
+    "GasketLeakageHistory": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.gasket_leakage_history.v1",
+          "default": "matintegrity.gasket_leakage_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "contact_area_m2": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Contact Area M2",
+          "type": "array"
+        },
+        "mean_contact_pressure_history_Pa": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean Contact Pressure History Pa"
+        },
+        "differential_pressure_history_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Differential Pressure History Pa",
+          "type": "array"
+        },
+        "calibration": {
+          "$ref": "#/$defs/GasketLeakageCalibrationMap"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Sha256",
+          "type": "string"
+        },
+        "calibration_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Record Sha256",
+          "type": "string"
+        },
+        "upstream_contact_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upstream Contact Result Sha256"
+        },
+        "contact_pressure_transfer_review_id": {
+          "minLength": 1,
+          "title": "Contact Pressure Transfer Review Id",
+          "type": "string"
+        },
+        "differential_pressure_basis_review_id": {
+          "minLength": 1,
+          "title": "Differential Pressure Basis Review Id",
+          "type": "string"
+        },
+        "calibration_scope_review_id": {
+          "minLength": 1,
+          "title": "Calibration Scope Review Id",
+          "type": "string"
+        },
+        "complete_contact_area_partition_reviewed": {
+          "title": "Complete Contact Area Partition Reviewed",
+          "type": "boolean"
+        },
+        "calibration_and_joint_match_reviewed": {
+          "title": "Calibration And Joint Match Reviewed",
+          "type": "boolean"
+        },
+        "contact_field_and_leakage_basis_reviewed": {
+          "title": "Contact Field And Leakage Basis Reviewed",
+          "type": "boolean"
+        },
+        "pressure_direction_and_unit_reviewed": {
+          "title": "Pressure Direction And Unit Reviewed",
+          "type": "boolean"
+        },
+        "temporal_alignment_reviewed": {
+          "title": "Temporal Alignment Reviewed",
+          "type": "boolean"
+        },
+        "refined_contact_time_interpolation_reviewed": {
+          "default": false,
+          "title": "Refined Contact Time Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "maximum_time_integration_subintervals": {
+          "default": 100000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Maximum Time Integration Subintervals",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "joint_id",
+        "physical_scope_id",
+        "time_basis",
+        "time_s",
+        "node_ids",
+        "contact_area_m2",
+        "differential_pressure_history_Pa",
+        "calibration",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_sha256",
+        "calibration_record_sha256",
+        "contact_pressure_transfer_review_id",
+        "differential_pressure_basis_review_id",
+        "calibration_scope_review_id",
+        "complete_contact_area_partition_reviewed",
+        "calibration_and_joint_match_reviewed",
+        "contact_field_and_leakage_basis_reviewed",
+        "pressure_direction_and_unit_reviewed",
+        "temporal_alignment_reviewed",
+        "evidence"
+      ],
+      "title": "GasketLeakageHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Ideal-gas inventory ODE driven by an existing calibrated gasket leak history.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_leakage_pressure_inventory_decay.v1",
+      "default": "matintegrity.gasket_leakage_pressure_inventory_decay.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "leakage_history": {
+      "$ref": "#/$defs/GasketLeakageHistory"
+    },
+    "gas_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Volume M3",
+      "type": "number"
+    },
+    "gas_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Temperature K",
+      "type": "number"
+    },
+    "downstream_absolute_pressure_Pa": {
+      "minimum": 0,
+      "title": "Downstream Absolute Pressure Pa",
+      "type": "number"
+    },
+    "initial_upstream_absolute_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Upstream Absolute Pressure Pa",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "inventory_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Inventory Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "fixed_volume_and_isothermal_gas_reviewed": {
+      "title": "Fixed Volume And Isothermal Gas Reviewed",
+      "type": "boolean"
+    },
+    "pressure_boundary_and_calibration_support_reviewed": {
+      "title": "Pressure Boundary And Calibration Support Reviewed",
+      "type": "boolean"
+    },
+    "contact_history_independent_of_inventory_pressure_reviewed": {
+      "title": "Contact History Independent Of Inventory Pressure Reviewed",
+      "type": "boolean"
+    },
+    "leakage_units_and_area_partition_reviewed": {
+      "title": "Leakage Units And Area Partition Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "leakage_history",
+    "gas_volume_m3",
+    "gas_temperature_K",
+    "downstream_absolute_pressure_Pa",
+    "initial_upstream_absolute_pressure_Pa",
+    "provider_id",
+    "provider_revision",
+    "inventory_record_sha256",
+    "usage_license_id",
+    "evidence",
+    "fixed_volume_and_isothermal_gas_reviewed",
+    "pressure_boundary_and_calibration_support_reviewed",
+    "contact_history_independent_of_inventory_pressure_reviewed",
+    "leakage_units_and_area_partition_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketPressureInventoryDecay",
+  "type": "object"
+}

@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "log10_equilibrium_constant": {
+      "title": "Log10 Equilibrium Constant",
+      "type": "number"
+    },
+    "terms": {
+      "items": {
+        "$ref": "#/$defs/AqueousStoichiometricTerm"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Terms",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "log10_equilibrium_constant",
+    "terms"
+  ],
+  "title": "AqueousEquilibriumReaction",
+  "type": "object"
+}

@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed stoichiometry and material mapping for a dissolution branch.",
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "metal_species_id": {
+      "minLength": 1,
+      "title": "Metal Species Id",
+      "type": "string"
+    },
+    "metal_moles_per_reaction_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Moles Per Reaction Extent",
+      "type": "number"
+    },
+    "metal_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "metal_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Density Kg M3",
+      "type": "number"
+    },
+    "reactive_area_m2_by_cell": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Reactive Area M2 By Cell",
+      "type": "array"
+    },
+    "mapping_record_id": {
+      "minLength": 1,
+      "title": "Mapping Record Id",
+      "type": "string"
+    },
+    "mapping_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mapping Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "metal_identity_and_stoichiometry_reviewed": {
+      "title": "Metal Identity And Stoichiometry Reviewed",
+      "type": "boolean"
+    },
+    "extent_is_net_dissolution_only_reviewed": {
+      "title": "Extent Is Net Dissolution Only Reviewed",
+      "type": "boolean"
+    },
+    "cell_area_and_uniform_recession_reviewed": {
+      "title": "Cell Area And Uniform Recession Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "metal_species_id",
+    "metal_moles_per_reaction_extent",
+    "metal_molar_mass_kg_mol",
+    "metal_density_kg_m3",
+    "reactive_area_m2_by_cell",
+    "mapping_record_id",
+    "mapping_sha256",
+    "evidence",
+    "metal_identity_and_stoichiometry_reviewed",
+    "extent_is_net_dissolution_only_reviewed",
+    "cell_area_and_uniform_recession_reviewed"
+  ],
+  "title": "CreviceCurrentBranchMetalMapping",
+  "type": "object"
+}

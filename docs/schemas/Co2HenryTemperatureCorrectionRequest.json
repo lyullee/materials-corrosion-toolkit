@@ -1,0 +1,221 @@
+{
+  "$defs": {
+    "Co2HenryTemperatureReference": {
+      "additionalProperties": false,
+      "description": "One source-pinned Henry solubility datum and dissolution thermochemistry.",
+      "properties": {
+        "coefficient_mol_L_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Coefficient Mol L Pa",
+          "type": "number"
+        },
+        "coefficient_convention": {
+          "const": "aqueous_CO2star_concentration_over_gas_fugacity_mol_L_Pa",
+          "title": "Coefficient Convention",
+          "type": "string"
+        },
+        "reference_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Temperature K",
+          "type": "number"
+        },
+        "dissolution_enthalpy_J_mol": {
+          "title": "Dissolution Enthalpy J Mol",
+          "type": "number"
+        },
+        "dissolution_heat_capacity_change_J_mol_K": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolution Heat Capacity Change J Mol K"
+        },
+        "minimum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Temperature K",
+          "type": "number"
+        },
+        "solvent_composition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Sha256",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "enthalpy_sign_convention": {
+          "const": "positive_for_endothermic_dissolution",
+          "title": "Enthalpy Sign Convention",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "coefficient_mol_L_Pa",
+        "coefficient_convention",
+        "reference_temperature_K",
+        "dissolution_enthalpy_J_mol",
+        "minimum_supported_temperature_K",
+        "maximum_supported_temperature_K",
+        "solvent_composition_sha256",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_sha256",
+        "record_sha256",
+        "enthalpy_sign_convention",
+        "evidence"
+      ],
+      "title": "Co2HenryTemperatureReference",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "target_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Target Temperature K",
+      "type": "number"
+    },
+    "sample_solvent_composition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sample Solvent Composition Sha256",
+      "type": "string"
+    },
+    "reference": {
+      "$ref": "#/$defs/Co2HenryTemperatureReference"
+    },
+    "henry_coefficient_convention_reviewed": {
+      "title": "Henry Coefficient Convention Reviewed",
+      "type": "boolean"
+    },
+    "solvent_composition_match_reviewed": {
+      "title": "Solvent Composition Match Reviewed",
+      "type": "boolean"
+    },
+    "constant_heat_capacity_correction_reviewed": {
+      "default": false,
+      "title": "Constant Heat Capacity Correction Reviewed",
+      "type": "boolean"
+    },
+    "thermochemical_support_reviewed": {
+      "title": "Thermochemical Support Reviewed",
+      "type": "boolean"
+    },
+    "maximum_absolute_log_temperature_factor": {
+      "default": 40.0,
+      "exclusiveMinimum": 0,
+      "maximum": 100.0,
+      "title": "Maximum Absolute Log Temperature Factor",
+      "type": "number"
+    },
+    "review_id": {
+      "minLength": 1,
+      "title": "Review Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "target_temperature_K",
+    "sample_solvent_composition_sha256",
+    "reference",
+    "henry_coefficient_convention_reviewed",
+    "solvent_composition_match_reviewed",
+    "thermochemical_support_reviewed",
+    "review_id"
+  ],
+  "title": "Co2HenryTemperatureCorrectionRequest",
+  "type": "object"
+}

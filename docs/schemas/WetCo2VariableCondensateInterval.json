@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Constant state and signed liquid-volume flux over one time interval.",
+  "properties": {
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "liquid_volume_flux_m_s": {
+      "title": "Liquid Volume Flux M S",
+      "type": "number"
+    },
+    "incoming_co2star_mol_m3": {
+      "minimum": 0,
+      "title": "Incoming Co2Star Mol M3",
+      "type": "number"
+    },
+    "gas_co2_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Gas Co2 Fugacity Pa",
+      "type": "number"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "gas_film_coefficient_mol_m2_s_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Film Coefficient Mol M2 S Pa",
+      "type": "number"
+    },
+    "liquid_film_coefficient_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Film Coefficient M S",
+      "type": "number"
+    },
+    "state_provider_id": {
+      "minLength": 1,
+      "title": "State Provider Id",
+      "type": "string"
+    },
+    "state_provider_revision": {
+      "minLength": 1,
+      "title": "State Provider Revision",
+      "type": "string"
+    },
+    "state_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Configuration Sha256",
+      "type": "string"
+    },
+    "state_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Result Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "interval_state_and_flux_reviewed": {
+      "title": "Interval State And Flux Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "start_time_s",
+    "end_time_s",
+    "temperature_K",
+    "liquid_volume_flux_m_s",
+    "incoming_co2star_mol_m3",
+    "gas_co2_fugacity_Pa",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "gas_film_coefficient_mol_m2_s_Pa",
+    "liquid_film_coefficient_m_s",
+    "state_provider_id",
+    "state_provider_revision",
+    "state_configuration_sha256",
+    "state_result_sha256",
+    "evidence",
+    "interval_state_and_flux_reviewed"
+  ],
+  "title": "WetCo2VariableCondensateInterval",
+  "type": "object"
+}

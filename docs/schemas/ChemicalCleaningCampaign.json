@@ -1,0 +1,724 @@
+{
+  "$defs": {
+    "ChemicalBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "composition": {
+          "items": {
+            "$ref": "#/$defs/ChemicalComponent"
+          },
+          "minItems": 1,
+          "title": "Composition",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "batch_id",
+        "composition",
+        "provider_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "ChemicalBatch",
+      "type": "object"
+    },
+    "ChemicalComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "concentration": {
+          "minimum": 0,
+          "title": "Concentration",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "concentration",
+        "unit_token"
+      ],
+      "title": "ChemicalComponent",
+      "type": "object"
+    },
+    "CleaningEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "event_kind": {
+          "enum": [
+            "fill",
+            "circulate",
+            "soak",
+            "rinse",
+            "neutralize",
+            "dry"
+          ],
+          "title": "Event Kind",
+          "type": "string"
+        },
+        "batch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Batch Id"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_pressure_pa_abs": {
+          "minimum": 0,
+          "title": "Minimum Pressure Pa Abs",
+          "type": "number"
+        },
+        "maximum_pressure_pa_abs": {
+          "minimum": 0,
+          "title": "Maximum Pressure Pa Abs",
+          "type": "number"
+        },
+        "flow_m3_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Flow M3 S"
+        },
+        "ph": {
+          "anyOf": [
+            {
+              "maximum": 14,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ph"
+        },
+        "conductivity_s_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conductivity S M"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_position",
+        "event_kind",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_k",
+        "maximum_temperature_k",
+        "minimum_pressure_pa_abs",
+        "maximum_pressure_pa_abs",
+        "provider_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "CleaningEvent",
+      "type": "object"
+    },
+    "CleaningMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "sample_location_id": {
+          "minLength": 1,
+          "title": "Sample Location Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "coupon",
+            "solution",
+            "surface",
+            "residue",
+            "chemistry",
+            "nde",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "sample_location_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "status",
+        "provider_id",
+        "evidence"
+      ],
+      "title": "CleaningMeasurement",
+      "type": "object"
+    },
+    "Criterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "uncertainty_policy",
+        "missing_disposition"
+      ],
+      "title": "Criterion",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Profile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "permitted_material_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Permitted Material Ids",
+          "type": "array"
+        },
+        "permitted_precondition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Permitted Precondition Ids",
+          "type": "array"
+        },
+        "permitted_component_units": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Permitted Component Units",
+          "type": "array"
+        },
+        "maximum_event_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Event Temperature K",
+          "type": "number"
+        },
+        "maximum_pressure_pa_abs": {
+          "minimum": 0,
+          "title": "Maximum Pressure Pa Abs",
+          "type": "number"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "source_digest",
+        "permitted_material_ids",
+        "permitted_precondition_ids",
+        "permitted_component_units",
+        "maximum_event_temperature_k",
+        "maximum_pressure_pa_abs",
+        "criteria",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "Profile",
+      "type": "object"
+    },
+    "WasteDisposition": {
+      "additionalProperties": false,
+      "properties": {
+        "waste_record_id": {
+          "minLength": 1,
+          "title": "Waste Record Id",
+          "type": "string"
+        },
+        "waste_stream_id": {
+          "minLength": 1,
+          "title": "Waste Stream Id",
+          "type": "string"
+        },
+        "disposition_method_id": {
+          "minLength": 1,
+          "title": "Disposition Method Id",
+          "type": "string"
+        },
+        "destination_id": {
+          "minLength": 1,
+          "title": "Destination Id",
+          "type": "string"
+        },
+        "manifest_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Digest",
+          "type": "string"
+        },
+        "record_reviewed": {
+          "title": "Record Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "waste_record_id",
+        "waste_stream_id",
+        "disposition_method_id",
+        "destination_id",
+        "manifest_digest",
+        "record_reviewed",
+        "evidence"
+      ],
+      "title": "WasteDisposition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "material_id": {
+      "title": "Material Id",
+      "type": "string"
+    },
+    "area_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Area Ids",
+      "type": "array"
+    },
+    "circuit_id": {
+      "title": "Circuit Id",
+      "type": "string"
+    },
+    "precondition_id": {
+      "title": "Precondition Id",
+      "type": "string"
+    },
+    "batches": {
+      "items": {
+        "$ref": "#/$defs/ChemicalBatch"
+      },
+      "title": "Batches",
+      "type": "array"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/CleaningEvent"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/CleaningMeasurement"
+      },
+      "title": "Measurements",
+      "type": "array"
+    },
+    "waste_records": {
+      "items": {
+        "$ref": "#/$defs/WasteDisposition"
+      },
+      "title": "Waste Records",
+      "type": "array"
+    },
+    "profile": {
+      "$ref": "#/$defs/Profile"
+    },
+    "identity_precondition_batch_and_composition_reviewed": {
+      "title": "Identity Precondition Batch And Composition Reviewed",
+      "type": "boolean"
+    },
+    "event_sequence_state_units_and_time_reviewed": {
+      "title": "Event Sequence State Units And Time Reviewed",
+      "type": "boolean"
+    },
+    "measurement_uncertainty_provenance_and_digest_reviewed": {
+      "title": "Measurement Uncertainty Provenance And Digest Reviewed",
+      "type": "boolean"
+    },
+    "waste_disposition_evidence_reviewed": {
+      "title": "Waste Disposition Evidence Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "material_id",
+    "area_ids",
+    "circuit_id",
+    "precondition_id",
+    "batches",
+    "events",
+    "measurements",
+    "waste_records",
+    "profile",
+    "identity_precondition_batch_and_composition_reviewed",
+    "event_sequence_state_units_and_time_reviewed",
+    "measurement_uncertainty_provenance_and_digest_reviewed",
+    "waste_disposition_evidence_reviewed",
+    "caller_profile_reviewed",
+    "evidence"
+  ],
+  "title": "ChemicalCleaningCampaign",
+  "type": "object"
+}

@@ -1,0 +1,13 @@
+# Caller-tabulated SCC crack-velocity history
+
+`degradation.scc_crack_velocity_history` integrates a caller-supplied mode-I crack-velocity curve, `da/dt(K_I)`, over a finite caller-supplied `K_I(t)` history. This is a time-based stress-corrosion calculation and is separate from Paris `da/dN` fatigue calculations.
+
+The curve uses SI units: `K_I` in `Pa*sqrt(m)` and crack velocity in `m/s`. Its first tabulated point is the explicitly reviewed threshold with zero velocity. Both axes must be finite and strictly ordered where applicable; velocities are nonnegative. A request binds material condition, metallurgy, environment and loading-basis identifiers exactly to the curve. Curve data and `K_I` history each have a canonical digest and Evidence pinning their source file and a license identifier. Open-distribution use additionally requires a caller-provided authorization digest; local-only data remain caller-side.
+
+Time knots are strictly increasing from zero. The request asset, location and clock must match the framework `RunContext`. Its `K_I` record digest binds asset, location, physical scope, specimen, clock, time and stress-intensity values. `K_I` is assumed piecewise linear between those knots, while velocity is piecewise linear in `K_I`. The integrator splits each time segment at every crossed curve knot and sums exact trapezoidal integrals over those linear subsegments. It does not extrapolate above curve support, and an unsupported request returns no partial growth history. A reviewed maximum operation budget is checked before integration.
+
+The model holds environment and loading-law identity fixed for the entire request. `K_I` comes from the caller; crack geometry does not update it. The result is cumulative extension along the supplied stress-intensity path. It does not calculate SCC initiation, a stress-intensity solution, geometry factors, crack-front shape, toughness, competing mechanisms, service life, probability, acceptance or qualification. Zero rate below the caller threshold means only that this table branch is inactive there.
+
+[`examples/scc_crack_velocity_history.py`](../../examples/scc_crack_velocity_history.py) demonstrates the Python request and digest construction with synthetic values only. They are not measured SCC data, a material law, calibration or validation.
+
+The local 304L atmospheric chloride SCC workbook is not used to populate the law: it contains processed crack-velocity data but its pointwise third-party provenance, formula-derived values and replicate identity have not been cleared for fitting or redistribution. See the [dataset rights and structure record](../DATA_KO.md). Callers may provide a separately reviewed curve from a source they are authorized to use.

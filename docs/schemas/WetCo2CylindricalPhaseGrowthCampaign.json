@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2DiffusionLimitedBulkKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "concentrations": {
+          "items": {
+            "$ref": "#/$defs/WetCo2DiffusionLimitedBulkSpecies"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Concentrations",
+          "type": "array"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "concentrations",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2DiffusionLimitedBulkKnot",
+      "type": "object"
+    },
+    "WetCo2DiffusionLimitedBulkSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Concentration Mol M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "concentration_mol_m3"
+      ],
+      "title": "WetCo2DiffusionLimitedBulkSpecies",
+      "type": "object"
+    },
+    "WetCo2DiffusionLimitedSolidReactant": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "moles_consumed_per_mole_solid": {
+          "exclusiveMinimum": 0,
+          "title": "Moles Consumed Per Mole Solid",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "moles_consumed_per_mole_solid"
+      ],
+      "title": "WetCo2DiffusionLimitedSolidReactant",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller stoichiometry, open bulk knots and review gates for one scale phase.",
+  "properties": {
+    "solid_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Solid Id",
+      "type": "string"
+    },
+    "reactant_stoichiometry": {
+      "items": {
+        "$ref": "#/$defs/WetCo2DiffusionLimitedSolidReactant"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Reactant Stoichiometry",
+      "type": "array"
+    },
+    "stoichiometry_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stoichiometry Record Sha256",
+      "type": "string"
+    },
+    "stoichiometry_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Stoichiometry Evidence",
+      "type": "array"
+    },
+    "bulk_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2DiffusionLimitedBulkKnot"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Bulk History",
+      "type": "array"
+    },
+    "precipitation_flux_area_basis_reviewed": {
+      "title": "Precipitation Flux Area Basis Reviewed",
+      "type": "boolean"
+    },
+    "left_held_interval_flux_reviewed": {
+      "title": "Left Held Interval Flux Reviewed",
+      "type": "boolean"
+    },
+    "stoichiometry_and_phase_identity_reviewed": {
+      "title": "Stoichiometry And Phase Identity Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "solid_id",
+    "reactant_stoichiometry",
+    "stoichiometry_record_sha256",
+    "stoichiometry_evidence",
+    "bulk_history",
+    "precipitation_flux_area_basis_reviewed",
+    "left_held_interval_flux_reviewed",
+    "stoichiometry_and_phase_identity_reviewed"
+  ],
+  "title": "WetCo2CylindricalPhaseGrowthCampaign",
+  "type": "object"
+}

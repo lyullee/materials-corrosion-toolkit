@@ -1,0 +1,324 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SpatialMassActionReaction": {
+      "additionalProperties": false,
+      "description": "Fixed integer stoichiometry and caller-calibrated interval rate tables.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "reactants": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Reactants",
+          "type": "object"
+        },
+        "products": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Products",
+          "type": "object"
+        },
+        "forward_rate_constants": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Forward Rate Constants",
+          "type": "array"
+        },
+        "reverse_rate_constants": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Reverse Rate Constants",
+          "type": "array"
+        },
+        "forward_rate_constant_unit": {
+          "minLength": 1,
+          "title": "Forward Rate Constant Unit",
+          "type": "string"
+        },
+        "reverse_rate_constant_unit": {
+          "minLength": 1,
+          "title": "Reverse Rate Constant Unit",
+          "type": "string"
+        },
+        "calibration_record_id": {
+          "minLength": 1,
+          "title": "Calibration Record Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "calibration_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Calibration Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "reactants",
+        "products",
+        "forward_rate_constants",
+        "reverse_rate_constants",
+        "forward_rate_constant_unit",
+        "reverse_rate_constant_unit",
+        "calibration_record_id",
+        "calibration_sha256",
+        "calibration_evidence"
+      ],
+      "title": "SpatialMassActionReaction",
+      "type": "object"
+    },
+    "SpatialReactionInterval": {
+      "additionalProperties": false,
+      "description": "One contiguous, closed-at-right time interval in seconds.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s"
+      ],
+      "title": "SpatialReactionInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed piecewise-constant homogeneous chemistry for species-by-cell states.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.spatial_piecewise_mass_action.v1",
+      "default": "matintegrity.spatial_piecewise_mass_action.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "network_id": {
+      "minLength": 1,
+      "title": "Network Id",
+      "type": "string"
+    },
+    "species_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Species Ids",
+      "type": "array"
+    },
+    "charge_numbers": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Charge Numbers",
+      "type": "array"
+    },
+    "elemental_composition": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Elemental Composition"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/SpatialReactionInterval"
+      },
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/SpatialMassActionReaction"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "concentration_activity_approximation_reviewed": {
+      "title": "Concentration Activity Approximation Reviewed",
+      "type": "boolean"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "local_only_authorized": {
+      "title": "Local Only Authorized",
+      "type": "boolean"
+    },
+    "activity_provider_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Activity Provider Id"
+    },
+    "activity_provider_revision": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Activity Provider Revision"
+    },
+    "activity_configuration_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Activity Configuration Sha256"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_revision",
+    "network_id",
+    "species_ids",
+    "charge_numbers",
+    "intervals",
+    "reactions",
+    "concentration_activity_approximation_reviewed",
+    "usage_license_id",
+    "usage_rights_evidence",
+    "computational_use_authorized",
+    "local_only_authorized"
+  ],
+  "title": "SpatialPiecewiseMassAction",
+  "type": "object"
+}

@@ -1,0 +1,274 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SITInteraction": {
+      "additionalProperties": false,
+      "description": "One directional epsilon coefficient and digest-bound source record.",
+      "properties": {
+        "target_species_id": {
+          "minLength": 1,
+          "title": "Target Species Id",
+          "type": "string"
+        },
+        "counter_species_id": {
+          "minLength": 1,
+          "title": "Counter Species Id",
+          "type": "string"
+        },
+        "epsilon_kg_mol": {
+          "title": "Epsilon Kg Mol",
+          "type": "number"
+        },
+        "evidence_source_id": {
+          "minLength": 1,
+          "title": "Evidence Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evidence Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_species_id",
+        "counter_species_id",
+        "epsilon_kg_mol",
+        "evidence_source_id",
+        "source_record_id",
+        "evidence_sha256"
+      ],
+      "title": "SITInteraction",
+      "type": "object"
+    },
+    "SITSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "species_label": {
+          "minLength": 1,
+          "title": "Species Label",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "molality_mol_kg": {
+          "minimum": 0,
+          "title": "Molality Mol Kg",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "species_label",
+        "charge_number",
+        "molality_mol_kg"
+      ],
+      "title": "SITSpecies",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.sit_activity_coefficient_input.v2",
+      "default": "matintegrity.sit_activity_coefficient_input.v2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "solution_id": {
+      "minLength": 1,
+      "title": "Solution Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "ionic_strength_limit_mol_kg": {
+      "exclusiveMinimum": 0,
+      "maximum": 6.0,
+      "title": "Ionic Strength Limit Mol Kg",
+      "type": "number"
+    },
+    "debye_huckel_A_at_temperature": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel A At Temperature",
+      "type": "number"
+    },
+    "A_evidence_source_id": {
+      "minLength": 1,
+      "title": "A Evidence Source Id",
+      "type": "string"
+    },
+    "A_provider_id": {
+      "minLength": 1,
+      "title": "A Provider Id",
+      "type": "string"
+    },
+    "A_provider_revision": {
+      "minLength": 1,
+      "title": "A Provider Revision",
+      "type": "string"
+    },
+    "A_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "A Configuration Sha256",
+      "type": "string"
+    },
+    "A_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "A Record Sha256",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/SITSpecies"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "interactions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SITInteraction"
+      },
+      "maxItems": 100000,
+      "title": "Interactions",
+      "type": "array"
+    },
+    "charge_balance_absolute_tolerance_mol_kg": {
+      "minimum": 0,
+      "title": "Charge Balance Absolute Tolerance Mol Kg",
+      "type": "number"
+    },
+    "complete_ionic_inventory_reviewed": {
+      "title": "Complete Ionic Inventory Reviewed",
+      "type": "boolean"
+    },
+    "charge_balance_reviewed": {
+      "title": "Charge Balance Reviewed",
+      "type": "boolean"
+    },
+    "ionic_strength_convention_reviewed": {
+      "title": "Ionic Strength Convention Reviewed",
+      "type": "boolean"
+    },
+    "interaction_parameter_set_complete_and_applicable_reviewed": {
+      "title": "Interaction Parameter Set Complete And Applicable Reviewed",
+      "type": "boolean"
+    },
+    "temperature_solvent_A_lineage_reviewed": {
+      "title": "Temperature Solvent A Lineage Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "solution_id",
+    "temperature_K",
+    "ionic_strength_limit_mol_kg",
+    "debye_huckel_A_at_temperature",
+    "A_evidence_source_id",
+    "A_provider_id",
+    "A_provider_revision",
+    "A_configuration_sha256",
+    "A_record_sha256",
+    "species",
+    "charge_balance_absolute_tolerance_mol_kg",
+    "complete_ionic_inventory_reviewed",
+    "charge_balance_reviewed",
+    "ionic_strength_convention_reviewed",
+    "interaction_parameter_set_complete_and_applicable_reviewed",
+    "temperature_solvent_A_lineage_reviewed",
+    "evidence"
+  ],
+  "title": "SITActivityCoefficientInput",
+  "type": "object"
+}

@@ -1,0 +1,695 @@
+{
+  "$defs": {
+    "CreepFatigueInteractionEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "creep_damage_definition": {
+          "minLength": 1,
+          "title": "Creep Damage Definition",
+          "type": "string"
+        },
+        "fatigue_damage_definition": {
+          "minLength": 1,
+          "title": "Fatigue Damage Definition",
+          "type": "string"
+        },
+        "creep_coordinates": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Creep Coordinates",
+          "type": "array"
+        },
+        "fatigue_limits": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Fatigue Limits",
+          "type": "array"
+        },
+        "applicable_temperature_min_K": {
+          "exclusiveMinimum": 0,
+          "title": "Applicable Temperature Min K",
+          "type": "number"
+        },
+        "applicable_temperature_max_K": {
+          "exclusiveMinimum": 0,
+          "title": "Applicable Temperature Max K",
+          "type": "number"
+        },
+        "calibration_basis": {
+          "minLength": 1,
+          "title": "Calibration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "curve_and_applicability_reviewed": {
+          "title": "Curve And Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "revision",
+        "material_condition_id",
+        "creep_damage_definition",
+        "fatigue_damage_definition",
+        "creep_coordinates",
+        "fatigue_limits",
+        "applicable_temperature_min_K",
+        "applicable_temperature_max_K",
+        "calibration_basis",
+        "evidence",
+        "curve_and_applicability_reviewed"
+      ],
+      "title": "CreepFatigueInteractionEnvelope",
+      "type": "object"
+    },
+    "CreepHistoryInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_s": {
+          "minimum": 0,
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "exclusiveMinimum": 0,
+          "title": "End S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "stress_Pa": {
+          "minimum": 0,
+          "title": "Stress Pa",
+          "type": "number"
+        },
+        "reference_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Stress Pa",
+          "type": "number"
+        },
+        "strain_rate_at_reference_per_s": {
+          "minimum": 0,
+          "title": "Strain Rate At Reference Per S",
+          "type": "number"
+        },
+        "stress_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Stress Exponent",
+          "type": "number"
+        },
+        "parameter_set_id": {
+          "minLength": 1,
+          "title": "Parameter Set Id",
+          "type": "string"
+        },
+        "parameter_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameter Sha256",
+          "type": "string"
+        },
+        "stress_support_Pa": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "minimum": 0,
+              "type": "number"
+            }
+          ],
+          "title": "Stress Support Pa",
+          "type": "array"
+        },
+        "temperature_support_K": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            }
+          ],
+          "title": "Temperature Support K",
+          "type": "array"
+        },
+        "rupture_time_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rupture Time S"
+        },
+        "rupture_provider_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rupture Provider Sha256"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_s",
+        "end_s",
+        "temperature_K",
+        "stress_Pa",
+        "reference_stress_Pa",
+        "strain_rate_at_reference_per_s",
+        "stress_exponent",
+        "parameter_set_id",
+        "parameter_sha256",
+        "stress_support_Pa",
+        "temperature_support_K"
+      ],
+      "title": "CreepHistoryInterval",
+      "type": "object"
+    },
+    "CreepHistoryRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "history_id": {
+          "minLength": 1,
+          "title": "History Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "exposure_history_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exposure History Sha256"
+        },
+        "intervals": {
+          "items": {
+            "$ref": "#/$defs/CreepHistoryInterval"
+          },
+          "minItems": 1,
+          "title": "Intervals",
+          "type": "array"
+        },
+        "piecewise_constant_stress_temperature_and_parameters_reviewed": {
+          "title": "Piecewise Constant Stress Temperature And Parameters Reviewed",
+          "type": "boolean"
+        },
+        "secondary_creep_applicability_reviewed": {
+          "title": "Secondary Creep Applicability Reviewed",
+          "type": "boolean"
+        },
+        "linear_rupture_time_fraction_reviewed": {
+          "title": "Linear Rupture Time Fraction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "history_id",
+        "material_condition_id",
+        "intervals",
+        "piecewise_constant_stress_temperature_and_parameters_reviewed",
+        "secondary_creep_applicability_reviewed",
+        "linear_rupture_time_fraction_reviewed"
+      ],
+      "title": "CreepHistoryRequest",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MorrowStrainLife": {
+      "additionalProperties": false,
+      "description": "Caller-calibrated Morrow mean-stress correction in uniaxial strain-life form.",
+      "properties": {
+        "strain_amplitude": {
+          "exclusiveMinimum": 0,
+          "title": "Strain Amplitude",
+          "type": "number"
+        },
+        "mean_stress_Pa": {
+          "title": "Mean Stress Pa",
+          "type": "number"
+        },
+        "elastic_modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Modulus Pa",
+          "type": "number"
+        },
+        "fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "fatigue_strength_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Strength Exponent",
+          "type": "number"
+        },
+        "fatigue_ductility_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Ductility Coefficient",
+          "type": "number"
+        },
+        "fatigue_ductility_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Ductility Exponent",
+          "type": "number"
+        },
+        "minimum_valid_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Valid Cycles",
+          "type": "number"
+        },
+        "maximum_valid_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Valid Cycles",
+          "type": "number"
+        },
+        "mean_stress_sign_convention": {
+          "const": "tension_positive",
+          "title": "Mean Stress Sign Convention",
+          "type": "string"
+        },
+        "coefficients_and_mean_stress_basis_reviewed": {
+          "title": "Coefficients And Mean Stress Basis Reviewed",
+          "type": "boolean"
+        },
+        "material_applicability_reviewed": {
+          "title": "Material Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "strain_amplitude",
+        "mean_stress_Pa",
+        "elastic_modulus_Pa",
+        "fatigue_strength_coefficient_Pa",
+        "fatigue_strength_exponent",
+        "fatigue_ductility_coefficient",
+        "fatigue_ductility_exponent",
+        "minimum_valid_cycles",
+        "maximum_valid_cycles",
+        "mean_stress_sign_convention",
+        "coefficients_and_mean_stress_basis_reviewed",
+        "material_applicability_reviewed"
+      ],
+      "title": "MorrowStrainLife",
+      "type": "object"
+    },
+    "SWTStrainLife": {
+      "additionalProperties": false,
+      "description": "Caller-calibrated uniaxial Smith-Watson-Topper strain-life relation.",
+      "properties": {
+        "strain_amplitude": {
+          "exclusiveMinimum": 0,
+          "title": "Strain Amplitude",
+          "type": "number"
+        },
+        "maximum_stress_Pa": {
+          "title": "Maximum Stress Pa",
+          "type": "number"
+        },
+        "elastic_modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Modulus Pa",
+          "type": "number"
+        },
+        "fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "fatigue_strength_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Strength Exponent",
+          "type": "number"
+        },
+        "fatigue_ductility_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Ductility Coefficient",
+          "type": "number"
+        },
+        "fatigue_ductility_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Ductility Exponent",
+          "type": "number"
+        },
+        "minimum_valid_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Valid Cycles",
+          "type": "number"
+        },
+        "maximum_valid_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Valid Cycles",
+          "type": "number"
+        },
+        "stress_and_strain_measurement_basis_reviewed": {
+          "title": "Stress And Strain Measurement Basis Reviewed",
+          "type": "boolean"
+        },
+        "material_applicability_reviewed": {
+          "title": "Material Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "strain_amplitude",
+        "maximum_stress_Pa",
+        "elastic_modulus_Pa",
+        "fatigue_strength_coefficient_Pa",
+        "fatigue_strength_exponent",
+        "fatigue_ductility_coefficient",
+        "fatigue_ductility_exponent",
+        "minimum_valid_cycles",
+        "maximum_valid_cycles",
+        "stress_and_strain_measurement_basis_reviewed",
+        "material_applicability_reviewed"
+      ],
+      "title": "SWTStrainLife",
+      "type": "object"
+    },
+    "StrainLife": {
+      "additionalProperties": false,
+      "properties": {
+        "strain_amplitude": {
+          "exclusiveMinimum": 0,
+          "title": "Strain Amplitude",
+          "type": "number"
+        },
+        "elastic_modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Modulus Pa",
+          "type": "number"
+        },
+        "fatigue_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Strength Coefficient Pa",
+          "type": "number"
+        },
+        "fatigue_strength_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Strength Exponent",
+          "type": "number"
+        },
+        "fatigue_ductility_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Fatigue Ductility Coefficient",
+          "type": "number"
+        },
+        "fatigue_ductility_exponent": {
+          "exclusiveMaximum": 0,
+          "title": "Fatigue Ductility Exponent",
+          "type": "number"
+        },
+        "minimum_valid_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Valid Cycles",
+          "type": "number"
+        },
+        "maximum_valid_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Valid Cycles",
+          "type": "number"
+        }
+      },
+      "required": [
+        "strain_amplitude",
+        "elastic_modulus_Pa",
+        "fatigue_strength_coefficient_Pa",
+        "fatigue_strength_exponent",
+        "fatigue_ductility_coefficient",
+        "fatigue_ductility_exponent",
+        "minimum_valid_cycles",
+        "maximum_valid_cycles"
+      ],
+      "title": "StrainLife",
+      "type": "object"
+    },
+    "StrainLifeBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "cycle_count": {
+          "minimum": 0,
+          "title": "Cycle Count",
+          "type": "number"
+        },
+        "model": {
+          "enum": [
+            "fully_reversed",
+            "morrow",
+            "swt"
+          ],
+          "title": "Model",
+          "type": "string"
+        },
+        "inputs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StrainLife"
+            },
+            {
+              "$ref": "#/$defs/MorrowStrainLife"
+            },
+            {
+              "$ref": "#/$defs/SWTStrainLife"
+            }
+          ],
+          "title": "Inputs"
+        }
+      },
+      "required": [
+        "block_id",
+        "cycle_count",
+        "model",
+        "inputs"
+      ],
+      "title": "StrainLifeBlock",
+      "type": "object"
+    },
+    "StrainLifeCampaign": {
+      "additionalProperties": false,
+      "properties": {
+        "campaign_id": {
+          "minLength": 1,
+          "title": "Campaign Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Sha256",
+          "type": "string"
+        },
+        "blocks": {
+          "items": {
+            "$ref": "#/$defs/StrainLifeBlock"
+          },
+          "minItems": 1,
+          "title": "Blocks",
+          "type": "array"
+        },
+        "linear_accumulation_reviewed": {
+          "title": "Linear Accumulation Reviewed",
+          "type": "boolean"
+        },
+        "material_coefficients_and_cycle_basis_reviewed": {
+          "title": "Material Coefficients And Cycle Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "campaign_id",
+        "material_condition_id",
+        "history_sha256",
+        "blocks",
+        "linear_accumulation_reviewed",
+        "material_coefficients_and_cycle_basis_reviewed"
+      ],
+      "title": "StrainLifeCampaign",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "creep_history": {
+      "$ref": "#/$defs/CreepHistoryRequest"
+    },
+    "fatigue_history": {
+      "$ref": "#/$defs/StrainLifeCampaign"
+    },
+    "envelope": {
+      "$ref": "#/$defs/CreepFatigueInteractionEnvelope"
+    },
+    "interaction_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Interaction Temperature K",
+      "type": "number"
+    },
+    "creep_fraction_definition": {
+      "minLength": 1,
+      "title": "Creep Fraction Definition",
+      "type": "string"
+    },
+    "fatigue_fraction_definition": {
+      "minLength": 1,
+      "title": "Fatigue Fraction Definition",
+      "type": "string"
+    },
+    "common_exposure_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Common Exposure History Sha256",
+      "type": "string"
+    },
+    "histories_and_interaction_basis_reviewed": {
+      "title": "Histories And Interaction Basis Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "creep_history",
+    "fatigue_history",
+    "envelope",
+    "interaction_temperature_K",
+    "creep_fraction_definition",
+    "fatigue_fraction_definition",
+    "common_exposure_history_sha256",
+    "histories_and_interaction_basis_reviewed"
+  ],
+  "title": "CreepFatigueCampaign",
+  "type": "object"
+}

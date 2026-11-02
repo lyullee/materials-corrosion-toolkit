@@ -1,0 +1,774 @@
+{
+  "$defs": {
+    "CrossSectionFrameCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "x_scale_m_per_px": {
+          "exclusiveMinimum": 0,
+          "title": "X Scale M Per Px",
+          "type": "number"
+        },
+        "y_scale_m_per_px": {
+          "exclusiveMinimum": 0,
+          "title": "Y Scale M Per Px",
+          "type": "number"
+        },
+        "x_scale_expanded_uncertainty_m_per_px": {
+          "minimum": 0,
+          "title": "X Scale Expanded Uncertainty M Per Px",
+          "type": "number"
+        },
+        "y_scale_expanded_uncertainty_m_per_px": {
+          "minimum": 0,
+          "title": "Y Scale Expanded Uncertainty M Per Px",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "coordinate_frame_id",
+        "x_scale_m_per_px",
+        "y_scale_m_per_px",
+        "x_scale_expanded_uncertainty_m_per_px",
+        "y_scale_expanded_uncertainty_m_per_px",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CrossSectionFrameCalibration",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SegmentedPoreGeometry": {
+      "additionalProperties": false,
+      "properties": {
+        "pore_id": {
+          "minLength": 1,
+          "title": "Pore Id",
+          "type": "string"
+        },
+        "area_value": {
+          "exclusiveMinimum": 0,
+          "title": "Area Value",
+          "type": "number"
+        },
+        "area_unit_token": {
+          "enum": [
+            "px^2",
+            "m^2"
+          ],
+          "title": "Area Unit Token",
+          "type": "string"
+        },
+        "coordinate_unit_token": {
+          "enum": [
+            "px",
+            "m"
+          ],
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "minimum_x": {
+          "minimum": 0,
+          "title": "Minimum X",
+          "type": "number"
+        },
+        "maximum_x": {
+          "minimum": 0,
+          "title": "Maximum X",
+          "type": "number"
+        },
+        "minimum_y": {
+          "minimum": 0,
+          "title": "Minimum Y",
+          "type": "number"
+        },
+        "maximum_y": {
+          "minimum": 0,
+          "title": "Maximum Y",
+          "type": "number"
+        },
+        "touches_field_edge": {
+          "title": "Touches Field Edge",
+          "type": "boolean"
+        },
+        "overlaps_pore_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Overlaps Pore Ids",
+          "type": "array"
+        },
+        "segmentation_method_id": {
+          "minLength": 1,
+          "title": "Segmentation Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pore_id",
+        "area_value",
+        "area_unit_token",
+        "coordinate_unit_token",
+        "minimum_x",
+        "maximum_x",
+        "minimum_y",
+        "maximum_y",
+        "touches_field_edge",
+        "segmentation_method_id",
+        "provider_id",
+        "provider_revision",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "SegmentedPoreGeometry",
+      "type": "object"
+    },
+    "ThermalSprayCrossSectionField": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "spray_batch_id": {
+          "minLength": 1,
+          "title": "Spray Batch Id",
+          "type": "string"
+        },
+        "process_condition_id": {
+          "minLength": 1,
+          "title": "Process Condition Id",
+          "type": "string"
+        },
+        "field_basis": {
+          "enum": [
+            "calibrated_image",
+            "si_measurement"
+          ],
+          "title": "Field Basis",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "frame_calibration_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Frame Calibration Id"
+        },
+        "width_px": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Px"
+        },
+        "height_px": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Height Px"
+        },
+        "width_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width M"
+        },
+        "height_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Height M"
+        },
+        "declared_field_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Declared Field Area M2",
+          "type": "number"
+        },
+        "thickness_traverses": {
+          "items": {
+            "$ref": "#/$defs/ThicknessTraverse"
+          },
+          "minItems": 1,
+          "title": "Thickness Traverses",
+          "type": "array"
+        },
+        "pores": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SegmentedPoreGeometry"
+          },
+          "title": "Pores",
+          "type": "array"
+        },
+        "field_method_id": {
+          "minLength": 1,
+          "title": "Field Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "physical_location_id",
+        "layer_id",
+        "substrate_condition_id",
+        "spray_batch_id",
+        "process_condition_id",
+        "field_basis",
+        "coordinate_frame_id",
+        "declared_field_area_m2",
+        "thickness_traverses",
+        "field_method_id",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "data_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ThermalSprayCrossSectionField",
+      "type": "object"
+    },
+    "ThicknessPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "x_coordinate": {
+          "minimum": 0,
+          "title": "X Coordinate",
+          "type": "number"
+        },
+        "y_coordinate": {
+          "minimum": 0,
+          "title": "Y Coordinate",
+          "type": "number"
+        },
+        "coordinate_unit_token": {
+          "enum": [
+            "px",
+            "m"
+          ],
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "expanded_uncertainty_m": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "point_id",
+        "x_coordinate",
+        "y_coordinate",
+        "coordinate_unit_token",
+        "thickness_m",
+        "expanded_uncertainty_m"
+      ],
+      "title": "ThicknessPoint",
+      "type": "object"
+    },
+    "ThicknessTraverse": {
+      "additionalProperties": false,
+      "properties": {
+        "traverse_id": {
+          "minLength": 1,
+          "title": "Traverse Id",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/ThicknessPoint"
+          },
+          "minItems": 2,
+          "title": "Points",
+          "type": "array"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "traverse_id",
+        "points",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ThicknessTraverse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "summary_id": {
+      "minLength": 1,
+      "title": "Summary Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "layer_id": {
+      "minLength": 1,
+      "title": "Layer Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "spray_batch_id": {
+      "minLength": 1,
+      "title": "Spray Batch Id",
+      "type": "string"
+    },
+    "process_condition_id": {
+      "minLength": 1,
+      "title": "Process Condition Id",
+      "type": "string"
+    },
+    "frame_calibrations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CrossSectionFrameCalibration"
+      },
+      "title": "Frame Calibrations",
+      "type": "array"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/ThermalSprayCrossSectionField"
+      },
+      "minItems": 3,
+      "title": "Fields",
+      "type": "array"
+    },
+    "field_area_relative_tolerance": {
+      "minimum": 0,
+      "title": "Field Area Relative Tolerance",
+      "type": "number"
+    },
+    "specimen_location_layer_and_substrate_reviewed": {
+      "title": "Specimen Location Layer And Substrate Reviewed",
+      "type": "boolean"
+    },
+    "spray_batch_and_process_condition_reviewed": {
+      "title": "Spray Batch And Process Condition Reviewed",
+      "type": "boolean"
+    },
+    "frame_calibration_and_field_area_reviewed": {
+      "title": "Frame Calibration And Field Area Reviewed",
+      "type": "boolean"
+    },
+    "thickness_traverses_units_uncertainty_and_bounds_reviewed": {
+      "title": "Thickness Traverses Units Uncertainty And Bounds Reviewed",
+      "type": "boolean"
+    },
+    "caller_segmentation_pore_area_edge_and_overlap_reviewed": {
+      "title": "Caller Segmentation Pore Area Edge And Overlap Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "method_provider_revision_and_digests_reviewed": {
+      "title": "Method Provider Revision And Digests Reviewed",
+      "type": "boolean"
+    },
+    "missing_invalid_and_support_policy_reviewed": {
+      "title": "Missing Invalid And Support Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "summary_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "coating_system_id",
+    "layer_id",
+    "substrate_condition_id",
+    "spray_batch_id",
+    "process_condition_id",
+    "fields",
+    "field_area_relative_tolerance",
+    "specimen_location_layer_and_substrate_reviewed",
+    "spray_batch_and_process_condition_reviewed",
+    "frame_calibration_and_field_area_reviewed",
+    "thickness_traverses_units_uncertainty_and_bounds_reviewed",
+    "caller_segmentation_pore_area_edge_and_overlap_reviewed",
+    "specimen_source_and_independence_partitions_reviewed",
+    "method_provider_revision_and_digests_reviewed",
+    "missing_invalid_and_support_policy_reviewed",
+    "evidence"
+  ],
+  "title": "ThermalSprayCrossSectionSummary",
+  "type": "object"
+}

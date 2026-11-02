@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "heat_flow_dimension": {
+      "enum": [
+        2,
+        3
+      ],
+      "title": "Heat Flow Dimension",
+      "type": "integer"
+    },
+    "preheat_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Preheat Temperature K",
+      "type": "number"
+    },
+    "lower_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Lower Temperature K",
+      "type": "number"
+    },
+    "upper_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Upper Temperature K",
+      "type": "number"
+    },
+    "net_heat_input_J_m": {
+      "exclusiveMinimum": 0,
+      "title": "Net Heat Input J M",
+      "type": "number"
+    },
+    "plate_thickness_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plate Thickness M"
+    },
+    "shape_factor": {
+      "exclusiveMinimum": 0,
+      "title": "Shape Factor",
+      "type": "number"
+    },
+    "coefficient_reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Coefficient Reference Temperature K",
+      "type": "number"
+    },
+    "coefficient_at_reference": {
+      "exclusiveMinimum": 0,
+      "title": "Coefficient At Reference",
+      "type": "number"
+    },
+    "coefficient_temperature_slope_per_K": {
+      "title": "Coefficient Temperature Slope Per K",
+      "type": "number"
+    },
+    "coefficient_unit": {
+      "enum": [
+        "s*m*K/J",
+        "s*m^4*K^2/J^2"
+      ],
+      "title": "Coefficient Unit",
+      "type": "string"
+    },
+    "minimum_valid_preheat_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Valid Preheat K",
+      "type": "number"
+    },
+    "maximum_valid_preheat_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Valid Preheat K",
+      "type": "number"
+    }
+  },
+  "required": [
+    "basis",
+    "heat_flow_dimension",
+    "preheat_temperature_K",
+    "lower_temperature_K",
+    "upper_temperature_K",
+    "net_heat_input_J_m",
+    "shape_factor",
+    "coefficient_reference_temperature_K",
+    "coefficient_at_reference",
+    "coefficient_temperature_slope_per_K",
+    "coefficient_unit",
+    "minimum_valid_preheat_K",
+    "maximum_valid_preheat_K"
+  ],
+  "title": "WeldCoolingCorrelation",
+  "type": "object"
+}

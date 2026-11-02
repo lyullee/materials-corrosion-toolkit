@@ -1,0 +1,442 @@
+{
+  "$defs": {
+    "AtmosphericFirstYearModel": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.atmospheric_first_year_model.v1",
+          "default": "matintegrity.atmospheric_first_year_model.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "minLength": 1,
+          "title": "Model Id",
+          "type": "string"
+        },
+        "fit_id": {
+          "minLength": 1,
+          "title": "Fit Id",
+          "type": "string"
+        },
+        "feature_definition": {
+          "const": "intercept,T_K_minus_288.15_over_10,RH_minus_0.75_over_0.1,log1p_Cl_mg_m2_day,log1p_SO2_mg_m2_day",
+          "default": "intercept,T_K_minus_288.15_over_10,RH_minus_0.75_over_0.1,log1p_Cl_mg_m2_day,log1p_SO2_mg_m2_day",
+          "title": "Feature Definition",
+          "type": "string"
+        },
+        "coefficient_log_m": {
+          "title": "Coefficient Log M",
+          "type": "number"
+        },
+        "coefficient_temperature_per_10_K": {
+          "title": "Coefficient Temperature Per 10 K",
+          "type": "number"
+        },
+        "coefficient_relative_humidity_per_0_1": {
+          "title": "Coefficient Relative Humidity Per 0 1",
+          "type": "number"
+        },
+        "coefficient_log1p_chloride": {
+          "title": "Coefficient Log1P Chloride",
+          "type": "number"
+        },
+        "coefficient_log1p_sulfur_dioxide": {
+          "title": "Coefficient Log1P Sulfur Dioxide",
+          "type": "number"
+        },
+        "coefficient_covariance": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Coefficient Covariance",
+          "type": "array"
+        },
+        "residual_standard_deviation_log_m": {
+          "minimum": 0,
+          "title": "Residual Standard Deviation Log M",
+          "type": "number"
+        },
+        "calibration_support_temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Calibration Support Temperature K",
+          "type": "array"
+        },
+        "calibration_support_relative_humidity_fraction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Calibration Support Relative Humidity Fraction",
+          "type": "array"
+        },
+        "calibration_support_chloride_mg_m2_day": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Calibration Support Chloride Mg M2 Day",
+          "type": "array"
+        },
+        "calibration_support_sulfur_dioxide_mg_m2_day": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Calibration Support Sulfur Dioxide Mg M2 Day",
+          "type": "array"
+        },
+        "calibration_observation_count": {
+          "minimum": 6,
+          "title": "Calibration Observation Count",
+          "type": "integer"
+        },
+        "calibration_source_group_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Calibration Source Group Ids",
+          "type": "array"
+        },
+        "calibration_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Input Digest",
+          "type": "string"
+        },
+        "holdout_input_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Holdout Input Digest"
+        },
+        "holdout_observation_count": {
+          "minimum": 1,
+          "title": "Holdout Observation Count",
+          "type": "integer"
+        },
+        "holdout_log_rmse": {
+          "minimum": 0,
+          "title": "Holdout Log Rmse",
+          "type": "number"
+        },
+        "holdout_absolute_log_bias": {
+          "minimum": 0,
+          "title": "Holdout Absolute Log Bias",
+          "type": "number"
+        },
+        "holdout_outside_support_fraction": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Holdout Outside Support Fraction",
+          "type": "number"
+        },
+        "holdout_source_group_metrics": {
+          "items": {
+            "$ref": "#/$defs/AtmosphericSourceGroupMetric"
+          },
+          "title": "Holdout Source Group Metrics",
+          "type": "array"
+        },
+        "maximum_holdout_source_group_log_rmse": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Holdout Source Group Log Rmse"
+        },
+        "maximum_holdout_source_group_absolute_log_bias": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Holdout Source Group Absolute Log Bias"
+        },
+        "source_group_transfer_criteria_met": {
+          "default": false,
+          "title": "Source Group Transfer Criteria Met",
+          "type": "boolean"
+        },
+        "maximum_holdout_log_rmse": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Holdout Log Rmse",
+          "type": "number"
+        },
+        "maximum_absolute_holdout_log_bias": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Absolute Holdout Log Bias",
+          "type": "number"
+        },
+        "maximum_holdout_outside_support_fraction": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Maximum Holdout Outside Support Fraction",
+          "type": "number"
+        },
+        "transfer_criteria_met": {
+          "title": "Transfer Criteria Met",
+          "type": "boolean"
+        },
+        "parameter_uncertainty_scope": {
+          "const": "conditional_ols_given_fixed_covariates_and_model_form",
+          "default": "conditional_ols_given_fixed_covariates_and_model_form",
+          "title": "Parameter Uncertainty Scope",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model_id",
+        "fit_id",
+        "coefficient_log_m",
+        "coefficient_temperature_per_10_K",
+        "coefficient_relative_humidity_per_0_1",
+        "coefficient_log1p_chloride",
+        "coefficient_log1p_sulfur_dioxide",
+        "coefficient_covariance",
+        "residual_standard_deviation_log_m",
+        "calibration_support_temperature_K",
+        "calibration_support_relative_humidity_fraction",
+        "calibration_support_chloride_mg_m2_day",
+        "calibration_support_sulfur_dioxide_mg_m2_day",
+        "calibration_observation_count",
+        "calibration_source_group_ids",
+        "calibration_input_digest",
+        "holdout_observation_count",
+        "holdout_log_rmse",
+        "holdout_absolute_log_bias",
+        "holdout_outside_support_fraction",
+        "maximum_holdout_log_rmse",
+        "maximum_absolute_holdout_log_bias",
+        "maximum_holdout_outside_support_fraction",
+        "transfer_criteria_met"
+      ],
+      "title": "AtmosphericFirstYearModel",
+      "type": "object"
+    },
+    "AtmosphericFirstYearPrediction": {
+      "additionalProperties": false,
+      "properties": {
+        "prediction_id": {
+          "minLength": 1,
+          "title": "Prediction Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "exposure_environment_id": {
+          "minLength": 1,
+          "title": "Exposure Environment Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "exposure_start_s": {
+          "minimum": 0,
+          "title": "Exposure Start S",
+          "type": "number"
+        },
+        "exposure_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Exposure Duration S",
+          "type": "number"
+        },
+        "model": {
+          "$ref": "#/$defs/AtmosphericFirstYearModel"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "relative_humidity_fraction": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Relative Humidity Fraction",
+          "type": "number"
+        },
+        "chloride_deposition_mg_m2_day": {
+          "minimum": 0,
+          "title": "Chloride Deposition Mg M2 Day",
+          "type": "number"
+        },
+        "sulfur_dioxide_deposition_mg_m2_day": {
+          "minimum": 0,
+          "title": "Sulfur Dioxide Deposition Mg M2 Day",
+          "type": "number"
+        },
+        "confidence_level": {
+          "default": 0.95,
+          "exclusiveMaximum": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Confidence Level",
+          "type": "number"
+        },
+        "first_year_atmospheric_carbon_steel_scope_reviewed": {
+          "title": "First Year Atmospheric Carbon Steel Scope Reviewed",
+          "type": "boolean"
+        },
+        "covariates_reviewed": {
+          "title": "Covariates Reviewed",
+          "type": "boolean"
+        },
+        "model_applicability_reviewed": {
+          "title": "Model Applicability Reviewed",
+          "type": "boolean"
+        },
+        "extrapolation_reviewed": {
+          "default": false,
+          "title": "Extrapolation Reviewed",
+          "type": "boolean"
+        },
+        "limited_transfer_override_reviewed": {
+          "default": false,
+          "title": "Limited Transfer Override Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "prediction_id",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "material_condition_id",
+        "exposure_environment_id",
+        "time_basis",
+        "exposure_start_s",
+        "exposure_duration_s",
+        "model",
+        "temperature_K",
+        "relative_humidity_fraction",
+        "chloride_deposition_mg_m2_day",
+        "sulfur_dioxide_deposition_mg_m2_day",
+        "first_year_atmospheric_carbon_steel_scope_reviewed",
+        "covariates_reviewed",
+        "model_applicability_reviewed"
+      ],
+      "title": "AtmosphericFirstYearPrediction",
+      "type": "object"
+    },
+    "AtmosphericSourceGroupMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "observation_count": {
+          "minimum": 1,
+          "title": "Observation Count",
+          "type": "integer"
+        },
+        "log_rmse": {
+          "minimum": 0,
+          "title": "Log Rmse",
+          "type": "number"
+        },
+        "absolute_log_bias": {
+          "minimum": 0,
+          "title": "Absolute Log Bias",
+          "type": "number"
+        },
+        "outside_support_count": {
+          "minimum": 0,
+          "title": "Outside Support Count",
+          "type": "integer"
+        },
+        "outside_support_fraction": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Outside Support Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "source_group_id",
+        "observation_count",
+        "log_rmse",
+        "absolute_log_bias",
+        "outside_support_count",
+        "outside_support_fraction"
+      ],
+      "title": "AtmosphericSourceGroupMetric",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "weight": {
+      "exclusiveMinimum": 0,
+      "title": "Weight",
+      "type": "number"
+    },
+    "prediction_input": {
+      "$ref": "#/$defs/AtmosphericFirstYearPrediction"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "weight",
+    "prediction_input"
+  ],
+  "title": "AtmosphericScenario",
+  "type": "object"
+}

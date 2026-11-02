@@ -1,0 +1,192 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "method_kind": {
+      "enum": [
+        "measured",
+        "modelled"
+      ],
+      "title": "Method Kind",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_version": {
+      "minLength": 1,
+      "title": "Provider Version",
+      "type": "string"
+    },
+    "provider_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider State Digest",
+      "type": "string"
+    },
+    "record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Digest",
+      "type": "string"
+    },
+    "partition": {
+      "enum": [
+        "calibration",
+        "holdout",
+        "application"
+      ],
+      "title": "Partition",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "component_definition": {
+      "minLength": 1,
+      "title": "Component Definition",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "coordinate_frame_definition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Coordinate Frame Definition Sha256",
+      "type": "string"
+    },
+    "coordinate_names": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Coordinate Names",
+      "type": "array"
+    },
+    "coordinates_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Coordinates M",
+      "type": "array"
+    },
+    "stress_Pa": {
+      "title": "Stress Pa",
+      "type": "number"
+    },
+    "expanded_uncertainty_Pa": {
+      "minimum": 0,
+      "title": "Expanded Uncertainty Pa",
+      "type": "number"
+    },
+    "coverage_factor": {
+      "exclusiveMinimum": 0,
+      "title": "Coverage Factor",
+      "type": "number"
+    },
+    "uncertainty_basis": {
+      "minLength": 1,
+      "title": "Uncertainty Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_id",
+    "method_kind",
+    "provider_id",
+    "provider_version",
+    "provider_state_digest",
+    "record_digest",
+    "partition",
+    "source_group_id",
+    "component_definition",
+    "coordinate_frame_id",
+    "coordinate_frame_definition_sha256",
+    "coordinate_names",
+    "coordinates_m",
+    "stress_Pa",
+    "expanded_uncertainty_Pa",
+    "coverage_factor",
+    "uncertainty_basis",
+    "evidence"
+  ],
+  "title": "ResidualStressEvidenceRecord",
+  "type": "object"
+}

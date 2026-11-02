@@ -1,0 +1,5 @@
+# Downstream extension request: cellwise nucleation ledgers into transport
+
+The registered `integration.crevice_cellwise_nucleation_kinetic_history` adapter evaluates fixed-volume, independent cell kinetic ledgers and returns amount histories. It does not move material between cells. A downstream transport integration may operator-split a transport step and the cellwise kinetic stage only if it preserves exact clock/species identity, per-cell saturation Evidence, component/element/charge accounting, and atomic failure semantics.
+
+To build a genuinely coupled extension, add an explicit merged event clock for every cell/phase seed threshold, interpolate every mouth/tip boundary and flow/property history at inserted knots, and transfer the committed local aqueous/solid states into the next transport subinterval. Include a combined work budget and per-event ledger digests. Do not advertise moving geometry or within-stage chemistry feedback until the geometry, volume dilution, face flux and conservation updates are solved together and validated independently.

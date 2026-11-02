@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "field_id": {
+      "minLength": 1,
+      "title": "Field Id",
+      "type": "string"
+    },
+    "caller_meaning": {
+      "minLength": 1,
+      "title": "Caller Meaning",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "role": {
+      "enum": [
+        "record_id",
+        "condition",
+        "measurement",
+        "derived_formula",
+        "metadata",
+        "unclassified"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "column_number": {
+      "minimum": 1,
+      "title": "Column Number",
+      "type": "integer"
+    },
+    "cell_address": {
+      "maxLength": 16,
+      "minLength": 2,
+      "title": "Cell Address",
+      "type": "string"
+    },
+    "cell_type": {
+      "maxLength": 8,
+      "minLength": 1,
+      "title": "Cell Type",
+      "type": "string"
+    },
+    "raw_value": {
+      "title": "Raw Value"
+    },
+    "source_header_value": {
+      "title": "Source Header Value"
+    },
+    "mapping_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Mapping Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "field_id",
+    "caller_meaning",
+    "unit_token",
+    "role",
+    "column_number",
+    "cell_address",
+    "cell_type",
+    "raw_value",
+    "source_header_value",
+    "mapping_evidence"
+  ],
+  "title": "ExplosiveWeldFatigueObservationField",
+  "type": "object"
+}

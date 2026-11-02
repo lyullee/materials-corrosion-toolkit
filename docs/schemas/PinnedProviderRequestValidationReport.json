@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "PinnedSchemaValidationIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "instance_path": {
+          "title": "Instance Path",
+          "type": "string"
+        },
+        "schema_path": {
+          "title": "Schema Path",
+          "type": "string"
+        },
+        "keyword": {
+          "minLength": 1,
+          "title": "Keyword",
+          "type": "string"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "instance_path",
+        "schema_path",
+        "keyword",
+        "message"
+      ],
+      "title": "PinnedSchemaValidationIssue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pinned_provider_request_validation.v1",
+      "default": "matintegrity.pinned_provider_request_validation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "repository_commit": {
+      "const": "4106da0020196fcf61c8b6264ae0598e63a881a1",
+      "default": "4106da0020196fcf61c8b6264ae0598e63a881a1",
+      "title": "Repository Commit",
+      "type": "string"
+    },
+    "provider_request_schema_path": {
+      "const": "contracts/ccps.provider_request.v1.schema.json",
+      "default": "contracts/ccps.provider_request.v1.schema.json",
+      "title": "Provider Request Schema Path",
+      "type": "string"
+    },
+    "expected_schema_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Schema Sha256",
+      "type": "string"
+    },
+    "observed_schema_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observed Schema Sha256",
+      "type": "string"
+    },
+    "envelope_schema_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Envelope Schema Sha256",
+      "type": "string"
+    },
+    "handoff_payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Handoff Payload Digest",
+      "type": "string"
+    },
+    "request_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Digest",
+      "type": "string"
+    },
+    "observed_request_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observed Request Digest",
+      "type": "string"
+    },
+    "schema_draft": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Schema Draft"
+    },
+    "validator_engine": {
+      "const": "matintegrity_json_schema_subset_v1",
+      "default": "matintegrity_json_schema_subset_v1",
+      "title": "Validator Engine",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "valid",
+        "invalid"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "schema_digest_valid": {
+      "title": "Schema Digest Valid",
+      "type": "boolean"
+    },
+    "request_digest_valid": {
+      "title": "Request Digest Valid",
+      "type": "boolean"
+    },
+    "issue_count": {
+      "minimum": 0,
+      "title": "Issue Count",
+      "type": "integer"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/PinnedSchemaValidationIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "raw_schema_stored_or_distributed": {
+      "const": false,
+      "default": false,
+      "title": "Raw Schema Stored Or Distributed",
+      "type": "boolean"
+    },
+    "remote_execution_performed": {
+      "const": false,
+      "default": false,
+      "title": "Remote Execution Performed",
+      "type": "boolean"
+    },
+    "validation_report_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Validation Report Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "expected_schema_sha256",
+    "observed_schema_sha256",
+    "envelope_schema_sha256",
+    "handoff_payload_digest",
+    "request_digest",
+    "observed_request_digest",
+    "status",
+    "schema_digest_valid",
+    "request_digest_valid",
+    "issue_count",
+    "issues",
+    "validation_report_digest"
+  ],
+  "title": "PinnedProviderRequestValidationReport",
+  "type": "object"
+}

@@ -1,0 +1,547 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SCCMechanismProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "mechanism": {
+          "enum": [
+            "chloride_scc",
+            "ammonia_scc",
+            "alkaline_scc"
+          ],
+          "title": "Mechanism",
+          "type": "string"
+        },
+        "mechanism_definition": {
+          "minLength": 1,
+          "title": "Mechanism Definition",
+          "type": "string"
+        },
+        "unknown_policy": {
+          "enum": [
+            "indeterminate",
+            "screen_in"
+          ],
+          "title": "Unknown Policy",
+          "type": "string"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/SCCScreeningRule"
+          },
+          "minItems": 1,
+          "title": "Rules",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "screening_only": {
+          "const": true,
+          "default": true,
+          "title": "Screening Only",
+          "type": "boolean"
+        },
+        "qualification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Qualification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "mechanism",
+        "mechanism_definition",
+        "unknown_policy",
+        "rules",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "SCCMechanismProfile",
+      "type": "object"
+    },
+    "SCCRuleCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "expected_fact_kind": {
+          "enum": [
+            "number",
+            "descriptor",
+            "boolean"
+          ],
+          "title": "Expected Fact Kind",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "greater_than",
+            "greater_than_or_equal",
+            "less_than",
+            "less_than_or_equal",
+            "between_inclusive",
+            "equals",
+            "in_set",
+            "is_true",
+            "is_false"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Threshold"
+        },
+        "lower_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower Bound"
+        },
+        "upper_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Bound"
+        },
+        "expected_descriptors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Descriptors",
+          "type": "array"
+        },
+        "condition_basis": {
+          "minLength": 1,
+          "title": "Condition Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "condition_id",
+        "fact_id",
+        "expected_fact_kind",
+        "operator",
+        "condition_basis"
+      ],
+      "title": "SCCRuleCondition",
+      "type": "object"
+    },
+    "SCCScreeningFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "domain": {
+          "enum": [
+            "environment",
+            "material",
+            "stress"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "definition": {
+          "minLength": 1,
+          "title": "Definition",
+          "type": "string"
+        },
+        "value_kind": {
+          "enum": [
+            "number",
+            "descriptor",
+            "boolean"
+          ],
+          "title": "Value Kind",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "known",
+            "unknown",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numeric Value"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "descriptor_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Descriptor Value"
+        },
+        "boolean_value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Boolean Value"
+        },
+        "unknown_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unknown Or Invalid Basis"
+        },
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "domain",
+        "definition",
+        "value_kind",
+        "status",
+        "evidence_record_id",
+        "source_group_id",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "SCCScreeningFact",
+      "type": "object"
+    },
+    "SCCScreeningRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_definition": {
+          "minLength": 1,
+          "title": "Rule Definition",
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/SCCRuleCondition"
+          },
+          "minItems": 1,
+          "title": "Conditions",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "rule_definition",
+        "conditions",
+        "evidence"
+      ],
+      "title": "SCCScreeningRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "mechanism": {
+      "enum": [
+        "chloride_scc",
+        "ammonia_scc",
+        "alkaline_scc"
+      ],
+      "title": "Mechanism",
+      "type": "string"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/SCCScreeningFact"
+      },
+      "minItems": 3,
+      "title": "Facts",
+      "type": "array"
+    },
+    "mechanism_profile": {
+      "$ref": "#/$defs/SCCMechanismProfile"
+    },
+    "environment_evidence_reviewed": {
+      "title": "Environment Evidence Reviewed",
+      "type": "boolean"
+    },
+    "material_evidence_reviewed": {
+      "title": "Material Evidence Reviewed",
+      "type": "boolean"
+    },
+    "stress_evidence_reviewed": {
+      "title": "Stress Evidence Reviewed",
+      "type": "boolean"
+    },
+    "fact_definitions_units_and_digests_reviewed": {
+      "title": "Fact Definitions Units And Digests Reviewed",
+      "type": "boolean"
+    },
+    "mechanism_profile_rules_and_unknown_policy_reviewed": {
+      "title": "Mechanism Profile Rules And Unknown Policy Reviewed",
+      "type": "boolean"
+    },
+    "screening_and_qualification_boundary_reviewed": {
+      "title": "Screening And Qualification Boundary Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "mechanism",
+    "facts",
+    "mechanism_profile",
+    "environment_evidence_reviewed",
+    "material_evidence_reviewed",
+    "stress_evidence_reviewed",
+    "fact_definitions_units_and_digests_reviewed",
+    "mechanism_profile_rules_and_unknown_policy_reviewed",
+    "screening_and_qualification_boundary_reviewed",
+    "evidence"
+  ],
+  "title": "UserDefinedSCCScreening",
+  "type": "object"
+}

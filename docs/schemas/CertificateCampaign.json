@@ -1,0 +1,708 @@
+{
+  "$defs": {
+    "CertificateCoverageRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "document_id": {
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "traceability_id": {
+          "minLength": 1,
+          "title": "Traceability Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "chemistry",
+            "mechanical",
+            "heat_treatment",
+            "nde",
+            "traceability"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "review",
+            "missing"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "caller_criterion_id": {
+          "minLength": 1,
+          "title": "Caller Criterion Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "document_id",
+        "heat_id",
+        "product_id",
+        "traceability_id",
+        "category",
+        "status",
+        "caller_criterion_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "CertificateCoverageRecord",
+      "type": "object"
+    },
+    "CertificateMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "quantity_kind": {
+          "enum": [
+            "chemistry_mass_fraction",
+            "property_si"
+          ],
+          "title": "Quantity Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "unit_basis": {
+          "enum": [
+            "mass_fraction",
+            "SI"
+          ],
+          "title": "Unit Basis",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "reported_value": {
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "quantity_kind",
+        "quantity_id",
+        "unit_basis",
+        "unit_token",
+        "reported_value",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "method_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "CertificateMeasurement",
+      "type": "object"
+    },
+    "CertificateRequirementRow": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "quantity_kind": {
+          "enum": [
+            "chemistry_mass_fraction",
+            "property_si"
+          ],
+          "title": "Quantity Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "unit_basis": {
+          "enum": [
+            "mass_fraction",
+            "SI"
+          ],
+          "title": "Unit Basis",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_allowed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Allowed Value"
+        },
+        "maximum_allowed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Allowed Value"
+        },
+        "comparison_policy": {
+          "const": "reported_uncertainty_interval_against_requirement",
+          "title": "Comparison Policy",
+          "type": "string"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "quantity_kind",
+        "quantity_id",
+        "unit_basis",
+        "unit_token",
+        "comparison_policy",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "CertificateRequirementRow",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MaterialCertificateReconciliation": {
+      "additionalProperties": false,
+      "properties": {
+        "reconciliation_id": {
+          "minLength": 1,
+          "title": "Reconciliation Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "lot_id": {
+          "minLength": 1,
+          "title": "Lot Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "requirement_set_id": {
+          "minLength": 1,
+          "title": "Requirement Set Id",
+          "type": "string"
+        },
+        "requirement_authority_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Requirement Authority Digest",
+          "type": "string"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/CertificateRequirementRow"
+          },
+          "minItems": 1,
+          "title": "Requirements",
+          "type": "array"
+        },
+        "records": {
+          "items": {
+            "$ref": "#/$defs/MaterialCertificateRecord"
+          },
+          "minItems": 1,
+          "title": "Records",
+          "type": "array"
+        },
+        "heat_lot_and_material_condition_reviewed": {
+          "title": "Heat Lot And Material Condition Reviewed",
+          "type": "boolean"
+        },
+        "alias_resolution_status_and_mapping_reviewed": {
+          "title": "Alias Resolution Status And Mapping Reviewed",
+          "type": "boolean"
+        },
+        "requirement_authority_and_bounds_reviewed": {
+          "title": "Requirement Authority And Bounds Reviewed",
+          "type": "boolean"
+        },
+        "chemistry_mass_fraction_basis_reviewed": {
+          "title": "Chemistry Mass Fraction Basis Reviewed",
+          "type": "boolean"
+        },
+        "property_si_units_reviewed": {
+          "title": "Property Si Units Reviewed",
+          "type": "boolean"
+        },
+        "physical_samples_and_source_groups_reviewed": {
+          "title": "Physical Samples And Source Groups Reviewed",
+          "type": "boolean"
+        },
+        "methods_uncertainties_and_coverage_factors_reviewed": {
+          "title": "Methods Uncertainties And Coverage Factors Reviewed",
+          "type": "boolean"
+        },
+        "provider_lineage_and_result_digests_reviewed": {
+          "title": "Provider Lineage And Result Digests Reviewed",
+          "type": "boolean"
+        },
+        "duplicate_contradiction_and_missingness_policy_reviewed": {
+          "title": "Duplicate Contradiction And Missingness Policy Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reconciliation_id",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "heat_id",
+        "lot_id",
+        "material_condition_id",
+        "requirement_set_id",
+        "requirement_authority_digest",
+        "requirements",
+        "records",
+        "heat_lot_and_material_condition_reviewed",
+        "alias_resolution_status_and_mapping_reviewed",
+        "requirement_authority_and_bounds_reviewed",
+        "chemistry_mass_fraction_basis_reviewed",
+        "property_si_units_reviewed",
+        "physical_samples_and_source_groups_reviewed",
+        "methods_uncertainties_and_coverage_factors_reviewed",
+        "provider_lineage_and_result_digests_reviewed",
+        "duplicate_contradiction_and_missingness_policy_reviewed",
+        "evidence"
+      ],
+      "title": "MaterialCertificateReconciliation",
+      "type": "object"
+    },
+    "MaterialCertificateRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "record_role": {
+          "enum": [
+            "certificate",
+            "independent_test",
+            "supplemental_test"
+          ],
+          "title": "Record Role",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "lot_id": {
+          "minLength": 1,
+          "title": "Lot Id",
+          "type": "string"
+        },
+        "reported_material_identity_id": {
+          "minLength": 1,
+          "title": "Reported Material Identity Id",
+          "type": "string"
+        },
+        "alias_resolution_status": {
+          "enum": [
+            "exact",
+            "resolved",
+            "unresolved",
+            "ambiguous"
+          ],
+          "title": "Alias Resolution Status",
+          "type": "string"
+        },
+        "resolved_material_condition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resolved Material Condition Id"
+        },
+        "alias_mapping_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Alias Mapping Digest"
+        },
+        "alias_resolution_basis": {
+          "minLength": 1,
+          "title": "Alias Resolution Basis",
+          "type": "string"
+        },
+        "physical_sample_id": {
+          "minLength": 1,
+          "title": "Physical Sample Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "measurements": {
+          "items": {
+            "$ref": "#/$defs/CertificateMeasurement"
+          },
+          "minItems": 1,
+          "title": "Measurements",
+          "type": "array"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "record_role",
+        "heat_id",
+        "lot_id",
+        "reported_material_identity_id",
+        "alias_resolution_status",
+        "alias_resolution_basis",
+        "physical_sample_id",
+        "source_group_id",
+        "provider_id",
+        "provider_revision",
+        "record_digest",
+        "measurements",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "MaterialCertificateRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "purchase_requirement_set_id": {
+      "minLength": 1,
+      "title": "Purchase Requirement Set Id",
+      "type": "string"
+    },
+    "expected_product_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Product Id"
+    },
+    "expected_traceability_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Traceability Id"
+    },
+    "product_and_traceability_binding_reviewed": {
+      "default": false,
+      "title": "Product And Traceability Binding Reviewed",
+      "type": "boolean"
+    },
+    "lower_level": {
+      "$ref": "#/$defs/MaterialCertificateReconciliation"
+    },
+    "coverage": {
+      "items": {
+        "$ref": "#/$defs/CertificateCoverageRecord"
+      },
+      "minItems": 1,
+      "title": "Coverage",
+      "type": "array"
+    },
+    "required_categories": {
+      "items": {
+        "enum": [
+          "chemistry",
+          "mechanical",
+          "heat_treatment",
+          "nde",
+          "traceability"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Categories",
+      "type": "array"
+    },
+    "caller_criteria_reviewed": {
+      "title": "Caller Criteria Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "purchase_requirement_set_id",
+    "lower_level",
+    "coverage",
+    "required_categories",
+    "caller_criteria_reviewed",
+    "evidence"
+  ],
+  "title": "CertificateCampaign",
+  "type": "object"
+}

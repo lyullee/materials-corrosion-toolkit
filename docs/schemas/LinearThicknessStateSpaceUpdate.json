@@ -1,0 +1,305 @@
+{
+  "$defs": {
+    "ThicknessObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "campaign_id": {
+          "minLength": 1,
+          "title": "Campaign Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "remaining_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Remaining Thickness M",
+          "type": "number"
+        },
+        "measurement_standard_deviation_m": {
+          "exclusiveMinimum": 0,
+          "title": "Measurement Standard Deviation M",
+          "type": "number"
+        },
+        "partition": {
+          "enum": [
+            "update",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "measurement_method_id": {
+          "minLength": 1,
+          "title": "Measurement Method Id",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "source_content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Content Sha256",
+          "type": "string"
+        },
+        "test_validity_reviewed": {
+          "title": "Test Validity Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "observation_id",
+        "campaign_id",
+        "physical_location_id",
+        "elapsed_time_s",
+        "remaining_thickness_m",
+        "measurement_standard_deviation_m",
+        "partition",
+        "source_group_id",
+        "measurement_method_id",
+        "calibration_id",
+        "source_content_sha256",
+        "test_validity_reviewed"
+      ],
+      "title": "ThicknessObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Sequential thickness/loss-rate filtering with reviewed additive process noise.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.linear_thickness_state_space_update.v1",
+      "default": "matintegrity.linear_thickness_state_space_update.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "update_id": {
+      "minLength": 1,
+      "title": "Update Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "initial_state_time_s": {
+      "minimum": 0,
+      "title": "Initial State Time S",
+      "type": "number"
+    },
+    "initial_remaining_thickness_mean_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Remaining Thickness Mean M",
+      "type": "number"
+    },
+    "initial_loss_rate_mean_m_s": {
+      "title": "Initial Loss Rate Mean M S",
+      "type": "number"
+    },
+    "initial_remaining_thickness_standard_deviation_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Remaining Thickness Standard Deviation M",
+      "type": "number"
+    },
+    "initial_loss_rate_standard_deviation_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Loss Rate Standard Deviation M S",
+      "type": "number"
+    },
+    "initial_thickness_loss_rate_correlation": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": -1.0,
+      "title": "Initial Thickness Loss Rate Correlation",
+      "type": "number"
+    },
+    "prior_basis_id": {
+      "minLength": 1,
+      "title": "Prior Basis Id",
+      "type": "string"
+    },
+    "prior_source_content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prior Source Content Sha256",
+      "type": "string"
+    },
+    "transition_model_basis_id": {
+      "minLength": 1,
+      "title": "Transition Model Basis Id",
+      "type": "string"
+    },
+    "process_noise_model_id": {
+      "minLength": 1,
+      "title": "Process Noise Model Id",
+      "type": "string"
+    },
+    "process_noise_covariance_rate": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "title": "Process Noise Covariance Rate",
+      "type": "array"
+    },
+    "measurement_error_model_id": {
+      "minLength": 1,
+      "title": "Measurement Error Model Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ThicknessObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "measurement_errors_independent_declared": {
+      "title": "Measurement Errors Independent Declared",
+      "type": "boolean"
+    },
+    "analysis_end_time_s": {
+      "minimum": 0,
+      "title": "Analysis End Time S",
+      "type": "number"
+    },
+    "prediction_times_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Prediction Times S",
+      "type": "array"
+    },
+    "credible_level": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Credible Level",
+      "type": "number"
+    },
+    "required_thickness_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Required Thickness M"
+    },
+    "prior_basis_reviewed": {
+      "title": "Prior Basis Reviewed",
+      "type": "boolean"
+    },
+    "transition_model_reviewed": {
+      "title": "Transition Model Reviewed",
+      "type": "boolean"
+    },
+    "process_noise_model_reviewed": {
+      "title": "Process Noise Model Reviewed",
+      "type": "boolean"
+    },
+    "observation_identities_reviewed": {
+      "title": "Observation Identities Reviewed",
+      "type": "boolean"
+    },
+    "measurement_error_model_reviewed": {
+      "title": "Measurement Error Model Reviewed",
+      "type": "boolean"
+    },
+    "prediction_support_reviewed": {
+      "title": "Prediction Support Reviewed",
+      "type": "boolean"
+    },
+    "required_thickness_basis_reviewed": {
+      "default": false,
+      "title": "Required Thickness Basis Reviewed",
+      "type": "boolean"
+    },
+    "holdout_source_independence_reviewed": {
+      "default": false,
+      "title": "Holdout Source Independence Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "update_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "physical_location_id",
+    "time_basis",
+    "initial_state_time_s",
+    "initial_remaining_thickness_mean_m",
+    "initial_loss_rate_mean_m_s",
+    "initial_remaining_thickness_standard_deviation_m",
+    "initial_loss_rate_standard_deviation_m_s",
+    "initial_thickness_loss_rate_correlation",
+    "prior_basis_id",
+    "prior_source_content_sha256",
+    "transition_model_basis_id",
+    "process_noise_model_id",
+    "process_noise_covariance_rate",
+    "measurement_error_model_id",
+    "observations",
+    "measurement_errors_independent_declared",
+    "analysis_end_time_s",
+    "prediction_times_s",
+    "credible_level",
+    "prior_basis_reviewed",
+    "transition_model_reviewed",
+    "process_noise_model_reviewed",
+    "observation_identities_reviewed",
+    "measurement_error_model_reviewed",
+    "prediction_support_reviewed"
+  ],
+  "title": "LinearThicknessStateSpaceUpdate",
+  "type": "object"
+}

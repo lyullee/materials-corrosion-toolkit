@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ImpactWidthTemperatureReduction": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_width_m": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Width M",
+          "type": "number"
+        },
+        "temperature_reduction_K": {
+          "minimum": 0,
+          "title": "Temperature Reduction K",
+          "type": "number"
+        }
+      },
+      "required": [
+        "specimen_width_m",
+        "temperature_reduction_K"
+      ],
+      "title": "ImpactWidthTemperatureReduction",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_geometry_definition_id": {
+      "minLength": 1,
+      "title": "Specimen Geometry Definition Id",
+      "type": "string"
+    },
+    "specimen_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Specimen Width M",
+      "type": "number"
+    },
+    "reference_specimen_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Specimen Width M",
+      "type": "number"
+    },
+    "reference_required_mean_energy_J": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Required Mean Energy J",
+      "type": "number"
+    },
+    "reference_required_individual_energy_J": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Required Individual Energy J",
+      "type": "number"
+    },
+    "reference_test_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Test Temperature K",
+      "type": "number"
+    },
+    "width_temperature_reduction_table": {
+      "items": {
+        "$ref": "#/$defs/ImpactWidthTemperatureReduction"
+      },
+      "minItems": 2,
+      "title": "Width Temperature Reduction Table",
+      "type": "array"
+    },
+    "linear_width_energy_requirement_scaling_reviewed": {
+      "title": "Linear Width Energy Requirement Scaling Reviewed",
+      "type": "boolean"
+    },
+    "temperature_table_interpolation_and_applicability_reviewed": {
+      "title": "Temperature Table Interpolation And Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "method_id",
+    "material_condition_id",
+    "specimen_geometry_definition_id",
+    "specimen_width_m",
+    "reference_specimen_width_m",
+    "reference_required_mean_energy_J",
+    "reference_required_individual_energy_J",
+    "reference_test_temperature_K",
+    "width_temperature_reduction_table",
+    "linear_width_energy_requirement_scaling_reviewed",
+    "temperature_table_interpolation_and_applicability_reviewed"
+  ],
+  "title": "DeclaredImpactSubsizeRequirements",
+  "type": "object"
+}

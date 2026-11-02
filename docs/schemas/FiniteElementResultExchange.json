@@ -1,0 +1,873 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FELoadBoundaryCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "minLength": 1,
+          "title": "Case Id",
+          "type": "string"
+        },
+        "load_definition_id": {
+          "minLength": 1,
+          "title": "Load Definition Id",
+          "type": "string"
+        },
+        "boundary_definition_id": {
+          "minLength": 1,
+          "title": "Boundary Definition Id",
+          "type": "string"
+        },
+        "load_basis": {
+          "minLength": 1,
+          "title": "Load Basis",
+          "type": "string"
+        },
+        "load_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Load Digest",
+          "type": "string"
+        },
+        "boundary_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Boundary Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "case_id",
+        "load_definition_id",
+        "boundary_definition_id",
+        "load_basis",
+        "load_digest",
+        "boundary_digest",
+        "evidence"
+      ],
+      "title": "FELoadBoundaryCase",
+      "type": "object"
+    },
+    "FEMaterialAssignment": {
+      "additionalProperties": false,
+      "properties": {
+        "assignment_id": {
+          "minLength": 1,
+          "title": "Assignment Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "property_provider_id": {
+          "minLength": 1,
+          "title": "Property Provider Id",
+          "type": "string"
+        },
+        "property_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Property State Digest",
+          "type": "string"
+        },
+        "assignment_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Assignment Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assignment_id",
+        "region_id",
+        "material_id",
+        "material_condition_id",
+        "property_provider_id",
+        "property_state_digest",
+        "assignment_digest",
+        "evidence"
+      ],
+      "title": "FEMaterialAssignment",
+      "type": "object"
+    },
+    "FEMeshDescriptor": {
+      "additionalProperties": false,
+      "properties": {
+        "mesh_id": {
+          "minLength": 1,
+          "title": "Mesh Id",
+          "type": "string"
+        },
+        "mesh_revision": {
+          "minLength": 1,
+          "title": "Mesh Revision",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "dimensionality": {
+          "enum": [
+            "1d",
+            "2d",
+            "axisymmetric",
+            "3d"
+          ],
+          "title": "Dimensionality",
+          "type": "string"
+        },
+        "element_family_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Element Family Ids",
+          "type": "array"
+        },
+        "node_count": {
+          "minimum": 1,
+          "title": "Node Count",
+          "type": "integer"
+        },
+        "element_count": {
+          "minimum": 1,
+          "title": "Element Count",
+          "type": "integer"
+        },
+        "region_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Region Ids",
+          "type": "array"
+        },
+        "node_identity_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Node Identity Digest",
+          "type": "string"
+        },
+        "element_identity_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Element Identity Digest",
+          "type": "string"
+        },
+        "connectivity_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Connectivity Digest",
+          "type": "string"
+        },
+        "geometry_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "mesh_id",
+        "mesh_revision",
+        "coordinate_frame_id",
+        "dimensionality",
+        "element_family_ids",
+        "node_count",
+        "element_count",
+        "region_ids",
+        "node_identity_digest",
+        "element_identity_digest",
+        "connectivity_digest",
+        "geometry_digest",
+        "evidence"
+      ],
+      "title": "FEMeshDescriptor",
+      "type": "object"
+    },
+    "FEResultExchangeEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "supported_dimensionalities": {
+          "items": {
+            "enum": [
+              "1d",
+              "2d",
+              "axisymmetric",
+              "3d"
+            ],
+            "type": "string"
+          },
+          "title": "Supported Dimensionalities",
+          "type": "array"
+        },
+        "supported_element_family_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Element Family Ids",
+          "type": "array"
+        },
+        "supported_result_locations": {
+          "items": {
+            "enum": [
+              "node",
+              "element",
+              "integration_point",
+              "face",
+              "edge"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Result Locations",
+          "type": "array"
+        },
+        "supported_quantity_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Quantity Ids",
+          "type": "array"
+        },
+        "supported_unit_tokens": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Unit Tokens",
+          "type": "array"
+        },
+        "maximum_node_count": {
+          "minimum": 1,
+          "title": "Maximum Node Count",
+          "type": "integer"
+        },
+        "maximum_element_count": {
+          "minimum": 1,
+          "title": "Maximum Element Count",
+          "type": "integer"
+        },
+        "required_partitions": {
+          "items": {
+            "enum": [
+              "calibration",
+              "holdout",
+              "application"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Partitions",
+          "type": "array"
+        },
+        "solver_id": {
+          "minLength": 1,
+          "title": "Solver Id",
+          "type": "string"
+        },
+        "solver_revision": {
+          "minLength": 1,
+          "title": "Solver Revision",
+          "type": "string"
+        },
+        "solver_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solver Configuration Digest",
+          "type": "string"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "supported_dimensionalities",
+        "supported_element_family_ids",
+        "supported_result_locations",
+        "supported_quantity_ids",
+        "supported_unit_tokens",
+        "maximum_node_count",
+        "maximum_element_count",
+        "required_partitions",
+        "solver_id",
+        "solver_revision",
+        "solver_configuration_digest",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "FEResultExchangeEnvelope",
+      "type": "object"
+    },
+    "FEResultFieldDescriptor": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "case_id": {
+          "minLength": 1,
+          "title": "Case Id",
+          "type": "string"
+        },
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time S"
+        },
+        "frequency_Hz": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Frequency Hz"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "result_location": {
+          "enum": [
+            "node",
+            "element",
+            "integration_point",
+            "face",
+            "edge"
+          ],
+          "title": "Result Location",
+          "type": "string"
+        },
+        "averaging_basis": {
+          "minLength": 1,
+          "title": "Averaging Basis",
+          "type": "string"
+        },
+        "quantity_kind": {
+          "enum": [
+            "scalar",
+            "vector",
+            "tensor"
+          ],
+          "title": "Quantity Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Component Ids",
+          "type": "array"
+        },
+        "array_shape": {
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "title": "Array Shape",
+          "type": "array"
+        },
+        "array_order": {
+          "enum": [
+            "C",
+            "F",
+            "provider_native"
+          ],
+          "title": "Array Order",
+          "type": "string"
+        },
+        "identity_axis_basis": {
+          "minLength": 1,
+          "title": "Identity Axis Basis",
+          "type": "string"
+        },
+        "array_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Array Content Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_id",
+        "case_id",
+        "step_id",
+        "region_id",
+        "result_location",
+        "averaging_basis",
+        "quantity_kind",
+        "quantity_id",
+        "quantity_definition",
+        "unit_token",
+        "component_ids",
+        "array_shape",
+        "array_order",
+        "identity_axis_basis",
+        "array_content_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "FEResultFieldDescriptor",
+      "type": "object"
+    },
+    "FEVerificationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "verification_id": {
+          "minLength": 1,
+          "title": "Verification Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout",
+            "application"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "verification_kind": {
+          "minLength": 1,
+          "title": "Verification Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_value": {
+          "minimum": 0,
+          "title": "Metric Value",
+          "type": "number"
+        },
+        "metric_unit_token": {
+          "minLength": 1,
+          "title": "Metric Unit Token",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "verification_id",
+        "partition",
+        "physical_specimen_id",
+        "source_group_id",
+        "verification_kind",
+        "metric_id",
+        "metric_value",
+        "metric_unit_token",
+        "provider_id",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "FEVerificationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "exchange_id": {
+      "minLength": 1,
+      "title": "Exchange Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "mesh": {
+      "$ref": "#/$defs/FEMeshDescriptor"
+    },
+    "material_assignments": {
+      "items": {
+        "$ref": "#/$defs/FEMaterialAssignment"
+      },
+      "minItems": 1,
+      "title": "Material Assignments",
+      "type": "array"
+    },
+    "load_boundary_cases": {
+      "items": {
+        "$ref": "#/$defs/FELoadBoundaryCase"
+      },
+      "minItems": 1,
+      "title": "Load Boundary Cases",
+      "type": "array"
+    },
+    "result_fields": {
+      "items": {
+        "$ref": "#/$defs/FEResultFieldDescriptor"
+      },
+      "minItems": 1,
+      "title": "Result Fields",
+      "type": "array"
+    },
+    "solver_id": {
+      "minLength": 1,
+      "title": "Solver Id",
+      "type": "string"
+    },
+    "solver_revision": {
+      "minLength": 1,
+      "title": "Solver Revision",
+      "type": "string"
+    },
+    "solver_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solver Configuration Digest",
+      "type": "string"
+    },
+    "solver_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solver Input Digest",
+      "type": "string"
+    },
+    "solver_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solver Result Digest",
+      "type": "string"
+    },
+    "convergence_definition": {
+      "minLength": 1,
+      "title": "Convergence Definition",
+      "type": "string"
+    },
+    "convergence_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Convergence Record Digest",
+      "type": "string"
+    },
+    "convergence_record_reviewed": {
+      "title": "Convergence Record Reviewed",
+      "type": "boolean"
+    },
+    "verification_records": {
+      "items": {
+        "$ref": "#/$defs/FEVerificationRecord"
+      },
+      "minItems": 1,
+      "title": "Verification Records",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/FEResultExchangeEnvelope"
+    },
+    "model_mesh_and_coordinate_frame_reviewed": {
+      "title": "Model Mesh And Coordinate Frame Reviewed",
+      "type": "boolean"
+    },
+    "material_assignments_reviewed": {
+      "title": "Material Assignments Reviewed",
+      "type": "boolean"
+    },
+    "load_and_boundary_cases_reviewed": {
+      "title": "Load And Boundary Cases Reviewed",
+      "type": "boolean"
+    },
+    "step_time_frequency_and_result_location_reviewed": {
+      "title": "Step Time Frequency And Result Location Reviewed",
+      "type": "boolean"
+    },
+    "quantity_components_units_shape_and_order_reviewed": {
+      "title": "Quantity Components Units Shape And Order Reviewed",
+      "type": "boolean"
+    },
+    "solver_revision_configuration_and_digests_reviewed": {
+      "title": "Solver Revision Configuration And Digests Reviewed",
+      "type": "boolean"
+    },
+    "verification_partitions_and_source_groups_reviewed": {
+      "title": "Verification Partitions And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "exchange_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "analysis_id",
+    "model_id",
+    "model_revision",
+    "mesh",
+    "material_assignments",
+    "load_boundary_cases",
+    "result_fields",
+    "solver_id",
+    "solver_revision",
+    "solver_configuration_digest",
+    "solver_input_digest",
+    "solver_result_digest",
+    "convergence_definition",
+    "convergence_record_digest",
+    "convergence_record_reviewed",
+    "verification_records",
+    "qualification_envelope",
+    "model_mesh_and_coordinate_frame_reviewed",
+    "material_assignments_reviewed",
+    "load_and_boundary_cases_reviewed",
+    "step_time_frequency_and_result_location_reviewed",
+    "quantity_components_units_shape_and_order_reviewed",
+    "solver_revision_configuration_and_digests_reviewed",
+    "verification_partitions_and_source_groups_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "FiniteElementResultExchange",
+  "type": "object"
+}

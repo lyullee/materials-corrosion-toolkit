@@ -1,0 +1,534 @@
+{
+  "$defs": {
+    "CertificateMeasurementRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "quantity_kind": {
+          "enum": [
+            "chemistry",
+            "mechanical"
+          ],
+          "title": "Quantity Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "reported_value": {
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "reported_unit": {
+          "minLength": 1,
+          "title": "Reported Unit",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "measurement_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Measurement Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "quantity_kind",
+        "quantity_id",
+        "reported_value",
+        "reported_unit",
+        "expanded_uncertainty",
+        "method_id",
+        "measurement_digest",
+        "evidence"
+      ],
+      "title": "CertificateMeasurementRecord",
+      "type": "object"
+    },
+    "CertificateRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "quantity_kind": {
+          "enum": [
+            "chemistry",
+            "mechanical"
+          ],
+          "title": "Quantity Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "canonical_unit": {
+          "minLength": 1,
+          "title": "Canonical Unit",
+          "type": "string"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "quantity_kind",
+        "quantity_id",
+        "canonical_unit",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "CertificateRequirement",
+      "type": "object"
+    },
+    "CertificateUnitRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "source_unit": {
+          "minLength": 1,
+          "title": "Source Unit",
+          "type": "string"
+        },
+        "canonical_unit": {
+          "minLength": 1,
+          "title": "Canonical Unit",
+          "type": "string"
+        },
+        "rule_basis": {
+          "minLength": 1,
+          "title": "Rule Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "quantity_id",
+        "source_unit",
+        "canonical_unit",
+        "rule_basis",
+        "evidence"
+      ],
+      "title": "CertificateUnitRule",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MaterialCertificateEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "certificate_id": {
+          "minLength": 1,
+          "title": "Certificate Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Id"
+        },
+        "lot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lot Id"
+        },
+        "reported_designation": {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        "issuer_id": {
+          "minLength": 1,
+          "title": "Issuer Id",
+          "type": "string"
+        },
+        "issuer_revision": {
+          "minLength": 1,
+          "title": "Issuer Revision",
+          "type": "string"
+        },
+        "certificate_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Certificate Digest",
+          "type": "string"
+        },
+        "measurements": {
+          "items": {
+            "$ref": "#/$defs/CertificateMeasurementRecord"
+          },
+          "minItems": 1,
+          "title": "Measurements",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "certificate_id",
+        "reported_designation",
+        "issuer_id",
+        "issuer_revision",
+        "certificate_digest",
+        "measurements",
+        "evidence"
+      ],
+      "title": "MaterialCertificateEvidence",
+      "type": "object"
+    },
+    "SpecificationAlias": {
+      "additionalProperties": false,
+      "properties": {
+        "alias_id": {
+          "minLength": 1,
+          "title": "Alias Id",
+          "type": "string"
+        },
+        "designation": {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        "mapping_basis": {
+          "minLength": 1,
+          "title": "Mapping Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "alias_id",
+        "designation",
+        "mapping_basis",
+        "evidence"
+      ],
+      "title": "SpecificationAlias",
+      "type": "object"
+    },
+    "SpecificationDesignation": {
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "minLength": 1,
+          "title": "Namespace",
+          "type": "string"
+        },
+        "designation": {
+          "minLength": 1,
+          "title": "Designation",
+          "type": "string"
+        },
+        "edition": {
+          "minLength": 1,
+          "title": "Edition",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "condition": {
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "designation",
+        "edition",
+        "product_form",
+        "condition"
+      ],
+      "title": "SpecificationDesignation",
+      "type": "object"
+    },
+    "SpecificationProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "canonical_designation": {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        "aliases": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SpecificationAlias"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_authority_id": {
+          "minLength": 1,
+          "title": "Profile Authority Id",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "canonical_designation",
+        "profile_revision",
+        "profile_authority_id",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "SpecificationProfile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reconciliation_id": {
+      "minLength": 1,
+      "title": "Reconciliation Id",
+      "type": "string"
+    },
+    "expected_heat_id": {
+      "minLength": 1,
+      "title": "Expected Heat Id",
+      "type": "string"
+    },
+    "expected_lot_id": {
+      "minLength": 1,
+      "title": "Expected Lot Id",
+      "type": "string"
+    },
+    "expected_profile_id": {
+      "minLength": 1,
+      "title": "Expected Profile Id",
+      "type": "string"
+    },
+    "profiles": {
+      "items": {
+        "$ref": "#/$defs/SpecificationProfile"
+      },
+      "minItems": 1,
+      "title": "Profiles",
+      "type": "array"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/CertificateRequirement"
+      },
+      "minItems": 1,
+      "title": "Requirements",
+      "type": "array"
+    },
+    "unit_rules": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CertificateUnitRule"
+      },
+      "title": "Unit Rules",
+      "type": "array"
+    },
+    "certificates": {
+      "items": {
+        "$ref": "#/$defs/MaterialCertificateEvidence"
+      },
+      "minItems": 1,
+      "title": "Certificates",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reconciliation_id",
+    "expected_heat_id",
+    "expected_lot_id",
+    "expected_profile_id",
+    "profiles",
+    "requirements",
+    "certificates",
+    "evidence"
+  ],
+  "title": "CertificateReconciliationInput",
+  "type": "object"
+}

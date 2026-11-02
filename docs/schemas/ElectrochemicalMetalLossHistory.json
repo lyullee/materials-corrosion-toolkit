@@ -1,0 +1,379 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MetalDissolutionReactionMapping": {
+      "additionalProperties": false,
+      "description": "Caller mapping from one anodic reaction extent to removed metal atoms.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "metal_species_id": {
+          "minLength": 1,
+          "title": "Metal Species Id",
+          "type": "string"
+        },
+        "metal_atoms_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Atoms Per Reaction Extent",
+          "type": "number"
+        },
+        "molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Density Kg M3",
+          "type": "number"
+        },
+        "metal_data_provider_id": {
+          "minLength": 1,
+          "title": "Metal Data Provider Id",
+          "type": "string"
+        },
+        "metal_data_provider_revision": {
+          "minLength": 1,
+          "title": "Metal Data Provider Revision",
+          "type": "string"
+        },
+        "metal_data_record_id": {
+          "minLength": 1,
+          "title": "Metal Data Record Id",
+          "type": "string"
+        },
+        "metal_data_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Metal Data Sha256",
+          "type": "string"
+        },
+        "anodic_direction_is_metal_dissolution_reviewed": {
+          "title": "Anodic Direction Is Metal Dissolution Reviewed",
+          "type": "boolean"
+        },
+        "alloy_and_metal_basis_reviewed": {
+          "title": "Alloy And Metal Basis Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "metal_species_id",
+        "metal_atoms_per_reaction_extent",
+        "molar_mass_kg_mol",
+        "density_kg_m3",
+        "metal_data_provider_id",
+        "metal_data_provider_revision",
+        "metal_data_record_id",
+        "metal_data_sha256",
+        "anodic_direction_is_metal_dissolution_reviewed",
+        "alloy_and_metal_basis_reviewed",
+        "evidence"
+      ],
+      "title": "MetalDissolutionReactionMapping",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Integrate branch currents from a pinned mixed-potential history.\n\nCurrent is reconstructed linearly between upstream knots. Positive anodic\nreaction extent removes caller-mapped metal; the cathodic branch is\nreported separately and subtracts from signed net removal.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.electrochemical_metal_loss_history.v1",
+      "default": "matintegrity.electrochemical_metal_loss_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "mixed_potential_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "mixed_potential_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mixed Potential Result Sha256",
+      "type": "string"
+    },
+    "metal_reactions": {
+      "items": {
+        "$ref": "#/$defs/MetalDissolutionReactionMapping"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Metal Reactions",
+      "type": "array"
+    },
+    "linear_current_reconstruction_reviewed": {
+      "title": "Linear Current Reconstruction Reviewed",
+      "type": "boolean"
+    },
+    "mixed_potential_reference_area_reviewed": {
+      "title": "Mixed Potential Reference Area Reviewed",
+      "type": "boolean"
+    },
+    "reaction_to_removed_metal_mapping_reviewed": {
+      "title": "Reaction To Removed Metal Mapping Reviewed",
+      "type": "boolean"
+    },
+    "uniform_recession_over_mapped_area_reviewed": {
+      "title": "Uniform Recession Over Mapped Area Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "material_condition_id",
+    "mixed_potential_result",
+    "mixed_potential_result_sha256",
+    "metal_reactions",
+    "linear_current_reconstruction_reviewed",
+    "mixed_potential_reference_area_reviewed",
+    "reaction_to_removed_metal_mapping_reviewed",
+    "uniform_recession_over_mapped_area_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ElectrochemicalMetalLossHistory",
+  "type": "object"
+}

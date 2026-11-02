@@ -1,0 +1,822 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HighTemperatureCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "mechanism": {
+          "enum": [
+            "oxidation",
+            "sulfidation",
+            "carburization",
+            "nitriding",
+            "metallurgical_aging"
+          ],
+          "title": "Mechanism",
+          "type": "string"
+        },
+        "supported_material_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Material Ids",
+          "type": "array"
+        },
+        "supported_material_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Material Condition Ids",
+          "type": "array"
+        },
+        "supported_gas_chemistry_descriptor_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Gas Chemistry Descriptor Ids",
+          "type": "array"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "maximum_cumulative_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Exposure S",
+          "type": "number"
+        },
+        "pressure_required": {
+          "title": "Pressure Required",
+          "type": "boolean"
+        },
+        "minimum_pressure_Pa_abs": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Pressure Pa Abs"
+        },
+        "maximum_pressure_Pa_abs": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Pressure Pa Abs"
+        },
+        "activity_required": {
+          "title": "Activity Required",
+          "type": "boolean"
+        },
+        "activity_quantity_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Quantity Id"
+        },
+        "activity_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Basis"
+        },
+        "activity_unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Unit Token"
+        },
+        "minimum_activity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Activity"
+        },
+        "maximum_activity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Activity"
+        },
+        "measurement_criteria": {
+          "items": {
+            "$ref": "#/$defs/HighTemperatureMeasurementCriterion"
+          },
+          "minItems": 1,
+          "title": "Measurement Criteria",
+          "type": "array"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "mechanism",
+        "supported_material_ids",
+        "supported_material_condition_ids",
+        "supported_gas_chemistry_descriptor_ids",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "maximum_cumulative_exposure_s",
+        "pressure_required",
+        "activity_required",
+        "measurement_criteria",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "HighTemperatureCallerProfile",
+      "type": "object"
+    },
+    "HighTemperatureExposureInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "record_status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "temperature_expanded_uncertainty_K": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature Expanded Uncertainty K"
+        },
+        "pressure_Pa_abs": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Pa Abs"
+        },
+        "pressure_expanded_uncertainty_Pa": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Expanded Uncertainty Pa"
+        },
+        "gas_chemistry_descriptor_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gas Chemistry Descriptor Id"
+        },
+        "gas_chemistry_record_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gas Chemistry Record Digest"
+        },
+        "activity_status": {
+          "enum": [
+            "reported",
+            "not_applicable",
+            "missing",
+            "invalid"
+          ],
+          "title": "Activity Status",
+          "type": "string"
+        },
+        "activity_quantity_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Quantity Id"
+        },
+        "activity_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Basis"
+        },
+        "activity_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Value"
+        },
+        "activity_expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Expanded Uncertainty"
+        },
+        "activity_unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Unit Token"
+        },
+        "activity_record_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Record Digest"
+        },
+        "interval_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Interval Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "record_status",
+        "activity_status",
+        "interval_record_digest",
+        "evidence"
+      ],
+      "title": "HighTemperatureExposureInterval",
+      "type": "object"
+    },
+    "HighTemperatureMeasurementCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "measurement_kind": {
+          "enum": [
+            "scale_thickness",
+            "affected_depth",
+            "property"
+          ],
+          "title": "Measurement Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "minimum_reported_measurements": {
+          "minimum": 1,
+          "title": "Minimum Reported Measurements",
+          "type": "integer"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "criterion_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Criterion Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "measurement_kind",
+        "quantity_id",
+        "unit_token",
+        "minimum_reported_measurements",
+        "criterion_basis",
+        "criterion_source_digest",
+        "evidence"
+      ],
+      "title": "HighTemperatureMeasurementCriterion",
+      "type": "object"
+    },
+    "HighTemperatureMeasurementEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "measurement_kind": {
+          "enum": [
+            "scale_thickness",
+            "affected_depth",
+            "property"
+          ],
+          "title": "Measurement Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "measurement_time_s": {
+          "minimum": 0,
+          "title": "Measurement Time S",
+          "type": "number"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "measurement_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Measurement Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "measurement_kind",
+        "quantity_id",
+        "status",
+        "unit_token",
+        "measurement_time_s",
+        "physical_specimen_id",
+        "source_group_id",
+        "method_id",
+        "measurement_record_digest",
+        "evidence"
+      ],
+      "title": "HighTemperatureMeasurementEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.high_temperature_history.v1",
+      "default": "matintegrity.high_temperature_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "mechanism": {
+      "enum": [
+        "oxidation",
+        "sulfidation",
+        "carburization",
+        "nitriding",
+        "metallurgical_aging"
+      ],
+      "title": "Mechanism",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "material_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Material State Digest",
+      "type": "string"
+    },
+    "exposure_intervals": {
+      "items": {
+        "$ref": "#/$defs/HighTemperatureExposureInterval"
+      },
+      "minItems": 1,
+      "title": "Exposure Intervals",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/HighTemperatureMeasurementEvidence"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/HighTemperatureCallerProfile"
+    },
+    "exposure_clock_temperature_gas_and_activity_reviewed": {
+      "title": "Exposure Clock Temperature Gas And Activity Reviewed",
+      "type": "boolean"
+    },
+    "material_state_and_measurement_lineage_reviewed": {
+      "title": "Material State And Measurement Lineage Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_and_missing_evidence_policy_reviewed": {
+      "title": "Caller Profile And Missing Evidence Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "mechanism",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_id",
+    "material_condition_id",
+    "material_state_digest",
+    "exposure_intervals",
+    "measurements",
+    "caller_profile",
+    "exposure_clock_temperature_gas_and_activity_reviewed",
+    "material_state_and_measurement_lineage_reviewed",
+    "caller_profile_and_missing_evidence_policy_reviewed",
+    "evidence",
+    "payload_digest"
+  ],
+  "title": "HighTemperatureHistoryAssessment",
+  "type": "object"
+}

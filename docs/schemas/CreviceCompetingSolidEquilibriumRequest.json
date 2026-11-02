@@ -1,0 +1,336 @@
+{
+  "$defs": {
+    "CreviceCompetingSolidPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "solid_elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "minProperties": 1,
+          "title": "Solid Elemental Composition",
+          "type": "object"
+        },
+        "aqueous_reactant_stoichiometry": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Aqueous Reactant Stoichiometry",
+          "type": "object"
+        },
+        "initial_solid_moles_per_solution_volume_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Per Solution Volume Mol M3",
+          "type": "number"
+        },
+        "dimensionless_solubility_product": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Solubility Product",
+          "type": "number"
+        },
+        "equilibrium_constant_record_id": {
+          "minLength": 1,
+          "title": "Equilibrium Constant Record Id",
+          "type": "string"
+        },
+        "equilibrium_constant_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Constant Record Sha256",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "solid_elemental_composition",
+        "aqueous_reactant_stoichiometry",
+        "initial_solid_moles_per_solution_volume_mol_m3",
+        "dimensionless_solubility_product",
+        "equilibrium_constant_record_id",
+        "equilibrium_constant_record_sha256",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "CreviceCompetingSolidPhase",
+      "type": "object"
+    },
+    "CreviceEquilibriumAqueousSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "initial_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_reference_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Reference Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "minProperties": 1,
+          "title": "Elemental Composition",
+          "type": "object"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "initial_concentration_mol_m3",
+        "activity_reference_concentration_mol_m3",
+        "activity_coefficient",
+        "charge_number",
+        "elemental_composition",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "CreviceEquilibriumAqueousSpecies",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "standard_state_id": {
+      "minLength": 1,
+      "title": "Standard State Id",
+      "type": "string"
+    },
+    "aqueous_species": {
+      "items": {
+        "$ref": "#/$defs/CreviceEquilibriumAqueousSpecies"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Aqueous Species",
+      "type": "array"
+    },
+    "solid_phases": {
+      "items": {
+        "$ref": "#/$defs/CreviceCompetingSolidPhase"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Solid Phases",
+      "type": "array"
+    },
+    "absolute_charge_balance_tolerance_mol_charge_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Charge Balance Tolerance Mol Charge M3",
+      "type": "number"
+    },
+    "absolute_inventory_balance_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Inventory Balance Tolerance Mol M3",
+      "type": "number"
+    },
+    "relative_inventory_balance_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0.0,
+      "maximum": 0.0001,
+      "title": "Relative Inventory Balance Tolerance",
+      "type": "number"
+    },
+    "maximum_log_saturation_residual": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "title": "Maximum Log Saturation Residual",
+      "type": "number"
+    },
+    "relative_state_convergence_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0.0,
+      "maximum": 0.0001,
+      "title": "Relative State Convergence Tolerance",
+      "type": "number"
+    },
+    "solid_presence_tolerance_mol_m3": {
+      "default": 1e-12,
+      "minimum": 0,
+      "title": "Solid Presence Tolerance Mol M3",
+      "type": "number"
+    },
+    "maximum_active_set_sweeps": {
+      "default": 100,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Active Set Sweeps",
+      "type": "integer"
+    },
+    "fixed_gamma_standard_states_and_temperature_reviewed": {
+      "title": "Fixed Gamma Standard States And Temperature Reviewed",
+      "type": "boolean"
+    },
+    "equilibrium_constants_applicable_to_declared_state_reviewed": {
+      "title": "Equilibrium Constants Applicable To Declared State Reviewed",
+      "type": "boolean"
+    },
+    "instantaneous_equilibrium_no_kinetic_barrier_reviewed": {
+      "title": "Instantaneous Equilibrium No Kinetic Barrier Reviewed",
+      "type": "boolean"
+    },
+    "shared_solution_volume_and_complete_candidate_set_reviewed": {
+      "title": "Shared Solution Volume And Complete Candidate Set Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "temperature_K",
+    "standard_state_id",
+    "aqueous_species",
+    "solid_phases",
+    "fixed_gamma_standard_states_and_temperature_reviewed",
+    "equilibrium_constants_applicable_to_declared_state_reviewed",
+    "instantaneous_equilibrium_no_kinetic_barrier_reviewed",
+    "shared_solution_volume_and_complete_candidate_set_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "CreviceCompetingSolidEquilibriumRequest",
+  "type": "object"
+}

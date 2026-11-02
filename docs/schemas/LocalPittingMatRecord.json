@@ -1,0 +1,255 @@
+{
+  "$defs": {
+    "NumericMatVariableRecord": {
+      "additionalProperties": false,
+      "description": "Structural and finite-value audit for one numeric MATLAB variable.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.numeric_mat_variable_record.v1",
+          "default": "matintegrity.numeric_mat_variable_record.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "variable_name": {
+          "minLength": 1,
+          "title": "Variable Name",
+          "type": "string"
+        },
+        "matlab_class": {
+          "minLength": 1,
+          "title": "Matlab Class",
+          "type": "string"
+        },
+        "numpy_dtype": {
+          "minLength": 1,
+          "title": "Numpy Dtype",
+          "type": "string"
+        },
+        "shape": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Shape",
+          "type": "array"
+        },
+        "element_count": {
+          "minimum": 0,
+          "title": "Element Count",
+          "type": "integer"
+        },
+        "finite_count": {
+          "minimum": 0,
+          "title": "Finite Count",
+          "type": "integer"
+        },
+        "nonfinite_count": {
+          "minimum": 0,
+          "title": "Nonfinite Count",
+          "type": "integer"
+        },
+        "finite_minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finite Minimum"
+        },
+        "finite_maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finite Maximum"
+        },
+        "declared_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Declared Unit"
+        },
+        "unit_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Basis"
+        }
+      },
+      "required": [
+        "variable_name",
+        "matlab_class",
+        "numpy_dtype",
+        "shape",
+        "element_count",
+        "finite_count",
+        "nonfinite_count"
+      ],
+      "title": "NumericMatVariableRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "File-level provenance for one numeric local-pitting MAT file.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.local_pitting_mat_record.v1",
+      "default": "matintegrity.local_pitting_mat_record.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "minLength": 1,
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_role": {
+      "enum": [
+        "surface_morphology",
+        "stress_field",
+        "strain_field",
+        "user_numeric_field"
+      ],
+      "title": "Source Role",
+      "type": "string"
+    },
+    "source_filename": {
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "source_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source Bytes",
+      "type": "integer"
+    },
+    "mat_format": {
+      "const": "matlab_level_5_numeric",
+      "title": "Mat Format",
+      "type": "string"
+    },
+    "exposure_duration_days": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Exposure Duration Days"
+    },
+    "variables": {
+      "items": {
+        "$ref": "#/$defs/NumericMatVariableRecord"
+      },
+      "title": "Variables",
+      "type": "array"
+    },
+    "coordinate_status": {
+      "default": "unreviewed",
+      "enum": [
+        "unreviewed",
+        "same_grid_reviewed",
+        "registered_with_transform_reviewed"
+      ],
+      "title": "Coordinate Status",
+      "type": "string"
+    },
+    "coordinate_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coordinate Basis"
+    },
+    "physical_specimen_independence": {
+      "const": "one_specimen_repeated_locations",
+      "default": "one_specimen_repeated_locations",
+      "title": "Physical Specimen Independence",
+      "type": "string"
+    },
+    "interpretation_status": {
+      "default": "file_structure_only",
+      "enum": [
+        "file_structure_only",
+        "caller_reviewed_variable_meanings"
+      ],
+      "title": "Interpretation Status",
+      "type": "string"
+    },
+    "interpretation_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Interpretation Basis"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "source_role",
+    "source_filename",
+    "source_sha256",
+    "source_bytes",
+    "mat_format",
+    "variables"
+  ],
+  "title": "LocalPittingMatRecord",
+  "type": "object"
+}

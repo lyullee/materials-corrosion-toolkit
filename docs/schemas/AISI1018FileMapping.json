@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "source_filename": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "caller_label": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Caller Label",
+      "type": "string"
+    },
+    "mapping_basis": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Mapping Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    }
+  },
+  "required": [
+    "source_filename",
+    "caller_label",
+    "mapping_basis",
+    "evidence"
+  ],
+  "title": "AISI1018FileMapping",
+  "type": "object"
+}

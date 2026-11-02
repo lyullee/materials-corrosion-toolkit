@@ -1,0 +1,176 @@
+{
+  "additionalProperties": false,
+  "description": "Aligned transient gas states for per-sample CO2-mixture fugacity evaluation.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.co2_mixture_fugacity_history.v1",
+      "default": "matintegrity.co2_mixture_fugacity_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "stream_id": {
+      "minLength": 1,
+      "title": "Stream Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "measured",
+        "model_prediction"
+      ],
+      "title": "Origin",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "total_pressure_Pa": {
+      "items": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "minItems": 2,
+      "title": "Total Pressure Pa",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "minItems": 2,
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Components",
+      "type": "array"
+    },
+    "mole_fractions_by_sample": {
+      "items": {
+        "items": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "array"
+      },
+      "minItems": 2,
+      "title": "Mole Fractions By Sample",
+      "type": "array"
+    },
+    "sample_valid": {
+      "items": {
+        "type": "boolean"
+      },
+      "minItems": 2,
+      "title": "Sample Valid",
+      "type": "array"
+    },
+    "composition_sum_absolute_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Composition Sum Absolute Tolerance",
+      "type": "number"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "case_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Input Digest",
+      "type": "string"
+    },
+    "solver_revision": {
+      "minLength": 1,
+      "title": "Solver Revision",
+      "type": "string"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "stream_id",
+    "clock_id",
+    "origin",
+    "sample_ids",
+    "time_s",
+    "total_pressure_Pa",
+    "temperature_K",
+    "components",
+    "mole_fractions_by_sample",
+    "sample_valid",
+    "source_digest",
+    "case_id",
+    "case_input_digest",
+    "solver_revision"
+  ],
+  "title": "Co2MixtureFugacityHistory",
+  "type": "object"
+}

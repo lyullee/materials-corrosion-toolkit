@@ -1,0 +1,594 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FlangeDiagnosticCriterion": {
+      "additionalProperties": false,
+      "description": "A caller-owned upper bound for one reported solver diagnostic.",
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "diagnostic_id": {
+          "minLength": 1,
+          "title": "Diagnostic Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "equilibrium",
+            "convergence",
+            "uncertainty",
+            "verification"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "maximum_absolute_value_plus_uncertainty": {
+          "minimum": 0,
+          "title": "Maximum Absolute Value Plus Uncertainty",
+          "type": "number"
+        },
+        "compatible_uncertainty_reviewed": {
+          "title": "Compatible Uncertainty Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "diagnostic_id",
+        "category",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "maximum_absolute_value_plus_uncertainty",
+        "compatible_uncertainty_reviewed",
+        "evidence"
+      ],
+      "title": "FlangeDiagnosticCriterion",
+      "type": "object"
+    },
+    "StructuralDiagnosticEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "diagnostic_id": {
+          "minLength": 1,
+          "title": "Diagnostic Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "equilibrium",
+            "convergence",
+            "uncertainty",
+            "verification"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "provider_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "diagnostic_id",
+        "category",
+        "metric_id",
+        "metric_definition",
+        "status",
+        "unit_token",
+        "provider_record_digest",
+        "evidence"
+      ],
+      "title": "StructuralDiagnosticEvidence",
+      "type": "object"
+    },
+    "StructuralMeshReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "mesh_id": {
+          "minLength": 1,
+          "title": "Mesh Id",
+          "type": "string"
+        },
+        "mesh_revision": {
+          "minLength": 1,
+          "title": "Mesh Revision",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "dimensionality": {
+          "enum": [
+            "axisymmetric",
+            "2d",
+            "3d"
+          ],
+          "title": "Dimensionality",
+          "type": "string"
+        },
+        "element_family_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Element Family Ids",
+          "type": "array"
+        },
+        "node_count": {
+          "minimum": 1,
+          "title": "Node Count",
+          "type": "integer"
+        },
+        "element_count": {
+          "minimum": 1,
+          "title": "Element Count",
+          "type": "integer"
+        },
+        "mesh_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mesh Content Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mesh_id",
+        "mesh_revision",
+        "coordinate_frame_id",
+        "dimensionality",
+        "element_family_ids",
+        "node_count",
+        "element_count",
+        "mesh_content_digest"
+      ],
+      "title": "StructuralMeshReceipt",
+      "type": "object"
+    },
+    "StructuralProviderResultReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.structural_provider_receipt.v1",
+          "default": "matintegrity.structural_provider_receipt.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "receipt_id": {
+          "minLength": 1,
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "analysis_kind": {
+          "enum": [
+            "external_pressure",
+            "nozzle_local_stress",
+            "finite_element"
+          ],
+          "title": "Analysis Kind",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "model_id": {
+          "minLength": 1,
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "title": "Model Revision",
+          "type": "string"
+        },
+        "mesh": {
+          "$ref": "#/$defs/StructuralMeshReceipt"
+        },
+        "load_case_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Load Case Ids",
+          "type": "array"
+        },
+        "load_case_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Load Case Digest",
+          "type": "string"
+        },
+        "result_fields": {
+          "items": {
+            "$ref": "#/$defs/StructuralResultFieldReceipt"
+          },
+          "minItems": 1,
+          "title": "Result Fields",
+          "type": "array"
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/StructuralDiagnosticEvidence"
+          },
+          "minItems": 1,
+          "title": "Diagnostics",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "provider_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Input Digest",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "payload_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Payload Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "receipt_id",
+        "analysis_kind",
+        "asset_id",
+        "component_id",
+        "location_id",
+        "physical_scope_id",
+        "analysis_id",
+        "model_id",
+        "model_revision",
+        "mesh",
+        "load_case_ids",
+        "load_case_digest",
+        "result_fields",
+        "diagnostics",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "provider_input_digest",
+        "provider_result_digest",
+        "evidence",
+        "payload_digest"
+      ],
+      "title": "StructuralProviderResultReceipt",
+      "type": "object"
+    },
+    "StructuralResultFieldReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "result_location": {
+          "enum": [
+            "node",
+            "element",
+            "integration_point",
+            "face",
+            "edge",
+            "global"
+          ],
+          "title": "Result Location",
+          "type": "string"
+        },
+        "averaging_basis": {
+          "minLength": 1,
+          "title": "Averaging Basis",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Component Ids",
+          "type": "array"
+        },
+        "array_shape": {
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "title": "Array Shape",
+          "type": "array"
+        },
+        "array_order": {
+          "enum": [
+            "C",
+            "F",
+            "provider_native"
+          ],
+          "title": "Array Order",
+          "type": "string"
+        },
+        "array_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Array Content Digest",
+          "type": "string"
+        },
+        "result_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_id",
+        "load_case_id",
+        "step_id",
+        "coordinate_frame_id",
+        "region_id",
+        "result_location",
+        "averaging_basis",
+        "quantity_id",
+        "quantity_definition",
+        "unit_token",
+        "component_ids",
+        "array_shape",
+        "array_order",
+        "array_content_digest",
+        "result_record_digest"
+      ],
+      "title": "StructuralResultFieldReceipt",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Screen selected diagnostics on a digest-verified external FE receipt.",
+  "properties": {
+    "receipt": {
+      "$ref": "#/$defs/StructuralProviderResultReceipt"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/FlangeDiagnosticCriterion"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "receipt_diagnostics_applicability_reviewed": {
+      "title": "Receipt Diagnostics Applicability Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt",
+    "criteria",
+    "receipt_diagnostics_applicability_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ExternalFlangeDiagnosticScreenRequest",
+  "type": "object"
+}

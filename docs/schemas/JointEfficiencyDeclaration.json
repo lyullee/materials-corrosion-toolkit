@@ -1,0 +1,387 @@
+{
+  "$defs": {
+    "DeclaredJointEfficiencyRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_set_id": {
+          "minLength": 1,
+          "title": "Rule Set Id",
+          "type": "string"
+        },
+        "rule_revision": {
+          "minLength": 1,
+          "title": "Rule Revision",
+          "type": "string"
+        },
+        "joint_configuration_id": {
+          "minLength": 1,
+          "title": "Joint Configuration Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "material_group_id": {
+          "minLength": 1,
+          "title": "Material Group Id",
+          "type": "string"
+        },
+        "examination_method_id": {
+          "minLength": 1,
+          "title": "Examination Method Id",
+          "type": "string"
+        },
+        "minimum_examination_extent_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Examination Extent Fraction",
+          "type": "number"
+        },
+        "maximum_examination_extent_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Examination Extent Fraction",
+          "type": "number"
+        },
+        "declared_joint_efficiency_factor": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Declared Joint Efficiency Factor",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "rule_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Rule Content Digest",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "authorization_basis": {
+          "minLength": 1,
+          "title": "Authorization Basis",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "rule_set_id",
+        "rule_revision",
+        "joint_configuration_id",
+        "welding_process_id",
+        "material_group_id",
+        "examination_method_id",
+        "minimum_examination_extent_fraction",
+        "maximum_examination_extent_fraction",
+        "declared_joint_efficiency_factor",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "rule_content_digest",
+        "computational_use_authorized",
+        "authorization_basis",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "DeclaredJointEfficiencyRule",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "JointExaminationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "examination_record_id": {
+          "minLength": 1,
+          "title": "Examination Record Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "examination_method_id": {
+          "minLength": 1,
+          "title": "Examination Method Id",
+          "type": "string"
+        },
+        "examined_extent_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Examined Extent Fraction",
+          "type": "number"
+        },
+        "extent_definition": {
+          "minLength": 1,
+          "title": "Extent Definition",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "examination_record_id",
+        "joint_id",
+        "physical_scope_id",
+        "examination_method_id",
+        "examined_extent_fraction",
+        "extent_definition",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "JointExaminationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "joint_configuration_id": {
+      "minLength": 1,
+      "title": "Joint Configuration Id",
+      "type": "string"
+    },
+    "welding_process_id": {
+      "minLength": 1,
+      "title": "Welding Process Id",
+      "type": "string"
+    },
+    "material_group_id": {
+      "minLength": 1,
+      "title": "Material Group Id",
+      "type": "string"
+    },
+    "examination_record": {
+      "$ref": "#/$defs/JointExaminationRecord"
+    },
+    "candidate_rules": {
+      "items": {
+        "$ref": "#/$defs/DeclaredJointEfficiencyRule"
+      },
+      "minItems": 1,
+      "title": "Candidate Rules",
+      "type": "array"
+    },
+    "joint_process_and_material_identity_reviewed": {
+      "title": "Joint Process And Material Identity Reviewed",
+      "type": "boolean"
+    },
+    "physical_scope_and_extent_definition_reviewed": {
+      "title": "Physical Scope And Extent Definition Reviewed",
+      "type": "boolean"
+    },
+    "examination_method_and_record_reviewed": {
+      "title": "Examination Method And Record Reviewed",
+      "type": "boolean"
+    },
+    "rule_revision_and_applicability_reviewed": {
+      "title": "Rule Revision And Applicability Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorization_reviewed": {
+      "title": "Computational Use Authorization Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "joint_id",
+    "physical_scope_id",
+    "joint_configuration_id",
+    "welding_process_id",
+    "material_group_id",
+    "examination_record",
+    "candidate_rules",
+    "joint_process_and_material_identity_reviewed",
+    "physical_scope_and_extent_definition_reviewed",
+    "examination_method_and_record_reviewed",
+    "rule_revision_and_applicability_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "computational_use_authorization_reviewed",
+    "evidence"
+  ],
+  "title": "JointEfficiencyDeclaration",
+  "type": "object"
+}

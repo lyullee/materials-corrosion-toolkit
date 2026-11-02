@@ -1,0 +1,391 @@
+{
+  "$defs": {
+    "CoatingQualificationMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "dry_film_thickness",
+            "adhesion",
+            "user_defined_performance"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "measurement_valid": {
+          "title": "Measurement Valid",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "specimen_id",
+        "metric_id",
+        "metric_kind",
+        "unit_token",
+        "measurement_valid",
+        "method_id",
+        "evidence"
+      ],
+      "title": "CoatingQualificationMeasurement",
+      "type": "object"
+    },
+    "CoatingQualificationSpecimen": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "coating_system_id": {
+          "minLength": 1,
+          "title": "Coating System Id",
+          "type": "string"
+        },
+        "coating_lot_id": {
+          "minLength": 1,
+          "title": "Coating Lot Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "exposure_id": {
+          "minLength": 1,
+          "title": "Exposure Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "specimen_id",
+        "coating_system_id",
+        "coating_lot_id",
+        "substrate_condition_id",
+        "exposure_id",
+        "source_group_id",
+        "partition",
+        "evidence"
+      ],
+      "title": "CoatingQualificationSpecimen",
+      "type": "object"
+    },
+    "DeclaredCoatingRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "comparator": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Comparator",
+          "type": "string"
+        },
+        "limit_value": {
+          "minimum": 0,
+          "title": "Limit Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "applicability_description": {
+          "minLength": 1,
+          "title": "Applicability Description",
+          "type": "string"
+        },
+        "authority_basis": {
+          "minLength": 1,
+          "title": "Authority Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "metric_id",
+        "comparator",
+        "limit_value",
+        "unit_token",
+        "applicability_description",
+        "authority_basis",
+        "evidence"
+      ],
+      "title": "DeclaredCoatingRequirement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "qualification_id": {
+      "minLength": 1,
+      "title": "Qualification Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "protocol_id": {
+      "minLength": 1,
+      "title": "Protocol Id",
+      "type": "string"
+    },
+    "protocol_revision": {
+      "minLength": 1,
+      "title": "Protocol Revision",
+      "type": "string"
+    },
+    "specimens": {
+      "items": {
+        "$ref": "#/$defs/CoatingQualificationSpecimen"
+      },
+      "minItems": 2,
+      "title": "Specimens",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/CoatingQualificationMeasurement"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "declared_requirements": {
+      "items": {
+        "$ref": "#/$defs/DeclaredCoatingRequirement"
+      },
+      "minItems": 1,
+      "title": "Declared Requirements",
+      "type": "array"
+    },
+    "specimen_identity_reviewed": {
+      "title": "Specimen Identity Reviewed",
+      "type": "boolean"
+    },
+    "coating_lot_traceability_reviewed": {
+      "title": "Coating Lot Traceability Reviewed",
+      "type": "boolean"
+    },
+    "exposure_identity_reviewed": {
+      "title": "Exposure Identity Reviewed",
+      "type": "boolean"
+    },
+    "measurement_methods_reviewed": {
+      "title": "Measurement Methods Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_basis_reviewed": {
+      "title": "Uncertainty Basis Reviewed",
+      "type": "boolean"
+    },
+    "partition_independence_reviewed": {
+      "title": "Partition Independence Reviewed",
+      "type": "boolean"
+    },
+    "requirement_authority_reviewed": {
+      "title": "Requirement Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "qualification_id",
+    "coating_system_id",
+    "protocol_id",
+    "protocol_revision",
+    "specimens",
+    "measurements",
+    "declared_requirements",
+    "specimen_identity_reviewed",
+    "coating_lot_traceability_reviewed",
+    "exposure_identity_reviewed",
+    "measurement_methods_reviewed",
+    "uncertainty_basis_reviewed",
+    "partition_independence_reviewed",
+    "requirement_authority_reviewed",
+    "evidence"
+  ],
+  "title": "CoatingQualificationAssessment",
+  "type": "object"
+}

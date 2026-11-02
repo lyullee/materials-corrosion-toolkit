@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "table_id": {
+      "minLength": 1,
+      "title": "Table Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "direction_id": {
+      "minLength": 1,
+      "title": "Direction Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "tangent_alpha_1_K": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Tangent Alpha 1 K",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "coefficient_definition": {
+      "const": "d_log_length_d_temperature",
+      "title": "Coefficient Definition",
+      "type": "string"
+    },
+    "applicability_reviewed": {
+      "title": "Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "table_id",
+    "material_condition_id",
+    "direction_id",
+    "temperature_K",
+    "tangent_alpha_1_K",
+    "evidence",
+    "coefficient_definition",
+    "applicability_reviewed"
+  ],
+  "title": "TangentExpansionTable",
+  "type": "object"
+}

@@ -1,0 +1,406 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "ScaleLimitingReactantInventory": {
+      "additionalProperties": false,
+      "description": "Available formula-unit reactant plus one declared supply per scale interval.",
+      "properties": {
+        "aqueous_species_id": {
+          "minLength": 1,
+          "title": "Aqueous Species Id",
+          "type": "string"
+        },
+        "moles_required_per_scale_formula_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Moles Required Per Scale Formula Mol",
+          "type": "number"
+        },
+        "initial_available_mol": {
+          "minimum": 0,
+          "title": "Initial Available Mol",
+          "type": "number"
+        },
+        "initial_inventory_record_id": {
+          "minLength": 1,
+          "title": "Initial Inventory Record Id",
+          "type": "string"
+        },
+        "initial_inventory_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Initial Inventory Evidence",
+          "type": "array"
+        },
+        "interval_supply": {
+          "items": {
+            "$ref": "#/$defs/ScaleReactantIntervalSupply"
+          },
+          "minItems": 1,
+          "title": "Interval Supply",
+          "type": "array"
+        }
+      },
+      "required": [
+        "aqueous_species_id",
+        "moles_required_per_scale_formula_mol",
+        "initial_available_mol",
+        "initial_inventory_record_id",
+        "initial_inventory_evidence",
+        "interval_supply"
+      ],
+      "title": "ScaleLimitingReactantInventory",
+      "type": "object"
+    },
+    "ScaleReactantIntervalSupply": {
+      "additionalProperties": false,
+      "description": "Caller-reported addition to a limiting-reactant inventory for one interval.",
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "added_mol": {
+          "minimum": 0,
+          "title": "Added Mol",
+          "type": "number"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "added_mol",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "ScaleReactantIntervalSupply",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compare gross computed phase precipitation with caller-owned reactant stocks.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.scale_precipitation_inventory_budget.v1",
+      "default": "matintegrity.scale_precipitation_inventory_budget.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "scale_history_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "scale_history_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scale History Result Sha256",
+      "type": "string"
+    },
+    "exposed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Exposed Area M2",
+      "type": "number"
+    },
+    "exposed_area_record_id": {
+      "minLength": 1,
+      "title": "Exposed Area Record Id",
+      "type": "string"
+    },
+    "exposed_area_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Exposed Area Evidence",
+      "type": "array"
+    },
+    "limiting_reactants": {
+      "items": {
+        "$ref": "#/$defs/ScaleLimitingReactantInventory"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Limiting Reactants",
+      "type": "array"
+    },
+    "scale_formula_stoichiometry_reviewed": {
+      "title": "Scale Formula Stoichiometry Reviewed",
+      "type": "boolean"
+    },
+    "inventory_accessibility_and_interval_supply_reviewed": {
+      "title": "Inventory Accessibility And Interval Supply Reviewed",
+      "type": "boolean"
+    },
+    "scale_history_scope_and_area_mapping_reviewed": {
+      "title": "Scale History Scope And Area Mapping Reviewed",
+      "type": "boolean"
+    },
+    "gross_precipitation_only_no_dissolution_credit_reviewed": {
+      "title": "Gross Precipitation Only No Dissolution Credit Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "scale_history_result",
+    "scale_history_result_sha256",
+    "exposed_area_m2",
+    "exposed_area_record_id",
+    "exposed_area_evidence",
+    "limiting_reactants",
+    "scale_formula_stoichiometry_reviewed",
+    "inventory_accessibility_and_interval_supply_reviewed",
+    "scale_history_scope_and_area_mapping_reviewed",
+    "gross_precipitation_only_no_dissolution_credit_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ScalePrecipitationInventoryBudget",
+  "type": "object"
+}

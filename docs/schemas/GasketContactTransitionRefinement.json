@@ -1,0 +1,354 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Bind one initial state-change bracket to a reviewed provider and budget.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_contact_transition_refinement.v1",
+      "default": "matintegrity.gasket_contact_transition_refinement.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "initial_bracket_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "initial_bracket_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Initial Bracket Result Sha256",
+      "type": "string"
+    },
+    "contact_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Contact History Sha256",
+      "type": "string"
+    },
+    "node_id": {
+      "minLength": 1,
+      "title": "Node Id",
+      "type": "string"
+    },
+    "from_state": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "From State",
+      "type": "string"
+    },
+    "to_state": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "To State",
+      "type": "string"
+    },
+    "lower_time_s": {
+      "minimum": 0,
+      "title": "Lower Time S",
+      "type": "number"
+    },
+    "upper_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Upper Time S",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "time_tolerance_s": {
+      "exclusiveMinimum": 0,
+      "title": "Time Tolerance S",
+      "type": "number"
+    },
+    "maximum_evaluations": {
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Evaluations",
+      "type": "integer"
+    },
+    "monotonic_single_transition_reviewed": {
+      "title": "Monotonic Single Transition Reviewed",
+      "type": "boolean"
+    },
+    "provider_identity_and_configuration_reviewed": {
+      "title": "Provider Identity And Configuration Reviewed",
+      "type": "boolean"
+    },
+    "physical_scope_and_time_basis_reviewed": {
+      "title": "Physical Scope And Time Basis Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "initial_bracket_result",
+    "initial_bracket_result_sha256",
+    "contact_history_sha256",
+    "node_id",
+    "from_state",
+    "to_state",
+    "lower_time_s",
+    "upper_time_s",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "time_tolerance_s",
+    "maximum_evaluations",
+    "monotonic_single_transition_reviewed",
+    "provider_identity_and_configuration_reviewed",
+    "physical_scope_and_time_basis_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketContactTransitionRefinement",
+  "type": "object"
+}

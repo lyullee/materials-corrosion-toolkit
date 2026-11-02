@@ -1,0 +1,171 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_calibrated_wall_flux_callback.v1",
+      "default": "matintegrity.crevice_calibrated_wall_flux_callback.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "callback_id": {
+      "minLength": 1,
+      "title": "Callback Id",
+      "type": "string"
+    },
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "calibrated_wall_rate_history_result": {
+      "additionalProperties": true,
+      "title": "Calibrated Wall Rate History Result",
+      "type": "object"
+    },
+    "calibrated_wall_rate_history_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibrated Wall Rate History Result Sha256",
+      "type": "string"
+    },
+    "geometry_history": {
+      "additionalProperties": true,
+      "title": "Geometry History",
+      "type": "object"
+    },
+    "geometry_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry History Sha256",
+      "type": "string"
+    },
+    "wall_equilibrium_concentration_mol_m3_by_knot_by_cell": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Wall Equilibrium Concentration Mol M3 By Knot By Cell",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "temperature_clock_and_geometry_alignment_reviewed": {
+      "title": "Temperature Clock And Geometry Alignment Reviewed",
+      "type": "boolean"
+    },
+    "single_species_restricted_transport_mapping_reviewed": {
+      "title": "Single Species Restricted Transport Mapping Reviewed",
+      "type": "boolean"
+    },
+    "linear_inter_knot_rate_and_surface_state_path_reviewed": {
+      "title": "Linear Inter Knot Rate And Surface State Path Reviewed",
+      "type": "boolean"
+    },
+    "robin_flux_sign_and_surface_concentration_reviewed": {
+      "title": "Robin Flux Sign And Surface Concentration Reviewed",
+      "type": "boolean"
+    },
+    "calibrated_condition_and_geometry_applicability_reviewed": {
+      "title": "Calibrated Condition And Geometry Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "callback_id",
+    "species_id",
+    "condition_id",
+    "geometry_id",
+    "calibrated_wall_rate_history_result",
+    "calibrated_wall_rate_history_result_sha256",
+    "geometry_history",
+    "geometry_history_sha256",
+    "wall_equilibrium_concentration_mol_m3_by_knot_by_cell",
+    "evidence",
+    "temperature_clock_and_geometry_alignment_reviewed",
+    "single_species_restricted_transport_mapping_reviewed",
+    "linear_inter_knot_rate_and_surface_state_path_reviewed",
+    "robin_flux_sign_and_surface_concentration_reviewed",
+    "calibrated_condition_and_geometry_applicability_reviewed"
+  ],
+  "title": "CreviceCalibratedWallFluxRequest",
+  "type": "object"
+}

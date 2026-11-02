@@ -1,0 +1,212 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One source-order acquisition row; original units and member identity are preserved.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.polarization_316l_raw_row.v1",
+      "default": "matintegrity.polarization_316l_raw_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-316l-naCl-potentiodynamic-polarization-v2",
+      "default": "zenodo-316l-naCl-potentiodynamic-polarization-v2",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.5281/zenodo.15284154",
+      "default": "10.5281/zenodo.15284154",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_archive_filename": {
+      "const": "zenodo-15284154-316l-pp.zip",
+      "default": "zenodo-15284154-316l-pp.zip",
+      "title": "Source Archive Filename",
+      "type": "string"
+    },
+    "source_archive_bytes": {
+      "default": 7170288,
+      "title": "Source Archive Bytes",
+      "type": "integer"
+    },
+    "source_archive_md5": {
+      "const": "794769a9ba3698c2d0bcfd25c45c11b5",
+      "default": "794769a9ba3698c2d0bcfd25c45c11b5",
+      "title": "Source Archive Md5",
+      "type": "string"
+    },
+    "source_archive_sha256": {
+      "const": "006cf12b8cd3e04ec4732114abdcef8cd4a78579add3319919256fe8c2fc8fd1",
+      "default": "006cf12b8cd3e04ec4732114abdcef8cd4a78579add3319919256fe8c2fc8fd1",
+      "title": "Source Archive Sha256",
+      "type": "string"
+    },
+    "provider_member_path": {
+      "minLength": 1,
+      "title": "Provider Member Path",
+      "type": "string"
+    },
+    "concentration_mol_l": {
+      "enum": [
+        "0.005",
+        "0.01",
+        "0.05"
+      ],
+      "title": "Concentration Mol L",
+      "type": "string"
+    },
+    "provider_curve_label": {
+      "minLength": 1,
+      "title": "Provider Curve Label",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "provider_line_number": {
+      "minimum": 2,
+      "title": "Provider Line Number",
+      "type": "integer"
+    },
+    "elapsed_time_s": {
+      "title": "Elapsed Time S",
+      "type": "number"
+    },
+    "working_electrode_potential_v": {
+      "title": "Working Electrode Potential V",
+      "type": "number"
+    },
+    "measured_current_ma": {
+      "title": "Measured Current Ma",
+      "type": "number"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "current_density_derived": {
+      "const": false,
+      "default": false,
+      "title": "Current Density Derived",
+      "type": "boolean"
+    },
+    "corrosion_rate_derived": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Derived",
+      "type": "boolean"
+    },
+    "failure_probability_derived": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Derived",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "provider_member_path",
+    "concentration_mol_l",
+    "provider_curve_label",
+    "source_order",
+    "provider_line_number",
+    "elapsed_time_s",
+    "working_electrode_potential_v",
+    "measured_current_ma",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "Polarization316LRawRow",
+  "type": "object"
+}

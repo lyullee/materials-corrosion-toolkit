@@ -1,0 +1,627 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReplicaFrameCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "coordinate_unit": {
+          "enum": [
+            "m",
+            "px"
+          ],
+          "title": "Coordinate Unit",
+          "type": "string"
+        },
+        "frame_width": {
+          "exclusiveMinimum": 0,
+          "title": "Frame Width",
+          "type": "number"
+        },
+        "frame_height": {
+          "exclusiveMinimum": 0,
+          "title": "Frame Height",
+          "type": "number"
+        },
+        "pixel_size_x_m_per_px": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pixel Size X M Per Px"
+        },
+        "pixel_size_y_m_per_px": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pixel Size Y M Per Px"
+        },
+        "expanded_pixel_size_x_uncertainty_m_per_px": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Pixel Size X Uncertainty M Per Px"
+        },
+        "expanded_pixel_size_y_uncertainty_m_per_px": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Pixel Size Y Uncertainty M Per Px"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "calibration_provider_id": {
+          "minLength": 1,
+          "title": "Calibration Provider Id",
+          "type": "string"
+        },
+        "calibration_provider_revision": {
+          "minLength": 1,
+          "title": "Calibration Provider Revision",
+          "type": "string"
+        },
+        "calibration_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "coordinate_unit",
+        "frame_width",
+        "frame_height",
+        "uncertainty_coverage_factor",
+        "calibration_provider_id",
+        "calibration_provider_revision",
+        "calibration_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ReplicaFrameCalibration",
+      "type": "object"
+    },
+    "ReplicaReviewedField": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "replica_id": {
+          "minLength": 1,
+          "title": "Replica Id",
+          "type": "string"
+        },
+        "frame_id": {
+          "minLength": 1,
+          "title": "Frame Id",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "calibration": {
+          "$ref": "#/$defs/ReplicaFrameCalibration"
+        },
+        "segmentation_method_id": {
+          "minLength": 1,
+          "title": "Segmentation Method Id",
+          "type": "string"
+        },
+        "segmentation_provider_id": {
+          "minLength": 1,
+          "title": "Segmentation Provider Id",
+          "type": "string"
+        },
+        "segmentation_provider_revision": {
+          "minLength": 1,
+          "title": "Segmentation Provider Revision",
+          "type": "string"
+        },
+        "segmentation_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Segmentation Configuration Digest",
+          "type": "string"
+        },
+        "segmentation_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Segmentation Input Digest",
+          "type": "string"
+        },
+        "segmentation_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Segmentation Result Digest",
+          "type": "string"
+        },
+        "observer_review_id": {
+          "minLength": 1,
+          "title": "Observer Review Id",
+          "type": "string"
+        },
+        "observer_review_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observer Review Digest",
+          "type": "string"
+        },
+        "feature_inventory_complete": {
+          "title": "Feature Inventory Complete",
+          "type": "boolean"
+        },
+        "field_record_valid": {
+          "title": "Field Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/$defs/ReplicaSegmentationFeature"
+          },
+          "title": "Features",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "field_id",
+        "replica_id",
+        "frame_id",
+        "physical_source_group_id",
+        "independence_group_id",
+        "calibration",
+        "segmentation_method_id",
+        "segmentation_provider_id",
+        "segmentation_provider_revision",
+        "segmentation_configuration_digest",
+        "segmentation_input_digest",
+        "segmentation_result_digest",
+        "observer_review_id",
+        "observer_review_digest",
+        "feature_inventory_complete",
+        "field_record_valid",
+        "features",
+        "evidence"
+      ],
+      "title": "ReplicaReviewedField",
+      "type": "object"
+    },
+    "ReplicaSegmentationFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "caller_feature_type": {
+          "minLength": 1,
+          "title": "Caller Feature Type",
+          "type": "string"
+        },
+        "centroid_x": {
+          "minimum": 0,
+          "title": "Centroid X",
+          "type": "number"
+        },
+        "centroid_y": {
+          "minimum": 0,
+          "title": "Centroid Y",
+          "type": "number"
+        },
+        "bounding_box_min_x": {
+          "minimum": 0,
+          "title": "Bounding Box Min X",
+          "type": "number"
+        },
+        "bounding_box_min_y": {
+          "minimum": 0,
+          "title": "Bounding Box Min Y",
+          "type": "number"
+        },
+        "bounding_box_max_x": {
+          "exclusiveMinimum": 0,
+          "title": "Bounding Box Max X",
+          "type": "number"
+        },
+        "bounding_box_max_y": {
+          "exclusiveMinimum": 0,
+          "title": "Bounding Box Max Y",
+          "type": "number"
+        },
+        "segmented_area": {
+          "exclusiveMinimum": 0,
+          "title": "Segmented Area",
+          "type": "number"
+        },
+        "expanded_centroid_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Centroid Uncertainty",
+          "type": "number"
+        },
+        "expanded_area_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Area Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "segmentation_feature_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Segmentation Feature Digest",
+          "type": "string"
+        },
+        "overlaps_feature_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Overlaps Feature Ids",
+          "type": "array"
+        },
+        "touches_frame_edge": {
+          "title": "Touches Frame Edge",
+          "type": "boolean"
+        },
+        "include_in_summary": {
+          "title": "Include In Summary",
+          "type": "boolean"
+        },
+        "edge_censoring_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edge Censoring Basis"
+        },
+        "record_available": {
+          "title": "Record Available",
+          "type": "boolean"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "observer_review_id": {
+          "minLength": 1,
+          "title": "Observer Review Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "feature_id",
+        "caller_feature_type",
+        "centroid_x",
+        "centroid_y",
+        "bounding_box_min_x",
+        "bounding_box_min_y",
+        "bounding_box_max_x",
+        "bounding_box_max_y",
+        "segmented_area",
+        "expanded_centroid_uncertainty",
+        "expanded_area_uncertainty",
+        "uncertainty_coverage_factor",
+        "segmentation_feature_digest",
+        "touches_frame_edge",
+        "include_in_summary",
+        "record_available",
+        "record_valid",
+        "observer_review_id",
+        "evidence"
+      ],
+      "title": "ReplicaSegmentationFeature",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "replica_campaign_id": {
+      "minLength": 1,
+      "title": "Replica Campaign Id",
+      "type": "string"
+    },
+    "physical_location_definition": {
+      "minLength": 1,
+      "title": "Physical Location Definition",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "service_exposure_id": {
+      "minLength": 1,
+      "title": "Service Exposure Id",
+      "type": "string"
+    },
+    "service_clock_definition": {
+      "minLength": 1,
+      "title": "Service Clock Definition",
+      "type": "string"
+    },
+    "service_exposure_duration_s": {
+      "minimum": 0,
+      "title": "Service Exposure Duration S",
+      "type": "number"
+    },
+    "minimum_service_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Service Temperature K",
+      "type": "number"
+    },
+    "maximum_service_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Service Temperature K",
+      "type": "number"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/ReplicaReviewedField"
+      },
+      "minItems": 1,
+      "title": "Fields",
+      "type": "array"
+    },
+    "replica_location_material_and_service_exposure_reviewed": {
+      "title": "Replica Location Material And Service Exposure Reviewed",
+      "type": "boolean"
+    },
+    "frame_and_calibration_identity_reviewed": {
+      "title": "Frame And Calibration Identity Reviewed",
+      "type": "boolean"
+    },
+    "si_scale_units_and_uncertainty_reviewed": {
+      "title": "Si Scale Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "segmentation_provider_revision_and_digests_reviewed": {
+      "title": "Segmentation Provider Revision And Digests Reviewed",
+      "type": "boolean"
+    },
+    "observer_review_and_feature_inventory_reviewed": {
+      "title": "Observer Review And Feature Inventory Reviewed",
+      "type": "boolean"
+    },
+    "feature_ids_types_coordinates_and_geometry_reviewed": {
+      "title": "Feature Ids Types Coordinates And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "duplicate_overlap_and_edge_censoring_reviewed": {
+      "title": "Duplicate Overlap And Edge Censoring Reviewed",
+      "type": "boolean"
+    },
+    "physical_source_and_independence_groups_reviewed": {
+      "title": "Physical Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "replica_campaign_id",
+    "physical_location_definition",
+    "material_id",
+    "material_condition_id",
+    "service_exposure_id",
+    "service_clock_definition",
+    "service_exposure_duration_s",
+    "minimum_service_temperature_K",
+    "maximum_service_temperature_K",
+    "fields",
+    "replica_location_material_and_service_exposure_reviewed",
+    "frame_and_calibration_identity_reviewed",
+    "si_scale_units_and_uncertainty_reviewed",
+    "segmentation_provider_revision_and_digests_reviewed",
+    "observer_review_and_feature_inventory_reviewed",
+    "feature_ids_types_coordinates_and_geometry_reviewed",
+    "duplicate_overlap_and_edge_censoring_reviewed",
+    "physical_source_and_independence_groups_reviewed",
+    "evidence"
+  ],
+  "title": "ReplicaFeatureDensityAssessment",
+  "type": "object"
+}

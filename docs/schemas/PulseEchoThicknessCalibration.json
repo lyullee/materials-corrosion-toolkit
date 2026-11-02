@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed calibration for converting one pulse-echo series to thickness.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pulse_echo_thickness_calibration.v1",
+      "default": "matintegrity.pulse_echo_thickness_calibration.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "applicable_sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applicable Sample Ids",
+      "type": "array"
+    },
+    "applicable_probe_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applicable Probe Ids",
+      "type": "array"
+    },
+    "wave_mode": {
+      "const": "longitudinal",
+      "title": "Wave Mode",
+      "type": "string"
+    },
+    "sound_speed_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Sound Speed M S",
+      "type": "number"
+    },
+    "sound_speed_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sound Speed Temperature K"
+    },
+    "incidence_angle_rad": {
+      "default": 0.0,
+      "exclusiveMaximum": 1.5707963267948966,
+      "minimum": 0,
+      "title": "Incidence Angle Rad",
+      "type": "number"
+    },
+    "time_zero_offset_s": {
+      "minimum": 0,
+      "title": "Time Zero Offset S",
+      "type": "number"
+    },
+    "tof_field": {
+      "enum": [
+        "tof_s",
+        "tof_compensated_s"
+      ],
+      "title": "Tof Field",
+      "type": "string"
+    },
+    "temperature_compensation_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Compensation Basis"
+    },
+    "calibration_basis": {
+      "minLength": 1,
+      "title": "Calibration Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "calibration_reviewed": {
+      "title": "Calibration Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "material_id",
+    "applicable_sample_ids",
+    "applicable_probe_ids",
+    "wave_mode",
+    "sound_speed_m_s",
+    "time_zero_offset_s",
+    "tof_field",
+    "calibration_basis",
+    "evidence",
+    "calibration_reviewed"
+  ],
+  "title": "PulseEchoThicknessCalibration",
+  "type": "object"
+}

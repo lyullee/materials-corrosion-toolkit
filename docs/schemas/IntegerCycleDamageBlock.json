@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "CycleBlockLawParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parameter_id",
+        "value",
+        "unit"
+      ],
+      "title": "CycleBlockLawParameter",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "block_id": {
+      "minLength": 1,
+      "title": "Block Id",
+      "type": "string"
+    },
+    "cycle_population_id": {
+      "minLength": 1,
+      "title": "Cycle Population Id",
+      "type": "string"
+    },
+    "loading_state_id": {
+      "minLength": 1,
+      "title": "Loading State Id",
+      "type": "string"
+    },
+    "cycle_count": {
+      "maximum": 9007199254740992,
+      "minimum": 1,
+      "title": "Cycle Count",
+      "type": "integer"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "parameters": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CycleBlockLawParameter"
+      },
+      "maxItems": 1000,
+      "title": "Parameters",
+      "type": "array"
+    }
+  },
+  "required": [
+    "block_id",
+    "cycle_population_id",
+    "loading_state_id",
+    "cycle_count",
+    "source_sha256"
+  ],
+  "title": "IntegerCycleDamageBlock",
+  "type": "object"
+}

@@ -1,0 +1,311 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TubeCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "tube_id": {
+          "minLength": 1,
+          "title": "Tube Id",
+          "type": "string"
+        },
+        "inner_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Inner Diameter M",
+          "type": "number"
+        },
+        "reference_wall_m": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Wall M",
+          "type": "number"
+        },
+        "minimum_wall_m": {
+          "minimum": 0,
+          "title": "Minimum Wall M",
+          "type": "number"
+        },
+        "plugged": {
+          "title": "Plugged",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "tube_id",
+        "inner_diameter_m",
+        "reference_wall_m",
+        "minimum_wall_m",
+        "plugged"
+      ],
+      "title": "TubeCondition",
+      "type": "object"
+    },
+    "TubePressureKnot": {
+      "additionalProperties": false,
+      "description": "One exact pressure sample for one tube; pressure values are absolute Pa.",
+      "properties": {
+        "knot_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Knot Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "exchanger_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Exchanger Id",
+          "type": "string"
+        },
+        "bundle_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Bundle Id",
+          "type": "string"
+        },
+        "tube_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Tube Id",
+          "type": "string"
+        },
+        "time_basis_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Time Basis Id",
+          "type": "string"
+        },
+        "pressure_reference_basis_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Pressure Reference Basis Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0.0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "internal_pressure_Pa": {
+          "minimum": 0.0,
+          "title": "Internal Pressure Pa",
+          "type": "number"
+        },
+        "external_pressure_Pa": {
+          "minimum": 0.0,
+          "title": "External Pressure Pa",
+          "type": "number"
+        },
+        "source_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "source_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "knot_id",
+        "asset_id",
+        "location_id",
+        "exchanger_id",
+        "bundle_id",
+        "tube_id",
+        "time_basis_id",
+        "pressure_reference_basis_id",
+        "time_s",
+        "internal_pressure_Pa",
+        "external_pressure_Pa",
+        "source_id",
+        "source_record_id",
+        "source_record_sha256",
+        "evidence"
+      ],
+      "title": "TubePressureKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One inspected tube's geometry and exact-knot pressure history.",
+  "properties": {
+    "tube_condition": {
+      "$ref": "#/$defs/TubeCondition"
+    },
+    "asset_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "exchanger_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Exchanger Id",
+      "type": "string"
+    },
+    "bundle_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Bundle Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "closed_ends": {
+      "title": "Closed Ends",
+      "type": "boolean"
+    },
+    "geometry_source_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Geometry Source Id",
+      "type": "string"
+    },
+    "geometry_record_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Geometry Record Id",
+      "type": "string"
+    },
+    "geometry_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Record Sha256",
+      "type": "string"
+    },
+    "geometry_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Geometry Evidence",
+      "type": "array"
+    },
+    "pressure_knots": {
+      "items": {
+        "$ref": "#/$defs/TubePressureKnot"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Pressure Knots",
+      "type": "array"
+    },
+    "plugged_tube_pressure_path_reviewed": {
+      "default": false,
+      "title": "Plugged Tube Pressure Path Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "tube_condition",
+    "asset_id",
+    "location_id",
+    "exchanger_id",
+    "bundle_id",
+    "material_condition_id",
+    "closed_ends",
+    "geometry_source_id",
+    "geometry_record_id",
+    "geometry_record_sha256",
+    "geometry_evidence",
+    "pressure_knots"
+  ],
+  "title": "TubePressureStressHistory",
+  "type": "object"
+}

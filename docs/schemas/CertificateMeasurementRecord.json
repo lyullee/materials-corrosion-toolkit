@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "measurement_id": {
+      "minLength": 1,
+      "title": "Measurement Id",
+      "type": "string"
+    },
+    "quantity_kind": {
+      "enum": [
+        "chemistry",
+        "mechanical"
+      ],
+      "title": "Quantity Kind",
+      "type": "string"
+    },
+    "quantity_id": {
+      "minLength": 1,
+      "title": "Quantity Id",
+      "type": "string"
+    },
+    "reported_value": {
+      "title": "Reported Value",
+      "type": "number"
+    },
+    "reported_unit": {
+      "minLength": 1,
+      "title": "Reported Unit",
+      "type": "string"
+    },
+    "expanded_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Uncertainty",
+      "type": "number"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "measurement_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Measurement Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "measurement_id",
+    "quantity_kind",
+    "quantity_id",
+    "reported_value",
+    "reported_unit",
+    "expanded_uncertainty",
+    "method_id",
+    "measurement_digest",
+    "evidence"
+  ],
+  "title": "CertificateMeasurementRecord",
+  "type": "object"
+}

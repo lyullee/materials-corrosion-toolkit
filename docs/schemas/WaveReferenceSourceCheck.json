@@ -1,0 +1,232 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "check_id": {
+      "minLength": 1,
+      "title": "Check Id",
+      "type": "string"
+    },
+    "sequence_index": {
+      "minimum": 0,
+      "title": "Sequence Index",
+      "type": "integer"
+    },
+    "elapsed_time_s": {
+      "minimum": 0,
+      "title": "Elapsed Time S",
+      "type": "number"
+    },
+    "check_stage": {
+      "minLength": 1,
+      "title": "Check Stage",
+      "type": "string"
+    },
+    "reference_source_id": {
+      "minLength": 1,
+      "title": "Reference Source Id",
+      "type": "string"
+    },
+    "reference_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Source Digest",
+      "type": "string"
+    },
+    "channel_id": {
+      "minLength": 1,
+      "title": "Channel Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "timing_error_s": {
+      "title": "Timing Error S",
+      "type": "number"
+    },
+    "expanded_timing_uncertainty_s": {
+      "minimum": 0,
+      "title": "Expanded Timing Uncertainty S",
+      "type": "number"
+    },
+    "amplitude_metric": {
+      "minimum": 0,
+      "title": "Amplitude Metric",
+      "type": "number"
+    },
+    "amplitude_unit_token": {
+      "minLength": 1,
+      "title": "Amplitude Unit Token",
+      "type": "string"
+    },
+    "expanded_amplitude_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Amplitude Uncertainty",
+      "type": "number"
+    },
+    "noise_metric": {
+      "minimum": 0,
+      "title": "Noise Metric",
+      "type": "number"
+    },
+    "noise_unit_token": {
+      "minLength": 1,
+      "title": "Noise Unit Token",
+      "type": "string"
+    },
+    "expanded_noise_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Noise Uncertainty",
+      "type": "number"
+    },
+    "localization_error_m": {
+      "minimum": 0,
+      "title": "Localization Error M",
+      "type": "number"
+    },
+    "expanded_localization_uncertainty_m": {
+      "minimum": 0,
+      "title": "Expanded Localization Uncertainty M",
+      "type": "number"
+    },
+    "reference_consistency_error": {
+      "minimum": 0,
+      "title": "Reference Consistency Error",
+      "type": "number"
+    },
+    "expanded_consistency_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Consistency Uncertainty",
+      "type": "number"
+    },
+    "check_method_definition": {
+      "minLength": 1,
+      "title": "Check Method Definition",
+      "type": "string"
+    },
+    "check_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Check Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "check_id",
+    "sequence_index",
+    "elapsed_time_s",
+    "check_stage",
+    "reference_source_id",
+    "reference_source_digest",
+    "channel_id",
+    "source_group_id",
+    "independence_group_id",
+    "timing_error_s",
+    "expanded_timing_uncertainty_s",
+    "amplitude_metric",
+    "amplitude_unit_token",
+    "expanded_amplitude_uncertainty",
+    "noise_metric",
+    "noise_unit_token",
+    "expanded_noise_uncertainty",
+    "localization_error_m",
+    "expanded_localization_uncertainty_m",
+    "reference_consistency_error",
+    "expanded_consistency_uncertainty",
+    "check_method_definition",
+    "check_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "WaveReferenceSourceCheck",
+  "type": "object"
+}

@@ -1,0 +1,248 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MprDecodedRecord": {
+      "additionalProperties": false,
+      "description": "Minimal caller-decoder output; the reader preserves reported values and units.",
+      "properties": {
+        "time_value": {
+          "title": "Time Value",
+          "type": "number"
+        },
+        "time_unit": {
+          "minLength": 1,
+          "title": "Time Unit",
+          "type": "string"
+        },
+        "potential_value": {
+          "title": "Potential Value",
+          "type": "number"
+        },
+        "potential_unit": {
+          "minLength": 1,
+          "title": "Potential Unit",
+          "type": "string"
+        },
+        "current_value": {
+          "title": "Current Value",
+          "type": "number"
+        },
+        "current_unit": {
+          "minLength": 1,
+          "title": "Current Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "time_value",
+        "time_unit",
+        "potential_value",
+        "potential_unit",
+        "current_value",
+        "current_unit"
+      ],
+      "title": "MprDecodedRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One typed decoded row tied to exact dataset asset, parser identity, and source order.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.mendeley_316l_metastable_pitting_row.v1",
+      "default": "matintegrity.mendeley_316l_metastable_pitting_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "mendeley-316l-metastable-pitting-chronoamperometry",
+      "default": "mendeley-316l-metastable-pitting-chronoamperometry",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.17632/z43xxs7hvv.1",
+      "default": "10.17632/z43xxs7hvv.1",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "provider_filename": {
+      "enum": [
+        "Sample_I_chronoamperometry.mpr",
+        "Sample_II_Chronoamperometry.mpr",
+        "Sample_III_Chronoamperometry.mpr"
+      ],
+      "title": "Provider Filename",
+      "type": "string"
+    },
+    "provider_file_id": {
+      "title": "Provider File Id",
+      "type": "string"
+    },
+    "provider_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Sha256",
+      "type": "string"
+    },
+    "provider_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Provider Bytes",
+      "type": "integer"
+    },
+    "sample_label": {
+      "enum": [
+        "I",
+        "II",
+        "III"
+      ],
+      "title": "Sample Label",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "parser_name": {
+      "minLength": 1,
+      "title": "Parser Name",
+      "type": "string"
+    },
+    "parser_version": {
+      "minLength": 1,
+      "title": "Parser Version",
+      "type": "string"
+    },
+    "parsed_record": {
+      "$ref": "#/$defs/MprDecodedRecord"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "potential_reference_normalized": {
+      "const": false,
+      "default": false,
+      "title": "Potential Reference Normalized",
+      "type": "boolean"
+    },
+    "current_density_derived": {
+      "const": false,
+      "default": false,
+      "title": "Current Density Derived",
+      "type": "boolean"
+    },
+    "pit_event_label_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Pit Event Label Inferred",
+      "type": "boolean"
+    },
+    "remaining_life_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Remaining Life Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "provider_filename",
+    "provider_file_id",
+    "provider_sha256",
+    "provider_bytes",
+    "sample_label",
+    "source_order",
+    "parser_name",
+    "parser_version",
+    "parsed_record",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "MetastablePittingMeasurementRow",
+  "type": "object"
+}

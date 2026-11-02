@@ -1,0 +1,298 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HardnessRegionCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "region": {
+          "enum": [
+            "base_material",
+            "haz",
+            "fusion_boundary",
+            "weld_metal",
+            "user_defined"
+          ],
+          "title": "Region",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "minimum": 0,
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "minimum": 0,
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "region",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "hardness_unit_token",
+        "criterion_basis"
+      ],
+      "title": "HardnessRegionCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "required_regions": {
+      "items": {
+        "enum": [
+          "base_material",
+          "haz",
+          "fusion_boundary",
+          "weld_metal",
+          "user_defined"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Regions",
+      "type": "array"
+    },
+    "minimum_traverse_count": {
+      "minimum": 1,
+      "title": "Minimum Traverse Count",
+      "type": "integer"
+    },
+    "minimum_independent_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Independent Source Group Count",
+      "type": "integer"
+    },
+    "required_configuration_id": {
+      "minLength": 1,
+      "title": "Required Configuration Id",
+      "type": "string"
+    },
+    "required_method_id": {
+      "minLength": 1,
+      "title": "Required Method Id",
+      "type": "string"
+    },
+    "required_method_revision": {
+      "minLength": 1,
+      "title": "Required Method Revision",
+      "type": "string"
+    },
+    "required_hardness_scale_id": {
+      "minLength": 1,
+      "title": "Required Hardness Scale Id",
+      "type": "string"
+    },
+    "required_hardness_unit_token": {
+      "minLength": 1,
+      "title": "Required Hardness Unit Token",
+      "type": "string"
+    },
+    "required_test_load_value": {
+      "exclusiveMinimum": 0,
+      "title": "Required Test Load Value",
+      "type": "number"
+    },
+    "required_test_load_unit_token": {
+      "minLength": 1,
+      "title": "Required Test Load Unit Token",
+      "type": "string"
+    },
+    "required_dwell_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Required Dwell Time S",
+      "type": "number"
+    },
+    "required_indenter_id": {
+      "minLength": 1,
+      "title": "Required Indenter Id",
+      "type": "string"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/HardnessRegionCriterion"
+      },
+      "minItems": 1,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_provider_id": {
+      "minLength": 1,
+      "title": "Profile Provider Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Configuration Digest",
+      "type": "string"
+    },
+    "caller_acceptance_authority": {
+      "minLength": 1,
+      "title": "Caller Acceptance Authority",
+      "type": "string"
+    },
+    "scale_conversion_used": {
+      "const": false,
+      "default": false,
+      "title": "Scale Conversion Used",
+      "type": "boolean"
+    },
+    "strength_inference_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Strength Inference Claimed",
+      "type": "boolean"
+    },
+    "built_in_code_or_standard_limits_used": {
+      "const": false,
+      "default": false,
+      "title": "Built In Code Or Standard Limits Used",
+      "type": "boolean"
+    },
+    "automatic_haz_classification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Haz Classification Claimed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_version",
+    "required_regions",
+    "minimum_traverse_count",
+    "minimum_independent_source_group_count",
+    "required_configuration_id",
+    "required_method_id",
+    "required_method_revision",
+    "required_hardness_scale_id",
+    "required_hardness_unit_token",
+    "required_test_load_value",
+    "required_test_load_unit_token",
+    "required_dwell_time_s",
+    "required_indenter_id",
+    "criteria",
+    "profile_provider_id",
+    "profile_revision",
+    "profile_configuration_digest",
+    "caller_acceptance_authority",
+    "evidence"
+  ],
+  "title": "WeldHardnessCallerProfile",
+  "type": "object"
+}

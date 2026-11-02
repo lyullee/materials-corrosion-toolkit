@@ -1,0 +1,248 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PulseEchoCalibrationObservation": {
+      "additionalProperties": false,
+      "description": "One reference-block observation, with an immutable fit/holdout assignment.",
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "reference_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Thickness M",
+          "type": "number"
+        },
+        "round_trip_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Round Trip Time S",
+          "type": "number"
+        },
+        "reference_thickness_standard_uncertainty_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Thickness Standard Uncertainty M"
+        },
+        "round_trip_time_standard_uncertainty_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Trip Time Standard Uncertainty S"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_location_id",
+        "source_group_id",
+        "partition",
+        "reference_thickness_m",
+        "round_trip_time_s"
+      ],
+      "title": "PulseEchoCalibrationObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Fit one sound speed while holding timing zero and path angle fixed and reviewed.",
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "probe_id": {
+      "minLength": 1,
+      "title": "Probe Id",
+      "type": "string"
+    },
+    "wave_mode": {
+      "const": "longitudinal",
+      "default": "longitudinal",
+      "title": "Wave Mode",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "time_zero_offset_s": {
+      "minimum": 0,
+      "title": "Time Zero Offset S",
+      "type": "number"
+    },
+    "incidence_angle_rad": {
+      "exclusiveMaximum": 1.5707963267948966,
+      "minimum": 0,
+      "title": "Incidence Angle Rad",
+      "type": "number"
+    },
+    "reference_dimension_method": {
+      "minLength": 1,
+      "title": "Reference Dimension Method",
+      "type": "string"
+    },
+    "fit_method": {
+      "default": "ordinary_through_origin",
+      "enum": [
+        "ordinary_through_origin",
+        "iterative_effective_variance"
+      ],
+      "title": "Fit Method",
+      "type": "string"
+    },
+    "relative_convergence_tolerance": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Relative Convergence Tolerance",
+      "type": "number"
+    },
+    "maximum_iterations": {
+      "default": 100,
+      "minimum": 1,
+      "title": "Maximum Iterations",
+      "type": "integer"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/PulseEchoCalibrationObservation"
+      },
+      "minItems": 4,
+      "title": "Observations",
+      "type": "array"
+    },
+    "timing_and_path_reviewed": {
+      "title": "Timing And Path Reviewed",
+      "type": "boolean"
+    },
+    "reference_dimensions_reviewed": {
+      "title": "Reference Dimensions Reviewed",
+      "type": "boolean"
+    },
+    "holdout_partition_predeclared": {
+      "title": "Holdout Partition Predeclared",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "material_id",
+    "probe_id",
+    "temperature_K",
+    "time_zero_offset_s",
+    "incidence_angle_rad",
+    "reference_dimension_method",
+    "observations",
+    "timing_and_path_reviewed",
+    "reference_dimensions_reviewed",
+    "holdout_partition_predeclared",
+    "evidence"
+  ],
+  "title": "PulseEchoSoundSpeedFit",
+  "type": "object"
+}

@@ -1,0 +1,141 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "method": {
+      "enum": [
+        "visual_surface",
+        "penetrant",
+        "magnetic_particle"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "procedure_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Procedure Source Digest",
+      "type": "string"
+    },
+    "examiner_or_provider_id": {
+      "minLength": 1,
+      "title": "Examiner Or Provider Id",
+      "type": "string"
+    },
+    "equipment_configuration_id": {
+      "minLength": 1,
+      "title": "Equipment Configuration Id",
+      "type": "string"
+    },
+    "method_parameters": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Method Parameters",
+      "type": "object"
+    },
+    "procedure_reviewed": {
+      "title": "Procedure Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "method",
+    "procedure_id",
+    "procedure_revision",
+    "procedure_source_digest",
+    "examiner_or_provider_id",
+    "equipment_configuration_id",
+    "method_parameters",
+    "procedure_reviewed",
+    "evidence"
+  ],
+  "title": "SurfaceInspectionProcedure",
+  "type": "object"
+}

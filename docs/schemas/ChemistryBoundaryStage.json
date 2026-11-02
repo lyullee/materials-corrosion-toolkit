@@ -1,0 +1,332 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One computed result plus caller-reviewed paths to its physical state metadata.",
+  "properties": {
+    "stage_id": {
+      "minLength": 1,
+      "title": "Stage Id",
+      "type": "string"
+    },
+    "expected_model_id": {
+      "minLength": 1,
+      "title": "Expected Model Id",
+      "type": "string"
+    },
+    "result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Sha256",
+      "type": "string"
+    },
+    "elapsed_time_path": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Elapsed Time Path",
+      "type": "array"
+    },
+    "temperature_path": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Temperature Path",
+      "type": "array"
+    },
+    "solvent_id_path": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Solvent Id Path",
+      "type": "array"
+    },
+    "standard_state_id_path": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Standard State Id Path",
+      "type": "array"
+    },
+    "material_condition_id_path": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Material Condition Id Path",
+      "type": "array"
+    },
+    "output_species_ids_path": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Output Species Ids Path",
+      "type": "array"
+    },
+    "input_species_ids_path": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Input Species Ids Path"
+    }
+  },
+  "required": [
+    "stage_id",
+    "expected_model_id",
+    "result",
+    "result_sha256",
+    "elapsed_time_path",
+    "temperature_path",
+    "solvent_id_path",
+    "standard_state_id_path",
+    "material_condition_id_path",
+    "output_species_ids_path"
+  ],
+  "title": "ChemistryBoundaryStage",
+  "type": "object"
+}

@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ShearNormalLifeCurvePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "cycles_to_failure": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles To Failure",
+          "type": "number"
+        },
+        "parameter_value": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Value",
+          "type": "number"
+        },
+        "evidence_source_id": {
+          "minLength": 1,
+          "title": "Evidence Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cycles_to_failure",
+        "parameter_value",
+        "evidence_source_id",
+        "source_record_id"
+      ],
+      "title": "ShearNormalLifeCurvePoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-calibrated KBM parameter curve for finite sampled planes.",
+  "properties": {
+    "criterion": {
+      "const": "kandil_brown_miller_curve",
+      "default": "kandil_brown_miller_curve",
+      "title": "Criterion",
+      "type": "string"
+    },
+    "normal_strain_range_coefficient": {
+      "minimum": 0,
+      "title": "Normal Strain Range Coefficient",
+      "type": "number"
+    },
+    "curve_points": {
+      "items": {
+        "$ref": "#/$defs/ShearNormalLifeCurvePoint"
+      },
+      "minItems": 2,
+      "title": "Curve Points",
+      "type": "array"
+    },
+    "curve_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Sha256",
+      "type": "string"
+    },
+    "calibration_material_condition_id": {
+      "minLength": 1,
+      "title": "Calibration Material Condition Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "curve_interpolation_and_parameter_basis_reviewed": {
+      "title": "Curve Interpolation And Parameter Basis Reviewed",
+      "type": "boolean"
+    },
+    "calibration_rights_and_condition_match_reviewed": {
+      "title": "Calibration Rights And Condition Match Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "normal_strain_range_coefficient",
+    "curve_points",
+    "curve_sha256",
+    "calibration_material_condition_id",
+    "evidence",
+    "curve_interpolation_and_parameter_basis_reviewed",
+    "calibration_rights_and_condition_match_reviewed"
+  ],
+  "title": "KandilBrownMillerLifeCalibration",
+  "type": "object"
+}

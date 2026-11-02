@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "CreviceIonicReactionTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_coefficient": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Stoichiometric Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_coefficient"
+      ],
+      "title": "CreviceIonicReactionTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "reactants": {
+      "items": {
+        "$ref": "#/$defs/CreviceIonicReactionTerm"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Reactants",
+      "type": "array"
+    },
+    "products": {
+      "items": {
+        "$ref": "#/$defs/CreviceIonicReactionTerm"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Products",
+      "type": "array"
+    },
+    "forward_rate_constant_by_knot": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Forward Rate Constant By Knot",
+      "type": "array"
+    },
+    "reverse_rate_constant_by_knot": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Reverse Rate Constant By Knot",
+      "type": "array"
+    },
+    "forward_rate_constant_units": {
+      "minLength": 1,
+      "title": "Forward Rate Constant Units",
+      "type": "string"
+    },
+    "reverse_rate_constant_units": {
+      "minLength": 1,
+      "title": "Reverse Rate Constant Units",
+      "type": "string"
+    },
+    "parameter_record_id": {
+      "minLength": 1,
+      "title": "Parameter Record Id",
+      "type": "string"
+    },
+    "parameter_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "reactants",
+    "products",
+    "forward_rate_constant_by_knot",
+    "reverse_rate_constant_by_knot",
+    "forward_rate_constant_units",
+    "reverse_rate_constant_units",
+    "parameter_record_id",
+    "parameter_sha256"
+  ],
+  "title": "CreviceIonicReaction",
+  "type": "object"
+}

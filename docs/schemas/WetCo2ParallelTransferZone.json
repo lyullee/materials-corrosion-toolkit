@@ -1,0 +1,169 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One disjoint wetted interface region with its own transfer state.",
+  "properties": {
+    "zone_id": {
+      "minLength": 1,
+      "title": "Zone Id",
+      "type": "string"
+    },
+    "flow_region": {
+      "enum": [
+        "stratified_layer",
+        "slug_body",
+        "slug_film",
+        "annular_film",
+        "other"
+      ],
+      "title": "Flow Region",
+      "type": "string"
+    },
+    "interfacial_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Interfacial Area M2",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "gas_co2_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Gas Co2 Fugacity Pa",
+      "type": "number"
+    },
+    "liquid_co2star_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Liquid Co2Star Concentration Mol M3",
+      "type": "number"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "gas_film_coefficient_mol_m2_s_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Film Coefficient Mol M2 S Pa",
+      "type": "number"
+    },
+    "liquid_film_coefficient_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Film Coefficient M S",
+      "type": "number"
+    },
+    "state_provider_id": {
+      "minLength": 1,
+      "title": "State Provider Id",
+      "type": "string"
+    },
+    "state_provider_revision": {
+      "minLength": 1,
+      "title": "State Provider Revision",
+      "type": "string"
+    },
+    "state_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Configuration Sha256",
+      "type": "string"
+    },
+    "state_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Result Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "local_zone_support_reviewed": {
+      "title": "Local Zone Support Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "zone_id",
+    "flow_region",
+    "interfacial_area_m2",
+    "temperature_K",
+    "gas_co2_fugacity_Pa",
+    "liquid_co2star_concentration_mol_m3",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "gas_film_coefficient_mol_m2_s_Pa",
+    "liquid_film_coefficient_m_s",
+    "state_provider_id",
+    "state_provider_revision",
+    "state_configuration_sha256",
+    "state_result_sha256",
+    "evidence",
+    "local_zone_support_reviewed"
+  ],
+  "title": "WetCo2ParallelTransferZone",
+  "type": "object"
+}

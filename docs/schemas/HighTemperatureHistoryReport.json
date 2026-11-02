@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "HighTemperatureFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "within",
+            "outside",
+            "boundary_overlap",
+            "missing",
+            "invalid",
+            "mismatch"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_id",
+        "criterion_id",
+        "outcome",
+        "basis"
+      ],
+      "title": "HighTemperatureFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "mechanism": {
+      "enum": [
+        "oxidation",
+        "sulfidation",
+        "carburization",
+        "nitriding",
+        "metallurgical_aging"
+      ],
+      "title": "Mechanism",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "cumulative_exposure_s": {
+      "title": "Cumulative Exposure S",
+      "type": "number"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/HighTemperatureFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "input_digest": {
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "profile_digest": {
+      "title": "Profile Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Qualification Claim",
+      "type": "boolean"
+    },
+    "rate_constant_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Rate Constant Inferred",
+      "type": "boolean"
+    },
+    "remaining_life_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Remaining Life Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "mechanism",
+    "decision",
+    "cumulative_exposure_s",
+    "findings",
+    "input_digest",
+    "profile_digest",
+    "report_digest"
+  ],
+  "title": "HighTemperatureHistoryReport",
+  "type": "object"
+}

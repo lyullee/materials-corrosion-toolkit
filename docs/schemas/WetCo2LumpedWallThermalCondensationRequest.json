@@ -1,0 +1,410 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LumpedWallCondensationInterval": {
+      "additionalProperties": false,
+      "description": "Piecewise-constant external and gas-side boundary over one interval.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "gas_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Temperature K",
+          "type": "number"
+        },
+        "gas_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Volume M3",
+          "type": "number"
+        },
+        "water_vapor_fugacity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Water Vapor Fugacity Coefficient",
+          "type": "number"
+        },
+        "gas_film_molar_transfer_coefficient_mol_m2_s_Pa": {
+          "minimum": 0,
+          "title": "Gas Film Molar Transfer Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "transfer_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Transfer Area M2",
+          "type": "number"
+        },
+        "gas_to_wall_heat_transfer_coefficient_W_m2_K": {
+          "minimum": 0,
+          "title": "Gas To Wall Heat Transfer Coefficient W M2 K",
+          "type": "number"
+        },
+        "external_wall_heat_flux_W_m2": {
+          "title": "External Wall Heat Flux W M2",
+          "type": "number"
+        },
+        "latent_heat_of_vaporization_J_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Latent Heat Of Vaporization J Kg",
+          "type": "number"
+        },
+        "liquid_water_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Water Density Kg M3",
+          "type": "number"
+        },
+        "transfer_provider_id": {
+          "minLength": 1,
+          "title": "Transfer Provider Id",
+          "type": "string"
+        },
+        "transfer_provider_revision": {
+          "minLength": 1,
+          "title": "Transfer Provider Revision",
+          "type": "string"
+        },
+        "transfer_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transfer Configuration Sha256",
+          "type": "string"
+        },
+        "transfer_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transfer Result Sha256",
+          "type": "string"
+        },
+        "thermal_provider_id": {
+          "minLength": 1,
+          "title": "Thermal Provider Id",
+          "type": "string"
+        },
+        "thermal_provider_revision": {
+          "minLength": 1,
+          "title": "Thermal Provider Revision",
+          "type": "string"
+        },
+        "thermal_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Thermal Configuration Sha256",
+          "type": "string"
+        },
+        "thermal_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Thermal Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "interval_boundary_and_sign_reviewed": {
+          "title": "Interval Boundary And Sign Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "gas_temperature_K",
+        "gas_volume_m3",
+        "water_vapor_fugacity_coefficient",
+        "gas_film_molar_transfer_coefficient_mol_m2_s_Pa",
+        "transfer_area_m2",
+        "gas_to_wall_heat_transfer_coefficient_W_m2_K",
+        "external_wall_heat_flux_W_m2",
+        "latent_heat_of_vaporization_J_kg",
+        "liquid_water_density_kg_m3",
+        "transfer_provider_id",
+        "transfer_provider_revision",
+        "transfer_configuration_sha256",
+        "transfer_result_sha256",
+        "thermal_provider_id",
+        "thermal_provider_revision",
+        "thermal_configuration_sha256",
+        "thermal_result_sha256",
+        "evidence",
+        "interval_boundary_and_sign_reviewed"
+      ],
+      "title": "LumpedWallCondensationInterval",
+      "type": "object"
+    },
+    "WallWaterSaturationPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "water_fugacity_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Water Fugacity Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "water_fugacity_Pa"
+      ],
+      "title": "WallWaterSaturationPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite-gas water transfer coupled to lumped wall energy on a fixed patch.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_lumped_wall_thermal_condensation_history.v1",
+      "default": "matintegrity.wet_co2_lumped_wall_thermal_condensation_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "wall_patch_id": {
+      "minLength": 1,
+      "title": "Wall Patch Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "initial_wall_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Wall Temperature K",
+      "type": "number"
+    },
+    "initial_gas_water_vapor_moles": {
+      "minimum": 0,
+      "title": "Initial Gas Water Vapor Moles",
+      "type": "number"
+    },
+    "initial_wall_water_areal_inventory_kg_m2": {
+      "minimum": 0,
+      "title": "Initial Wall Water Areal Inventory Kg M2",
+      "type": "number"
+    },
+    "wall_areal_heat_capacity_J_m2_K": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Areal Heat Capacity J M2 K",
+      "type": "number"
+    },
+    "saturation_fugacity_table": {
+      "items": {
+        "$ref": "#/$defs/WallWaterSaturationPoint"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Saturation Fugacity Table",
+      "type": "array"
+    },
+    "saturation_table_provider_id": {
+      "minLength": 1,
+      "title": "Saturation Table Provider Id",
+      "type": "string"
+    },
+    "saturation_table_revision": {
+      "minLength": 1,
+      "title": "Saturation Table Revision",
+      "type": "string"
+    },
+    "saturation_table_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Saturation Table Sha256",
+      "type": "string"
+    },
+    "saturation_table_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Saturation Table Evidence",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/LumpedWallCondensationInterval"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "rtol": {
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Rtol",
+      "type": "number"
+    },
+    "atol_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Atol Temperature K",
+      "type": "number"
+    },
+    "atol_gas_moles": {
+      "exclusiveMinimum": 0,
+      "title": "Atol Gas Moles",
+      "type": "number"
+    },
+    "atol_liquid_kg_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Atol Liquid Kg M2",
+      "type": "number"
+    },
+    "atol_energy_J_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Atol Energy J M2",
+      "type": "number"
+    },
+    "max_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Max Step S",
+      "type": "number"
+    },
+    "lumped_wall_temperature_and_fixed_patch_reviewed": {
+      "title": "Lumped Wall Temperature And Fixed Patch Reviewed",
+      "type": "boolean"
+    },
+    "energy_boundary_and_latent_heat_sign_reviewed": {
+      "title": "Energy Boundary And Latent Heat Sign Reviewed",
+      "type": "boolean"
+    },
+    "finite_gas_ideal_component_pressure_reviewed": {
+      "title": "Finite Gas Ideal Component Pressure Reviewed",
+      "type": "boolean"
+    },
+    "saturation_table_basis_and_support_reviewed": {
+      "title": "Saturation Table Basis And Support Reviewed",
+      "type": "boolean"
+    },
+    "no_wall_phase_change_or_spatial_gradient_reviewed": {
+      "title": "No Wall Phase Change Or Spatial Gradient Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "wall_patch_id",
+    "condition_id",
+    "initial_wall_temperature_K",
+    "initial_gas_water_vapor_moles",
+    "initial_wall_water_areal_inventory_kg_m2",
+    "wall_areal_heat_capacity_J_m2_K",
+    "saturation_fugacity_table",
+    "saturation_table_provider_id",
+    "saturation_table_revision",
+    "saturation_table_sha256",
+    "saturation_table_evidence",
+    "intervals",
+    "rtol",
+    "atol_temperature_K",
+    "atol_gas_moles",
+    "atol_liquid_kg_m2",
+    "atol_energy_J_m2",
+    "max_step_s",
+    "lumped_wall_temperature_and_fixed_patch_reviewed",
+    "energy_boundary_and_latent_heat_sign_reviewed",
+    "finite_gas_ideal_component_pressure_reviewed",
+    "saturation_table_basis_and_support_reviewed",
+    "no_wall_phase_change_or_spatial_gradient_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "WetCo2LumpedWallThermalCondensationRequest",
+  "type": "object"
+}

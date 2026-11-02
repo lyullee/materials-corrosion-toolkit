@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "sequence_index": {
+      "minimum": 0,
+      "title": "Sequence Index",
+      "type": "integer"
+    },
+    "event_kind": {
+      "enum": [
+        "fill",
+        "hold",
+        "drain",
+        "dry",
+        "other"
+      ],
+      "title": "Event Kind",
+      "type": "string"
+    },
+    "state_definition": {
+      "minLength": 1,
+      "title": "State Definition",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "water_batch_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Water Batch Id"
+    },
+    "event_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Event Configuration Digest",
+      "type": "string"
+    },
+    "event_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Event Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "event_id",
+    "sequence_index",
+    "event_kind",
+    "state_definition",
+    "start_time_s",
+    "end_time_s",
+    "event_configuration_digest",
+    "event_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "TestWaterHistoryEvent",
+  "type": "object"
+}

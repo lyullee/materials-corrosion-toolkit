@@ -1,0 +1,834 @@
+{
+  "$defs": {
+    "CrackGrowthUncertaintyDesignLevel": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.crack_growth_uncertainty_design_level.v1",
+          "default": "matintegrity.crack_growth_uncertainty_design_level.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "level_id": {
+          "minLength": 1,
+          "title": "Level Id",
+          "type": "string"
+        },
+        "sample_design_id": {
+          "minLength": 1,
+          "title": "Sample Design Id",
+          "type": "string"
+        },
+        "joint_sample_source_id": {
+          "minLength": 1,
+          "title": "Joint Sample Source Id",
+          "type": "string"
+        },
+        "joint_sample_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Joint Sample Source Sha256",
+          "type": "string"
+        },
+        "relationship_to_previous": {
+          "enum": [
+            "initial",
+            "nested_refinement",
+            "refined_design",
+            "independent_replicate"
+          ],
+          "title": "Relationship To Previous",
+          "type": "string"
+        },
+        "samples": {
+          "items": {
+            "$ref": "#/$defs/CrackGrowthUncertaintySample"
+          },
+          "minItems": 2,
+          "title": "Samples",
+          "type": "array"
+        }
+      },
+      "required": [
+        "level_id",
+        "sample_design_id",
+        "joint_sample_source_id",
+        "joint_sample_source_sha256",
+        "relationship_to_previous",
+        "samples"
+      ],
+      "title": "CrackGrowthUncertaintyDesignLevel",
+      "type": "object"
+    },
+    "CrackGrowthUncertaintySample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "normalized_weight": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Normalized Weight",
+          "type": "number"
+        },
+        "crack_growth_rate_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Crack Growth Rate Multiplier",
+          "type": "number"
+        },
+        "geometry_factor_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Geometry Factor Multiplier",
+          "type": "number"
+        },
+        "stress_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Stress Multiplier",
+          "type": "number"
+        },
+        "fracture_toughness_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Toughness Multiplier",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sample_id",
+        "normalized_weight",
+        "crack_growth_rate_multiplier",
+        "geometry_factor_multiplier",
+        "stress_multiplier",
+        "fracture_toughness_multiplier"
+      ],
+      "title": "CrackGrowthUncertaintySample",
+      "type": "object"
+    },
+    "TabulatedCrackGrowth": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.tabulated_crack_growth.v1",
+          "default": "matintegrity.tabulated_crack_growth.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "initial_depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Depth M",
+          "type": "number"
+        },
+        "terminal_depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Terminal Depth M",
+          "type": "number"
+        },
+        "geometry_depth_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Geometry Depth M",
+          "type": "array"
+        },
+        "geometry_factor": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Geometry Factor",
+          "type": "array"
+        },
+        "blocks": {
+          "items": {
+            "$ref": "#/$defs/TabulatedGrowthLoadBlock"
+          },
+          "minItems": 1,
+          "title": "Blocks",
+          "type": "array"
+        },
+        "curve": {
+          "$ref": "#/$defs/TabulatedCrackGrowthCurve"
+        },
+        "material_condition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material Condition Id"
+        },
+        "environment_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Environment Id"
+        },
+        "curve_material_environment_mapping_reviewed": {
+          "default": false,
+          "title": "Curve Material Environment Mapping Reviewed",
+          "type": "boolean"
+        },
+        "maximum_absolute_stress_ratio_difference": {
+          "minimum": 0,
+          "title": "Maximum Absolute Stress Ratio Difference",
+          "type": "number"
+        },
+        "maximum_relative_frequency_difference": {
+          "minimum": 0,
+          "title": "Maximum Relative Frequency Difference",
+          "type": "number"
+        },
+        "fracture_toughness_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Toughness Pa Sqrt M",
+          "type": "number"
+        },
+        "relative_integration_tolerance": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Relative Integration Tolerance",
+          "type": "number"
+        },
+        "absolute_cycle_tolerance": {
+          "exclusiveMinimum": 0,
+          "title": "Absolute Cycle Tolerance",
+          "type": "number"
+        },
+        "absolute_depth_tolerance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Absolute Depth Tolerance M",
+          "type": "number"
+        },
+        "geometry_solution_reviewed": {
+          "const": true,
+          "title": "Geometry Solution Reviewed",
+          "type": "boolean"
+        },
+        "load_to_curve_mapping_reviewed": {
+          "const": true,
+          "title": "Load To Curve Mapping Reviewed",
+          "type": "boolean"
+        },
+        "toughness_application_reviewed": {
+          "const": true,
+          "title": "Toughness Application Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "initial_depth_m",
+        "terminal_depth_m",
+        "geometry_depth_m",
+        "geometry_factor",
+        "blocks",
+        "curve",
+        "maximum_absolute_stress_ratio_difference",
+        "maximum_relative_frequency_difference",
+        "fracture_toughness_Pa_sqrt_m",
+        "relative_integration_tolerance",
+        "absolute_cycle_tolerance",
+        "absolute_depth_tolerance_m",
+        "geometry_solution_reviewed",
+        "load_to_curve_mapping_reviewed",
+        "toughness_application_reviewed"
+      ],
+      "title": "TabulatedCrackGrowth",
+      "type": "object"
+    },
+    "TabulatedCrackGrowthCurve": {
+      "additionalProperties": false,
+      "description": "Caller-controlled crack-growth curve with explicit provenance and support.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.tabulated_crack_growth_curve.v1",
+          "default": "matintegrity.tabulated_crack_growth_curve.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "stress_ratio": {
+          "exclusiveMaximum": 1,
+          "minimum": 0,
+          "title": "Stress Ratio",
+          "type": "number"
+        },
+        "frequency_Hz": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frequency Hz"
+        },
+        "delta_k_Pa_sqrt_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Delta K Pa Sqrt M",
+          "type": "array"
+        },
+        "crack_growth_m_cycle": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Crack Growth M Cycle",
+          "type": "array"
+        },
+        "interpolation": {
+          "const": "log_delta_k_log_growth_linear",
+          "default": "log_delta_k_log_growth_linear",
+          "title": "Interpolation",
+          "type": "string"
+        },
+        "below_minimum_policy": {
+          "enum": [
+            "out_of_scope",
+            "zero_below_declared_threshold"
+          ],
+          "title": "Below Minimum Policy",
+          "type": "string"
+        },
+        "declared_threshold_delta_k_Pa_sqrt_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Declared Threshold Delta K Pa Sqrt M"
+        },
+        "source_content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Content Sha256",
+          "type": "string"
+        },
+        "source_citation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Citation"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "rights_review_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rights Review Id"
+        },
+        "applicability_review_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applicability Review Id"
+        },
+        "pointwise_computational_use_authorized": {
+          "const": true,
+          "title": "Pointwise Computational Use Authorized",
+          "type": "boolean"
+        },
+        "curve_applicability_reviewed": {
+          "const": true,
+          "title": "Curve Applicability Reviewed",
+          "type": "boolean"
+        },
+        "physical_specimen_identity_status": {
+          "enum": [
+            "identified",
+            "not_required_for_user_model",
+            "not_established"
+          ],
+          "title": "Physical Specimen Identity Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "curve_id",
+        "source_group_id",
+        "material_condition_id",
+        "environment_id",
+        "stress_ratio",
+        "frequency_Hz",
+        "delta_k_Pa_sqrt_m",
+        "crack_growth_m_cycle",
+        "below_minimum_policy",
+        "source_content_sha256",
+        "pointwise_computational_use_authorized",
+        "curve_applicability_reviewed",
+        "physical_specimen_identity_status"
+      ],
+      "title": "TabulatedCrackGrowthCurve",
+      "type": "object"
+    },
+    "TabulatedCrackGrowthCurveFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.tabulated_crack_growth_curve_family.v1",
+          "default": "matintegrity.tabulated_crack_growth_curve_family.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "family_id": {
+          "minLength": 1,
+          "title": "Family Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "curves": {
+          "items": {
+            "$ref": "#/$defs/TabulatedCrackGrowthCurve"
+          },
+          "minItems": 2,
+          "title": "Curves",
+          "type": "array"
+        },
+        "maximum_absolute_stress_ratio_difference": {
+          "minimum": 0,
+          "title": "Maximum Absolute Stress Ratio Difference",
+          "type": "number"
+        },
+        "maximum_relative_frequency_difference": {
+          "minimum": 0,
+          "title": "Maximum Relative Frequency Difference",
+          "type": "number"
+        },
+        "selection_policy": {
+          "const": "nearest_within_declared_tolerances",
+          "default": "nearest_within_declared_tolerances",
+          "title": "Selection Policy",
+          "type": "string"
+        },
+        "family_applicability_reviewed": {
+          "const": true,
+          "title": "Family Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "family_id",
+        "material_condition_id",
+        "environment_id",
+        "curves",
+        "maximum_absolute_stress_ratio_difference",
+        "maximum_relative_frequency_difference",
+        "family_applicability_reviewed"
+      ],
+      "title": "TabulatedCrackGrowthCurveFamily",
+      "type": "object"
+    },
+    "TabulatedCurveFamilyGrowth": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.tabulated_curve_family_growth.v1",
+          "default": "matintegrity.tabulated_curve_family_growth.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "initial_depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Depth M",
+          "type": "number"
+        },
+        "terminal_depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Terminal Depth M",
+          "type": "number"
+        },
+        "geometry_depth_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Geometry Depth M",
+          "type": "array"
+        },
+        "geometry_factor": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Geometry Factor",
+          "type": "array"
+        },
+        "blocks": {
+          "items": {
+            "$ref": "#/$defs/TabulatedGrowthLoadBlock"
+          },
+          "minItems": 1,
+          "title": "Blocks",
+          "type": "array"
+        },
+        "curve_family": {
+          "$ref": "#/$defs/TabulatedCrackGrowthCurveFamily"
+        },
+        "material_condition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material Condition Id"
+        },
+        "environment_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Environment Id"
+        },
+        "curve_family_material_environment_mapping_reviewed": {
+          "default": false,
+          "title": "Curve Family Material Environment Mapping Reviewed",
+          "type": "boolean"
+        },
+        "fracture_toughness_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Toughness Pa Sqrt M",
+          "type": "number"
+        },
+        "relative_integration_tolerance": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Relative Integration Tolerance",
+          "type": "number"
+        },
+        "absolute_cycle_tolerance": {
+          "exclusiveMinimum": 0,
+          "title": "Absolute Cycle Tolerance",
+          "type": "number"
+        },
+        "absolute_depth_tolerance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Absolute Depth Tolerance M",
+          "type": "number"
+        },
+        "geometry_solution_reviewed": {
+          "const": true,
+          "title": "Geometry Solution Reviewed",
+          "type": "boolean"
+        },
+        "load_to_curve_mapping_reviewed": {
+          "const": true,
+          "title": "Load To Curve Mapping Reviewed",
+          "type": "boolean"
+        },
+        "toughness_application_reviewed": {
+          "const": true,
+          "title": "Toughness Application Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "physical_scope_id",
+        "initial_depth_m",
+        "terminal_depth_m",
+        "geometry_depth_m",
+        "geometry_factor",
+        "blocks",
+        "curve_family",
+        "fracture_toughness_Pa_sqrt_m",
+        "relative_integration_tolerance",
+        "absolute_cycle_tolerance",
+        "absolute_depth_tolerance_m",
+        "geometry_solution_reviewed",
+        "load_to_curve_mapping_reviewed",
+        "toughness_application_reviewed"
+      ],
+      "title": "TabulatedCurveFamilyGrowth",
+      "type": "object"
+    },
+    "TabulatedGrowthLoadBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "minimum_stress_Pa": {
+          "minimum": 0,
+          "title": "Minimum Stress Pa",
+          "type": "number"
+        },
+        "maximum_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Stress Pa",
+          "type": "number"
+        },
+        "cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles",
+          "type": "number"
+        },
+        "frequency_Hz": {
+          "exclusiveMinimum": 0,
+          "title": "Frequency Hz",
+          "type": "number"
+        }
+      },
+      "required": [
+        "minimum_stress_Pa",
+        "maximum_stress_Pa",
+        "cycles",
+        "frequency_Hz"
+      ],
+      "title": "TabulatedGrowthLoadBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.tabulated_crack_growth_uncertainty_convergence.v1",
+      "default": "matintegrity.tabulated_crack_growth_uncertainty_convergence.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "convergence_run_id": {
+      "minLength": 1,
+      "title": "Convergence Run Id",
+      "type": "string"
+    },
+    "distribution_definition_id": {
+      "minLength": 1,
+      "title": "Distribution Definition Id",
+      "type": "string"
+    },
+    "base_growth": {
+      "discriminator": {
+        "mapping": {
+          "matintegrity.tabulated_crack_growth.v1": "#/$defs/TabulatedCrackGrowth",
+          "matintegrity.tabulated_curve_family_growth.v1": "#/$defs/TabulatedCurveFamilyGrowth"
+        },
+        "propertyName": "schema_version"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/TabulatedCrackGrowth"
+        },
+        {
+          "$ref": "#/$defs/TabulatedCurveFamilyGrowth"
+        }
+      ],
+      "title": "Base Growth"
+    },
+    "levels": {
+      "items": {
+        "$ref": "#/$defs/CrackGrowthUncertaintyDesignLevel"
+      },
+      "minItems": 2,
+      "title": "Levels",
+      "type": "array"
+    },
+    "requested_quantiles": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Requested Quantiles",
+      "type": "array"
+    },
+    "depth_exceedance_threshold_m": {
+      "exclusiveMinimum": 0,
+      "title": "Depth Exceedance Threshold M",
+      "type": "number"
+    },
+    "maximum_weight_sum_error": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Maximum Weight Sum Error",
+      "type": "number"
+    },
+    "depth_change_scale_m": {
+      "exclusiveMinimum": 0,
+      "title": "Depth Change Scale M",
+      "type": "number"
+    },
+    "maximum_normalized_mean_depth_change": {
+      "minimum": 0,
+      "title": "Maximum Normalized Mean Depth Change",
+      "type": "number"
+    },
+    "maximum_normalized_standard_deviation_change": {
+      "minimum": 0,
+      "title": "Maximum Normalized Standard Deviation Change",
+      "type": "number"
+    },
+    "maximum_normalized_quantile_depth_change": {
+      "minimum": 0,
+      "title": "Maximum Normalized Quantile Depth Change",
+      "type": "number"
+    },
+    "maximum_absolute_exceedance_probability_change": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Maximum Absolute Exceedance Probability Change",
+      "type": "number"
+    },
+    "joint_sample_values_reviewed": {
+      "const": true,
+      "title": "Joint Sample Values Reviewed",
+      "type": "boolean"
+    },
+    "dependence_preserved_in_joint_rows": {
+      "const": true,
+      "title": "Dependence Preserved In Joint Rows",
+      "type": "boolean"
+    },
+    "normalized_weight_meaning_reviewed": {
+      "const": true,
+      "title": "Normalized Weight Meaning Reviewed",
+      "type": "boolean"
+    },
+    "base_model_and_multiplier_scope_reviewed": {
+      "const": true,
+      "title": "Base Model And Multiplier Scope Reviewed",
+      "type": "boolean"
+    },
+    "level_relationships_reviewed": {
+      "const": true,
+      "title": "Level Relationships Reviewed",
+      "type": "boolean"
+    },
+    "diagnostic_tolerances_reviewed": {
+      "const": true,
+      "title": "Diagnostic Tolerances Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "convergence_run_id",
+    "distribution_definition_id",
+    "base_growth",
+    "levels",
+    "requested_quantiles",
+    "depth_exceedance_threshold_m",
+    "maximum_weight_sum_error",
+    "depth_change_scale_m",
+    "maximum_normalized_mean_depth_change",
+    "maximum_normalized_standard_deviation_change",
+    "maximum_normalized_quantile_depth_change",
+    "maximum_absolute_exceedance_probability_change",
+    "joint_sample_values_reviewed",
+    "dependence_preserved_in_joint_rows",
+    "normalized_weight_meaning_reviewed",
+    "base_model_and_multiplier_scope_reviewed",
+    "level_relationships_reviewed",
+    "diagnostic_tolerances_reviewed"
+  ],
+  "title": "TabulatedCrackGrowthUncertaintyConvergence",
+  "type": "object"
+}

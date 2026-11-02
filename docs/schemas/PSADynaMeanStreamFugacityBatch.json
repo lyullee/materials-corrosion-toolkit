@@ -1,0 +1,270 @@
+{
+  "$defs": {
+    "PSADynaMeanStreamFugacityRow": {
+      "additionalProperties": false,
+      "description": "One selected cycle-mean PSA stream and its optional CoolProp request.",
+      "properties": {
+        "stream_id": {
+          "minLength": 1,
+          "title": "Stream Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "needs_data",
+            "out_of_scope"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "state_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "State Basis"
+        },
+        "total_pressure_Pa": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Pressure Pa"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Temperature K"
+        },
+        "components": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "mole_fractions": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mole Fractions"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "request": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Request"
+        }
+      },
+      "required": [
+        "stream_id",
+        "status",
+        "state_basis",
+        "total_pressure_Pa",
+        "temperature_K",
+        "components",
+        "mole_fractions",
+        "reason",
+        "request"
+      ],
+      "title": "PSADynaMeanStreamFugacityRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Lineage-preserving requests derived from a PSA-Dyna cycle-mean report.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.psa_dyna_mean_stream_fugacity_batch.v1",
+      "default": "matintegrity.psa_dyna_mean_stream_fugacity_batch.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_schema": {
+      "const": "dynamic-psa-mean-stream/v1",
+      "default": "dynamic-psa-mean-stream/v1",
+      "title": "Source Schema",
+      "type": "string"
+    },
+    "payload_schema": {
+      "const": "dynamic-psa-dwsim-mean-stream-input/v1",
+      "default": "dynamic-psa-dwsim-mean-stream-input/v1",
+      "title": "Payload Schema",
+      "type": "string"
+    },
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "upstream_payload_status": {
+      "minLength": 1,
+      "title": "Upstream Payload Status",
+      "type": "string"
+    },
+    "upstream_release_flags": {
+      "additionalProperties": true,
+      "title": "Upstream Release Flags",
+      "type": "object"
+    },
+    "case_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Input Sha256",
+      "type": "string"
+    },
+    "result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Sha256",
+      "type": "string"
+    },
+    "source_code_zip_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Code Zip Sha256"
+    },
+    "upstream_report_file_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Upstream Report File Sha256"
+    },
+    "upstream_report_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Upstream Report Digest",
+      "type": "string"
+    },
+    "mean_stream_payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mean Stream Payload Digest",
+      "type": "string"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Components",
+      "type": "array"
+    },
+    "provider_backend": {
+      "minLength": 1,
+      "title": "Provider Backend",
+      "type": "string"
+    },
+    "stream_count": {
+      "minimum": 1,
+      "title": "Stream Count",
+      "type": "integer"
+    },
+    "ready_count": {
+      "minimum": 0,
+      "title": "Ready Count",
+      "type": "integer"
+    },
+    "needs_data_count": {
+      "minimum": 0,
+      "title": "Needs Data Count",
+      "type": "integer"
+    },
+    "out_of_scope_count": {
+      "minimum": 0,
+      "title": "Out Of Scope Count",
+      "type": "integer"
+    },
+    "cycle_mean_only": {
+      "const": true,
+      "default": true,
+      "title": "Cycle Mean Only",
+      "type": "boolean"
+    },
+    "corrosion_boundary_qualification": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Boundary Qualification",
+      "type": "boolean"
+    },
+    "stream_requests": {
+      "items": {
+        "$ref": "#/$defs/PSADynaMeanStreamFugacityRow"
+      },
+      "minItems": 1,
+      "title": "Stream Requests",
+      "type": "array"
+    }
+  },
+  "required": [
+    "case_id",
+    "upstream_payload_status",
+    "upstream_release_flags",
+    "case_input_sha256",
+    "result_sha256",
+    "upstream_report_digest",
+    "mean_stream_payload_digest",
+    "components",
+    "provider_backend",
+    "stream_count",
+    "ready_count",
+    "needs_data_count",
+    "out_of_scope_count",
+    "stream_requests"
+  ],
+  "title": "PSADynaMeanStreamFugacityBatch",
+  "type": "object"
+}

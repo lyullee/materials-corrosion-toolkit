@@ -1,0 +1,338 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CarbonateBoundaryPartitionUse": {
+      "additionalProperties": false,
+      "properties": {
+        "selection": {
+          "$ref": "#/$defs/CarbonateBoundarySelection"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "selection",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "CarbonateBoundaryPartitionUse",
+      "type": "object"
+    },
+    "CarbonateBoundarySelection": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "minLength": 1,
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "hydrated_carbonic_fraction_of_co2star": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Hydrated Carbonic Fraction Of Co2Star",
+          "type": "number"
+        },
+        "water_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Water Concentration Mol M3",
+          "type": "number"
+        },
+        "partition_provider_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Partition Provider Sha256",
+          "type": "string"
+        },
+        "co2star_partition_and_water_basis_reviewed": {
+          "title": "Co2Star Partition And Water Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "hydrated_carbonic_fraction_of_co2star",
+        "water_concentration_mol_m3",
+        "partition_provider_sha256",
+        "co2star_partition_and_water_basis_reviewed"
+      ],
+      "title": "CarbonateBoundarySelection",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "source_history_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "source_history_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source History Result Sha256",
+      "type": "string"
+    },
+    "boundary_partitions": {
+      "items": {
+        "$ref": "#/$defs/CarbonateBoundaryPartitionUse"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Boundary Partitions",
+      "type": "array"
+    },
+    "history_clock_and_boundary_selection_reviewed": {
+      "title": "History Clock And Boundary Selection Reviewed",
+      "type": "boolean"
+    },
+    "maximum_point_mappings": {
+      "default": 20000,
+      "maximum": 20000,
+      "minimum": 1,
+      "title": "Maximum Point Mappings",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "source_history_result",
+    "source_history_result_sha256",
+    "boundary_partitions",
+    "history_clock_and_boundary_selection_reviewed"
+  ],
+  "title": "WetCo2CarbonateTransportBoundaryHistoryRequest",
+  "type": "object"
+}

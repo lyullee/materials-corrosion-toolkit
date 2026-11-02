@@ -1,0 +1,230 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PairedLifeCalibrationPoint": {
+      "additionalProperties": false,
+      "description": "Two life observations at one identical caller-defined fatigue parameter.",
+      "properties": {
+        "pair_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Pair Id",
+          "type": "string"
+        },
+        "parameter_value": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Value",
+          "type": "number"
+        },
+        "reference_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Cycles",
+          "type": "number"
+        },
+        "target_cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Target Cycles",
+          "type": "number"
+        },
+        "weight": {
+          "exclusiveMinimum": 0,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "pair_id",
+        "parameter_value",
+        "reference_cycles",
+        "target_cycles",
+        "weight"
+      ],
+      "title": "PairedLifeCalibrationPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Summarize paired life ratios without transferring a calibration curve.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.multiaxial_calibration_transfer_audit.v1",
+      "default": "matintegrity.multiaxial_calibration_transfer_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "location_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "parameter_definition_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Parameter Definition Id",
+      "type": "string"
+    },
+    "parameter_unit": {
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Parameter Unit",
+      "type": "string"
+    },
+    "reference_material_condition_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Reference Material Condition Id",
+      "type": "string"
+    },
+    "target_material_condition_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Target Material Condition Id",
+      "type": "string"
+    },
+    "reference_test_context_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Reference Test Context Id",
+      "type": "string"
+    },
+    "target_test_context_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Target Test Context Id",
+      "type": "string"
+    },
+    "reference_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Record Sha256",
+      "type": "string"
+    },
+    "target_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Target Record Sha256",
+      "type": "string"
+    },
+    "reference_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Reference Evidence",
+      "type": "array"
+    },
+    "target_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Target Evidence",
+      "type": "array"
+    },
+    "paired_points": {
+      "items": {
+        "$ref": "#/$defs/PairedLifeCalibrationPoint"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Paired Points",
+      "type": "array"
+    },
+    "paired_parameter_and_protocol_reviewed": {
+      "title": "Paired Parameter And Protocol Reviewed",
+      "type": "boolean"
+    },
+    "rights_and_condition_scope_reviewed": {
+      "title": "Rights And Condition Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "location_id",
+    "parameter_definition_id",
+    "parameter_unit",
+    "reference_material_condition_id",
+    "target_material_condition_id",
+    "reference_test_context_id",
+    "target_test_context_id",
+    "reference_record_sha256",
+    "target_record_sha256",
+    "reference_evidence",
+    "target_evidence",
+    "paired_points",
+    "paired_parameter_and_protocol_reviewed",
+    "rights_and_condition_scope_reviewed"
+  ],
+  "title": "MultiaxialCalibrationTransferAudit",
+  "type": "object"
+}

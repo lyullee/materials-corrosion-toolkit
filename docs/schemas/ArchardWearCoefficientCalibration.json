@@ -1,0 +1,362 @@
+{
+  "$defs": {
+    "ArchardCalibrationObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "counterface_material_condition_id": {
+          "minLength": 1,
+          "title": "Counterface Material Condition Id",
+          "type": "string"
+        },
+        "contact_geometry_id": {
+          "minLength": 1,
+          "title": "Contact Geometry Id",
+          "type": "string"
+        },
+        "lubrication_regime_id": {
+          "minLength": 1,
+          "title": "Lubrication Regime Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "normal_force_N": {
+          "exclusiveMinimum": 0,
+          "title": "Normal Force N",
+          "type": "number"
+        },
+        "sliding_distance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Sliding Distance M",
+          "type": "number"
+        },
+        "hardness_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Hardness Pa",
+          "type": "number"
+        },
+        "hardness_identity_id": {
+          "minLength": 1,
+          "title": "Hardness Identity Id",
+          "type": "string"
+        },
+        "measured_wear_volume_m3": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Wear Volume M3"
+        },
+        "expanded_uncertainty_wear_volume_m3": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty Wear Volume M3"
+        },
+        "uncertainty_coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Coverage Factor"
+        },
+        "weight": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weight"
+        },
+        "record_status": {
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "material_condition_id",
+        "counterface_material_condition_id",
+        "contact_geometry_id",
+        "lubrication_regime_id",
+        "temperature_K",
+        "normal_force_N",
+        "sliding_distance_m",
+        "hardness_Pa",
+        "hardness_identity_id",
+        "record_status",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "ArchardCalibrationObservation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "counterface_material_condition_id": {
+      "minLength": 1,
+      "title": "Counterface Material Condition Id",
+      "type": "string"
+    },
+    "contact_geometry_id": {
+      "minLength": 1,
+      "title": "Contact Geometry Id",
+      "type": "string"
+    },
+    "lubrication_regime_id": {
+      "minLength": 1,
+      "title": "Lubrication Regime Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ArchardCalibrationObservation"
+      },
+      "minItems": 4,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_calibration_specimen_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Specimen Count",
+      "type": "integer"
+    },
+    "minimum_calibration_source_group_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_specimen_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Specimen Count",
+      "type": "integer"
+    },
+    "minimum_holdout_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Source Group Count",
+      "type": "integer"
+    },
+    "material_contact_lubrication_and_temperature_regime_reviewed": {
+      "title": "Material Contact Lubrication And Temperature Regime Reviewed",
+      "type": "boolean"
+    },
+    "si_units_load_distance_hardness_and_volume_reviewed": {
+      "title": "Si Units Load Distance Hardness And Volume Reviewed",
+      "type": "boolean"
+    },
+    "hardness_identity_and_measurement_basis_reviewed": {
+      "title": "Hardness Identity And Measurement Basis Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_groups_and_partitions_reviewed": {
+      "title": "Specimen Source Groups And Partitions Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_weights_missingness_and_validity_reviewed": {
+      "title": "Uncertainty Weights Missingness And Validity Reviewed",
+      "type": "boolean"
+    },
+    "calibration_support_and_no_extrapolation_reviewed": {
+      "title": "Calibration Support And No Extrapolation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "material_condition_id",
+    "counterface_material_condition_id",
+    "contact_geometry_id",
+    "lubrication_regime_id",
+    "observations",
+    "minimum_calibration_specimen_count",
+    "minimum_calibration_source_group_count",
+    "minimum_holdout_specimen_count",
+    "minimum_holdout_source_group_count",
+    "material_contact_lubrication_and_temperature_regime_reviewed",
+    "si_units_load_distance_hardness_and_volume_reviewed",
+    "hardness_identity_and_measurement_basis_reviewed",
+    "specimen_source_groups_and_partitions_reviewed",
+    "uncertainty_weights_missingness_and_validity_reviewed",
+    "calibration_support_and_no_extrapolation_reviewed",
+    "evidence"
+  ],
+  "title": "ArchardWearCoefficientCalibration",
+  "type": "object"
+}

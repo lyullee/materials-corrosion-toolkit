@@ -1,0 +1,527 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SignalResponseObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "flaw_size_value": {
+          "exclusiveMinimum": 0,
+          "title": "Flaw Size Value",
+          "type": "number"
+        },
+        "flaw_size_definition_id": {
+          "minLength": 1,
+          "title": "Flaw Size Definition Id",
+          "type": "string"
+        },
+        "flaw_size_unit_token": {
+          "minLength": 1,
+          "title": "Flaw Size Unit Token",
+          "type": "string"
+        },
+        "signal_definition_id": {
+          "minLength": 1,
+          "title": "Signal Definition Id",
+          "type": "string"
+        },
+        "signal_unit_token": {
+          "minLength": 1,
+          "title": "Signal Unit Token",
+          "type": "string"
+        },
+        "observation_status": {
+          "enum": [
+            "observed",
+            "left_censored",
+            "right_censored",
+            "missing"
+          ],
+          "title": "Observation Status",
+          "type": "string"
+        },
+        "reported_signal_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Signal Value"
+        },
+        "censor_limit_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Censor Limit Value"
+        },
+        "missing_or_censor_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Censor Basis"
+        },
+        "nominal_weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Nominal Weight",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "flaw_size_value",
+        "flaw_size_definition_id",
+        "flaw_size_unit_token",
+        "signal_definition_id",
+        "signal_unit_token",
+        "observation_status",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "SignalResponseObservation",
+      "type": "object"
+    },
+    "SignalResponsePODEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "inspection_procedure_id": {
+          "minLength": 1,
+          "title": "Inspection Procedure Id",
+          "type": "string"
+        },
+        "inspection_procedure_revision": {
+          "minLength": 1,
+          "title": "Inspection Procedure Revision",
+          "type": "string"
+        },
+        "flaw_size_definition_id": {
+          "minLength": 1,
+          "title": "Flaw Size Definition Id",
+          "type": "string"
+        },
+        "flaw_size_unit_token": {
+          "minLength": 1,
+          "title": "Flaw Size Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_flaw_size": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Flaw Size",
+          "type": "number"
+        },
+        "maximum_supported_flaw_size": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Flaw Size",
+          "type": "number"
+        },
+        "signal_definition_id": {
+          "minLength": 1,
+          "title": "Signal Definition Id",
+          "type": "string"
+        },
+        "signal_unit_token": {
+          "minLength": 1,
+          "title": "Signal Unit Token",
+          "type": "string"
+        },
+        "fixed_detection_threshold": {
+          "title": "Fixed Detection Threshold",
+          "type": "number"
+        },
+        "regression_form": {
+          "const": "normal_residual_signal_linear_in_natural_log_size",
+          "title": "Regression Form",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "minimum_calibration_physical_specimen_count": {
+          "minimum": 3,
+          "title": "Minimum Calibration Physical Specimen Count",
+          "type": "integer"
+        },
+        "minimum_holdout_physical_specimen_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Physical Specimen Count",
+          "type": "integer"
+        },
+        "minimum_calibration_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Calibration Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Source Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "inspection_procedure_id",
+        "inspection_procedure_revision",
+        "flaw_size_definition_id",
+        "flaw_size_unit_token",
+        "minimum_supported_flaw_size",
+        "maximum_supported_flaw_size",
+        "signal_definition_id",
+        "signal_unit_token",
+        "fixed_detection_threshold",
+        "regression_form",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "data_digest",
+        "minimum_calibration_physical_specimen_count",
+        "minimum_holdout_physical_specimen_count",
+        "minimum_calibration_source_group_count",
+        "minimum_holdout_source_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "SignalResponsePODEnvelope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "inspection_procedure_id": {
+      "minLength": 1,
+      "title": "Inspection Procedure Id",
+      "type": "string"
+    },
+    "inspection_procedure_revision": {
+      "minLength": 1,
+      "title": "Inspection Procedure Revision",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/SignalResponseObservation"
+      },
+      "minItems": 4,
+      "title": "Observations",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/SignalResponsePODEnvelope"
+    },
+    "query_flaw_sizes": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Query Flaw Sizes",
+      "type": "array"
+    },
+    "target_probability_of_detection": {
+      "exclusiveMaximum": 1,
+      "exclusiveMinimum": 0,
+      "title": "Target Probability Of Detection",
+      "type": "number"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "flaw_size_definition_and_units_reviewed": {
+      "title": "Flaw Size Definition And Units Reviewed",
+      "type": "boolean"
+    },
+    "signal_definition_threshold_and_units_reviewed": {
+      "title": "Signal Definition Threshold And Units Reviewed",
+      "type": "boolean"
+    },
+    "censoring_missingness_and_weights_reviewed": {
+      "title": "Censoring Missingness And Weights Reviewed",
+      "type": "boolean"
+    },
+    "support_range_reviewed": {
+      "title": "Support Range Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_configuration_and_digests_reviewed": {
+      "title": "Provider Lineage Configuration And Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_design_reviewed": {
+      "title": "Calibration Holdout Design Reviewed",
+      "type": "boolean"
+    },
+    "normal_residual_log_size_model_reviewed": {
+      "title": "Normal Residual Log Size Model Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "inspection_procedure_id",
+    "inspection_procedure_revision",
+    "observations",
+    "qualification_envelope",
+    "query_flaw_sizes",
+    "target_probability_of_detection",
+    "specimen_source_and_independence_partitions_reviewed",
+    "flaw_size_definition_and_units_reviewed",
+    "signal_definition_threshold_and_units_reviewed",
+    "censoring_missingness_and_weights_reviewed",
+    "support_range_reviewed",
+    "provider_lineage_configuration_and_digests_reviewed",
+    "calibration_holdout_design_reviewed",
+    "normal_residual_log_size_model_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "SignalResponsePODCalibration",
+  "type": "object"
+}

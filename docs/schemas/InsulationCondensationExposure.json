@@ -1,0 +1,284 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "InsulationCondensationInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "outer_surface_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outer Surface Temperature K"
+        },
+        "ambient_dew_point_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ambient Dew Point Temperature K"
+        },
+        "weather_barrier_state_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weather Barrier State Id"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "InsulationCondensationInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "insulation_system_id": {
+      "minLength": 1,
+      "title": "Insulation System Id",
+      "type": "string"
+    },
+    "outer_surface_location_definition": {
+      "minLength": 1,
+      "title": "Outer Surface Location Definition",
+      "type": "string"
+    },
+    "dew_point_definition": {
+      "minLength": 1,
+      "title": "Dew Point Definition",
+      "type": "string"
+    },
+    "dew_point_provider_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dew Point Provider State Digest",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/InsulationCondensationInterval"
+      },
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "barrier_states_allowing_external_moisture": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Barrier States Allowing External Moisture",
+      "type": "array"
+    },
+    "temperature_measurement_uncertainty_K": {
+      "minimum": 0,
+      "title": "Temperature Measurement Uncertainty K",
+      "type": "number"
+    },
+    "dew_point_uncertainty_K": {
+      "minimum": 0,
+      "title": "Dew Point Uncertainty K",
+      "type": "number"
+    },
+    "temperature_and_dew_point_units_reviewed": {
+      "title": "Temperature And Dew Point Units Reviewed",
+      "type": "boolean"
+    },
+    "surface_location_reviewed": {
+      "title": "Surface Location Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_coverage_reviewed": {
+      "title": "Clock And Coverage Reviewed",
+      "type": "boolean"
+    },
+    "weather_barrier_mapping_reviewed": {
+      "title": "Weather Barrier Mapping Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_basis_reviewed": {
+      "title": "Uncertainty Basis Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "insulation_system_id",
+    "outer_surface_location_definition",
+    "dew_point_definition",
+    "dew_point_provider_state_digest",
+    "clock_id",
+    "horizon_start_s",
+    "horizon_end_s",
+    "intervals",
+    "barrier_states_allowing_external_moisture",
+    "temperature_measurement_uncertainty_K",
+    "dew_point_uncertainty_K",
+    "temperature_and_dew_point_units_reviewed",
+    "surface_location_reviewed",
+    "clock_and_coverage_reviewed",
+    "weather_barrier_mapping_reviewed",
+    "uncertainty_basis_reviewed",
+    "evidence"
+  ],
+  "title": "InsulationCondensationExposure",
+  "type": "object"
+}

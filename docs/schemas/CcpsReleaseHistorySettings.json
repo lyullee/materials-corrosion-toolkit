@@ -1,0 +1,232 @@
+{
+  "$defs": {
+    "CcpsDenseAtmosphere": {
+      "additionalProperties": false,
+      "properties": {
+        "wind_speed_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Wind Speed M S",
+          "type": "number"
+        },
+        "wind_reference_height_m": {
+          "exclusiveMinimum": 0,
+          "title": "Wind Reference Height M",
+          "type": "number"
+        },
+        "temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "relative_humidity_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Relative Humidity Fraction",
+          "type": "number"
+        },
+        "roughness_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Roughness Length M",
+          "type": "number"
+        },
+        "stability": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "title": "Stability",
+          "type": "string"
+        },
+        "pressure_pa_abs": {
+          "const": 101325.0,
+          "default": 101325.0,
+          "title": "Pressure Pa Abs",
+          "type": "number"
+        }
+      },
+      "required": [
+        "wind_speed_m_s",
+        "wind_reference_height_m",
+        "temperature_k",
+        "relative_humidity_fraction",
+        "roughness_length_m",
+        "stability"
+      ],
+      "title": "CcpsDenseAtmosphere",
+      "type": "object"
+    },
+    "CcpsDenseReceptor": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "downwind_distance_m": {
+          "minimum": 0,
+          "title": "Downwind Distance M",
+          "type": "number"
+        },
+        "crosswind_distance_m": {
+          "title": "Crosswind Distance M",
+          "type": "number"
+        },
+        "height_m": {
+          "minimum": 0,
+          "title": "Height M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "downwind_distance_m",
+        "crosswind_distance_m",
+        "height_m"
+      ],
+      "title": "CcpsDenseReceptor",
+      "type": "object"
+    },
+    "CcpsDenseSubstance": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "molecular_weight_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molecular Weight Kg Mol",
+          "type": "number"
+        },
+        "vapor_heat_capacity_j_kg_k": {
+          "exclusiveMinimum": 0,
+          "title": "Vapor Heat Capacity J Kg K",
+          "type": "number"
+        },
+        "liquid_heat_capacity_j_kg_k": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Heat Capacity J Kg K",
+          "type": "number"
+        },
+        "latent_heat_j_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Latent Heat J Kg",
+          "type": "number"
+        },
+        "normal_boiling_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Normal Boiling Temperature K",
+          "type": "number"
+        },
+        "liquid_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Density Kg M3",
+          "type": "number"
+        },
+        "property_basis": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Property Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "molecular_weight_kg_mol",
+        "vapor_heat_capacity_j_kg_k",
+        "liquid_heat_capacity_j_kg_k",
+        "latent_heat_j_kg",
+        "normal_boiling_temperature_k",
+        "liquid_density_kg_m3",
+        "property_basis"
+      ],
+      "title": "CcpsDenseSubstance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-selected numerical controls for the pinned CCPS release-history API.",
+  "properties": {
+    "expected_engine_code_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Engine Code Digest",
+      "type": "string"
+    },
+    "substance": {
+      "$ref": "#/$defs/CcpsDenseSubstance"
+    },
+    "atmosphere": {
+      "$ref": "#/$defs/CcpsDenseAtmosphere"
+    },
+    "receptors": {
+      "items": {
+        "$ref": "#/$defs/CcpsDenseReceptor"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Receptors",
+      "type": "array"
+    },
+    "sample_times_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2001,
+      "minItems": 2,
+      "title": "Sample Times S",
+      "type": "array"
+    },
+    "simulation_end_s": {
+      "exclusiveMinimum": 0,
+      "maximum": 86400,
+      "title": "Simulation End S",
+      "type": "number"
+    },
+    "native_puff_steps": {
+      "default": 240,
+      "maximum": 2000,
+      "minimum": 80,
+      "title": "Native Puff Steps",
+      "type": "integer"
+    },
+    "timeout_s": {
+      "default": 60.0,
+      "exclusiveMinimum": 0,
+      "maximum": 300,
+      "title": "Timeout S",
+      "type": "number"
+    },
+    "tail_threshold_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Tail Threshold Kg M3",
+      "type": "number"
+    },
+    "plume_distance_limit_m": {
+      "exclusiveMinimum": 0,
+      "maximum": 100000,
+      "title": "Plume Distance Limit M",
+      "type": "number"
+    }
+  },
+  "required": [
+    "expected_engine_code_digest",
+    "substance",
+    "atmosphere",
+    "receptors",
+    "sample_times_s",
+    "simulation_end_s",
+    "tail_threshold_kg_m3",
+    "plume_distance_limit_m"
+  ],
+  "title": "CcpsReleaseHistorySettings",
+  "type": "object"
+}

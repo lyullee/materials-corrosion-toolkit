@@ -1,0 +1,317 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RemainingThicknessKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.ti12mo5zr_remaining_thickness_knot.v1",
+          "default": "matintegrity.ti12mo5zr_remaining_thickness_knot.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_row_number": {
+          "minimum": 2,
+          "title": "Source Row Number",
+          "type": "integer"
+        },
+        "source_row_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Row Sha256",
+          "type": "string"
+        },
+        "source_member_sha256": {
+          "const": "52aef79a7284b88296f00ade100756efbdd60893028fe302a1e29fee4c9ae024",
+          "default": "52aef79a7284b88296f00ade100756efbdd60893028fe302a1e29fee4c9ae024",
+          "title": "Source Member Sha256",
+          "type": "string"
+        },
+        "source_archive_sha256": {
+          "const": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+          "default": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+          "title": "Source Archive Sha256",
+          "type": "string"
+        },
+        "provider_time_s": {
+          "minimum": 0,
+          "title": "Provider Time S",
+          "type": "number"
+        },
+        "signed_net_mass_flux_kg_m2_s": {
+          "title": "Signed Net Mass Flux Kg M2 S",
+          "type": "number"
+        },
+        "signed_equivalent_penetration_velocity_m_s": {
+          "title": "Signed Equivalent Penetration Velocity M S",
+          "type": "number"
+        },
+        "cumulative_positive_penetration_m": {
+          "minimum": 0,
+          "title": "Cumulative Positive Penetration M",
+          "type": "number"
+        },
+        "cumulative_negative_penetration_m": {
+          "maximum": 0,
+          "title": "Cumulative Negative Penetration M",
+          "type": "number"
+        },
+        "cumulative_signed_net_penetration_m": {
+          "title": "Cumulative Signed Net Penetration M",
+          "type": "number"
+        },
+        "remaining_thickness_m": {
+          "minimum": 0,
+          "title": "Remaining Thickness M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "source_row_number",
+        "source_row_sha256",
+        "provider_time_s",
+        "signed_net_mass_flux_kg_m2_s",
+        "signed_equivalent_penetration_velocity_m_s",
+        "cumulative_positive_penetration_m",
+        "cumulative_negative_penetration_m",
+        "cumulative_signed_net_penetration_m",
+        "remaining_thickness_m"
+      ],
+      "title": "RemainingThicknessKnot",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.ti12mo5zr_remaining_thickness_history.v1",
+      "default": "matintegrity.ti12mo5zr_remaining_thickness_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "model_id": {
+      "const": "corrosion.ti12mo5zr_uniform_equivalent_remaining_thickness",
+      "default": "corrosion.ti12mo5zr_uniform_equivalent_remaining_thickness",
+      "title": "Model Id",
+      "type": "string"
+    },
+    "source_model_id": {
+      "const": "corrosion.ti12mo5zr_aesec_signed_equivalent_penetration",
+      "default": "corrosion.ti12mo5zr_aesec_signed_equivalent_penetration",
+      "title": "Source Model Id",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-ti12mo5zr-aqueous-corrosion",
+      "default": "zenodo-ti12mo5zr-aqueous-corrosion",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "source_archive_sha256": {
+      "const": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+      "default": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+      "title": "Source Archive Sha256",
+      "type": "string"
+    },
+    "source_member_sha256": {
+      "const": "52aef79a7284b88296f00ade100756efbdd60893028fe302a1e29fee4c9ae024",
+      "default": "52aef79a7284b88296f00ade100756efbdd60893028fe302a1e29fee4c9ae024",
+      "title": "Source Member Sha256",
+      "type": "string"
+    },
+    "assessment_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Assessment Input Digest",
+      "type": "string"
+    },
+    "assessment_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Assessment Result Digest",
+      "type": "string"
+    },
+    "mass_balance_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mass Balance Result Digest",
+      "type": "string"
+    },
+    "expected_run_context": {
+      "$ref": "#/$defs/RunContext"
+    },
+    "baseline_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Baseline Thickness M",
+      "type": "number"
+    },
+    "baseline_thickness_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "baseline_evidence_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Baseline Evidence Sha256",
+      "type": "string"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "density_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "density_evidence_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Density Evidence Sha256",
+      "type": "string"
+    },
+    "provider_time_basis": {
+      "const": "provider_time_s_exact_knots",
+      "default": "provider_time_s_exact_knots",
+      "title": "Provider Time Basis",
+      "type": "string"
+    },
+    "remaining_thickness_basis": {
+      "const": "baseline_minus_positive_cumulative_penetration_only",
+      "default": "baseline_minus_positive_cumulative_penetration_only",
+      "title": "Remaining Thickness Basis",
+      "type": "string"
+    },
+    "signed_ledger_preserved": {
+      "const": true,
+      "default": true,
+      "title": "Signed Ledger Preserved",
+      "type": "boolean"
+    },
+    "negative_penetration_restores_thickness": {
+      "const": false,
+      "default": false,
+      "title": "Negative Penetration Restores Thickness",
+      "type": "boolean"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/RemainingThicknessKnot"
+      },
+      "maxItems": 20000,
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "scope_limit": {
+      "const": "uniform_equivalent_area_average_no_localized_wall_claim",
+      "default": "uniform_equivalent_area_average_no_localized_wall_claim",
+      "title": "Scope Limit",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_input_digest",
+    "assessment_result_digest",
+    "mass_balance_result_digest",
+    "expected_run_context",
+    "baseline_thickness_m",
+    "baseline_thickness_evidence",
+    "baseline_evidence_sha256",
+    "density_kg_m3",
+    "density_evidence",
+    "density_evidence_sha256",
+    "knots"
+  ],
+  "title": "RemainingThicknessHistory",
+  "type": "object"
+}

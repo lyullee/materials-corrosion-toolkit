@@ -1,0 +1,893 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CarbonateActivityConstants": {
+      "additionalProperties": false,
+      "properties": {
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "default": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "K1_activity": {
+          "exclusiveMinimum": 0,
+          "title": "K1 Activity",
+          "type": "number"
+        },
+        "K2_activity": {
+          "exclusiveMinimum": 0,
+          "title": "K2 Activity",
+          "type": "number"
+        },
+        "Kw_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Kw Activity",
+          "type": "number"
+        },
+        "gamma_h_plus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma H Plus",
+          "type": "number"
+        },
+        "gamma_hco3_minus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma Hco3 Minus",
+          "type": "number"
+        },
+        "gamma_co3_double_minus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma Co3 Double Minus",
+          "type": "number"
+        },
+        "gamma_oh_minus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma Oh Minus",
+          "type": "number"
+        },
+        "constants_provider_id": {
+          "minLength": 1,
+          "title": "Constants Provider Id",
+          "type": "string"
+        },
+        "constants_provider_revision": {
+          "minLength": 1,
+          "title": "Constants Provider Revision",
+          "type": "string"
+        },
+        "constants_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Constants Configuration Digest",
+          "type": "string"
+        },
+        "constants_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Constants Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "K1_activity",
+        "K2_activity",
+        "Kw_activity",
+        "gamma_h_plus",
+        "gamma_hco3_minus",
+        "gamma_co3_double_minus",
+        "gamma_oh_minus",
+        "constants_provider_id",
+        "constants_provider_revision",
+        "constants_configuration_digest",
+        "constants_record_digest",
+        "evidence"
+      ],
+      "title": "CarbonateActivityConstants",
+      "type": "object"
+    },
+    "Co2HenryCarbonateAdapterRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "henry_temperature_correction_request": {
+          "$ref": "#/$defs/Co2HenryTemperatureCorrectionRequest"
+        },
+        "henry_temperature_correction_result": {
+          "$ref": "#/$defs/AssessmentResult"
+        },
+        "carbonate_equilibrium": {
+          "$ref": "#/$defs/FixedFugacityCarbonateEquilibriumTemplate"
+        },
+        "corrected_henry_result_reviewed": {
+          "title": "Corrected Henry Result Reviewed",
+          "type": "boolean"
+        },
+        "adapter_review_id": {
+          "minLength": 1,
+          "title": "Adapter Review Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "henry_temperature_correction_request",
+        "henry_temperature_correction_result",
+        "carbonate_equilibrium",
+        "corrected_henry_result_reviewed",
+        "adapter_review_id"
+      ],
+      "title": "Co2HenryCarbonateAdapterRequest",
+      "type": "object"
+    },
+    "Co2HenrySolubilityRecord": {
+      "additionalProperties": false,
+      "description": "Caller-provided Henry solubility coefficient with explicit convention and lineage.",
+      "properties": {
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "coefficient_mol_L_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Coefficient Mol L Pa",
+          "type": "number"
+        },
+        "convention": {
+          "const": "aqueous_CO2star_concentration_over_gas_fugacity",
+          "title": "Convention",
+          "type": "string"
+        },
+        "solvent_composition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "coefficient_mol_L_Pa",
+        "convention",
+        "solvent_composition_sha256",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "Co2HenrySolubilityRecord",
+      "type": "object"
+    },
+    "Co2HenryTemperatureCorrectionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "target_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Target Temperature K",
+          "type": "number"
+        },
+        "sample_solvent_composition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sample Solvent Composition Sha256",
+          "type": "string"
+        },
+        "reference": {
+          "$ref": "#/$defs/Co2HenryTemperatureReference"
+        },
+        "henry_coefficient_convention_reviewed": {
+          "title": "Henry Coefficient Convention Reviewed",
+          "type": "boolean"
+        },
+        "solvent_composition_match_reviewed": {
+          "title": "Solvent Composition Match Reviewed",
+          "type": "boolean"
+        },
+        "constant_heat_capacity_correction_reviewed": {
+          "default": false,
+          "title": "Constant Heat Capacity Correction Reviewed",
+          "type": "boolean"
+        },
+        "thermochemical_support_reviewed": {
+          "title": "Thermochemical Support Reviewed",
+          "type": "boolean"
+        },
+        "maximum_absolute_log_temperature_factor": {
+          "default": 40.0,
+          "exclusiveMinimum": 0,
+          "maximum": 100.0,
+          "title": "Maximum Absolute Log Temperature Factor",
+          "type": "number"
+        },
+        "review_id": {
+          "minLength": 1,
+          "title": "Review Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "target_temperature_K",
+        "sample_solvent_composition_sha256",
+        "reference",
+        "henry_coefficient_convention_reviewed",
+        "solvent_composition_match_reviewed",
+        "thermochemical_support_reviewed",
+        "review_id"
+      ],
+      "title": "Co2HenryTemperatureCorrectionRequest",
+      "type": "object"
+    },
+    "Co2HenryTemperatureReference": {
+      "additionalProperties": false,
+      "description": "One source-pinned Henry solubility datum and dissolution thermochemistry.",
+      "properties": {
+        "coefficient_mol_L_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Coefficient Mol L Pa",
+          "type": "number"
+        },
+        "coefficient_convention": {
+          "const": "aqueous_CO2star_concentration_over_gas_fugacity_mol_L_Pa",
+          "title": "Coefficient Convention",
+          "type": "string"
+        },
+        "reference_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Temperature K",
+          "type": "number"
+        },
+        "dissolution_enthalpy_J_mol": {
+          "title": "Dissolution Enthalpy J Mol",
+          "type": "number"
+        },
+        "dissolution_heat_capacity_change_J_mol_K": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolution Heat Capacity Change J Mol K"
+        },
+        "minimum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Temperature K",
+          "type": "number"
+        },
+        "solvent_composition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Sha256",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "enthalpy_sign_convention": {
+          "const": "positive_for_endothermic_dissolution",
+          "title": "Enthalpy Sign Convention",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "coefficient_mol_L_Pa",
+        "coefficient_convention",
+        "reference_temperature_K",
+        "dissolution_enthalpy_J_mol",
+        "minimum_supported_temperature_K",
+        "maximum_supported_temperature_K",
+        "solvent_composition_sha256",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_sha256",
+        "record_sha256",
+        "enthalpy_sign_convention",
+        "evidence"
+      ],
+      "title": "Co2HenryTemperatureReference",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FixedFugacityCarbonateEquilibriumTemplate": {
+      "additionalProperties": false,
+      "description": "Strict carbonate-equilibrium input with the Henry record supplied by this adapter.",
+      "properties": {
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "co2_fugacity_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Co2 Fugacity Pa",
+          "type": "number"
+        },
+        "gas_fugacity_provider_id": {
+          "minLength": 1,
+          "title": "Gas Fugacity Provider Id",
+          "type": "string"
+        },
+        "gas_fugacity_provider_revision": {
+          "minLength": 1,
+          "title": "Gas Fugacity Provider Revision",
+          "type": "string"
+        },
+        "gas_fugacity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Gas Fugacity Configuration Digest",
+          "type": "string"
+        },
+        "gas_fugacity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Gas Fugacity Record Digest",
+          "type": "string"
+        },
+        "sample_solvent_composition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sample Solvent Composition Sha256",
+          "type": "string"
+        },
+        "henry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Co2HenrySolubilityRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "constants": {
+          "$ref": "#/$defs/CarbonateActivityConstants"
+        },
+        "measured_total_alkalinity_mol_L": {
+          "title": "Measured Total Alkalinity Mol L",
+          "type": "number"
+        },
+        "alkalinity_provider_id": {
+          "minLength": 1,
+          "title": "Alkalinity Provider Id",
+          "type": "string"
+        },
+        "alkalinity_provider_revision": {
+          "minLength": 1,
+          "title": "Alkalinity Provider Revision",
+          "type": "string"
+        },
+        "alkalinity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Alkalinity Configuration Digest",
+          "type": "string"
+        },
+        "alkalinity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Alkalinity Record Digest",
+          "type": "string"
+        },
+        "expanded_total_alkalinity_uncertainty_mol_L": {
+          "minimum": 0,
+          "title": "Expanded Total Alkalinity Uncertainty Mol L",
+          "type": "number"
+        },
+        "alkalinity_uncertainty_basis": {
+          "minLength": 1,
+          "title": "Alkalinity Uncertainty Basis",
+          "type": "string"
+        },
+        "ph_search_lower": {
+          "maximum": 20.0,
+          "minimum": -20.0,
+          "title": "Ph Search Lower",
+          "type": "number"
+        },
+        "ph_search_upper": {
+          "maximum": 20.0,
+          "minimum": -20.0,
+          "title": "Ph Search Upper",
+          "type": "number"
+        },
+        "ph_tolerance": {
+          "exclusiveMinimum": 0,
+          "title": "Ph Tolerance",
+          "type": "number"
+        },
+        "alkalinity_closure_tolerance_mol_L": {
+          "exclusiveMinimum": 0,
+          "title": "Alkalinity Closure Tolerance Mol L",
+          "type": "number"
+        },
+        "temperature_match_tolerance_K": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Temperature Match Tolerance K",
+          "type": "number"
+        },
+        "maximum_iterations": {
+          "default": 256,
+          "maximum": 512,
+          "minimum": 8,
+          "title": "Maximum Iterations",
+          "type": "integer"
+        },
+        "carbonate_only_alkalinity_reviewed": {
+          "title": "Carbonate Only Alkalinity Reviewed",
+          "type": "boolean"
+        },
+        "gas_fugacity_reviewed": {
+          "title": "Gas Fugacity Reviewed",
+          "type": "boolean"
+        },
+        "fixed_fugacity_reservoir_reviewed": {
+          "title": "Fixed Fugacity Reservoir Reviewed",
+          "type": "boolean"
+        },
+        "henry_convention_reviewed": {
+          "title": "Henry Convention Reviewed",
+          "type": "boolean"
+        },
+        "solvent_composition_match_reviewed": {
+          "title": "Solvent Composition Match Reviewed",
+          "type": "boolean"
+        },
+        "activity_scales_reviewed": {
+          "title": "Activity Scales Reviewed",
+          "type": "boolean"
+        },
+        "constants_temperature_basis_reviewed": {
+          "title": "Constants Temperature Basis Reviewed",
+          "type": "boolean"
+        },
+        "alkalinity_measurement_reviewed": {
+          "title": "Alkalinity Measurement Reviewed",
+          "type": "boolean"
+        },
+        "gas_equilibrium_review_id": {
+          "minLength": 1,
+          "title": "Gas Equilibrium Review Id",
+          "type": "string"
+        },
+        "henry_record_review_id": {
+          "minLength": 1,
+          "title": "Henry Record Review Id",
+          "type": "string"
+        },
+        "alkalinity_record_review_id": {
+          "minLength": 1,
+          "title": "Alkalinity Record Review Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "sample_id",
+        "temperature_K",
+        "co2_fugacity_Pa",
+        "gas_fugacity_provider_id",
+        "gas_fugacity_provider_revision",
+        "gas_fugacity_configuration_digest",
+        "gas_fugacity_record_digest",
+        "sample_solvent_composition_sha256",
+        "constants",
+        "measured_total_alkalinity_mol_L",
+        "alkalinity_provider_id",
+        "alkalinity_provider_revision",
+        "alkalinity_configuration_digest",
+        "alkalinity_record_digest",
+        "expanded_total_alkalinity_uncertainty_mol_L",
+        "alkalinity_uncertainty_basis",
+        "ph_search_lower",
+        "ph_search_upper",
+        "ph_tolerance",
+        "alkalinity_closure_tolerance_mol_L",
+        "carbonate_only_alkalinity_reviewed",
+        "gas_fugacity_reviewed",
+        "fixed_fugacity_reservoir_reviewed",
+        "henry_convention_reviewed",
+        "solvent_composition_match_reviewed",
+        "activity_scales_reviewed",
+        "constants_temperature_basis_reviewed",
+        "alkalinity_measurement_reviewed",
+        "gas_equilibrium_review_id",
+        "henry_record_review_id",
+        "alkalinity_record_review_id",
+        "evidence"
+      ],
+      "title": "FixedFugacityCarbonateEquilibriumTemplate",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Time S",
+      "type": "array"
+    },
+    "knot_requests": {
+      "items": {
+        "$ref": "#/$defs/Co2HenryCarbonateAdapterRequest"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Knot Requests",
+      "type": "array"
+    },
+    "history_clock_and_sample_alignment_reviewed": {
+      "title": "History Clock And Sample Alignment Reviewed",
+      "type": "boolean"
+    },
+    "all_points_must_compute_before_commit": {
+      "default": true,
+      "title": "All Points Must Compute Before Commit",
+      "type": "boolean"
+    },
+    "maximum_point_evaluations": {
+      "default": 20000,
+      "maximum": 20000,
+      "minimum": 1,
+      "title": "Maximum Point Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "time_basis",
+    "time_s",
+    "knot_requests",
+    "history_clock_and_sample_alignment_reviewed"
+  ],
+  "title": "Co2HenryCarbonateHistoryAdapterRequest",
+  "type": "object"
+}

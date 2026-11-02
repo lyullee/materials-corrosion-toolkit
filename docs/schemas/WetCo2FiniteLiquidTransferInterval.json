@@ -1,0 +1,193 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Piecewise-constant gas/liquid state and two-film coefficients over one interval.",
+  "properties": {
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "co2_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Co2 Fugacity Pa",
+      "type": "number"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "gas_film_coefficient_mol_m2_s_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Film Coefficient Mol M2 S Pa",
+      "type": "number"
+    },
+    "liquid_film_coefficient_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Film Coefficient M S",
+      "type": "number"
+    },
+    "fugacity_provider_id": {
+      "minLength": 1,
+      "title": "Fugacity Provider Id",
+      "type": "string"
+    },
+    "fugacity_provider_revision": {
+      "minLength": 1,
+      "title": "Fugacity Provider Revision",
+      "type": "string"
+    },
+    "fugacity_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fugacity Configuration Sha256",
+      "type": "string"
+    },
+    "fugacity_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fugacity Result Sha256",
+      "type": "string"
+    },
+    "henry_source_id": {
+      "minLength": 1,
+      "title": "Henry Source Id",
+      "type": "string"
+    },
+    "henry_record_id": {
+      "minLength": 1,
+      "title": "Henry Record Id",
+      "type": "string"
+    },
+    "henry_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Henry Record Sha256",
+      "type": "string"
+    },
+    "film_coefficient_source_id": {
+      "minLength": 1,
+      "title": "Film Coefficient Source Id",
+      "type": "string"
+    },
+    "film_coefficient_provider_revision": {
+      "minLength": 1,
+      "title": "Film Coefficient Provider Revision",
+      "type": "string"
+    },
+    "film_coefficient_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Film Coefficient Configuration Sha256",
+      "type": "string"
+    },
+    "film_coefficient_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Film Coefficient Result Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "state_and_parameter_support_reviewed": {
+      "title": "State And Parameter Support Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "start_time_s",
+    "end_time_s",
+    "temperature_K",
+    "co2_fugacity_Pa",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "gas_film_coefficient_mol_m2_s_Pa",
+    "liquid_film_coefficient_m_s",
+    "fugacity_provider_id",
+    "fugacity_provider_revision",
+    "fugacity_configuration_sha256",
+    "fugacity_result_sha256",
+    "henry_source_id",
+    "henry_record_id",
+    "henry_record_sha256",
+    "film_coefficient_source_id",
+    "film_coefficient_provider_revision",
+    "film_coefficient_configuration_sha256",
+    "film_coefficient_result_sha256",
+    "evidence",
+    "state_and_parameter_support_reviewed"
+  ],
+  "title": "WetCo2FiniteLiquidTransferInterval",
+  "type": "object"
+}

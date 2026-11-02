@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SaturationCalorimetryState": {
+      "additionalProperties": false,
+      "properties": {
+        "fluid_id": {
+          "minLength": 1,
+          "title": "Fluid Id",
+          "type": "string"
+        },
+        "pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Pressure Pa",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "liquid_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Density Kg M3",
+          "type": "number"
+        },
+        "vapor_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Vapor Density Kg M3",
+          "type": "number"
+        },
+        "liquid_enthalpy_J_kg": {
+          "title": "Liquid Enthalpy J Kg",
+          "type": "number"
+        },
+        "vapor_enthalpy_J_kg": {
+          "title": "Vapor Enthalpy J Kg",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fluid_id",
+        "pressure_Pa",
+        "temperature_K",
+        "liquid_density_kg_m3",
+        "vapor_density_kg_m3",
+        "liquid_enthalpy_J_kg",
+        "vapor_enthalpy_J_kg",
+        "provider_id",
+        "provider_version",
+        "provider_revision",
+        "provider_state_digest",
+        "evidence"
+      ],
+      "title": "SaturationCalorimetryState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "saturation_state": {
+      "$ref": "#/$defs/SaturationCalorimetryState"
+    },
+    "escaping_vapor_mass_flow_kg_s": {
+      "minimum": 0,
+      "title": "Escaping Vapor Mass Flow Kg S",
+      "type": "number"
+    },
+    "inventory_mode": {
+      "enum": [
+        "falling_liquid_level_rigid_vessel",
+        "constant_level_saturated_liquid_makeup"
+      ],
+      "title": "Inventory Mode",
+      "type": "string"
+    },
+    "separately_accounted_heat_input_W": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Separately Accounted Heat Input W",
+      "type": "number"
+    },
+    "isobaric_saturated_bath_reviewed": {
+      "title": "Isobaric Saturated Bath Reviewed",
+      "type": "boolean"
+    },
+    "flow_is_escaping_vapor_mass_at_bath_outlet_reviewed": {
+      "title": "Flow Is Escaping Vapor Mass At Bath Outlet Reviewed",
+      "type": "boolean"
+    },
+    "inventory_mode_and_no_other_mass_exchange_reviewed": {
+      "title": "Inventory Mode And No Other Mass Exchange Reviewed",
+      "type": "boolean"
+    },
+    "sensible_transient_and_other_energy_terms_negligible_reviewed": {
+      "title": "Sensible Transient And Other Energy Terms Negligible Reviewed",
+      "type": "boolean"
+    },
+    "property_state_and_measurement_applicability_reviewed": {
+      "title": "Property State And Measurement Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "saturation_state",
+    "escaping_vapor_mass_flow_kg_s",
+    "inventory_mode",
+    "isobaric_saturated_bath_reviewed",
+    "flow_is_escaping_vapor_mass_at_bath_outlet_reviewed",
+    "inventory_mode_and_no_other_mass_exchange_reviewed",
+    "sensible_transient_and_other_energy_terms_negligible_reviewed",
+    "property_state_and_measurement_applicability_reviewed"
+  ],
+  "title": "BoilOffCalorimetry",
+  "type": "object"
+}

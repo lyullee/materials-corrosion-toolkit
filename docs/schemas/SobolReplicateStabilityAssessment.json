@@ -1,0 +1,459 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SobolEstimateReplicate": {
+      "additionalProperties": false,
+      "properties": {
+        "replicate_id": {
+          "minLength": 1,
+          "title": "Replicate Id",
+          "type": "string"
+        },
+        "seed": {
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "output_id": {
+          "minLength": 1,
+          "title": "Output Id",
+          "type": "string"
+        },
+        "output_definition": {
+          "minLength": 1,
+          "title": "Output Definition",
+          "type": "string"
+        },
+        "output_unit_token": {
+          "minLength": 1,
+          "title": "Output Unit Token",
+          "type": "string"
+        },
+        "parameter_distribution_id": {
+          "minLength": 1,
+          "title": "Parameter Distribution Id",
+          "type": "string"
+        },
+        "distribution_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Distribution Digest",
+          "type": "string"
+        },
+        "dependence_assumption_id": {
+          "minLength": 1,
+          "title": "Dependence Assumption Id",
+          "type": "string"
+        },
+        "design_family_id": {
+          "minLength": 1,
+          "title": "Design Family Id",
+          "type": "string"
+        },
+        "design_family_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Design Family Digest",
+          "type": "string"
+        },
+        "evaluator_id": {
+          "minLength": 1,
+          "title": "Evaluator Id",
+          "type": "string"
+        },
+        "evaluator_revision": {
+          "minLength": 1,
+          "title": "Evaluator Revision",
+          "type": "string"
+        },
+        "evaluator_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evaluator Configuration Digest",
+          "type": "string"
+        },
+        "sample_count": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Count"
+        },
+        "effective_sample_size": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective Sample Size"
+        },
+        "parameter_estimates": {
+          "items": {
+            "$ref": "#/$defs/SobolParameterEstimate"
+          },
+          "minItems": 1,
+          "title": "Parameter Estimates",
+          "type": "array"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "replicate_id",
+        "seed",
+        "output_id",
+        "output_definition",
+        "output_unit_token",
+        "parameter_distribution_id",
+        "distribution_digest",
+        "dependence_assumption_id",
+        "design_family_id",
+        "design_family_digest",
+        "evaluator_id",
+        "evaluator_revision",
+        "evaluator_configuration_digest",
+        "parameter_estimates",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "SobolEstimateReplicate",
+      "type": "object"
+    },
+    "SobolParameterEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        },
+        "first_order_index": {
+          "title": "First Order Index",
+          "type": "number"
+        },
+        "total_order_index": {
+          "title": "Total Order Index",
+          "type": "number"
+        },
+        "first_order_estimator_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Order Estimator Uncertainty"
+        },
+        "total_order_estimator_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Order Estimator Uncertainty"
+        },
+        "uncertainty_definition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Definition"
+        }
+      },
+      "required": [
+        "parameter_id",
+        "first_order_index",
+        "total_order_index"
+      ],
+      "title": "SobolParameterEstimate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "output_id": {
+      "minLength": 1,
+      "title": "Output Id",
+      "type": "string"
+    },
+    "output_definition": {
+      "minLength": 1,
+      "title": "Output Definition",
+      "type": "string"
+    },
+    "output_unit_token": {
+      "minLength": 1,
+      "title": "Output Unit Token",
+      "type": "string"
+    },
+    "parameter_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Parameter Ids",
+      "type": "array"
+    },
+    "parameter_distribution_id": {
+      "minLength": 1,
+      "title": "Parameter Distribution Id",
+      "type": "string"
+    },
+    "distribution_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Distribution Digest",
+      "type": "string"
+    },
+    "dependence_assumption_id": {
+      "minLength": 1,
+      "title": "Dependence Assumption Id",
+      "type": "string"
+    },
+    "design_family_id": {
+      "minLength": 1,
+      "title": "Design Family Id",
+      "type": "string"
+    },
+    "design_family_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Design Family Digest",
+      "type": "string"
+    },
+    "evaluator_id": {
+      "minLength": 1,
+      "title": "Evaluator Id",
+      "type": "string"
+    },
+    "evaluator_revision": {
+      "minLength": 1,
+      "title": "Evaluator Revision",
+      "type": "string"
+    },
+    "evaluator_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluator Configuration Digest",
+      "type": "string"
+    },
+    "replicates": {
+      "items": {
+        "$ref": "#/$defs/SobolEstimateReplicate"
+      },
+      "minItems": 2,
+      "title": "Replicates",
+      "type": "array"
+    },
+    "minimum_replicate_count": {
+      "minimum": 2,
+      "title": "Minimum Replicate Count",
+      "type": "integer"
+    },
+    "maximum_first_order_replicate_range": {
+      "minimum": 0,
+      "title": "Maximum First Order Replicate Range",
+      "type": "number"
+    },
+    "maximum_total_order_replicate_range": {
+      "minimum": 0,
+      "title": "Maximum Total Order Replicate Range",
+      "type": "number"
+    },
+    "maximum_pooled_sample_standard_deviation": {
+      "minimum": 0,
+      "title": "Maximum Pooled Sample Standard Deviation",
+      "type": "number"
+    },
+    "maximum_reported_estimator_uncertainty": {
+      "minimum": 0,
+      "title": "Maximum Reported Estimator Uncertainty",
+      "type": "number"
+    },
+    "rank_tie_tolerance": {
+      "minimum": 0,
+      "title": "Rank Tie Tolerance",
+      "type": "number"
+    },
+    "output_parameter_distribution_and_dependence_identity_reviewed": {
+      "title": "Output Parameter Distribution And Dependence Identity Reviewed",
+      "type": "boolean"
+    },
+    "design_family_and_evaluator_identity_reviewed": {
+      "title": "Design Family And Evaluator Identity Reviewed",
+      "type": "boolean"
+    },
+    "replicate_independence_ids_and_seeds_reviewed": {
+      "title": "Replicate Independence Ids And Seeds Reviewed",
+      "type": "boolean"
+    },
+    "complete_parameter_sets_reviewed": {
+      "title": "Complete Parameter Sets Reviewed",
+      "type": "boolean"
+    },
+    "estimator_uncertainty_ess_and_sample_counts_reviewed": {
+      "title": "Estimator Uncertainty Ess And Sample Counts Reviewed",
+      "type": "boolean"
+    },
+    "result_digests_and_missingness_reviewed": {
+      "title": "Result Digests And Missingness Reviewed",
+      "type": "boolean"
+    },
+    "diagnostic_tolerances_and_rank_definition_reviewed": {
+      "title": "Diagnostic Tolerances And Rank Definition Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "output_id",
+    "output_definition",
+    "output_unit_token",
+    "parameter_ids",
+    "parameter_distribution_id",
+    "distribution_digest",
+    "dependence_assumption_id",
+    "design_family_id",
+    "design_family_digest",
+    "evaluator_id",
+    "evaluator_revision",
+    "evaluator_configuration_digest",
+    "replicates",
+    "minimum_replicate_count",
+    "maximum_first_order_replicate_range",
+    "maximum_total_order_replicate_range",
+    "maximum_pooled_sample_standard_deviation",
+    "maximum_reported_estimator_uncertainty",
+    "rank_tie_tolerance",
+    "output_parameter_distribution_and_dependence_identity_reviewed",
+    "design_family_and_evaluator_identity_reviewed",
+    "replicate_independence_ids_and_seeds_reviewed",
+    "complete_parameter_sets_reviewed",
+    "estimator_uncertainty_ess_and_sample_counts_reviewed",
+    "result_digests_and_missingness_reviewed",
+    "diagnostic_tolerances_and_rank_definition_reviewed"
+  ],
+  "title": "SobolReplicateStabilityAssessment",
+  "type": "object"
+}

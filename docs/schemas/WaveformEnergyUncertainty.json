@@ -1,0 +1,234 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WaveformEnergy": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "voltage_V": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Voltage V",
+          "type": "array"
+        },
+        "current_A": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Current A",
+          "type": "array"
+        },
+        "travel_distance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Travel Distance M",
+          "type": "number"
+        },
+        "efficiency": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Efficiency",
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_s",
+        "voltage_V",
+        "current_A",
+        "travel_distance_m",
+        "efficiency"
+      ],
+      "title": "WaveformEnergy",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Waveform heat-input request and caller-pinned covariance for first-order propagation.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.welding_waveform_energy_uncertainty.v1",
+      "default": "matintegrity.welding_waveform_energy_uncertainty.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "waveform": {
+      "$ref": "#/$defs/WaveformEnergy"
+    },
+    "covariance_coordinate_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 514,
+      "minItems": 6,
+      "title": "Covariance Coordinate Order",
+      "type": "array"
+    },
+    "covariance_coordinate_unit_tokens": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 514,
+      "minItems": 6,
+      "title": "Covariance Coordinate Unit Tokens",
+      "type": "array"
+    },
+    "input_covariance": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 514,
+      "minItems": 6,
+      "title": "Input Covariance",
+      "type": "array"
+    },
+    "covariance_source_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Covariance Source Id",
+      "type": "string"
+    },
+    "covariance_provider_revision": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Covariance Provider Revision",
+      "type": "string"
+    },
+    "covariance_record_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Covariance Record Id",
+      "type": "string"
+    },
+    "covariance_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Covariance Sha256",
+      "type": "string"
+    },
+    "covariance_usage_license_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Covariance Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "covariance_order_and_units_reviewed": {
+      "title": "Covariance Order And Units Reviewed",
+      "type": "boolean"
+    },
+    "waveform_clock_treated_exact_reviewed": {
+      "title": "Waveform Clock Treated Exact Reviewed",
+      "type": "boolean"
+    },
+    "first_order_linearization_and_local_support_reviewed": {
+      "title": "First Order Linearization And Local Support Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "waveform",
+    "covariance_coordinate_order",
+    "covariance_coordinate_unit_tokens",
+    "input_covariance",
+    "covariance_source_id",
+    "covariance_provider_revision",
+    "covariance_record_id",
+    "covariance_sha256",
+    "covariance_usage_license_id",
+    "evidence",
+    "covariance_order_and_units_reviewed",
+    "waveform_clock_treated_exact_reviewed",
+    "first_order_linearization_and_local_support_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "WaveformEnergyUncertainty",
+  "type": "object"
+}

@@ -1,0 +1,296 @@
+{
+  "$defs": {
+    "DeclaredPhaseFractionRange": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "minimum_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Fraction",
+          "type": "number"
+        },
+        "maximum_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Fraction",
+          "type": "number"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "region_id",
+        "phase_id",
+        "minimum_fraction",
+        "maximum_fraction",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "DeclaredPhaseFractionRange",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PhaseFractionObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "measured_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Fraction"
+        },
+        "expanded_uncertainty_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty Fraction"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "sample_id",
+        "region_id",
+        "phase_id",
+        "method_id",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PhaseFractionObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "processing_history_id": {
+      "minLength": 1,
+      "title": "Processing History Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/PhaseFractionObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "declared_ranges": {
+      "items": {
+        "$ref": "#/$defs/DeclaredPhaseFractionRange"
+      },
+      "minItems": 1,
+      "title": "Declared Ranges",
+      "type": "array"
+    },
+    "sample_and_region_mapping_reviewed": {
+      "title": "Sample And Region Mapping Reviewed",
+      "type": "boolean"
+    },
+    "material_and_processing_identity_reviewed": {
+      "title": "Material And Processing Identity Reviewed",
+      "type": "boolean"
+    },
+    "method_applicability_reviewed": {
+      "title": "Method Applicability Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_basis_reviewed": {
+      "title": "Uncertainty Basis Reviewed",
+      "type": "boolean"
+    },
+    "phase_identity_reviewed": {
+      "title": "Phase Identity Reviewed",
+      "type": "boolean"
+    },
+    "requirement_authority_reviewed": {
+      "title": "Requirement Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "material_condition_id",
+    "processing_history_id",
+    "observations",
+    "declared_ranges",
+    "sample_and_region_mapping_reviewed",
+    "material_and_processing_identity_reviewed",
+    "method_applicability_reviewed",
+    "uncertainty_basis_reviewed",
+    "phase_identity_reviewed",
+    "requirement_authority_reviewed"
+  ],
+  "title": "PhaseMicrostructureAssessment",
+  "type": "object"
+}

@@ -1,0 +1,966 @@
+{
+  "$defs": {
+    "CastingForgingCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_product_kinds": {
+          "items": {
+            "enum": [
+              "casting",
+              "forging"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Product Kinds",
+          "type": "array"
+        },
+        "required_observation_categories": {
+          "items": {
+            "enum": [
+              "dimensional",
+              "surface",
+              "internal",
+              "nde",
+              "macro",
+              "micro",
+              "chemistry",
+              "mechanical"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Observation Categories",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CastingForgingQualityCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "built_in_specification_table_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Specification Table Used",
+          "type": "boolean"
+        },
+        "minimum_forging_ratio_embedded": {
+          "const": false,
+          "default": false,
+          "title": "Minimum Forging Ratio Embedded",
+          "type": "boolean"
+        },
+        "allowable_defect_rule_embedded": {
+          "const": false,
+          "default": false,
+          "title": "Allowable Defect Rule Embedded",
+          "type": "boolean"
+        },
+        "material_qualification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Material Qualification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_product_kinds",
+        "required_observation_categories",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "CastingForgingCallerProfile",
+      "type": "object"
+    },
+    "CastingForgingQualityCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "criterion_source": {
+          "enum": [
+            "campaign",
+            "observation"
+          ],
+          "title": "Criterion Source",
+          "type": "string"
+        },
+        "campaign_metric": {
+          "anyOf": [
+            {
+              "enum": [
+                "product_count",
+                "sample_count",
+                "replicate_group_count",
+                "independent_source_group_count",
+                "valid_observation_fraction"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Campaign Metric"
+        },
+        "observation_category": {
+          "anyOf": [
+            {
+              "enum": [
+                "dimensional",
+                "surface",
+                "internal",
+                "nde",
+                "macro",
+                "micro",
+                "chemistry",
+                "mechanical"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Category"
+        },
+        "observation_metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Metric Id"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "criterion_source",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "CastingForgingQualityCriterion",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ManufacturedProductEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "product_kind": {
+          "enum": [
+            "casting",
+            "forging"
+          ],
+          "title": "Product Kind",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "product_form_descriptor": {
+          "minLength": 1,
+          "title": "Product Form Descriptor",
+          "type": "string"
+        },
+        "manufacturing_route_id": {
+          "minLength": 1,
+          "title": "Manufacturing Route Id",
+          "type": "string"
+        },
+        "manufacturing_route_revision": {
+          "minLength": 1,
+          "title": "Manufacturing Route Revision",
+          "type": "string"
+        },
+        "route_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Route Configuration Digest",
+          "type": "string"
+        },
+        "forging_ratio": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forging Ratio"
+        },
+        "forging_ratio_definition": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forging Ratio Definition"
+        },
+        "forging_ratio_unit_token": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forging Ratio Unit Token"
+        },
+        "casting_process_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Casting Process Id"
+        },
+        "casting_process_definition": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Casting Process Definition"
+        },
+        "heat_treatments": {
+          "items": {
+            "$ref": "#/$defs/ManufacturingHeatTreatment"
+          },
+          "minItems": 1,
+          "title": "Heat Treatments",
+          "type": "array"
+        },
+        "product_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Product Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "product_id",
+        "product_kind",
+        "heat_id",
+        "material_id",
+        "material_condition_id",
+        "product_form_descriptor",
+        "manufacturing_route_id",
+        "manufacturing_route_revision",
+        "route_configuration_digest",
+        "heat_treatments",
+        "product_record_digest",
+        "evidence"
+      ],
+      "title": "ManufacturedProductEvidence",
+      "type": "object"
+    },
+    "ManufacturingHeatTreatment": {
+      "additionalProperties": false,
+      "properties": {
+        "treatment_id": {
+          "minLength": 1,
+          "title": "Treatment Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "treatment_type": {
+          "minLength": 1,
+          "title": "Treatment Type",
+          "type": "string"
+        },
+        "furnace_or_provider_id": {
+          "minLength": 1,
+          "title": "Furnace Or Provider Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_recorded_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Recorded Temperature K",
+          "type": "number"
+        },
+        "maximum_recorded_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Recorded Temperature K",
+          "type": "number"
+        },
+        "temperature_uncertainty_K": {
+          "minimum": 0,
+          "title": "Temperature Uncertainty K",
+          "type": "number"
+        },
+        "cooling_route_definition": {
+          "minLength": 1,
+          "title": "Cooling Route Definition",
+          "type": "string"
+        },
+        "controller_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Controller Data Digest",
+          "type": "string"
+        },
+        "treatment_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Treatment Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "treatment_id",
+        "sequence_index",
+        "treatment_type",
+        "furnace_or_provider_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_recorded_temperature_K",
+        "maximum_recorded_temperature_K",
+        "temperature_uncertainty_K",
+        "cooling_route_definition",
+        "controller_data_digest",
+        "treatment_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ManufacturingHeatTreatment",
+      "type": "object"
+    },
+    "ProductQualityObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "observation_category": {
+          "enum": [
+            "dimensional",
+            "surface",
+            "internal",
+            "nde",
+            "macro",
+            "micro",
+            "chemistry",
+            "mechanical"
+          ],
+          "title": "Observation Category",
+          "type": "string"
+        },
+        "examination_or_test_method_id": {
+          "minLength": 1,
+          "title": "Examination Or Test Method Id",
+          "type": "string"
+        },
+        "method_revision": {
+          "minLength": 1,
+          "title": "Method Revision",
+          "type": "string"
+        },
+        "metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Id"
+        },
+        "metric_definition": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Definition"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "uncertainty_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Basis"
+        },
+        "reported_finding": {
+          "minLength": 1,
+          "title": "Reported Finding",
+          "type": "string"
+        },
+        "caller_disposition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Disposition Id"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "product_id",
+        "sample_id",
+        "observation_category",
+        "examination_or_test_method_id",
+        "method_revision",
+        "reported_finding",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_data_digest",
+        "observation_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ProductQualityObservation",
+      "type": "object"
+    },
+    "ProductSampleEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "sampling_plan_id": {
+          "minLength": 1,
+          "title": "Sampling Plan Id",
+          "type": "string"
+        },
+        "physical_location_definition": {
+          "minLength": 1,
+          "title": "Physical Location Definition",
+          "type": "string"
+        },
+        "orientation_id": {
+          "minLength": 1,
+          "title": "Orientation Id",
+          "type": "string"
+        },
+        "thickness_or_depth_coordinate": {
+          "title": "Thickness Or Depth Coordinate",
+          "type": "number"
+        },
+        "coordinate_unit_token": {
+          "minLength": 1,
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "sampling_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sampling Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "product_id",
+        "sampling_plan_id",
+        "physical_location_definition",
+        "orientation_id",
+        "thickness_or_depth_coordinate",
+        "coordinate_unit_token",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "sampling_record_digest",
+        "evidence"
+      ],
+      "title": "ProductSampleEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "products": {
+      "items": {
+        "$ref": "#/$defs/ManufacturedProductEvidence"
+      },
+      "minItems": 1,
+      "title": "Products",
+      "type": "array"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/ProductSampleEvidence"
+      },
+      "minItems": 1,
+      "title": "Samples",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ProductQualityObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/CastingForgingCallerProfile"
+    },
+    "product_heat_route_and_process_identity_reviewed": {
+      "title": "Product Heat Route And Process Identity Reviewed",
+      "type": "boolean"
+    },
+    "forging_ratio_or_casting_process_basis_reviewed": {
+      "title": "Forging Ratio Or Casting Process Basis Reviewed",
+      "type": "boolean"
+    },
+    "heat_treatment_sequence_and_digests_reviewed": {
+      "title": "Heat Treatment Sequence And Digests Reviewed",
+      "type": "boolean"
+    },
+    "sampling_location_orientation_and_groups_reviewed": {
+      "title": "Sampling Location Orientation And Groups Reviewed",
+      "type": "boolean"
+    },
+    "observation_method_units_uncertainty_and_findings_reviewed": {
+      "title": "Observation Method Units Uncertainty And Findings Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_claims_reviewed": {
+      "title": "Replicate Source And Independence Claims Reviewed",
+      "type": "boolean"
+    },
+    "provider_provenance_and_digests_reviewed": {
+      "title": "Provider Provenance And Digests Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "invalid_and_missing_records_reviewed": {
+      "title": "Invalid And Missing Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "products",
+    "samples",
+    "observations",
+    "caller_profile",
+    "product_heat_route_and_process_identity_reviewed",
+    "forging_ratio_or_casting_process_basis_reviewed",
+    "heat_treatment_sequence_and_digests_reviewed",
+    "sampling_location_orientation_and_groups_reviewed",
+    "observation_method_units_uncertainty_and_findings_reviewed",
+    "replicate_source_and_independence_claims_reviewed",
+    "provider_provenance_and_digests_reviewed",
+    "caller_profile_reviewed",
+    "invalid_and_missing_records_reviewed",
+    "evidence"
+  ],
+  "title": "CastingForgingQualityCampaignAssessment",
+  "type": "object"
+}

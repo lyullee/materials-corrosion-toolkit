@@ -1,0 +1,129 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "interval_id": {
+      "minLength": 1,
+      "title": "Interval Id",
+      "type": "string"
+    },
+    "start_s": {
+      "minimum": 0,
+      "title": "Start S",
+      "type": "number"
+    },
+    "end_s": {
+      "exclusiveMinimum": 0,
+      "title": "End S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "stress_Pa": {
+      "minimum": 0,
+      "title": "Stress Pa",
+      "type": "number"
+    },
+    "reference_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Stress Pa",
+      "type": "number"
+    },
+    "strain_rate_at_reference_per_s": {
+      "minimum": 0,
+      "title": "Strain Rate At Reference Per S",
+      "type": "number"
+    },
+    "stress_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Stress Exponent",
+      "type": "number"
+    },
+    "parameter_set_id": {
+      "minLength": 1,
+      "title": "Parameter Set Id",
+      "type": "string"
+    },
+    "parameter_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Sha256",
+      "type": "string"
+    },
+    "stress_support_Pa": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "minimum": 0,
+          "type": "number"
+        }
+      ],
+      "title": "Stress Support Pa",
+      "type": "array"
+    },
+    "temperature_support_K": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      ],
+      "title": "Temperature Support K",
+      "type": "array"
+    },
+    "rupture_time_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rupture Time S"
+    },
+    "rupture_provider_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rupture Provider Sha256"
+    }
+  },
+  "required": [
+    "interval_id",
+    "start_s",
+    "end_s",
+    "temperature_K",
+    "stress_Pa",
+    "reference_stress_Pa",
+    "strain_rate_at_reference_per_s",
+    "stress_exponent",
+    "parameter_set_id",
+    "parameter_sha256",
+    "stress_support_Pa",
+    "temperature_support_K"
+  ],
+  "title": "CreepHistoryInterval",
+  "type": "object"
+}

@@ -1,0 +1,483 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SulfidationApplicabilityEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_composition_condition_id": {
+          "minLength": 1,
+          "title": "Material Composition Condition Id",
+          "type": "string"
+        },
+        "sulfur_species_id": {
+          "minLength": 1,
+          "title": "Sulfur Species Id",
+          "type": "string"
+        },
+        "sulfur_quantity_kind": {
+          "enum": [
+            "activity",
+            "concentration",
+            "partial_pressure"
+          ],
+          "title": "Sulfur Quantity Kind",
+          "type": "string"
+        },
+        "sulfur_quantity_min": {
+          "minimum": 0,
+          "title": "Sulfur Quantity Min",
+          "type": "number"
+        },
+        "sulfur_quantity_max": {
+          "minimum": 0,
+          "title": "Sulfur Quantity Max",
+          "type": "number"
+        },
+        "sulfur_quantity_unit_token": {
+          "minLength": 1,
+          "title": "Sulfur Quantity Unit Token",
+          "type": "string"
+        },
+        "sulfur_quantity_basis": {
+          "minLength": 1,
+          "title": "Sulfur Quantity Basis",
+          "type": "string"
+        },
+        "temperature_min_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Min K",
+          "type": "number"
+        },
+        "temperature_max_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Max K",
+          "type": "number"
+        },
+        "pressure_min_Pa_abs": {
+          "minimum": 0,
+          "title": "Pressure Min Pa Abs",
+          "type": "number"
+        },
+        "pressure_max_Pa_abs": {
+          "minimum": 0,
+          "title": "Pressure Max Pa Abs",
+          "type": "number"
+        },
+        "applicable_flow_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Flow Descriptors",
+          "type": "array"
+        },
+        "applicable_deposit_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Deposit Descriptors",
+          "type": "array"
+        },
+        "exposure_duration_min_s": {
+          "minimum": 0,
+          "title": "Exposure Duration Min S",
+          "type": "number"
+        },
+        "exposure_duration_max_s": {
+          "exclusiveMinimum": 0,
+          "title": "Exposure Duration Max S",
+          "type": "number"
+        },
+        "qualification_test_record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Qualification Test Record Ids",
+          "type": "array"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_id",
+        "material_composition_condition_id",
+        "sulfur_species_id",
+        "sulfur_quantity_kind",
+        "sulfur_quantity_min",
+        "sulfur_quantity_max",
+        "sulfur_quantity_unit_token",
+        "sulfur_quantity_basis",
+        "temperature_min_K",
+        "temperature_max_K",
+        "pressure_min_Pa_abs",
+        "pressure_max_Pa_abs",
+        "applicable_flow_descriptors",
+        "applicable_deposit_descriptors",
+        "exposure_duration_min_s",
+        "exposure_duration_max_s",
+        "qualification_test_record_ids",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "SulfidationApplicabilityEnvelope",
+      "type": "object"
+    },
+    "SulfidationQualificationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "test_record_id": {
+          "minLength": 1,
+          "title": "Test Record Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_composition_condition_id": {
+          "minLength": 1,
+          "title": "Material Composition Condition Id",
+          "type": "string"
+        },
+        "sulfur_species_id": {
+          "minLength": 1,
+          "title": "Sulfur Species Id",
+          "type": "string"
+        },
+        "sulfur_quantity_kind": {
+          "enum": [
+            "activity",
+            "concentration",
+            "partial_pressure"
+          ],
+          "title": "Sulfur Quantity Kind",
+          "type": "string"
+        },
+        "sulfur_quantity_value": {
+          "minimum": 0,
+          "title": "Sulfur Quantity Value",
+          "type": "number"
+        },
+        "sulfur_quantity_unit_token": {
+          "minLength": 1,
+          "title": "Sulfur Quantity Unit Token",
+          "type": "string"
+        },
+        "sulfur_quantity_basis": {
+          "minLength": 1,
+          "title": "Sulfur Quantity Basis",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "pressure_Pa_abs": {
+          "minimum": 0,
+          "title": "Pressure Pa Abs",
+          "type": "number"
+        },
+        "flow_descriptor": {
+          "minLength": 1,
+          "title": "Flow Descriptor",
+          "type": "string"
+        },
+        "deposit_descriptor": {
+          "minLength": 1,
+          "title": "Deposit Descriptor",
+          "type": "string"
+        },
+        "exposure_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Exposure Duration S",
+          "type": "number"
+        },
+        "reported_observation": {
+          "minLength": 1,
+          "title": "Reported Observation",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "test_record_id",
+        "source_group_id",
+        "material_id",
+        "material_composition_condition_id",
+        "sulfur_species_id",
+        "sulfur_quantity_kind",
+        "sulfur_quantity_value",
+        "sulfur_quantity_unit_token",
+        "sulfur_quantity_basis",
+        "temperature_K",
+        "pressure_Pa_abs",
+        "flow_descriptor",
+        "deposit_descriptor",
+        "exposure_duration_s",
+        "reported_observation",
+        "evidence"
+      ],
+      "title": "SulfidationQualificationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_heat_or_lot_id": {
+      "minLength": 1,
+      "title": "Material Heat Or Lot Id",
+      "type": "string"
+    },
+    "material_composition_condition_id": {
+      "minLength": 1,
+      "title": "Material Composition Condition Id",
+      "type": "string"
+    },
+    "sulfur_species_id": {
+      "minLength": 1,
+      "title": "Sulfur Species Id",
+      "type": "string"
+    },
+    "sulfur_quantity_kind": {
+      "enum": [
+        "activity",
+        "concentration",
+        "partial_pressure"
+      ],
+      "title": "Sulfur Quantity Kind",
+      "type": "string"
+    },
+    "sulfur_quantity_value": {
+      "minimum": 0,
+      "title": "Sulfur Quantity Value",
+      "type": "number"
+    },
+    "sulfur_quantity_unit_token": {
+      "minLength": 1,
+      "title": "Sulfur Quantity Unit Token",
+      "type": "string"
+    },
+    "sulfur_quantity_basis": {
+      "minLength": 1,
+      "title": "Sulfur Quantity Basis",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "pressure_Pa_abs": {
+      "minimum": 0,
+      "title": "Pressure Pa Abs",
+      "type": "number"
+    },
+    "flow_descriptor": {
+      "minLength": 1,
+      "title": "Flow Descriptor",
+      "type": "string"
+    },
+    "deposit_descriptor": {
+      "minLength": 1,
+      "title": "Deposit Descriptor",
+      "type": "string"
+    },
+    "exposure_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Duration S",
+      "type": "number"
+    },
+    "qualification_test_records": {
+      "items": {
+        "$ref": "#/$defs/SulfidationQualificationRecord"
+      },
+      "minItems": 1,
+      "title": "Qualification Test Records",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/SulfidationApplicabilityEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_identity_and_composition_reviewed": {
+      "title": "Material Identity And Composition Reviewed",
+      "type": "boolean"
+    },
+    "sulfur_species_quantity_and_basis_reviewed": {
+      "title": "Sulfur Species Quantity And Basis Reviewed",
+      "type": "boolean"
+    },
+    "absolute_pressure_and_temperature_reviewed": {
+      "title": "Absolute Pressure And Temperature Reviewed",
+      "type": "boolean"
+    },
+    "flow_and_deposit_condition_reviewed": {
+      "title": "Flow And Deposit Condition Reviewed",
+      "type": "boolean"
+    },
+    "exposure_duration_reviewed": {
+      "title": "Exposure Duration Reviewed",
+      "type": "boolean"
+    },
+    "qualification_evidence_and_envelope_reviewed": {
+      "title": "Qualification Evidence And Envelope Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "material_id",
+    "material_heat_or_lot_id",
+    "material_composition_condition_id",
+    "sulfur_species_id",
+    "sulfur_quantity_kind",
+    "sulfur_quantity_value",
+    "sulfur_quantity_unit_token",
+    "sulfur_quantity_basis",
+    "temperature_K",
+    "pressure_Pa_abs",
+    "flow_descriptor",
+    "deposit_descriptor",
+    "exposure_duration_s",
+    "qualification_test_records",
+    "candidate_envelopes",
+    "material_identity_and_composition_reviewed",
+    "sulfur_species_quantity_and_basis_reviewed",
+    "absolute_pressure_and_temperature_reviewed",
+    "flow_and_deposit_condition_reviewed",
+    "exposure_duration_reviewed",
+    "qualification_evidence_and_envelope_reviewed",
+    "evidence"
+  ],
+  "title": "SulfidationExposureApplicability",
+  "type": "object"
+}

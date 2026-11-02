@@ -1,0 +1,142 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fluid_id": {
+      "minLength": 1,
+      "title": "Fluid Id",
+      "type": "string"
+    },
+    "pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Pressure Pa",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "liquid_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Density Kg M3",
+      "type": "number"
+    },
+    "vapor_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Vapor Density Kg M3",
+      "type": "number"
+    },
+    "liquid_enthalpy_J_kg": {
+      "title": "Liquid Enthalpy J Kg",
+      "type": "number"
+    },
+    "vapor_enthalpy_J_kg": {
+      "title": "Vapor Enthalpy J Kg",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_version": {
+      "minLength": 1,
+      "title": "Provider Version",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider State Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fluid_id",
+    "pressure_Pa",
+    "temperature_K",
+    "liquid_density_kg_m3",
+    "vapor_density_kg_m3",
+    "liquid_enthalpy_J_kg",
+    "vapor_enthalpy_J_kg",
+    "provider_id",
+    "provider_version",
+    "provider_revision",
+    "provider_state_digest",
+    "evidence"
+  ],
+  "title": "SaturationCalorimetryState",
+  "type": "object"
+}

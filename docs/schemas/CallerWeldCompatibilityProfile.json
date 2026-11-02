@@ -1,0 +1,395 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "IdentityEnvelopeRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_kind": {
+          "const": "identity_envelope",
+          "default": "identity_envelope",
+          "title": "Rule Kind",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_kind": {
+          "enum": [
+            "material_role",
+            "layer_role",
+            "layer_position",
+            "service_environment"
+          ],
+          "title": "Target Kind",
+          "type": "string"
+        },
+        "target_value": {
+          "minLength": 1,
+          "title": "Target Value",
+          "type": "string"
+        },
+        "identity_field": {
+          "enum": [
+            "material_id",
+            "material_condition_id",
+            "material_lot_id",
+            "consumable_id",
+            "process_id",
+            "procedure_id",
+            "service_environment_id"
+          ],
+          "title": "Identity Field",
+          "type": "string"
+        },
+        "allowed_values": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Values",
+          "type": "array"
+        },
+        "mismatch_disposition": {
+          "enum": [
+            "reject",
+            "review"
+          ],
+          "title": "Mismatch Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_kind",
+        "target_value",
+        "identity_field",
+        "allowed_values",
+        "mismatch_disposition",
+        "rule_description"
+      ],
+      "title": "IdentityEnvelopeRule",
+      "type": "object"
+    },
+    "NumericEnvelopeRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_kind": {
+          "const": "numeric_envelope",
+          "default": "numeric_envelope",
+          "title": "Rule Kind",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_kind": {
+          "enum": [
+            "material_role",
+            "layer_role",
+            "layer_position",
+            "service_environment"
+          ],
+          "title": "Target Kind",
+          "type": "string"
+        },
+        "target_value": {
+          "minLength": 1,
+          "title": "Target Value",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "chemistry",
+            "property",
+            "dilution",
+            "service_environment"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "missing_fact_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Fact Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_kind",
+        "target_value",
+        "fact_kind",
+        "metric_id",
+        "unit_token",
+        "uncertainty_policy",
+        "missing_fact_disposition",
+        "rule_description"
+      ],
+      "title": "NumericEnvelopeRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_kind": {
+      "enum": [
+        "tabulated_envelope",
+        "plugin_style_rules"
+      ],
+      "title": "Profile Kind",
+      "type": "string"
+    },
+    "profile_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Source Digest",
+      "type": "string"
+    },
+    "applicable_assessment_kinds": {
+      "items": {
+        "enum": [
+          "dissimilar_weld",
+          "overlay_cladding",
+          "consumable_selection"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applicable Assessment Kinds",
+      "type": "array"
+    },
+    "permitted_layer_role_sequences": {
+      "items": {
+        "items": {
+          "enum": [
+            "buttering",
+            "filler",
+            "overlay",
+            "dilution_layer"
+          ],
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "minItems": 1,
+      "title": "Permitted Layer Role Sequences",
+      "type": "array"
+    },
+    "sequence_mismatch_disposition": {
+      "enum": [
+        "reject",
+        "review"
+      ],
+      "title": "Sequence Mismatch Disposition",
+      "type": "string"
+    },
+    "rules": {
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/NumericEnvelopeRule"
+          },
+          {
+            "$ref": "#/$defs/IdentityEnvelopeRule"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Rules",
+      "type": "array"
+    },
+    "plugin_adapter_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plugin Adapter Id"
+    },
+    "plugin_adapter_revision": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plugin Adapter Revision"
+    },
+    "plugin_configuration_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plugin Configuration Digest"
+    },
+    "profile_reviewed": {
+      "title": "Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "profile_kind",
+    "profile_source_digest",
+    "applicable_assessment_kinds",
+    "permitted_layer_role_sequences",
+    "sequence_mismatch_disposition",
+    "rules",
+    "profile_reviewed",
+    "evidence"
+  ],
+  "title": "CallerWeldCompatibilityProfile",
+  "type": "object"
+}

@@ -1,0 +1,484 @@
+{
+  "$defs": {
+    "ElasticJointLoad": {
+      "additionalProperties": false,
+      "properties": {
+        "initial_bolt_force_N": {
+          "minimum": 0,
+          "title": "Initial Bolt Force N",
+          "type": "number"
+        },
+        "bolt_stiffness_N_m": {
+          "exclusiveMinimum": 0,
+          "title": "Bolt Stiffness N M",
+          "type": "number"
+        },
+        "clamped_stiffness_N_m": {
+          "exclusiveMinimum": 0,
+          "title": "Clamped Stiffness N M",
+          "type": "number"
+        },
+        "external_separating_force_N": {
+          "minimum": 0,
+          "title": "External Separating Force N",
+          "type": "number"
+        },
+        "free_clamped_minus_bolt_expansion_m": {
+          "title": "Free Clamped Minus Bolt Expansion M",
+          "type": "number"
+        },
+        "linear_contact_applicability_reviewed": {
+          "title": "Linear Contact Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "initial_bolt_force_N",
+        "bolt_stiffness_N_m",
+        "clamped_stiffness_N_m",
+        "external_separating_force_N",
+        "free_clamped_minus_bolt_expansion_m",
+        "linear_contact_applicability_reviewed"
+      ],
+      "title": "ElasticJointLoad",
+      "type": "object"
+    },
+    "ElasticJointLoadHistoryRequest": {
+      "additionalProperties": false,
+      "description": "Finite ordered snapshots for the linear closed-contact two-spring model.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.elastic_joint_load_ordered_history.v1",
+          "default": "matintegrity.elastic_joint_load_ordered_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "history_id": {
+          "minLength": 1,
+          "title": "History Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "knots": {
+          "items": {
+            "$ref": "#/$defs/ElasticJointLoadKnot"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Knots",
+          "type": "array"
+        },
+        "minimum_clamp_force_N": {
+          "minimum": 0,
+          "title": "Minimum Clamp Force N",
+          "type": "number"
+        },
+        "ordered_time_basis_reviewed": {
+          "title": "Ordered Time Basis Reviewed",
+          "type": "boolean"
+        },
+        "elastic_closed_contact_model_reviewed": {
+          "title": "Elastic Closed Contact Model Reviewed",
+          "type": "boolean"
+        },
+        "per_knot_preload_applicability_reviewed": {
+          "title": "Per Knot Preload Applicability Reviewed",
+          "type": "boolean"
+        },
+        "finite_snapshot_only_interpretation_reviewed": {
+          "title": "Finite Snapshot Only Interpretation Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "history_id",
+        "asset_id",
+        "location_id",
+        "time_basis",
+        "knots",
+        "minimum_clamp_force_N",
+        "ordered_time_basis_reviewed",
+        "elastic_closed_contact_model_reviewed",
+        "per_knot_preload_applicability_reviewed",
+        "finite_snapshot_only_interpretation_reviewed"
+      ],
+      "title": "ElasticJointLoadHistoryRequest",
+      "type": "object"
+    },
+    "ElasticJointLoadKnot": {
+      "additionalProperties": false,
+      "description": "One exact-time input snapshot; no values are reconstructed between knots.",
+      "properties": {
+        "knot_index": {
+          "minimum": 0,
+          "title": "Knot Index",
+          "type": "integer"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "load_state": {
+          "$ref": "#/$defs/ElasticJointLoad"
+        }
+      },
+      "required": [
+        "knot_index",
+        "time_s",
+        "load_state"
+      ],
+      "title": "ElasticJointLoadKnot",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FlangeContactFieldRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.flange_contact_field.v1",
+          "default": "matintegrity.flange_contact_field.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "response_provider_id": {
+          "minLength": 1,
+          "title": "Response Provider Id",
+          "type": "string"
+        },
+        "response_provider_revision": {
+          "minLength": 1,
+          "title": "Response Provider Revision",
+          "type": "string"
+        },
+        "response_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Configuration Digest",
+          "type": "string"
+        },
+        "response_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Result Digest",
+          "type": "string"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "circumferential_coordinate_rad": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Circumferential Coordinate Rad",
+          "type": "array"
+        },
+        "gasket_contact_area_m2": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Gasket Contact Area M2",
+          "type": "array"
+        },
+        "gasket_compressive_stiffness_N_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Gasket Compressive Stiffness N M",
+          "type": "array"
+        },
+        "free_closure_without_gasket_m": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Free Closure Without Gasket M",
+          "type": "array"
+        },
+        "flange_relative_compliance_matrix_m_N": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Flange Relative Compliance Matrix M N",
+          "type": "array"
+        },
+        "matrix_symmetry_tolerance_m_N": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "title": "Matrix Symmetry Tolerance M N",
+          "type": "number"
+        },
+        "compliance_psd_tolerance_m_N": {
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "title": "Compliance Psd Tolerance M N",
+          "type": "number"
+        },
+        "active_set_maximum_iterations": {
+          "default": 10000,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Active Set Maximum Iterations",
+          "type": "integer"
+        },
+        "active_set_work_budget": {
+          "default": 50000000,
+          "maximum": 1000000000,
+          "minimum": 1,
+          "title": "Active Set Work Budget",
+          "type": "integer"
+        },
+        "force_tolerance_N": {
+          "default": 1e-06,
+          "exclusiveMinimum": 0,
+          "title": "Force Tolerance N",
+          "type": "number"
+        },
+        "gap_tolerance_m": {
+          "default": 1e-12,
+          "exclusiveMinimum": 0,
+          "title": "Gap Tolerance M",
+          "type": "number"
+        },
+        "complementarity_tolerance_N_m": {
+          "default": 1e-09,
+          "exclusiveMinimum": 0,
+          "title": "Complementarity Tolerance N M",
+          "type": "number"
+        },
+        "flange_operator_basis_reviewed": {
+          "title": "Flange Operator Basis Reviewed",
+          "type": "boolean"
+        },
+        "response_scope_and_coordinates_reviewed": {
+          "title": "Response Scope And Coordinates Reviewed",
+          "type": "boolean"
+        },
+        "bolt_pressure_and_boundary_load_composition_reviewed": {
+          "title": "Bolt Pressure And Boundary Load Composition Reviewed",
+          "type": "boolean"
+        },
+        "gasket_linearization_and_support_reviewed": {
+          "title": "Gasket Linearization And Support Reviewed",
+          "type": "boolean"
+        },
+        "compression_only_contact_model_reviewed": {
+          "title": "Compression Only Contact Model Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "joint_id",
+        "physical_scope_id",
+        "response_provider_id",
+        "response_provider_revision",
+        "response_configuration_digest",
+        "response_result_digest",
+        "node_ids",
+        "circumferential_coordinate_rad",
+        "gasket_contact_area_m2",
+        "gasket_compressive_stiffness_N_m",
+        "free_closure_without_gasket_m",
+        "flange_relative_compliance_matrix_m_N",
+        "matrix_symmetry_tolerance_m_N",
+        "compliance_psd_tolerance_m_N",
+        "flange_operator_basis_reviewed",
+        "response_scope_and_coordinates_reviewed",
+        "bolt_pressure_and_boundary_load_composition_reviewed",
+        "gasket_linearization_and_support_reviewed",
+        "compression_only_contact_model_reviewed",
+        "computational_use_authorized",
+        "evidence"
+      ],
+      "title": "FlangeContactFieldRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Apply a caller-provided linear closure-per-clamp-force map at exact snapshots.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.elastic_joint_to_flange_contact_history.v1",
+      "default": "matintegrity.elastic_joint_to_flange_contact_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "joint_load_history": {
+      "$ref": "#/$defs/ElasticJointLoadHistoryRequest"
+    },
+    "contact_template": {
+      "$ref": "#/$defs/FlangeContactFieldRequest"
+    },
+    "reference_clamp_force_N": {
+      "minimum": 0,
+      "title": "Reference Clamp Force N",
+      "type": "number"
+    },
+    "nodal_free_closure_change_m_per_N": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Nodal Free Closure Change M Per N",
+      "type": "array"
+    },
+    "clamp_to_nodal_closure_mapping_reviewed": {
+      "title": "Clamp To Nodal Closure Mapping Reviewed",
+      "type": "boolean"
+    },
+    "transfer_scope_and_reference_state_reviewed": {
+      "title": "Transfer Scope And Reference State Reviewed",
+      "type": "boolean"
+    },
+    "linear_incremental_response_and_fixed_other_loads_reviewed": {
+      "title": "Linear Incremental Response And Fixed Other Loads Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_id",
+    "joint_load_history",
+    "contact_template",
+    "reference_clamp_force_N",
+    "nodal_free_closure_change_m_per_N",
+    "clamp_to_nodal_closure_mapping_reviewed",
+    "transfer_scope_and_reference_state_reviewed",
+    "linear_incremental_response_and_fixed_other_loads_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ElasticJointToFlangeContactHistory",
+  "type": "object"
+}

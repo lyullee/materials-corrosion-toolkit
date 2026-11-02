@@ -1,0 +1,640 @@
+{
+  "$defs": {
+    "CallerCoatingCampaignProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "permitted_substrate_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Substrate Condition Ids",
+          "type": "array"
+        },
+        "permitted_surface_preparation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Surface Preparation Ids",
+          "type": "array"
+        },
+        "permitted_coating_system_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Coating System Ids",
+          "type": "array"
+        },
+        "permitted_process_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Process Condition Ids",
+          "type": "array"
+        },
+        "permitted_environment_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Environment Ids",
+          "type": "array"
+        },
+        "minimum_cure_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Cure Temperature K",
+          "type": "number"
+        },
+        "maximum_cure_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cure Temperature K",
+          "type": "number"
+        },
+        "maximum_cure_interval_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cure Interval S",
+          "type": "number"
+        },
+        "metric_rules": {
+          "items": {
+            "$ref": "#/$defs/CallerCoatingMetricRule"
+          },
+          "minItems": 1,
+          "title": "Metric Rules",
+          "type": "array"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "source_digest",
+        "permitted_substrate_condition_ids",
+        "permitted_surface_preparation_ids",
+        "permitted_coating_system_ids",
+        "permitted_process_condition_ids",
+        "permitted_environment_ids",
+        "minimum_cure_temperature_k",
+        "maximum_cure_temperature_k",
+        "maximum_cure_interval_s",
+        "metric_rules",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "CallerCoatingCampaignProfile",
+      "type": "object"
+    },
+    "CallerCoatingMetricRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "minLength": 1,
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "individual",
+            "replicate_mean",
+            "replicate_minimum",
+            "replicate_maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "minimum_replicates_per_group": {
+          "minimum": 1,
+          "title": "Minimum Replicates Per Group",
+          "type": "integer"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "aggregation",
+        "uncertainty_policy",
+        "minimum_replicates_per_group",
+        "missing_disposition",
+        "rule_description"
+      ],
+      "title": "CallerCoatingMetricRule",
+      "type": "object"
+    },
+    "CoatingCureHeatInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "temperature_unit_token": {
+          "const": "K",
+          "default": "K",
+          "title": "Temperature Unit Token",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "sequence_position",
+        "clock_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_k",
+        "maximum_temperature_k",
+        "environment_id",
+        "provider_id",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "CoatingCureHeatInterval",
+      "type": "object"
+    },
+    "CoatingQualityMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "dft",
+            "layer_thickness",
+            "adhesion",
+            "porosity",
+            "holiday_count",
+            "defect_count",
+            "cure_property",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "replicate_group_id",
+        "specimen_id",
+        "location_id",
+        "metric_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "provider_id",
+        "provider_revision",
+        "input_digest",
+        "evidence"
+      ],
+      "title": "CoatingQualityMeasurement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "coating_lot_id": {
+      "minLength": 1,
+      "title": "Coating Lot Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "surface_preparation_id": {
+      "minLength": 1,
+      "title": "Surface Preparation Id",
+      "type": "string"
+    },
+    "batch_id": {
+      "minLength": 1,
+      "title": "Batch Id",
+      "type": "string"
+    },
+    "process_condition_id": {
+      "minLength": 1,
+      "title": "Process Condition Id",
+      "type": "string"
+    },
+    "application_environment_id": {
+      "minLength": 1,
+      "title": "Application Environment Id",
+      "type": "string"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/CoatingQualityMeasurement"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "cure_heat_history": {
+      "items": {
+        "$ref": "#/$defs/CoatingCureHeatInterval"
+      },
+      "minItems": 1,
+      "title": "Cure Heat History",
+      "type": "array"
+    },
+    "profile": {
+      "$ref": "#/$defs/CallerCoatingCampaignProfile"
+    },
+    "campaign_lot_substrate_surface_prep_batch_and_process_identity_reviewed": {
+      "title": "Campaign Lot Substrate Surface Prep Batch And Process Identity Reviewed",
+      "type": "boolean"
+    },
+    "metric_definitions_units_replicates_uncertainty_and_provenance_reviewed": {
+      "title": "Metric Definitions Units Replicates Uncertainty And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "cure_heat_clock_temperature_and_environment_reviewed": {
+      "title": "Cure Heat Clock Temperature And Environment Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_authority_identity_and_rules_reviewed": {
+      "title": "Caller Profile Authority Identity And Rules Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "coating_lot_id",
+    "coating_system_id",
+    "substrate_condition_id",
+    "surface_preparation_id",
+    "batch_id",
+    "process_condition_id",
+    "application_environment_id",
+    "measurements",
+    "cure_heat_history",
+    "profile",
+    "campaign_lot_substrate_surface_prep_batch_and_process_identity_reviewed",
+    "metric_definitions_units_replicates_uncertainty_and_provenance_reviewed",
+    "cure_heat_clock_temperature_and_environment_reviewed",
+    "caller_profile_authority_identity_and_rules_reviewed",
+    "evidence"
+  ],
+  "title": "CoatingCampaignAssessment",
+  "type": "object"
+}

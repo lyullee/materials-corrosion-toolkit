@@ -1,0 +1,864 @@
+{
+  "$defs": {
+    "CreepFatigueExposureBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "stress_history_descriptor": {
+          "minLength": 1,
+          "title": "Stress History Descriptor",
+          "type": "string"
+        },
+        "strain_history_descriptor": {
+          "minLength": 1,
+          "title": "Strain History Descriptor",
+          "type": "string"
+        },
+        "cycle_or_block_descriptor": {
+          "minLength": 1,
+          "title": "Cycle Or Block Descriptor",
+          "type": "string"
+        },
+        "history_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Data Digest",
+          "type": "string"
+        },
+        "creep_exposure_definition": {
+          "minLength": 1,
+          "title": "Creep Exposure Definition",
+          "type": "string"
+        },
+        "creep_exposure_value": {
+          "minimum": 0,
+          "title": "Creep Exposure Value",
+          "type": "number"
+        },
+        "creep_exposure_unit_token": {
+          "minLength": 1,
+          "title": "Creep Exposure Unit Token",
+          "type": "string"
+        },
+        "fatigue_exposure_definition": {
+          "minLength": 1,
+          "title": "Fatigue Exposure Definition",
+          "type": "string"
+        },
+        "fatigue_exposure_value": {
+          "minimum": 0,
+          "title": "Fatigue Exposure Value",
+          "type": "number"
+        },
+        "fatigue_exposure_unit_token": {
+          "minLength": 1,
+          "title": "Fatigue Exposure Unit Token",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "block_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "stress_history_descriptor",
+        "strain_history_descriptor",
+        "cycle_or_block_descriptor",
+        "history_data_digest",
+        "creep_exposure_definition",
+        "creep_exposure_value",
+        "creep_exposure_unit_token",
+        "fatigue_exposure_definition",
+        "fatigue_exposure_value",
+        "fatigue_exposure_unit_token",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CreepFatigueExposureBlock",
+      "type": "object"
+    },
+    "CreepFatigueInteractionEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "interaction_basis_id": {
+          "minLength": 1,
+          "title": "Interaction Basis Id",
+          "type": "string"
+        },
+        "creep_exposure_definition": {
+          "minLength": 1,
+          "title": "Creep Exposure Definition",
+          "type": "string"
+        },
+        "creep_exposure_unit_token": {
+          "minLength": 1,
+          "title": "Creep Exposure Unit Token",
+          "type": "string"
+        },
+        "fatigue_exposure_definition": {
+          "minLength": 1,
+          "title": "Fatigue Exposure Definition",
+          "type": "string"
+        },
+        "fatigue_exposure_unit_token": {
+          "minLength": 1,
+          "title": "Fatigue Exposure Unit Token",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "supported_stress_history_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Stress History Descriptors",
+          "type": "array"
+        },
+        "supported_strain_history_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Strain History Descriptors",
+          "type": "array"
+        },
+        "supported_cycle_or_block_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Cycle Or Block Descriptors",
+          "type": "array"
+        },
+        "maximum_single_block_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Single Block Duration S",
+          "type": "number"
+        },
+        "maximum_cumulative_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Duration S",
+          "type": "number"
+        },
+        "provider_model_id": {
+          "minLength": 1,
+          "title": "Provider Model Id",
+          "type": "string"
+        },
+        "provider_model_revision": {
+          "minLength": 1,
+          "title": "Provider Model Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "result_metric_definition": {
+          "minLength": 1,
+          "title": "Result Metric Definition",
+          "type": "string"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_result_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Supported Result Value"
+        },
+        "maximum_supported_result_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Supported Result Value"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/CreepFatigueQualificationEvidence"
+          },
+          "minItems": 1,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "minimum_calibration_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Calibration Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Independence Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_id",
+        "material_condition_id",
+        "interaction_basis_id",
+        "creep_exposure_definition",
+        "creep_exposure_unit_token",
+        "fatigue_exposure_definition",
+        "fatigue_exposure_unit_token",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "supported_stress_history_descriptors",
+        "supported_strain_history_descriptors",
+        "supported_cycle_or_block_descriptors",
+        "maximum_single_block_duration_s",
+        "maximum_cumulative_duration_s",
+        "provider_model_id",
+        "provider_model_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "result_metric_definition",
+        "result_unit_token",
+        "qualification_evidence",
+        "minimum_calibration_source_group_count",
+        "minimum_holdout_source_group_count",
+        "minimum_holdout_independence_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "CreepFatigueInteractionEnvelope",
+      "type": "object"
+    },
+    "CreepFatigueProviderResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_record_id": {
+          "minLength": 1,
+          "title": "Result Record Id",
+          "type": "string"
+        },
+        "interaction_basis_id": {
+          "minLength": 1,
+          "title": "Interaction Basis Id",
+          "type": "string"
+        },
+        "block_history_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Block History Digest",
+          "type": "string"
+        },
+        "provider_model_id": {
+          "minLength": 1,
+          "title": "Provider Model Id",
+          "type": "string"
+        },
+        "provider_model_revision": {
+          "minLength": 1,
+          "title": "Provider Model Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "result_metric_definition": {
+          "minLength": 1,
+          "title": "Result Metric Definition",
+          "type": "string"
+        },
+        "result_value": {
+          "title": "Result Value",
+          "type": "number"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "solution_state": {
+          "minLength": 1,
+          "title": "Solution State",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_record_id",
+        "interaction_basis_id",
+        "block_history_digest",
+        "provider_model_id",
+        "provider_model_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "result_metric_definition",
+        "result_value",
+        "result_unit_token",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "solution_state",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CreepFatigueProviderResult",
+      "type": "object"
+    },
+    "CreepFatigueQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "interaction_basis_id": {
+          "minLength": 1,
+          "title": "Interaction Basis Id",
+          "type": "string"
+        },
+        "creep_exposure_definition": {
+          "minLength": 1,
+          "title": "Creep Exposure Definition",
+          "type": "string"
+        },
+        "creep_exposure_unit_token": {
+          "minLength": 1,
+          "title": "Creep Exposure Unit Token",
+          "type": "string"
+        },
+        "fatigue_exposure_definition": {
+          "minLength": 1,
+          "title": "Fatigue Exposure Definition",
+          "type": "string"
+        },
+        "fatigue_exposure_unit_token": {
+          "minLength": 1,
+          "title": "Fatigue Exposure Unit Token",
+          "type": "string"
+        },
+        "result_metric_definition": {
+          "minLength": 1,
+          "title": "Result Metric Definition",
+          "type": "string"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "observed_value": {
+          "title": "Observed Value",
+          "type": "number"
+        },
+        "predicted_value": {
+          "title": "Predicted Value",
+          "type": "number"
+        },
+        "expanded_observation_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Observation Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "provider_model_id": {
+          "minLength": 1,
+          "title": "Provider Model Id",
+          "type": "string"
+        },
+        "provider_model_revision": {
+          "minLength": 1,
+          "title": "Provider Model Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "partition",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "material_condition_id",
+        "interaction_basis_id",
+        "creep_exposure_definition",
+        "creep_exposure_unit_token",
+        "fatigue_exposure_definition",
+        "fatigue_exposure_unit_token",
+        "result_metric_definition",
+        "result_unit_token",
+        "observed_value",
+        "predicted_value",
+        "expanded_observation_uncertainty",
+        "uncertainty_coverage_factor",
+        "provider_model_id",
+        "provider_model_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "CreepFatigueQualificationEvidence",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "interaction_basis_id": {
+      "minLength": 1,
+      "title": "Interaction Basis Id",
+      "type": "string"
+    },
+    "creep_exposure_definition": {
+      "minLength": 1,
+      "title": "Creep Exposure Definition",
+      "type": "string"
+    },
+    "creep_exposure_unit_token": {
+      "minLength": 1,
+      "title": "Creep Exposure Unit Token",
+      "type": "string"
+    },
+    "fatigue_exposure_definition": {
+      "minLength": 1,
+      "title": "Fatigue Exposure Definition",
+      "type": "string"
+    },
+    "fatigue_exposure_unit_token": {
+      "minLength": 1,
+      "title": "Fatigue Exposure Unit Token",
+      "type": "string"
+    },
+    "exposure_blocks": {
+      "items": {
+        "$ref": "#/$defs/CreepFatigueExposureBlock"
+      },
+      "minItems": 1,
+      "title": "Exposure Blocks",
+      "type": "array"
+    },
+    "provider_result": {
+      "$ref": "#/$defs/CreepFatigueProviderResult"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/CreepFatigueInteractionEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_condition_and_physical_scope_reviewed": {
+      "title": "Material Condition And Physical Scope Reviewed",
+      "type": "boolean"
+    },
+    "clock_block_order_and_history_digests_reviewed": {
+      "title": "Clock Block Order And History Digests Reviewed",
+      "type": "boolean"
+    },
+    "temperature_stress_strain_and_cycle_descriptors_reviewed": {
+      "title": "Temperature Stress Strain And Cycle Descriptors Reviewed",
+      "type": "boolean"
+    },
+    "separate_creep_and_fatigue_quantity_definitions_reviewed": {
+      "title": "Separate Creep And Fatigue Quantity Definitions Reviewed",
+      "type": "boolean"
+    },
+    "interaction_basis_and_provider_model_reviewed": {
+      "title": "Interaction Basis And Provider Model Reviewed",
+      "type": "boolean"
+    },
+    "result_metric_units_and_uncertainty_reviewed": {
+      "title": "Result Metric Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_independence_and_partitions_reviewed": {
+      "title": "Specimen Source Independence And Partitions Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_id",
+    "material_condition_id",
+    "interaction_basis_id",
+    "creep_exposure_definition",
+    "creep_exposure_unit_token",
+    "fatigue_exposure_definition",
+    "fatigue_exposure_unit_token",
+    "exposure_blocks",
+    "provider_result",
+    "candidate_envelopes",
+    "material_condition_and_physical_scope_reviewed",
+    "clock_block_order_and_history_digests_reviewed",
+    "temperature_stress_strain_and_cycle_descriptors_reviewed",
+    "separate_creep_and_fatigue_quantity_definitions_reviewed",
+    "interaction_basis_and_provider_model_reviewed",
+    "result_metric_units_and_uncertainty_reviewed",
+    "specimen_source_independence_and_partitions_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed"
+  ],
+  "title": "CreepFatigueInteractionProviderAssessment",
+  "type": "object"
+}

@@ -1,0 +1,289 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "VisualExaminationArea": {
+      "additionalProperties": false,
+      "properties": {
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "target_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Target Area M2",
+          "type": "number"
+        },
+        "examined_area_m2": {
+          "minimum": 0,
+          "title": "Examined Area M2",
+          "type": "number"
+        },
+        "unexamined_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unexamined Basis"
+        }
+      },
+      "required": [
+        "area_id",
+        "physical_location_id",
+        "target_area_m2",
+        "examined_area_m2"
+      ],
+      "title": "VisualExaminationArea",
+      "type": "object"
+    },
+    "VisualSurfaceIndication": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "indication_type": {
+          "minLength": 1,
+          "title": "Indication Type",
+          "type": "string"
+        },
+        "location_description": {
+          "minLength": 1,
+          "title": "Location Description",
+          "type": "string"
+        },
+        "measured_length_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Length M"
+        },
+        "measured_width_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Width M"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indication_id",
+        "area_id",
+        "physical_location_id",
+        "indication_type",
+        "location_description",
+        "evidence"
+      ],
+      "title": "VisualSurfaceIndication",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "examination_id": {
+      "minLength": 1,
+      "title": "Examination Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "examination_mode": {
+      "enum": [
+        "direct",
+        "remote"
+      ],
+      "title": "Examination Mode",
+      "type": "string"
+    },
+    "surface_condition": {
+      "minLength": 1,
+      "title": "Surface Condition",
+      "type": "string"
+    },
+    "surface_preparation": {
+      "minLength": 1,
+      "title": "Surface Preparation",
+      "type": "string"
+    },
+    "illumination_basis": {
+      "minLength": 1,
+      "title": "Illumination Basis",
+      "type": "string"
+    },
+    "resolution_check_basis": {
+      "minLength": 1,
+      "title": "Resolution Check Basis",
+      "type": "string"
+    },
+    "areas": {
+      "items": {
+        "$ref": "#/$defs/VisualExaminationArea"
+      },
+      "minItems": 1,
+      "title": "Areas",
+      "type": "array"
+    },
+    "indications": {
+      "items": {
+        "$ref": "#/$defs/VisualSurfaceIndication"
+      },
+      "title": "Indications",
+      "type": "array"
+    },
+    "areas_mutually_exclusive_reviewed": {
+      "title": "Areas Mutually Exclusive Reviewed",
+      "type": "boolean"
+    },
+    "coverage_reviewed": {
+      "title": "Coverage Reviewed",
+      "type": "boolean"
+    },
+    "surface_condition_reviewed": {
+      "title": "Surface Condition Reviewed",
+      "type": "boolean"
+    },
+    "indication_mapping_reviewed": {
+      "title": "Indication Mapping Reviewed",
+      "type": "boolean"
+    },
+    "negative_result_reviewed": {
+      "default": false,
+      "title": "Negative Result Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "examination_id",
+    "procedure_id",
+    "procedure_revision",
+    "examination_mode",
+    "surface_condition",
+    "surface_preparation",
+    "illumination_basis",
+    "resolution_check_basis",
+    "areas",
+    "areas_mutually_exclusive_reviewed",
+    "coverage_reviewed",
+    "surface_condition_reviewed",
+    "indication_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "VisualSurfaceExamination",
+  "type": "object"
+}

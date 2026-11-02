@@ -1,0 +1,608 @@
+{
+  "$defs": {
+    "AqueousActivitySpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "initial_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Activity",
+          "type": "number"
+        },
+        "elemental_composition": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elemental Composition"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "activity_coefficient",
+        "initial_activity"
+      ],
+      "title": "AqueousActivitySpecies",
+      "type": "object"
+    },
+    "AqueousEquilibriumReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "log10_equilibrium_constant",
+        "terms"
+      ],
+      "title": "AqueousEquilibriumReaction",
+      "type": "object"
+    },
+    "AqueousLinearConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_id": {
+          "minLength": 1,
+          "title": "Constraint Id",
+          "type": "string"
+        },
+        "target_mol_L": {
+          "title": "Target Mol L",
+          "type": "number"
+        },
+        "residual_scale_mol_L": {
+          "exclusiveMinimum": 0,
+          "title": "Residual Scale Mol L",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_id",
+        "target_mol_L",
+        "residual_scale_mol_L",
+        "terms"
+      ],
+      "title": "AqueousLinearConstraint",
+      "type": "object"
+    },
+    "AqueousMassActionSystem": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_mass_action.v1",
+          "default": "matintegrity.aqueous_mass_action.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "solution_id": {
+          "minLength": 1,
+          "title": "Solution Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/AqueousActivitySpecies"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Species",
+          "type": "array"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/AqueousEquilibriumReaction"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/AqueousLinearConstraint"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "maximum_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Iterations",
+          "type": "integer"
+        },
+        "normalized_residual_tolerance": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "maximum": 0.0001,
+          "title": "Normalized Residual Tolerance",
+          "type": "number"
+        },
+        "maximum_jacobian_condition_number": {
+          "default": 100000000000000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1e+16,
+          "title": "Maximum Jacobian Condition Number",
+          "type": "number"
+        },
+        "local_parameter_covariance": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Parameter Covariance"
+        },
+        "local_parameter_covariance_reviewed": {
+          "default": false,
+          "title": "Local Parameter Covariance Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "minLength": 1,
+          "title": "Activity Provider Id",
+          "type": "string"
+        },
+        "activity_provider_revision": {
+          "minLength": 1,
+          "title": "Activity Provider Revision",
+          "type": "string"
+        },
+        "activity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Configuration Digest",
+          "type": "string"
+        },
+        "activity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Record Digest",
+          "type": "string"
+        },
+        "equilibrium_provider_id": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Id",
+          "type": "string"
+        },
+        "equilibrium_provider_revision": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Revision",
+          "type": "string"
+        },
+        "equilibrium_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Configuration Digest",
+          "type": "string"
+        },
+        "equilibrium_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Record Digest",
+          "type": "string"
+        },
+        "complete_aqueous_species_inventory_reviewed": {
+          "title": "Complete Aqueous Species Inventory Reviewed",
+          "type": "boolean"
+        },
+        "reaction_stoichiometry_and_constant_reviewed": {
+          "title": "Reaction Stoichiometry And Constant Reviewed",
+          "type": "boolean"
+        },
+        "balance_constraints_and_charge_scope_reviewed": {
+          "title": "Balance Constraints And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "fixed_activity_coefficients_and_standard_state_reviewed": {
+          "title": "Fixed Activity Coefficients And Standard State Reviewed",
+          "type": "boolean"
+        },
+        "temperature_and_provider_lineage_reviewed": {
+          "title": "Temperature And Provider Lineage Reviewed",
+          "type": "boolean"
+        },
+        "initial_activity_guess_and_solver_tolerance_reviewed": {
+          "title": "Initial Activity Guess And Solver Tolerance Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_phase_and_no_precipitation_reviewed": {
+          "title": "Single Liquid Phase And No Precipitation Reviewed",
+          "type": "boolean"
+        },
+        "elemental_formula_and_reaction_balance_reviewed": {
+          "default": false,
+          "title": "Elemental Formula And Reaction Balance Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "solution_id",
+        "temperature_K",
+        "activity_standard_state",
+        "species",
+        "reactions",
+        "constraints",
+        "activity_provider_id",
+        "activity_provider_revision",
+        "activity_configuration_digest",
+        "activity_record_digest",
+        "equilibrium_provider_id",
+        "equilibrium_provider_revision",
+        "equilibrium_configuration_digest",
+        "equilibrium_record_digest",
+        "complete_aqueous_species_inventory_reviewed",
+        "reaction_stoichiometry_and_constant_reviewed",
+        "balance_constraints_and_charge_scope_reviewed",
+        "fixed_activity_coefficients_and_standard_state_reviewed",
+        "temperature_and_provider_lineage_reviewed",
+        "initial_activity_guess_and_solver_tolerance_reviewed",
+        "single_liquid_phase_and_no_precipitation_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousMassActionSystem",
+      "type": "object"
+    },
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExtendedDebyeHuckelSpeciesParameter": {
+      "additionalProperties": false,
+      "description": "Caller-owned ion-size parameter for one mass-action species.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "ion_size_parameter_nm": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ion Size Parameter Nm"
+        },
+        "evidence_source_id": {
+          "minLength": 1,
+          "title": "Evidence Source Id",
+          "type": "string"
+        },
+        "evidence_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evidence Record Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "species_id",
+        "evidence_source_id",
+        "evidence_record_sha256"
+      ],
+      "title": "ExtendedDebyeHuckelSpeciesParameter",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Close a caller mass-action system against composition-dependent ionic strength.\n\nA and B are the caller's temperature- and solvent-specific extended\nDebye-Huckel constants. The mass-action core uses a 1 mol/L standard state;\nmolality-basis activity coefficients are mapped as gamma_c = gamma_m / w,\nwhere ``w`` is kilograms of water per litre of solution.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.aqueous_extended_debye_huckel_iteration.v1",
+      "default": "matintegrity.aqueous_extended_debye_huckel_iteration.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "system": {
+      "$ref": "#/$defs/AqueousMassActionSystem"
+    },
+    "water_mass_per_solution_volume_kg_L": {
+      "exclusiveMinimum": 0,
+      "title": "Water Mass Per Solution Volume Kg L",
+      "type": "number"
+    },
+    "debye_huckel_A_at_temperature": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel A At Temperature",
+      "type": "number"
+    },
+    "debye_huckel_B_at_temperature_sqrt_kg_mol_per_nm": {
+      "exclusiveMinimum": 0,
+      "title": "Debye Huckel B At Temperature Sqrt Kg Mol Per Nm",
+      "type": "number"
+    },
+    "parameter_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Parameter Temperature K",
+      "type": "number"
+    },
+    "temperature_match_tolerance_K": {
+      "default": 0.01,
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "title": "Temperature Match Tolerance K",
+      "type": "number"
+    },
+    "parameter_provider_id": {
+      "minLength": 1,
+      "title": "Parameter Provider Id",
+      "type": "string"
+    },
+    "parameter_provider_revision": {
+      "minLength": 1,
+      "title": "Parameter Provider Revision",
+      "type": "string"
+    },
+    "parameter_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Configuration Sha256",
+      "type": "string"
+    },
+    "parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Record Sha256",
+      "type": "string"
+    },
+    "maximum_supported_ionic_strength_mol_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Ionic Strength Mol Kg",
+      "type": "number"
+    },
+    "charge_balance_tolerance_mol_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Charge Balance Tolerance Mol Kg",
+      "type": "number"
+    },
+    "species_parameters": {
+      "items": {
+        "$ref": "#/$defs/ExtendedDebyeHuckelSpeciesParameter"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Species Parameters",
+      "type": "array"
+    },
+    "maximum_outer_iterations": {
+      "default": 100,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Maximum Outer Iterations",
+      "type": "integer"
+    },
+    "log_gamma_tolerance": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Log Gamma Tolerance",
+      "type": "number"
+    },
+    "damping_fraction": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "maximum": 1.0,
+      "title": "Damping Fraction",
+      "type": "number"
+    },
+    "water_mass_conversion_reviewed": {
+      "title": "Water Mass Conversion Reviewed",
+      "type": "boolean"
+    },
+    "molarity_to_molality_standard_state_mapping_reviewed": {
+      "title": "Molarity To Molality Standard State Mapping Reviewed",
+      "type": "boolean"
+    },
+    "temperature_solvent_parameter_basis_reviewed": {
+      "title": "Temperature Solvent Parameter Basis Reviewed",
+      "type": "boolean"
+    },
+    "complete_inventory_and_charge_scope_reviewed": {
+      "title": "Complete Inventory And Charge Scope Reviewed",
+      "type": "boolean"
+    },
+    "species_parameter_completeness_and_applicability_reviewed": {
+      "title": "Species Parameter Completeness And Applicability Reviewed",
+      "type": "boolean"
+    },
+    "fixed_point_solver_settings_reviewed": {
+      "title": "Fixed Point Solver Settings Reviewed",
+      "type": "boolean"
+    },
+    "single_liquid_no_precipitation_scope_reviewed": {
+      "title": "Single Liquid No Precipitation Scope Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "system",
+    "water_mass_per_solution_volume_kg_L",
+    "debye_huckel_A_at_temperature",
+    "debye_huckel_B_at_temperature_sqrt_kg_mol_per_nm",
+    "parameter_temperature_K",
+    "parameter_provider_id",
+    "parameter_provider_revision",
+    "parameter_configuration_sha256",
+    "parameter_record_sha256",
+    "maximum_supported_ionic_strength_mol_kg",
+    "charge_balance_tolerance_mol_kg",
+    "species_parameters",
+    "water_mass_conversion_reviewed",
+    "molarity_to_molality_standard_state_mapping_reviewed",
+    "temperature_solvent_parameter_basis_reviewed",
+    "complete_inventory_and_charge_scope_reviewed",
+    "species_parameter_completeness_and_applicability_reviewed",
+    "fixed_point_solver_settings_reviewed",
+    "single_liquid_no_precipitation_scope_reviewed",
+    "evidence"
+  ],
+  "title": "AqueousExtendedDebyeHuckelIteration",
+  "type": "object"
+}

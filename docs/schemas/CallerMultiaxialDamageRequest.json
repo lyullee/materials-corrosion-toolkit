@@ -1,0 +1,344 @@
+{
+  "$defs": {
+    "ClosedTensorCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "allocated_cycle_count": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Allocated Cycle Count",
+          "type": "number"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "sample_time_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Time S"
+        },
+        "stress_time_derivative_components_Pa_s": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stress Time Derivative Components Pa S"
+        },
+        "strain_time_derivative_components_s_inv": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain Time Derivative Components S Inv"
+        }
+      },
+      "required": [
+        "cycle_id",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components"
+      ],
+      "title": "ClosedTensorCycle",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Lineage, cycle histories and numerical controls for a caller damage provider.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "cycles": {
+      "items": {
+        "$ref": "#/$defs/ClosedTensorCycle"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Cycles",
+      "type": "array"
+    },
+    "strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "time_reconstruction": {
+      "enum": [
+        "piecewise_linear",
+        "piecewise_cubic_hermite",
+        "piecewise_pchip",
+        "piecewise_periodic_cubic_spline"
+      ],
+      "title": "Time Reconstruction",
+      "type": "string"
+    },
+    "stress_history_source_id": {
+      "minLength": 1,
+      "title": "Stress History Source Id",
+      "type": "string"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "strain_history_source_id": {
+      "minLength": 1,
+      "title": "Strain History Source Id",
+      "type": "string"
+    },
+    "strain_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Strain History Sha256",
+      "type": "string"
+    },
+    "damage_provider_id": {
+      "minLength": 1,
+      "title": "Damage Provider Id",
+      "type": "string"
+    },
+    "damage_provider_revision": {
+      "minLength": 1,
+      "title": "Damage Provider Revision",
+      "type": "string"
+    },
+    "damage_provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Damage Provider Configuration Sha256",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "maximum_closure_stress_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Closure Stress Error Pa",
+      "type": "number"
+    },
+    "maximum_closure_strain_error": {
+      "minimum": 0,
+      "title": "Maximum Closure Strain Error",
+      "type": "number"
+    },
+    "maximum_closure_stress_rate_error_Pa_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Closure Stress Rate Error Pa S"
+    },
+    "maximum_closure_strain_rate_error_s_inv": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Closure Strain Rate Error S Inv"
+    },
+    "quadrature_absolute_tolerance_damage": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Quadrature Absolute Tolerance Damage",
+      "type": "number"
+    },
+    "quadrature_relative_tolerance": {
+      "default": 1e-06,
+      "exclusiveMinimum": 0,
+      "title": "Quadrature Relative Tolerance",
+      "type": "number"
+    },
+    "initial_subinterval_count": {
+      "default": 1,
+      "maximum": 128,
+      "minimum": 1,
+      "title": "Initial Subinterval Count",
+      "type": "integer"
+    },
+    "maximum_subinterval_count": {
+      "default": 1024,
+      "maximum": 8192,
+      "minimum": 2,
+      "title": "Maximum Subinterval Count",
+      "type": "integer"
+    },
+    "maximum_provider_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Provider Evaluations",
+      "type": "integer"
+    },
+    "quadrature_order": {
+      "default": 8,
+      "enum": [
+        4,
+        8,
+        16
+      ],
+      "title": "Quadrature Order",
+      "type": "integer"
+    },
+    "tensor_basis_and_order_reviewed": {
+      "title": "Tensor Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "stress_strain_conjugacy_reviewed": {
+      "title": "Stress Strain Conjugacy Reviewed",
+      "type": "boolean"
+    },
+    "cycle_extraction_and_closure_reviewed": {
+      "title": "Cycle Extraction And Closure Reviewed",
+      "type": "boolean"
+    },
+    "time_reconstruction_reviewed": {
+      "title": "Time Reconstruction Reviewed",
+      "type": "boolean"
+    },
+    "periodic_spline_reviewed": {
+      "default": false,
+      "title": "Periodic Spline Reviewed",
+      "type": "boolean"
+    },
+    "provider_material_applicability_reviewed": {
+      "title": "Provider Material Applicability Reviewed",
+      "type": "boolean"
+    },
+    "provider_usage_rights_reviewed": {
+      "title": "Provider Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "memoryless_deterministic_rate_reviewed": {
+      "title": "Memoryless Deterministic Rate Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "location_id",
+    "cycles",
+    "strain_shear_convention",
+    "time_reconstruction",
+    "stress_history_source_id",
+    "stress_history_sha256",
+    "strain_history_source_id",
+    "strain_history_sha256",
+    "damage_provider_id",
+    "damage_provider_revision",
+    "damage_provider_configuration_sha256",
+    "calibration_id",
+    "calibration_sha256",
+    "maximum_closure_stress_error_Pa",
+    "maximum_closure_strain_error",
+    "tensor_basis_and_order_reviewed",
+    "stress_strain_conjugacy_reviewed",
+    "cycle_extraction_and_closure_reviewed",
+    "time_reconstruction_reviewed",
+    "provider_material_applicability_reviewed",
+    "provider_usage_rights_reviewed",
+    "memoryless_deterministic_rate_reviewed"
+  ],
+  "title": "CallerMultiaxialDamageRequest",
+  "type": "object"
+}

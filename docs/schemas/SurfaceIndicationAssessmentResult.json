@@ -1,0 +1,216 @@
+{
+  "$defs": {
+    "AcceptanceRuleEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_id": {
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "observed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Value"
+        },
+        "threshold_or_classes": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Threshold Or Classes"
+        },
+        "unit_token": {
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_id",
+        "outcome",
+        "observed_value",
+        "threshold_or_classes",
+        "unit_token",
+        "basis"
+      ],
+      "title": "AcceptanceRuleEvaluation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.surface_indication_assessment.v1",
+      "default": "matintegrity.surface_indication_assessment.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "model_id": {
+      "const": "inspection.surface_indication_profile_assessment",
+      "default": "inspection.surface_indication_profile_assessment",
+      "title": "Model Id",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "visual_surface",
+        "penetrant",
+        "magnetic_particle"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "acceptance_profile_id": {
+      "minLength": 1,
+      "title": "Acceptance Profile Id",
+      "type": "string"
+    },
+    "acceptance_profile_revision": {
+      "minLength": 1,
+      "title": "Acceptance Profile Revision",
+      "type": "string"
+    },
+    "disposition": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Disposition",
+      "type": "string"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "rule_evaluations": {
+      "items": {
+        "$ref": "#/$defs/AcceptanceRuleEvaluation"
+      },
+      "title": "Rule Evaluations",
+      "type": "array"
+    },
+    "review_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Reasons",
+      "type": "array"
+    },
+    "insufficient_evidence_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Insufficient Evidence Reasons",
+      "type": "array"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "code_or_standard_qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Code Or Standard Qualification Claim",
+      "type": "boolean"
+    },
+    "physical_validation_claim": {
+      "const": false,
+      "default": false,
+      "title": "Physical Validation Claim",
+      "type": "boolean"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "method",
+    "procedure_id",
+    "procedure_revision",
+    "acceptance_profile_id",
+    "acceptance_profile_revision",
+    "disposition",
+    "input_digest",
+    "rule_evaluations",
+    "review_reasons",
+    "insufficient_evidence_reasons",
+    "result_digest",
+    "notes"
+  ],
+  "title": "SurfaceIndicationAssessmentResult",
+  "type": "object"
+}

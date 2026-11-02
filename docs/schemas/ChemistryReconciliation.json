@@ -1,0 +1,285 @@
+{
+  "$defs": {
+    "ChemistryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Id"
+        },
+        "designation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MaterialDesignation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "element_intervals": {
+          "patternProperties": {
+            "^[A-Z][a-z]?$": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/FractionInterval"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "title": "Element Intervals",
+          "type": "object"
+        },
+        "interval_interpretation": {
+          "minLength": 1,
+          "title": "Interval Interpretation",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "physical_scope_id",
+        "method_id",
+        "element_intervals",
+        "interval_interpretation",
+        "evidence"
+      ],
+      "title": "ChemistryRecord",
+      "type": "object"
+    },
+    "ChemistryRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "requirements_id": {
+          "minLength": 1,
+          "title": "Requirements Id",
+          "type": "string"
+        },
+        "designation": {
+          "$ref": "#/$defs/MaterialDesignation"
+        },
+        "element_limits": {
+          "minProperties": 1,
+          "patternProperties": {
+            "^[A-Z][a-z]?$": {
+              "$ref": "#/$defs/FractionInterval"
+            }
+          },
+          "title": "Element Limits",
+          "type": "object"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements_id",
+        "designation",
+        "element_limits",
+        "evidence"
+      ],
+      "title": "ChemistryRequirements",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FractionInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "lower": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Upper",
+          "type": "number"
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "title": "FractionInterval",
+      "type": "object"
+    },
+    "MaterialDesignation": {
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "minLength": 1,
+          "title": "Namespace",
+          "type": "string"
+        },
+        "specification": {
+          "minLength": 1,
+          "title": "Specification",
+          "type": "string"
+        },
+        "edition": {
+          "minLength": 1,
+          "title": "Edition",
+          "type": "string"
+        },
+        "grade": {
+          "minLength": 1,
+          "title": "Grade",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "condition": {
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "specification",
+        "edition",
+        "grade",
+        "product_form",
+        "condition"
+      ],
+      "title": "MaterialDesignation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "certificate": {
+      "$ref": "#/$defs/ChemistryRecord"
+    },
+    "verification": {
+      "$ref": "#/$defs/ChemistryRecord"
+    },
+    "requirements": {
+      "$ref": "#/$defs/ChemistryRequirements"
+    },
+    "require_matching_heat_ids": {
+      "title": "Require Matching Heat Ids",
+      "type": "boolean"
+    },
+    "require_verification_designation": {
+      "title": "Require Verification Designation",
+      "type": "boolean"
+    },
+    "require_certificate_verification_interval_overlap": {
+      "title": "Require Certificate Verification Interval Overlap",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "certificate",
+    "verification",
+    "requirements",
+    "require_matching_heat_ids",
+    "require_verification_designation",
+    "require_certificate_verification_interval_overlap"
+  ],
+  "title": "ChemistryReconciliation",
+  "type": "object"
+}

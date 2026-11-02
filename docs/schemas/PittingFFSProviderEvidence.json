@@ -1,0 +1,577 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PitGeometryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "pit_field_id": {
+          "minLength": 1,
+          "title": "Pit Field Id",
+          "type": "string"
+        },
+        "cluster_id": {
+          "minLength": 1,
+          "title": "Cluster Id",
+          "type": "string"
+        },
+        "geometry_definition_id": {
+          "minLength": 1,
+          "title": "Geometry Definition Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "length_value": {
+          "exclusiveMinimum": 0,
+          "title": "Length Value",
+          "type": "number"
+        },
+        "width_value": {
+          "exclusiveMinimum": 0,
+          "title": "Width Value",
+          "type": "number"
+        },
+        "depth_value": {
+          "exclusiveMinimum": 0,
+          "title": "Depth Value",
+          "type": "number"
+        },
+        "geometry_unit_token": {
+          "minLength": 1,
+          "title": "Geometry Unit Token",
+          "type": "string"
+        },
+        "geometry_content_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Content Digest",
+          "type": "string"
+        },
+        "inspection_method_id": {
+          "minLength": 1,
+          "title": "Inspection Method Id",
+          "type": "string"
+        },
+        "sizing_uncertainty_value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sizing Uncertainty Value"
+        },
+        "sizing_uncertainty_unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sizing Uncertainty Unit Token"
+        },
+        "pod_evidence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pod Evidence Id"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pit_field_id",
+        "cluster_id",
+        "geometry_definition_id",
+        "coordinate_frame_id",
+        "length_value",
+        "width_value",
+        "depth_value",
+        "geometry_unit_token",
+        "geometry_content_digest",
+        "inspection_method_id",
+        "evidence"
+      ],
+      "title": "PitGeometryRecord",
+      "type": "object"
+    },
+    "PittingFFSProviderEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "component_type_id": {
+          "minLength": 1,
+          "title": "Component Type Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "enum": [
+            "internal_minus_external",
+            "external_minus_internal"
+          ],
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "wall_thickness_unit_token": {
+          "minLength": 1,
+          "title": "Wall Thickness Unit Token",
+          "type": "string"
+        },
+        "geometry_unit_token": {
+          "minLength": 1,
+          "title": "Geometry Unit Token",
+          "type": "string"
+        },
+        "supported_geometry_definition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Geometry Definition Ids",
+          "type": "array"
+        },
+        "supported_inspection_method_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Inspection Method Ids",
+          "type": "array"
+        },
+        "supported_load_case_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Load Case Ids",
+          "type": "array"
+        },
+        "result_metric_id": {
+          "minLength": 1,
+          "title": "Result Metric Id",
+          "type": "string"
+        },
+        "result_metric_definition": {
+          "minLength": 1,
+          "title": "Result Metric Definition",
+          "type": "string"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "provider_model_id": {
+          "minLength": 1,
+          "title": "Provider Model Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "qualification_records": {
+          "items": {
+            "$ref": "#/$defs/PittingFFSQualificationRecord"
+          },
+          "minItems": 2,
+          "title": "Qualification Records",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "component_type_id",
+        "material_condition_id",
+        "coordinate_frame_id",
+        "pressure_basis",
+        "wall_thickness_unit_token",
+        "geometry_unit_token",
+        "supported_geometry_definition_ids",
+        "supported_inspection_method_ids",
+        "supported_load_case_ids",
+        "result_metric_id",
+        "result_metric_definition",
+        "result_unit_token",
+        "provider_model_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "qualification_records",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "PittingFFSProviderEnvelope",
+      "type": "object"
+    },
+    "PittingFFSQualificationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "partition",
+        "physical_specimen_id",
+        "source_group_id",
+        "provider_result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PittingFFSQualificationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "component_type_id": {
+      "minLength": 1,
+      "title": "Component Type Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "wall_thickness_value": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Thickness Value",
+      "type": "number"
+    },
+    "wall_thickness_unit_token": {
+      "minLength": 1,
+      "title": "Wall Thickness Unit Token",
+      "type": "string"
+    },
+    "pressure_basis": {
+      "enum": [
+        "internal_minus_external",
+        "external_minus_internal"
+      ],
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "load_case_id": {
+      "minLength": 1,
+      "title": "Load Case Id",
+      "type": "string"
+    },
+    "pit_geometries": {
+      "items": {
+        "$ref": "#/$defs/PitGeometryRecord"
+      },
+      "minItems": 1,
+      "title": "Pit Geometries",
+      "type": "array"
+    },
+    "provider_model_id": {
+      "minLength": 1,
+      "title": "Provider Model Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "provider_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Input Digest",
+      "type": "string"
+    },
+    "provider_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Digest",
+      "type": "string"
+    },
+    "result_metric_id": {
+      "minLength": 1,
+      "title": "Result Metric Id",
+      "type": "string"
+    },
+    "result_metric_definition": {
+      "minLength": 1,
+      "title": "Result Metric Definition",
+      "type": "string"
+    },
+    "result_value": {
+      "title": "Result Value",
+      "type": "number"
+    },
+    "result_unit_token": {
+      "minLength": 1,
+      "title": "Result Unit Token",
+      "type": "string"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/PittingFFSProviderEnvelope"
+    },
+    "component_material_location_and_frame_reviewed": {
+      "title": "Component Material Location And Frame Reviewed",
+      "type": "boolean"
+    },
+    "wall_thickness_pressure_and_load_basis_reviewed": {
+      "title": "Wall Thickness Pressure And Load Basis Reviewed",
+      "type": "boolean"
+    },
+    "pit_geometry_definition_units_and_clusters_reviewed": {
+      "title": "Pit Geometry Definition Units And Clusters Reviewed",
+      "type": "boolean"
+    },
+    "inspection_uncertainty_and_pod_evidence_reviewed": {
+      "title": "Inspection Uncertainty And Pod Evidence Reviewed",
+      "type": "boolean"
+    },
+    "provider_model_revision_and_digests_reviewed": {
+      "title": "Provider Model Revision And Digests Reviewed",
+      "type": "boolean"
+    },
+    "result_metric_definition_and_unit_reviewed": {
+      "title": "Result Metric Definition And Unit Reviewed",
+      "type": "boolean"
+    },
+    "qualification_partitions_and_source_groups_reviewed": {
+      "title": "Qualification Partitions And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "component_type_id",
+    "material_condition_id",
+    "coordinate_frame_id",
+    "wall_thickness_value",
+    "wall_thickness_unit_token",
+    "pressure_basis",
+    "load_case_id",
+    "pit_geometries",
+    "provider_model_id",
+    "provider_revision",
+    "provider_configuration_digest",
+    "provider_input_digest",
+    "provider_result_digest",
+    "result_metric_id",
+    "result_metric_definition",
+    "result_value",
+    "result_unit_token",
+    "qualification_envelope",
+    "component_material_location_and_frame_reviewed",
+    "wall_thickness_pressure_and_load_basis_reviewed",
+    "pit_geometry_definition_units_and_clusters_reviewed",
+    "inspection_uncertainty_and_pod_evidence_reviewed",
+    "provider_model_revision_and_digests_reviewed",
+    "result_metric_definition_and_unit_reviewed",
+    "qualification_partitions_and_source_groups_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "PittingFFSProviderEvidence",
+  "type": "object"
+}

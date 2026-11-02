@@ -1,0 +1,142 @@
+{
+  "additionalProperties": false,
+  "description": "Minimal digest-bound handoff for downstream risk and asset systems.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.cui_evidence_receipt.v1",
+      "default": "matintegrity.cui_evidence_receipt.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "zone_id": {
+      "minLength": 1,
+      "title": "Zone Id",
+      "type": "string"
+    },
+    "component_or_circuit_id": {
+      "minLength": 1,
+      "title": "Component Or Circuit Id",
+      "type": "string"
+    },
+    "scope_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scope Configuration Digest",
+      "type": "string"
+    },
+    "caller_profile_id": {
+      "minLength": 1,
+      "title": "Caller Profile Id",
+      "type": "string"
+    },
+    "caller_profile_revision": {
+      "minLength": 1,
+      "title": "Caller Profile Revision",
+      "type": "string"
+    },
+    "campaign_outcome": {
+      "enum": [
+        "accept",
+        "review",
+        "reject",
+        "insufficient_evidence"
+      ],
+      "title": "Campaign Outcome",
+      "type": "string"
+    },
+    "coverage_fraction": {
+      "minimum": 0,
+      "title": "Coverage Fraction",
+      "type": "number"
+    },
+    "observation_count": {
+      "minimum": 0,
+      "title": "Observation Count",
+      "type": "integer"
+    },
+    "finding_outcomes": {
+      "items": {
+        "enum": [
+          "accept",
+          "review",
+          "reject"
+        ],
+        "type": "string"
+      },
+      "title": "Finding Outcomes",
+      "type": "array"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "receipt_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Receipt Digest",
+      "type": "string"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "hidden_area_extrapolated": {
+      "const": false,
+      "default": false,
+      "title": "Hidden Area Extrapolated",
+      "type": "boolean"
+    },
+    "risk_or_failure_probability_generated": {
+      "const": false,
+      "default": false,
+      "title": "Risk Or Failure Probability Generated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "campaign_id",
+    "asset_id",
+    "location_id",
+    "zone_id",
+    "component_or_circuit_id",
+    "scope_configuration_digest",
+    "caller_profile_id",
+    "caller_profile_revision",
+    "campaign_outcome",
+    "coverage_fraction",
+    "observation_count",
+    "finding_outcomes",
+    "input_digest",
+    "report_digest",
+    "receipt_digest"
+  ],
+  "title": "CUIEvidenceReceipt",
+  "type": "object"
+}

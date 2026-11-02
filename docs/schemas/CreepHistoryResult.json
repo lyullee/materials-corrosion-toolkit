@@ -1,0 +1,91 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.creep_history.v1",
+      "default": "matintegrity.creep_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "history_id": {
+      "title": "History Id",
+      "type": "string"
+    },
+    "input_sha256": {
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "interval_strain_increments": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Interval Strain Increments",
+      "type": "array"
+    },
+    "cumulative_strain_at_boundaries": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Cumulative Strain At Boundaries",
+      "type": "array"
+    },
+    "secondary_creep_strain": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Secondary Creep Strain"
+    },
+    "linear_rupture_time_fraction": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Linear Rupture Time Fraction"
+    },
+    "unsupported_interval_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unsupported Interval Ids",
+      "type": "array"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "input_sha256",
+    "status",
+    "interval_strain_increments",
+    "cumulative_strain_at_boundaries",
+    "secondary_creep_strain",
+    "linear_rupture_time_fraction",
+    "unsupported_interval_ids",
+    "notes"
+  ],
+  "title": "CreepHistoryResult",
+  "type": "object"
+}

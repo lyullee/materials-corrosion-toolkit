@@ -1,0 +1,294 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Normalized, geometry-bound pressure and face-velocity receipt from an external solver.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.external_crevice_solver_history.v1",
+      "default": "matintegrity.external_crevice_solver_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_run_id": {
+      "minLength": 1,
+      "title": "Provider Run Id",
+      "type": "string"
+    },
+    "time_basis_id": {
+      "minLength": 1,
+      "title": "Time Basis Id",
+      "type": "string"
+    },
+    "provider_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Sha256",
+      "type": "string"
+    },
+    "mesh_revision": {
+      "minLength": 1,
+      "title": "Mesh Revision",
+      "type": "string"
+    },
+    "geometry_result": {
+      "additionalProperties": true,
+      "title": "Geometry Result",
+      "type": "object"
+    },
+    "geometry_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Result Sha256",
+      "type": "string"
+    },
+    "coordinate_system_id": {
+      "minLength": 1,
+      "title": "Coordinate System Id",
+      "type": "string"
+    },
+    "coordinate_origin": {
+      "const": "mouth",
+      "title": "Coordinate Origin",
+      "type": "string"
+    },
+    "positive_axial_direction": {
+      "const": "mouth_to_tip",
+      "title": "Positive Axial Direction",
+      "type": "string"
+    },
+    "pressure_unit": {
+      "const": "Pa",
+      "title": "Pressure Unit",
+      "type": "string"
+    },
+    "velocity_unit": {
+      "const": "m/s",
+      "title": "Velocity Unit",
+      "type": "string"
+    },
+    "length_unit": {
+      "const": "m",
+      "title": "Length Unit",
+      "type": "string"
+    },
+    "time_unit": {
+      "const": "s",
+      "title": "Time Unit",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "face_positions_m": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2001,
+      "minItems": 3,
+      "title": "Face Positions M",
+      "type": "array"
+    },
+    "cell_widths_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Cell Widths M",
+      "type": "array"
+    },
+    "cell_aperture_m": {
+      "items": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Cell Aperture M",
+      "type": "array"
+    },
+    "face_pressure_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Face Pressure Pa",
+      "type": "array"
+    },
+    "face_velocity_m_s": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Face Velocity M S",
+      "type": "array"
+    },
+    "time_interpolation": {
+      "const": "piecewise_linear",
+      "title": "Time Interpolation",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "source_result_digest_reviewed": {
+      "title": "Source Result Digest Reviewed",
+      "type": "boolean"
+    },
+    "coordinate_and_unit_mapping_reviewed": {
+      "title": "Coordinate And Unit Mapping Reviewed",
+      "type": "boolean"
+    },
+    "face_order_and_velocity_sign_reviewed": {
+      "title": "Face Order And Velocity Sign Reviewed",
+      "type": "boolean"
+    },
+    "mesh_to_geometry_mapping_reviewed": {
+      "title": "Mesh To Geometry Mapping Reviewed",
+      "type": "boolean"
+    },
+    "geometry_revision_and_time_alignment_reviewed": {
+      "title": "Geometry Revision And Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_linear_velocity_interpolation_reviewed": {
+      "title": "Piecewise Linear Velocity Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "provider_id",
+    "provider_revision",
+    "provider_run_id",
+    "time_basis_id",
+    "provider_result_sha256",
+    "mesh_revision",
+    "geometry_result",
+    "geometry_result_sha256",
+    "coordinate_system_id",
+    "coordinate_origin",
+    "positive_axial_direction",
+    "pressure_unit",
+    "velocity_unit",
+    "length_unit",
+    "time_unit",
+    "elapsed_time_s",
+    "face_positions_m",
+    "cell_widths_m",
+    "cell_aperture_m",
+    "face_pressure_Pa",
+    "face_velocity_m_s",
+    "time_interpolation",
+    "evidence",
+    "source_result_digest_reviewed",
+    "coordinate_and_unit_mapping_reviewed",
+    "face_order_and_velocity_sign_reviewed",
+    "mesh_to_geometry_mapping_reviewed",
+    "geometry_revision_and_time_alignment_reviewed",
+    "piecewise_linear_velocity_interpolation_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "ExternalCreviceSolverHistory",
+  "type": "object"
+}

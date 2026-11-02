@@ -1,0 +1,203 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "rate_direction": {
+      "enum": [
+        "heating",
+        "cooling"
+      ],
+      "title": "Rate Direction",
+      "type": "string"
+    },
+    "governing_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Governing Thickness M",
+      "type": "number"
+    },
+    "minimum_supported_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Thickness M",
+      "type": "number"
+    },
+    "maximum_supported_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Thickness M",
+      "type": "number"
+    },
+    "reference_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Thickness M",
+      "type": "number"
+    },
+    "reference_rate_K_s": {
+      "minimum": 0,
+      "title": "Reference Rate K S",
+      "type": "number"
+    },
+    "ceiling_rate_K_s": {
+      "minimum": 0,
+      "title": "Ceiling Rate K S",
+      "type": "number"
+    },
+    "metal_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Temperature K",
+      "type": "number"
+    },
+    "activation_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Activation Temperature K",
+      "type": "number"
+    },
+    "activation_comparison": {
+      "enum": [
+        "greater_than",
+        "greater_or_equal"
+      ],
+      "title": "Activation Comparison",
+      "type": "string"
+    }
+  },
+  "required": [
+    "basis",
+    "component_id",
+    "procedure_id",
+    "rate_direction",
+    "governing_thickness_m",
+    "minimum_supported_thickness_m",
+    "maximum_supported_thickness_m",
+    "reference_thickness_m",
+    "reference_rate_K_s",
+    "ceiling_rate_K_s",
+    "metal_temperature_K",
+    "activation_temperature_K",
+    "activation_comparison"
+  ],
+  "title": "ThicknessScaledRateLimit",
+  "type": "object"
+}

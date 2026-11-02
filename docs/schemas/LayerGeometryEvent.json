@@ -1,0 +1,71 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "deposit",
+        "surface_removal"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Thickness M",
+      "type": "number"
+    },
+    "thickness_origin": {
+      "enum": [
+        "measured",
+        "procedure_target"
+      ],
+      "title": "Thickness Origin",
+      "type": "string"
+    },
+    "layer_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Layer Id"
+    },
+    "material_condition_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Material Condition Id"
+    },
+    "record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "kind",
+    "thickness_m",
+    "thickness_origin",
+    "record_digest"
+  ],
+  "title": "LayerGeometryEvent",
+  "type": "object"
+}

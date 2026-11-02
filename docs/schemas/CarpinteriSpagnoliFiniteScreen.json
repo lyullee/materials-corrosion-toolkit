@@ -1,0 +1,275 @@
+{
+  "$defs": {
+    "CarpinteriSpagnoliPlane": {
+      "additionalProperties": false,
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Normal",
+          "type": "array"
+        },
+        "tangent_u": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent U",
+          "type": "array"
+        },
+        "tangent_v": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent V",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "tangent_u",
+        "tangent_v"
+      ],
+      "title": "CarpinteriSpagnoliPlane",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "history_source_id": {
+      "minLength": 1,
+      "title": "History Source Id",
+      "type": "string"
+    },
+    "history_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Source Sha256",
+      "type": "string"
+    },
+    "history_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "axial_limit_source_id": {
+      "minLength": 1,
+      "title": "Axial Limit Source Id",
+      "type": "string"
+    },
+    "axial_limit_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Axial Limit Sha256",
+      "type": "string"
+    },
+    "axial_limit_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "fully_reversed_axial_limit_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Fully Reversed Axial Limit Pa",
+      "type": "number"
+    },
+    "torsion_limit_source_id": {
+      "minLength": 1,
+      "title": "Torsion Limit Source Id",
+      "type": "string"
+    },
+    "torsion_limit_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Torsion Limit Sha256",
+      "type": "string"
+    },
+    "torsion_limit_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "fully_reversed_torsion_limit_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Fully Reversed Torsion Limit Pa",
+      "type": "number"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/CarpinteriSpagnoliPlane"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "maximum_plane_pair_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Plane Pair Evaluations",
+      "type": "integer"
+    },
+    "matched_material_endurance_data_reviewed": {
+      "title": "Matched Material Endurance Data Reviewed",
+      "type": "boolean"
+    },
+    "fully_reversed_smooth_specimen_basis_reviewed": {
+      "title": "Fully Reversed Smooth Specimen Basis Reviewed",
+      "type": "boolean"
+    },
+    "closed_cycle_tensor_order_and_sign_reviewed": {
+      "title": "Closed Cycle Tensor Order And Sign Reviewed",
+      "type": "boolean"
+    },
+    "finite_plane_population_and_basis_reviewed": {
+      "title": "Finite Plane Population And Basis Reviewed",
+      "type": "boolean"
+    },
+    "hard_metal_hcf_scope_and_use_reviewed": {
+      "title": "Hard Metal Hcf Scope And Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "history_source_id",
+    "history_source_sha256",
+    "history_evidence",
+    "axial_limit_source_id",
+    "axial_limit_sha256",
+    "axial_limit_evidence",
+    "fully_reversed_axial_limit_Pa",
+    "torsion_limit_source_id",
+    "torsion_limit_sha256",
+    "torsion_limit_evidence",
+    "fully_reversed_torsion_limit_Pa",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "candidate_planes",
+    "matched_material_endurance_data_reviewed",
+    "fully_reversed_smooth_specimen_basis_reviewed",
+    "closed_cycle_tensor_order_and_sign_reviewed",
+    "finite_plane_population_and_basis_reviewed",
+    "hard_metal_hcf_scope_and_use_reviewed"
+  ],
+  "title": "CarpinteriSpagnoliFiniteScreen",
+  "type": "object"
+}

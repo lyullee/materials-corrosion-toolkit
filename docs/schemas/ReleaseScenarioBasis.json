@@ -1,0 +1,109 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "release_scenario_id": {
+      "minLength": 1,
+      "title": "Release Scenario Id",
+      "type": "string"
+    },
+    "inventory_id": {
+      "minLength": 1,
+      "title": "Inventory Id",
+      "type": "string"
+    },
+    "release_location_id": {
+      "minLength": 1,
+      "title": "Release Location Id",
+      "type": "string"
+    },
+    "release_phase_basis": {
+      "enum": [
+        "gas",
+        "liquid",
+        "two_phase",
+        "provider_to_determine"
+      ],
+      "title": "Release Phase Basis",
+      "type": "string"
+    },
+    "release_geometry_basis": {
+      "enum": [
+        "caller_defined",
+        "provider_defined"
+      ],
+      "title": "Release Geometry Basis",
+      "type": "string"
+    },
+    "release_geometry_description": {
+      "minLength": 1,
+      "title": "Release Geometry Description",
+      "type": "string"
+    },
+    "opening_area_m2": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Opening Area M2"
+    },
+    "release_direction_basis": {
+      "minLength": 1,
+      "title": "Release Direction Basis",
+      "type": "string"
+    },
+    "release_duration_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Release Duration S"
+    },
+    "isolation_basis": {
+      "minLength": 1,
+      "title": "Isolation Basis",
+      "type": "string"
+    },
+    "source_boundary_basis": {
+      "minLength": 1,
+      "title": "Source Boundary Basis",
+      "type": "string"
+    },
+    "wall_loss_to_opening_conversion_performed": {
+      "const": false,
+      "default": false,
+      "title": "Wall Loss To Opening Conversion Performed",
+      "type": "boolean"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "release_scenario_id",
+    "inventory_id",
+    "release_location_id",
+    "release_phase_basis",
+    "release_geometry_basis",
+    "release_geometry_description",
+    "release_direction_basis",
+    "isolation_basis",
+    "source_boundary_basis",
+    "source_digest"
+  ],
+  "title": "ReleaseScenarioBasis",
+  "type": "object"
+}

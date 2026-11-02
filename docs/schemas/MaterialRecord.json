@@ -1,0 +1,142 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.material.v1",
+      "default": "matintegrity.material.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "specification": {
+      "minLength": 1,
+      "title": "Specification",
+      "type": "string"
+    },
+    "grade": {
+      "minLength": 1,
+      "title": "Grade",
+      "type": "string"
+    },
+    "product_form": {
+      "minLength": 1,
+      "title": "Product Form",
+      "type": "string"
+    },
+    "heat_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Heat Id"
+    },
+    "condition": {
+      "minLength": 1,
+      "title": "Condition",
+      "type": "string"
+    },
+    "composition_mass_fraction": {
+      "additionalProperties": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Composition Mass Fraction",
+      "type": "object"
+    },
+    "property_table_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Property Table Ids",
+      "type": "array"
+    },
+    "evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "material_id",
+    "specification",
+    "grade",
+    "product_form",
+    "condition"
+  ],
+  "title": "MaterialRecord",
+  "type": "object"
+}

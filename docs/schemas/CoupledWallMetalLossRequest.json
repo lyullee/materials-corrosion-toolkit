@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "WallMetalLossSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "selection_id": {
+          "minLength": 1,
+          "title": "Selection Id",
+          "type": "string"
+        },
+        "metal_species_id": {
+          "minLength": 1,
+          "title": "Metal Species Id",
+          "type": "string"
+        },
+        "metal_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "metal_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Density Kg M3",
+          "type": "number"
+        },
+        "reference_cross_section_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Cross Section M2",
+          "type": "number"
+        },
+        "boundary_species_is_one_metal_atom_per_mole_reviewed": {
+          "title": "Boundary Species Is One Metal Atom Per Mole Reviewed",
+          "type": "boolean"
+        },
+        "wall_flux_is_signed_dissolution_or_redeposition_reviewed": {
+          "title": "Wall Flux Is Signed Dissolution Or Redeposition Reviewed",
+          "type": "boolean"
+        },
+        "reactive_wall_and_reference_areas_reviewed": {
+          "title": "Reactive Wall And Reference Areas Reviewed",
+          "type": "boolean"
+        },
+        "area_average_recession_interpretation_reviewed": {
+          "title": "Area Average Recession Interpretation Reviewed",
+          "type": "boolean"
+        },
+        "cellwise_recession_interpretation_reviewed": {
+          "default": false,
+          "title": "Cellwise Recession Interpretation Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "selection_id",
+        "metal_species_id",
+        "metal_molar_mass_kg_mol",
+        "metal_density_kg_m3",
+        "reference_cross_section_m2",
+        "boundary_species_is_one_metal_atom_per_mole_reviewed",
+        "wall_flux_is_signed_dissolution_or_redeposition_reviewed",
+        "reactive_wall_and_reference_areas_reviewed",
+        "area_average_recession_interpretation_reviewed"
+      ],
+      "title": "WallMetalLossSelection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "coupled_result": {
+      "additionalProperties": true,
+      "title": "Coupled Result",
+      "type": "object"
+    },
+    "coupled_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Coupled Result Sha256",
+      "type": "string"
+    },
+    "selection": {
+      "$ref": "#/$defs/WallMetalLossSelection"
+    }
+  },
+  "required": [
+    "coupled_result",
+    "coupled_result_sha256",
+    "selection"
+  ],
+  "title": "CoupledWallMetalLossRequest",
+  "type": "object"
+}

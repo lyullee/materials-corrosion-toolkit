@@ -1,0 +1,158 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SolidPhaseGeometryMap": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "molar_volume_m3_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Volume M3 Mol",
+          "type": "number"
+        },
+        "occupies_gap": {
+          "title": "Occupies Gap",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "molar_volume_m3_mol",
+        "occupies_gap"
+      ],
+      "title": "SolidPhaseGeometryMap",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-evidenced cell dimensions and phase-to-gap volume mapping.",
+  "properties": {
+    "cell_id": {
+      "minLength": 1,
+      "title": "Cell Id",
+      "type": "string"
+    },
+    "cell_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Cell Length M",
+      "type": "number"
+    },
+    "transverse_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Transverse Width M",
+      "type": "number"
+    },
+    "initial_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Aperture M",
+      "type": "number"
+    },
+    "minimum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Aperture M",
+      "type": "number"
+    },
+    "phase_geometry": {
+      "items": {
+        "$ref": "#/$defs/SolidPhaseGeometryMap"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Phase Geometry",
+      "type": "array"
+    },
+    "geometry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Sha256",
+      "type": "string"
+    },
+    "geometry_source_id": {
+      "minLength": 1,
+      "title": "Geometry Source Id",
+      "type": "string"
+    },
+    "geometry_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Geometry Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "cell_id",
+    "cell_length_m",
+    "transverse_width_m",
+    "initial_aperture_m",
+    "minimum_aperture_m",
+    "phase_geometry",
+    "geometry_sha256",
+    "geometry_source_id",
+    "geometry_evidence"
+  ],
+  "title": "CellDynamicSolidGeometry",
+  "type": "object"
+}

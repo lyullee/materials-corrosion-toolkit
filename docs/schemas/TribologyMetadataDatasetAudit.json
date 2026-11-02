@@ -1,0 +1,113 @@
+{
+  "$defs": {
+    "TribologyMetadataFileAudit": {
+      "additionalProperties": false,
+      "properties": {
+        "filename": {
+          "minLength": 1,
+          "title": "Filename",
+          "type": "string"
+        },
+        "bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "provider_md5": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Provider Md5",
+          "type": "string"
+        },
+        "local_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Local Sha256",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "experiment_series",
+            "equipment",
+            "specimen",
+            "consumables",
+            "software"
+          ],
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "filename",
+        "bytes",
+        "provider_md5",
+        "local_sha256",
+        "role"
+      ],
+      "title": "TribologyMetadataFileAudit",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.tribology_metadata_audit.v1",
+      "default": "matintegrity.tribology_metadata_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-7923128-sapphire-copper-tribology-metadata",
+      "default": "zenodo-7923128-sapphire-copper-tribology-metadata",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "provider_record": {
+      "const": "https://doi.org/10.5281/zenodo.7923128",
+      "default": "https://doi.org/10.5281/zenodo.7923128",
+      "title": "Provider Record",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/TribologyMetadataFileAudit"
+      },
+      "minItems": 1,
+      "title": "Files",
+      "type": "array"
+    },
+    "file_count": {
+      "exclusiveMinimum": 0,
+      "title": "File Count",
+      "type": "integer"
+    },
+    "total_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Total Bytes",
+      "type": "integer"
+    },
+    "all_provider_md5_verified": {
+      "const": true,
+      "title": "All Provider Md5 Verified",
+      "type": "boolean"
+    },
+    "numerical_use_status": {
+      "const": "metadata_only_linked_measurements_not_acquired",
+      "default": "metadata_only_linked_measurements_not_acquired",
+      "title": "Numerical Use Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "files",
+    "file_count",
+    "total_bytes",
+    "all_provider_md5_verified"
+  ],
+  "title": "TribologyMetadataDatasetAudit",
+  "type": "object"
+}

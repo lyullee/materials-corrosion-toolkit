@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "weld_id": {
+      "minLength": 1,
+      "title": "Weld Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "joint_configuration_id": {
+      "minLength": 1,
+      "title": "Joint Configuration Id",
+      "type": "string"
+    },
+    "wps_id": {
+      "minLength": 1,
+      "title": "Wps Id",
+      "type": "string"
+    },
+    "wps_revision": {
+      "minLength": 1,
+      "title": "Wps Revision",
+      "type": "string"
+    },
+    "production_heat_id": {
+      "minLength": 1,
+      "title": "Production Heat Id",
+      "type": "string"
+    },
+    "consumable_id": {
+      "minLength": 1,
+      "title": "Consumable Id",
+      "type": "string"
+    },
+    "consumable_lot_id": {
+      "minLength": 1,
+      "title": "Consumable Lot Id",
+      "type": "string"
+    },
+    "base_material_a_id": {
+      "minLength": 1,
+      "title": "Base Material A Id",
+      "type": "string"
+    },
+    "base_material_a_heat_id": {
+      "minLength": 1,
+      "title": "Base Material A Heat Id",
+      "type": "string"
+    },
+    "base_material_b_id": {
+      "minLength": 1,
+      "title": "Base Material B Id",
+      "type": "string"
+    },
+    "base_material_b_heat_id": {
+      "minLength": 1,
+      "title": "Base Material B Heat Id",
+      "type": "string"
+    },
+    "weld_metal_material_id": {
+      "minLength": 1,
+      "title": "Weld Metal Material Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "cross_section_id": {
+      "minLength": 1,
+      "title": "Cross Section Id",
+      "type": "string"
+    },
+    "cross_section_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Cross Section Record Digest",
+      "type": "string"
+    },
+    "subject_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Subject Configuration Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "weld_id",
+    "joint_id",
+    "joint_configuration_id",
+    "wps_id",
+    "wps_revision",
+    "production_heat_id",
+    "consumable_id",
+    "consumable_lot_id",
+    "base_material_a_id",
+    "base_material_a_heat_id",
+    "base_material_b_id",
+    "base_material_b_heat_id",
+    "weld_metal_material_id",
+    "coordinate_frame_id",
+    "cross_section_id",
+    "cross_section_record_digest",
+    "subject_configuration_digest",
+    "evidence"
+  ],
+  "title": "WeldHardnessSubject",
+  "type": "object"
+}

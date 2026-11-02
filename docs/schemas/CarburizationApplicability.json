@@ -1,0 +1,404 @@
+{
+  "$defs": {
+    "CarburizationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "alloy_condition_id": {
+          "minLength": 1,
+          "title": "Alloy Condition Id",
+          "type": "string"
+        },
+        "carbon_basis": {
+          "enum": [
+            "carbon_activity",
+            "carburizing_potential"
+          ],
+          "title": "Carbon Basis",
+          "type": "string"
+        },
+        "carbon_unit": {
+          "minLength": 1,
+          "title": "Carbon Unit",
+          "type": "string"
+        },
+        "minimum_carbon_value": {
+          "minimum": 0,
+          "title": "Minimum Carbon Value",
+          "type": "number"
+        },
+        "maximum_carbon_value": {
+          "minimum": 0,
+          "title": "Maximum Carbon Value",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_pressure_Pa_abs": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Pressure Pa Abs",
+          "type": "number"
+        },
+        "maximum_pressure_Pa_abs": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Pressure Pa Abs",
+          "type": "number"
+        },
+        "supported_gas_composition_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Gas Composition Descriptors",
+          "type": "array"
+        },
+        "maximum_cumulative_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Exposure S",
+          "type": "number"
+        },
+        "test_evidence": {
+          "items": {
+            "$ref": "#/$defs/CarburizationTestEvidence"
+          },
+          "minItems": 1,
+          "title": "Test Evidence",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "alloy_condition_id",
+        "carbon_basis",
+        "carbon_unit",
+        "minimum_carbon_value",
+        "maximum_carbon_value",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_pressure_Pa_abs",
+        "maximum_pressure_Pa_abs",
+        "supported_gas_composition_descriptors",
+        "maximum_cumulative_exposure_s",
+        "test_evidence",
+        "evidence"
+      ],
+      "title": "CarburizationEnvelope",
+      "type": "object"
+    },
+    "CarburizationExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "exposure_id": {
+          "minLength": 1,
+          "title": "Exposure Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "carbon_basis": {
+          "enum": [
+            "carbon_activity",
+            "carburizing_potential"
+          ],
+          "title": "Carbon Basis",
+          "type": "string"
+        },
+        "carbon_value": {
+          "minimum": 0,
+          "title": "Carbon Value",
+          "type": "number"
+        },
+        "carbon_unit": {
+          "minLength": 1,
+          "title": "Carbon Unit",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "pressure_Pa_abs": {
+          "exclusiveMinimum": 0,
+          "title": "Pressure Pa Abs",
+          "type": "number"
+        },
+        "gas_composition_descriptor": {
+          "minLength": 1,
+          "title": "Gas Composition Descriptor",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "exposure_id",
+        "start_time_s",
+        "end_time_s",
+        "carbon_basis",
+        "carbon_value",
+        "carbon_unit",
+        "temperature_K",
+        "pressure_Pa_abs",
+        "gas_composition_descriptor",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CarburizationExposure",
+      "type": "object"
+    },
+    "CarburizationTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "alloy_condition_id": {
+          "minLength": 1,
+          "title": "Alloy Condition Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "test_id",
+        "specimen_id",
+        "source_group_id",
+        "material_condition_id",
+        "alloy_condition_id",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "CarburizationTestEvidence",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "alloy_condition_id": {
+      "minLength": 1,
+      "title": "Alloy Condition Id",
+      "type": "string"
+    },
+    "exposures": {
+      "items": {
+        "$ref": "#/$defs/CarburizationExposure"
+      },
+      "minItems": 1,
+      "title": "Exposures",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/CarburizationEnvelope"
+    },
+    "material_and_alloy_condition_reviewed": {
+      "title": "Material And Alloy Condition Reviewed",
+      "type": "boolean"
+    },
+    "carbon_basis_and_units_reviewed": {
+      "title": "Carbon Basis And Units Reviewed",
+      "type": "boolean"
+    },
+    "temperature_pressure_and_gas_reviewed": {
+      "title": "Temperature Pressure And Gas Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_duration_reviewed": {
+      "title": "Clock And Duration Reviewed",
+      "type": "boolean"
+    },
+    "qualification_evidence_reviewed": {
+      "title": "Qualification Evidence Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_condition_id",
+    "alloy_condition_id",
+    "exposures",
+    "qualification_envelope",
+    "material_and_alloy_condition_reviewed",
+    "carbon_basis_and_units_reviewed",
+    "temperature_pressure_and_gas_reviewed",
+    "clock_and_duration_reviewed",
+    "qualification_evidence_reviewed"
+  ],
+  "title": "CarburizationApplicability",
+  "type": "object"
+}

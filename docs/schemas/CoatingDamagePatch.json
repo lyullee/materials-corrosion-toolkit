@@ -1,0 +1,108 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "patch_id": {
+      "minLength": 1,
+      "title": "Patch Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "damaged_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Damaged Area M2",
+      "type": "number"
+    },
+    "maximum_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Length M",
+      "type": "number"
+    },
+    "record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "patch_id",
+    "physical_location_id",
+    "damaged_area_m2",
+    "maximum_length_m",
+    "record_digest",
+    "evidence"
+  ],
+  "title": "CoatingDamagePatch",
+  "type": "object"
+}

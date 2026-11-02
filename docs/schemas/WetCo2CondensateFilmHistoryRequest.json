@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2CondensateFilmInterval": {
+      "additionalProperties": false,
+      "description": "One constant net retained-water flux interval on a declared wall patch.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "net_retained_water_mass_flux_kg_m2_s": {
+          "title": "Net Retained Water Mass Flux Kg M2 S",
+          "type": "number"
+        },
+        "liquid_water_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Water Density Kg M3",
+          "type": "number"
+        },
+        "flux_provider_id": {
+          "minLength": 1,
+          "title": "Flux Provider Id",
+          "type": "string"
+        },
+        "flux_provider_revision": {
+          "minLength": 1,
+          "title": "Flux Provider Revision",
+          "type": "string"
+        },
+        "flux_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Flux Configuration Sha256",
+          "type": "string"
+        },
+        "flux_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Flux Result Sha256",
+          "type": "string"
+        },
+        "density_provider_id": {
+          "minLength": 1,
+          "title": "Density Provider Id",
+          "type": "string"
+        },
+        "density_provider_revision": {
+          "minLength": 1,
+          "title": "Density Provider Revision",
+          "type": "string"
+        },
+        "density_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Density Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "interval_state_and_units_reviewed": {
+          "title": "Interval State And Units Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "net_retained_water_mass_flux_kg_m2_s",
+        "liquid_water_density_kg_m3",
+        "flux_provider_id",
+        "flux_provider_revision",
+        "flux_configuration_sha256",
+        "flux_result_sha256",
+        "density_provider_id",
+        "density_provider_revision",
+        "density_record_sha256",
+        "evidence",
+        "interval_state_and_units_reviewed"
+      ],
+      "title": "WetCo2CondensateFilmInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite nonnegative condensate areal inventory for one fixed wall patch.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_condensate_film_history.v1",
+      "default": "matintegrity.wet_co2_condensate_film_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "wall_patch_id": {
+      "minLength": 1,
+      "title": "Wall Patch Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "initial_water_areal_inventory_kg_m2": {
+      "minimum": 0,
+      "title": "Initial Water Areal Inventory Kg M2",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2CondensateFilmInterval"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "fixed_wall_patch_and_area_basis_reviewed": {
+      "title": "Fixed Wall Patch And Area Basis Reviewed",
+      "type": "boolean"
+    },
+    "net_flux_includes_retention_drainage_and_evaporation_reviewed": {
+      "title": "Net Flux Includes Retention Drainage And Evaporation Reviewed",
+      "type": "boolean"
+    },
+    "uniform_film_thickness_interpretation_reviewed": {
+      "title": "Uniform Film Thickness Interpretation Reviewed",
+      "type": "boolean"
+    },
+    "no_lateral_water_exchange_reviewed": {
+      "title": "No Lateral Water Exchange Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "wall_patch_id",
+    "condition_id",
+    "initial_water_areal_inventory_kg_m2",
+    "intervals",
+    "fixed_wall_patch_and_area_basis_reviewed",
+    "net_flux_includes_retention_drainage_and_evaporation_reviewed",
+    "uniform_film_thickness_interpretation_reviewed",
+    "no_lateral_water_exchange_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "WetCo2CondensateFilmHistoryRequest",
+  "type": "object"
+}

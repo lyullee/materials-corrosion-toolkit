@@ -1,0 +1,109 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "report_schema_version": {
+      "const": "matintegrity.weld_hardness_mapping_campaign_report.v1",
+      "default": "matintegrity.weld_hardness_mapping_campaign_report.v1",
+      "title": "Report Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "campaign_outcome": {
+      "enum": [
+        "accept",
+        "review",
+        "reject",
+        "insufficient_evidence"
+      ],
+      "title": "Campaign Outcome",
+      "type": "string"
+    },
+    "caller_profile_id": {
+      "minLength": 1,
+      "title": "Caller Profile Id",
+      "type": "string"
+    },
+    "region_metric_values": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Region Metric Values",
+      "type": "object"
+    },
+    "criterion_findings": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Criterion Findings",
+      "type": "array"
+    },
+    "diagnostics": {
+      "additionalProperties": true,
+      "title": "Diagnostics",
+      "type": "object"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "caller_profile_only": {
+      "const": true,
+      "default": true,
+      "title": "Caller Profile Only",
+      "type": "boolean"
+    },
+    "hardness_scale_converted": {
+      "const": false,
+      "default": false,
+      "title": "Hardness Scale Converted",
+      "type": "boolean"
+    },
+    "strength_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Strength Inferred",
+      "type": "boolean"
+    },
+    "automatic_haz_classification": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Haz Classification",
+      "type": "boolean"
+    },
+    "specification_acceptance_or_qualification": {
+      "const": false,
+      "default": false,
+      "title": "Specification Acceptance Or Qualification",
+      "type": "boolean"
+    },
+    "report_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "campaign_id",
+    "campaign_outcome",
+    "caller_profile_id",
+    "region_metric_values",
+    "criterion_findings",
+    "diagnostics",
+    "input_digest",
+    "report_digest"
+  ],
+  "title": "WeldHardnessMappingCampaignReport",
+  "type": "object"
+}

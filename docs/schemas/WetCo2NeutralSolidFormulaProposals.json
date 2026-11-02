@@ -1,0 +1,169 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2AqueousIon": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "WetCo2AqueousIon",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Generate binary cation/anion formula proposals, not stable-phase claims.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_neutral_solid_formula_proposals.v1",
+      "default": "matintegrity.wet_co2_neutral_solid_formula_proposals.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "proposal_set_id": {
+      "minLength": 1,
+      "title": "Proposal Set Id",
+      "type": "string"
+    },
+    "cations": {
+      "items": {
+        "$ref": "#/$defs/WetCo2AqueousIon"
+      },
+      "maxItems": 80,
+      "minItems": 1,
+      "title": "Cations",
+      "type": "array"
+    },
+    "anions": {
+      "items": {
+        "$ref": "#/$defs/WetCo2AqueousIon"
+      },
+      "maxItems": 80,
+      "minItems": 1,
+      "title": "Anions",
+      "type": "array"
+    },
+    "maximum_pair_proposals": {
+      "default": 2000,
+      "maximum": 5000,
+      "minimum": 1,
+      "title": "Maximum Pair Proposals",
+      "type": "integer"
+    },
+    "ion_formula_and_charge_reviewed": {
+      "title": "Ion Formula And Charge Reviewed",
+      "type": "boolean"
+    },
+    "binary_formula_scope_reviewed": {
+      "title": "Binary Formula Scope Reviewed",
+      "type": "boolean"
+    },
+    "proposal_only_manual_phase_review_required": {
+      "title": "Proposal Only Manual Phase Review Required",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "proposal_set_id",
+    "cations",
+    "anions",
+    "ion_formula_and_charge_reviewed",
+    "binary_formula_scope_reviewed",
+    "proposal_only_manual_phase_review_required",
+    "computational_use_authorized"
+  ],
+  "title": "WetCo2NeutralSolidFormulaProposals",
+  "type": "object"
+}

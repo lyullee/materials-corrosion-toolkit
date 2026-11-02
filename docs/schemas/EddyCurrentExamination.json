@@ -1,0 +1,672 @@
+{
+  "$defs": {
+    "EddyCurrentIndication": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "scan_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Scan Ids",
+          "type": "array"
+        },
+        "reported_indication_type": {
+          "minLength": 1,
+          "title": "Reported Indication Type",
+          "type": "string"
+        },
+        "signal_response_description": {
+          "minLength": 1,
+          "title": "Signal Response Description",
+          "type": "string"
+        },
+        "reference_feature_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reference Feature Ids",
+          "type": "array"
+        },
+        "physical_location_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Physical Location Id"
+        },
+        "object_mapping_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Object Mapping Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indication_id",
+        "scan_ids",
+        "reported_indication_type",
+        "signal_response_description",
+        "evidence"
+      ],
+      "title": "EddyCurrentIndication",
+      "type": "object"
+    },
+    "EddyCurrentProbe": {
+      "additionalProperties": false,
+      "properties": {
+        "probe_id": {
+          "minLength": 1,
+          "title": "Probe Id",
+          "type": "string"
+        },
+        "probe_mode": {
+          "enum": [
+            "absolute",
+            "differential",
+            "reflection",
+            "array",
+            "remote_field",
+            "other"
+          ],
+          "title": "Probe Mode",
+          "type": "string"
+        },
+        "coil_configuration": {
+          "minLength": 1,
+          "title": "Coil Configuration",
+          "type": "string"
+        },
+        "nominal_excitation_frequencies_Hz": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Nominal Excitation Frequencies Hz",
+          "type": "array"
+        },
+        "active_channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Active Channel Ids",
+          "type": "array"
+        },
+        "probe_geometry_basis": {
+          "minLength": 1,
+          "title": "Probe Geometry Basis",
+          "type": "string"
+        },
+        "lift_off_control_basis": {
+          "minLength": 1,
+          "title": "Lift Off Control Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "probe_id",
+        "probe_mode",
+        "coil_configuration",
+        "nominal_excitation_frequencies_Hz",
+        "active_channel_ids",
+        "probe_geometry_basis",
+        "lift_off_control_basis",
+        "evidence"
+      ],
+      "title": "EddyCurrentProbe",
+      "type": "object"
+    },
+    "EddyCurrentReferenceFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "feature_kind": {
+          "minLength": 1,
+          "title": "Feature Kind",
+          "type": "string"
+        },
+        "geometry_description": {
+          "minLength": 1,
+          "title": "Geometry Description",
+          "type": "string"
+        },
+        "nominal_depth_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Depth M"
+        },
+        "nominal_length_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Length M"
+        },
+        "nominal_width_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Width M"
+        },
+        "physical_feature_identity_reviewed": {
+          "title": "Physical Feature Identity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "feature_id",
+        "feature_kind",
+        "geometry_description",
+        "physical_feature_identity_reviewed",
+        "evidence"
+      ],
+      "title": "EddyCurrentReferenceFeature",
+      "type": "object"
+    },
+    "EddyCurrentReferenceStandard": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_standard_id": {
+          "minLength": 1,
+          "title": "Reference Standard Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "applicable_probe_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Probe Ids",
+          "type": "array"
+        },
+        "applicable_frequencies_Hz": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Applicable Frequencies Hz",
+          "type": "array"
+        },
+        "conductivity_S_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conductivity S M"
+        },
+        "relative_magnetic_permeability": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relative Magnetic Permeability"
+        },
+        "property_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Temperature K"
+        },
+        "electromagnetic_property_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Electromagnetic Property Basis"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/$defs/EddyCurrentReferenceFeature"
+          },
+          "minItems": 1,
+          "title": "Features",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reference_standard_id",
+        "material_id",
+        "material_condition_id",
+        "applicable_probe_ids",
+        "applicable_frequencies_Hz",
+        "features",
+        "evidence"
+      ],
+      "title": "EddyCurrentReferenceStandard",
+      "type": "object"
+    },
+    "EncodedEddyCurrentScan": {
+      "additionalProperties": false,
+      "properties": {
+        "scan_id": {
+          "minLength": 1,
+          "title": "Scan Id",
+          "type": "string"
+        },
+        "probe_id": {
+          "minLength": 1,
+          "title": "Probe Id",
+          "type": "string"
+        },
+        "excitation_frequency_Hz": {
+          "exclusiveMinimum": 0,
+          "title": "Excitation Frequency Hz",
+          "type": "number"
+        },
+        "data_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Sha256",
+          "type": "string"
+        },
+        "row_count": {
+          "exclusiveMinimum": 0,
+          "title": "Row Count",
+          "type": "integer"
+        },
+        "column_count": {
+          "exclusiveMinimum": 0,
+          "title": "Column Count",
+          "type": "integer"
+        },
+        "component_order": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Component Order",
+          "type": "array"
+        },
+        "signal_encoding": {
+          "minLength": 1,
+          "title": "Signal Encoding",
+          "type": "string"
+        },
+        "signal_unit_token": {
+          "minLength": 1,
+          "title": "Signal Unit Token",
+          "type": "string"
+        },
+        "x_increment_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Increment M"
+        },
+        "y_increment_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Increment M"
+        },
+        "coordinate_mapping_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coordinate Mapping Basis"
+        },
+        "scan_origin_x_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scan Origin X M"
+        },
+        "scan_origin_y_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scan Origin Y M"
+        },
+        "acquisition_order": {
+          "minimum": 0,
+          "title": "Acquisition Order",
+          "type": "integer"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scan_id",
+        "probe_id",
+        "excitation_frequency_Hz",
+        "data_sha256",
+        "row_count",
+        "column_count",
+        "component_order",
+        "signal_encoding",
+        "signal_unit_token",
+        "acquisition_order",
+        "time_basis"
+      ],
+      "title": "EncodedEddyCurrentScan",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "examination_id": {
+      "minLength": 1,
+      "title": "Examination Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "probe": {
+      "$ref": "#/$defs/EddyCurrentProbe"
+    },
+    "reference_standard": {
+      "$ref": "#/$defs/EddyCurrentReferenceStandard"
+    },
+    "scans": {
+      "items": {
+        "$ref": "#/$defs/EncodedEddyCurrentScan"
+      },
+      "minItems": 1,
+      "title": "Scans",
+      "type": "array"
+    },
+    "indications": {
+      "items": {
+        "$ref": "#/$defs/EddyCurrentIndication"
+      },
+      "title": "Indications",
+      "type": "array"
+    },
+    "probe_identity_reviewed": {
+      "title": "Probe Identity Reviewed",
+      "type": "boolean"
+    },
+    "reference_standard_reviewed": {
+      "title": "Reference Standard Reviewed",
+      "type": "boolean"
+    },
+    "excitation_and_receiver_settings_reviewed": {
+      "title": "Excitation And Receiver Settings Reviewed",
+      "type": "boolean"
+    },
+    "lift_off_and_surface_condition_reviewed": {
+      "title": "Lift Off And Surface Condition Reviewed",
+      "type": "boolean"
+    },
+    "encoder_calibration_reviewed": {
+      "title": "Encoder Calibration Reviewed",
+      "type": "boolean"
+    },
+    "scan_identity_reviewed": {
+      "title": "Scan Identity Reviewed",
+      "type": "boolean"
+    },
+    "indication_mapping_reviewed": {
+      "title": "Indication Mapping Reviewed",
+      "type": "boolean"
+    },
+    "linear_homogeneous_skin_depth_applicable": {
+      "default": false,
+      "title": "Linear Homogeneous Skin Depth Applicable",
+      "type": "boolean"
+    },
+    "negative_result_reviewed": {
+      "default": false,
+      "title": "Negative Result Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "examination_id",
+    "procedure_id",
+    "procedure_revision",
+    "physical_scope_id",
+    "material_id",
+    "material_condition_id",
+    "probe",
+    "reference_standard",
+    "scans",
+    "probe_identity_reviewed",
+    "reference_standard_reviewed",
+    "excitation_and_receiver_settings_reviewed",
+    "lift_off_and_surface_condition_reviewed",
+    "encoder_calibration_reviewed",
+    "scan_identity_reviewed",
+    "indication_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "EddyCurrentExamination",
+  "type": "object"
+}

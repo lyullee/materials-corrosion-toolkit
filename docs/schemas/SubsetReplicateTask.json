@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "SubsetSimulationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.subset_simulation_request.v1",
+          "default": "matintegrity.subset_simulation_request.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "estimate_id": {
+          "minLength": 1,
+          "title": "Estimate Id",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "event_definition": {
+          "minLength": 1,
+          "title": "Event Definition",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "latent_variable_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Latent Variable Ids",
+          "type": "array"
+        },
+        "evaluator_id": {
+          "minLength": 1,
+          "title": "Evaluator Id",
+          "type": "string"
+        },
+        "evaluator_revision": {
+          "minLength": 1,
+          "title": "Evaluator Revision",
+          "type": "string"
+        },
+        "evaluator_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evaluator Configuration Sha256",
+          "type": "string"
+        },
+        "random_seed": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Random Seed",
+          "type": "integer"
+        },
+        "samples_per_level": {
+          "maximum": 200000,
+          "minimum": 100,
+          "title": "Samples Per Level",
+          "type": "integer"
+        },
+        "conditional_probability": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Conditional Probability",
+          "type": "number"
+        },
+        "pcn_beta": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Pcn Beta",
+          "type": "number"
+        },
+        "maximum_levels": {
+          "maximum": 20,
+          "minimum": 1,
+          "title": "Maximum Levels",
+          "type": "integer"
+        },
+        "latent_mapping_reviewed": {
+          "title": "Latent Mapping Reviewed",
+          "type": "boolean"
+        },
+        "event_semantics_reviewed": {
+          "title": "Event Semantics Reviewed",
+          "type": "boolean"
+        },
+        "event_is_first_failure_in_period_reviewed": {
+          "title": "Event Is First Failure In Period Reviewed",
+          "type": "boolean"
+        },
+        "deterministic_evaluator_declared": {
+          "title": "Deterministic Evaluator Declared",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "estimate_id",
+        "event_id",
+        "event_definition",
+        "failure_mode",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "time_basis",
+        "horizon_start_s",
+        "horizon_end_s",
+        "conditioning",
+        "latent_variable_ids",
+        "evaluator_id",
+        "evaluator_revision",
+        "evaluator_configuration_sha256",
+        "random_seed",
+        "samples_per_level",
+        "conditional_probability",
+        "pcn_beta",
+        "maximum_levels",
+        "latent_mapping_reviewed",
+        "event_semantics_reviewed",
+        "event_is_first_failure_in_period_reviewed",
+        "deterministic_evaluator_declared"
+      ],
+      "title": "SubsetSimulationRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "task_id": {
+      "minLength": 1,
+      "title": "Task Id",
+      "type": "string"
+    },
+    "parent_request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parent Request Sha256",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "request": {
+      "$ref": "#/$defs/SubsetSimulationRequest"
+    }
+  },
+  "required": [
+    "task_id",
+    "parent_request_sha256",
+    "input_sha256",
+    "request"
+  ],
+  "title": "SubsetReplicateTask",
+  "type": "object"
+}

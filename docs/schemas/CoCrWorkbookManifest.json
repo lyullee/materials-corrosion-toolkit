@@ -1,0 +1,88 @@
+{
+  "$defs": {
+    "CoCrWorksheetManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "worksheet_name": {
+          "minLength": 1,
+          "title": "Worksheet Name",
+          "type": "string"
+        },
+        "maximum_row": {
+          "minimum": 0,
+          "title": "Maximum Row",
+          "type": "integer"
+        },
+        "maximum_column": {
+          "minimum": 0,
+          "title": "Maximum Column",
+          "type": "integer"
+        },
+        "nonempty_row_count": {
+          "minimum": 0,
+          "title": "Nonempty Row Count",
+          "type": "integer"
+        },
+        "formula_cell_count": {
+          "minimum": 0,
+          "title": "Formula Cell Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "worksheet_name",
+        "maximum_row",
+        "maximum_column",
+        "nonempty_row_count",
+        "formula_cell_count"
+      ],
+      "title": "CoCrWorksheetManifest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "provider_filename": {
+      "minLength": 1,
+      "title": "Provider Filename",
+      "type": "string"
+    },
+    "provider_file_id": {
+      "minLength": 1,
+      "title": "Provider File Id",
+      "type": "string"
+    },
+    "provider_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Provider Bytes",
+      "type": "integer"
+    },
+    "provider_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Provider Md5",
+      "type": "string"
+    },
+    "provider_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Sha256",
+      "type": "string"
+    },
+    "worksheets": {
+      "items": {
+        "$ref": "#/$defs/CoCrWorksheetManifest"
+      },
+      "title": "Worksheets",
+      "type": "array"
+    }
+  },
+  "required": [
+    "provider_filename",
+    "provider_file_id",
+    "provider_bytes",
+    "provider_md5",
+    "provider_sha256",
+    "worksheets"
+  ],
+  "title": "CoCrWorkbookManifest",
+  "type": "object"
+}

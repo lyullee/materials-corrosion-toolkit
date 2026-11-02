@@ -1,0 +1,74 @@
+{
+  "fragment_schema": "matintegrity.model.integration_fragment.v1",
+  "model_id": "corrosion.ti12mo5zr_aesec_signed_equivalent_penetration",
+  "model_version": "1.0.0",
+  "qualification": "engineering_screening",
+  "source_ids": ["zenodo-ti12mo5zr-aqueous-corrosion", "caller-density-evidence"],
+  "catalog_fragment": {
+    "dataset_id": "zenodo-ti12mo5zr-aqueous-corrosion",
+    "title": "Effect of Zr addition on the corrosion resistance of Ti-Mo alloy in an H2O2-containing aqueous environment",
+    "category": "aqueous_electrochemical_corrosion",
+    "license": "CC0-1.0",
+    "rights_status": "provider_declared_cc0",
+    "acquisition_policy": "local_cache_only",
+    "asset_sha256": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537"
+  },
+  "source_fragment": {
+    "source_id": "zenodo-ti12mo5zr-aqueous-corrosion",
+    "origin": "open_dataset",
+    "citation": "Zenodo v2, https://doi.org/10.5281/zenodo.14981665",
+    "license_id": "CC0-1.0",
+    "sha256": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537"
+  },
+  "scope_fragment": {
+    "scope_id": "uniform_equivalent_penetration_from_element_areal_mass_flux",
+    "input_domain": "Ti-12Mo-5Zr AESEC elemental dissolution rate vs provider time",
+    "output_domain": "signed area-averaged mass flux, equivalent velocity, and finite-window integrated thickness",
+    "assumption_review_required": true,
+    "public_point_values": false
+  },
+  "schema_fragment": {
+    "request": "matintegrity.ti12mo5zr_mass_balance_request.v1",
+    "point": "matintegrity.ti12mo5zr_penetration_point.v1",
+    "result": "matintegrity.ti12mo5zr_mass_balance_result.v1"
+  },
+  "dataset": {
+    "provider_record": "https://doi.org/10.5281/zenodo.14981665",
+    "license_id": "CC0-1.0",
+    "source_member_path": "zenodo_APSUC_2024/Fig.5/Fig.5d/TiMoZr_DissolutionRate_OCP_PSP_OCP_AESEC.xls",
+    "archive_sha256": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+    "member_sha256": "52aef79a7284b88296f00ade100756efbdd60893028fe302a1e29fee4c9ae024"
+  },
+  "input_contract": "matintegrity.ti12mo5zr_mass_balance_request.v1",
+  "output_contracts": [
+    "matintegrity.ti12mo5zr_penetration_point.v1",
+    "matintegrity.ti12mo5zr_mass_balance_result.v1"
+  ],
+  "units": {
+    "input_element_flux": "ng/s/cm^2",
+    "signed_net_mass_flux": "kg/m^2/s",
+    "signed_equivalent_penetration_velocity": "m/s",
+    "integrated_penetration": "m"
+  },
+  "conversion": {
+    "areal_mass_flux_scale": "1 ng/s/cm^2 = 1e-8 kg/m^2/s",
+    "velocity": "sum(element_mass_fluxes)/caller_density_kg_m3",
+    "integration": "piecewise-linear trapezoid on provider time [s]"
+  },
+  "caller_attestations": [
+    "density applicability and evidence",
+    "provider sign orientation",
+    "complete analytical coverage for the selected conversion",
+    "provider time axis valid for integration",
+    "uniform equivalent penetration from area-normalized mass flux",
+    "linear interpolation between source rows",
+    "local-only computational use"
+  ],
+  "scope_exclusions": [
+    "Faraday/current/oxidation-state conversion",
+    "localized pitting or maximum penetration",
+    "service life, qualification, remaining life, risk probability",
+    "corrosion-rate fitting or alloy ranking"
+  ],
+  "registry_action": "Integrated in the central ModelRegistry, public schema exporter and capability catalog; the local-only row reader remains the required source boundary."
+}

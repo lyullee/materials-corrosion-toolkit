@@ -1,0 +1,150 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "magnetizer_id": {
+      "minLength": 1,
+      "title": "Magnetizer Id",
+      "type": "string"
+    },
+    "excitation_type": {
+      "enum": [
+        "permanent_magnet",
+        "electromagnet",
+        "hybrid",
+        "other"
+      ],
+      "title": "Excitation Type",
+      "type": "string"
+    },
+    "nominal_magnetization_direction": {
+      "enum": [
+        "axial",
+        "circumferential",
+        "other"
+      ],
+      "title": "Nominal Magnetization Direction",
+      "type": "string"
+    },
+    "pole_spacing_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pole Spacing M"
+    },
+    "excitation_current_A": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Excitation Current A"
+    },
+    "excitation_current_basis": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Excitation Current Basis"
+    },
+    "magnetization_control_basis": {
+      "minLength": 1,
+      "title": "Magnetization Control Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "magnetizer_id",
+    "excitation_type",
+    "nominal_magnetization_direction",
+    "magnetization_control_basis",
+    "evidence"
+  ],
+  "title": "MflMagnetizer",
+  "type": "object"
+}

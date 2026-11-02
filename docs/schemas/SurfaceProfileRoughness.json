@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "measurement_direction_id": {
+      "minLength": 1,
+      "title": "Measurement Direction Id",
+      "type": "string"
+    },
+    "position_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Position M",
+      "type": "array"
+    },
+    "height_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Height M",
+      "type": "array"
+    },
+    "profile_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Digest",
+      "type": "string"
+    },
+    "processing_basis": {
+      "minLength": 1,
+      "title": "Processing Basis",
+      "type": "string"
+    },
+    "profile_filter_form_removal_and_direction_reviewed": {
+      "title": "Profile Filter Form Removal And Direction Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_linear_interpretation_reviewed": {
+      "title": "Piecewise Linear Interpretation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "profile_id",
+    "physical_specimen_id",
+    "coordinate_frame_id",
+    "measurement_direction_id",
+    "position_m",
+    "height_m",
+    "profile_digest",
+    "processing_basis",
+    "profile_filter_form_removal_and_direction_reviewed",
+    "piecewise_linear_interpretation_reviewed",
+    "evidence"
+  ],
+  "title": "SurfaceProfileRoughness",
+  "type": "object"
+}

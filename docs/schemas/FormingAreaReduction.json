@@ -1,0 +1,113 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "section_pair_id": {
+      "minLength": 1,
+      "title": "Section Pair Id",
+      "type": "string"
+    },
+    "original_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Original Area M2",
+      "type": "number"
+    },
+    "deformed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Deformed Area M2",
+      "type": "number"
+    },
+    "same_material_section_and_measurement_basis_reviewed": {
+      "title": "Same Material Section And Measurement Basis Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "physical_specimen_id",
+    "material_condition_id",
+    "section_pair_id",
+    "original_area_m2",
+    "deformed_area_m2",
+    "same_material_section_and_measurement_basis_reviewed",
+    "evidence"
+  ],
+  "title": "FormingAreaReduction",
+  "type": "object"
+}

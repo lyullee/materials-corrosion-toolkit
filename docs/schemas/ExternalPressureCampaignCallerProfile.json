@@ -1,0 +1,231 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExternalPressureReceiptCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "enum": [
+            "supported_receipt_count",
+            "out_of_support_receipt_count",
+            "maximum_convergence_metric",
+            "maximum_holdout_absolute_relative_error"
+          ],
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "minimum": 0,
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "minimum": 0,
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_id",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "ExternalPressureReceiptCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "required_result_kinds": {
+      "items": {
+        "enum": [
+          "eigen_buckling_pressure",
+          "nonlinear_limit_pressure"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Result Kinds",
+      "type": "array"
+    },
+    "convergence_metric_definition": {
+      "minLength": 1,
+      "title": "Convergence Metric Definition",
+      "type": "string"
+    },
+    "convergence_metric_unit_token": {
+      "minLength": 1,
+      "title": "Convergence Metric Unit Token",
+      "type": "string"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/ExternalPressureReceiptCriterion"
+      },
+      "minItems": 4,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_provider_id": {
+      "minLength": 1,
+      "title": "Profile Provider Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Configuration Digest",
+      "type": "string"
+    },
+    "caller_review_authority": {
+      "minLength": 1,
+      "title": "Caller Review Authority",
+      "type": "string"
+    },
+    "buckling_analysis_executed": {
+      "const": false,
+      "default": false,
+      "title": "Buckling Analysis Executed",
+      "type": "boolean"
+    },
+    "code_curve_or_safety_factor_used": {
+      "const": false,
+      "default": false,
+      "title": "Code Curve Or Safety Factor Used",
+      "type": "boolean"
+    },
+    "automatic_acceptance_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Acceptance Claimed",
+      "type": "boolean"
+    },
+    "field_qualification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Field Qualification Claimed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_version",
+    "required_result_kinds",
+    "convergence_metric_definition",
+    "convergence_metric_unit_token",
+    "criteria",
+    "profile_provider_id",
+    "profile_revision",
+    "profile_configuration_digest",
+    "caller_review_authority",
+    "evidence"
+  ],
+  "title": "ExternalPressureCampaignCallerProfile",
+  "type": "object"
+}

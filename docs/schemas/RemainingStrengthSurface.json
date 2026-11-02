@@ -1,0 +1,228 @@
+{
+  "$defs": {
+    "CapacitySurfaceAxis": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_id": {
+          "minLength": 1,
+          "title": "Axis Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "knots": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 2,
+          "title": "Knots",
+          "type": "array"
+        },
+        "capacity_monotonicity": {
+          "enum": [
+            "nondecreasing",
+            "nonincreasing",
+            "not_asserted"
+          ],
+          "title": "Capacity Monotonicity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "axis_id",
+        "quantity_definition",
+        "unit_token",
+        "knots",
+        "capacity_monotonicity"
+      ],
+      "title": "CapacitySurfaceAxis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "surface_id": {
+      "minLength": 1,
+      "title": "Surface Id",
+      "type": "string"
+    },
+    "surface_revision": {
+      "minLength": 1,
+      "title": "Surface Revision",
+      "type": "string"
+    },
+    "component_geometry_id": {
+      "minLength": 1,
+      "title": "Component Geometry Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "load_case_id": {
+      "minLength": 1,
+      "title": "Load Case Id",
+      "type": "string"
+    },
+    "response_definition": {
+      "minLength": 1,
+      "title": "Response Definition",
+      "type": "string"
+    },
+    "response_unit_token": {
+      "minLength": 1,
+      "title": "Response Unit Token",
+      "type": "string"
+    },
+    "response_direction": {
+      "const": "higher_is_stronger",
+      "title": "Response Direction",
+      "type": "string"
+    },
+    "axes": {
+      "items": {
+        "$ref": "#/$defs/CapacitySurfaceAxis"
+      },
+      "maxItems": 5,
+      "minItems": 1,
+      "title": "Axes",
+      "type": "array"
+    },
+    "response_values_axis_order_last_axis_fastest": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Response Values Axis Order Last Axis Fastest",
+      "type": "array"
+    },
+    "interpolation": {
+      "const": "multilinear",
+      "default": "multilinear",
+      "title": "Interpolation",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "provider_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Digest",
+      "type": "string"
+    },
+    "domain_and_monotonicity_reviewed": {
+      "title": "Domain And Monotonicity Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "surface_id",
+    "surface_revision",
+    "component_geometry_id",
+    "material_condition_id",
+    "load_case_id",
+    "response_definition",
+    "response_unit_token",
+    "response_direction",
+    "axes",
+    "response_values_axis_order_last_axis_fastest",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_digest",
+    "provider_result_digest",
+    "domain_and_monotonicity_reviewed",
+    "evidence"
+  ],
+  "title": "RemainingStrengthSurface",
+  "type": "object"
+}

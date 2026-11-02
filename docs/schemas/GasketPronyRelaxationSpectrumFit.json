@@ -1,0 +1,255 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketPronyRelaxationObservation": {
+      "additionalProperties": false,
+      "description": "One ordered stress observation during a declared constant-strain hold.",
+      "properties": {
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "compressive_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Compressive Stress Pa",
+          "type": "number"
+        },
+        "standard_uncertainty_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Standard Uncertainty Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "elapsed_time_s",
+        "compressive_stress_Pa",
+        "standard_uncertainty_Pa"
+      ],
+      "title": "GasketPronyRelaxationObservation",
+      "type": "object"
+    },
+    "GasketPronyRelaxationTest": {
+      "additionalProperties": false,
+      "description": "One identified specimen/test step under a common isothermal condition.",
+      "properties": {
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "compressive_step_strain": {
+          "exclusiveMinimum": 0,
+          "title": "Compressive Step Strain",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/GasketPronyRelaxationObservation"
+          },
+          "maxItems": 20000,
+          "minItems": 3,
+          "title": "Observations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "test_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "compressive_step_strain",
+        "temperature_K",
+        "observations"
+      ],
+      "title": "GasketPronyRelaxationTest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evidence- and support-bounded fit of a finite Prony relaxation spectrum.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_prony_relaxation_spectrum_fit.v1",
+      "default": "matintegrity.gasket_prony_relaxation_spectrum_fit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "tests": {
+      "items": {
+        "$ref": "#/$defs/GasketPronyRelaxationTest"
+      },
+      "maxItems": 500,
+      "minItems": 1,
+      "title": "Tests",
+      "type": "array"
+    },
+    "prony_branch_count": {
+      "maximum": 8,
+      "minimum": 1,
+      "title": "Prony Branch Count",
+      "type": "integer"
+    },
+    "maximum_modulus_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Modulus Pa",
+      "type": "number"
+    },
+    "relaxation_time_min_s": {
+      "exclusiveMinimum": 0,
+      "title": "Relaxation Time Min S",
+      "type": "number"
+    },
+    "relaxation_time_max_s": {
+      "exclusiveMinimum": 0,
+      "title": "Relaxation Time Max S",
+      "type": "number"
+    },
+    "data_source_id": {
+      "default": "caller_gasket_prony_step_strain_relaxation_tests",
+      "title": "Data Source Id",
+      "type": "string"
+    },
+    "data_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Data Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "protocol_and_sign_reviewed": {
+      "title": "Protocol And Sign Reviewed",
+      "type": "boolean"
+    },
+    "common_material_condition_reviewed": {
+      "title": "Common Material Condition Reviewed",
+      "type": "boolean"
+    },
+    "isothermal_linear_viscoelastic_applicability_reviewed": {
+      "title": "Isothermal Linear Viscoelastic Applicability Reviewed",
+      "type": "boolean"
+    },
+    "rights_and_computational_use_reviewed": {
+      "title": "Rights And Computational Use Reviewed",
+      "type": "boolean"
+    },
+    "maximum_function_evaluations": {
+      "default": 20000,
+      "maximum": 200000,
+      "minimum": 100,
+      "title": "Maximum Function Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "physical_scope_id",
+    "temperature_K",
+    "tests",
+    "prony_branch_count",
+    "maximum_modulus_Pa",
+    "relaxation_time_min_s",
+    "relaxation_time_max_s",
+    "data_sha256",
+    "evidence",
+    "protocol_and_sign_reviewed",
+    "common_material_condition_reviewed",
+    "isothermal_linear_viscoelastic_applicability_reviewed",
+    "rights_and_computational_use_reviewed"
+  ],
+  "title": "GasketPronyRelaxationSpectrumFit",
+  "type": "object"
+}

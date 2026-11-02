@@ -1,0 +1,289 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "InspectionSamplingPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "minLength": 1,
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "initial_sample_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Initial Sample Fraction",
+          "type": "number"
+        },
+        "minimum_initial_sample_count": {
+          "minimum": 0,
+          "title": "Minimum Initial Sample Count",
+          "type": "integer"
+        },
+        "failure_count_trigger": {
+          "minimum": 1,
+          "title": "Failure Count Trigger",
+          "type": "integer"
+        },
+        "expanded_inspection_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Expanded Inspection Fraction",
+          "type": "number"
+        },
+        "reuse_initial_definitive_outcomes_for_expanded_coverage": {
+          "title": "Reuse Initial Definitive Outcomes For Expanded Coverage",
+          "type": "boolean"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plan_id",
+        "initial_sample_fraction",
+        "minimum_initial_sample_count",
+        "failure_count_trigger",
+        "expanded_inspection_fraction",
+        "reuse_initial_definitive_outcomes_for_expanded_coverage",
+        "basis",
+        "evidence"
+      ],
+      "title": "InspectionSamplingPlan",
+      "type": "object"
+    },
+    "InspectionUnitOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "physical_unit_id": {
+          "minLength": 1,
+          "title": "Physical Unit Id",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "initial",
+            "expanded"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "inconclusive",
+            "missing"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "unresolved_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unresolved Basis"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "physical_unit_id",
+        "stage",
+        "outcome",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "InspectionUnitOutcome",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "lot_id": {
+      "minLength": 1,
+      "title": "Lot Id",
+      "type": "string"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "criterion_id": {
+      "minLength": 1,
+      "title": "Criterion Id",
+      "type": "string"
+    },
+    "physical_unit_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Physical Unit Ids",
+      "type": "array"
+    },
+    "selected_initial_unit_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Selected Initial Unit Ids",
+      "type": "array"
+    },
+    "mandatory_initial_unit_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Mandatory Initial Unit Ids",
+      "type": "array"
+    },
+    "outcomes": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/InspectionUnitOutcome"
+      },
+      "title": "Outcomes",
+      "type": "array"
+    },
+    "selected_plan": {
+      "$ref": "#/$defs/InspectionSamplingPlan"
+    },
+    "physical_lot_membership_and_sample_selection_reviewed": {
+      "title": "Physical Lot Membership And Sample Selection Reviewed",
+      "type": "boolean"
+    },
+    "common_method_criterion_and_outcome_authority_reviewed": {
+      "title": "Common Method Criterion And Outcome Authority Reviewed",
+      "type": "boolean"
+    },
+    "sampling_plan_and_escalation_authority_reviewed": {
+      "title": "Sampling Plan And Escalation Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "lot_id",
+    "method_id",
+    "criterion_id",
+    "physical_unit_ids",
+    "selected_initial_unit_ids",
+    "selected_plan",
+    "physical_lot_membership_and_sample_selection_reviewed",
+    "common_method_criterion_and_outcome_authority_reviewed",
+    "sampling_plan_and_escalation_authority_reviewed",
+    "evidence"
+  ],
+  "title": "InspectionLotSampling",
+  "type": "object"
+}

@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cycle_id": {
+      "minLength": 1,
+      "title": "Cycle Id",
+      "type": "string"
+    },
+    "sequence_position": {
+      "minimum": 1,
+      "title": "Sequence Position",
+      "type": "integer"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "minimum_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Temperature K",
+      "type": "number"
+    },
+    "maximum_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Temperature K",
+      "type": "number"
+    },
+    "temperature_unit_token": {
+      "const": "K",
+      "default": "K",
+      "title": "Temperature Unit Token",
+      "type": "string"
+    },
+    "minimum_absolute_pressure_pa": {
+      "minimum": 0,
+      "title": "Minimum Absolute Pressure Pa",
+      "type": "number"
+    },
+    "maximum_absolute_pressure_pa": {
+      "minimum": 0,
+      "title": "Maximum Absolute Pressure Pa",
+      "type": "number"
+    },
+    "pressure_unit_token": {
+      "const": "Pa_abs",
+      "default": "Pa_abs",
+      "title": "Pressure Unit Token",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "cycle_id",
+    "sequence_position",
+    "clock_id",
+    "start_time_s",
+    "end_time_s",
+    "minimum_temperature_k",
+    "maximum_temperature_k",
+    "minimum_absolute_pressure_pa",
+    "maximum_absolute_pressure_pa",
+    "provider_id",
+    "provider_revision",
+    "result_digest",
+    "evidence"
+  ],
+  "title": "JointThermalPressureCycle",
+  "type": "object"
+}

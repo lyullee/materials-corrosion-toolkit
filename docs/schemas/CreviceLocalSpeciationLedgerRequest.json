@@ -1,0 +1,1331 @@
+{
+  "$defs": {
+    "AqueousActivitySpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "initial_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Activity",
+          "type": "number"
+        },
+        "elemental_composition": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elemental Composition"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "activity_coefficient",
+        "initial_activity"
+      ],
+      "title": "AqueousActivitySpecies",
+      "type": "object"
+    },
+    "AqueousEquilibriumReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "log10_equilibrium_constant",
+        "terms"
+      ],
+      "title": "AqueousEquilibriumReaction",
+      "type": "object"
+    },
+    "AqueousLinearConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_id": {
+          "minLength": 1,
+          "title": "Constraint Id",
+          "type": "string"
+        },
+        "target_mol_L": {
+          "title": "Target Mol L",
+          "type": "number"
+        },
+        "residual_scale_mol_L": {
+          "exclusiveMinimum": 0,
+          "title": "Residual Scale Mol L",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_id",
+        "target_mol_L",
+        "residual_scale_mol_L",
+        "terms"
+      ],
+      "title": "AqueousLinearConstraint",
+      "type": "object"
+    },
+    "AqueousMassActionSystem": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_mass_action.v1",
+          "default": "matintegrity.aqueous_mass_action.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "solution_id": {
+          "minLength": 1,
+          "title": "Solution Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/AqueousActivitySpecies"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Species",
+          "type": "array"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/AqueousEquilibriumReaction"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/AqueousLinearConstraint"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "maximum_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Iterations",
+          "type": "integer"
+        },
+        "normalized_residual_tolerance": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "maximum": 0.0001,
+          "title": "Normalized Residual Tolerance",
+          "type": "number"
+        },
+        "maximum_jacobian_condition_number": {
+          "default": 100000000000000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1e+16,
+          "title": "Maximum Jacobian Condition Number",
+          "type": "number"
+        },
+        "local_parameter_covariance": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Parameter Covariance"
+        },
+        "local_parameter_covariance_reviewed": {
+          "default": false,
+          "title": "Local Parameter Covariance Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "minLength": 1,
+          "title": "Activity Provider Id",
+          "type": "string"
+        },
+        "activity_provider_revision": {
+          "minLength": 1,
+          "title": "Activity Provider Revision",
+          "type": "string"
+        },
+        "activity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Configuration Digest",
+          "type": "string"
+        },
+        "activity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Record Digest",
+          "type": "string"
+        },
+        "equilibrium_provider_id": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Id",
+          "type": "string"
+        },
+        "equilibrium_provider_revision": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Revision",
+          "type": "string"
+        },
+        "equilibrium_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Configuration Digest",
+          "type": "string"
+        },
+        "equilibrium_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Record Digest",
+          "type": "string"
+        },
+        "complete_aqueous_species_inventory_reviewed": {
+          "title": "Complete Aqueous Species Inventory Reviewed",
+          "type": "boolean"
+        },
+        "reaction_stoichiometry_and_constant_reviewed": {
+          "title": "Reaction Stoichiometry And Constant Reviewed",
+          "type": "boolean"
+        },
+        "balance_constraints_and_charge_scope_reviewed": {
+          "title": "Balance Constraints And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "fixed_activity_coefficients_and_standard_state_reviewed": {
+          "title": "Fixed Activity Coefficients And Standard State Reviewed",
+          "type": "boolean"
+        },
+        "temperature_and_provider_lineage_reviewed": {
+          "title": "Temperature And Provider Lineage Reviewed",
+          "type": "boolean"
+        },
+        "initial_activity_guess_and_solver_tolerance_reviewed": {
+          "title": "Initial Activity Guess And Solver Tolerance Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_phase_and_no_precipitation_reviewed": {
+          "title": "Single Liquid Phase And No Precipitation Reviewed",
+          "type": "boolean"
+        },
+        "elemental_formula_and_reaction_balance_reviewed": {
+          "default": false,
+          "title": "Elemental Formula And Reaction Balance Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "solution_id",
+        "temperature_K",
+        "activity_standard_state",
+        "species",
+        "reactions",
+        "constraints",
+        "activity_provider_id",
+        "activity_provider_revision",
+        "activity_configuration_digest",
+        "activity_record_digest",
+        "equilibrium_provider_id",
+        "equilibrium_provider_revision",
+        "equilibrium_configuration_digest",
+        "equilibrium_record_digest",
+        "complete_aqueous_species_inventory_reviewed",
+        "reaction_stoichiometry_and_constant_reviewed",
+        "balance_constraints_and_charge_scope_reviewed",
+        "fixed_activity_coefficients_and_standard_state_reviewed",
+        "temperature_and_provider_lineage_reviewed",
+        "initial_activity_guess_and_solver_tolerance_reviewed",
+        "single_liquid_phase_and_no_precipitation_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousMassActionSystem",
+      "type": "object"
+    },
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "CreviceCellSpeciationRecord": {
+      "additionalProperties": false,
+      "description": "One exact transport-knot cell and its separately calculated chemistry.",
+      "properties": {
+        "cell_index": {
+          "minimum": 0,
+          "title": "Cell Index",
+          "type": "integer"
+        },
+        "transport_cell_context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transport Cell Context Sha256",
+          "type": "string"
+        },
+        "aqueous_mass_action_input": {
+          "$ref": "#/$defs/AqueousMassActionSystem"
+        },
+        "aqueous_mass_action_result": {
+          "additionalProperties": true,
+          "title": "Aqueous Mass Action Result",
+          "type": "object"
+        }
+      },
+      "required": [
+        "cell_index",
+        "transport_cell_context_sha256",
+        "aqueous_mass_action_input",
+        "aqueous_mass_action_result"
+      ],
+      "title": "CreviceCellSpeciationRecord",
+      "type": "object"
+    },
+    "CreviceGeometryTransportCampaign": {
+      "additionalProperties": false,
+      "properties": {
+        "campaign_id": {
+          "minLength": 1,
+          "title": "Campaign Id",
+          "type": "string"
+        },
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "geometry_history": {
+          "additionalProperties": true,
+          "title": "Geometry History",
+          "type": "object"
+        },
+        "geometry_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry History Sha256",
+          "type": "string"
+        },
+        "base_transport_request": {
+          "$ref": "#/$defs/RestrictedTransportRequest"
+        },
+        "exact_geometry_transport_clock_reviewed": {
+          "title": "Exact Geometry Transport Clock Reviewed",
+          "type": "boolean"
+        },
+        "operator_split_and_fixed_within_interval_reviewed": {
+          "title": "Operator Split And Fixed Within Interval Reviewed",
+          "type": "boolean"
+        },
+        "cell_inventory_remap_on_aperture_change_reviewed": {
+          "title": "Cell Inventory Remap On Aperture Change Reviewed",
+          "type": "boolean"
+        },
+        "callback_global_time_mapping_reviewed": {
+          "title": "Callback Global Time Mapping Reviewed",
+          "type": "boolean"
+        },
+        "maximum_segment_count": {
+          "default": 1000,
+          "maximum": 5000,
+          "minimum": 1,
+          "title": "Maximum Segment Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "campaign_id",
+        "geometry_id",
+        "geometry_history",
+        "geometry_history_sha256",
+        "base_transport_request",
+        "exact_geometry_transport_clock_reviewed",
+        "operator_split_and_fixed_within_interval_reviewed",
+        "cell_inventory_remap_on_aperture_change_reviewed",
+        "callback_global_time_mapping_reviewed"
+      ],
+      "title": "CreviceGeometryTransportCampaign",
+      "type": "object"
+    },
+    "CreviceSpeciationKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "knot_summary_index": {
+          "minimum": 0,
+          "title": "Knot Summary Index",
+          "type": "integer"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "geometry_side": {
+          "enum": [
+            "initial_or_interior",
+            "left_pre_remap",
+            "right_post_remap",
+            "final_state"
+          ],
+          "title": "Geometry Side",
+          "type": "string"
+        },
+        "cells": {
+          "items": {
+            "$ref": "#/$defs/CreviceCellSpeciationRecord"
+          },
+          "minItems": 1,
+          "title": "Cells",
+          "type": "array"
+        }
+      },
+      "required": [
+        "knot_summary_index",
+        "time_s",
+        "geometry_side",
+        "cells"
+      ],
+      "title": "CreviceSpeciationKnot",
+      "type": "object"
+    },
+    "CreviceTransportCompositionBridge": {
+      "additionalProperties": false,
+      "description": "Bind campaign output and calculate cell-volume-weighted knot summaries.\n\nGeometry discontinuities retain both their left/pre-remap and\nright/post-remap state. This is a summary handoff, not a local cell\nchemistry solver or an automatic mass-action input conversion.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.crevice_transport_composition_bridge.v1",
+          "default": "matintegrity.crevice_transport_composition_bridge.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "campaign": {
+          "$ref": "#/$defs/CreviceGeometryTransportCampaign"
+        },
+        "campaign_result": {
+          "additionalProperties": true,
+          "title": "Campaign Result",
+          "type": "object"
+        },
+        "campaign_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Campaign Result Sha256",
+          "type": "string"
+        },
+        "cell_volume_weighted_bulk_summary_reviewed": {
+          "title": "Cell Volume Weighted Bulk Summary Reviewed",
+          "type": "boolean"
+        },
+        "local_cell_heterogeneity_must_be_preserved_reviewed": {
+          "title": "Local Cell Heterogeneity Must Be Preserved Reviewed",
+          "type": "boolean"
+        },
+        "no_automatic_equilibrium_or_kinetic_interpretation_reviewed": {
+          "title": "No Automatic Equilibrium Or Kinetic Interpretation Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "campaign",
+        "campaign_result",
+        "campaign_result_sha256",
+        "cell_volume_weighted_bulk_summary_reviewed",
+        "local_cell_heterogeneity_must_be_preserved_reviewed",
+        "no_automatic_equilibrium_or_kinetic_interpretation_reviewed"
+      ],
+      "title": "CreviceTransportCompositionBridge",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RestrictedTransportRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "simulation_id": {
+          "minLength": 1,
+          "title": "Simulation Id",
+          "type": "string"
+        },
+        "species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Species Ids",
+          "type": "array"
+        },
+        "length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Length M",
+          "type": "number"
+        },
+        "cell_count": {
+          "maximum": 2000,
+          "minimum": 2,
+          "title": "Cell Count",
+          "type": "integer"
+        },
+        "cell_widths_m": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Widths M"
+        },
+        "cell_cross_section_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Cross Section M2"
+        },
+        "face_cross_section_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Face Cross Section M2"
+        },
+        "cell_cross_section_history_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "exclusiveMinimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Cross Section History M2"
+        },
+        "face_cross_section_history_m2": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "exclusiveMinimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Face Cross Section History M2"
+        },
+        "reference_cross_section_m2": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Cross Section M2"
+        },
+        "variable_area_one_dimensional_reduction_reviewed": {
+          "default": false,
+          "title": "Variable Area One Dimensional Reduction Reviewed",
+          "type": "boolean"
+        },
+        "moving_geometry_interpolation_reviewed": {
+          "default": false,
+          "title": "Moving Geometry Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "moving_geometry_inventory_dilution_reviewed": {
+          "default": false,
+          "title": "Moving Geometry Inventory Dilution Reviewed",
+          "type": "boolean"
+        },
+        "moving_geometry_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Provider Id"
+        },
+        "moving_geometry_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Configuration Sha256"
+        },
+        "moving_geometry_source_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Source Result Sha256"
+        },
+        "moving_geometry_time_basis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moving Geometry Time Basis Id"
+        },
+        "axial_advection_velocity_m_s": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Velocity M S"
+        },
+        "axial_advection_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Provider Id"
+        },
+        "axial_advection_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Configuration Sha256"
+        },
+        "axial_advection_source_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Source Result Sha256"
+        },
+        "axial_advection_source_time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Source Time S"
+        },
+        "axial_advection_source_time_basis_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Axial Advection Source Time Basis Id"
+        },
+        "axial_advection_and_flow_continuity_reviewed": {
+          "default": false,
+          "title": "Axial Advection And Flow Continuity Reviewed",
+          "type": "boolean"
+        },
+        "time_varying_axial_advection_reviewed": {
+          "default": false,
+          "title": "Time Varying Axial Advection Reviewed",
+          "type": "boolean"
+        },
+        "axial_flow_reversal_and_tip_boundary_reviewed": {
+          "default": false,
+          "title": "Axial Flow Reversal And Tip Boundary Reviewed",
+          "type": "boolean"
+        },
+        "tip_advection_inflow_mol_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tip Advection Inflow Mol M3"
+        },
+        "diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Diffusivity M2 S",
+          "type": "array"
+        },
+        "initial_concentration_mol_m3": {
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Initial Concentration Mol M3",
+          "type": "array"
+        },
+        "mouth_concentration_mol_m3": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Mouth Concentration Mol M3",
+          "type": "array"
+        },
+        "output_times_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Output Times S",
+          "type": "array"
+        },
+        "mouth_concentration_history_mol_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mouth Concentration History Mol M3"
+        },
+        "mouth_history_interpolation_reviewed": {
+          "default": false,
+          "title": "Mouth History Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "reaction_provider_id": {
+          "minLength": 1,
+          "title": "Reaction Provider Id",
+          "type": "string"
+        },
+        "reaction_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Reaction Configuration Sha256",
+          "type": "string"
+        },
+        "geometry_diffusion_reaction_basis_reviewed": {
+          "title": "Geometry Diffusion Reaction Basis Reviewed",
+          "type": "boolean"
+        },
+        "charge_numbers": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Charge Numbers"
+        },
+        "prescribed_potential_V": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prescribed Potential V"
+        },
+        "migration_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Migration Temperature K"
+        },
+        "prescribed_field_migration_reviewed": {
+          "default": false,
+          "title": "Prescribed Field Migration Reviewed",
+          "type": "boolean"
+        },
+        "poisson_permittivity_F_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Poisson Permittivity F M"
+        },
+        "poisson_mouth_potential_V": {
+          "default": 0.0,
+          "title": "Poisson Mouth Potential V",
+          "type": "number"
+        },
+        "fixed_charge_mol_charge_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixed Charge Mol Charge M3"
+        },
+        "poisson_boundary_and_charge_reviewed": {
+          "default": false,
+          "title": "Poisson Boundary And Charge Reviewed",
+          "type": "boolean"
+        },
+        "tip_surface_provider_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tip Surface Provider Id"
+        },
+        "tip_surface_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tip Surface Configuration Sha256"
+        },
+        "tip_surface_flux_basis_reviewed": {
+          "default": false,
+          "title": "Tip Surface Flux Basis Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Provider Id"
+        },
+        "activity_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Activity Configuration Sha256"
+        },
+        "activity_chemical_potential_and_tracer_diffusivity_reviewed": {
+          "default": false,
+          "title": "Activity Chemical Potential And Tracer Diffusivity Reviewed",
+          "type": "boolean"
+        },
+        "wall_area_per_volume_m2_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Area Per Volume M2 M3"
+        },
+        "wall_area_per_volume_history_m2_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Area Per Volume History M2 M3"
+        },
+        "wall_surface_provider_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Surface Provider Id"
+        },
+        "wall_surface_configuration_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Surface Configuration Sha256"
+        },
+        "wall_surface_flux_basis_reviewed": {
+          "default": false,
+          "title": "Wall Surface Flux Basis Reviewed",
+          "type": "boolean"
+        },
+        "inventory_absolute_tolerance_mol_m2": {
+          "default": 1e-08,
+          "exclusiveMinimum": 0,
+          "title": "Inventory Absolute Tolerance Mol M2",
+          "type": "number"
+        },
+        "inventory_relative_tolerance": {
+          "default": 1e-06,
+          "exclusiveMinimum": 0,
+          "title": "Inventory Relative Tolerance",
+          "type": "number"
+        },
+        "solver_relative_tolerance": {
+          "default": 1e-07,
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Solver Relative Tolerance",
+          "type": "number"
+        },
+        "concentration_absolute_tolerance_mol_m3": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Concentration Absolute Tolerance Mol M3",
+          "type": "number"
+        },
+        "integrated_amount_absolute_tolerance_mol_m2": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Integrated Amount Absolute Tolerance Mol M2",
+          "type": "number"
+        },
+        "maximum_solver_step_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Solver Step S"
+        },
+        "callbacks_cell_locality_reviewed": {
+          "default": false,
+          "title": "Callbacks Cell Locality Reviewed",
+          "type": "boolean"
+        },
+        "maximum_dense_state_count": {
+          "default": 4000,
+          "maximum": 20000,
+          "minimum": 10,
+          "title": "Maximum Dense State Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "simulation_id",
+        "species_ids",
+        "length_m",
+        "cell_count",
+        "diffusivity_m2_s",
+        "initial_concentration_mol_m3",
+        "mouth_concentration_mol_m3",
+        "output_times_s",
+        "reaction_provider_id",
+        "reaction_configuration_sha256",
+        "geometry_diffusion_reaction_basis_reviewed"
+      ],
+      "title": "RestrictedTransportRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Bind local equilibrium results to exact campaign composition states.\n\nThe API aggregates results only. It never runs or edits the chemistry\nsystems, and the caller must review how each transport cell state was\nmapped into the corresponding equilibrium constraints.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_local_speciation_ledger.v1",
+      "default": "matintegrity.crevice_local_speciation_ledger.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "transport_binding": {
+      "$ref": "#/$defs/CreviceTransportCompositionBridge"
+    },
+    "transport_binding_result": {
+      "additionalProperties": true,
+      "title": "Transport Binding Result",
+      "type": "object"
+    },
+    "transport_binding_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Transport Binding Result Sha256",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/CreviceSpeciationKnot"
+      },
+      "minItems": 1,
+      "title": "Knots",
+      "type": "array"
+    },
+    "cell_composition_to_mass_action_constraints_reviewed": {
+      "title": "Cell Composition To Mass Action Constraints Reviewed",
+      "type": "boolean"
+    },
+    "mass_action_result_lineage_reviewed": {
+      "title": "Mass Action Result Lineage Reviewed",
+      "type": "boolean"
+    },
+    "spatial_cells_must_remain_distinct_reviewed": {
+      "title": "Spatial Cells Must Remain Distinct Reviewed",
+      "type": "boolean"
+    },
+    "inventory_volume_basis_reviewed": {
+      "title": "Inventory Volume Basis Reviewed",
+      "type": "boolean"
+    },
+    "no_bulk_equilibrium_or_phase_inference_reviewed": {
+      "title": "No Bulk Equilibrium Or Phase Inference Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "transport_binding",
+    "transport_binding_result",
+    "transport_binding_result_sha256",
+    "knots",
+    "cell_composition_to_mass_action_constraints_reviewed",
+    "mass_action_result_lineage_reviewed",
+    "spatial_cells_must_remain_distinct_reviewed",
+    "inventory_volume_basis_reviewed",
+    "no_bulk_equilibrium_or_phase_inference_reviewed"
+  ],
+  "title": "CreviceLocalSpeciationLedgerRequest",
+  "type": "object"
+}

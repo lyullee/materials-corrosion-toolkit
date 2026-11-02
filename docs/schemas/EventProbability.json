@@ -1,0 +1,78 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.event_probability.v1",
+      "default": "matintegrity.event_probability.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "failure_mode": {
+      "minLength": 1,
+      "title": "Failure Mode",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "probability_given_survival": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Probability Given Survival",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "model_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Model Result Digest",
+      "type": "string"
+    },
+    "common_cause_groups": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Common Cause Groups",
+      "type": "array"
+    }
+  },
+  "required": [
+    "event_id",
+    "asset_id",
+    "physical_scope_id",
+    "failure_mode",
+    "horizon_start_s",
+    "horizon_end_s",
+    "probability_given_survival",
+    "conditioning",
+    "model_result_digest"
+  ],
+  "title": "EventProbability",
+  "type": "object"
+}

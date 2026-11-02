@@ -1,0 +1,294 @@
+{
+  "$defs": {
+    "ExchangeCompatibilityCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "minLength": 1,
+          "title": "Check Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "schema",
+            "unit",
+            "identity",
+            "probability_semantics"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_applicable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "paths": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Paths",
+          "type": "array"
+        },
+        "expected_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Descriptor"
+        },
+        "observed_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed Descriptor"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "check_id",
+        "category",
+        "status",
+        "paths",
+        "basis"
+      ],
+      "title": "ExchangeCompatibilityCheck",
+      "type": "object"
+    },
+    "ExchangeEndpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "repository_id": {
+          "minLength": 1,
+          "title": "Repository Id",
+          "type": "string"
+        },
+        "schema_id": {
+          "minLength": 1,
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "minLength": 1,
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_commit": {
+          "pattern": "^[a-fA-F0-9]{7,64}$",
+          "title": "Provider Commit",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository_id",
+        "schema_id",
+        "schema_version",
+        "provider_id",
+        "provider_commit",
+        "provider_revision"
+      ],
+      "title": "ExchangeEndpoint",
+      "type": "object"
+    },
+    "ExchangeFieldDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "accepted",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "check_categories": {
+          "items": {
+            "enum": [
+              "schema",
+              "unit",
+              "identity",
+              "probability_semantics"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Check Categories",
+          "type": "array"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "status",
+        "check_categories",
+        "basis"
+      ],
+      "title": "ExchangeFieldDecision",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Digest-bound evidence of declared JSON compatibility checks.\n\nThe receipt records review outcomes only.  It is not a signature, transport\nacknowledgement, physical validation, or proof that either repository ran.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.exchange_compatibility_receipt.v1",
+      "default": "matintegrity.exchange_compatibility_receipt.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "receipt_id": {
+      "pattern": "^exchange-[a-f0-9]{64}$",
+      "title": "Receipt Id",
+      "type": "string"
+    },
+    "producer": {
+      "$ref": "#/$defs/ExchangeEndpoint"
+    },
+    "consumer": {
+      "$ref": "#/$defs/ExchangeEndpoint"
+    },
+    "payload_canonical_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Canonical Sha256",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/ExchangeCompatibilityCheck"
+      },
+      "title": "Checks",
+      "type": "array"
+    },
+    "field_decisions": {
+      "items": {
+        "$ref": "#/$defs/ExchangeFieldDecision"
+      },
+      "minItems": 1,
+      "title": "Field Decisions",
+      "type": "array"
+    },
+    "accepted_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Accepted Paths",
+      "type": "array"
+    },
+    "rejected_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rejected Paths",
+      "type": "array"
+    },
+    "compatibility_scope": {
+      "minLength": 1,
+      "title": "Compatibility Scope",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "signature_verified": {
+      "const": false,
+      "default": false,
+      "title": "Signature Verified",
+      "type": "boolean"
+    },
+    "network_transfer_executed": {
+      "const": false,
+      "default": false,
+      "title": "Network Transfer Executed",
+      "type": "boolean"
+    },
+    "cross_repository_execution_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Cross Repository Execution Claimed",
+      "type": "boolean"
+    },
+    "physical_validation_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Physical Validation Claimed",
+      "type": "boolean"
+    },
+    "receipt_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Receipt Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "receipt_id",
+    "producer",
+    "consumer",
+    "payload_canonical_sha256",
+    "configuration_digest",
+    "status",
+    "checks",
+    "field_decisions",
+    "accepted_paths",
+    "rejected_paths",
+    "compatibility_scope",
+    "limitations",
+    "receipt_digest"
+  ],
+  "title": "ExchangeCompatibilityReceipt",
+  "type": "object"
+}

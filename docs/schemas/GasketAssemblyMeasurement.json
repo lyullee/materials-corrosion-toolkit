@@ -1,0 +1,153 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "measurement_id": {
+      "minLength": 1,
+      "title": "Measurement Id",
+      "type": "string"
+    },
+    "initial_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Thickness M",
+      "type": "number"
+    },
+    "assembled_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Assembled Thickness M",
+      "type": "number"
+    },
+    "thickness_standard_uncertainty_m": {
+      "minimum": 0,
+      "title": "Thickness Standard Uncertainty M",
+      "type": "number"
+    },
+    "recovery_fraction": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recovery Fraction"
+    },
+    "recovery_standard_uncertainty_fraction": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recovery Standard Uncertainty Fraction"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "measurement_id",
+    "initial_thickness_m",
+    "assembled_thickness_m",
+    "thickness_standard_uncertainty_m",
+    "method_id",
+    "provider_id",
+    "provider_revision",
+    "result_digest",
+    "evidence"
+  ],
+  "title": "GasketAssemblyMeasurement",
+  "type": "object"
+}

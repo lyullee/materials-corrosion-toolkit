@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "pass_id": {
+      "minLength": 1,
+      "title": "Pass Id",
+      "type": "string"
+    },
+    "sequence_position": {
+      "minimum": 1,
+      "title": "Sequence Position",
+      "type": "integer"
+    },
+    "layer_id": {
+      "minLength": 1,
+      "title": "Layer Id",
+      "type": "string"
+    },
+    "layer_sequence_position": {
+      "minimum": 1,
+      "title": "Layer Sequence Position",
+      "type": "integer"
+    },
+    "substrate_or_parent_id": {
+      "minLength": 1,
+      "title": "Substrate Or Parent Id",
+      "type": "string"
+    },
+    "filler_lot_id": {
+      "minLength": 1,
+      "title": "Filler Lot Id",
+      "type": "string"
+    },
+    "process_id": {
+      "minLength": 1,
+      "title": "Process Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "heat_input_j_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Heat Input J M"
+    },
+    "provider_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "pass_id",
+    "sequence_position",
+    "layer_id",
+    "layer_sequence_position",
+    "substrate_or_parent_id",
+    "filler_lot_id",
+    "process_id",
+    "procedure_id",
+    "provider_result_digest",
+    "evidence"
+  ],
+  "title": "OverlayDepositionPass",
+  "type": "object"
+}

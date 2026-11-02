@@ -1,0 +1,241 @@
+{
+  "$defs": {
+    "BrinellSurfaceObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "surface_id": {
+          "minLength": 1,
+          "title": "Surface Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "hardness_HBW": {
+          "exclusiveMinimum": 0,
+          "title": "Hardness Hbw",
+          "type": "number"
+        },
+        "expanded_uncertainty_HBW": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty Hbw",
+          "type": "number"
+        },
+        "scale_id": {
+          "const": "HBW",
+          "title": "Scale Id",
+          "type": "string"
+        },
+        "method_revision_id": {
+          "minLength": 1,
+          "title": "Method Revision Id",
+          "type": "string"
+        },
+        "test_force_N": {
+          "exclusiveMinimum": 0,
+          "title": "Test Force N",
+          "type": "number"
+        },
+        "indenter_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Indenter Diameter M",
+          "type": "number"
+        },
+        "dwell_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Dwell Time S",
+          "type": "number"
+        },
+        "test_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Test Temperature K",
+          "type": "number"
+        }
+      },
+      "required": [
+        "surface_id",
+        "physical_scope_id",
+        "material_condition_id",
+        "record_sha256",
+        "hardness_HBW",
+        "expanded_uncertainty_HBW",
+        "scale_id",
+        "method_revision_id",
+        "test_force_N",
+        "indenter_diameter_m",
+        "dwell_time_s",
+        "test_temperature_K"
+      ],
+      "title": "BrinellSurfaceObservation",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "mating_pair_id": {
+      "minLength": 1,
+      "title": "Mating Pair Id",
+      "type": "string"
+    },
+    "first": {
+      "$ref": "#/$defs/BrinellSurfaceObservation"
+    },
+    "second": {
+      "$ref": "#/$defs/BrinellSurfaceObservation"
+    },
+    "comparison_direction": {
+      "enum": [
+        "first_harder",
+        "second_harder",
+        "either"
+      ],
+      "title": "Comparison Direction",
+      "type": "string"
+    },
+    "minimum_declared_difference_HBW": {
+      "minimum": 0,
+      "title": "Minimum Declared Difference Hbw",
+      "type": "number"
+    },
+    "pairing_test_conditions_and_interval_interpretation_reviewed": {
+      "title": "Pairing Test Conditions And Interval Interpretation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "mating_pair_id",
+    "first",
+    "second",
+    "comparison_direction",
+    "minimum_declared_difference_HBW",
+    "pairing_test_conditions_and_interval_interpretation_reviewed"
+  ],
+  "title": "MatingBrinellHardnessDifference",
+  "type": "object"
+}

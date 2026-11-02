@@ -1,0 +1,1015 @@
+{
+  "$defs": {
+    "CUIAccessCoverageRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "access_region_id": {
+          "minLength": 1,
+          "title": "Access Region Id",
+          "type": "string"
+        },
+        "access_event_id": {
+          "minLength": 1,
+          "title": "Access Event Id",
+          "type": "string"
+        },
+        "physical_location_definition": {
+          "minLength": 1,
+          "title": "Physical Location Definition",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "target_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Target Extent",
+          "type": "number"
+        },
+        "accessed_extent": {
+          "minimum": 0,
+          "title": "Accessed Extent",
+          "type": "number"
+        },
+        "extent_unit_token": {
+          "minLength": 1,
+          "title": "Extent Unit Token",
+          "type": "string"
+        },
+        "coverage_uncertainty": {
+          "minimum": 0,
+          "title": "Coverage Uncertainty",
+          "type": "number"
+        },
+        "overlap_group_id": {
+          "minLength": 1,
+          "title": "Overlap Group Id",
+          "type": "string"
+        },
+        "unaccessed_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unaccessed Basis"
+        },
+        "coverage_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Coverage Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "access_region_id",
+        "access_event_id",
+        "physical_location_definition",
+        "coordinate_frame_id",
+        "target_extent",
+        "accessed_extent",
+        "extent_unit_token",
+        "coverage_uncertainty",
+        "overlap_group_id",
+        "coverage_record_digest",
+        "evidence"
+      ],
+      "title": "CUIAccessCoverageRegion",
+      "type": "object"
+    },
+    "CUIAccessInspectionRepairEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "event_kind": {
+          "enum": [
+            "access",
+            "inspection",
+            "repair",
+            "reinstatement",
+            "other"
+          ],
+          "title": "Event Kind",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "contractor_or_provider_id": {
+          "minLength": 1,
+          "title": "Contractor Or Provider Id",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "activity_definition": {
+          "minLength": 1,
+          "title": "Activity Definition",
+          "type": "string"
+        },
+        "resulting_insulation_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resulting Insulation Condition Id"
+        },
+        "resulting_jacketing_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resulting Jacketing Condition Id"
+        },
+        "resulting_coating_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resulting Coating Condition Id"
+        },
+        "event_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Event Configuration Digest",
+          "type": "string"
+        },
+        "event_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Event Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_index",
+        "event_kind",
+        "start_time_s",
+        "end_time_s",
+        "contractor_or_provider_id",
+        "procedure_id",
+        "activity_definition",
+        "event_configuration_digest",
+        "event_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CUIAccessInspectionRepairEvent",
+      "type": "object"
+    },
+    "CUICallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_event_kinds": {
+          "items": {
+            "enum": [
+              "access",
+              "inspection",
+              "repair",
+              "reinstatement",
+              "other"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Event Kinds",
+          "type": "array"
+        },
+        "required_observation_categories": {
+          "items": {
+            "enum": [
+              "moisture",
+              "visual",
+              "thickness",
+              "nde"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Observation Categories",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CUICampaignCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "corrosion_rate_inference_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Corrosion Rate Inference Claimed",
+          "type": "boolean"
+        },
+        "remaining_life_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Remaining Life Claimed",
+          "type": "boolean"
+        },
+        "hidden_area_extrapolation_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Hidden Area Extrapolation Claimed",
+          "type": "boolean"
+        },
+        "risk_or_pod_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Risk Or Pod Claimed",
+          "type": "boolean"
+        },
+        "built_in_code_or_standard_acceptance_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Code Or Standard Acceptance Used",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_event_kinds",
+        "required_observation_categories",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "CUICallerProfile",
+      "type": "object"
+    },
+    "CUICampaignCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "criterion_source": {
+          "enum": [
+            "campaign",
+            "observation"
+          ],
+          "title": "Criterion Source",
+          "type": "string"
+        },
+        "campaign_metric": {
+          "anyOf": [
+            {
+              "enum": [
+                "access_region_count",
+                "coverage_fraction",
+                "observation_count",
+                "independent_source_group_count"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Campaign Metric"
+        },
+        "observation_category": {
+          "anyOf": [
+            {
+              "enum": [
+                "moisture",
+                "visual",
+                "thickness",
+                "nde"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Category"
+        },
+        "observation_metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Metric Id"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "criterion_source",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "CUICampaignCriterion",
+      "type": "object"
+    },
+    "CUIObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "inspection_event_id": {
+          "minLength": 1,
+          "title": "Inspection Event Id",
+          "type": "string"
+        },
+        "access_region_id": {
+          "minLength": 1,
+          "title": "Access Region Id",
+          "type": "string"
+        },
+        "observation_category": {
+          "enum": [
+            "moisture",
+            "visual",
+            "thickness",
+            "nde"
+          ],
+          "title": "Observation Category",
+          "type": "string"
+        },
+        "physical_location_definition": {
+          "minLength": 1,
+          "title": "Physical Location Definition",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "orientation_definition": {
+          "minLength": 1,
+          "title": "Orientation Definition",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "method_revision": {
+          "minLength": 1,
+          "title": "Method Revision",
+          "type": "string"
+        },
+        "metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Id"
+        },
+        "metric_definition": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Definition"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "uncertainty_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Basis"
+        },
+        "reported_finding": {
+          "minLength": 1,
+          "title": "Reported Finding",
+          "type": "string"
+        },
+        "caller_disposition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Disposition Id"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "inspection_event_id",
+        "access_region_id",
+        "observation_category",
+        "physical_location_definition",
+        "coordinate_frame_id",
+        "orientation_definition",
+        "method_id",
+        "method_revision",
+        "reported_finding",
+        "source_group_id",
+        "independence_group_id",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_data_digest",
+        "observation_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CUIObservation",
+      "type": "object"
+    },
+    "CUIScopeIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "component_or_circuit_id": {
+          "minLength": 1,
+          "title": "Component Or Circuit Id",
+          "type": "string"
+        },
+        "physical_scope_definition": {
+          "minLength": 1,
+          "title": "Physical Scope Definition",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "substrate_material_id": {
+          "minLength": 1,
+          "title": "Substrate Material Id",
+          "type": "string"
+        },
+        "substrate_material_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Material Condition Id",
+          "type": "string"
+        },
+        "service_id": {
+          "minLength": 1,
+          "title": "Service Id",
+          "type": "string"
+        },
+        "service_medium_definition": {
+          "minLength": 1,
+          "title": "Service Medium Definition",
+          "type": "string"
+        },
+        "minimum_service_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Service Temperature K",
+          "type": "number"
+        },
+        "maximum_service_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Service Temperature K",
+          "type": "number"
+        },
+        "insulation_system_id": {
+          "minLength": 1,
+          "title": "Insulation System Id",
+          "type": "string"
+        },
+        "insulation_material_id": {
+          "minLength": 1,
+          "title": "Insulation Material Id",
+          "type": "string"
+        },
+        "insulation_condition_id": {
+          "minLength": 1,
+          "title": "Insulation Condition Id",
+          "type": "string"
+        },
+        "jacketing_system_id": {
+          "minLength": 1,
+          "title": "Jacketing System Id",
+          "type": "string"
+        },
+        "jacketing_condition_id": {
+          "minLength": 1,
+          "title": "Jacketing Condition Id",
+          "type": "string"
+        },
+        "coating_system_id": {
+          "minLength": 1,
+          "title": "Coating System Id",
+          "type": "string"
+        },
+        "coating_condition_id": {
+          "minLength": 1,
+          "title": "Coating Condition Id",
+          "type": "string"
+        },
+        "external_environment_id": {
+          "minLength": 1,
+          "title": "External Environment Id",
+          "type": "string"
+        },
+        "external_environment_definition": {
+          "minLength": 1,
+          "title": "External Environment Definition",
+          "type": "string"
+        },
+        "scope_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Scope Configuration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "zone_id",
+        "component_or_circuit_id",
+        "physical_scope_definition",
+        "coordinate_frame_id",
+        "substrate_material_id",
+        "substrate_material_condition_id",
+        "service_id",
+        "service_medium_definition",
+        "minimum_service_temperature_K",
+        "maximum_service_temperature_K",
+        "insulation_system_id",
+        "insulation_material_id",
+        "insulation_condition_id",
+        "jacketing_system_id",
+        "jacketing_condition_id",
+        "coating_system_id",
+        "coating_condition_id",
+        "external_environment_id",
+        "external_environment_definition",
+        "scope_configuration_digest",
+        "evidence"
+      ],
+      "title": "CUIScopeIdentity",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/CUIScopeIdentity"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/CUIAccessInspectionRepairEvent"
+      },
+      "minItems": 1,
+      "title": "Events",
+      "type": "array"
+    },
+    "coverage_regions": {
+      "items": {
+        "$ref": "#/$defs/CUIAccessCoverageRegion"
+      },
+      "minItems": 1,
+      "title": "Coverage Regions",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/CUIObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/CUICallerProfile"
+    },
+    "zone_insulation_jacketing_coating_material_service_environment_reviewed": {
+      "title": "Zone Insulation Jacketing Coating Material Service Environment Reviewed",
+      "type": "boolean"
+    },
+    "ordered_access_inspection_repair_events_reviewed": {
+      "title": "Ordered Access Inspection Repair Events Reviewed",
+      "type": "boolean"
+    },
+    "access_coverage_regions_overlap_and_units_reviewed": {
+      "title": "Access Coverage Regions Overlap And Units Reviewed",
+      "type": "boolean"
+    },
+    "moisture_visual_thickness_nde_observations_reviewed": {
+      "title": "Moisture Visual Thickness Nde Observations Reviewed",
+      "type": "boolean"
+    },
+    "locations_methods_units_uncertainty_and_findings_reviewed": {
+      "title": "Locations Methods Units Uncertainty And Findings Reviewed",
+      "type": "boolean"
+    },
+    "source_independence_provenance_and_digests_reviewed": {
+      "title": "Source Independence Provenance And Digests Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "invalid_and_missing_records_reviewed": {
+      "title": "Invalid And Missing Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "scope",
+    "events",
+    "coverage_regions",
+    "observations",
+    "caller_profile",
+    "zone_insulation_jacketing_coating_material_service_environment_reviewed",
+    "ordered_access_inspection_repair_events_reviewed",
+    "access_coverage_regions_overlap_and_units_reviewed",
+    "moisture_visual_thickness_nde_observations_reviewed",
+    "locations_methods_units_uncertainty_and_findings_reviewed",
+    "source_independence_provenance_and_digests_reviewed",
+    "caller_profile_reviewed",
+    "invalid_and_missing_records_reviewed",
+    "evidence"
+  ],
+  "title": "UnderInsulationCampaignAssessment",
+  "type": "object"
+}

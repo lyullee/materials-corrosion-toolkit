@@ -1,0 +1,169 @@
+{
+  "$defs": {
+    "AqueousReactionCandidateSpecies": {
+      "additionalProperties": false,
+      "description": "Caller-declared formula and charge used only for stoichiometric screening.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "AqueousReactionCandidateSpecies",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Enumerate bounded, element/charge-balanced stoichiometries without assigning chemistry.",
+  "properties": {
+    "enumeration_id": {
+      "minLength": 1,
+      "title": "Enumeration Id",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/AqueousReactionCandidateSpecies"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Species",
+      "type": "array"
+    },
+    "maximum_total_stoichiometric_order": {
+      "default": 4,
+      "maximum": 8,
+      "minimum": 2,
+      "title": "Maximum Total Stoichiometric Order",
+      "type": "integer"
+    },
+    "maximum_side_multisets": {
+      "default": 250000,
+      "maximum": 2000000,
+      "minimum": 1,
+      "title": "Maximum Side Multisets",
+      "type": "integer"
+    },
+    "maximum_candidate_pair_checks": {
+      "default": 250000,
+      "maximum": 2000000,
+      "minimum": 1,
+      "title": "Maximum Candidate Pair Checks",
+      "type": "integer"
+    },
+    "maximum_candidate_reactions": {
+      "default": 50000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Candidate Reactions",
+      "type": "integer"
+    },
+    "species_formula_and_charge_reviewed": {
+      "title": "Species Formula And Charge Reviewed",
+      "type": "boolean"
+    },
+    "closed_candidate_species_inventory_reviewed": {
+      "title": "Closed Candidate Species Inventory Reviewed",
+      "type": "boolean"
+    },
+    "candidate_use_and_manual_selection_reviewed": {
+      "title": "Candidate Use And Manual Selection Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "enumeration_id",
+    "species",
+    "species_formula_and_charge_reviewed",
+    "closed_candidate_species_inventory_reviewed",
+    "candidate_use_and_manual_selection_reviewed",
+    "evidence"
+  ],
+  "title": "AqueousReactionCandidateEnumeration",
+  "type": "object"
+}

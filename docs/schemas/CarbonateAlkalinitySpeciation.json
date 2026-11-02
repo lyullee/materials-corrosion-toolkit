@@ -1,0 +1,311 @@
+{
+  "$defs": {
+    "CarbonateActivityConstants": {
+      "additionalProperties": false,
+      "properties": {
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "default": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "K1_activity": {
+          "exclusiveMinimum": 0,
+          "title": "K1 Activity",
+          "type": "number"
+        },
+        "K2_activity": {
+          "exclusiveMinimum": 0,
+          "title": "K2 Activity",
+          "type": "number"
+        },
+        "Kw_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Kw Activity",
+          "type": "number"
+        },
+        "gamma_h_plus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma H Plus",
+          "type": "number"
+        },
+        "gamma_hco3_minus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma Hco3 Minus",
+          "type": "number"
+        },
+        "gamma_co3_double_minus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma Co3 Double Minus",
+          "type": "number"
+        },
+        "gamma_oh_minus": {
+          "exclusiveMinimum": 0,
+          "title": "Gamma Oh Minus",
+          "type": "number"
+        },
+        "constants_provider_id": {
+          "minLength": 1,
+          "title": "Constants Provider Id",
+          "type": "string"
+        },
+        "constants_provider_revision": {
+          "minLength": 1,
+          "title": "Constants Provider Revision",
+          "type": "string"
+        },
+        "constants_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Constants Configuration Digest",
+          "type": "string"
+        },
+        "constants_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Constants Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "K1_activity",
+        "K2_activity",
+        "Kw_activity",
+        "gamma_h_plus",
+        "gamma_hco3_minus",
+        "gamma_co3_double_minus",
+        "gamma_oh_minus",
+        "constants_provider_id",
+        "constants_provider_revision",
+        "constants_configuration_digest",
+        "constants_record_digest",
+        "evidence"
+      ],
+      "title": "CarbonateActivityConstants",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "sample_id": {
+      "minLength": 1,
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "ph_activity": {
+      "title": "Ph Activity",
+      "type": "number"
+    },
+    "measured_total_alkalinity_mol_L": {
+      "title": "Measured Total Alkalinity Mol L",
+      "type": "number"
+    },
+    "expanded_total_alkalinity_uncertainty_mol_L": {
+      "minimum": 0,
+      "title": "Expanded Total Alkalinity Uncertainty Mol L",
+      "type": "number"
+    },
+    "alkalinity_uncertainty_basis": {
+      "minLength": 1,
+      "title": "Alkalinity Uncertainty Basis",
+      "type": "string"
+    },
+    "closure_absolute_tolerance_mol_L": {
+      "exclusiveMinimum": 0,
+      "title": "Closure Absolute Tolerance Mol L",
+      "type": "number"
+    },
+    "constants_temperature_tolerance_K": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Constants Temperature Tolerance K",
+      "type": "number"
+    },
+    "constants": {
+      "$ref": "#/$defs/CarbonateActivityConstants"
+    },
+    "measurement_provider_id": {
+      "minLength": 1,
+      "title": "Measurement Provider Id",
+      "type": "string"
+    },
+    "measurement_provider_revision": {
+      "minLength": 1,
+      "title": "Measurement Provider Revision",
+      "type": "string"
+    },
+    "measurement_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Measurement Configuration Digest",
+      "type": "string"
+    },
+    "measurement_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Measurement Record Digest",
+      "type": "string"
+    },
+    "carbonate_only_alkalinity_basis_reviewed": {
+      "title": "Carbonate Only Alkalinity Basis Reviewed",
+      "type": "boolean"
+    },
+    "ph_activity_scale_reviewed": {
+      "title": "Ph Activity Scale Reviewed",
+      "type": "boolean"
+    },
+    "equilibrium_constants_activity_basis_reviewed": {
+      "title": "Equilibrium Constants Activity Basis Reviewed",
+      "type": "boolean"
+    },
+    "activity_coefficients_reviewed": {
+      "title": "Activity Coefficients Reviewed",
+      "type": "boolean"
+    },
+    "activity_standard_state_reviewed": {
+      "default": false,
+      "title": "Activity Standard State Reviewed",
+      "type": "boolean"
+    },
+    "aqueous_co2_star_definition_reviewed": {
+      "title": "Aqueous Co2 Star Definition Reviewed",
+      "type": "boolean"
+    },
+    "temperature_and_provider_lineage_reviewed": {
+      "title": "Temperature And Provider Lineage Reviewed",
+      "type": "boolean"
+    },
+    "alkalinity_measurement_units_and_uncertainty_reviewed": {
+      "title": "Alkalinity Measurement Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "numerical_closure_tolerance_reviewed": {
+      "title": "Numerical Closure Tolerance Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "sample_id",
+    "temperature_K",
+    "ph_activity",
+    "measured_total_alkalinity_mol_L",
+    "expanded_total_alkalinity_uncertainty_mol_L",
+    "alkalinity_uncertainty_basis",
+    "closure_absolute_tolerance_mol_L",
+    "constants",
+    "measurement_provider_id",
+    "measurement_provider_revision",
+    "measurement_configuration_digest",
+    "measurement_record_digest",
+    "carbonate_only_alkalinity_basis_reviewed",
+    "ph_activity_scale_reviewed",
+    "equilibrium_constants_activity_basis_reviewed",
+    "activity_coefficients_reviewed",
+    "aqueous_co2_star_definition_reviewed",
+    "temperature_and_provider_lineage_reviewed",
+    "alkalinity_measurement_units_and_uncertainty_reviewed",
+    "numerical_closure_tolerance_reviewed",
+    "evidence"
+  ],
+  "title": "CarbonateAlkalinitySpeciation",
+  "type": "object"
+}

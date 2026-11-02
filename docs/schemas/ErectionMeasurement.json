@@ -1,0 +1,244 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "measurement_id": {
+      "minLength": 1,
+      "title": "Measurement Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "measurement_time_s": {
+      "minimum": 0,
+      "title": "Measurement Time S",
+      "type": "number"
+    },
+    "measurement_kind": {
+      "enum": [
+        "alignment",
+        "geometry",
+        "damage_survey",
+        "nde",
+        "other"
+      ],
+      "title": "Measurement Kind",
+      "type": "string"
+    },
+    "stage_id": {
+      "minLength": 1,
+      "title": "Stage Id",
+      "type": "string"
+    },
+    "metric_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Metric Id"
+    },
+    "metric_definition": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Metric Definition"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Value"
+    },
+    "unit_token": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unit Token"
+    },
+    "expanded_uncertainty": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expanded Uncertainty"
+    },
+    "reported_finding": {
+      "minLength": 1,
+      "title": "Reported Finding",
+      "type": "string"
+    },
+    "caller_disposition_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Caller Disposition Id"
+    },
+    "instrument_or_nde_procedure_id": {
+      "minLength": 1,
+      "title": "Instrument Or Nde Procedure Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "raw_data_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Raw Data Digest",
+      "type": "string"
+    },
+    "measurement_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Measurement Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "measurement_id",
+    "event_id",
+    "measurement_time_s",
+    "measurement_kind",
+    "stage_id",
+    "reported_finding",
+    "instrument_or_nde_procedure_id",
+    "provider_id",
+    "provider_revision",
+    "raw_data_digest",
+    "measurement_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "ErectionMeasurement",
+  "type": "object"
+}

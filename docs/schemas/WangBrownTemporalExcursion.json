@@ -1,0 +1,141 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Attach normal strain excursion on each caller-counted shear-cycle interval.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "projected_rainflow_result": {
+      "additionalProperties": true,
+      "title": "Projected Rainflow Result",
+      "type": "object"
+    },
+    "projected_rainflow_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Projected Rainflow Result Sha256",
+      "type": "string"
+    },
+    "plane_id": {
+      "minLength": 1,
+      "title": "Plane Id",
+      "type": "string"
+    },
+    "shear_projection": {
+      "pattern": "^(engineering_shear_strain_directional_component|engineering_shear_strain_vector_magnitude)$",
+      "title": "Shear Projection",
+      "type": "string"
+    },
+    "normal_strain_sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "minItems": 3,
+      "title": "Normal Strain Sample Ids",
+      "type": "array"
+    },
+    "normal_strain_values": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 3,
+      "title": "Normal Strain Values",
+      "type": "array"
+    },
+    "normal_strain_source_id": {
+      "minLength": 1,
+      "title": "Normal Strain Source Id",
+      "type": "string"
+    },
+    "normal_strain_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Normal Strain Source Sha256",
+      "type": "string"
+    },
+    "normal_strain_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "same_ordered_sample_clock_reviewed": {
+      "title": "Same Ordered Sample Clock Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "projected_rainflow_result",
+    "projected_rainflow_result_sha256",
+    "plane_id",
+    "shear_projection",
+    "normal_strain_sample_ids",
+    "normal_strain_values",
+    "normal_strain_source_id",
+    "normal_strain_source_sha256",
+    "normal_strain_evidence",
+    "same_ordered_sample_clock_reviewed"
+  ],
+  "title": "WangBrownTemporalExcursion",
+  "type": "object"
+}

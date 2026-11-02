@@ -1,0 +1,262 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FractureToughnessCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "enum": [
+            "specimen_count",
+            "replicate_group_count",
+            "independent_source_group_count",
+            "caller_valid_fraction",
+            "minimum_reported_toughness",
+            "maximum_expanded_uncertainty"
+          ],
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "minimum": 0,
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "minimum": 0,
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_id",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "FractureToughnessCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "toughness_kind": {
+      "enum": [
+        "K",
+        "J",
+        "CTOD",
+        "arrest",
+        "user_defined"
+      ],
+      "title": "Toughness Kind",
+      "type": "string"
+    },
+    "test_method_id": {
+      "minLength": 1,
+      "title": "Test Method Id",
+      "type": "string"
+    },
+    "test_method_revision": {
+      "minLength": 1,
+      "title": "Test Method Revision",
+      "type": "string"
+    },
+    "toughness_unit_token": {
+      "minLength": 1,
+      "title": "Toughness Unit Token",
+      "type": "string"
+    },
+    "loading_rate_unit_token": {
+      "minLength": 1,
+      "title": "Loading Rate Unit Token",
+      "type": "string"
+    },
+    "minimum_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Temperature K",
+      "type": "number"
+    },
+    "maximum_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Temperature K",
+      "type": "number"
+    },
+    "minimum_loading_rate": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Loading Rate",
+      "type": "number"
+    },
+    "maximum_loading_rate": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Loading Rate",
+      "type": "number"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/FractureToughnessCriterion"
+      },
+      "minItems": 6,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_provider_id": {
+      "minLength": 1,
+      "title": "Profile Provider Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Configuration Digest",
+      "type": "string"
+    },
+    "caller_acceptance_authority": {
+      "minLength": 1,
+      "title": "Caller Acceptance Authority",
+      "type": "string"
+    },
+    "official_standard_validity_rules_embedded": {
+      "const": false,
+      "default": false,
+      "title": "Official Standard Validity Rules Embedded",
+      "type": "boolean"
+    },
+    "toughness_conversion_or_recalculation_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Toughness Conversion Or Recalculation Claimed",
+      "type": "boolean"
+    },
+    "design_allowable_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Design Allowable Claimed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_version",
+    "toughness_kind",
+    "test_method_id",
+    "test_method_revision",
+    "toughness_unit_token",
+    "loading_rate_unit_token",
+    "minimum_temperature_K",
+    "maximum_temperature_K",
+    "minimum_loading_rate",
+    "maximum_loading_rate",
+    "criteria",
+    "profile_provider_id",
+    "profile_revision",
+    "profile_configuration_digest",
+    "caller_acceptance_authority",
+    "evidence"
+  ],
+  "title": "FractureToughnessCallerProfile",
+  "type": "object"
+}

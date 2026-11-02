@@ -1,0 +1,871 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TensileCampaignCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "supported_orientation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Orientation Ids",
+          "type": "array"
+        },
+        "supported_geometry_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Geometry Ids",
+          "type": "array"
+        },
+        "geometry_unit_token": {
+          "minLength": 1,
+          "title": "Geometry Unit Token",
+          "type": "string"
+        },
+        "area_unit_token": {
+          "minLength": 1,
+          "title": "Area Unit Token",
+          "type": "string"
+        },
+        "required_machine_id": {
+          "minLength": 1,
+          "title": "Required Machine Id",
+          "type": "string"
+        },
+        "required_load_cell_id": {
+          "minLength": 1,
+          "title": "Required Load Cell Id",
+          "type": "string"
+        },
+        "required_extensometer_id": {
+          "minLength": 1,
+          "title": "Required Extensometer Id",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_strain_rate_per_s": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Strain Rate Per S",
+          "type": "number"
+        },
+        "maximum_strain_rate_per_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Strain Rate Per S",
+          "type": "number"
+        },
+        "required_offset_definition_id": {
+          "minLength": 1,
+          "title": "Required Offset Definition Id",
+          "type": "string"
+        },
+        "required_offset_strain": {
+          "minimum": 0,
+          "title": "Required Offset Strain",
+          "type": "number"
+        },
+        "offset_strain_tolerance": {
+          "minimum": 0,
+          "title": "Offset Strain Tolerance",
+          "type": "number"
+        },
+        "required_metrics": {
+          "items": {
+            "enum": [
+              "elastic_modulus",
+              "offset_yield_strength",
+              "ultimate_tensile_strength",
+              "elongation",
+              "reduction_of_area"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Metrics",
+          "type": "array"
+        },
+        "metric_criteria": {
+          "items": {
+            "$ref": "#/$defs/TensileMetricCriterion"
+          },
+          "minItems": 1,
+          "title": "Metric Criteria",
+          "type": "array"
+        },
+        "minimum_valid_test_count": {
+          "minimum": 1,
+          "title": "Minimum Valid Test Count",
+          "type": "integer"
+        },
+        "minimum_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Independence Group Count",
+          "type": "integer"
+        },
+        "caller_validity_policy_id": {
+          "minLength": 1,
+          "title": "Caller Validity Policy Id",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "built_in_standard_rules_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Standard Rules Used",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "product_id",
+        "heat_id",
+        "material_condition_id",
+        "supported_orientation_ids",
+        "supported_geometry_ids",
+        "geometry_unit_token",
+        "area_unit_token",
+        "required_machine_id",
+        "required_load_cell_id",
+        "required_extensometer_id",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_strain_rate_per_s",
+        "maximum_strain_rate_per_s",
+        "required_offset_definition_id",
+        "required_offset_strain",
+        "offset_strain_tolerance",
+        "required_metrics",
+        "metric_criteria",
+        "minimum_valid_test_count",
+        "minimum_independence_group_count",
+        "caller_validity_policy_id",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "TensileCampaignCallerProfile",
+      "type": "object"
+    },
+    "TensileMachineConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "machine_id": {
+          "minLength": 1,
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "machine_revision": {
+          "minLength": 1,
+          "title": "Machine Revision",
+          "type": "string"
+        },
+        "load_cell_id": {
+          "minLength": 1,
+          "title": "Load Cell Id",
+          "type": "string"
+        },
+        "load_cell_revision": {
+          "minLength": 1,
+          "title": "Load Cell Revision",
+          "type": "string"
+        },
+        "extensometer_id": {
+          "minLength": 1,
+          "title": "Extensometer Id",
+          "type": "string"
+        },
+        "extensometer_revision": {
+          "minLength": 1,
+          "title": "Extensometer Revision",
+          "type": "string"
+        },
+        "machine_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Machine Configuration Digest",
+          "type": "string"
+        },
+        "load_cell_calibration_id": {
+          "minLength": 1,
+          "title": "Load Cell Calibration Id",
+          "type": "string"
+        },
+        "load_cell_calibration_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "missing"
+          ],
+          "title": "Load Cell Calibration Status",
+          "type": "string"
+        },
+        "load_cell_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Load Cell Calibration Digest",
+          "type": "string"
+        },
+        "extensometer_calibration_id": {
+          "minLength": 1,
+          "title": "Extensometer Calibration Id",
+          "type": "string"
+        },
+        "extensometer_calibration_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "missing"
+          ],
+          "title": "Extensometer Calibration Status",
+          "type": "string"
+        },
+        "extensometer_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Extensometer Calibration Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "machine_id",
+        "machine_revision",
+        "load_cell_id",
+        "load_cell_revision",
+        "extensometer_id",
+        "extensometer_revision",
+        "machine_configuration_digest",
+        "load_cell_calibration_id",
+        "load_cell_calibration_status",
+        "load_cell_calibration_digest",
+        "extensometer_calibration_id",
+        "extensometer_calibration_status",
+        "extensometer_calibration_digest",
+        "evidence"
+      ],
+      "title": "TensileMachineConfiguration",
+      "type": "object"
+    },
+    "TensileMetricCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "elastic_modulus",
+            "offset_yield_strength",
+            "ultimate_tensile_strength",
+            "elongation",
+            "reduction_of_area"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric",
+        "unit_token",
+        "criterion_basis",
+        "evidence"
+      ],
+      "title": "TensileMetricCriterion",
+      "type": "object"
+    },
+    "TensileReportedResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "elastic_modulus",
+            "offset_yield_strength",
+            "ultimate_tensile_strength",
+            "elongation",
+            "reduction_of_area"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "result_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_id",
+        "metric",
+        "metric_definition",
+        "status",
+        "unit_token",
+        "result_record_digest",
+        "evidence"
+      ],
+      "title": "TensileReportedResult",
+      "type": "object"
+    },
+    "TensileSpecimenIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "orientation_id": {
+          "minLength": 1,
+          "title": "Orientation Id",
+          "type": "string"
+        },
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "initial_gauge_length": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Gauge Length",
+          "type": "number"
+        },
+        "initial_cross_section_area": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Cross Section Area",
+          "type": "number"
+        },
+        "geometry_unit_token": {
+          "minLength": 1,
+          "title": "Geometry Unit Token",
+          "type": "string"
+        },
+        "area_unit_token": {
+          "minLength": 1,
+          "title": "Area Unit Token",
+          "type": "string"
+        },
+        "specimen_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Specimen Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "specimen_id",
+        "product_id",
+        "heat_id",
+        "material_condition_id",
+        "orientation_id",
+        "geometry_id",
+        "initial_gauge_length",
+        "initial_cross_section_area",
+        "geometry_unit_token",
+        "area_unit_token",
+        "specimen_record_digest",
+        "evidence"
+      ],
+      "title": "TensileSpecimenIdentity",
+      "type": "object"
+    },
+    "TensileTestRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "test_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Test Temperature K",
+          "type": "number"
+        },
+        "expanded_temperature_uncertainty_K": {
+          "minimum": 0,
+          "title": "Expanded Temperature Uncertainty K",
+          "type": "number"
+        },
+        "strain_rate_per_s": {
+          "exclusiveMinimum": 0,
+          "title": "Strain Rate Per S",
+          "type": "number"
+        },
+        "expanded_strain_rate_uncertainty_per_s": {
+          "minimum": 0,
+          "title": "Expanded Strain Rate Uncertainty Per S",
+          "type": "number"
+        },
+        "offset_definition_id": {
+          "minLength": 1,
+          "title": "Offset Definition Id",
+          "type": "string"
+        },
+        "offset_strain": {
+          "minimum": 0,
+          "title": "Offset Strain",
+          "type": "number"
+        },
+        "offset_strain_unit_token": {
+          "const": "1",
+          "default": "1",
+          "title": "Offset Strain Unit Token",
+          "type": "string"
+        },
+        "raw_curve_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Curve Digest",
+          "type": "string"
+        },
+        "result_set_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Set Digest",
+          "type": "string"
+        },
+        "results": {
+          "items": {
+            "$ref": "#/$defs/TensileReportedResult"
+          },
+          "minItems": 1,
+          "title": "Results",
+          "type": "array"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "caller_validity_status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ],
+          "title": "Caller Validity Status",
+          "type": "string"
+        },
+        "caller_validity_basis": {
+          "minLength": 1,
+          "title": "Caller Validity Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "test_id",
+        "specimen_id",
+        "sequence_index",
+        "test_temperature_K",
+        "expanded_temperature_uncertainty_K",
+        "strain_rate_per_s",
+        "expanded_strain_rate_uncertainty_per_s",
+        "offset_definition_id",
+        "offset_strain",
+        "raw_curve_digest",
+        "result_set_digest",
+        "results",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "caller_validity_status",
+        "caller_validity_basis",
+        "evidence"
+      ],
+      "title": "TensileTestRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "specimens": {
+      "items": {
+        "$ref": "#/$defs/TensileSpecimenIdentity"
+      },
+      "minItems": 1,
+      "title": "Specimens",
+      "type": "array"
+    },
+    "machine": {
+      "$ref": "#/$defs/TensileMachineConfiguration"
+    },
+    "tests": {
+      "items": {
+        "$ref": "#/$defs/TensileTestRecord"
+      },
+      "minItems": 1,
+      "title": "Tests",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/TensileCampaignCallerProfile"
+    },
+    "specimen_product_heat_orientation_and_geometry_reviewed": {
+      "title": "Specimen Product Heat Orientation And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "machine_load_cell_extensometer_and_calibration_reviewed": {
+      "title": "Machine Load Cell Extensometer And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "temperature_strain_rate_and_offset_definition_reviewed": {
+      "title": "Temperature Strain Rate And Offset Definition Reviewed",
+      "type": "boolean"
+    },
+    "raw_curve_and_reported_result_digests_reviewed": {
+      "title": "Raw Curve And Reported Result Digests Reviewed",
+      "type": "boolean"
+    },
+    "result_units_uncertainties_and_validity_flags_reviewed": {
+      "title": "Result Units Uncertainties And Validity Flags Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_groups_reviewed": {
+      "title": "Replicate Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_and_missing_evidence_policy_reviewed": {
+      "title": "Caller Profile And Missing Evidence Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "campaign_id",
+    "specimens",
+    "machine",
+    "tests",
+    "caller_profile",
+    "specimen_product_heat_orientation_and_geometry_reviewed",
+    "machine_load_cell_extensometer_and_calibration_reviewed",
+    "temperature_strain_rate_and_offset_definition_reviewed",
+    "raw_curve_and_reported_result_digests_reviewed",
+    "result_units_uncertainties_and_validity_flags_reviewed",
+    "replicate_source_and_independence_groups_reviewed",
+    "caller_profile_and_missing_evidence_policy_reviewed",
+    "evidence"
+  ],
+  "title": "TensileOffsetYieldCampaign",
+  "type": "object"
+}

@@ -1,0 +1,487 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationMap": {
+      "additionalProperties": false,
+      "properties": {
+        "differential_pressure_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Differential Pressure Pa",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/GasketLeakageCalibrationRow"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "differential_pressure_Pa",
+        "rows"
+      ],
+      "title": "GasketLeakageCalibrationMap",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationRow": {
+      "additionalProperties": false,
+      "properties": {
+        "contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Contact Pressure Pa",
+          "type": "number"
+        },
+        "molar_leak_flux_by_delta_pressure_mol_s_m2": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Molar Leak Flux By Delta Pressure Mol S M2",
+          "type": "array"
+        }
+      },
+      "required": [
+        "contact_pressure_Pa",
+        "molar_leak_flux_by_delta_pressure_mol_s_m2"
+      ],
+      "title": "GasketLeakageCalibrationRow",
+      "type": "object"
+    },
+    "GasketLeakageCorrelatedScenario": {
+      "additionalProperties": false,
+      "description": "One joint realization; dependence is preserved by keeping all fields together.",
+      "properties": {
+        "scenario_id": {
+          "minLength": 1,
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "node_contact_pressure_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Node Contact Pressure Pa",
+          "type": "array"
+        },
+        "common_differential_pressure_Pa": {
+          "minimum": 0,
+          "title": "Common Differential Pressure Pa",
+          "type": "number"
+        },
+        "node_area_m2": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Node Area M2",
+          "type": "array"
+        },
+        "calibration_flux_by_contact_pressure_and_delta": {
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Calibration Flux By Contact Pressure And Delta",
+          "type": "array"
+        }
+      },
+      "required": [
+        "scenario_id",
+        "node_contact_pressure_Pa",
+        "common_differential_pressure_Pa",
+        "node_area_m2",
+        "calibration_flux_by_contact_pressure_and_delta"
+      ],
+      "title": "GasketLeakageCorrelatedScenario",
+      "type": "object"
+    },
+    "GasketLeakageCorrelatedScenarioEnvelope": {
+      "additionalProperties": false,
+      "description": "Evaluate a finite caller-supplied joint scenario set with no invented distributions.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.gasket_leakage_correlated_scenario_envelope.v1",
+          "default": "matintegrity.gasket_leakage_correlated_scenario_envelope.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "calibration": {
+          "$ref": "#/$defs/GasketLeakageCalibrationMap"
+        },
+        "calibration_provider_id": {
+          "minLength": 1,
+          "title": "Calibration Provider Id",
+          "type": "string"
+        },
+        "calibration_provider_revision": {
+          "minLength": 1,
+          "title": "Calibration Provider Revision",
+          "type": "string"
+        },
+        "calibration_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Record Sha256",
+          "type": "string"
+        },
+        "scenario_provider_id": {
+          "minLength": 1,
+          "title": "Scenario Provider Id",
+          "type": "string"
+        },
+        "scenario_provider_revision": {
+          "minLength": 1,
+          "title": "Scenario Provider Revision",
+          "type": "string"
+        },
+        "scenario_set_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Scenario Set Sha256",
+          "type": "string"
+        },
+        "scenarios": {
+          "items": {
+            "$ref": "#/$defs/GasketLeakageCorrelatedScenario"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Scenarios",
+          "type": "array"
+        },
+        "maximum_scenario_node_evaluations": {
+          "default": 2000000,
+          "maximum": 10000000,
+          "minimum": 1,
+          "title": "Maximum Scenario Node Evaluations",
+          "type": "integer"
+        },
+        "maximum_scenario_grid_cells": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Scenario Grid Cells",
+          "type": "integer"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 2,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "usage_rights_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Usage Rights Evidence",
+          "type": "array"
+        },
+        "usage_license_id": {
+          "minLength": 1,
+          "title": "Usage License Id",
+          "type": "string"
+        },
+        "joint_scenario_correlation_reviewed": {
+          "title": "Joint Scenario Correlation Reviewed",
+          "type": "boolean"
+        },
+        "scenario_coverage_and_bounds_reviewed": {
+          "title": "Scenario Coverage And Bounds Reviewed",
+          "type": "boolean"
+        },
+        "calibration_and_joint_match_reviewed": {
+          "title": "Calibration And Joint Match Reviewed",
+          "type": "boolean"
+        },
+        "area_partition_and_units_reviewed": {
+          "title": "Area Partition And Units Reviewed",
+          "type": "boolean"
+        },
+        "usage_rights_reviewed": {
+          "title": "Usage Rights Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "joint_id",
+        "physical_scope_id",
+        "time_s",
+        "node_ids",
+        "calibration",
+        "calibration_provider_id",
+        "calibration_provider_revision",
+        "calibration_record_sha256",
+        "scenario_provider_id",
+        "scenario_provider_revision",
+        "scenario_set_sha256",
+        "scenarios",
+        "evidence",
+        "usage_rights_evidence",
+        "usage_license_id",
+        "joint_scenario_correlation_reviewed",
+        "scenario_coverage_and_bounds_reviewed",
+        "calibration_and_joint_match_reviewed",
+        "area_partition_and_units_reviewed",
+        "usage_rights_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "GasketLeakageCorrelatedScenarioEnvelope",
+      "type": "object"
+    },
+    "GasketLeakageWeightedScenarioMoments": {
+      "additionalProperties": false,
+      "description": "Descriptive weighted moments over a complete finite joint scenario set.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.gasket_leakage_weighted_scenario_moments.v1",
+          "default": "matintegrity.gasket_leakage_weighted_scenario_moments.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scenario_envelope": {
+          "$ref": "#/$defs/GasketLeakageCorrelatedScenarioEnvelope"
+        },
+        "scenario_weights": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Scenario Weights",
+          "type": "array"
+        },
+        "weight_semantics": {
+          "enum": [
+            "empirical_frequency",
+            "quadrature_weight",
+            "user_declared_weight"
+          ],
+          "title": "Weight Semantics",
+          "type": "string"
+        },
+        "weight_provider_id": {
+          "minLength": 1,
+          "title": "Weight Provider Id",
+          "type": "string"
+        },
+        "weight_provider_revision": {
+          "minLength": 1,
+          "title": "Weight Provider Revision",
+          "type": "string"
+        },
+        "weight_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Weight Record Sha256",
+          "type": "string"
+        },
+        "weight_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "weight_usage_rights_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Weight Usage Rights Evidence",
+          "type": "array"
+        },
+        "weight_usage_license_id": {
+          "minLength": 1,
+          "title": "Weight Usage License Id",
+          "type": "string"
+        },
+        "weight_meaning_reviewed": {
+          "title": "Weight Meaning Reviewed",
+          "type": "boolean"
+        },
+        "weight_usage_rights_reviewed": {
+          "title": "Weight Usage Rights Reviewed",
+          "type": "boolean"
+        },
+        "weight_computational_use_authorized": {
+          "title": "Weight Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scenario_envelope",
+        "scenario_weights",
+        "weight_semantics",
+        "weight_provider_id",
+        "weight_provider_revision",
+        "weight_record_sha256",
+        "weight_evidence",
+        "weight_usage_rights_evidence",
+        "weight_usage_license_id",
+        "weight_meaning_reviewed",
+        "weight_usage_rights_reviewed",
+        "weight_computational_use_authorized"
+      ],
+      "title": "GasketLeakageWeightedScenarioMoments",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_finite_scenario_dependence.v1",
+      "default": "matintegrity.gasket_finite_scenario_dependence.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "weighted_scenarios": {
+      "$ref": "#/$defs/GasketLeakageWeightedScenarioMoments"
+    },
+    "selected_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Selected Node Ids",
+      "type": "array"
+    },
+    "maximum_scenario_variable_pairs": {
+      "default": 5000000,
+      "maximum": 100000000,
+      "minimum": 1,
+      "title": "Maximum Scenario Variable Pairs",
+      "type": "integer"
+    },
+    "finite_set_dependence_and_variable_units_reviewed": {
+      "title": "Finite Set Dependence And Variable Units Reviewed",
+      "type": "boolean"
+    },
+    "descriptive_covariance_not_causal_or_population_inference_reviewed": {
+      "title": "Descriptive Covariance Not Causal Or Population Inference Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "weighted_scenarios",
+    "selected_node_ids",
+    "finite_set_dependence_and_variable_units_reviewed",
+    "descriptive_covariance_not_causal_or_population_inference_reviewed"
+  ],
+  "title": "GasketFiniteScenarioDependence",
+  "type": "object"
+}

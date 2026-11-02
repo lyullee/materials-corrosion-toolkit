@@ -1,0 +1,132 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "couple_id": {
+      "minLength": 1,
+      "title": "Couple Id",
+      "type": "string"
+    },
+    "electrode_a_material_id": {
+      "minLength": 1,
+      "title": "Electrode A Material Id",
+      "type": "string"
+    },
+    "electrode_a_surface_condition_id": {
+      "minLength": 1,
+      "title": "Electrode A Surface Condition Id",
+      "type": "string"
+    },
+    "electrode_a_exposed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Electrode A Exposed Area M2",
+      "type": "number"
+    },
+    "electrode_b_material_id": {
+      "minLength": 1,
+      "title": "Electrode B Material Id",
+      "type": "string"
+    },
+    "electrode_b_surface_condition_id": {
+      "minLength": 1,
+      "title": "Electrode B Surface Condition Id",
+      "type": "string"
+    },
+    "electrode_b_exposed_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Electrode B Exposed Area M2",
+      "type": "number"
+    },
+    "electrical_connection_definition": {
+      "minLength": 1,
+      "title": "Electrical Connection Definition",
+      "type": "string"
+    },
+    "geometry_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "couple_id",
+    "electrode_a_material_id",
+    "electrode_a_surface_condition_id",
+    "electrode_a_exposed_area_m2",
+    "electrode_b_material_id",
+    "electrode_b_surface_condition_id",
+    "electrode_b_exposed_area_m2",
+    "electrical_connection_definition",
+    "geometry_record_digest",
+    "evidence"
+  ],
+  "title": "ElectrodeMaterialCouple",
+  "type": "object"
+}

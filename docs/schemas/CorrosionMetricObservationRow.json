@@ -1,0 +1,378 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One parser-emitted long-form metric row with explicit unresolved rights lineage.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.figshare_corrosion_metric_observation_row.v1",
+      "default": "matintegrity.figshare_corrosion_metric_observation_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "corrosion-resistant-alloy-metrics",
+      "default": "corrosion-resistant-alloy-metrics",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.6084/m9.figshare.13038257.v2",
+      "default": "10.6084/m9.figshare.13038257.v2",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "compilation_license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "Compilation License Id",
+      "type": "string"
+    },
+    "compilation_license_scope": {
+      "const": "compilation_only_underlying_observation_rights_unresolved",
+      "default": "compilation_only_underlying_observation_rights_unresolved",
+      "title": "Compilation License Scope",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "const": "CRA_database_Scientific_Data_Publication_12102020.xlsx",
+      "default": "CRA_database_Scientific_Data_Publication_12102020.xlsx",
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "source_file_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Source File Md5",
+      "type": "string"
+    },
+    "source_workbook_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Workbook Sha256",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "source_sheet": {
+      "minLength": 1,
+      "title": "Source Sheet",
+      "type": "string"
+    },
+    "provider_source_row": {
+      "minimum": 3,
+      "title": "Provider Source Row",
+      "type": "integer"
+    },
+    "source_number": {
+      "minimum": 0,
+      "title": "Source Number",
+      "type": "integer"
+    },
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "source_observation_id": {
+      "minLength": 1,
+      "title": "Source Observation Id",
+      "type": "string"
+    },
+    "metric": {
+      "minLength": 1,
+      "title": "Metric",
+      "type": "string"
+    },
+    "statistic": {
+      "minLength": 1,
+      "title": "Statistic",
+      "type": "string"
+    },
+    "raw_value": {
+      "title": "Raw Value"
+    },
+    "value_status": {
+      "enum": [
+        "exact",
+        "missing",
+        "lower_bound",
+        "upper_bound",
+        "exact_text_numeric",
+        "qualitative"
+      ],
+      "title": "Value Status",
+      "type": "string"
+    },
+    "qualifier": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Qualifier"
+    },
+    "reported_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reported Value"
+    },
+    "source_unit": {
+      "minLength": 1,
+      "title": "Source Unit",
+      "type": "string"
+    },
+    "normalized_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Normalized Value"
+    },
+    "normalized_unit": {
+      "minLength": 1,
+      "title": "Normalized Unit",
+      "type": "string"
+    },
+    "potential_reference": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Potential Reference"
+    },
+    "composition_wt_percent": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Composition Wt Percent",
+      "type": "object"
+    },
+    "composition_raw": {
+      "additionalProperties": true,
+      "title": "Composition Raw",
+      "type": "object"
+    },
+    "material_class": {
+      "title": "Material Class"
+    },
+    "conditions": {
+      "additionalProperties": true,
+      "title": "Conditions",
+      "type": "object"
+    },
+    "reference_number": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reference Number"
+    },
+    "underlying_reference_doi": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Underlying Reference Doi"
+    },
+    "underlying_reference_citation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Underlying Reference Citation"
+    },
+    "source_group_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Group Id"
+    },
+    "physical_specimen_id": {
+      "default": null,
+      "title": "Physical Specimen Id",
+      "type": "null"
+    },
+    "underlying_observation_rights_status": {
+      "const": "unresolved",
+      "default": "unresolved",
+      "title": "Underlying Observation Rights Status",
+      "type": "string"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "ranking_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Ranking Inferred",
+      "type": "boolean"
+    },
+    "acceptance_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Acceptance Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_file_bytes",
+    "source_file_md5",
+    "source_workbook_sha256",
+    "source_order",
+    "source_sheet",
+    "provider_source_row",
+    "source_number",
+    "observation_id",
+    "source_observation_id",
+    "metric",
+    "statistic",
+    "raw_value",
+    "value_status",
+    "qualifier",
+    "reported_value",
+    "source_unit",
+    "normalized_value",
+    "normalized_unit",
+    "potential_reference",
+    "composition_wt_percent",
+    "composition_raw",
+    "material_class",
+    "conditions",
+    "reference_number",
+    "underlying_reference_doi",
+    "underlying_reference_citation",
+    "source_group_id",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "CorrosionMetricObservationRow",
+  "type": "object"
+}

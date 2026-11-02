@@ -1,0 +1,502 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2CylindricalGeometryKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "wall_recession_m": {
+          "minimum": 0,
+          "title": "Wall Recession M",
+          "type": "number"
+        },
+        "phase_inventories": {
+          "items": {
+            "$ref": "#/$defs/WetCo2ScalePhaseLineInventory"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phase Inventories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "wall_recession_m",
+        "phase_inventories"
+      ],
+      "title": "WetCo2CylindricalGeometryKnot",
+      "type": "object"
+    },
+    "WetCo2CylindricalLiquidDiffusivityKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0.0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "record_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "species_id",
+        "diffusivity_m2_s",
+        "record_id",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalLiquidDiffusivityKnot",
+      "type": "object"
+    },
+    "WetCo2CylindricalScaleGeometryHistory": {
+      "additionalProperties": false,
+      "description": "Map lineal phase inventory into an axisymmetric cylindrical bore at exact knots.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "default": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Time Basis Id",
+          "type": "string"
+        },
+        "outer_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Outer Radius M",
+          "type": "number"
+        },
+        "initial_inner_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Inner Radius M",
+          "type": "number"
+        },
+        "initial_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Wall Thickness M",
+          "type": "number"
+        },
+        "segment_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Segment Length M",
+          "type": "number"
+        },
+        "geometry_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Id",
+          "type": "string"
+        },
+        "geometry_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Revision",
+          "type": "string"
+        },
+        "geometry_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Sha256",
+          "type": "string"
+        },
+        "geometry_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "history_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Id",
+          "type": "string"
+        },
+        "history_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Revision",
+          "type": "string"
+        },
+        "history_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Record Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "phases": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalScalePhase"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phases",
+          "type": "array"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalGeometryKnot"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "History",
+          "type": "array"
+        },
+        "axisymmetric_uniformity_reviewed": {
+          "title": "Axisymmetric Uniformity Reviewed",
+          "type": "boolean"
+        },
+        "phase_inventory_reference_basis_reviewed": {
+          "title": "Phase Inventory Reference Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "time_basis_id",
+        "outer_radius_m",
+        "initial_inner_radius_m",
+        "initial_wall_thickness_m",
+        "segment_length_m",
+        "geometry_provider_id",
+        "geometry_provider_revision",
+        "geometry_record_sha256",
+        "geometry_evidence",
+        "history_provider_id",
+        "history_provider_revision",
+        "history_record_sha256",
+        "history_evidence",
+        "phases",
+        "history",
+        "axisymmetric_uniformity_reviewed",
+        "phase_inventory_reference_basis_reviewed"
+      ],
+      "title": "WetCo2CylindricalScaleGeometryHistory",
+      "type": "object"
+    },
+    "WetCo2CylindricalScalePhase": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "molar_volume_m3_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Volume M3 Mol",
+          "type": "number"
+        },
+        "provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "phase_id",
+        "molar_volume_m3_mol",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalScalePhase",
+      "type": "object"
+    },
+    "WetCo2ScalePhaseLineInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "moles_per_axial_metre_mol_m": {
+          "minimum": 0,
+          "title": "Moles Per Axial Metre Mol M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase_id",
+        "moles_per_axial_metre_mol_m"
+      ],
+      "title": "WetCo2ScalePhaseLineInventory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compose cylindrical single-phase hydraulics with an existing pointwise liquid transfer correlation.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_cylindrical_liquid_transfer_capacity_history.v1",
+      "default": "matintegrity.wet_co2_cylindrical_liquid_transfer_capacity_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "species_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "geometry": {
+      "$ref": "#/$defs/WetCo2CylindricalScaleGeometryHistory"
+    },
+    "geometry_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "hydraulics_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "hydraulics_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "diffusivity_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2CylindricalLiquidDiffusivityKnot"
+      },
+      "maxItems": 5000,
+      "minItems": 1,
+      "title": "Diffusivity History",
+      "type": "array"
+    },
+    "friction_exponent": {
+      "default": 0.96,
+      "maximum": 1.0,
+      "minimum": 0.5,
+      "title": "Friction Exponent",
+      "type": "number"
+    },
+    "single_phase_pipe_region_reviewed": {
+      "title": "Single Phase Pipe Region Reviewed",
+      "type": "boolean"
+    },
+    "provider_state_and_time_alignment_reviewed": {
+      "title": "Provider State And Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "turbulent_flow_and_local_shear_reviewed": {
+      "title": "Turbulent Flow And Local Shear Reviewed",
+      "type": "boolean"
+    },
+    "property_species_temperature_solvent_match_reviewed": {
+      "title": "Property Species Temperature Solvent Match Reviewed",
+      "type": "boolean"
+    },
+    "area_basis_and_left_held_integration_reviewed": {
+      "title": "Area Basis And Left Held Integration Reviewed",
+      "type": "boolean"
+    },
+    "correlation_scope_and_exponent_reviewed": {
+      "title": "Correlation Scope And Exponent Reviewed",
+      "type": "boolean"
+    },
+    "schmidt_extrapolation_reviewed": {
+      "default": false,
+      "title": "Schmidt Extrapolation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "condition_id",
+    "species_id",
+    "geometry",
+    "geometry_result",
+    "hydraulics_result",
+    "hydraulics_evidence",
+    "diffusivity_history",
+    "single_phase_pipe_region_reviewed",
+    "provider_state_and_time_alignment_reviewed",
+    "turbulent_flow_and_local_shear_reviewed",
+    "property_species_temperature_solvent_match_reviewed",
+    "area_basis_and_left_held_integration_reviewed",
+    "correlation_scope_and_exponent_reviewed"
+  ],
+  "title": "WetCo2CylindricalLiquidTransferCapacityHistory",
+  "type": "object"
+}

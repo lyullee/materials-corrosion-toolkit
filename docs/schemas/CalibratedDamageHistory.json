@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "CalibratedDamageInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_s": {
+          "minimum": 0,
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "exclusiveMinimum": 0,
+          "title": "End S",
+          "type": "number"
+        },
+        "loss_rate_m_s": {
+          "minimum": 0,
+          "title": "Loss Rate M S",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "condition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Condition Sha256",
+          "type": "string"
+        },
+        "condition_within_calibration_support_reviewed": {
+          "title": "Condition Within Calibration Support Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_s",
+        "end_s",
+        "loss_rate_m_s",
+        "provider_id",
+        "provider_revision",
+        "calibration_sha256",
+        "condition_sha256",
+        "condition_within_calibration_support_reviewed"
+      ],
+      "title": "CalibratedDamageInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "mechanism": {
+      "enum": [
+        "microbial",
+        "cavitation"
+      ],
+      "title": "Mechanism",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/CalibratedDamageInterval"
+      },
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "calibrated_rate_and_mechanism_reviewed": {
+      "title": "Calibrated Rate And Mechanism Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "history_id",
+    "mechanism",
+    "material_condition_id",
+    "physical_location_id",
+    "intervals",
+    "calibrated_rate_and_mechanism_reviewed"
+  ],
+  "title": "CalibratedDamageHistory",
+  "type": "object"
+}

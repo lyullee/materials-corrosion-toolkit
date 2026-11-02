@@ -1,0 +1,200 @@
+{
+  "$defs": {
+    "PODCampaignObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "flaw_size_m": {
+          "exclusiveMinimum": 0,
+          "title": "Flaw Size M",
+          "type": "number"
+        },
+        "detected": {
+          "title": "Detected",
+          "type": "boolean"
+        },
+        "operator_id": {
+          "minLength": 1,
+          "title": "Operator Id",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "material_group": {
+          "minLength": 1,
+          "title": "Material Group",
+          "type": "string"
+        },
+        "geometry_group": {
+          "minLength": 1,
+          "title": "Geometry Group",
+          "type": "string"
+        },
+        "access_group": {
+          "minLength": 1,
+          "title": "Access Group",
+          "type": "string"
+        },
+        "is_blind": {
+          "title": "Is Blind",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "observation_id",
+        "specimen_id",
+        "flaw_size_m",
+        "detected",
+        "operator_id",
+        "procedure_id",
+        "material_group",
+        "geometry_group",
+        "access_group",
+        "is_blind"
+      ],
+      "title": "PODCampaignObservation",
+      "type": "object"
+    },
+    "PODCampaignRequirementProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "minimum_total_observations": {
+          "minimum": 1,
+          "title": "Minimum Total Observations",
+          "type": "integer"
+        },
+        "minimum_hits": {
+          "minimum": 1,
+          "title": "Minimum Hits",
+          "type": "integer"
+        },
+        "minimum_misses": {
+          "minimum": 1,
+          "title": "Minimum Misses",
+          "type": "integer"
+        },
+        "minimum_distinct_flaw_sizes": {
+          "minimum": 2,
+          "title": "Minimum Distinct Flaw Sizes",
+          "type": "integer"
+        },
+        "minimum_observations_per_operator": {
+          "minimum": 1,
+          "title": "Minimum Observations Per Operator",
+          "type": "integer"
+        },
+        "required_operator_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Operator Ids",
+          "type": "array"
+        },
+        "required_material_groups": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Material Groups",
+          "type": "array"
+        },
+        "required_geometry_groups": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Geometry Groups",
+          "type": "array"
+        },
+        "required_access_groups": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Access Groups",
+          "type": "array"
+        },
+        "require_blind_observations": {
+          "default": true,
+          "title": "Require Blind Observations",
+          "type": "boolean"
+        },
+        "require_one_observation_per_specimen": {
+          "default": true,
+          "title": "Require One Observation Per Specimen",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "profile_id",
+        "revision",
+        "minimum_total_observations",
+        "minimum_hits",
+        "minimum_misses",
+        "minimum_distinct_flaw_sizes",
+        "minimum_observations_per_operator",
+        "required_operator_ids",
+        "required_material_groups",
+        "required_geometry_groups",
+        "required_access_groups"
+      ],
+      "title": "PODCampaignRequirementProfile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/PODCampaignObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "requirement_profile": {
+      "$ref": "#/$defs/PODCampaignRequirementProfile"
+    },
+    "flaw_size_resolution_m": {
+      "exclusiveMinimum": 0,
+      "title": "Flaw Size Resolution M",
+      "type": "number"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "observations",
+    "requirement_profile",
+    "flaw_size_resolution_m"
+  ],
+  "title": "PODCampaignAuditRequest",
+  "type": "object"
+}

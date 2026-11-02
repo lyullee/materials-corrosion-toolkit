@@ -1,0 +1,205 @@
+{
+  "$defs": {
+    "CoolingIntervalBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "upper_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Upper Temperature K",
+          "type": "number"
+        },
+        "lower_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Lower Temperature K",
+          "type": "number"
+        },
+        "start_index": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Start Index",
+          "type": "integer"
+        },
+        "end_index": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Index"
+        }
+      },
+      "required": [
+        "branch_id",
+        "upper_temperature_K",
+        "lower_temperature_K"
+      ],
+      "title": "CoolingIntervalBranch",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evaluate multiple caller-selected cooling branches on one preserved history.",
+  "properties": {
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "branches": {
+      "items": {
+        "$ref": "#/$defs/CoolingIntervalBranch"
+      },
+      "minItems": 1,
+      "title": "Branches",
+      "type": "array"
+    },
+    "record_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Record Id"
+    },
+    "sensor_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sensor Id"
+    },
+    "location_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Location Id"
+    },
+    "provider_file_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider File Sha256"
+    },
+    "evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "temperature_K",
+    "branches"
+  ],
+  "title": "CoolingIntervalBatch",
+  "type": "object"
+}

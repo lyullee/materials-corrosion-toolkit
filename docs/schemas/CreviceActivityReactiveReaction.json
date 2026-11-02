@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "CreviceActivityReactiveTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "CreviceActivityReactiveTerm",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "reactants": {
+      "items": {
+        "$ref": "#/$defs/CreviceActivityReactiveTerm"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Reactants",
+      "type": "array"
+    },
+    "products": {
+      "items": {
+        "$ref": "#/$defs/CreviceActivityReactiveTerm"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Products",
+      "type": "array"
+    },
+    "forward_rate_constant_mol_m3_s_by_knot": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Forward Rate Constant Mol M3 S By Knot",
+      "type": "array"
+    },
+    "reverse_rate_constant_mol_m3_s_by_knot": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Reverse Rate Constant Mol M3 S By Knot",
+      "type": "array"
+    },
+    "equilibrium_constant_dimensionless_by_knot": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Equilibrium Constant Dimensionless By Knot",
+      "type": "array"
+    },
+    "parameter_record_id": {
+      "minLength": 1,
+      "title": "Parameter Record Id",
+      "type": "string"
+    },
+    "parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "reactants",
+    "products",
+    "forward_rate_constant_mol_m3_s_by_knot",
+    "reverse_rate_constant_mol_m3_s_by_knot",
+    "equilibrium_constant_dimensionless_by_knot",
+    "parameter_record_id",
+    "parameter_record_sha256",
+    "evidence"
+  ],
+  "title": "CreviceActivityReactiveReaction",
+  "type": "object"
+}

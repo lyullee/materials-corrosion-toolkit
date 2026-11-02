@@ -1,0 +1,120 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "interval_id": {
+      "minLength": 1,
+      "title": "Interval Id",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "minimum_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Temperature K",
+      "type": "number"
+    },
+    "maximum_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Temperature K",
+      "type": "number"
+    },
+    "environment_descriptor_id": {
+      "minLength": 1,
+      "title": "Environment Descriptor Id",
+      "type": "string"
+    },
+    "service_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Service Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "interval_id",
+    "start_time_s",
+    "end_time_s",
+    "minimum_temperature_K",
+    "maximum_temperature_K",
+    "environment_descriptor_id",
+    "service_record_digest",
+    "evidence"
+  ],
+  "title": "ReplicaServiceInterval",
+  "type": "object"
+}

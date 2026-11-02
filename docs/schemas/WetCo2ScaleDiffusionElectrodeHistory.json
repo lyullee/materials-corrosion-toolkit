@@ -1,0 +1,431 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ScaleAnodicBranch": {
+      "additionalProperties": false,
+      "description": "Caller Butler–Volmer oxidation branch with an explicit metal stoichiometry.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "exchange_current_density_A_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "metal_atoms_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Atoms Per Reaction Extent",
+          "type": "number"
+        },
+        "metal_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "metal_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Density Kg M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "equilibrium_potential_V",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "metal_atoms_per_reaction_extent",
+        "metal_molar_mass_kg_mol",
+        "metal_density_kg_m3"
+      ],
+      "title": "ScaleAnodicBranch",
+      "type": "object"
+    },
+    "ScaleCathodicReactantBranch": {
+      "additionalProperties": false,
+      "description": "Caller Butler–Volmer reduction branch consuming one transported scale species.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "reactant_species_id": {
+          "minLength": 1,
+          "title": "Reactant Species Id",
+          "type": "string"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "exchange_current_density_A_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "reactant_moles_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Reactant Moles Per Reaction Extent",
+          "type": "number"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "reactant_species_id",
+        "equilibrium_potential_V",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "reactant_moles_per_reaction_extent",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient"
+      ],
+      "title": "ScaleCathodicReactantBranch",
+      "type": "object"
+    },
+    "ScaleDiffusionElectrodeKnot": {
+      "additionalProperties": false,
+      "description": "One independent steady operating knot with a fixed scale layer and condition.",
+      "properties": {
+        "knot_id": {
+          "minLength": 1,
+          "title": "Knot Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "scale_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Scale Thickness M",
+          "type": "number"
+        },
+        "cell_count": {
+          "maximum": 500,
+          "minimum": 2,
+          "title": "Cell Count",
+          "type": "integer"
+        },
+        "effective_diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Effective Diffusivity M2 S",
+          "type": "number"
+        },
+        "first_order_scale_sink_rate_s": {
+          "minimum": 0,
+          "title": "First Order Scale Sink Rate S",
+          "type": "number"
+        },
+        "bulk_reactant_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Bulk Reactant Concentration Mol M3",
+          "type": "number"
+        },
+        "reference_reactant_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Reactant Concentration Mol M3",
+          "type": "number"
+        },
+        "reactant_species_id": {
+          "minLength": 1,
+          "title": "Reactant Species Id",
+          "type": "string"
+        },
+        "potential_reference_id": {
+          "minLength": 1,
+          "title": "Potential Reference Id",
+          "type": "string"
+        },
+        "potential_lower_V": {
+          "title": "Potential Lower V",
+          "type": "number"
+        },
+        "potential_upper_V": {
+          "title": "Potential Upper V",
+          "type": "number"
+        },
+        "anodic_branches": {
+          "items": {
+            "$ref": "#/$defs/ScaleAnodicBranch"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Anodic Branches",
+          "type": "array"
+        },
+        "cathodic_branches": {
+          "items": {
+            "$ref": "#/$defs/ScaleCathodicReactantBranch"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Cathodic Branches",
+          "type": "array"
+        },
+        "transport_provider_id": {
+          "minLength": 1,
+          "title": "Transport Provider Id",
+          "type": "string"
+        },
+        "transport_provider_revision": {
+          "minLength": 1,
+          "title": "Transport Provider Revision",
+          "type": "string"
+        },
+        "transport_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transport Configuration Sha256",
+          "type": "string"
+        },
+        "electrode_provider_id": {
+          "minLength": 1,
+          "title": "Electrode Provider Id",
+          "type": "string"
+        },
+        "electrode_provider_revision": {
+          "minLength": 1,
+          "title": "Electrode Provider Revision",
+          "type": "string"
+        },
+        "electrode_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Electrode Configuration Sha256",
+          "type": "string"
+        },
+        "transport_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Transport Evidence",
+          "type": "array"
+        },
+        "electrode_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Electrode Evidence",
+          "type": "array"
+        },
+        "potential_support_and_branch_signs_reviewed": {
+          "title": "Potential Support And Branch Signs Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "knot_id",
+        "time_s",
+        "temperature_K",
+        "scale_thickness_m",
+        "cell_count",
+        "effective_diffusivity_m2_s",
+        "first_order_scale_sink_rate_s",
+        "bulk_reactant_concentration_mol_m3",
+        "reference_reactant_concentration_mol_m3",
+        "reactant_species_id",
+        "potential_reference_id",
+        "potential_lower_V",
+        "potential_upper_V",
+        "anodic_branches",
+        "cathodic_branches",
+        "transport_provider_id",
+        "transport_provider_revision",
+        "transport_configuration_sha256",
+        "electrode_provider_id",
+        "electrode_provider_revision",
+        "electrode_configuration_sha256",
+        "transport_evidence",
+        "electrode_evidence",
+        "potential_support_and_branch_signs_reviewed"
+      ],
+      "title": "ScaleDiffusionElectrodeKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite scale reaction–diffusion and electrode mixed-potential history.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_scale_diffusion_electrode_mixed_potential.v1",
+      "default": "matintegrity.wet_co2_scale_diffusion_electrode_mixed_potential.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/ScaleDiffusionElectrodeKnot"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Knots",
+      "type": "array"
+    },
+    "fixed_geometry_patch_reviewed": {
+      "title": "Fixed Geometry Patch Reviewed",
+      "type": "boolean"
+    },
+    "finite_volume_and_first_order_sink_reviewed": {
+      "title": "Finite Volume And First Order Sink Reviewed",
+      "type": "boolean"
+    },
+    "common_metal_potential_and_no_ohmic_drop_reviewed": {
+      "title": "Common Metal Potential And No Ohmic Drop Reviewed",
+      "type": "boolean"
+    },
+    "steady_state_at_each_knot_reviewed": {
+      "title": "Steady State At Each Knot Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "knots",
+    "fixed_geometry_patch_reviewed",
+    "finite_volume_and_first_order_sink_reviewed",
+    "common_metal_potential_and_no_ohmic_drop_reviewed",
+    "steady_state_at_each_knot_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "WetCo2ScaleDiffusionElectrodeHistory",
+  "type": "object"
+}

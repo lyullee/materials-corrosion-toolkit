@@ -1,0 +1,358 @@
+{
+  "$defs": {
+    "ConsequenceQuantity": {
+      "additionalProperties": false,
+      "properties": {
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "receptor_id": {
+          "minLength": 1,
+          "title": "Receptor Id",
+          "type": "string"
+        },
+        "receptor_type": {
+          "minLength": 1,
+          "title": "Receptor Type",
+          "type": "string"
+        },
+        "receptor_location_id": {
+          "minLength": 1,
+          "title": "Receptor Location Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quantity_id",
+        "quantity_definition",
+        "value",
+        "unit_token",
+        "receptor_id",
+        "receptor_type",
+        "receptor_location_id",
+        "clock_id",
+        "time_s",
+        "time_basis"
+      ],
+      "title": "ConsequenceQuantity",
+      "type": "object"
+    },
+    "ConsequenceStageResult": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "source",
+            "release",
+            "dispersion",
+            "effect"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "model_id": {
+          "minLength": 1,
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "title": "Model Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "needs_data",
+            "out_of_scope",
+            "not_run"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "quantities": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ConsequenceQuantity"
+          },
+          "title": "Quantities",
+          "type": "array"
+        },
+        "missing_items": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Items",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage",
+        "provider_id",
+        "model_id",
+        "model_revision",
+        "configuration_digest",
+        "input_digest",
+        "result_digest",
+        "status",
+        "notes"
+      ],
+      "title": "ConsequenceStageResult",
+      "type": "object"
+    },
+    "RequestedConsequenceModel": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "source",
+            "release",
+            "dispersion",
+            "effect"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "model_id": {
+          "minLength": 1,
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "title": "Model Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "provider_id",
+        "model_id",
+        "model_revision",
+        "configuration_digest"
+      ],
+      "title": "RequestedConsequenceModel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.consequence_scenario_result.v1",
+      "default": "matintegrity.consequence_scenario_result.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "result_record_id": {
+      "minLength": 1,
+      "title": "Result Record Id",
+      "type": "string"
+    },
+    "handoff_id": {
+      "minLength": 1,
+      "title": "Handoff Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "handoff_payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Handoff Payload Digest",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_probability": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Event Probability",
+      "type": "number"
+    },
+    "probability_semantics": {
+      "enum": [
+        "conditional_first_failure_in_period",
+        "point_in_time_state_probability",
+        "posterior_parameter_probability",
+        "model_implied_input_uncertainty_probability",
+        "spatial_size_exceedance_at_one_exposure",
+        "detection_given_flaw_and_procedure",
+        "unscoped_event_probability",
+        "fault_tree_top_event_probability"
+      ],
+      "title": "Probability Semantics",
+      "type": "string"
+    },
+    "probability_conditioning": {
+      "minLength": 1,
+      "title": "Probability Conditioning",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "requested_models": {
+      "items": {
+        "$ref": "#/$defs/RequestedConsequenceModel"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Requested Models",
+      "type": "array"
+    },
+    "stage_results": {
+      "items": {
+        "$ref": "#/$defs/ConsequenceStageResult"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Stage Results",
+      "type": "array"
+    },
+    "scenario_status": {
+      "enum": [
+        "complete",
+        "needs_data",
+        "out_of_scope",
+        "incomplete"
+      ],
+      "title": "Scenario Status",
+      "type": "string"
+    },
+    "scenario_missing_items": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Scenario Missing Items",
+      "type": "array"
+    },
+    "consequence_to_failure_probability_conversion_performed": {
+      "const": false,
+      "default": false,
+      "title": "Consequence To Failure Probability Conversion Performed",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "result_record_id",
+    "handoff_id",
+    "scenario_id",
+    "handoff_payload_digest",
+    "event_id",
+    "event_probability",
+    "probability_semantics",
+    "probability_conditioning",
+    "clock_id",
+    "requested_models",
+    "stage_results",
+    "scenario_status",
+    "limitations",
+    "payload_digest"
+  ],
+  "title": "ConsequenceScenarioResultRecord",
+  "type": "object"
+}

@@ -1,0 +1,560 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RepeatedThicknessMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "measured_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Measured Thickness M",
+          "type": "number"
+        },
+        "thickness_unit_token": {
+          "const": "m",
+          "title": "Thickness Unit Token",
+          "type": "string"
+        },
+        "measurement_standard_uncertainty_m": {
+          "minimum": 0,
+          "title": "Measurement Standard Uncertainty M",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "calibration_id",
+        "measured_thickness_m",
+        "thickness_unit_token",
+        "measurement_standard_uncertainty_m",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "RepeatedThicknessMeasurement",
+      "type": "object"
+    },
+    "ThermalSprayThicknessLocation": {
+      "additionalProperties": false,
+      "properties": {
+        "location_record_id": {
+          "minLength": 1,
+          "title": "Location Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "spatial_group_id": {
+          "minLength": 1,
+          "title": "Spatial Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "x_coordinate_m": {
+          "title": "X Coordinate M",
+          "type": "number"
+        },
+        "y_coordinate_m": {
+          "title": "Y Coordinate M",
+          "type": "number"
+        },
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "spray_batch_id": {
+          "minLength": 1,
+          "title": "Spray Batch Id",
+          "type": "string"
+        },
+        "process_condition_id": {
+          "minLength": 1,
+          "title": "Process Condition Id",
+          "type": "string"
+        },
+        "measurements": {
+          "items": {
+            "$ref": "#/$defs/RepeatedThicknessMeasurement"
+          },
+          "minItems": 2,
+          "title": "Measurements",
+          "type": "array"
+        },
+        "reference_thickness_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Thickness M"
+        },
+        "reference_standard_uncertainty_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Standard Uncertainty M"
+        },
+        "reference_provider_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Provider Id"
+        },
+        "reference_result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "location_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "spatial_group_id",
+        "partition",
+        "physical_location_id",
+        "coordinate_frame_id",
+        "x_coordinate_m",
+        "y_coordinate_m",
+        "layer_id",
+        "substrate_condition_id",
+        "spray_batch_id",
+        "process_condition_id",
+        "measurements",
+        "evidence"
+      ],
+      "title": "ThermalSprayThicknessLocation",
+      "type": "object"
+    },
+    "ThicknessInstrumentCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "instrument_id": {
+          "minLength": 1,
+          "title": "Instrument Id",
+          "type": "string"
+        },
+        "instrument_configuration_id": {
+          "minLength": 1,
+          "title": "Instrument Configuration Id",
+          "type": "string"
+        },
+        "additive_bias_correction_m": {
+          "title": "Additive Bias Correction M",
+          "type": "number"
+        },
+        "calibration_standard_uncertainty_m": {
+          "minimum": 0,
+          "title": "Calibration Standard Uncertainty M",
+          "type": "number"
+        },
+        "minimum_supported_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Thickness M",
+          "type": "number"
+        },
+        "maximum_supported_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Thickness M",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "instrument_id",
+        "instrument_configuration_id",
+        "additive_bias_correction_m",
+        "calibration_standard_uncertainty_m",
+        "minimum_supported_thickness_m",
+        "maximum_supported_thickness_m",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ThicknessInstrumentCalibration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "layer_id": {
+      "minLength": 1,
+      "title": "Layer Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "spray_batch_id": {
+      "minLength": 1,
+      "title": "Spray Batch Id",
+      "type": "string"
+    },
+    "process_condition_id": {
+      "minLength": 1,
+      "title": "Process Condition Id",
+      "type": "string"
+    },
+    "calibrations": {
+      "items": {
+        "$ref": "#/$defs/ThicknessInstrumentCalibration"
+      },
+      "minItems": 1,
+      "title": "Calibrations",
+      "type": "array"
+    },
+    "locations": {
+      "items": {
+        "$ref": "#/$defs/ThermalSprayThicknessLocation"
+      },
+      "minItems": 3,
+      "title": "Locations",
+      "type": "array"
+    },
+    "minimum_repeats_per_location": {
+      "minimum": 2,
+      "title": "Minimum Repeats Per Location",
+      "type": "integer"
+    },
+    "expanded_uncertainty_coverage_factor": {
+      "exclusiveMinimum": 0,
+      "title": "Expanded Uncertainty Coverage Factor",
+      "type": "number"
+    },
+    "specimen_location_layer_and_process_identity_reviewed": {
+      "title": "Specimen Location Layer And Process Identity Reviewed",
+      "type": "boolean"
+    },
+    "instrument_calibration_support_and_uncertainty_reviewed": {
+      "title": "Instrument Calibration Support And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "repeated_measurement_method_units_and_digests_reviewed": {
+      "title": "Repeated Measurement Method Units And Digests Reviewed",
+      "type": "boolean"
+    },
+    "spatial_groups_and_coordinate_frame_reviewed": {
+      "title": "Spatial Groups And Coordinate Frame Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_independence_and_spatial_partitions_reviewed": {
+      "title": "Specimen Source Independence And Spatial Partitions Reviewed",
+      "type": "boolean"
+    },
+    "holdout_reference_identity_and_uncertainty_reviewed": {
+      "title": "Holdout Reference Identity And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_independence_and_coverage_factor_reviewed": {
+      "title": "Uncertainty Independence And Coverage Factor Reviewed",
+      "type": "boolean"
+    },
+    "missing_invalid_and_support_policy_reviewed": {
+      "title": "Missing Invalid And Support Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "coating_system_id",
+    "layer_id",
+    "substrate_condition_id",
+    "spray_batch_id",
+    "process_condition_id",
+    "calibrations",
+    "locations",
+    "minimum_repeats_per_location",
+    "expanded_uncertainty_coverage_factor",
+    "specimen_location_layer_and_process_identity_reviewed",
+    "instrument_calibration_support_and_uncertainty_reviewed",
+    "repeated_measurement_method_units_and_digests_reviewed",
+    "spatial_groups_and_coordinate_frame_reviewed",
+    "specimen_source_independence_and_spatial_partitions_reviewed",
+    "holdout_reference_identity_and_uncertainty_reviewed",
+    "uncertainty_independence_and_coverage_factor_reviewed",
+    "missing_invalid_and_support_policy_reviewed",
+    "evidence"
+  ],
+  "title": "ThermalSprayThicknessUncertainty",
+  "type": "object"
+}

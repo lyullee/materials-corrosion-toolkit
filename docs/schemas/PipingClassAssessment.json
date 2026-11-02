@@ -1,0 +1,428 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PipingComponentRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "component_kind": {
+          "minLength": 1,
+          "title": "Component Kind",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material Condition Id"
+        },
+        "corrosion_allowance_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corrosion Allowance M"
+        },
+        "attributes": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Attributes",
+          "type": "object"
+        }
+      },
+      "required": [
+        "component_id",
+        "physical_scope_id",
+        "component_kind",
+        "attributes"
+      ],
+      "title": "PipingComponentRecord",
+      "type": "object"
+    },
+    "PipingComponentRule": {
+      "additionalProperties": false,
+      "properties": {
+        "component_kind": {
+          "minLength": 1,
+          "title": "Component Kind",
+          "type": "string"
+        },
+        "allowed_material_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Material Condition Ids",
+          "type": "array"
+        },
+        "minimum_corrosion_allowance_m": {
+          "minimum": 0,
+          "title": "Minimum Corrosion Allowance M",
+          "type": "number"
+        },
+        "required_attributes": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Required Attributes",
+          "type": "object"
+        }
+      },
+      "required": [
+        "component_kind",
+        "allowed_material_condition_ids",
+        "minimum_corrosion_allowance_m",
+        "required_attributes"
+      ],
+      "title": "PipingComponentRule",
+      "type": "object"
+    },
+    "PressureTemperatureEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "knots": {
+          "items": {
+            "$ref": "#/$defs/PressureTemperatureEnvelopeKnot"
+          },
+          "minItems": 2,
+          "title": "Knots",
+          "type": "array"
+        },
+        "operating_points": {
+          "items": {
+            "$ref": "#/$defs/PressureTemperatureOperatingPoint"
+          },
+          "minItems": 1,
+          "title": "Operating Points",
+          "type": "array"
+        },
+        "interpolation": {
+          "const": "piecewise_linear",
+          "default": "piecewise_linear",
+          "title": "Interpolation",
+          "type": "string"
+        },
+        "applicability_reviewed": {
+          "title": "Applicability Reviewed",
+          "type": "boolean"
+        },
+        "operating_points_reviewed": {
+          "title": "Operating Points Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "applicability_basis",
+        "source_sha256",
+        "knots",
+        "operating_points",
+        "applicability_reviewed",
+        "operating_points_reviewed"
+      ],
+      "title": "PressureTemperatureEnvelope",
+      "type": "object"
+    },
+    "PressureTemperatureEnvelopeKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "allowable_pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Allowable Pressure Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "allowable_pressure_Pa"
+      ],
+      "title": "PressureTemperatureEnvelopeKnot",
+      "type": "object"
+    },
+    "PressureTemperatureOperatingPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "pressure_Pa": {
+          "minimum": 0,
+          "title": "Pressure Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "point_id",
+        "temperature_K",
+        "pressure_Pa"
+      ],
+      "title": "PressureTemperatureOperatingPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "class_id": {
+      "minLength": 1,
+      "title": "Class Id",
+      "type": "string"
+    },
+    "class_revision": {
+      "minLength": 1,
+      "title": "Class Revision",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "service_id": {
+      "minLength": 1,
+      "title": "Service Id",
+      "type": "string"
+    },
+    "allowed_service_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Service Ids",
+      "type": "array"
+    },
+    "rating_label": {
+      "minLength": 1,
+      "title": "Rating Label",
+      "type": "string"
+    },
+    "gauge_reference_id": {
+      "minLength": 1,
+      "title": "Gauge Reference Id",
+      "type": "string"
+    },
+    "pressure_envelope": {
+      "$ref": "#/$defs/PressureTemperatureEnvelope"
+    },
+    "component_rules": {
+      "items": {
+        "$ref": "#/$defs/PipingComponentRule"
+      },
+      "minItems": 1,
+      "title": "Component Rules",
+      "type": "array"
+    },
+    "required_component_kinds": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Component Kinds",
+      "type": "array"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/PipingComponentRecord"
+      },
+      "minItems": 1,
+      "title": "Components",
+      "type": "array"
+    }
+  },
+  "required": [
+    "basis",
+    "class_id",
+    "class_revision",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "service_id",
+    "allowed_service_ids",
+    "rating_label",
+    "gauge_reference_id",
+    "pressure_envelope",
+    "component_rules",
+    "required_component_kinds",
+    "components"
+  ],
+  "title": "PipingClassAssessment",
+  "type": "object"
+}

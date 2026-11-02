@@ -1,0 +1,206 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "observation_time_s": {
+      "minimum": 0,
+      "title": "Observation Time S",
+      "type": "number"
+    },
+    "observation_kind": {
+      "enum": [
+        "acceleration",
+        "load",
+        "orientation",
+        "temperature",
+        "humidity",
+        "impact",
+        "other"
+      ],
+      "title": "Observation Kind",
+      "type": "string"
+    },
+    "metric_id": {
+      "minLength": 1,
+      "title": "Metric Id",
+      "type": "string"
+    },
+    "metric_definition": {
+      "minLength": 1,
+      "title": "Metric Definition",
+      "type": "string"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Value"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "expanded_uncertainty": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expanded Uncertainty"
+    },
+    "sensor_or_instrument_id": {
+      "minLength": 1,
+      "title": "Sensor Or Instrument Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "raw_data_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Raw Data Digest",
+      "type": "string"
+    },
+    "observation_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observation Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "observation_id",
+    "event_id",
+    "observation_time_s",
+    "observation_kind",
+    "metric_id",
+    "metric_definition",
+    "unit_token",
+    "sensor_or_instrument_id",
+    "provider_id",
+    "provider_revision",
+    "configuration_digest",
+    "raw_data_digest",
+    "observation_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "HandlingObservation",
+  "type": "object"
+}

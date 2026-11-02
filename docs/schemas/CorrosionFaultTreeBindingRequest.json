@@ -1,0 +1,385 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "CorrosionFaultTreeProbabilityInput": {
+      "additionalProperties": false,
+      "description": "Caller-owned event definition and probability provenance for FTA exchange.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.corrosion_fta_probability_input.v1",
+          "default": "matintegrity.corrosion_fta_probability_input.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "condition_statement": {
+          "minLength": 1,
+          "title": "Condition Statement",
+          "type": "string"
+        },
+        "condition_basis": {
+          "const": "required_thickness_crossing_within_history_support",
+          "title": "Condition Basis",
+          "type": "string"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "probability_meaning": {
+          "const": "conditional_first_failure_in_period",
+          "title": "Probability Meaning",
+          "type": "string"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "probability_scope_id": {
+          "minLength": 1,
+          "title": "Probability Scope Id",
+          "type": "string"
+        },
+        "probability_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Probability Evidence",
+          "type": "array"
+        },
+        "rights_boundary": {
+          "enum": [
+            "local_only",
+            "caller_authorized_open_distribution"
+          ],
+          "title": "Rights Boundary",
+          "type": "string"
+        },
+        "rights_authorization_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rights Authorization Digest"
+        }
+      },
+      "required": [
+        "event_id",
+        "failure_mode",
+        "condition_id",
+        "condition_statement",
+        "condition_basis",
+        "probability",
+        "probability_meaning",
+        "conditioning",
+        "probability_scope_id",
+        "probability_evidence",
+        "rights_boundary"
+      ],
+      "title": "CorrosionFaultTreeProbabilityInput",
+      "type": "object"
+    },
+    "CorrosionRateHistoryKnot": {
+      "additionalProperties": false,
+      "description": "One caller-provided, provenance-bearing point in a corrosion-rate history.",
+      "properties": {
+        "knot_index": {
+          "minimum": 0,
+          "title": "Knot Index",
+          "type": "integer"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "corrosion_rate_m_s": {
+          "minimum": 0,
+          "title": "Corrosion Rate M S",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "knot_index",
+        "time_s",
+        "corrosion_rate_m_s",
+        "evidence"
+      ],
+      "title": "CorrosionRateHistoryKnot",
+      "type": "object"
+    },
+    "CorrosionRateThicknessHistoryRequest": {
+      "additionalProperties": false,
+      "description": "Finite thickness history under a caller-reviewed linear rate path.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.corrosion_rate_thickness_history.v1",
+          "default": "matintegrity.corrosion_rate_thickness_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "history_id": {
+          "minLength": 1,
+          "title": "History Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "knots": {
+          "items": {
+            "$ref": "#/$defs/CorrosionRateHistoryKnot"
+          },
+          "maxItems": 100000,
+          "minItems": 2,
+          "title": "Knots",
+          "type": "array"
+        },
+        "baseline_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Baseline Thickness M",
+          "type": "number"
+        },
+        "baseline_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "required_thickness_m": {
+          "minimum": 0,
+          "title": "Required Thickness M",
+          "type": "number"
+        },
+        "required_thickness_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "ordered_history_reviewed": {
+          "title": "Ordered History Reviewed",
+          "type": "boolean"
+        },
+        "rate_source_mapping_reviewed": {
+          "title": "Rate Source Mapping Reviewed",
+          "type": "boolean"
+        },
+        "piecewise_linear_rate_reconstruction_reviewed": {
+          "title": "Piecewise Linear Rate Reconstruction Reviewed",
+          "type": "boolean"
+        },
+        "uniform_area_average_loss_reviewed": {
+          "title": "Uniform Area Average Loss Reviewed",
+          "type": "boolean"
+        },
+        "material_condition_and_location_reviewed": {
+          "title": "Material Condition And Location Reviewed",
+          "type": "boolean"
+        },
+        "finite_support_no_extrapolation_reviewed": {
+          "title": "Finite Support No Extrapolation Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "history_id",
+        "asset_id",
+        "location_id",
+        "material_id",
+        "material_condition_id",
+        "physical_scope_id",
+        "time_basis",
+        "knots",
+        "baseline_thickness_m",
+        "baseline_evidence",
+        "required_thickness_m",
+        "required_thickness_evidence",
+        "ordered_history_reviewed",
+        "rate_source_mapping_reviewed",
+        "piecewise_linear_rate_reconstruction_reviewed",
+        "uniform_area_average_loss_reviewed",
+        "material_condition_and_location_reviewed",
+        "finite_support_no_extrapolation_reviewed"
+      ],
+      "title": "CorrosionRateThicknessHistoryRequest",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Registry input combining one finite corrosion result and caller p basis.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.corrosion_fta_binding_request.v1",
+      "default": "matintegrity.corrosion_fta_binding_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "corrosion_request": {
+      "$ref": "#/$defs/CorrosionRateThicknessHistoryRequest"
+    },
+    "corrosion_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "probability_input": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CorrosionFaultTreeProbabilityInput"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "corrosion_request",
+    "corrosion_result"
+  ],
+  "title": "CorrosionFaultTreeBindingRequest",
+  "type": "object"
+}

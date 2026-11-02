@@ -1,0 +1,327 @@
+{
+  "$defs": {
+    "CarpinteriSpagnoliPlane": {
+      "additionalProperties": false,
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Normal",
+          "type": "array"
+        },
+        "tangent_u": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent U",
+          "type": "array"
+        },
+        "tangent_v": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent V",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "tangent_u",
+        "tangent_v"
+      ],
+      "title": "CarpinteriSpagnoliPlane",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "history_source_id": {
+      "minLength": 1,
+      "title": "History Source Id",
+      "type": "string"
+    },
+    "history_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Source Sha256",
+      "type": "string"
+    },
+    "history_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "axial_curve_source_id": {
+      "minLength": 1,
+      "title": "Axial Curve Source Id",
+      "type": "string"
+    },
+    "axial_curve_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Axial Curve Sha256",
+      "type": "string"
+    },
+    "axial_curve_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "torsion_curve_source_id": {
+      "minLength": 1,
+      "title": "Torsion Curve Source Id",
+      "type": "string"
+    },
+    "torsion_curve_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Torsion Curve Sha256",
+      "type": "string"
+    },
+    "torsion_curve_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/CarpinteriSpagnoliPlane"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "axial_curve_cycles": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Axial Curve Cycles",
+      "type": "array"
+    },
+    "axial_stress_amplitudes_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Axial Stress Amplitudes Pa",
+      "type": "array"
+    },
+    "torsion_curve_cycles": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Torsion Curve Cycles",
+      "type": "array"
+    },
+    "torsion_shear_amplitudes_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Torsion Shear Amplitudes Pa",
+      "type": "array"
+    },
+    "logarithmic_life_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Logarithmic Life Tolerance",
+      "type": "number"
+    },
+    "maximum_root_iterations": {
+      "default": 100,
+      "maximum": 1000,
+      "minimum": 10,
+      "title": "Maximum Root Iterations",
+      "type": "integer"
+    },
+    "maximum_plane_pair_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Plane Pair Evaluations",
+      "type": "integer"
+    },
+    "maximum_curve_root_work": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Curve Root Work",
+      "type": "integer"
+    },
+    "material_curve_match_and_smooth_specimen_basis_reviewed": {
+      "title": "Material Curve Match And Smooth Specimen Basis Reviewed",
+      "type": "boolean"
+    },
+    "representative_closed_cycle_and_stress_basis_reviewed": {
+      "title": "Representative Closed Cycle And Stress Basis Reviewed",
+      "type": "boolean"
+    },
+    "plane_population_and_hard_metal_scope_reviewed": {
+      "title": "Plane Population And Hard Metal Scope Reviewed",
+      "type": "boolean"
+    },
+    "life_dependent_model_and_root_reviewed": {
+      "title": "Life Dependent Model And Root Reviewed",
+      "type": "boolean"
+    },
+    "curve_rights_and_engineering_use_reviewed": {
+      "title": "Curve Rights And Engineering Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "history_source_id",
+    "history_source_sha256",
+    "history_evidence",
+    "axial_curve_source_id",
+    "axial_curve_sha256",
+    "axial_curve_evidence",
+    "torsion_curve_source_id",
+    "torsion_curve_sha256",
+    "torsion_curve_evidence",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "candidate_planes",
+    "axial_curve_cycles",
+    "axial_stress_amplitudes_Pa",
+    "torsion_curve_cycles",
+    "torsion_shear_amplitudes_Pa",
+    "material_curve_match_and_smooth_specimen_basis_reviewed",
+    "representative_closed_cycle_and_stress_basis_reviewed",
+    "plane_population_and_hard_metal_scope_reviewed",
+    "life_dependent_model_and_root_reviewed",
+    "curve_rights_and_engineering_use_reviewed"
+  ],
+  "title": "CarpinteriSpagnoliLife",
+  "type": "object"
+}

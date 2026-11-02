@@ -1,0 +1,176 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "machine_id": {
+      "minLength": 1,
+      "title": "Machine Id",
+      "type": "string"
+    },
+    "machine_revision": {
+      "minLength": 1,
+      "title": "Machine Revision",
+      "type": "string"
+    },
+    "load_cell_id": {
+      "minLength": 1,
+      "title": "Load Cell Id",
+      "type": "string"
+    },
+    "load_cell_revision": {
+      "minLength": 1,
+      "title": "Load Cell Revision",
+      "type": "string"
+    },
+    "extensometer_id": {
+      "minLength": 1,
+      "title": "Extensometer Id",
+      "type": "string"
+    },
+    "extensometer_revision": {
+      "minLength": 1,
+      "title": "Extensometer Revision",
+      "type": "string"
+    },
+    "machine_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Machine Configuration Digest",
+      "type": "string"
+    },
+    "load_cell_calibration_id": {
+      "minLength": 1,
+      "title": "Load Cell Calibration Id",
+      "type": "string"
+    },
+    "load_cell_calibration_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "missing"
+      ],
+      "title": "Load Cell Calibration Status",
+      "type": "string"
+    },
+    "load_cell_calibration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Load Cell Calibration Digest",
+      "type": "string"
+    },
+    "extensometer_calibration_id": {
+      "minLength": 1,
+      "title": "Extensometer Calibration Id",
+      "type": "string"
+    },
+    "extensometer_calibration_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "missing"
+      ],
+      "title": "Extensometer Calibration Status",
+      "type": "string"
+    },
+    "extensometer_calibration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Extensometer Calibration Digest",
+      "type": "string"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "machine_id",
+    "machine_revision",
+    "load_cell_id",
+    "load_cell_revision",
+    "extensometer_id",
+    "extensometer_revision",
+    "machine_configuration_digest",
+    "load_cell_calibration_id",
+    "load_cell_calibration_status",
+    "load_cell_calibration_digest",
+    "extensometer_calibration_id",
+    "extensometer_calibration_status",
+    "extensometer_calibration_digest",
+    "evidence"
+  ],
+  "title": "TensileMachineConfiguration",
+  "type": "object"
+}

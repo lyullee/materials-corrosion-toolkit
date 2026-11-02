@@ -1,0 +1,301 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2SimulationGridRow": {
+      "additionalProperties": false,
+      "description": "One attributed SI row from the licensed model-generated NORSOK dataset.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_simulation_grid_row.v1",
+          "default": "matintegrity.wet_co2_simulation_grid_row.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dataset_id": {
+          "const": "norsok-m506-simulation-grid",
+          "default": "norsok-m506-simulation-grid",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.17632/4nydhxjymw.1",
+          "default": "10.17632/4nydhxjymw.1",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "provider_row": {
+          "minimum": 2,
+          "title": "Provider Row",
+          "type": "integer"
+        },
+        "source_archive_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Archive Sha256",
+          "type": "string"
+        },
+        "source_data_type": {
+          "const": "simulated_model_output",
+          "default": "simulated_model_output",
+          "title": "Source Data Type",
+          "type": "string"
+        },
+        "source_group_id": {
+          "const": "doi:10.17632/4nydhxjymw.1",
+          "default": "doi:10.17632/4nydhxjymw.1",
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "flow_velocity_m_s": {
+          "minimum": 0,
+          "title": "Flow Velocity M S",
+          "type": "number"
+        },
+        "co2_pressure_Pa": {
+          "minimum": 0,
+          "title": "Co2 Pressure Pa",
+          "type": "number"
+        },
+        "internal_pressure_Pa": {
+          "minimum": 0,
+          "title": "Internal Pressure Pa",
+          "type": "number"
+        },
+        "corrosion_inhibitor_efficiency_fraction": {
+          "minimum": 0,
+          "title": "Corrosion Inhibitor Efficiency Fraction",
+          "type": "number"
+        },
+        "shear_stress_Pa": {
+          "minimum": 0,
+          "title": "Shear Stress Pa",
+          "type": "number"
+        },
+        "ph": {
+          "title": "Ph",
+          "type": "number"
+        },
+        "corrosion_rate_m_s": {
+          "minimum": 0,
+          "title": "Corrosion Rate M S",
+          "type": "number"
+        },
+        "physical_specimen_id": {
+          "default": null,
+          "title": "Physical Specimen Id",
+          "type": "null"
+        },
+        "independent_physical_observation": {
+          "const": false,
+          "default": false,
+          "title": "Independent Physical Observation",
+          "type": "boolean"
+        },
+        "empirical_calibration_ready": {
+          "const": false,
+          "default": false,
+          "title": "Empirical Calibration Ready",
+          "type": "boolean"
+        },
+        "physical_corrosion_calibration_ready": {
+          "const": false,
+          "default": false,
+          "title": "Physical Corrosion Calibration Ready",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "provider_row",
+        "source_archive_sha256",
+        "temperature_K",
+        "flow_velocity_m_s",
+        "co2_pressure_Pa",
+        "internal_pressure_Pa",
+        "corrosion_inhibitor_efficiency_fraction",
+        "shear_stress_Pa",
+        "ph",
+        "corrosion_rate_m_s",
+        "evidence"
+      ],
+      "title": "WetCo2SimulationGridRow",
+      "type": "object"
+    },
+    "WetCo2SimulationWallLossScenario": {
+      "additionalProperties": false,
+      "description": "A provider row retained as one distinct model-output scenario.",
+      "properties": {
+        "provider_row": {
+          "minimum": 2,
+          "title": "Provider Row",
+          "type": "integer"
+        },
+        "row_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Row Sha256",
+          "type": "string"
+        },
+        "corrosion_rate_m_s": {
+          "minimum": 0,
+          "title": "Corrosion Rate M S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "provider_row",
+        "row_sha256",
+        "corrosion_rate_m_s"
+      ],
+      "title": "WetCo2SimulationWallLossScenario",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite row-derived wall-loss range under an explicit constant-rate mapping.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_simulation_wall_loss_envelope.v1",
+      "default": "matintegrity.wet_co2_simulation_wall_loss_envelope.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenarios": {
+      "items": {
+        "$ref": "#/$defs/WetCo2SimulationWallLossScenario"
+      },
+      "maxItems": 243,
+      "minItems": 1,
+      "title": "Scenarios",
+      "type": "array"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/WetCo2SimulationGridRow"
+      },
+      "maxItems": 243,
+      "minItems": 1,
+      "title": "Rows",
+      "type": "array"
+    },
+    "exposure_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Duration S",
+      "type": "number"
+    },
+    "baseline_wall_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Baseline Wall Thickness M",
+      "type": "number"
+    },
+    "required_wall_thickness_m": {
+      "minimum": 0,
+      "title": "Required Wall Thickness M",
+      "type": "number"
+    },
+    "baseline_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "required_thickness_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "scenario_mapping_reviewed": {
+      "title": "Scenario Mapping Reviewed",
+      "type": "boolean"
+    },
+    "constant_rate_over_exposure_reviewed": {
+      "title": "Constant Rate Over Exposure Reviewed",
+      "type": "boolean"
+    },
+    "baseline_location_material_time_scope_reviewed": {
+      "title": "Baseline Location Material Time Scope Reviewed",
+      "type": "boolean"
+    },
+    "finite_scenario_set_interpretation_reviewed": {
+      "title": "Finite Scenario Set Interpretation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scenarios",
+    "rows",
+    "exposure_duration_s",
+    "baseline_wall_thickness_m",
+    "required_wall_thickness_m",
+    "baseline_evidence",
+    "required_thickness_evidence",
+    "scenario_mapping_reviewed",
+    "constant_rate_over_exposure_reviewed",
+    "baseline_location_material_time_scope_reviewed",
+    "finite_scenario_set_interpretation_reviewed"
+  ],
+  "title": "WetCo2SimulationWallLossEnvelopeRequest",
+  "type": "object"
+}

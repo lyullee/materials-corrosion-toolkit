@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "rate_history_result": {
+      "additionalProperties": true,
+      "title": "Rate History Result",
+      "type": "object"
+    },
+    "rate_history_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Rate History Result Sha256",
+      "type": "string"
+    },
+    "wall_equilibrium_concentration_mol_m3_by_knot_by_cell": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Wall Equilibrium Concentration Mol M3 By Knot By Cell",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "species_id",
+    "condition_id",
+    "rate_history_result",
+    "rate_history_result_sha256",
+    "wall_equilibrium_concentration_mol_m3_by_knot_by_cell",
+    "evidence"
+  ],
+  "title": "CreviceSpeciesWallRateHistory",
+  "type": "object"
+}

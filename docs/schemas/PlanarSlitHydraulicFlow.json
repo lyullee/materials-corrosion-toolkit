@@ -1,0 +1,116 @@
+{
+  "additionalProperties": false,
+  "description": "Steady laminar Newtonian flow through a caller-declared variable-gap slit.",
+  "properties": {
+    "flow_id": {
+      "minLength": 1,
+      "title": "Flow Id",
+      "type": "string"
+    },
+    "geometry_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Source Sha256",
+      "type": "string"
+    },
+    "aperture_history_result": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Aperture History Result"
+    },
+    "cell_widths_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Cell Widths M",
+      "type": "array"
+    },
+    "cell_aperture_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Cell Aperture M",
+      "type": "array"
+    },
+    "transverse_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Transverse Width M",
+      "type": "number"
+    },
+    "fluid_property_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fluid Property Source Sha256",
+      "type": "string"
+    },
+    "pressure_drop_Pa": {
+      "title": "Pressure Drop Pa",
+      "type": "number"
+    },
+    "dynamic_viscosity_Pa_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dynamic Viscosity Pa S",
+      "type": "number"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "minimum_width_to_aperture_ratio": {
+      "default": 20.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "minimum": 20.0,
+      "title": "Minimum Width To Aperture Ratio",
+      "type": "number"
+    },
+    "maximum_reviewed_reynolds_number": {
+      "default": 1000.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "title": "Maximum Reviewed Reynolds Number",
+      "type": "number"
+    },
+    "geometry_and_boundary_pressures_reviewed": {
+      "title": "Geometry And Boundary Pressures Reviewed",
+      "type": "boolean"
+    },
+    "incompressible_newtonian_fluid_properties_reviewed": {
+      "title": "Incompressible Newtonian Fluid Properties Reviewed",
+      "type": "boolean"
+    },
+    "laminar_fully_developed_slit_assumption_reviewed": {
+      "title": "Laminar Fully Developed Slit Assumption Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "flow_id",
+    "geometry_source_sha256",
+    "cell_widths_m",
+    "cell_aperture_m",
+    "transverse_width_m",
+    "fluid_property_source_sha256",
+    "pressure_drop_Pa",
+    "dynamic_viscosity_Pa_s",
+    "density_kg_m3",
+    "geometry_and_boundary_pressures_reviewed",
+    "incompressible_newtonian_fluid_properties_reviewed",
+    "laminar_fully_developed_slit_assumption_reviewed"
+  ],
+  "title": "PlanarSlitHydraulicFlow",
+  "type": "object"
+}

@@ -1,0 +1,290 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2SpeciesFluxInterval": {
+      "additionalProperties": false,
+      "description": "One exact interval of caller-owned signed inward wall molar fluxes.",
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "inward_species_flux_mol_m2_s": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Inward Species Flux Mol M2 S",
+          "type": "object"
+        },
+        "source_model_id": {
+          "minLength": 1,
+          "title": "Source Model Id",
+          "type": "string"
+        },
+        "source_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Result Sha256",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "flux_mapping_reviewed": {
+          "title": "Flux Mapping Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "inward_species_flux_mol_m2_s",
+        "source_model_id",
+        "source_result_sha256",
+        "source_record_id",
+        "provider_id",
+        "provider_revision",
+        "evidence",
+        "flux_mapping_reviewed"
+      ],
+      "title": "WetCo2SpeciesFluxInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "species_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Species Ids",
+      "type": "array"
+    },
+    "co2star_species_id": {
+      "default": "CO2_star",
+      "title": "Co2Star Species Id",
+      "type": "string"
+    },
+    "initial_liquid_concentration_mol_m3": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Initial Liquid Concentration Mol M3",
+      "type": "array"
+    },
+    "initial_liquid_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Liquid Volume M3",
+      "type": "number"
+    },
+    "initial_gas_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Initial Gas Fugacity Pa",
+      "type": "number"
+    },
+    "gas_molar_capacity_mol_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Molar Capacity Mol Pa",
+      "type": "number"
+    },
+    "wall_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Area M2",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2SpeciesFluxInterval"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "overall_gas_liquid_transfer_velocity_m_s": {
+      "minimum": 0,
+      "title": "Overall Gas Liquid Transfer Velocity M S",
+      "type": "number"
+    },
+    "liquid_volume_flux_m3_s": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Liquid Volume Flux M3 S",
+      "type": "array"
+    },
+    "incoming_liquid_concentration_mol_m3": {
+      "items": {
+        "items": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "title": "Incoming Liquid Concentration Mol M3",
+      "type": "array"
+    },
+    "absolute_tolerance_mol": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Tolerance Mol",
+      "type": "number"
+    },
+    "absolute_tolerance_fugacity_Pa": {
+      "default": 1e-07,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Tolerance Fugacity Pa",
+      "type": "number"
+    },
+    "relative_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "maximum_step_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Step S"
+    },
+    "initial_state_basis_reviewed": {
+      "title": "Initial State Basis Reviewed",
+      "type": "boolean"
+    },
+    "gas_liquid_transfer_parameter_reviewed": {
+      "title": "Gas Liquid Transfer Parameter Reviewed",
+      "type": "boolean"
+    },
+    "variable_liquid_flux_and_inflow_basis_reviewed": {
+      "title": "Variable Liquid Flux And Inflow Basis Reviewed",
+      "type": "boolean"
+    },
+    "wall_flux_direction_and_area_mapping_reviewed": {
+      "title": "Wall Flux Direction And Area Mapping Reviewed",
+      "type": "boolean"
+    },
+    "source_scope_and_clock_match_reviewed": {
+      "title": "Source Scope And Clock Match Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "species_ids",
+    "initial_liquid_concentration_mol_m3",
+    "initial_liquid_volume_m3",
+    "initial_gas_fugacity_Pa",
+    "gas_molar_capacity_mol_Pa",
+    "wall_area_m2",
+    "intervals",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "overall_gas_liquid_transfer_velocity_m_s",
+    "liquid_volume_flux_m3_s",
+    "incoming_liquid_concentration_mol_m3",
+    "initial_state_basis_reviewed",
+    "gas_liquid_transfer_parameter_reviewed",
+    "variable_liquid_flux_and_inflow_basis_reviewed",
+    "wall_flux_direction_and_area_mapping_reviewed",
+    "source_scope_and_clock_match_reviewed"
+  ],
+  "title": "WetCo2FiniteGasMultispeciesHistoryRequest",
+  "type": "object"
+}

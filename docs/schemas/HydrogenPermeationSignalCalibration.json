@@ -1,0 +1,186 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewed conversion from one exported current/clock pair to atomic-hydrogen flux.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_permeation_signal_calibration.v1",
+      "default": "matintegrity.hydrogen_permeation_signal_calibration.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "export_csv_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Export Csv Sha256",
+      "type": "string"
+    },
+    "selected_current_channel": {
+      "enum": [
+        "current_A",
+        "processed_current_A"
+      ],
+      "title": "Selected Current Channel",
+      "type": "string"
+    },
+    "selected_clock_channel": {
+      "enum": [
+        "instrument_clock_s",
+        "shifted_clock_s"
+      ],
+      "title": "Selected Clock Channel",
+      "type": "string"
+    },
+    "clock_origin_s": {
+      "title": "Clock Origin S",
+      "type": "number"
+    },
+    "current_sign_for_outward_hydrogen": {
+      "enum": [
+        -1,
+        1
+      ],
+      "title": "Current Sign For Outward Hydrogen",
+      "type": "integer"
+    },
+    "membrane_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Membrane Area M2",
+      "type": "number"
+    },
+    "electron_mol_per_hydrogen_atom_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Electron Mol Per Hydrogen Atom Mol",
+      "type": "number"
+    },
+    "current_efficiency": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Current Efficiency",
+      "type": "number"
+    },
+    "background_handling": {
+      "enum": [
+        "none_raw_channel",
+        "source_processed_channel"
+      ],
+      "title": "Background Handling",
+      "type": "string"
+    },
+    "area_basis": {
+      "minLength": 1,
+      "title": "Area Basis",
+      "type": "string"
+    },
+    "clock_origin_basis": {
+      "minLength": 1,
+      "title": "Clock Origin Basis",
+      "type": "string"
+    },
+    "physical_mapping_reviewed": {
+      "title": "Physical Mapping Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "material_condition_id",
+    "specimen_id",
+    "export_csv_sha256",
+    "selected_current_channel",
+    "selected_clock_channel",
+    "clock_origin_s",
+    "current_sign_for_outward_hydrogen",
+    "membrane_area_m2",
+    "electron_mol_per_hydrogen_atom_mol",
+    "current_efficiency",
+    "background_handling",
+    "area_basis",
+    "clock_origin_basis",
+    "physical_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "HydrogenPermeationSignalCalibration",
+  "type": "object"
+}

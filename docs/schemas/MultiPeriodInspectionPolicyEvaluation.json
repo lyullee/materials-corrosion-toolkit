@@ -1,0 +1,469 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "InspectionPolicyPath": {
+      "additionalProperties": false,
+      "properties": {
+        "path_id": {
+          "minLength": 1,
+          "title": "Path Id",
+          "type": "string"
+        },
+        "path_probability_given_start_survival": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Path Probability Given Start Survival",
+          "type": "number"
+        },
+        "path_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Source Sha256",
+          "type": "string"
+        },
+        "stages": {
+          "items": {
+            "$ref": "#/$defs/InspectionPolicyStage"
+          },
+          "title": "Stages",
+          "type": "array"
+        },
+        "first_failure_occurred": {
+          "title": "First Failure Occurred",
+          "type": "boolean"
+        },
+        "first_failure_time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Failure Time S"
+        },
+        "failure_consequence_present_value_factor": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Consequence Present Value Factor"
+        }
+      },
+      "required": [
+        "path_id",
+        "path_probability_given_start_survival",
+        "path_source_sha256",
+        "first_failure_occurred"
+      ],
+      "title": "InspectionPolicyPath",
+      "type": "object"
+    },
+    "InspectionPolicyStage": {
+      "additionalProperties": false,
+      "properties": {
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_time_s": {
+          "minimum": 0,
+          "title": "Stage Time S",
+          "type": "number"
+        },
+        "observed_state_id": {
+          "minLength": 1,
+          "title": "Observed State Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_definition": {
+          "minLength": 1,
+          "title": "Action Definition",
+          "type": "string"
+        },
+        "action_model_id": {
+          "minLength": 1,
+          "title": "Action Model Id",
+          "type": "string"
+        },
+        "action_model_revision": {
+          "minLength": 1,
+          "title": "Action Model Revision",
+          "type": "string"
+        },
+        "action_model_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Configuration Sha256",
+          "type": "string"
+        },
+        "action_model_input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Input Sha256",
+          "type": "string"
+        },
+        "cost_components": {
+          "items": {
+            "$ref": "#/$defs/PolicyStageCostComponent"
+          },
+          "title": "Cost Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage_id",
+        "stage_time_s",
+        "observed_state_id",
+        "action_id",
+        "action_definition",
+        "action_model_id",
+        "action_model_revision",
+        "action_model_configuration_sha256",
+        "action_model_input_sha256"
+      ],
+      "title": "InspectionPolicyStage",
+      "type": "object"
+    },
+    "PolicyStageCostComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount_at_stage_time": {
+          "minimum": 0,
+          "title": "Amount At Stage Time",
+          "type": "number"
+        },
+        "present_value_factor": {
+          "minimum": 0,
+          "title": "Present Value Factor",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount_at_stage_time",
+        "present_value_factor",
+        "basis"
+      ],
+      "title": "PolicyStageCostComponent",
+      "type": "object"
+    },
+    "RiskCostComponent": {
+      "additionalProperties": false,
+      "description": "One reviewed additive cost in the comparison's declared common cost basis.",
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount": {
+          "minimum": 0,
+          "title": "Amount",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount",
+        "basis"
+      ],
+      "title": "RiskCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evaluate one externally generated complete finite policy-path ensemble.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.multi_period_inspection_policy.v1",
+      "default": "matintegrity.multi_period_inspection_policy.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "evaluation_id": {
+      "minLength": 1,
+      "title": "Evaluation Id",
+      "type": "string"
+    },
+    "policy_id": {
+      "minLength": 1,
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_revision": {
+      "minLength": 1,
+      "title": "Policy Revision",
+      "type": "string"
+    },
+    "policy_definition": {
+      "minLength": 1,
+      "title": "Policy Definition",
+      "type": "string"
+    },
+    "policy_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Policy Configuration Sha256",
+      "type": "string"
+    },
+    "path_generator_id": {
+      "minLength": 1,
+      "title": "Path Generator Id",
+      "type": "string"
+    },
+    "path_generator_revision": {
+      "minLength": 1,
+      "title": "Path Generator Revision",
+      "type": "string"
+    },
+    "path_generator_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Path Generator Configuration Sha256",
+      "type": "string"
+    },
+    "path_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Path Manifest Sha256",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_definition": {
+      "minLength": 1,
+      "title": "Event Definition",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Event Probability Meaning",
+      "type": "string"
+    },
+    "cost_basis_id": {
+      "minLength": 1,
+      "title": "Cost Basis Id",
+      "type": "string"
+    },
+    "currency_or_normalized_unit": {
+      "minLength": 1,
+      "title": "Currency Or Normalized Unit",
+      "type": "string"
+    },
+    "discount_basis_id": {
+      "minLength": 1,
+      "title": "Discount Basis Id",
+      "type": "string"
+    },
+    "failure_consequence_components": {
+      "items": {
+        "$ref": "#/$defs/RiskCostComponent"
+      },
+      "minItems": 1,
+      "title": "Failure Consequence Components",
+      "type": "array"
+    },
+    "paths": {
+      "items": {
+        "$ref": "#/$defs/InspectionPolicyPath"
+      },
+      "minItems": 1,
+      "title": "Paths",
+      "type": "array"
+    },
+    "maximum_path_probability_sum_error": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Maximum Path Probability Sum Error",
+      "type": "number"
+    },
+    "complete_path_manifest_reviewed": {
+      "title": "Complete Path Manifest Reviewed",
+      "type": "boolean"
+    },
+    "path_probabilities_reviewed": {
+      "title": "Path Probabilities Reviewed",
+      "type": "boolean"
+    },
+    "policy_actions_reviewed": {
+      "title": "Policy Actions Reviewed",
+      "type": "boolean"
+    },
+    "first_failure_events_reviewed": {
+      "title": "First Failure Events Reviewed",
+      "type": "boolean"
+    },
+    "costs_and_discount_factors_reviewed": {
+      "title": "Costs And Discount Factors Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "evaluation_id",
+    "policy_id",
+    "policy_revision",
+    "policy_definition",
+    "policy_configuration_sha256",
+    "path_generator_id",
+    "path_generator_revision",
+    "path_generator_configuration_sha256",
+    "path_manifest_sha256",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "event_id",
+    "event_definition",
+    "horizon_start_s",
+    "horizon_end_s",
+    "conditioning",
+    "event_probability_meaning",
+    "cost_basis_id",
+    "currency_or_normalized_unit",
+    "discount_basis_id",
+    "failure_consequence_components",
+    "paths",
+    "complete_path_manifest_reviewed",
+    "path_probabilities_reviewed",
+    "policy_actions_reviewed",
+    "first_failure_events_reviewed",
+    "costs_and_discount_factors_reviewed",
+    "evidence"
+  ],
+  "title": "MultiPeriodInspectionPolicyEvaluation",
+  "type": "object"
+}

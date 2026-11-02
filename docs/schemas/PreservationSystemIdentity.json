@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "preservation_system_id": {
+      "minLength": 1,
+      "title": "Preservation System Id",
+      "type": "string"
+    },
+    "preservation_method_id": {
+      "minLength": 1,
+      "title": "Preservation Method Id",
+      "type": "string"
+    },
+    "preservation_material_id": {
+      "minLength": 1,
+      "title": "Preservation Material Id",
+      "type": "string"
+    },
+    "preservation_material_batch_id": {
+      "minLength": 1,
+      "title": "Preservation Material Batch Id",
+      "type": "string"
+    },
+    "application_procedure_id": {
+      "minLength": 1,
+      "title": "Application Procedure Id",
+      "type": "string"
+    },
+    "system_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "System Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "preservation_system_id",
+    "preservation_method_id",
+    "preservation_material_id",
+    "preservation_material_batch_id",
+    "application_procedure_id",
+    "system_record_digest",
+    "evidence"
+  ],
+  "title": "PreservationSystemIdentity",
+  "type": "object"
+}

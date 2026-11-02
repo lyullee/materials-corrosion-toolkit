@@ -1,0 +1,825 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TubeBundleDispositionRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "disposition_id": {
+          "minLength": 1,
+          "title": "Disposition Id",
+          "type": "string"
+        },
+        "disposition_kind": {
+          "enum": [
+            "repair",
+            "plug",
+            "retube",
+            "monitor",
+            "no_action"
+          ],
+          "title": "Disposition Kind",
+          "type": "string"
+        },
+        "disposition_time_s": {
+          "minimum": 0,
+          "title": "Disposition Time S",
+          "type": "number"
+        },
+        "caller_decision_record_id": {
+          "minLength": 1,
+          "title": "Caller Decision Record Id",
+          "type": "string"
+        },
+        "affected_tube_id": {
+          "minLength": 1,
+          "title": "Affected Tube Id",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "disposition_id",
+        "disposition_kind",
+        "disposition_time_s",
+        "caller_decision_record_id",
+        "affected_tube_id",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TubeBundleDispositionRecord",
+      "type": "object"
+    },
+    "TubeBundleIntegrityEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "tube_material_condition_id": {
+          "minLength": 1,
+          "title": "Tube Material Condition Id",
+          "type": "string"
+        },
+        "minimum_outer_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Outer Diameter M",
+          "type": "number"
+        },
+        "maximum_outer_diameter_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Outer Diameter M",
+          "type": "number"
+        },
+        "minimum_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Wall Thickness M",
+          "type": "number"
+        },
+        "maximum_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Wall Thickness M",
+          "type": "number"
+        },
+        "supported_support_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Support Descriptors",
+          "type": "array"
+        },
+        "supported_baffle_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Baffle Descriptors",
+          "type": "array"
+        },
+        "supported_vibration_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Vibration Descriptors",
+          "type": "array"
+        },
+        "supported_operating_state_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Operating State Ids",
+          "type": "array"
+        },
+        "metric_support": {
+          "items": {
+            "$ref": "#/$defs/TubeBundleMetricSupport"
+          },
+          "minItems": 1,
+          "title": "Metric Support",
+          "type": "array"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/TubeBundleQualificationEvidence"
+          },
+          "minItems": 1,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "minimum_qualification_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Qualification Source Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "tube_material_condition_id",
+        "minimum_outer_diameter_m",
+        "maximum_outer_diameter_m",
+        "minimum_wall_thickness_m",
+        "maximum_wall_thickness_m",
+        "supported_support_descriptors",
+        "supported_baffle_descriptors",
+        "supported_vibration_descriptors",
+        "supported_operating_state_ids",
+        "metric_support",
+        "qualification_evidence",
+        "minimum_qualification_source_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "TubeBundleIntegrityEnvelope",
+      "type": "object"
+    },
+    "TubeBundleMetricSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_kind": {
+          "enum": [
+            "defect_or_condition_inspection",
+            "vibration_observation"
+          ],
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "supported_method_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Method Ids",
+          "type": "array"
+        },
+        "minimum_supported_value": {
+          "title": "Minimum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_value": {
+          "title": "Maximum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Maximum Supported Expanded Uncertainty",
+          "type": "number"
+        },
+        "support_basis": {
+          "minLength": 1,
+          "title": "Support Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation_kind",
+        "metric_id",
+        "unit_token",
+        "supported_method_ids",
+        "minimum_supported_value",
+        "maximum_supported_value",
+        "maximum_supported_expanded_uncertainty",
+        "support_basis"
+      ],
+      "title": "TubeBundleMetricSupport",
+      "type": "object"
+    },
+    "TubeBundleObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observation_kind": {
+          "enum": [
+            "defect_or_condition_inspection",
+            "vibration_observation"
+          ],
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "physical_source_group_id": {
+          "minLength": 1,
+          "title": "Physical Source Group Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Value"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "detection_status": {
+          "enum": [
+            "detected",
+            "not_detected",
+            "below_detection",
+            "not_evaluated"
+          ],
+          "title": "Detection Status",
+          "type": "string"
+        },
+        "detection_limit": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detection Limit"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "observation_kind",
+        "physical_source_group_id",
+        "method_id",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "detection_status",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TubeBundleObservation",
+      "type": "object"
+    },
+    "TubeBundleOperatingInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "operating_state_id": {
+          "minLength": 1,
+          "title": "Operating State Id",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "operating_state_id",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TubeBundleOperatingInterval",
+      "type": "object"
+    },
+    "TubeBundleQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "qualification",
+            "holdout",
+            "application"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "supported_metric_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Metric Ids",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "supported_metric_ids",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "TubeBundleQualificationEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "exchanger_id": {
+      "minLength": 1,
+      "title": "Exchanger Id",
+      "type": "string"
+    },
+    "bundle_id": {
+      "minLength": 1,
+      "title": "Bundle Id",
+      "type": "string"
+    },
+    "tube_id": {
+      "minLength": 1,
+      "title": "Tube Id",
+      "type": "string"
+    },
+    "row_id": {
+      "minLength": 1,
+      "title": "Row Id",
+      "type": "string"
+    },
+    "tube_location_definition": {
+      "minLength": 1,
+      "title": "Tube Location Definition",
+      "type": "string"
+    },
+    "tube_material_condition_id": {
+      "minLength": 1,
+      "title": "Tube Material Condition Id",
+      "type": "string"
+    },
+    "tube_outer_diameter_m": {
+      "exclusiveMinimum": 0,
+      "title": "Tube Outer Diameter M",
+      "type": "number"
+    },
+    "tube_wall_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Tube Wall Thickness M",
+      "type": "number"
+    },
+    "support_descriptor": {
+      "minLength": 1,
+      "title": "Support Descriptor",
+      "type": "string"
+    },
+    "baffle_descriptor": {
+      "minLength": 1,
+      "title": "Baffle Descriptor",
+      "type": "string"
+    },
+    "vibration_descriptor": {
+      "minLength": 1,
+      "title": "Vibration Descriptor",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "operating_intervals": {
+      "items": {
+        "$ref": "#/$defs/TubeBundleOperatingInterval"
+      },
+      "minItems": 1,
+      "title": "Operating Intervals",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/TubeBundleObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "disposition_records": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/TubeBundleDispositionRecord"
+      },
+      "title": "Disposition Records",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/TubeBundleIntegrityEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "exchanger_bundle_tube_row_and_location_reviewed": {
+      "title": "Exchanger Bundle Tube Row And Location Reviewed",
+      "type": "boolean"
+    },
+    "tube_material_condition_and_geometry_reviewed": {
+      "title": "Tube Material Condition And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "support_baffle_and_vibration_descriptors_reviewed": {
+      "title": "Support Baffle And Vibration Descriptors Reviewed",
+      "type": "boolean"
+    },
+    "operating_clock_and_states_reviewed": {
+      "title": "Operating Clock And States Reviewed",
+      "type": "boolean"
+    },
+    "observation_metrics_units_uncertainty_and_detection_reviewed": {
+      "title": "Observation Metrics Units Uncertainty And Detection Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "disposition_records_reviewed_as_caller_decisions": {
+      "title": "Disposition Records Reviewed As Caller Decisions",
+      "type": "boolean"
+    },
+    "qualification_specimens_and_source_groups_reviewed": {
+      "title": "Qualification Specimens And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "exchanger_id",
+    "bundle_id",
+    "tube_id",
+    "row_id",
+    "tube_location_definition",
+    "tube_material_condition_id",
+    "tube_outer_diameter_m",
+    "tube_wall_thickness_m",
+    "support_descriptor",
+    "baffle_descriptor",
+    "vibration_descriptor",
+    "clock_id",
+    "operating_intervals",
+    "observations",
+    "candidate_envelopes",
+    "exchanger_bundle_tube_row_and_location_reviewed",
+    "tube_material_condition_and_geometry_reviewed",
+    "support_baffle_and_vibration_descriptors_reviewed",
+    "operating_clock_and_states_reviewed",
+    "observation_metrics_units_uncertainty_and_detection_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "disposition_records_reviewed_as_caller_decisions",
+    "qualification_specimens_and_source_groups_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "TubeBundleIntegrityEvidence",
+  "type": "object"
+}

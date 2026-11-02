@@ -1,0 +1,839 @@
+{
+  "$defs": {
+    "CallerAcceptanceProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "applicable_methods": {
+          "items": {
+            "enum": [
+              "visual_surface",
+              "penetrant",
+              "magnetic_particle"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Methods",
+          "type": "array"
+        },
+        "applicable_procedure_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Procedure Ids",
+          "type": "array"
+        },
+        "permitted_geometry_types": {
+          "items": {
+            "enum": [
+              "planar",
+              "cylindrical",
+              "conical",
+              "complex",
+              "user_defined"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Geometry Types",
+          "type": "array"
+        },
+        "permitted_surface_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Surface Condition Ids",
+          "type": "array"
+        },
+        "rules": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NumericAcceptanceRule"
+              },
+              {
+                "$ref": "#/$defs/ProhibitedClassRule"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Rules",
+          "type": "array"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "profile_source_digest",
+        "applicable_methods",
+        "applicable_procedure_ids",
+        "permitted_geometry_types",
+        "permitted_surface_condition_ids",
+        "rules",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "CallerAcceptanceProfile",
+      "type": "object"
+    },
+    "CallerIndicationGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "group_id": {
+          "minLength": 1,
+          "title": "Group Id",
+          "type": "string"
+        },
+        "member_indication_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Member Indication Ids",
+          "type": "array"
+        },
+        "grouping_basis": {
+          "minLength": 1,
+          "title": "Grouping Basis",
+          "type": "string"
+        },
+        "aggregate_length_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aggregate Length M"
+        },
+        "aggregate_width_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aggregate Width M"
+        },
+        "aggregate_area_m2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aggregate Area M2"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "grouping_reviewed": {
+          "title": "Grouping Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "group_id",
+        "member_indication_ids",
+        "grouping_basis",
+        "provider_result_digest",
+        "grouping_reviewed",
+        "evidence"
+      ],
+      "title": "CallerIndicationGroup",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExaminedSurfaceRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "geometry_type": {
+          "enum": [
+            "planar",
+            "cylindrical",
+            "conical",
+            "complex",
+            "user_defined"
+          ],
+          "title": "Geometry Type",
+          "type": "string"
+        },
+        "geometry_description": {
+          "minLength": 1,
+          "title": "Geometry Description",
+          "type": "string"
+        },
+        "surface_condition_id": {
+          "minLength": 1,
+          "title": "Surface Condition Id",
+          "type": "string"
+        },
+        "surface_preparation_id": {
+          "minLength": 1,
+          "title": "Surface Preparation Id",
+          "type": "string"
+        },
+        "target_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Target Area M2",
+          "type": "number"
+        },
+        "examined_area_m2": {
+          "minimum": 0,
+          "title": "Examined Area M2",
+          "type": "number"
+        },
+        "examination_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Examination Temperature K",
+          "type": "number"
+        },
+        "unexamined_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unexamined Basis"
+        },
+        "surface_constraints_reviewed": {
+          "title": "Surface Constraints Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "physical_location_id",
+        "geometry_type",
+        "geometry_description",
+        "surface_condition_id",
+        "surface_preparation_id",
+        "target_area_m2",
+        "examined_area_m2",
+        "examination_temperature_k",
+        "surface_constraints_reviewed",
+        "evidence"
+      ],
+      "title": "ExaminedSurfaceRegion",
+      "type": "object"
+    },
+    "NumericAcceptanceRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_kind": {
+          "const": "numeric",
+          "default": "numeric",
+          "title": "Rule Kind",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_scope": {
+          "enum": [
+            "examination",
+            "region",
+            "indication",
+            "group"
+          ],
+          "title": "Target Scope",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "coverage_fraction",
+            "indication_count",
+            "length_m",
+            "width_m",
+            "area_m2",
+            "group_member_count",
+            "aggregate_length_m",
+            "aggregate_width_m",
+            "aggregate_area_m2"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "less_than",
+            "less_than_or_equal",
+            "greater_than",
+            "greater_than_or_equal"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "threshold": {
+          "title": "Threshold",
+          "type": "number"
+        },
+        "unit_token": {
+          "enum": [
+            "1",
+            "count",
+            "m",
+            "m^2"
+          ],
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "missing_metric_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Metric Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_scope",
+        "metric",
+        "operator",
+        "threshold",
+        "unit_token",
+        "missing_metric_disposition",
+        "rule_description"
+      ],
+      "title": "NumericAcceptanceRule",
+      "type": "object"
+    },
+    "ProfileSurfaceIndication": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "method": {
+          "enum": [
+            "visual_surface",
+            "penetrant",
+            "magnetic_particle"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "reported_class": {
+          "minLength": 1,
+          "title": "Reported Class",
+          "type": "string"
+        },
+        "observation_description": {
+          "minLength": 1,
+          "title": "Observation Description",
+          "type": "string"
+        },
+        "length_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Length M"
+        },
+        "length_standard_uncertainty_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Length Standard Uncertainty M"
+        },
+        "width_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width M"
+        },
+        "width_standard_uncertainty_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width Standard Uncertainty M"
+        },
+        "area_m2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Area M2"
+        },
+        "area_standard_uncertainty_m2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Area Standard Uncertainty M2"
+        },
+        "orientation_deg": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 360,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Orientation Deg"
+        },
+        "method_observation_descriptor": {
+          "minLength": 1,
+          "title": "Method Observation Descriptor",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "geometry_reviewed": {
+          "title": "Geometry Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indication_id",
+        "method",
+        "region_id",
+        "physical_location_id",
+        "reported_class",
+        "observation_description",
+        "method_observation_descriptor",
+        "source_group_id",
+        "provider_result_digest",
+        "geometry_reviewed",
+        "evidence"
+      ],
+      "title": "ProfileSurfaceIndication",
+      "type": "object"
+    },
+    "ProhibitedClassRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_kind": {
+          "const": "prohibited_class",
+          "default": "prohibited_class",
+          "title": "Rule Kind",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_scope": {
+          "const": "indication",
+          "default": "indication",
+          "title": "Target Scope",
+          "type": "string"
+        },
+        "prohibited_reported_classes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Prohibited Reported Classes",
+          "type": "array"
+        },
+        "case_sensitive": {
+          "title": "Case Sensitive",
+          "type": "boolean"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "prohibited_reported_classes",
+        "case_sensitive",
+        "rule_description"
+      ],
+      "title": "ProhibitedClassRule",
+      "type": "object"
+    },
+    "SurfaceInspectionProcedure": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "enum": [
+            "visual_surface",
+            "penetrant",
+            "magnetic_particle"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "procedure_revision": {
+          "minLength": 1,
+          "title": "Procedure Revision",
+          "type": "string"
+        },
+        "procedure_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Procedure Source Digest",
+          "type": "string"
+        },
+        "examiner_or_provider_id": {
+          "minLength": 1,
+          "title": "Examiner Or Provider Id",
+          "type": "string"
+        },
+        "equipment_configuration_id": {
+          "minLength": 1,
+          "title": "Equipment Configuration Id",
+          "type": "string"
+        },
+        "method_parameters": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "title": "Method Parameters",
+          "type": "object"
+        },
+        "procedure_reviewed": {
+          "title": "Procedure Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "method",
+        "procedure_id",
+        "procedure_revision",
+        "procedure_source_digest",
+        "examiner_or_provider_id",
+        "equipment_configuration_id",
+        "method_parameters",
+        "procedure_reviewed",
+        "evidence"
+      ],
+      "title": "SurfaceInspectionProcedure",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "visual_surface",
+        "penetrant",
+        "magnetic_particle"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "procedure": {
+      "$ref": "#/$defs/SurfaceInspectionProcedure"
+    },
+    "regions": {
+      "items": {
+        "$ref": "#/$defs/ExaminedSurfaceRegion"
+      },
+      "minItems": 1,
+      "title": "Regions",
+      "type": "array"
+    },
+    "indications": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ProfileSurfaceIndication"
+      },
+      "title": "Indications",
+      "type": "array"
+    },
+    "groups": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CallerIndicationGroup"
+      },
+      "title": "Groups",
+      "type": "array"
+    },
+    "acceptance_profile": {
+      "$ref": "#/$defs/CallerAcceptanceProfile"
+    },
+    "negative_observation_reviewed": {
+      "default": false,
+      "title": "Negative Observation Reviewed",
+      "type": "boolean"
+    },
+    "region_mapping_and_coverage_reviewed": {
+      "title": "Region Mapping And Coverage Reviewed",
+      "type": "boolean"
+    },
+    "indication_geometry_and_grouping_reviewed": {
+      "title": "Indication Geometry And Grouping Reviewed",
+      "type": "boolean"
+    },
+    "procedure_and_profile_applicability_reviewed": {
+      "title": "Procedure And Profile Applicability Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "method",
+    "procedure",
+    "regions",
+    "acceptance_profile",
+    "region_mapping_and_coverage_reviewed",
+    "indication_geometry_and_grouping_reviewed",
+    "procedure_and_profile_applicability_reviewed",
+    "evidence"
+  ],
+  "title": "SurfaceIndicationAssessment",
+  "type": "object"
+}

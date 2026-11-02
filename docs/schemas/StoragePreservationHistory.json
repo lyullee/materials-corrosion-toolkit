@@ -1,0 +1,324 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PreservationEnvironmentInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "relative_humidity_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relative Humidity Fraction"
+        },
+        "preservation_state_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preservation State Id"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "PreservationEnvironmentInterval",
+      "type": "object"
+    },
+    "PreservationInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "inspection_id": {
+          "minLength": 1,
+          "title": "Inspection Id",
+          "type": "string"
+        },
+        "inspection_time_s": {
+          "minimum": 0,
+          "title": "Inspection Time S",
+          "type": "number"
+        },
+        "reported_disposition": {
+          "minLength": 1,
+          "title": "Reported Disposition",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "inspection_id",
+        "inspection_time_s",
+        "reported_disposition",
+        "evidence"
+      ],
+      "title": "PreservationInspection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "environment_intervals": {
+      "items": {
+        "$ref": "#/$defs/PreservationEnvironmentInterval"
+      },
+      "minItems": 1,
+      "title": "Environment Intervals",
+      "type": "array"
+    },
+    "inspections": {
+      "items": {
+        "$ref": "#/$defs/PreservationInspection"
+      },
+      "title": "Inspections",
+      "type": "array"
+    },
+    "minimum_allowed_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Allowed Temperature K",
+      "type": "number"
+    },
+    "maximum_allowed_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Allowed Temperature K",
+      "type": "number"
+    },
+    "minimum_allowed_relative_humidity_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Minimum Allowed Relative Humidity Fraction",
+      "type": "number"
+    },
+    "maximum_allowed_relative_humidity_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Maximum Allowed Relative Humidity Fraction",
+      "type": "number"
+    },
+    "allowed_preservation_state_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Preservation State Ids",
+      "type": "array"
+    },
+    "maximum_inspection_interval_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Inspection Interval S",
+      "type": "number"
+    },
+    "clock_and_coverage_reviewed": {
+      "title": "Clock And Coverage Reviewed",
+      "type": "boolean"
+    },
+    "environment_units_reviewed": {
+      "title": "Environment Units Reviewed",
+      "type": "boolean"
+    },
+    "preservation_state_mapping_reviewed": {
+      "title": "Preservation State Mapping Reviewed",
+      "type": "boolean"
+    },
+    "declared_limits_reviewed": {
+      "title": "Declared Limits Reviewed",
+      "type": "boolean"
+    },
+    "inspection_records_reviewed": {
+      "title": "Inspection Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "horizon_start_s",
+    "horizon_end_s",
+    "environment_intervals",
+    "minimum_allowed_temperature_K",
+    "maximum_allowed_temperature_K",
+    "minimum_allowed_relative_humidity_fraction",
+    "maximum_allowed_relative_humidity_fraction",
+    "allowed_preservation_state_ids",
+    "maximum_inspection_interval_s",
+    "clock_and_coverage_reviewed",
+    "environment_units_reviewed",
+    "preservation_state_mapping_reviewed",
+    "declared_limits_reviewed",
+    "inspection_records_reviewed",
+    "evidence"
+  ],
+  "title": "StoragePreservationHistory",
+  "type": "object"
+}

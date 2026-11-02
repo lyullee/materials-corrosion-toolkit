@@ -1,0 +1,174 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "criterion_id": {
+      "minLength": 1,
+      "title": "Criterion Id",
+      "type": "string"
+    },
+    "fact_kind": {
+      "enum": [
+        "temperature",
+        "relative_humidity",
+        "dewpoint",
+        "water_ingress",
+        "desiccant",
+        "inhibitor",
+        "cover",
+        "seal",
+        "surface",
+        "corrosion_observation"
+      ],
+      "title": "Fact Kind",
+      "type": "string"
+    },
+    "quantity_id": {
+      "minLength": 1,
+      "title": "Quantity Id",
+      "type": "string"
+    },
+    "result_mode": {
+      "enum": [
+        "quantitative",
+        "qualitative"
+      ],
+      "title": "Result Mode",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "minimum_acceptable": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Acceptable"
+    },
+    "maximum_acceptable": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Acceptable"
+    },
+    "accepted_qualitative_classes": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Accepted Qualitative Classes",
+      "type": "array"
+    },
+    "required_event_kinds": {
+      "items": {
+        "enum": [
+          "exposure",
+          "inspection",
+          "renewal"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Event Kinds",
+      "type": "array"
+    },
+    "criterion_basis": {
+      "minLength": 1,
+      "title": "Criterion Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "criterion_id",
+    "fact_kind",
+    "quantity_id",
+    "result_mode",
+    "unit_token",
+    "required_event_kinds",
+    "criterion_basis",
+    "evidence"
+  ],
+  "title": "PreservationFactCriterion",
+  "type": "object"
+}

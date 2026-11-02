@@ -1,0 +1,214 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One non-empty spreadsheet row, retaining provider coordinates and cell order.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.zenodo_zr_alloy_workbook_row.v1",
+      "default": "matintegrity.zenodo_zr_alloy_workbook_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-zr-nb-sn-electrochemical-noise-v2",
+      "default": "zenodo-zr-nb-sn-electrochemical-noise-v2",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.5281/zenodo.23220129",
+      "default": "10.5281/zenodo.23220129",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "worksheet_name": {
+      "minLength": 1,
+      "title": "Worksheet Name",
+      "type": "string"
+    },
+    "provider_row_number": {
+      "minimum": 1,
+      "title": "Provider Row Number",
+      "type": "integer"
+    },
+    "provider_column_count": {
+      "minimum": 0,
+      "title": "Provider Column Count",
+      "type": "integer"
+    },
+    "row_kind": {
+      "const": "unclassified_provider_row",
+      "default": "unclassified_provider_row",
+      "title": "Row Kind",
+      "type": "string"
+    },
+    "cells": {
+      "items": {},
+      "title": "Cells",
+      "type": "array"
+    },
+    "cell_types": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Cell Types",
+      "type": "array"
+    },
+    "row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "specimen_identity_resolved": {
+      "const": false,
+      "default": false,
+      "title": "Specimen Identity Resolved",
+      "type": "boolean"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "penetration_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Penetration Inferred",
+      "type": "boolean"
+    },
+    "remaining_life_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Remaining Life Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_filename",
+    "source_file_bytes",
+    "source_file_sha256",
+    "source_order",
+    "worksheet_name",
+    "provider_row_number",
+    "provider_column_count",
+    "cells",
+    "cell_types",
+    "row_sha256",
+    "evidence"
+  ],
+  "title": "ZrAlloyWorkbookRow",
+  "type": "object"
+}

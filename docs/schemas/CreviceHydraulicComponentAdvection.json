@@ -1,0 +1,567 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PlanarSlitTransientHydraulicHistory": {
+      "additionalProperties": false,
+      "description": "Exact interval solution of a caller-reviewed lumped slit momentum balance.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.planar_slit_transient_hydraulic_history.v1",
+          "default": "matintegrity.planar_slit_transient_hydraulic_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "material_state_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material State Id"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "time_s": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 100001,
+          "minItems": 2,
+          "title": "Time S",
+          "type": "array"
+        },
+        "cell_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Cell Ids",
+          "type": "array"
+        },
+        "cell_widths_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Cell Widths M",
+          "type": "array"
+        },
+        "aperture_by_interval_m": {
+          "items": {
+            "items": {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Aperture By Interval M",
+          "type": "array"
+        },
+        "transverse_width_m": {
+          "exclusiveMinimum": 0,
+          "title": "Transverse Width M",
+          "type": "number"
+        },
+        "pressure_drop_by_interval_Pa": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Pressure Drop By Interval Pa",
+          "type": "array"
+        },
+        "initial_volumetric_flow_m3_s": {
+          "title": "Initial Volumetric Flow M3 S",
+          "type": "number"
+        },
+        "density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Density Kg M3",
+          "type": "number"
+        },
+        "dynamic_viscosity_Pa_s": {
+          "exclusiveMinimum": 0,
+          "title": "Dynamic Viscosity Pa S",
+          "type": "number"
+        },
+        "resistance_correction_multiplier": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Resistance Correction Multiplier",
+          "type": "number"
+        },
+        "inertance_correction_multiplier": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Inertance Correction Multiplier",
+          "type": "number"
+        },
+        "hydraulic_parameter_fit_result_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hydraulic Parameter Fit Result Sha256"
+        },
+        "hydraulic_parameter_fit_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Evidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "hydraulic_parameter_fit_applicability_reviewed": {
+          "default": false,
+          "title": "Hydraulic Parameter Fit Applicability Reviewed",
+          "type": "boolean"
+        },
+        "minimum_width_to_aperture_ratio": {
+          "default": 20.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1000.0,
+          "minimum": 20.0,
+          "title": "Minimum Width To Aperture Ratio",
+          "type": "number"
+        },
+        "maximum_reviewed_reynolds_number": {
+          "default": 1000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1000.0,
+          "minimum": 1.0,
+          "title": "Maximum Reviewed Reynolds Number",
+          "type": "number"
+        },
+        "geometry_provider_id": {
+          "minLength": 1,
+          "title": "Geometry Provider Id",
+          "type": "string"
+        },
+        "geometry_provider_revision": {
+          "minLength": 1,
+          "title": "Geometry Provider Revision",
+          "type": "string"
+        },
+        "geometry_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Sha256",
+          "type": "string"
+        },
+        "pressure_provider_id": {
+          "minLength": 1,
+          "title": "Pressure Provider Id",
+          "type": "string"
+        },
+        "pressure_provider_revision": {
+          "minLength": 1,
+          "title": "Pressure Provider Revision",
+          "type": "string"
+        },
+        "pressure_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Pressure Record Sha256",
+          "type": "string"
+        },
+        "fluid_property_provider_id": {
+          "minLength": 1,
+          "title": "Fluid Property Provider Id",
+          "type": "string"
+        },
+        "fluid_property_provider_revision": {
+          "minLength": 1,
+          "title": "Fluid Property Provider Revision",
+          "type": "string"
+        },
+        "fluid_property_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fluid Property Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "usage_rights_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Usage Rights Evidence",
+          "type": "array"
+        },
+        "usage_license_id": {
+          "minLength": 1,
+          "title": "Usage License Id",
+          "type": "string"
+        },
+        "geometry_clock_and_grid_reviewed": {
+          "title": "Geometry Clock And Grid Reviewed",
+          "type": "boolean"
+        },
+        "pressure_reference_sign_and_clock_reviewed": {
+          "title": "Pressure Reference Sign And Clock Reviewed",
+          "type": "boolean"
+        },
+        "incompressible_newtonian_property_support_reviewed": {
+          "title": "Incompressible Newtonian Property Support Reviewed",
+          "type": "boolean"
+        },
+        "wide_slit_aspect_ratio_reviewed": {
+          "title": "Wide Slit Aspect Ratio Reviewed",
+          "type": "boolean"
+        },
+        "laminar_fully_developed_resistance_reviewed": {
+          "title": "Laminar Fully Developed Resistance Reviewed",
+          "type": "boolean"
+        },
+        "unsteady_lumped_inertance_applicability_reviewed": {
+          "title": "Unsteady Lumped Inertance Applicability Reviewed",
+          "type": "boolean"
+        },
+        "signed_flow_reversal_reviewed": {
+          "title": "Signed Flow Reversal Reviewed",
+          "type": "boolean"
+        },
+        "usage_rights_reviewed": {
+          "title": "Usage Rights Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "time_basis",
+        "time_s",
+        "cell_ids",
+        "cell_widths_m",
+        "aperture_by_interval_m",
+        "transverse_width_m",
+        "pressure_drop_by_interval_Pa",
+        "initial_volumetric_flow_m3_s",
+        "density_kg_m3",
+        "dynamic_viscosity_Pa_s",
+        "geometry_provider_id",
+        "geometry_provider_revision",
+        "geometry_record_sha256",
+        "pressure_provider_id",
+        "pressure_provider_revision",
+        "pressure_record_sha256",
+        "fluid_property_provider_id",
+        "fluid_property_provider_revision",
+        "fluid_property_record_sha256",
+        "evidence",
+        "usage_rights_evidence",
+        "usage_license_id",
+        "geometry_clock_and_grid_reviewed",
+        "pressure_reference_sign_and_clock_reviewed",
+        "incompressible_newtonian_property_support_reviewed",
+        "wide_slit_aspect_ratio_reviewed",
+        "laminar_fully_developed_resistance_reviewed",
+        "unsteady_lumped_inertance_applicability_reviewed",
+        "signed_flow_reversal_reviewed",
+        "usage_rights_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "PlanarSlitTransientHydraulicHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Validated exact hydraulic interval solution plus caller inlet compositions.",
+  "properties": {
+    "schema_version": {
+      "default": "matintegrity.crevice_hydraulic_component_advection.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "cell_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Cell Ids",
+      "type": "array"
+    },
+    "cell_solution_volume_L": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Cell Solution Volume L",
+      "type": "array"
+    },
+    "species_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Species Order",
+      "type": "array"
+    },
+    "species_charge_numbers": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Species Charge Numbers",
+      "type": "array"
+    },
+    "hydraulic_request": {
+      "$ref": "#/$defs/PlanarSlitTransientHydraulicHistory"
+    },
+    "hydraulic_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "hydraulic_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydraulic Result Sha256",
+      "type": "string"
+    },
+    "left_boundary_species_concentration_mol_m3_by_knot": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Left Boundary Species Concentration Mol M3 By Knot",
+      "type": "array"
+    },
+    "right_boundary_species_concentration_mol_m3_by_knot": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Right Boundary Species Concentration Mol M3 By Knot",
+      "type": "array"
+    },
+    "boundary_species_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Boundary Species Order",
+      "type": "array"
+    },
+    "boundary_schedule_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Boundary Schedule Evidence",
+      "type": "array"
+    },
+    "boundary_schedule_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Boundary Schedule Sha256",
+      "type": "string"
+    },
+    "boundary_concentration_electroneutrality_reviewed": {
+      "title": "Boundary Concentration Electroneutrality Reviewed",
+      "type": "boolean"
+    },
+    "fixed_geometry_flow_transport_reviewed": {
+      "title": "Fixed Geometry Flow Transport Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "maximum_abs_flow_m3_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Abs Flow M3 S",
+      "type": "number"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "time_s",
+    "cell_ids",
+    "cell_solution_volume_L",
+    "species_order",
+    "species_charge_numbers",
+    "hydraulic_request",
+    "hydraulic_result",
+    "hydraulic_result_sha256",
+    "left_boundary_species_concentration_mol_m3_by_knot",
+    "right_boundary_species_concentration_mol_m3_by_knot",
+    "boundary_species_order",
+    "boundary_schedule_evidence",
+    "boundary_schedule_sha256",
+    "boundary_concentration_electroneutrality_reviewed",
+    "fixed_geometry_flow_transport_reviewed",
+    "computational_use_authorized",
+    "maximum_abs_flow_m3_s"
+  ],
+  "title": "CreviceHydraulicComponentAdvection",
+  "type": "object"
+}

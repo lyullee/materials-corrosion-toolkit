@@ -1,0 +1,330 @@
+{
+  "$defs": {
+    "CallerGasketCompressionRecoveryEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "minimum_compression_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Compression Fraction",
+          "type": "number"
+        },
+        "maximum_compression_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Compression Fraction",
+          "type": "number"
+        },
+        "minimum_recovery_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Recovery Fraction"
+        },
+        "maximum_recovery_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Recovery Fraction"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "missing_recovery_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Recovery Disposition",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "minimum_compression_fraction",
+        "maximum_compression_fraction",
+        "uncertainty_policy",
+        "missing_recovery_disposition",
+        "source_digest",
+        "evidence"
+      ],
+      "title": "CallerGasketCompressionRecoveryEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "permitted_flange_geometry_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Flange Geometry Ids",
+      "type": "array"
+    },
+    "permitted_flange_face_condition_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Flange Face Condition Ids",
+      "type": "array"
+    },
+    "permitted_gasket_condition_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Gasket Condition Ids",
+      "type": "array"
+    },
+    "permitted_bolt_condition_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Bolt Condition Ids",
+      "type": "array"
+    },
+    "minimum_bolt_preload_n": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Bolt Preload N",
+      "type": "number"
+    },
+    "maximum_bolt_preload_n": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Bolt Preload N",
+      "type": "number"
+    },
+    "maximum_preload_coefficient_of_variation": {
+      "minimum": 0,
+      "title": "Maximum Preload Coefficient Of Variation",
+      "type": "number"
+    },
+    "preload_uncertainty_policy": {
+      "enum": [
+        "point_value",
+        "interval_must_fit"
+      ],
+      "title": "Preload Uncertainty Policy",
+      "type": "string"
+    },
+    "preload_uncertainty_coverage_factor": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Preload Uncertainty Coverage Factor",
+      "type": "number"
+    },
+    "maximum_flange_alignment_m": {
+      "minimum": 0,
+      "title": "Maximum Flange Alignment M",
+      "type": "number"
+    },
+    "alignment_uncertainty_policy": {
+      "enum": [
+        "point_value",
+        "interval_must_fit"
+      ],
+      "title": "Alignment Uncertainty Policy",
+      "type": "string"
+    },
+    "alignment_uncertainty_coverage_factor": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Alignment Uncertainty Coverage Factor",
+      "type": "number"
+    },
+    "gasket_envelope": {
+      "$ref": "#/$defs/CallerGasketCompressionRecoveryEnvelope"
+    },
+    "minimum_supported_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Temperature K",
+      "type": "number"
+    },
+    "maximum_supported_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Temperature K",
+      "type": "number"
+    },
+    "maximum_supported_absolute_pressure_pa": {
+      "minimum": 0,
+      "title": "Maximum Supported Absolute Pressure Pa",
+      "type": "number"
+    },
+    "leakage_unit_token": {
+      "minLength": 1,
+      "title": "Leakage Unit Token",
+      "type": "string"
+    },
+    "maximum_leakage_rate": {
+      "minimum": 0,
+      "title": "Maximum Leakage Rate",
+      "type": "number"
+    },
+    "detected_leak_disposition": {
+      "enum": [
+        "reject",
+        "review"
+      ],
+      "title": "Detected Leak Disposition",
+      "type": "string"
+    },
+    "profile_reviewed": {
+      "title": "Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "source_digest",
+    "permitted_flange_geometry_ids",
+    "permitted_flange_face_condition_ids",
+    "permitted_gasket_condition_ids",
+    "permitted_bolt_condition_ids",
+    "minimum_bolt_preload_n",
+    "maximum_bolt_preload_n",
+    "maximum_preload_coefficient_of_variation",
+    "preload_uncertainty_policy",
+    "maximum_flange_alignment_m",
+    "alignment_uncertainty_policy",
+    "gasket_envelope",
+    "minimum_supported_temperature_k",
+    "maximum_supported_temperature_k",
+    "maximum_supported_absolute_pressure_pa",
+    "leakage_unit_token",
+    "maximum_leakage_rate",
+    "detected_leak_disposition",
+    "profile_reviewed",
+    "evidence"
+  ],
+  "title": "CallerBoltedJointProfile",
+  "type": "object"
+}

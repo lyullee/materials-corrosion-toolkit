@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "time_s": {
+      "minimum": 0.0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "activity_standard_state": {
+      "const": "molarity_1_mol_L",
+      "default": "molarity_1_mol_L",
+      "title": "Activity Standard State",
+      "type": "string"
+    },
+    "log10_solubility_product": {
+      "title": "Log10 Solubility Product",
+      "type": "number"
+    },
+    "equilibrium_solid_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Equilibrium Solid Id",
+      "type": "string"
+    },
+    "activity_coefficients": {
+      "additionalProperties": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Activity Coefficients",
+      "type": "object"
+    },
+    "activity_provider_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Activity Provider Id",
+      "type": "string"
+    },
+    "activity_provider_revision": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Activity Provider Revision",
+      "type": "string"
+    },
+    "activity_source_record_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Activity Source Record Id",
+      "type": "string"
+    },
+    "activity_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Activity Record Sha256",
+      "type": "string"
+    },
+    "activity_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "equilibrium_provider_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Equilibrium Provider Id",
+      "type": "string"
+    },
+    "equilibrium_provider_revision": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Equilibrium Provider Revision",
+      "type": "string"
+    },
+    "equilibrium_source_record_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Equilibrium Source Record Id",
+      "type": "string"
+    },
+    "equilibrium_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Equilibrium Record Sha256",
+      "type": "string"
+    },
+    "equilibrium_evidence": {
+      "$ref": "#/$defs/Evidence"
+    }
+  },
+  "required": [
+    "time_s",
+    "temperature_K",
+    "log10_solubility_product",
+    "equilibrium_solid_id",
+    "activity_coefficients",
+    "activity_provider_id",
+    "activity_provider_revision",
+    "activity_source_record_id",
+    "activity_record_sha256",
+    "activity_evidence",
+    "equilibrium_provider_id",
+    "equilibrium_provider_revision",
+    "equilibrium_source_record_id",
+    "equilibrium_record_sha256",
+    "equilibrium_evidence"
+  ],
+  "title": "WetCo2CylindricalPhaseActivityKnot",
+  "type": "object"
+}

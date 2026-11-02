@@ -1,0 +1,371 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "VacuumPressureRiseRun": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "blank",
+            "test"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 3,
+          "title": "Elapsed Time S",
+          "type": "array"
+        },
+        "absolute_pressure_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 3,
+          "title": "Absolute Pressure Pa",
+          "type": "array"
+        },
+        "pressure_standard_uncertainty_Pa": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 3,
+          "title": "Pressure Standard Uncertainty Pa",
+          "type": "array"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 3,
+          "title": "Temperature K",
+          "type": "array"
+        },
+        "fit_window_start_s": {
+          "minimum": 0,
+          "title": "Fit Window Start S",
+          "type": "number"
+        },
+        "fit_window_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Fit Window End S",
+          "type": "number"
+        },
+        "apparatus_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Apparatus State Digest",
+          "type": "string"
+        },
+        "run_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Data Digest",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "run_id",
+        "role",
+        "source_group_id",
+        "clock_id",
+        "elapsed_time_s",
+        "absolute_pressure_Pa",
+        "pressure_standard_uncertainty_Pa",
+        "temperature_K",
+        "fit_window_start_s",
+        "fit_window_end_s",
+        "apparatus_state_digest",
+        "run_data_digest",
+        "provider_id",
+        "provider_revision",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "VacuumPressureRiseRun",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "apparatus_id": {
+      "minLength": 1,
+      "title": "Apparatus Id",
+      "type": "string"
+    },
+    "rigid_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Rigid Volume M3",
+      "type": "number"
+    },
+    "pressure_basis": {
+      "const": "absolute",
+      "default": "absolute",
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/VacuumPressureRiseRun"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Runs",
+      "type": "array"
+    },
+    "maximum_temperature_range_K": {
+      "minimum": 0,
+      "title": "Maximum Temperature Range K",
+      "type": "number"
+    },
+    "molar_conversion_requested": {
+      "default": false,
+      "title": "Molar Conversion Requested",
+      "type": "boolean"
+    },
+    "molar_conversion_state_reviewed": {
+      "default": false,
+      "title": "Molar Conversion State Reviewed",
+      "type": "boolean"
+    },
+    "reference_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Temperature K"
+    },
+    "reference_net_throughput_Pa_m3_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Net Throughput Pa M3 S"
+    },
+    "reference_standard_uncertainty_Pa_m3_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Standard Uncertainty Pa M3 S"
+    },
+    "reference_source_group_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Source Group Id"
+    },
+    "reference_result_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference Result Digest"
+    },
+    "apparatus_volume_and_isolation_reviewed": {
+      "title": "Apparatus Volume And Isolation Reviewed",
+      "type": "boolean"
+    },
+    "absolute_pressure_temperature_and_clock_reviewed": {
+      "title": "Absolute Pressure Temperature And Clock Reviewed",
+      "type": "boolean"
+    },
+    "blank_test_independence_reviewed": {
+      "title": "Blank Test Independence Reviewed",
+      "type": "boolean"
+    },
+    "fit_windows_weights_and_uncertainty_reviewed": {
+      "title": "Fit Windows Weights And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "reference_comparison_reviewed": {
+      "title": "Reference Comparison Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "apparatus_id",
+    "rigid_volume_m3",
+    "runs",
+    "maximum_temperature_range_K",
+    "apparatus_volume_and_isolation_reviewed",
+    "absolute_pressure_temperature_and_clock_reviewed",
+    "blank_test_independence_reviewed",
+    "fit_windows_weights_and_uncertainty_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "reference_comparison_reviewed",
+    "evidence"
+  ],
+  "title": "KnownVolumePressureRiseTest",
+  "type": "object"
+}

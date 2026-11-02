@@ -1,0 +1,88 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "path": {
+      "minLength": 1,
+      "title": "Path",
+      "type": "string"
+    },
+    "file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "File Sha256",
+      "type": "string"
+    },
+    "derivation_basis_id": {
+      "minLength": 1,
+      "title": "Derivation Basis Id",
+      "type": "string"
+    },
+    "layout": {
+      "const": "trace_by_sample",
+      "title": "Layout",
+      "type": "string"
+    },
+    "dtype": {
+      "enum": [
+        "<f4",
+        "<f8",
+        ">f4",
+        ">f8",
+        "<i2",
+        ">i2",
+        "<i4",
+        ">i4"
+      ],
+      "title": "Dtype",
+      "type": "string"
+    },
+    "immutable_during_run_confirmed": {
+      "title": "Immutable During Run Confirmed",
+      "type": "boolean"
+    },
+    "maximum_file_bytes": {
+      "default": 2147483648,
+      "maximum": 68719476736,
+      "minimum": 1,
+      "title": "Maximum File Bytes",
+      "type": "integer"
+    },
+    "maximum_frame_samples": {
+      "default": 50000000,
+      "maximum": 4000000000,
+      "minimum": 2,
+      "title": "Maximum Frame Samples",
+      "type": "integer"
+    },
+    "maximum_points_per_chunk": {
+      "default": 16,
+      "maximum": 4096,
+      "minimum": 1,
+      "title": "Maximum Points Per Chunk",
+      "type": "integer"
+    },
+    "maximum_working_contributions": {
+      "default": 1000000,
+      "maximum": 16000000,
+      "minimum": 1,
+      "title": "Maximum Working Contributions",
+      "type": "integer"
+    },
+    "cached_trace_rows": {
+      "default": 16,
+      "maximum": 4096,
+      "minimum": 0,
+      "title": "Cached Trace Rows",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "path",
+    "file_sha256",
+    "derivation_basis_id",
+    "layout",
+    "dtype",
+    "immutable_during_run_confirmed"
+  ],
+  "title": "FmcNpyMatrix",
+  "type": "object"
+}

@@ -1,0 +1,273 @@
+{
+  "$defs": {
+    "CompatibilityFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "subject_id": {
+          "minLength": 1,
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "chemistry",
+            "property",
+            "dilution",
+            "service_environment"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "subject_id",
+        "fact_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "provider_id",
+        "provider_revision",
+        "evidence"
+      ],
+      "title": "CompatibilityFact",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "service_environment_id": {
+      "minLength": 1,
+      "title": "Service Environment Id",
+      "type": "string"
+    },
+    "environment_definition": {
+      "minLength": 1,
+      "title": "Environment Definition",
+      "type": "string"
+    },
+    "minimum_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Temperature K",
+      "type": "number"
+    },
+    "maximum_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Temperature K",
+      "type": "number"
+    },
+    "temperature_unit_token": {
+      "const": "K",
+      "default": "K",
+      "title": "Temperature Unit Token",
+      "type": "string"
+    },
+    "maximum_absolute_pressure_pa": {
+      "minimum": 0,
+      "title": "Maximum Absolute Pressure Pa",
+      "type": "number"
+    },
+    "pressure_unit_token": {
+      "const": "Pa_abs",
+      "default": "Pa_abs",
+      "title": "Pressure Unit Token",
+      "type": "string"
+    },
+    "medium_component_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Medium Component Ids",
+      "type": "array"
+    },
+    "facts": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CompatibilityFact"
+      },
+      "title": "Facts",
+      "type": "array"
+    },
+    "environment_reviewed": {
+      "title": "Environment Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "service_environment_id",
+    "environment_definition",
+    "minimum_temperature_k",
+    "maximum_temperature_k",
+    "maximum_absolute_pressure_pa",
+    "medium_component_ids",
+    "environment_reviewed",
+    "evidence"
+  ],
+  "title": "CompatibilityServiceEnvironment",
+  "type": "object"
+}

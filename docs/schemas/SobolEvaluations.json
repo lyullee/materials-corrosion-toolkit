@@ -1,0 +1,119 @@
+{
+  "$defs": {
+    "SobolEvaluationBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "design_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Design Digest",
+          "type": "string"
+        },
+        "replicate_index": {
+          "minimum": 0,
+          "title": "Replicate Index",
+          "type": "integer"
+        },
+        "block_id": {
+          "title": "Block Id",
+          "type": "string"
+        },
+        "point_indices": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "minItems": 1,
+          "title": "Point Indices",
+          "type": "array"
+        },
+        "values": {
+          "items": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "title": "Values",
+          "type": "array"
+        },
+        "row_status": {
+          "items": {
+            "enum": [
+              "computed",
+              "needs_data",
+              "out_of_scope",
+              "invalid_input",
+              "invalid_output"
+            ],
+            "type": "string"
+          },
+          "title": "Row Status",
+          "type": "array"
+        },
+        "repeat": {
+          "default": false,
+          "title": "Repeat",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "design_digest",
+        "replicate_index",
+        "block_id",
+        "point_indices",
+        "values",
+        "row_status"
+      ],
+      "title": "SobolEvaluationBatch",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.sobol_evaluations.v1",
+      "default": "matintegrity.sobol_evaluations.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "design_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Design Digest",
+      "type": "string"
+    },
+    "responses": {
+      "items": {
+        "$ref": "#/$defs/SobolEvaluationBatch"
+      },
+      "title": "Responses",
+      "type": "array"
+    },
+    "runtime_metadata": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Runtime Metadata",
+      "type": "object"
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "design_digest",
+    "responses",
+    "runtime_metadata",
+    "content_digest"
+  ],
+  "title": "SobolEvaluations",
+  "type": "object"
+}

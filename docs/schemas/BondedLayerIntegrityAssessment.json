@@ -1,0 +1,480 @@
+{
+  "$defs": {
+    "BondedLayerDisposition": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "satisfied_disposition": {
+          "minLength": 1,
+          "title": "Satisfied Disposition",
+          "type": "string"
+        },
+        "not_satisfied_disposition": {
+          "minLength": 1,
+          "title": "Not Satisfied Disposition",
+          "type": "string"
+        },
+        "indeterminate_disposition": {
+          "minLength": 1,
+          "title": "Indeterminate Disposition",
+          "type": "string"
+        },
+        "disposition_authority_basis": {
+          "minLength": 1,
+          "title": "Disposition Authority Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "satisfied_disposition",
+        "not_satisfied_disposition",
+        "indeterminate_disposition",
+        "disposition_authority_basis",
+        "evidence"
+      ],
+      "title": "BondedLayerDisposition",
+      "type": "object"
+    },
+    "BondedLayerObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Region Id"
+        },
+        "observation_kind": {
+          "enum": [
+            "bond_strength",
+            "interface_indication",
+            "user_defined_metric"
+          ],
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "measurement_valid": {
+          "title": "Measurement Valid",
+          "type": "boolean"
+        },
+        "missing_invalid_or_unmapped_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Invalid Or Unmapped Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "observation_kind",
+        "metric_id",
+        "method_id",
+        "unit_token",
+        "measurement_valid",
+        "evidence"
+      ],
+      "title": "BondedLayerObservation",
+      "type": "object"
+    },
+    "BondedLayerRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "target_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Target Area M2",
+          "type": "number"
+        },
+        "examined_area_m2": {
+          "minimum": 0,
+          "title": "Examined Area M2",
+          "type": "number"
+        },
+        "unexamined_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unexamined Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "physical_location_id",
+        "target_area_m2",
+        "examined_area_m2",
+        "evidence"
+      ],
+      "title": "BondedLayerRegion",
+      "type": "object"
+    },
+    "BondedLayerRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "comparator": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Comparator",
+          "type": "string"
+        },
+        "limit_value": {
+          "minimum": 0,
+          "title": "Limit Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "region_id",
+        "metric_id",
+        "comparator",
+        "limit_value",
+        "unit_token",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "BondedLayerRequirement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "substrate_material_id": {
+      "minLength": 1,
+      "title": "Substrate Material Id",
+      "type": "string"
+    },
+    "substrate_lot_id": {
+      "minLength": 1,
+      "title": "Substrate Lot Id",
+      "type": "string"
+    },
+    "bonded_layer_material_id": {
+      "minLength": 1,
+      "title": "Bonded Layer Material Id",
+      "type": "string"
+    },
+    "bonded_layer_lot_id": {
+      "minLength": 1,
+      "title": "Bonded Layer Lot Id",
+      "type": "string"
+    },
+    "interface_system_id": {
+      "minLength": 1,
+      "title": "Interface System Id",
+      "type": "string"
+    },
+    "bonding_process_id": {
+      "minLength": 1,
+      "title": "Bonding Process Id",
+      "type": "string"
+    },
+    "bonding_process_revision": {
+      "minLength": 1,
+      "title": "Bonding Process Revision",
+      "type": "string"
+    },
+    "regions": {
+      "items": {
+        "$ref": "#/$defs/BondedLayerRegion"
+      },
+      "minItems": 1,
+      "title": "Regions",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/BondedLayerObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "declared_requirements": {
+      "items": {
+        "$ref": "#/$defs/BondedLayerRequirement"
+      },
+      "minItems": 1,
+      "title": "Declared Requirements",
+      "type": "array"
+    },
+    "declared_dispositions": {
+      "items": {
+        "$ref": "#/$defs/BondedLayerDisposition"
+      },
+      "title": "Declared Dispositions",
+      "type": "array"
+    },
+    "material_lot_and_process_identity_reviewed": {
+      "title": "Material Lot And Process Identity Reviewed",
+      "type": "boolean"
+    },
+    "regions_mutually_exclusive_reviewed": {
+      "title": "Regions Mutually Exclusive Reviewed",
+      "type": "boolean"
+    },
+    "examination_coverage_reviewed": {
+      "title": "Examination Coverage Reviewed",
+      "type": "boolean"
+    },
+    "method_and_calibration_reviewed": {
+      "title": "Method And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_basis_reviewed": {
+      "title": "Uncertainty Basis Reviewed",
+      "type": "boolean"
+    },
+    "observation_mapping_reviewed": {
+      "title": "Observation Mapping Reviewed",
+      "type": "boolean"
+    },
+    "requirement_and_disposition_authority_reviewed": {
+      "title": "Requirement And Disposition Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "substrate_material_id",
+    "substrate_lot_id",
+    "bonded_layer_material_id",
+    "bonded_layer_lot_id",
+    "interface_system_id",
+    "bonding_process_id",
+    "bonding_process_revision",
+    "regions",
+    "observations",
+    "declared_requirements",
+    "declared_dispositions",
+    "material_lot_and_process_identity_reviewed",
+    "regions_mutually_exclusive_reviewed",
+    "examination_coverage_reviewed",
+    "method_and_calibration_reviewed",
+    "uncertainty_basis_reviewed",
+    "observation_mapping_reviewed",
+    "requirement_and_disposition_authority_reviewed",
+    "evidence"
+  ],
+  "title": "BondedLayerIntegrityAssessment",
+  "type": "object"
+}

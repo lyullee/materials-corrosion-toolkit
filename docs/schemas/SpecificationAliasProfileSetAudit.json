@@ -1,0 +1,359 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SpecificationAlias": {
+      "additionalProperties": false,
+      "properties": {
+        "alias_id": {
+          "minLength": 1,
+          "title": "Alias Id",
+          "type": "string"
+        },
+        "designation": {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        "mapping_basis": {
+          "minLength": 1,
+          "title": "Mapping Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "alias_id",
+        "designation",
+        "mapping_basis",
+        "evidence"
+      ],
+      "title": "SpecificationAlias",
+      "type": "object"
+    },
+    "SpecificationAliasQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "minLength": 1,
+          "title": "Query Id",
+          "type": "string"
+        },
+        "designation": {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        "query_source_id": {
+          "minLength": 1,
+          "title": "Query Source Id",
+          "type": "string"
+        },
+        "query_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Query Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "query_id",
+        "designation",
+        "query_source_id",
+        "query_record_digest",
+        "evidence"
+      ],
+      "title": "SpecificationAliasQuery",
+      "type": "object"
+    },
+    "SpecificationDesignation": {
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "minLength": 1,
+          "title": "Namespace",
+          "type": "string"
+        },
+        "designation": {
+          "minLength": 1,
+          "title": "Designation",
+          "type": "string"
+        },
+        "edition": {
+          "minLength": 1,
+          "title": "Edition",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "condition": {
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "designation",
+        "edition",
+        "product_form",
+        "condition"
+      ],
+      "title": "SpecificationDesignation",
+      "type": "object"
+    },
+    "SpecificationProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "canonical_designation": {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        "aliases": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SpecificationAlias"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_authority_id": {
+          "minLength": 1,
+          "title": "Profile Authority Id",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "canonical_designation",
+        "profile_revision",
+        "profile_authority_id",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "SpecificationProfile",
+      "type": "object"
+    },
+    "SpecificationProfileMaterialBinding": {
+      "additionalProperties": false,
+      "description": "Caller-owned material metadata attached to one exact alias profile.",
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "material_family_id": {
+          "minLength": 1,
+          "title": "Material Family Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "binding_source_id": {
+          "minLength": 1,
+          "title": "Binding Source Id",
+          "type": "string"
+        },
+        "binding_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Binding Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "material_family_id",
+        "material_condition_id",
+        "binding_source_id",
+        "binding_record_digest",
+        "evidence"
+      ],
+      "title": "SpecificationProfileMaterialBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "audit_id": {
+      "minLength": 1,
+      "title": "Audit Id",
+      "type": "string"
+    },
+    "profile_set_id": {
+      "minLength": 1,
+      "title": "Profile Set Id",
+      "type": "string"
+    },
+    "profile_set_revision": {
+      "minLength": 1,
+      "title": "Profile Set Revision",
+      "type": "string"
+    },
+    "profiles": {
+      "items": {
+        "$ref": "#/$defs/SpecificationProfile"
+      },
+      "minItems": 1,
+      "title": "Profiles",
+      "type": "array"
+    },
+    "material_bindings": {
+      "items": {
+        "$ref": "#/$defs/SpecificationProfileMaterialBinding"
+      },
+      "minItems": 1,
+      "title": "Material Bindings",
+      "type": "array"
+    },
+    "queries": {
+      "items": {
+        "$ref": "#/$defs/SpecificationAliasQuery"
+      },
+      "minItems": 1,
+      "title": "Queries",
+      "type": "array"
+    },
+    "exact_namespace_designation_edition_form_and_condition_reviewed": {
+      "title": "Exact Namespace Designation Edition Form And Condition Reviewed",
+      "type": "boolean"
+    },
+    "profile_authorities_sources_evidence_and_digests_reviewed": {
+      "title": "Profile Authorities Sources Evidence And Digests Reviewed",
+      "type": "boolean"
+    },
+    "duplicate_ambiguity_and_unregistered_policy_reviewed": {
+      "title": "Duplicate Ambiguity And Unregistered Policy Reviewed",
+      "type": "boolean"
+    },
+    "query_sources_and_record_digests_reviewed": {
+      "title": "Query Sources And Record Digests Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "audit_id",
+    "profile_set_id",
+    "profile_set_revision",
+    "profiles",
+    "material_bindings",
+    "queries",
+    "exact_namespace_designation_edition_form_and_condition_reviewed",
+    "profile_authorities_sources_evidence_and_digests_reviewed",
+    "duplicate_ambiguity_and_unregistered_policy_reviewed",
+    "query_sources_and_record_digests_reviewed",
+    "evidence"
+  ],
+  "title": "SpecificationAliasProfileSetAudit",
+  "type": "object"
+}

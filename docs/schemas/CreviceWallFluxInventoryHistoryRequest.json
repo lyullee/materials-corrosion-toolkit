@@ -1,0 +1,282 @@
+{
+  "$defs": {
+    "CreviceMultispeciesWallFluxRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.crevice_multispecies_wall_flux_callback.v1",
+          "default": "matintegrity.crevice_multispecies_wall_flux_callback.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "callback_id": {
+          "minLength": 1,
+          "title": "Callback Id",
+          "type": "string"
+        },
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "geometry_history": {
+          "additionalProperties": true,
+          "title": "Geometry History",
+          "type": "object"
+        },
+        "geometry_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry History Sha256",
+          "type": "string"
+        },
+        "transport_species_order": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Transport Species Order",
+          "type": "array"
+        },
+        "species_histories": {
+          "items": {
+            "$ref": "#/$defs/CreviceSpeciesWallRateHistory"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Species Histories",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "exact_shared_clock_and_cell_mapping_reviewed": {
+          "title": "Exact Shared Clock And Cell Mapping Reviewed",
+          "type": "boolean"
+        },
+        "independent_species_wall_laws_reviewed": {
+          "title": "Independent Species Wall Laws Reviewed",
+          "type": "boolean"
+        },
+        "linear_inter_knot_reconstruction_reviewed": {
+          "title": "Linear Inter Knot Reconstruction Reviewed",
+          "type": "boolean"
+        },
+        "wall_flux_sign_and_surface_state_reviewed": {
+          "title": "Wall Flux Sign And Surface State Reviewed",
+          "type": "boolean"
+        },
+        "transport_species_order_reviewed": {
+          "title": "Transport Species Order Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "callback_id",
+        "geometry_id",
+        "geometry_history",
+        "geometry_history_sha256",
+        "transport_species_order",
+        "species_histories",
+        "evidence",
+        "exact_shared_clock_and_cell_mapping_reviewed",
+        "independent_species_wall_laws_reviewed",
+        "linear_inter_knot_reconstruction_reviewed",
+        "wall_flux_sign_and_surface_state_reviewed",
+        "transport_species_order_reviewed"
+      ],
+      "title": "CreviceMultispeciesWallFluxRequest",
+      "type": "object"
+    },
+    "CreviceSpeciesWallRateHistory": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "rate_history_result": {
+          "additionalProperties": true,
+          "title": "Rate History Result",
+          "type": "object"
+        },
+        "rate_history_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Rate History Result Sha256",
+          "type": "string"
+        },
+        "wall_equilibrium_concentration_mol_m3_by_knot_by_cell": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "title": "Wall Equilibrium Concentration Mol M3 By Knot By Cell",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "condition_id",
+        "rate_history_result",
+        "rate_history_result_sha256",
+        "wall_equilibrium_concentration_mol_m3_by_knot_by_cell",
+        "evidence"
+      ],
+      "title": "CreviceSpeciesWallRateHistory",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_wall_flux_inventory_history.v1",
+      "default": "matintegrity.crevice_wall_flux_inventory_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "wall_flux_callback": {
+      "$ref": "#/$defs/CreviceMultispeciesWallFluxRequest"
+    },
+    "bulk_concentration_mol_m3_by_knot_species_cell": {
+      "items": {
+        "items": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "type": "array"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Bulk Concentration Mol M3 By Knot Species Cell",
+      "type": "array"
+    },
+    "bulk_concentration_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bulk Concentration History Sha256",
+      "type": "string"
+    },
+    "exact_clock_species_cell_order_reviewed": {
+      "title": "Exact Clock Species Cell Order Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_linear_bulk_concentration_path_reviewed": {
+      "title": "Piecewise Linear Bulk Concentration Path Reviewed",
+      "type": "boolean"
+    },
+    "wall_area_from_geometry_density_and_liquid_volume_reviewed": {
+      "title": "Wall Area From Geometry Density And Liquid Volume Reviewed",
+      "type": "boolean"
+    },
+    "callback_flux_sign_convention_reviewed": {
+      "title": "Callback Flux Sign Convention Reviewed",
+      "type": "boolean"
+    },
+    "transfer_amount_is_not_reaction_extent_reviewed": {
+      "title": "Transfer Amount Is Not Reaction Extent Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "wall_flux_callback",
+    "bulk_concentration_mol_m3_by_knot_species_cell",
+    "bulk_concentration_history_sha256",
+    "exact_clock_species_cell_order_reviewed",
+    "piecewise_linear_bulk_concentration_path_reviewed",
+    "wall_area_from_geometry_density_and_liquid_volume_reviewed",
+    "callback_flux_sign_convention_reviewed",
+    "transfer_amount_is_not_reaction_extent_reviewed"
+  ],
+  "title": "CreviceWallFluxInventoryHistoryRequest",
+  "type": "object"
+}

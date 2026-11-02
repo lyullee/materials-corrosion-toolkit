@@ -1,0 +1,279 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "pick_id": {
+      "minLength": 1,
+      "title": "Pick Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "acquisition_id": {
+      "minLength": 1,
+      "title": "Acquisition Id",
+      "type": "string"
+    },
+    "channel_id": {
+      "minLength": 1,
+      "title": "Channel Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 8,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "signal_values": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 8,
+      "title": "Signal Values",
+      "type": "array"
+    },
+    "signal_unit_token": {
+      "minLength": 1,
+      "title": "Signal Unit Token",
+      "type": "string"
+    },
+    "waveform_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Waveform Digest",
+      "type": "string"
+    },
+    "preprocessing": {
+      "enum": [
+        "none",
+        "demean_baseline"
+      ],
+      "title": "Preprocessing",
+      "type": "string"
+    },
+    "polarity_basis": {
+      "enum": [
+        "positive",
+        "negative",
+        "absolute"
+      ],
+      "title": "Polarity Basis",
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "threshold",
+        "aic"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "baseline_start_s": {
+      "minimum": 0,
+      "title": "Baseline Start S",
+      "type": "number"
+    },
+    "baseline_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Baseline End S",
+      "type": "number"
+    },
+    "search_start_s": {
+      "minimum": 0,
+      "title": "Search Start S",
+      "type": "number"
+    },
+    "search_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Search End S",
+      "type": "number"
+    },
+    "threshold_value": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Threshold Value"
+    },
+    "threshold_sigma_multiplier": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Threshold Sigma Multiplier"
+    },
+    "aic_variance_floor": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Aic Variance Floor"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "acquisition_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Acquisition Configuration Digest",
+      "type": "string"
+    },
+    "waveform_clock_and_units_reviewed": {
+      "title": "Waveform Clock And Units Reviewed",
+      "type": "boolean"
+    },
+    "preprocessing_and_polarity_reviewed": {
+      "title": "Preprocessing And Polarity Reviewed",
+      "type": "boolean"
+    },
+    "baseline_and_search_windows_reviewed": {
+      "title": "Baseline And Search Windows Reviewed",
+      "type": "boolean"
+    },
+    "pick_method_settings_reviewed": {
+      "title": "Pick Method Settings Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "pick_id",
+    "asset_id",
+    "location_id",
+    "acquisition_id",
+    "channel_id",
+    "clock_id",
+    "elapsed_time_s",
+    "signal_values",
+    "signal_unit_token",
+    "waveform_digest",
+    "preprocessing",
+    "polarity_basis",
+    "method",
+    "baseline_start_s",
+    "baseline_end_s",
+    "search_start_s",
+    "search_end_s",
+    "provider_id",
+    "provider_revision",
+    "acquisition_configuration_digest",
+    "waveform_clock_and_units_reviewed",
+    "preprocessing_and_polarity_reviewed",
+    "baseline_and_search_windows_reviewed",
+    "pick_method_settings_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "evidence"
+  ],
+  "title": "AcousticEmissionArrivalPick",
+  "type": "object"
+}

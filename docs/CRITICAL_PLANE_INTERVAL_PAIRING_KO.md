@@ -1,0 +1,12 @@
+# Critical-plane rainflow interval-overlap pairing
+
+`fatigue.propose_critical_plane_interval_overlap_pairing` consumes the output of `fatigue.critical_plane_projected_rainflow`. It selects one plane, signed normal-stress cycles and one declared engineering-shear-strain projection.
+
+The proposal requires review that both projections came from the same ordered sample clock. For every normal/shear cycle pair with overlapping inclusive sample-index intervals, it calculates intersection-over-union (IoU). A continuous-capacity bipartite min-cost max-flow first maximizes total paired cycle equivalent and then maximizes allocated-count-weighted IoU over that maximum flow. Stable normal/shear source-index order makes equal-cost path selection deterministic. It returns proposed pair records compatible with `CriticalPlaneCyclePairDamage`, matching method/configuration fields for direct request assembly, and the remaining unallocated cycle count on both channels.
+
+This deterministic optimization is an auditable temporal-overlap heuristic. It is not a generally validated physical pairing rule and does not model phase-lag constitutive response. It optimizes only the declared count and overlap objective, not fatigue damage, material response or physical cycle identity. All downstream damage-review flags remain false in the proposal; callers must review the mapping, count allocation, calibration applicability and treatment of every unallocated cycle before using it in a Miner sum. The downstream damage API continues to require its existing explicit review flags.
+
+Candidate graph construction is bounded by `maximum_cycle_pair_work`, and successive augmentations by `maximum_flow_augmentations`; exceeding either budget returns `out_of_scope` without a partial proposal. The method uses discrete sample indices, not interpolated timestamps or cycle phase reconstruction. It does not produce life unless the separate calibrated FS life API is invoked with reviewed inputs.
+
+
+The damage request can include the complete proposal record and its SHA-256 digest. The damage API verifies the proposal digest and its internal digest, then reconciles the source rainflow digest, plane, shear projection, method revision and configuration. Reviewed allocations may adjust counts on proposed edges; new edges outside the pinned proposal are rejected. Existing per-cycle over-allocation checks and the requirement for complete count coverage still apply, so unresolved cycle counts withhold the Miner aggregate.

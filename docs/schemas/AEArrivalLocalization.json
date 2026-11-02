@@ -1,0 +1,525 @@
+{
+  "$defs": {
+    "AEArrivalPick": {
+      "additionalProperties": false,
+      "properties": {
+        "pick_id": {
+          "minLength": 1,
+          "title": "Pick Id",
+          "type": "string"
+        },
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "arrival_time_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Arrival Time S"
+        },
+        "standard_uncertainty_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty S"
+        },
+        "pick_method_id": {
+          "minLength": 1,
+          "title": "Pick Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_trace_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Trace Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_status": {
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pick_id",
+        "sensor_id",
+        "channel_id",
+        "clock_id",
+        "pick_method_id",
+        "provider_id",
+        "provider_revision",
+        "source_trace_digest",
+        "record_status",
+        "evidence"
+      ],
+      "title": "AEArrivalPick",
+      "type": "object"
+    },
+    "AELocalizationEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "physical_source_id": {
+          "minLength": 1,
+          "title": "Physical Source Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "picks": {
+          "items": {
+            "$ref": "#/$defs/AEArrivalPick"
+          },
+          "minItems": 4,
+          "title": "Picks",
+          "type": "array"
+        },
+        "known_source_position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Known Source Position M",
+          "type": "array"
+        },
+        "known_source_position_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Known Source Position Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "physical_source_id",
+        "source_group_id",
+        "partition",
+        "clock_id",
+        "picks",
+        "known_source_position_m",
+        "known_source_position_digest",
+        "evidence"
+      ],
+      "title": "AELocalizationEvent",
+      "type": "object"
+    },
+    "AESensorLocation": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position M",
+          "type": "array"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "coupling_state_id": {
+          "minLength": 1,
+          "title": "Coupling State Id",
+          "type": "string"
+        },
+        "calibration_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration State Digest",
+          "type": "string"
+        },
+        "coupling_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Coupling State Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "channel_id",
+        "coordinate_frame_id",
+        "position_m",
+        "calibration_id",
+        "coupling_state_id",
+        "calibration_state_digest",
+        "coupling_state_digest",
+        "evidence"
+      ],
+      "title": "AESensorLocation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "sensors": {
+      "items": {
+        "$ref": "#/$defs/AESensorLocation"
+      },
+      "minItems": 4,
+      "title": "Sensors",
+      "type": "array"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/AELocalizationEvent"
+      },
+      "minItems": 2,
+      "title": "Events",
+      "type": "array"
+    },
+    "wave_speed_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Wave Speed M S",
+      "type": "number"
+    },
+    "wave_speed_standard_uncertainty_m_s": {
+      "minimum": 0,
+      "title": "Wave Speed Standard Uncertainty M S",
+      "type": "number"
+    },
+    "wave_speed_provider_id": {
+      "minLength": 1,
+      "title": "Wave Speed Provider Id",
+      "type": "string"
+    },
+    "wave_speed_provider_revision": {
+      "minLength": 1,
+      "title": "Wave Speed Provider Revision",
+      "type": "string"
+    },
+    "wave_speed_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Wave Speed State Digest",
+      "type": "string"
+    },
+    "minimum_supported_wave_speed_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Wave Speed M S",
+      "type": "number"
+    },
+    "maximum_supported_wave_speed_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Wave Speed M S",
+      "type": "number"
+    },
+    "support_minimum_position_m": {
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Support Minimum Position M",
+      "type": "array"
+    },
+    "support_maximum_position_m": {
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Support Maximum Position M",
+      "type": "array"
+    },
+    "maximum_iterations": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Maximum Iterations",
+      "type": "integer"
+    },
+    "position_tolerance_m": {
+      "exclusiveMinimum": 0,
+      "title": "Position Tolerance M",
+      "type": "number"
+    },
+    "sensor_frame_channel_calibration_and_coupling_reviewed": {
+      "title": "Sensor Frame Channel Calibration And Coupling Reviewed",
+      "type": "boolean"
+    },
+    "homogeneous_isotropic_constant_speed_assumption_reviewed": {
+      "title": "Homogeneous Isotropic Constant Speed Assumption Reviewed",
+      "type": "boolean"
+    },
+    "pick_clock_method_uncertainty_and_digests_reviewed": {
+      "title": "Pick Clock Method Uncertainty And Digests Reviewed",
+      "type": "boolean"
+    },
+    "physical_source_partitions_and_independence_reviewed": {
+      "title": "Physical Source Partitions And Independence Reviewed",
+      "type": "boolean"
+    },
+    "caller_position_support_reviewed": {
+      "title": "Caller Position Support Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "coordinate_frame_id",
+    "sensors",
+    "events",
+    "wave_speed_m_s",
+    "wave_speed_standard_uncertainty_m_s",
+    "wave_speed_provider_id",
+    "wave_speed_provider_revision",
+    "wave_speed_state_digest",
+    "minimum_supported_wave_speed_m_s",
+    "maximum_supported_wave_speed_m_s",
+    "support_minimum_position_m",
+    "support_maximum_position_m",
+    "maximum_iterations",
+    "position_tolerance_m",
+    "sensor_frame_channel_calibration_and_coupling_reviewed",
+    "homogeneous_isotropic_constant_speed_assumption_reviewed",
+    "pick_clock_method_uncertainty_and_digests_reviewed",
+    "physical_source_partitions_and_independence_reviewed",
+    "caller_position_support_reviewed",
+    "evidence"
+  ],
+  "title": "AEArrivalLocalization",
+  "type": "object"
+}

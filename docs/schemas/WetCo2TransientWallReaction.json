@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reaction_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "electron_count": {
+      "exclusiveMinimum": 0,
+      "maximum": 32,
+      "title": "Electron Count",
+      "type": "integer"
+    },
+    "aqueous_species_stoichiometry": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Aqueous Species Stoichiometry",
+      "type": "object"
+    },
+    "metal_element_release_mol_per_extent": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Metal Element Release Mol Per Extent",
+      "type": "object"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "electron_count",
+    "aqueous_species_stoichiometry",
+    "calibration_sha256",
+    "evidence"
+  ],
+  "title": "WetCo2TransientWallReaction",
+  "type": "object"
+}

@@ -1,0 +1,629 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Co2starWallConsumptionMapping": {
+      "additionalProperties": false,
+      "description": "Caller-owned uptake stoichiometry from one removed-metal basis to neutral CO2*.",
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "co2star_consumed_mol_per_metal_mol": {
+          "minimum": 0,
+          "title": "Co2Star Consumed Mol Per Metal Mol",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "provider_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Sha256",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "reaction_and_carbon_balance_reviewed": {
+          "title": "Reaction And Carbon Balance Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "co2star_consumed_mol_per_metal_mol",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "provider_configuration_sha256",
+        "record_sha256",
+        "reaction_and_carbon_balance_reviewed",
+        "evidence"
+      ],
+      "title": "Co2starWallConsumptionMapping",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "WetCo2FiniteGasVariableLiquidInterval": {
+      "additionalProperties": false,
+      "description": "Piecewise-constant Henry, film, and signed volume-flux conditions.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "liquid_volume_flux_m_s": {
+          "title": "Liquid Volume Flux M S",
+          "type": "number"
+        },
+        "incoming_co2star_mol_m3": {
+          "minimum": 0,
+          "title": "Incoming Co2Star Mol M3",
+          "type": "number"
+        },
+        "henry_concentration_over_fugacity_mol_m3_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+          "type": "number"
+        },
+        "gas_film_coefficient_mol_m2_s_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Film Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "liquid_film_coefficient_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Film Coefficient M S",
+          "type": "number"
+        },
+        "interval_provider_id": {
+          "minLength": 1,
+          "title": "Interval Provider Id",
+          "type": "string"
+        },
+        "interval_provider_revision": {
+          "minLength": 1,
+          "title": "Interval Provider Revision",
+          "type": "string"
+        },
+        "interval_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Interval Configuration Sha256",
+          "type": "string"
+        },
+        "interval_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Interval Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "interval_state_and_units_reviewed": {
+          "title": "Interval State And Units Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "temperature_K",
+        "liquid_volume_flux_m_s",
+        "incoming_co2star_mol_m3",
+        "henry_concentration_over_fugacity_mol_m3_Pa",
+        "gas_film_coefficient_mol_m2_s_Pa",
+        "liquid_film_coefficient_m_s",
+        "interval_provider_id",
+        "interval_provider_revision",
+        "interval_configuration_sha256",
+        "interval_result_sha256",
+        "evidence",
+        "interval_state_and_units_reviewed"
+      ],
+      "title": "WetCo2FiniteGasVariableLiquidInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_wall_reaction_coupled_history.v1",
+      "default": "matintegrity.wet_co2_wall_reaction_coupled_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "wall_patch_id": {
+      "minLength": 1,
+      "title": "Wall Patch Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "wall_patch_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Patch Area M2",
+      "type": "number"
+    },
+    "initial_liquid_volume_per_area_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Liquid Volume Per Area M",
+      "type": "number"
+    },
+    "initial_liquid_co2star_mol_m3": {
+      "minimum": 0,
+      "title": "Initial Liquid Co2Star Mol M3",
+      "type": "number"
+    },
+    "initial_gas_co2_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Initial Gas Co2 Fugacity Pa",
+      "type": "number"
+    },
+    "finite_gas_inventory_capacity_mol_m2_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Finite Gas Inventory Capacity Mol M2 Pa",
+      "type": "number"
+    },
+    "initial_state_provider_id": {
+      "minLength": 1,
+      "title": "Initial State Provider Id",
+      "type": "string"
+    },
+    "initial_state_provider_revision": {
+      "minLength": 1,
+      "title": "Initial State Provider Revision",
+      "type": "string"
+    },
+    "initial_state_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Initial State Configuration Sha256",
+      "type": "string"
+    },
+    "initial_state_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Initial State Result Sha256",
+      "type": "string"
+    },
+    "initial_state_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Initial State Evidence",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2FiniteGasVariableLiquidInterval"
+      },
+      "maxItems": 2000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "electrochemical_metal_loss_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "electrochemical_metal_loss_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Electrochemical Metal Loss Result Sha256",
+      "type": "string"
+    },
+    "co2star_wall_consumption_mappings": {
+      "items": {
+        "$ref": "#/$defs/Co2starWallConsumptionMapping"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Co2Star Wall Consumption Mappings",
+      "type": "array"
+    },
+    "relative_tolerance": {
+      "default": 1e-09,
+      "maximum": 0.001,
+      "minimum": 1e-12,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "liquid_concentration_absolute_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Liquid Concentration Absolute Tolerance Mol M3",
+      "type": "number"
+    },
+    "gas_fugacity_absolute_tolerance_Pa": {
+      "default": 0.001,
+      "exclusiveMinimum": 0,
+      "title": "Gas Fugacity Absolute Tolerance Pa",
+      "type": "number"
+    },
+    "areal_mole_absolute_tolerance_mol_m2": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Areal Mole Absolute Tolerance Mol M2",
+      "type": "number"
+    },
+    "maximum_step_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Step S"
+    },
+    "fixed_area_and_gas_capacity_reviewed": {
+      "title": "Fixed Area And Gas Capacity Reviewed",
+      "type": "boolean"
+    },
+    "positive_volume_flux_is_condensate_inflow_reviewed": {
+      "title": "Positive Volume Flux Is Condensate Inflow Reviewed",
+      "type": "boolean"
+    },
+    "negative_volume_flux_is_well_mixed_liquid_outflow_reviewed": {
+      "title": "Negative Volume Flux Is Well Mixed Liquid Outflow Reviewed",
+      "type": "boolean"
+    },
+    "no_dryout_within_simulated_history_reviewed": {
+      "title": "No Dryout Within Simulated History Reviewed",
+      "type": "boolean"
+    },
+    "incoming_co2star_convention_reviewed": {
+      "title": "Incoming Co2Star Convention Reviewed",
+      "type": "boolean"
+    },
+    "electrochemical_source_applicability_for_patch_reviewed": {
+      "title": "Electrochemical Source Applicability For Patch Reviewed",
+      "type": "boolean"
+    },
+    "metal_loss_and_transfer_clock_alignment_reviewed": {
+      "title": "Metal Loss And Transfer Clock Alignment Reviewed",
+      "type": "boolean"
+    },
+    "co2star_consumption_stoichiometry_reviewed": {
+      "title": "Co2Star Consumption Stoichiometry Reviewed",
+      "type": "boolean"
+    },
+    "area_and_volume_loss_additivity_reviewed": {
+      "title": "Area And Volume Loss Additivity Reviewed",
+      "type": "boolean"
+    },
+    "solver_tolerances_and_use_reviewed": {
+      "title": "Solver Tolerances And Use Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "wall_patch_id",
+    "condition_id",
+    "time_basis",
+    "wall_patch_area_m2",
+    "initial_liquid_volume_per_area_m",
+    "initial_liquid_co2star_mol_m3",
+    "initial_gas_co2_fugacity_Pa",
+    "finite_gas_inventory_capacity_mol_m2_Pa",
+    "initial_state_provider_id",
+    "initial_state_provider_revision",
+    "initial_state_configuration_sha256",
+    "initial_state_result_sha256",
+    "initial_state_evidence",
+    "intervals",
+    "electrochemical_metal_loss_result",
+    "electrochemical_metal_loss_result_sha256",
+    "co2star_wall_consumption_mappings",
+    "fixed_area_and_gas_capacity_reviewed",
+    "positive_volume_flux_is_condensate_inflow_reviewed",
+    "negative_volume_flux_is_well_mixed_liquid_outflow_reviewed",
+    "no_dryout_within_simulated_history_reviewed",
+    "incoming_co2star_convention_reviewed",
+    "electrochemical_source_applicability_for_patch_reviewed",
+    "metal_loss_and_transfer_clock_alignment_reviewed",
+    "co2star_consumption_stoichiometry_reviewed",
+    "area_and_volume_loss_additivity_reviewed",
+    "solver_tolerances_and_use_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "WetCo2WallReactionCoupledHistoryRequest",
+  "type": "object"
+}

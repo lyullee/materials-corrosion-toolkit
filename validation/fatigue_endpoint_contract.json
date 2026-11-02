@@ -1,0 +1,83 @@
+{
+  "schema_version": "matintegrity.fatigue_endpoint_contract.v1",
+  "checked_at_utc": "2026-10-26T19:01:02.451164+00:00",
+  "status": "passed",
+  "model_id": "fatigue.pressure_loss_endpoint",
+  "model_source_sha256": "939e142c8a92c00089b3633265e2c5916d70ff8fe07a18b8c33200c5fede4726",
+  "benchmark_source_sha256": "cb830e1a89bec510b3c260ef57bfb33a963b0476f7f39c03614d5be3867da4f8",
+  "protocol_audit_sha256": "5363ec0d1eb30001d35da3d943e87d379d05fdc1f7caf49d6ac1658900ddabaf",
+  "protocol_scope": "FABEST HCF competition package v2.1.2 only; not the separate FABEST database workbook and not a material fatigue-life calibration.",
+  "reviewed_protocol_inputs": {
+    "declared_pressure_drop_fraction_threshold": 0.1,
+    "runout_limit_cycles": 2000000,
+    "specimen_origin_confirmation_required": true,
+    "cumulative_valid_loading_cycles_across_restarts": true
+  },
+  "cases": [
+    {
+      "case_id": "confirmed_specimen_endpoint",
+      "input_digest": "92d68047109e67980a074f3431a849aa021bd5a31dc5eab7766aebcea5bdaac9",
+      "expected": {
+        "status": "computed",
+        "endpoint_classification": "confirmed_specimen_pressure_loss_endpoint",
+        "censoring_role": "failure_endpoint"
+      },
+      "actual": {
+        "status": "computed",
+        "endpoint_classification": "confirmed_specimen_pressure_loss_endpoint",
+        "censoring_role": "failure_endpoint",
+        "resume_eligible": false,
+        "usable_as_fatigue_observation": true
+      }
+    },
+    {
+      "case_id": "pressure_system_interruption",
+      "input_digest": "410ec5c46fe422174c59addc35a6b4b3ac8b55f355ac56e274d2415795d632a7",
+      "expected": {
+        "status": "computed",
+        "endpoint_classification": "system_or_instrument_interruption",
+        "censoring_role": "none"
+      },
+      "actual": {
+        "status": "computed",
+        "endpoint_classification": "system_or_instrument_interruption",
+        "censoring_role": "none",
+        "resume_eligible": true,
+        "usable_as_fatigue_observation": false
+      }
+    },
+    {
+      "case_id": "right_censored_runout",
+      "input_digest": "ff21f57f14b2cb1693137ee0e2462ca8b04318469c61f74356c5ed4558f3464f",
+      "expected": {
+        "status": "computed",
+        "endpoint_classification": "runout",
+        "censoring_role": "right_censored_runout"
+      },
+      "actual": {
+        "status": "computed",
+        "endpoint_classification": "runout",
+        "censoring_role": "right_censored_runout",
+        "resume_eligible": false,
+        "usable_as_fatigue_observation": true
+      }
+    },
+    {
+      "case_id": "unresolved_origin",
+      "input_digest": "3d2d9c1c72ca57e60e4ba13c2ca76024f0ca99618207b78603424c56ecf449c5",
+      "expected": {
+        "status": "needs_data",
+        "endpoint_classification": "unresolved_event_origin",
+        "censoring_role": "none"
+      },
+      "actual": {
+        "status": "needs_data",
+        "endpoint_classification": "unresolved_event_origin",
+        "censoring_role": "none",
+        "resume_eligible": false,
+        "usable_as_fatigue_observation": false
+      }
+    }
+  ],
+  "qualification": "Protocol-to-software contract checks for the fixed FABEST HCF competition package. They verify that the reviewed threshold, specimen-origin confirmation, system interruptions, runout limit and cumulative valid segments remain distinct; they do not validate blind outcomes, fatigue strength, fatigue life or failure probability."
+}

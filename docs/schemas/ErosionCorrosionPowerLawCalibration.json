@@ -1,0 +1,423 @@
+{
+  "$defs": {
+    "ErosionCorrosionPowerLawObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "fluid_condition_id": {
+          "minLength": 1,
+          "title": "Fluid Condition Id",
+          "type": "string"
+        },
+        "geometry_condition_id": {
+          "minLength": 1,
+          "title": "Geometry Condition Id",
+          "type": "string"
+        },
+        "mechanism_scope_id": {
+          "minLength": 1,
+          "title": "Mechanism Scope Id",
+          "type": "string"
+        },
+        "velocity_value": {
+          "exclusiveMinimum": 0,
+          "title": "Velocity Value",
+          "type": "number"
+        },
+        "velocity_unit_token": {
+          "minLength": 1,
+          "title": "Velocity Unit Token",
+          "type": "string"
+        },
+        "particle_concentration_value": {
+          "exclusiveMinimum": 0,
+          "title": "Particle Concentration Value",
+          "type": "number"
+        },
+        "particle_concentration_unit_token": {
+          "minLength": 1,
+          "title": "Particle Concentration Unit Token",
+          "type": "string"
+        },
+        "measured_loss_rate_value": {
+          "exclusiveMinimum": 0,
+          "title": "Measured Loss Rate Value",
+          "type": "number"
+        },
+        "loss_rate_unit_token": {
+          "minLength": 1,
+          "title": "Loss Rate Unit Token",
+          "type": "string"
+        },
+        "nominal_weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Nominal Weight",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "material_condition_id",
+        "fluid_condition_id",
+        "geometry_condition_id",
+        "mechanism_scope_id",
+        "velocity_value",
+        "velocity_unit_token",
+        "particle_concentration_value",
+        "particle_concentration_unit_token",
+        "measured_loss_rate_value",
+        "loss_rate_unit_token",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ErosionCorrosionPowerLawObservation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "fluid_condition_id": {
+      "minLength": 1,
+      "title": "Fluid Condition Id",
+      "type": "string"
+    },
+    "geometry_condition_id": {
+      "minLength": 1,
+      "title": "Geometry Condition Id",
+      "type": "string"
+    },
+    "mechanism_scope_id": {
+      "minLength": 1,
+      "title": "Mechanism Scope Id",
+      "type": "string"
+    },
+    "regression_form": {
+      "const": "log_loss_rate_intercept_plus_log_velocity_plus_log_particle_concentration",
+      "title": "Regression Form",
+      "type": "string"
+    },
+    "velocity_unit_token": {
+      "minLength": 1,
+      "title": "Velocity Unit Token",
+      "type": "string"
+    },
+    "particle_concentration_unit_token": {
+      "minLength": 1,
+      "title": "Particle Concentration Unit Token",
+      "type": "string"
+    },
+    "loss_rate_unit_token": {
+      "minLength": 1,
+      "title": "Loss Rate Unit Token",
+      "type": "string"
+    },
+    "reference_velocity_value": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Velocity Value",
+      "type": "number"
+    },
+    "reference_particle_concentration_value": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Particle Concentration Value",
+      "type": "number"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ErosionCorrosionPowerLawObservation"
+      },
+      "minItems": 8,
+      "title": "Observations",
+      "type": "array"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider State Digest",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "calibration_dataset_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Dataset Digest",
+      "type": "string"
+    },
+    "holdout_dataset_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Holdout Dataset Digest",
+      "type": "string"
+    },
+    "minimum_calibration_record_count": {
+      "minimum": 6,
+      "title": "Minimum Calibration Record Count",
+      "type": "integer"
+    },
+    "minimum_holdout_record_count": {
+      "minimum": 2,
+      "title": "Minimum Holdout Record Count",
+      "type": "integer"
+    },
+    "material_fluid_geometry_and_mechanism_scope_reviewed": {
+      "title": "Material Fluid Geometry And Mechanism Scope Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "velocity_particle_and_loss_rate_units_reviewed": {
+      "title": "Velocity Particle And Loss Rate Units Reviewed",
+      "type": "boolean"
+    },
+    "weights_and_positive_measurements_reviewed": {
+      "title": "Weights And Positive Measurements Reviewed",
+      "type": "boolean"
+    },
+    "calibration_support_hull_reviewed": {
+      "title": "Calibration Support Hull Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "regression_form_and_minimum_counts_reviewed": {
+      "title": "Regression Form And Minimum Counts Reviewed",
+      "type": "boolean"
+    },
+    "common_power_law_regime_reviewed": {
+      "title": "Common Power Law Regime Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "fluid_condition_id",
+    "geometry_condition_id",
+    "mechanism_scope_id",
+    "regression_form",
+    "velocity_unit_token",
+    "particle_concentration_unit_token",
+    "loss_rate_unit_token",
+    "reference_velocity_value",
+    "reference_particle_concentration_value",
+    "observations",
+    "provider_id",
+    "provider_revision",
+    "provider_state_digest",
+    "provider_configuration_digest",
+    "calibration_dataset_digest",
+    "holdout_dataset_digest",
+    "minimum_calibration_record_count",
+    "minimum_holdout_record_count",
+    "material_fluid_geometry_and_mechanism_scope_reviewed",
+    "specimen_source_and_independence_partitions_reviewed",
+    "velocity_particle_and_loss_rate_units_reviewed",
+    "weights_and_positive_measurements_reviewed",
+    "calibration_support_hull_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "regression_form_and_minimum_counts_reviewed",
+    "common_power_law_regime_reviewed",
+    "evidence"
+  ],
+  "title": "ErosionCorrosionPowerLawCalibration",
+  "type": "object"
+}

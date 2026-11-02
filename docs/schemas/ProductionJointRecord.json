@@ -1,0 +1,179 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "process_kind": {
+      "enum": [
+        "brazing",
+        "adhesive_bonding"
+      ],
+      "title": "Process Kind",
+      "type": "string"
+    },
+    "base_material_lot_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Base Material Lot Ids",
+      "type": "array"
+    },
+    "filler_lot_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Filler Lot Id"
+    },
+    "adhesive_lot_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adhesive Lot Id"
+    },
+    "surface_preparation_id": {
+      "minLength": 1,
+      "title": "Surface Preparation Id",
+      "type": "string"
+    },
+    "joint_geometry_id": {
+      "minLength": 1,
+      "title": "Joint Geometry Id",
+      "type": "string"
+    },
+    "fitup_gap_m": {
+      "minimum": 0,
+      "title": "Fitup Gap M",
+      "type": "number"
+    },
+    "fitup_gap_standard_uncertainty_m": {
+      "minimum": 0,
+      "title": "Fitup Gap Standard Uncertainty M",
+      "type": "number"
+    },
+    "atmosphere_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Atmosphere Id"
+    },
+    "flux_lot_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Flux Lot Id"
+    },
+    "fitup_and_identity_reviewed": {
+      "title": "Fitup And Identity Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "joint_id",
+    "process_kind",
+    "base_material_lot_ids",
+    "surface_preparation_id",
+    "joint_geometry_id",
+    "fitup_gap_m",
+    "fitup_gap_standard_uncertainty_m",
+    "fitup_and_identity_reviewed",
+    "evidence"
+  ],
+  "title": "ProductionJointRecord",
+  "type": "object"
+}

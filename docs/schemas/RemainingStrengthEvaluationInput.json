@@ -1,0 +1,440 @@
+{
+  "$defs": {
+    "CallerStrengthCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "response_definition": {
+          "minLength": 1,
+          "title": "Response Definition",
+          "type": "string"
+        },
+        "response_unit_token": {
+          "minLength": 1,
+          "title": "Response Unit Token",
+          "type": "string"
+        },
+        "fail_below": {
+          "title": "Fail Below",
+          "type": "number"
+        },
+        "pass_at_or_above": {
+          "title": "Pass At Or Above",
+          "type": "number"
+        },
+        "conservative_statistic": {
+          "const": "minimum_sample_response",
+          "default": "minimum_sample_response",
+          "title": "Conservative Statistic",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "criterion_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Criterion Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "response_definition",
+        "response_unit_token",
+        "fail_below",
+        "pass_at_or_above",
+        "criterion_basis",
+        "criterion_source_digest",
+        "evidence"
+      ],
+      "title": "CallerStrengthCriterion",
+      "type": "object"
+    },
+    "CapacitySurfaceAxis": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_id": {
+          "minLength": 1,
+          "title": "Axis Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "knots": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 2,
+          "title": "Knots",
+          "type": "array"
+        },
+        "capacity_monotonicity": {
+          "enum": [
+            "nondecreasing",
+            "nonincreasing",
+            "not_asserted"
+          ],
+          "title": "Capacity Monotonicity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "axis_id",
+        "quantity_definition",
+        "unit_token",
+        "knots",
+        "capacity_monotonicity"
+      ],
+      "title": "CapacitySurfaceAxis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FlawGeometrySample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "sample_role": {
+          "enum": [
+            "nominal",
+            "uncertainty_realization"
+          ],
+          "title": "Sample Role",
+          "type": "string"
+        },
+        "component_geometry_id": {
+          "minLength": 1,
+          "title": "Component Geometry Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "coordinates": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Coordinates",
+          "type": "object"
+        },
+        "coordinate_units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Coordinate Units",
+          "type": "object"
+        },
+        "sample_weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Sample Weight",
+          "type": "number"
+        },
+        "geometry_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "sample_role",
+        "component_geometry_id",
+        "material_condition_id",
+        "load_case_id",
+        "coordinates",
+        "coordinate_units",
+        "geometry_source_digest",
+        "evidence"
+      ],
+      "title": "FlawGeometrySample",
+      "type": "object"
+    },
+    "RemainingStrengthSurface": {
+      "additionalProperties": false,
+      "properties": {
+        "surface_id": {
+          "minLength": 1,
+          "title": "Surface Id",
+          "type": "string"
+        },
+        "surface_revision": {
+          "minLength": 1,
+          "title": "Surface Revision",
+          "type": "string"
+        },
+        "component_geometry_id": {
+          "minLength": 1,
+          "title": "Component Geometry Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "response_definition": {
+          "minLength": 1,
+          "title": "Response Definition",
+          "type": "string"
+        },
+        "response_unit_token": {
+          "minLength": 1,
+          "title": "Response Unit Token",
+          "type": "string"
+        },
+        "response_direction": {
+          "const": "higher_is_stronger",
+          "title": "Response Direction",
+          "type": "string"
+        },
+        "axes": {
+          "items": {
+            "$ref": "#/$defs/CapacitySurfaceAxis"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "Axes",
+          "type": "array"
+        },
+        "response_values_axis_order_last_axis_fastest": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 100000,
+          "minItems": 2,
+          "title": "Response Values Axis Order Last Axis Fastest",
+          "type": "array"
+        },
+        "interpolation": {
+          "const": "multilinear",
+          "default": "multilinear",
+          "title": "Interpolation",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "domain_and_monotonicity_reviewed": {
+          "title": "Domain And Monotonicity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "surface_id",
+        "surface_revision",
+        "component_geometry_id",
+        "material_condition_id",
+        "load_case_id",
+        "response_definition",
+        "response_unit_token",
+        "response_direction",
+        "axes",
+        "response_values_axis_order_last_axis_fastest",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "provider_result_digest",
+        "domain_and_monotonicity_reviewed",
+        "evidence"
+      ],
+      "title": "RemainingStrengthSurface",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "evaluation_id": {
+      "minLength": 1,
+      "title": "Evaluation Id",
+      "type": "string"
+    },
+    "surface": {
+      "$ref": "#/$defs/RemainingStrengthSurface"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/FlawGeometrySample"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Samples",
+      "type": "array"
+    },
+    "criterion": {
+      "$ref": "#/$defs/CallerStrengthCriterion"
+    },
+    "sample_set_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sample Set Digest",
+      "type": "string"
+    },
+    "uncertainty_sampling_basis": {
+      "minLength": 1,
+      "title": "Uncertainty Sampling Basis",
+      "type": "string"
+    },
+    "surface_identity_units_and_domain_reviewed": {
+      "title": "Surface Identity Units And Domain Reviewed",
+      "type": "boolean"
+    },
+    "flaw_geometry_and_uncertainty_samples_reviewed": {
+      "title": "Flaw Geometry And Uncertainty Samples Reviewed",
+      "type": "boolean"
+    },
+    "caller_criterion_reviewed": {
+      "title": "Caller Criterion Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "evaluation_id",
+    "surface",
+    "samples",
+    "criterion",
+    "sample_set_digest",
+    "uncertainty_sampling_basis",
+    "surface_identity_units_and_domain_reviewed",
+    "flaw_geometry_and_uncertainty_samples_reviewed",
+    "caller_criterion_reviewed",
+    "evidence"
+  ],
+  "title": "RemainingStrengthEvaluationInput",
+  "type": "object"
+}

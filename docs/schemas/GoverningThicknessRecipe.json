@@ -1,0 +1,254 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThicknessDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension_id": {
+          "minLength": 1,
+          "title": "Dimension Id",
+          "type": "string"
+        },
+        "value_m": {
+          "exclusiveMinimum": 0,
+          "title": "Value M",
+          "type": "number"
+        },
+        "definition": {
+          "minLength": 1,
+          "title": "Definition",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "dimension_id",
+        "value_m",
+        "definition",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "ThicknessDimension",
+      "type": "object"
+    },
+    "ThicknessExpression": {
+      "additionalProperties": false,
+      "properties": {
+        "expression_id": {
+          "minLength": 1,
+          "title": "Expression Id",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "minimum",
+            "maximum",
+            "sum"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "references": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "References",
+          "type": "array"
+        }
+      },
+      "required": [
+        "expression_id",
+        "operation",
+        "references"
+      ],
+      "title": "ThicknessExpression",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "joint_geometry_id": {
+      "minLength": 1,
+      "title": "Joint Geometry Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "purpose_id": {
+      "minLength": 1,
+      "title": "Purpose Id",
+      "type": "string"
+    },
+    "selected_geometry_case_id": {
+      "minLength": 1,
+      "title": "Selected Geometry Case Id",
+      "type": "string"
+    },
+    "dimensions": {
+      "items": {
+        "$ref": "#/$defs/ThicknessDimension"
+      },
+      "minItems": 1,
+      "title": "Dimensions",
+      "type": "array"
+    },
+    "expressions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ThicknessExpression"
+      },
+      "title": "Expressions",
+      "type": "array"
+    },
+    "output_reference_id": {
+      "minLength": 1,
+      "title": "Output Reference Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "basis",
+    "component_id",
+    "joint_geometry_id",
+    "material_condition_id",
+    "purpose_id",
+    "selected_geometry_case_id",
+    "dimensions",
+    "output_reference_id"
+  ],
+  "title": "GoverningThicknessRecipe",
+  "type": "object"
+}

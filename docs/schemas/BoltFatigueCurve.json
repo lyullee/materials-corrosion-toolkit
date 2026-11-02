@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "bolt_id": {
+      "minLength": 1,
+      "title": "Bolt Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "reference_stress_range_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Stress Range Pa",
+      "type": "number"
+    },
+    "reference_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Cycles",
+      "type": "number"
+    },
+    "basquin_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Basquin Exponent",
+      "type": "number"
+    },
+    "ultimate_tensile_strength_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Ultimate Tensile Strength Pa",
+      "type": "number"
+    },
+    "calibration_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "bolt_id",
+    "material_condition_id",
+    "provider_id",
+    "provider_revision",
+    "reference_stress_range_Pa",
+    "reference_cycles",
+    "basquin_exponent",
+    "ultimate_tensile_strength_Pa",
+    "calibration_record_sha256",
+    "usage_license_id",
+    "evidence"
+  ],
+  "title": "BoltFatigueCurve",
+  "type": "object"
+}

@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "combined_water_mass_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Combined Water Mass Fraction",
+      "type": "number"
+    },
+    "absorbed_water_mass_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Absorbed Water Mass Fraction",
+      "type": "number"
+    },
+    "water_vapor_partial_pressure_Pa": {
+      "minimum": 0,
+      "title": "Water Vapor Partial Pressure Pa",
+      "type": "number"
+    },
+    "intercept_m3_H2_kg_deposit": {
+      "title": "Intercept M3 H2 Kg Deposit",
+      "type": "number"
+    },
+    "combined_water_coefficient_m3_H2_kg_deposit": {
+      "title": "Combined Water Coefficient M3 H2 Kg Deposit",
+      "type": "number"
+    },
+    "absorbed_water_coefficient_m3_H2_kg_deposit": {
+      "title": "Absorbed Water Coefficient M3 H2 Kg Deposit",
+      "type": "number"
+    },
+    "vapor_coefficient_m3_H2_kg_deposit_Pa": {
+      "title": "Vapor Coefficient M3 H2 Kg Deposit Pa",
+      "type": "number"
+    },
+    "maximum_valid_combined_water_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Maximum Valid Combined Water Fraction",
+      "type": "number"
+    },
+    "maximum_valid_absorbed_water_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Maximum Valid Absorbed Water Fraction",
+      "type": "number"
+    },
+    "maximum_valid_vapor_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Valid Vapor Pressure Pa",
+      "type": "number"
+    },
+    "gas_volume_reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Volume Reference Temperature K",
+      "type": "number"
+    },
+    "gas_volume_reference_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Volume Reference Pressure Pa",
+      "type": "number"
+    }
+  },
+  "required": [
+    "basis",
+    "combined_water_mass_fraction",
+    "absorbed_water_mass_fraction",
+    "water_vapor_partial_pressure_Pa",
+    "intercept_m3_H2_kg_deposit",
+    "combined_water_coefficient_m3_H2_kg_deposit",
+    "absorbed_water_coefficient_m3_H2_kg_deposit",
+    "vapor_coefficient_m3_H2_kg_deposit_Pa",
+    "maximum_valid_combined_water_fraction",
+    "maximum_valid_absorbed_water_fraction",
+    "maximum_valid_vapor_pressure_Pa",
+    "gas_volume_reference_temperature_K",
+    "gas_volume_reference_pressure_Pa"
+  ],
+  "title": "FluxMoistureHydrogen",
+  "type": "object"
+}

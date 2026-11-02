@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "AtmosphericFirstYearFitRow": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "first_year_loss_m": {
+          "exclusiveMinimum": 0,
+          "title": "First Year Loss M",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "relative_humidity_fraction": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Relative Humidity Fraction",
+          "type": "number"
+        },
+        "chloride_deposition_mg_m2_day": {
+          "minimum": 0,
+          "title": "Chloride Deposition Mg M2 Day",
+          "type": "number"
+        },
+        "sulfur_dioxide_deposition_mg_m2_day": {
+          "minimum": 0,
+          "title": "Sulfur Dioxide Deposition Mg M2 Day",
+          "type": "number"
+        },
+        "source_content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Content Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation_id",
+        "source_group_id",
+        "partition",
+        "first_year_loss_m",
+        "temperature_K",
+        "relative_humidity_fraction",
+        "chloride_deposition_mg_m2_day",
+        "sulfur_dioxide_deposition_mg_m2_day",
+        "source_content_sha256"
+      ],
+      "title": "AtmosphericFirstYearFitRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fit_id": {
+      "minLength": 1,
+      "title": "Fit Id",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/AtmosphericFirstYearFitRow"
+      },
+      "minItems": 12,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_calibration_source_groups": {
+      "default": 2,
+      "minimum": 2,
+      "title": "Minimum Calibration Source Groups",
+      "type": "integer"
+    },
+    "minimum_holdout_source_groups": {
+      "default": 2,
+      "minimum": 2,
+      "title": "Minimum Holdout Source Groups",
+      "type": "integer"
+    },
+    "maximum_holdout_log_rmse": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Holdout Log Rmse",
+      "type": "number"
+    },
+    "maximum_absolute_holdout_log_bias": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Absolute Holdout Log Bias",
+      "type": "number"
+    },
+    "maximum_holdout_outside_support_fraction": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Maximum Holdout Outside Support Fraction",
+      "type": "number"
+    },
+    "source_group_partition_reviewed": {
+      "title": "Source Group Partition Reviewed",
+      "type": "boolean"
+    },
+    "first_year_endpoint_reviewed": {
+      "title": "First Year Endpoint Reviewed",
+      "type": "boolean"
+    },
+    "atmospheric_carbon_steel_scope_reviewed": {
+      "title": "Atmospheric Carbon Steel Scope Reviewed",
+      "type": "boolean"
+    },
+    "covariate_origin_reviewed": {
+      "title": "Covariate Origin Reviewed",
+      "type": "boolean"
+    },
+    "aggregate_analysis_authorized": {
+      "title": "Aggregate Analysis Authorized",
+      "type": "boolean"
+    },
+    "pointwise_redistribution_authorized": {
+      "title": "Pointwise Redistribution Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "fit_id",
+    "model_id",
+    "observations",
+    "maximum_holdout_log_rmse",
+    "maximum_absolute_holdout_log_bias",
+    "maximum_holdout_outside_support_fraction",
+    "source_group_partition_reviewed",
+    "first_year_endpoint_reviewed",
+    "atmospheric_carbon_steel_scope_reviewed",
+    "covariate_origin_reviewed",
+    "aggregate_analysis_authorized",
+    "pointwise_redistribution_authorized"
+  ],
+  "title": "AtmosphericFirstYearFit",
+  "type": "object"
+}

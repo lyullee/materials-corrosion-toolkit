@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "configuration_id": {
+      "minLength": 1,
+      "title": "Configuration Id",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "eddy_current",
+        "flux_leakage"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "probe_or_sensor_array_id": {
+      "minLength": 1,
+      "title": "Probe Or Sensor Array Id",
+      "type": "string"
+    },
+    "magnetizer_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Magnetizer Id"
+    },
+    "excitation_id": {
+      "minLength": 1,
+      "title": "Excitation Id",
+      "type": "string"
+    },
+    "excitation_value": {
+      "minimum": 0,
+      "title": "Excitation Value",
+      "type": "number"
+    },
+    "excitation_unit_token": {
+      "minLength": 1,
+      "title": "Excitation Unit Token",
+      "type": "string"
+    },
+    "nominal_lift_off_m": {
+      "minimum": 0,
+      "title": "Nominal Lift Off M",
+      "type": "number"
+    },
+    "expanded_lift_off_uncertainty_m": {
+      "minimum": 0,
+      "title": "Expanded Lift Off Uncertainty M",
+      "type": "number"
+    },
+    "lift_off_control_basis": {
+      "minLength": 1,
+      "title": "Lift Off Control Basis",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "configuration_id",
+    "family",
+    "probe_or_sensor_array_id",
+    "excitation_id",
+    "excitation_value",
+    "excitation_unit_token",
+    "nominal_lift_off_m",
+    "expanded_lift_off_uncertainty_m",
+    "lift_off_control_basis",
+    "configuration_digest",
+    "evidence"
+  ],
+  "title": "ElectromagneticAcquisitionConfiguration",
+  "type": "object"
+}

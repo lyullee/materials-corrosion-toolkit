@@ -1,0 +1,244 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A caller-reviewed liquid velocity/shear state from a pipe hydrodynamics solver.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_liquid_side_mass_transfer.v1",
+      "default": "matintegrity.wet_co2_liquid_side_mass_transfer.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "liquid_flow_region": {
+      "enum": [
+        "single_phase_pipe",
+        "stratified_layer",
+        "slug_body",
+        "slug_film",
+        "annular_film",
+        "other"
+      ],
+      "title": "Liquid Flow Region",
+      "type": "string"
+    },
+    "liquid_mean_velocity_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Mean Velocity M S",
+      "type": "number"
+    },
+    "liquid_wall_shear_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Wall Shear Stress Pa",
+      "type": "number"
+    },
+    "liquid_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Density Kg M3",
+      "type": "number"
+    },
+    "liquid_dynamic_viscosity_Pa_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Dynamic Viscosity Pa S",
+      "type": "number"
+    },
+    "corrosive_species_diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Corrosive Species Diffusivity M2 S",
+      "type": "number"
+    },
+    "hydraulic_diameter_m": {
+      "exclusiveMinimum": 0,
+      "title": "Hydraulic Diameter M",
+      "type": "number"
+    },
+    "friction_exponent": {
+      "default": 0.96,
+      "maximum": 1.0,
+      "minimum": 0.5,
+      "title": "Friction Exponent",
+      "type": "number"
+    },
+    "hydrodynamic_provider_id": {
+      "minLength": 1,
+      "title": "Hydrodynamic Provider Id",
+      "type": "string"
+    },
+    "hydrodynamic_provider_revision": {
+      "minLength": 1,
+      "title": "Hydrodynamic Provider Revision",
+      "type": "string"
+    },
+    "hydrodynamic_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydrodynamic Configuration Sha256",
+      "type": "string"
+    },
+    "hydrodynamic_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydrodynamic Result Sha256",
+      "type": "string"
+    },
+    "diffusivity_record_id": {
+      "minLength": 1,
+      "title": "Diffusivity Record Id",
+      "type": "string"
+    },
+    "diffusivity_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Diffusivity Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "provider_state_and_time_alignment_reviewed": {
+      "title": "Provider State And Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "liquid_wetting_and_wall_area_basis_reviewed": {
+      "title": "Liquid Wetting And Wall Area Basis Reviewed",
+      "type": "boolean"
+    },
+    "turbulent_flow_and_local_shear_reviewed": {
+      "title": "Turbulent Flow And Local Shear Reviewed",
+      "type": "boolean"
+    },
+    "diffusivity_species_temperature_and_solvent_match_reviewed": {
+      "title": "Diffusivity Species Temperature And Solvent Match Reviewed",
+      "type": "boolean"
+    },
+    "friction_exponent_and_scope_reviewed": {
+      "title": "Friction Exponent And Scope Reviewed",
+      "type": "boolean"
+    },
+    "outside_published_schmidt_range_reviewed": {
+      "default": false,
+      "title": "Outside Published Schmidt Range Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "time_s",
+    "liquid_flow_region",
+    "liquid_mean_velocity_m_s",
+    "liquid_wall_shear_stress_Pa",
+    "liquid_density_kg_m3",
+    "liquid_dynamic_viscosity_Pa_s",
+    "corrosive_species_diffusivity_m2_s",
+    "hydraulic_diameter_m",
+    "hydrodynamic_provider_id",
+    "hydrodynamic_provider_revision",
+    "hydrodynamic_configuration_sha256",
+    "hydrodynamic_result_sha256",
+    "diffusivity_record_id",
+    "diffusivity_record_sha256",
+    "evidence",
+    "provider_state_and_time_alignment_reviewed",
+    "liquid_wetting_and_wall_area_basis_reviewed",
+    "turbulent_flow_and_local_shear_reviewed",
+    "diffusivity_species_temperature_and_solvent_match_reviewed",
+    "friction_exponent_and_scope_reviewed"
+  ],
+  "title": "WetCo2LiquidSideMassTransferRequest",
+  "type": "object"
+}

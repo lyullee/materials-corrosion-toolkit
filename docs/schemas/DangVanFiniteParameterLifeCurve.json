@@ -1,0 +1,332 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Map one pinned finite Dang Van parameter result to a same-condition life curve.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "finite_screen_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "finite_screen_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Finite Screen Result Sha256",
+      "type": "string"
+    },
+    "life_curve_id": {
+      "minLength": 1,
+      "title": "Life Curve Id",
+      "type": "string"
+    },
+    "curve_material_condition_id": {
+      "minLength": 1,
+      "title": "Curve Material Condition Id",
+      "type": "string"
+    },
+    "curve_parameter_definition_id": {
+      "const": "dang_van_finite_caller_system_time_sample_parameter_Pa.v1",
+      "title": "Curve Parameter Definition Id",
+      "type": "string"
+    },
+    "curve_source_id": {
+      "minLength": 1,
+      "title": "Curve Source Id",
+      "type": "string"
+    },
+    "curve_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Source Sha256",
+      "type": "string"
+    },
+    "curve_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "curve_license_id": {
+      "minLength": 1,
+      "title": "Curve License Id",
+      "type": "string"
+    },
+    "parameter_points_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Parameter Points Pa",
+      "type": "array"
+    },
+    "cycles_to_failure": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Cycles To Failure",
+      "type": "array"
+    },
+    "curve_condition_descriptor_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Condition Descriptor Sha256",
+      "type": "string"
+    },
+    "material_and_test_basis_reviewed": {
+      "title": "Material And Test Basis Reviewed",
+      "type": "boolean"
+    },
+    "curve_rights_and_computational_use_reviewed": {
+      "title": "Curve Rights And Computational Use Reviewed",
+      "type": "boolean"
+    },
+    "finite_parameter_definition_and_log_log_mapping_reviewed": {
+      "title": "Finite Parameter Definition And Log Log Mapping Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "finite_screen_result",
+    "finite_screen_result_sha256",
+    "life_curve_id",
+    "curve_material_condition_id",
+    "curve_parameter_definition_id",
+    "curve_source_id",
+    "curve_source_sha256",
+    "curve_evidence",
+    "curve_license_id",
+    "parameter_points_Pa",
+    "cycles_to_failure",
+    "curve_condition_descriptor_sha256",
+    "material_and_test_basis_reviewed",
+    "curve_rights_and_computational_use_reviewed",
+    "finite_parameter_definition_and_log_log_mapping_reviewed"
+  ],
+  "title": "DangVanFiniteParameterLifeCurve",
+  "type": "object"
+}

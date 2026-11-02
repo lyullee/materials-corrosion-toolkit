@@ -1,0 +1,259 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExcludedSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "exclusion_reason": {
+          "minLength": 1,
+          "title": "Exclusion Reason",
+          "type": "string"
+        },
+        "reviewed": {
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "exclusion_reason",
+        "reviewed",
+        "evidence"
+      ],
+      "title": "ExcludedSpecies",
+      "type": "object"
+    },
+    "SpeciesComposition": {
+      "additionalProperties": false,
+      "description": "Caller-owned formula and formal charge for one stage-local species ID.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "element_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "minProperties": 1,
+          "title": "Element Counts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "element_counts"
+      ],
+      "title": "SpeciesComposition",
+      "type": "object"
+    },
+    "SpeciesTransferRule": {
+      "additionalProperties": false,
+      "properties": {
+        "transfer_id": {
+          "minLength": 1,
+          "title": "Transfer Id",
+          "type": "string"
+        },
+        "transfer_kind": {
+          "enum": [
+            "identity",
+            "renamed",
+            "reaction_transformed"
+          ],
+          "title": "Transfer Kind",
+          "type": "string"
+        },
+        "source_terms": {
+          "items": {
+            "$ref": "#/$defs/StoichiometricTransferTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Source Terms",
+          "type": "array"
+        },
+        "target_terms": {
+          "items": {
+            "$ref": "#/$defs/StoichiometricTransferTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Target Terms",
+          "type": "array"
+        },
+        "reviewed": {
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "transfer_id",
+        "transfer_kind",
+        "source_terms",
+        "target_terms",
+        "reviewed",
+        "evidence"
+      ],
+      "title": "SpeciesTransferRule",
+      "type": "object"
+    },
+    "StoichiometricTransferTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "minimum": 1,
+          "title": "Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "StoichiometricTransferTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Audit element/charge closure of a declared chemistry-stage handoff.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wco2_species_transfer_audit.v1",
+      "default": "matintegrity.wco2_species_transfer_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "upstream_species": {
+      "items": {
+        "$ref": "#/$defs/SpeciesComposition"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Upstream Species",
+      "type": "array"
+    },
+    "downstream_species": {
+      "items": {
+        "$ref": "#/$defs/SpeciesComposition"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Downstream Species",
+      "type": "array"
+    },
+    "transfers": {
+      "items": {
+        "$ref": "#/$defs/SpeciesTransferRule"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Transfers",
+      "type": "array"
+    },
+    "excluded_upstream_species": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ExcludedSpecies"
+      },
+      "title": "Excluded Upstream Species",
+      "type": "array"
+    }
+  },
+  "required": [
+    "upstream_species",
+    "downstream_species",
+    "transfers"
+  ],
+  "title": "Wco2SpeciesTransferAuditRequest",
+  "type": "object"
+}

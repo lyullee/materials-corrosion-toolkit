@@ -1,0 +1,319 @@
+{
+  "$defs": {
+    "BoltForceChangePoint": {
+      "additionalProperties": false,
+      "description": "Caller-supplied incremental bolt force versus signed extension.",
+      "properties": {
+        "extension_change_m": {
+          "title": "Extension Change M",
+          "type": "number"
+        },
+        "force_change_N": {
+          "title": "Force Change N",
+          "type": "number"
+        }
+      },
+      "required": [
+        "extension_change_m",
+        "force_change_N"
+      ],
+      "title": "BoltForceChangePoint",
+      "type": "object"
+    },
+    "GasketBackbonePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "compressive_strain": {
+          "minimum": 0,
+          "title": "Compressive Strain",
+          "type": "number"
+        },
+        "stress_Pa": {
+          "minimum": 0,
+          "title": "Stress Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "compressive_strain",
+        "stress_Pa"
+      ],
+      "title": "GasketBackbonePoint",
+      "type": "object"
+    },
+    "NonlinearGasketMaxwellBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "relaxation_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Relaxation Time S",
+          "type": "number"
+        },
+        "stress_strain_backbone": {
+          "items": {
+            "$ref": "#/$defs/GasketBackbonePoint"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Stress Strain Backbone",
+          "type": "array"
+        }
+      },
+      "required": [
+        "branch_id",
+        "relaxation_time_s",
+        "stress_strain_backbone"
+      ],
+      "title": "NonlinearGasketMaxwellBranch",
+      "type": "object"
+    },
+    "NonlinearGasketViscoelasticMaterial": {
+      "additionalProperties": false,
+      "properties": {
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "condition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Condition Sha256",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "equilibrium_stress_strain_backbone": {
+          "items": {
+            "$ref": "#/$defs/GasketBackbonePoint"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Equilibrium Stress Strain Backbone",
+          "type": "array"
+        },
+        "branches": {
+          "items": {
+            "$ref": "#/$defs/NonlinearGasketMaxwellBranch"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Branches",
+          "type": "array"
+        },
+        "initial_branch_stress_Pa": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Initial Branch Stress Pa",
+          "type": "array"
+        },
+        "nonlinear_branch_calibration_reviewed": {
+          "title": "Nonlinear Branch Calibration Reviewed",
+          "type": "boolean"
+        },
+        "initial_branch_state_reviewed": {
+          "title": "Initial Branch State Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "material_condition_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "condition_sha256",
+        "source_sha256",
+        "provider_id",
+        "provider_revision",
+        "temperature_K",
+        "equilibrium_stress_strain_backbone",
+        "branches",
+        "initial_branch_stress_Pa",
+        "nonlinear_branch_calibration_reviewed",
+        "initial_branch_state_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "NonlinearGasketViscoelasticMaterial",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Request for a knotwise unilateral gasket-contact history.",
+  "properties": {
+    "request_id": {
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "material": {
+      "$ref": "#/$defs/NonlinearGasketViscoelasticMaterial"
+    },
+    "compression_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Compression Area M2",
+      "type": "number"
+    },
+    "gasket_compression_height_m": {
+      "exclusiveMinimum": 0,
+      "title": "Gasket Compression Height M",
+      "type": "number"
+    },
+    "bolt_force_change_curve": {
+      "items": {
+        "$ref": "#/$defs/BoltForceChangePoint"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Bolt Force Change Curve",
+      "type": "array"
+    },
+    "bolt_curve_id": {
+      "minLength": 1,
+      "title": "Bolt Curve Id",
+      "type": "string"
+    },
+    "bolt_curve_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bolt Curve Source Sha256",
+      "type": "string"
+    },
+    "initial_compressive_strain": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Compressive Strain",
+      "type": "number"
+    },
+    "maximum_compressive_strain": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Compressive Strain",
+      "type": "number"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "external_separating_force_N": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "External Separating Force N",
+      "type": "array"
+    },
+    "bolt_free_length_change_m": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Bolt Free Length Change M",
+      "type": "array"
+    },
+    "joint_geometry_and_force_balance_reviewed": {
+      "title": "Joint Geometry And Force Balance Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_linear_internal_strain_update_reviewed": {
+      "title": "Piecewise Linear Internal Strain Update Reviewed",
+      "type": "boolean"
+    },
+    "coupled_history_model_applicability_reviewed": {
+      "title": "Coupled History Model Applicability Reviewed",
+      "type": "boolean"
+    },
+    "bolt_curve_and_support_reviewed": {
+      "title": "Bolt Curve And Support Reviewed",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "matintegrity.unilateral_nonlinear_gasket_prony_joint_history.v1",
+      "default": "matintegrity.unilateral_nonlinear_gasket_prony_joint_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "unilateral_contact_transition_reviewed": {
+      "title": "Unilateral Contact Transition Reviewed",
+      "type": "boolean"
+    },
+    "zero_compression_branch_state_reviewed": {
+      "title": "Zero Compression Branch State Reviewed",
+      "type": "boolean"
+    },
+    "between_knot_transition_interpretation_reviewed": {
+      "title": "Between Knot Transition Interpretation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "request_id",
+    "joint_id",
+    "material",
+    "compression_area_m2",
+    "gasket_compression_height_m",
+    "bolt_force_change_curve",
+    "bolt_curve_id",
+    "bolt_curve_source_sha256",
+    "initial_compressive_strain",
+    "maximum_compressive_strain",
+    "elapsed_time_s",
+    "external_separating_force_N",
+    "bolt_free_length_change_m",
+    "joint_geometry_and_force_balance_reviewed",
+    "piecewise_linear_internal_strain_update_reviewed",
+    "coupled_history_model_applicability_reviewed",
+    "bolt_curve_and_support_reviewed",
+    "unilateral_contact_transition_reviewed",
+    "zero_compression_branch_state_reviewed",
+    "between_knot_transition_interpretation_reviewed"
+  ],
+  "title": "UnilateralNonlinearGasketJointHistoryRequest",
+  "type": "object"
+}

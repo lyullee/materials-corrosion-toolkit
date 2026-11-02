@@ -1,0 +1,236 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ImpactMetricPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "metric_value": {
+          "minimum": 0,
+          "title": "Metric Value",
+          "type": "number"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation_id",
+        "temperature_K",
+        "metric_value",
+        "source_group_id"
+      ],
+      "title": "ImpactMetricPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "series_id": {
+      "minLength": 1,
+      "title": "Series Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_geometry_id": {
+      "minLength": 1,
+      "title": "Specimen Geometry Id",
+      "type": "string"
+    },
+    "orientation_id": {
+      "minLength": 1,
+      "title": "Orientation Id",
+      "type": "string"
+    },
+    "observational_unit_description": {
+      "minLength": 1,
+      "title": "Observational Unit Description",
+      "type": "string"
+    },
+    "statistic_basis": {
+      "minLength": 1,
+      "title": "Statistic Basis",
+      "type": "string"
+    },
+    "metric": {
+      "enum": [
+        "absorbed_energy",
+        "shear_fracture_fraction",
+        "lateral_expansion"
+      ],
+      "title": "Metric",
+      "type": "string"
+    },
+    "metric_unit": {
+      "enum": [
+        "J",
+        "1",
+        "m"
+      ],
+      "title": "Metric Unit",
+      "type": "string"
+    },
+    "target_value": {
+      "minimum": 0,
+      "title": "Target Value",
+      "type": "number"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/ImpactMetricPoint"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Points",
+      "type": "array"
+    },
+    "interpolation": {
+      "const": "piecewise_linear",
+      "title": "Interpolation",
+      "type": "string"
+    }
+  },
+  "required": [
+    "basis",
+    "series_id",
+    "material_condition_id",
+    "specimen_geometry_id",
+    "orientation_id",
+    "observational_unit_description",
+    "statistic_basis",
+    "metric",
+    "metric_unit",
+    "target_value",
+    "points",
+    "interpolation"
+  ],
+  "title": "ImpactMetricCrossings",
+  "type": "object"
+}

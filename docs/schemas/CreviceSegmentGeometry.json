@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cell_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Cell Ids",
+      "type": "array"
+    },
+    "cell_length_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Cell Length M",
+      "type": "array"
+    },
+    "transverse_width_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Transverse Width M",
+      "type": "array"
+    },
+    "aperture_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Aperture M",
+      "type": "array"
+    },
+    "solution_volume_L": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 2,
+      "title": "Solution Volume L",
+      "type": "array"
+    },
+    "interior_face_area_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 299,
+      "minItems": 1,
+      "title": "Interior Face Area M2",
+      "type": "array"
+    },
+    "center_distance_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 299,
+      "minItems": 1,
+      "title": "Center Distance M",
+      "type": "array"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "cell_ids",
+    "cell_length_m",
+    "transverse_width_m",
+    "aperture_m",
+    "solution_volume_L",
+    "interior_face_area_m2",
+    "center_distance_m",
+    "sha256",
+    "source_id",
+    "evidence"
+  ],
+  "title": "CreviceSegmentGeometry",
+  "type": "object"
+}

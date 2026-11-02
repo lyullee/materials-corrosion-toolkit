@@ -1,0 +1,252 @@
+{
+  "$defs": {
+    "CreviceCompetingSolidPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "solid_elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "minProperties": 1,
+          "title": "Solid Elemental Composition",
+          "type": "object"
+        },
+        "aqueous_reactant_stoichiometry": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Aqueous Reactant Stoichiometry",
+          "type": "object"
+        },
+        "initial_solid_moles_per_solution_volume_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Per Solution Volume Mol M3",
+          "type": "number"
+        },
+        "dimensionless_solubility_product": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Solubility Product",
+          "type": "number"
+        },
+        "equilibrium_constant_record_id": {
+          "minLength": 1,
+          "title": "Equilibrium Constant Record Id",
+          "type": "string"
+        },
+        "equilibrium_constant_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Constant Record Sha256",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "solid_elemental_composition",
+        "aqueous_reactant_stoichiometry",
+        "initial_solid_moles_per_solution_volume_mol_m3",
+        "dimensionless_solubility_product",
+        "equilibrium_constant_record_id",
+        "equilibrium_constant_record_sha256",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "CreviceCompetingSolidPhase",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One stationary, digest-bound phase set for a cell over the exact BDF horizon.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "cell_id": {
+      "minLength": 1,
+      "title": "Cell Id",
+      "type": "string"
+    },
+    "phase_set_id": {
+      "minLength": 1,
+      "title": "Phase Set Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "valid_time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Valid Time S",
+      "type": "array"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "metallurgy_id": {
+      "minLength": 1,
+      "title": "Metallurgy Id",
+      "type": "string"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "activity_standard_state_id": {
+      "const": "dimensionless_molarity_1_mol_L",
+      "default": "dimensionless_molarity_1_mol_L",
+      "title": "Activity Standard State Id",
+      "type": "string"
+    },
+    "phase_candidates": {
+      "items": {
+        "$ref": "#/$defs/CreviceCompetingSolidPhase"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Phase Candidates",
+      "type": "array"
+    },
+    "phase_set_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Phase Set Evidence",
+      "type": "array"
+    },
+    "phase_set_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Phase Set Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "cell_id",
+    "phase_set_id",
+    "clock_id",
+    "valid_time_s",
+    "material_condition_id",
+    "metallurgy_id",
+    "environment_id",
+    "temperature_K",
+    "phase_candidates",
+    "phase_set_evidence",
+    "phase_set_sha256"
+  ],
+  "title": "CellSolidPhaseSet",
+  "type": "object"
+}

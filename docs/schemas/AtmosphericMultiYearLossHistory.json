@@ -1,0 +1,420 @@
+{
+  "$defs": {
+    "AtmosphericTimeTransferEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "exposure_zone_id": {
+          "minLength": 1,
+          "title": "Exposure Zone Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "surface_condition_id": {
+          "minLength": 1,
+          "title": "Surface Condition Id",
+          "type": "string"
+        },
+        "climate_pollutant_descriptor_id": {
+          "minLength": 1,
+          "title": "Climate Pollutant Descriptor Id",
+          "type": "string"
+        },
+        "loss_unit_token": {
+          "minLength": 1,
+          "title": "Loss Unit Token",
+          "type": "string"
+        },
+        "time_unit_token": {
+          "const": "year",
+          "default": "year",
+          "title": "Time Unit Token",
+          "type": "string"
+        },
+        "minimum_first_year_loss": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum First Year Loss",
+          "type": "number"
+        },
+        "maximum_first_year_loss": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum First Year Loss",
+          "type": "number"
+        },
+        "minimum_time_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Time Exponent",
+          "type": "number"
+        },
+        "maximum_time_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Time Exponent",
+          "type": "number"
+        },
+        "maximum_supported_elapsed_years": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Elapsed Years",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "qualification_records": {
+          "items": {
+            "$ref": "#/$defs/AtmosphericTransferQualificationRecord"
+          },
+          "minItems": 2,
+          "title": "Qualification Records",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "exposure_zone_id",
+        "material_condition_id",
+        "surface_condition_id",
+        "climate_pollutant_descriptor_id",
+        "loss_unit_token",
+        "minimum_first_year_loss",
+        "maximum_first_year_loss",
+        "minimum_time_exponent",
+        "maximum_time_exponent",
+        "maximum_supported_elapsed_years",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "qualification_records",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "AtmosphericTimeTransferEnvelope",
+      "type": "object"
+    },
+    "AtmosphericTransferQualificationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "exposure_zone_id": {
+          "minLength": 1,
+          "title": "Exposure Zone Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "surface_condition_id": {
+          "minLength": 1,
+          "title": "Surface Condition Id",
+          "type": "string"
+        },
+        "climate_pollutant_descriptor_id": {
+          "minLength": 1,
+          "title": "Climate Pollutant Descriptor Id",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "partition",
+        "physical_specimen_id",
+        "source_group_id",
+        "exposure_zone_id",
+        "material_condition_id",
+        "surface_condition_id",
+        "climate_pollutant_descriptor_id",
+        "provider_result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AtmosphericTransferQualificationRecord",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "exposure_zone_id": {
+      "minLength": 1,
+      "title": "Exposure Zone Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "surface_condition_id": {
+      "minLength": 1,
+      "title": "Surface Condition Id",
+      "type": "string"
+    },
+    "climate_pollutant_descriptor_id": {
+      "minLength": 1,
+      "title": "Climate Pollutant Descriptor Id",
+      "type": "string"
+    },
+    "first_year_loss": {
+      "exclusiveMinimum": 0,
+      "title": "First Year Loss",
+      "type": "number"
+    },
+    "loss_unit_token": {
+      "minLength": 1,
+      "title": "Loss Unit Token",
+      "type": "string"
+    },
+    "first_year_loss_provider_id": {
+      "minLength": 1,
+      "title": "First Year Loss Provider Id",
+      "type": "string"
+    },
+    "first_year_loss_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "First Year Loss Result Digest",
+      "type": "string"
+    },
+    "time_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Time Exponent",
+      "type": "number"
+    },
+    "elapsed_time_years": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Elapsed Time Years",
+      "type": "array"
+    },
+    "transfer_envelope": {
+      "$ref": "#/$defs/AtmosphericTimeTransferEnvelope"
+    },
+    "exposure_material_surface_and_environment_identity_reviewed": {
+      "title": "Exposure Material Surface And Environment Identity Reviewed",
+      "type": "boolean"
+    },
+    "first_year_endpoint_value_and_unit_reviewed": {
+      "title": "First Year Endpoint Value And Unit Reviewed",
+      "type": "boolean"
+    },
+    "time_exponent_definition_and_support_reviewed": {
+      "title": "Time Exponent Definition And Support Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_ordered_time_knots_reviewed": {
+      "title": "Clock And Ordered Time Knots Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_partitions_and_source_groups_reviewed": {
+      "title": "Qualification Partitions And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "transfer_envelope_authority_reviewed": {
+      "title": "Transfer Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "exposure_zone_id",
+    "material_condition_id",
+    "surface_condition_id",
+    "climate_pollutant_descriptor_id",
+    "first_year_loss",
+    "loss_unit_token",
+    "first_year_loss_provider_id",
+    "first_year_loss_result_digest",
+    "time_exponent",
+    "elapsed_time_years",
+    "transfer_envelope",
+    "exposure_material_surface_and_environment_identity_reviewed",
+    "first_year_endpoint_value_and_unit_reviewed",
+    "time_exponent_definition_and_support_reviewed",
+    "clock_and_ordered_time_knots_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_partitions_and_source_groups_reviewed",
+    "transfer_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "AtmosphericMultiYearLossHistory",
+  "type": "object"
+}

@@ -1,0 +1,127 @@
+{
+  "$defs": {
+    "RiskCostComponent": {
+      "additionalProperties": false,
+      "description": "One reviewed additive cost in the comparison's declared common cost basis.",
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount": {
+          "minimum": 0,
+          "title": "Amount",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount",
+        "basis"
+      ],
+      "title": "RiskCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One mutually exclusive inspection outcome and its reviewed downstream disposition.",
+  "properties": {
+    "outcome_id": {
+      "minLength": 1,
+      "title": "Outcome Id",
+      "type": "string"
+    },
+    "outcome_label": {
+      "minLength": 1,
+      "title": "Outcome Label",
+      "type": "string"
+    },
+    "probability_given_inspection": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Probability Given Inspection",
+      "type": "number"
+    },
+    "disposition_id": {
+      "minLength": 1,
+      "title": "Disposition Id",
+      "type": "string"
+    },
+    "disposition_label": {
+      "minLength": 1,
+      "title": "Disposition Label",
+      "type": "string"
+    },
+    "disposition_definition": {
+      "minLength": 1,
+      "title": "Disposition Definition",
+      "type": "string"
+    },
+    "disposition_effect_model_id": {
+      "minLength": 1,
+      "title": "Disposition Effect Model Id",
+      "type": "string"
+    },
+    "disposition_effect_model_revision": {
+      "minLength": 1,
+      "title": "Disposition Effect Model Revision",
+      "type": "string"
+    },
+    "disposition_effect_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Disposition Effect Configuration Sha256",
+      "type": "string"
+    },
+    "disposition_effect_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Disposition Effect Input Sha256",
+      "type": "string"
+    },
+    "disposition_event_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Disposition Event Result Sha256",
+      "type": "string"
+    },
+    "residual_failure_probability_given_outcome_and_disposition": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Residual Failure Probability Given Outcome And Disposition",
+      "type": "number"
+    },
+    "disposition_cost_components": {
+      "items": {
+        "$ref": "#/$defs/RiskCostComponent"
+      },
+      "title": "Disposition Cost Components",
+      "type": "array"
+    }
+  },
+  "required": [
+    "outcome_id",
+    "outcome_label",
+    "probability_given_inspection",
+    "disposition_id",
+    "disposition_label",
+    "disposition_definition",
+    "disposition_effect_model_id",
+    "disposition_effect_model_revision",
+    "disposition_effect_configuration_sha256",
+    "disposition_effect_input_sha256",
+    "disposition_event_result_sha256",
+    "residual_failure_probability_given_outcome_and_disposition"
+  ],
+  "title": "InspectionDispositionOutcomeBranch",
+  "type": "object"
+}

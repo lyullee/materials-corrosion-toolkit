@@ -1,0 +1,45 @@
+{
+  "schema_version": "matintegrity.external_provider_review.v1",
+  "checked_at_utc": "2026-10-26T19:13:43.621847+00:00",
+  "provider_id": "sandia.helpr",
+  "provider_name": "Hydrogen Extremely Low Probability of Rupture",
+  "provider_version": "2.1.0",
+  "provider_revision": "ae12d20b6608123af41dd9d5f70db6b6547fece5",
+  "provider_tag": "v2.1.0",
+  "repository": "https://github.com/sandialabs/helpr",
+  "documentation": "https://sandialabs.github.io/helpr/",
+  "license": "BSD-3-Clause",
+  "runtime_dependency_added": false,
+  "upstream_code_copied": false,
+  "reviewed_file_sha256": {
+    "LICENSE.md": "8f7cce37e8444d6efd66823190ad0ce68c7cb2ee9bafaad9da2c8ff8143e09c8",
+    "COPYRIGHT.txt": "b1d8cf61c5e29e43a09c15fa1680267d57cef2ffedd93466268085444e5f54ef",
+    "pyproject.toml": "151f871d72a5962866760baeba7290d521623539598a57a68348b8e4998edc39",
+    "README.md": "111b2a2a06ca56c79cd88104bd3ea9685a3848d1190bfcec864b487b797470a1",
+    "CHANGELOG.md": "d9e399da4a55246a7b1da717bc99182b711d9844760b5542f536716d981dde75",
+    "src/helpr/api.py": "fbe125b1fe808bca703a0bb56b1717d862a71b97ea40c1c22de6cd06dc634190",
+    "src/helpr/utilities/saving.py": "b192aa3bde1128ec106922857f93bbc54aaca279658f77c28dc67948fe0b1bae",
+    "src/helpr/utilities/postprocessing.py": "0b321de8bd1aa3552b5610974d5531731d04fe5f6b71787ee651f155b01c4458"
+  },
+  "reviewed_output": {
+    "method": "CrackEvolutionAnalysis.save_results",
+    "life_criteria_files": [
+      "nominal_life_criteria.csv",
+      "probabilistic_life_criteria.csv"
+    ],
+    "columns": [
+      "a(crit)",
+      "Cycles to a(crit)",
+      "Cycles to 25% a(crit)",
+      "Cycles to 1/2 Nc",
+      "Cycles to FAD line"
+    ],
+    "limitations": [
+      "CSV does not carry provider revision or configuration digest.",
+      "CSV does not carry asset, location, material, load-case, or physical sample identity.",
+      "Blank and NaN criteria require provider-run interpretation and are not observed runouts.",
+      "Life criteria are not failure probabilities or independent experimental validation."
+    ]
+  },
+  "integration_decision": "Use an optional version-pinned CSV boundary and restore required provenance in an independent MatIntegrity contract. Do not copy HELPR physics, API 579 tables, or design curves."
+}

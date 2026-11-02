@@ -1,0 +1,203 @@
+{
+  "$defs": {
+    "CathodicProtectionCurveRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.cathodic_protection_curve.v1",
+          "default": "matintegrity.cathodic_protection_curve.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dataset_id": {
+          "const": "zenodo-18735817-cathodic-protection",
+          "default": "zenodo-18735817-cathodic-protection",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "provider_record": {
+          "const": "https://doi.org/10.5281/zenodo.18735817",
+          "default": "https://doi.org/10.5281/zenodo.18735817",
+          "title": "Provider Record",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC-BY-4.0",
+          "default": "CC-BY-4.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "source_filename": {
+          "minLength": 1,
+          "title": "Source Filename",
+          "type": "string"
+        },
+        "source_file_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source File Sha256",
+          "type": "string"
+        },
+        "curve_index": {
+          "minimum": 1,
+          "title": "Curve Index",
+          "type": "integer"
+        },
+        "provider_curve_label": {
+          "minLength": 1,
+          "title": "Provider Curve Label",
+          "type": "string"
+        },
+        "measurement_kind": {
+          "enum": [
+            "open_circuit_potential",
+            "potentiodynamic_scan"
+          ],
+          "title": "Measurement Kind",
+          "type": "string"
+        },
+        "sample_count": {
+          "exclusiveMinimum": 1,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "x_quantity": {
+          "enum": [
+            "time",
+            "current"
+          ],
+          "title": "X Quantity",
+          "type": "string"
+        },
+        "x_unit": {
+          "enum": [
+            "s",
+            "provider_current_axis_unresolved"
+          ],
+          "title": "X Unit",
+          "type": "string"
+        },
+        "y_quantity": {
+          "const": "potential",
+          "default": "potential",
+          "title": "Y Quantity",
+          "type": "string"
+        },
+        "y_unit": {
+          "const": "V_vs_calomel",
+          "default": "V_vs_calomel",
+          "title": "Y Unit",
+          "type": "string"
+        },
+        "minimum_x": {
+          "title": "Minimum X",
+          "type": "number"
+        },
+        "maximum_x": {
+          "title": "Maximum X",
+          "type": "number"
+        },
+        "minimum_potential_V": {
+          "title": "Minimum Potential V",
+          "type": "number"
+        },
+        "maximum_potential_V": {
+          "title": "Maximum Potential V",
+          "type": "number"
+        },
+        "interpretation_status": {
+          "const": "raw_curve_no_acceptance_or_corrosion_rate",
+          "default": "raw_curve_no_acceptance_or_corrosion_rate",
+          "title": "Interpretation Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_filename",
+        "source_file_sha256",
+        "curve_index",
+        "provider_curve_label",
+        "measurement_kind",
+        "sample_count",
+        "x_quantity",
+        "x_unit",
+        "minimum_x",
+        "maximum_x",
+        "minimum_potential_V",
+        "maximum_potential_V"
+      ],
+      "title": "CathodicProtectionCurveRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.cathodic_protection_dataset_audit.v1",
+      "default": "matintegrity.cathodic_protection_dataset_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-18735817-cathodic-protection",
+      "default": "zenodo-18735817-cathodic-protection",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "provider_record": {
+      "const": "https://doi.org/10.5281/zenodo.18735817",
+      "default": "https://doi.org/10.5281/zenodo.18735817",
+      "title": "Provider Record",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "curves": {
+      "items": {
+        "$ref": "#/$defs/CathodicProtectionCurveRecord"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "title": "Curves",
+      "type": "array"
+    },
+    "file_count": {
+      "const": 5,
+      "title": "File Count",
+      "type": "integer"
+    },
+    "curve_count": {
+      "const": 8,
+      "title": "Curve Count",
+      "type": "integer"
+    },
+    "total_samples": {
+      "const": 11922,
+      "title": "Total Samples",
+      "type": "integer"
+    },
+    "workbook_preserved_but_not_normalized": {
+      "const": true,
+      "default": true,
+      "title": "Workbook Preserved But Not Normalized",
+      "type": "boolean"
+    },
+    "calibration_use_status": {
+      "const": "withheld_missing_exposure_and_instrument_metadata",
+      "default": "withheld_missing_exposure_and_instrument_metadata",
+      "title": "Calibration Use Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "curves",
+    "file_count",
+    "curve_count",
+    "total_samples"
+  ],
+  "title": "CathodicProtectionDatasetAudit",
+  "type": "object"
+}

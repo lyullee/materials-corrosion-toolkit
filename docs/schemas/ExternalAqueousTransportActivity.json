@@ -1,0 +1,191 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Provenance and species map for external gamma evaluation in transport.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.external_aqueous_transport_activity.v1",
+      "default": "matintegrity.external_aqueous_transport_activity.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "species_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Species Ids",
+      "type": "array"
+    },
+    "charge_numbers": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Charge Numbers",
+      "type": "array"
+    },
+    "water_mass_per_solution_volume_kg_L": {
+      "exclusiveMinimum": 0,
+      "title": "Water Mass Per Solution Volume Kg L",
+      "type": "number"
+    },
+    "ionic_strength_limit_mol_kg": {
+      "exclusiveMinimum": 0,
+      "maximum": 100.0,
+      "title": "Ionic Strength Limit Mol Kg",
+      "type": "number"
+    },
+    "ionic_strength_consistency_tolerance_mol_kg": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.1,
+      "title": "Ionic Strength Consistency Tolerance Mol Kg",
+      "type": "number"
+    },
+    "activity_provider_id": {
+      "minLength": 1,
+      "title": "Activity Provider Id",
+      "type": "string"
+    },
+    "activity_provider_revision": {
+      "minLength": 1,
+      "title": "Activity Provider Revision",
+      "type": "string"
+    },
+    "activity_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Activity Configuration Sha256",
+      "type": "string"
+    },
+    "activity_parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Activity Parameter Record Sha256",
+      "type": "string"
+    },
+    "single_ion_activity_convention_id": {
+      "minLength": 1,
+      "title": "Single Ion Activity Convention Id",
+      "type": "string"
+    },
+    "water_mass_and_molality_conversion_reviewed": {
+      "title": "Water Mass And Molality Conversion Reviewed",
+      "type": "boolean"
+    },
+    "species_order_charge_and_inventory_reviewed": {
+      "title": "Species Order Charge And Inventory Reviewed",
+      "type": "boolean"
+    },
+    "temperature_solvent_and_parameter_coverage_reviewed": {
+      "title": "Temperature Solvent And Parameter Coverage Reviewed",
+      "type": "boolean"
+    },
+    "single_ion_convention_and_transport_chemical_potential_reviewed": {
+      "title": "Single Ion Convention And Transport Chemical Potential Reviewed",
+      "type": "boolean"
+    },
+    "no_precipitation_or_phase_change_reviewed": {
+      "title": "No Precipitation Or Phase Change Reviewed",
+      "type": "boolean"
+    },
+    "deterministic_provider_re_evaluation_reviewed": {
+      "title": "Deterministic Provider Re Evaluation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "temperature_K",
+    "species_ids",
+    "charge_numbers",
+    "water_mass_per_solution_volume_kg_L",
+    "ionic_strength_limit_mol_kg",
+    "activity_provider_id",
+    "activity_provider_revision",
+    "activity_configuration_sha256",
+    "activity_parameter_record_sha256",
+    "single_ion_activity_convention_id",
+    "water_mass_and_molality_conversion_reviewed",
+    "species_order_charge_and_inventory_reviewed",
+    "temperature_solvent_and_parameter_coverage_reviewed",
+    "single_ion_convention_and_transport_chemical_potential_reviewed",
+    "no_precipitation_or_phase_change_reviewed",
+    "deterministic_provider_re_evaluation_reviewed",
+    "evidence"
+  ],
+  "title": "ExternalAqueousTransportActivity",
+  "type": "object"
+}

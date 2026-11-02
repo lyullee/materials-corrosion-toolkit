@@ -1,0 +1,135 @@
+{
+  "additionalProperties": false,
+  "description": "Explicit filters for selecting caller-reviewed CO2 records from the local compilation.",
+  "properties": {
+    "temperature_range_K": {
+      "anyOf": [
+        {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Range K"
+    },
+    "pressure_range_MPa": {
+      "anyOf": [
+        {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "minimum": 0,
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pressure Range Mpa"
+    },
+    "pressure_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pressure Basis"
+    },
+    "salt": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Salt"
+    },
+    "source_ids": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Ids"
+    },
+    "allowed_statuses": {
+      "default": [
+        "measured"
+      ],
+      "items": {
+        "enum": [
+          "measured",
+          "calculated",
+          "no_value"
+        ],
+        "type": "string"
+      },
+      "title": "Allowed Statuses",
+      "type": "array"
+    },
+    "exclude_any_flagged_records": {
+      "default": true,
+      "title": "Exclude Any Flagged Records",
+      "type": "boolean"
+    },
+    "required_flags": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Flags",
+      "type": "array"
+    },
+    "require_temperature_and_pressure": {
+      "default": true,
+      "title": "Require Temperature And Pressure",
+      "type": "boolean"
+    },
+    "maximum_records": {
+      "default": 500,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Records",
+      "type": "integer"
+    }
+  },
+  "title": "AquaSolDBCo2SolubilityQuery",
+  "type": "object"
+}

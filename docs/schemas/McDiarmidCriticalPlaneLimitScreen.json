@@ -1,0 +1,295 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "McDiarmidCandidatePlane": {
+      "additionalProperties": false,
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal_x": {
+          "title": "Normal X",
+          "type": "number"
+        },
+        "normal_y": {
+          "title": "Normal Y",
+          "type": "number"
+        },
+        "normal_z": {
+          "title": "Normal Z",
+          "type": "number"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal_x",
+        "normal_y",
+        "normal_z"
+      ],
+      "title": "McDiarmidCandidatePlane",
+      "type": "object"
+    },
+    "McDiarmidTensorState": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "title": "Time S",
+          "type": "number"
+        },
+        "sigma_xx_Pa": {
+          "title": "Sigma Xx Pa",
+          "type": "number"
+        },
+        "sigma_yy_Pa": {
+          "title": "Sigma Yy Pa",
+          "type": "number"
+        },
+        "sigma_zz_Pa": {
+          "title": "Sigma Zz Pa",
+          "type": "number"
+        },
+        "tau_xy_Pa": {
+          "title": "Tau Xy Pa",
+          "type": "number"
+        },
+        "tau_yz_Pa": {
+          "title": "Tau Yz Pa",
+          "type": "number"
+        },
+        "tau_zx_Pa": {
+          "title": "Tau Zx Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_s",
+        "sigma_xx_Pa",
+        "sigma_yy_Pa",
+        "sigma_zz_Pa",
+        "tau_xy_Pa",
+        "tau_yz_Pa",
+        "tau_zx_Pa"
+      ],
+      "title": "McDiarmidTensorState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Screen one repeated service tensor cycle against caller McDiarmid inputs.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.multiaxial_mcdiarmid_finite_plane_limit_screen.v1",
+      "default": "matintegrity.multiaxial_mcdiarmid_finite_plane_limit_screen.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "crack_case": {
+      "enum": [
+        "A",
+        "B"
+      ],
+      "title": "Crack Case",
+      "type": "string"
+    },
+    "stress_history": {
+      "items": {
+        "$ref": "#/$defs/McDiarmidTensorState"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Stress History",
+      "type": "array"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/McDiarmidCandidatePlane"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "reversed_torsion_fatigue_strength_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reversed Torsion Fatigue Strength Pa",
+      "type": "number"
+    },
+    "ultimate_tensile_strength_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Ultimate Tensile Strength Pa",
+      "type": "number"
+    },
+    "material_provider_id": {
+      "minLength": 1,
+      "title": "Material Provider Id",
+      "type": "string"
+    },
+    "material_provider_revision": {
+      "minLength": 1,
+      "title": "Material Provider Revision",
+      "type": "string"
+    },
+    "material_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Material Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "material_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Material Evidence",
+      "type": "array"
+    },
+    "history_provider_id": {
+      "minLength": 1,
+      "title": "History Provider Id",
+      "type": "string"
+    },
+    "history_provider_revision": {
+      "minLength": 1,
+      "title": "History Provider Revision",
+      "type": "string"
+    },
+    "history_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Record Sha256",
+      "type": "string"
+    },
+    "history_usage_license_id": {
+      "minLength": 1,
+      "title": "History Usage License Id",
+      "type": "string"
+    },
+    "history_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "History Evidence",
+      "type": "array"
+    },
+    "repeated_cycle_and_tensor_convention_reviewed": {
+      "title": "Repeated Cycle And Tensor Convention Reviewed",
+      "type": "boolean"
+    },
+    "material_condition_and_crack_case_reviewed": {
+      "title": "Material Condition And Crack Case Reviewed",
+      "type": "boolean"
+    },
+    "plane_set_and_surface_orientation_reviewed": {
+      "title": "Plane Set And Surface Orientation Reviewed",
+      "type": "boolean"
+    },
+    "calibration_records_and_computational_use_reviewed": {
+      "title": "Calibration Records And Computational Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "crack_case",
+    "stress_history",
+    "candidate_planes",
+    "reversed_torsion_fatigue_strength_Pa",
+    "ultimate_tensile_strength_Pa",
+    "material_provider_id",
+    "material_provider_revision",
+    "material_record_sha256",
+    "usage_license_id",
+    "material_evidence",
+    "history_provider_id",
+    "history_provider_revision",
+    "history_record_sha256",
+    "history_usage_license_id",
+    "history_evidence",
+    "repeated_cycle_and_tensor_convention_reviewed",
+    "material_condition_and_crack_case_reviewed",
+    "plane_set_and_surface_orientation_reviewed",
+    "calibration_records_and_computational_use_reviewed"
+  ],
+  "title": "McDiarmidCriticalPlaneLimitScreen",
+  "type": "object"
+}

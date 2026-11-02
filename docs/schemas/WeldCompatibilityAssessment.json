@@ -1,0 +1,861 @@
+{
+  "$defs": {
+    "CallerWeldCompatibilityProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_kind": {
+          "enum": [
+            "tabulated_envelope",
+            "plugin_style_rules"
+          ],
+          "title": "Profile Kind",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "applicable_assessment_kinds": {
+          "items": {
+            "enum": [
+              "dissimilar_weld",
+              "overlay_cladding",
+              "consumable_selection"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Assessment Kinds",
+          "type": "array"
+        },
+        "permitted_layer_role_sequences": {
+          "items": {
+            "items": {
+              "enum": [
+                "buttering",
+                "filler",
+                "overlay",
+                "dilution_layer"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "minItems": 1,
+          "title": "Permitted Layer Role Sequences",
+          "type": "array"
+        },
+        "sequence_mismatch_disposition": {
+          "enum": [
+            "reject",
+            "review"
+          ],
+          "title": "Sequence Mismatch Disposition",
+          "type": "string"
+        },
+        "rules": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/NumericEnvelopeRule"
+              },
+              {
+                "$ref": "#/$defs/IdentityEnvelopeRule"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Rules",
+          "type": "array"
+        },
+        "plugin_adapter_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Plugin Adapter Id"
+        },
+        "plugin_adapter_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Plugin Adapter Revision"
+        },
+        "plugin_configuration_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Plugin Configuration Digest"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "profile_kind",
+        "profile_source_digest",
+        "applicable_assessment_kinds",
+        "permitted_layer_role_sequences",
+        "sequence_mismatch_disposition",
+        "rules",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "CallerWeldCompatibilityProfile",
+      "type": "object"
+    },
+    "CompatibilityFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "subject_id": {
+          "minLength": 1,
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "chemistry",
+            "property",
+            "dilution",
+            "service_environment"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "subject_id",
+        "fact_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "provider_id",
+        "provider_revision",
+        "evidence"
+      ],
+      "title": "CompatibilityFact",
+      "type": "object"
+    },
+    "CompatibilityLayer": {
+      "additionalProperties": false,
+      "properties": {
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "layer_role": {
+          "enum": [
+            "buttering",
+            "filler",
+            "overlay",
+            "dilution_layer"
+          ],
+          "title": "Layer Role",
+          "type": "string"
+        },
+        "material_subject_id": {
+          "minLength": 1,
+          "title": "Material Subject Id",
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "title": "Process Id",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "dilution_parent_subject_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Dilution Parent Subject Ids",
+          "type": "array"
+        },
+        "facts": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CompatibilityFact"
+          },
+          "title": "Facts",
+          "type": "array"
+        },
+        "sequence_and_parentage_reviewed": {
+          "title": "Sequence And Parentage Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "layer_id",
+        "sequence_position",
+        "layer_role",
+        "material_subject_id",
+        "process_id",
+        "procedure_id",
+        "sequence_and_parentage_reviewed",
+        "evidence"
+      ],
+      "title": "CompatibilityLayer",
+      "type": "object"
+    },
+    "CompatibilityMaterial": {
+      "additionalProperties": false,
+      "properties": {
+        "material_subject_id": {
+          "minLength": 1,
+          "title": "Material Subject Id",
+          "type": "string"
+        },
+        "material_role": {
+          "enum": [
+            "base_a",
+            "base_b",
+            "filler",
+            "buttering",
+            "overlay",
+            "dilution_layer"
+          ],
+          "title": "Material Role",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "material_lot_id": {
+          "minLength": 1,
+          "title": "Material Lot Id",
+          "type": "string"
+        },
+        "consumable_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Consumable Id"
+        },
+        "facts": {
+          "items": {
+            "$ref": "#/$defs/CompatibilityFact"
+          },
+          "minItems": 1,
+          "title": "Facts",
+          "type": "array"
+        },
+        "identity_reviewed": {
+          "title": "Identity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "material_subject_id",
+        "material_role",
+        "material_id",
+        "material_condition_id",
+        "material_lot_id",
+        "facts",
+        "identity_reviewed",
+        "evidence"
+      ],
+      "title": "CompatibilityMaterial",
+      "type": "object"
+    },
+    "CompatibilityServiceEnvironment": {
+      "additionalProperties": false,
+      "properties": {
+        "service_environment_id": {
+          "minLength": 1,
+          "title": "Service Environment Id",
+          "type": "string"
+        },
+        "environment_definition": {
+          "minLength": 1,
+          "title": "Environment Definition",
+          "type": "string"
+        },
+        "minimum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "temperature_unit_token": {
+          "const": "K",
+          "default": "K",
+          "title": "Temperature Unit Token",
+          "type": "string"
+        },
+        "maximum_absolute_pressure_pa": {
+          "minimum": 0,
+          "title": "Maximum Absolute Pressure Pa",
+          "type": "number"
+        },
+        "pressure_unit_token": {
+          "const": "Pa_abs",
+          "default": "Pa_abs",
+          "title": "Pressure Unit Token",
+          "type": "string"
+        },
+        "medium_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Medium Component Ids",
+          "type": "array"
+        },
+        "facts": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CompatibilityFact"
+          },
+          "title": "Facts",
+          "type": "array"
+        },
+        "environment_reviewed": {
+          "title": "Environment Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "service_environment_id",
+        "environment_definition",
+        "minimum_temperature_k",
+        "maximum_temperature_k",
+        "maximum_absolute_pressure_pa",
+        "medium_component_ids",
+        "environment_reviewed",
+        "evidence"
+      ],
+      "title": "CompatibilityServiceEnvironment",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "IdentityEnvelopeRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_kind": {
+          "const": "identity_envelope",
+          "default": "identity_envelope",
+          "title": "Rule Kind",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_kind": {
+          "enum": [
+            "material_role",
+            "layer_role",
+            "layer_position",
+            "service_environment"
+          ],
+          "title": "Target Kind",
+          "type": "string"
+        },
+        "target_value": {
+          "minLength": 1,
+          "title": "Target Value",
+          "type": "string"
+        },
+        "identity_field": {
+          "enum": [
+            "material_id",
+            "material_condition_id",
+            "material_lot_id",
+            "consumable_id",
+            "process_id",
+            "procedure_id",
+            "service_environment_id"
+          ],
+          "title": "Identity Field",
+          "type": "string"
+        },
+        "allowed_values": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Values",
+          "type": "array"
+        },
+        "mismatch_disposition": {
+          "enum": [
+            "reject",
+            "review"
+          ],
+          "title": "Mismatch Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_kind",
+        "target_value",
+        "identity_field",
+        "allowed_values",
+        "mismatch_disposition",
+        "rule_description"
+      ],
+      "title": "IdentityEnvelopeRule",
+      "type": "object"
+    },
+    "NumericEnvelopeRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_kind": {
+          "const": "numeric_envelope",
+          "default": "numeric_envelope",
+          "title": "Rule Kind",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "target_kind": {
+          "enum": [
+            "material_role",
+            "layer_role",
+            "layer_position",
+            "service_environment"
+          ],
+          "title": "Target Kind",
+          "type": "string"
+        },
+        "target_value": {
+          "minLength": 1,
+          "title": "Target Value",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "chemistry",
+            "property",
+            "dilution",
+            "service_environment"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "missing_fact_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Fact Disposition",
+          "type": "string"
+        },
+        "rule_description": {
+          "minLength": 1,
+          "title": "Rule Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "target_kind",
+        "target_value",
+        "fact_kind",
+        "metric_id",
+        "unit_token",
+        "uncertainty_policy",
+        "missing_fact_disposition",
+        "rule_description"
+      ],
+      "title": "NumericEnvelopeRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "assessment_kind": {
+      "enum": [
+        "dissimilar_weld",
+        "overlay_cladding",
+        "consumable_selection"
+      ],
+      "title": "Assessment Kind",
+      "type": "string"
+    },
+    "materials": {
+      "items": {
+        "$ref": "#/$defs/CompatibilityMaterial"
+      },
+      "minItems": 1,
+      "title": "Materials",
+      "type": "array"
+    },
+    "layers": {
+      "items": {
+        "$ref": "#/$defs/CompatibilityLayer"
+      },
+      "minItems": 1,
+      "title": "Layers",
+      "type": "array"
+    },
+    "service_environment": {
+      "$ref": "#/$defs/CompatibilityServiceEnvironment"
+    },
+    "profile": {
+      "$ref": "#/$defs/CallerWeldCompatibilityProfile"
+    },
+    "material_fact_units_uncertainty_and_lineage_reviewed": {
+      "title": "Material Fact Units Uncertainty And Lineage Reviewed",
+      "type": "boolean"
+    },
+    "layer_sequence_parentage_and_dilution_facts_reviewed": {
+      "title": "Layer Sequence Parentage And Dilution Facts Reviewed",
+      "type": "boolean"
+    },
+    "service_environment_and_fact_support_reviewed": {
+      "title": "Service Environment And Fact Support Reviewed",
+      "type": "boolean"
+    },
+    "profile_authority_applicability_and_plugin_identity_reviewed": {
+      "title": "Profile Authority Applicability And Plugin Identity Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "assessment_kind",
+    "materials",
+    "layers",
+    "service_environment",
+    "profile",
+    "material_fact_units_uncertainty_and_lineage_reviewed",
+    "layer_sequence_parentage_and_dilution_facts_reviewed",
+    "service_environment_and_fact_support_reviewed",
+    "profile_authority_applicability_and_plugin_identity_reviewed",
+    "evidence"
+  ],
+  "title": "WeldCompatibilityAssessment",
+  "type": "object"
+}

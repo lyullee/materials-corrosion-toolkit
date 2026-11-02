@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "trap_id": {
+      "minLength": 1,
+      "title": "Trap Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_lattice_id": {
+      "minLength": 1,
+      "title": "Reference Lattice Id",
+      "type": "string"
+    },
+    "site_density_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Site Density Mol M3",
+      "type": "number"
+    },
+    "binding_energy_J_mol": {
+      "minimum": 0,
+      "title": "Binding Energy J Mol",
+      "type": "number"
+    },
+    "maximum_supported_occupancy": {
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Maximum Supported Occupancy",
+      "type": "number"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "trap_id",
+    "material_condition_id",
+    "reference_lattice_id",
+    "site_density_mol_m3",
+    "binding_energy_J_mol",
+    "maximum_supported_occupancy",
+    "evidence"
+  ],
+  "title": "HydrogenTrapPopulation",
+  "type": "object"
+}

@@ -1,0 +1,374 @@
+{
+  "$defs": {
+    "CallerSolidReactionExtent": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "aqueous_stoichiometry": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Aqueous Stoichiometry",
+          "type": "array"
+        },
+        "solid_stoichiometry": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Solid Stoichiometry",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "aqueous_stoichiometry",
+        "solid_stoichiometry"
+      ],
+      "title": "CallerSolidReactionExtent",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SolidCoupledSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "SolidCoupledSpecies",
+      "type": "object"
+    },
+    "SolidPhaseInventoryBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "const": 0,
+          "default": 0,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        },
+        "initial_inventory_mol_m2_by_cell": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 2000,
+          "minItems": 1,
+          "title": "Initial Inventory Mol M2 By Cell",
+          "type": "array"
+        },
+        "initial_inventory_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Initial Inventory Source Sha256",
+          "type": "string"
+        },
+        "molar_volume_m3_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Volume M3 Mol",
+          "type": "number"
+        },
+        "molar_volume_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Molar Volume Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "phase_id",
+        "elemental_composition",
+        "initial_inventory_mol_m2_by_cell",
+        "initial_inventory_source_sha256",
+        "molar_volume_m3_mol",
+        "molar_volume_source_sha256"
+      ],
+      "title": "SolidPhaseInventoryBasis",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-defined endpoint extent law and complete solid inventory basis.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_geometry_aware_solid_deposition.v1",
+      "default": "matintegrity.crevice_geometry_aware_solid_deposition.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Source Sha256",
+      "type": "string"
+    },
+    "configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Sha256",
+      "type": "string"
+    },
+    "aqueous_species": {
+      "items": {
+        "$ref": "#/$defs/SolidCoupledSpecies"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Aqueous Species",
+      "type": "array"
+    },
+    "solid_phases": {
+      "items": {
+        "$ref": "#/$defs/SolidPhaseInventoryBasis"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Solid Phases",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/CallerSolidReactionExtent"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "valid_time_start_s": {
+      "minimum": 0,
+      "title": "Valid Time Start S",
+      "type": "number"
+    },
+    "valid_time_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Valid Time End S",
+      "type": "number"
+    },
+    "minimum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Aperture M",
+      "type": "number"
+    },
+    "maximum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Aperture M",
+      "type": "number"
+    },
+    "maximum_absolute_extent_mol_m3_by_reaction": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Maximum Absolute Extent Mol M3 By Reaction",
+      "type": "array"
+    },
+    "maximum_concentration_mol_m3_by_aqueous_species": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Maximum Concentration Mol M3 By Aqueous Species",
+      "type": "array"
+    },
+    "reference_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Area M2",
+      "type": "number"
+    },
+    "deposition_side_count": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Deposition Side Count",
+      "type": "integer"
+    },
+    "coverage_fraction_by_cell": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 1,
+      "title": "Coverage Fraction By Cell",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "endpoint_split_and_volume_basis_reviewed": {
+      "title": "Endpoint Split And Volume Basis Reviewed",
+      "type": "boolean"
+    },
+    "reaction_extent_units_and_direction_reviewed": {
+      "title": "Reaction Extent Units And Direction Reviewed",
+      "type": "boolean"
+    },
+    "element_charge_and_phase_stoichiometry_reviewed": {
+      "title": "Element Charge And Phase Stoichiometry Reviewed",
+      "type": "boolean"
+    },
+    "solid_inventory_and_dissolution_limits_reviewed": {
+      "title": "Solid Inventory And Dissolution Limits Reviewed",
+      "type": "boolean"
+    },
+    "molar_volume_state_and_source_reviewed": {
+      "title": "Molar Volume State And Source Reviewed",
+      "type": "boolean"
+    },
+    "deposition_face_coverage_mapping_reviewed": {
+      "title": "Deposition Face Coverage Mapping Reviewed",
+      "type": "boolean"
+    },
+    "deterministic_re_evaluation_reviewed": {
+      "title": "Deterministic Re Evaluation Reviewed",
+      "type": "boolean"
+    },
+    "reference_area_and_cell_volume_basis_reviewed": {
+      "title": "Reference Area And Cell Volume Basis Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_revision",
+    "provider_source_sha256",
+    "configuration_sha256",
+    "aqueous_species",
+    "solid_phases",
+    "reactions",
+    "valid_time_start_s",
+    "valid_time_end_s",
+    "minimum_aperture_m",
+    "maximum_aperture_m",
+    "maximum_absolute_extent_mol_m3_by_reaction",
+    "maximum_concentration_mol_m3_by_aqueous_species",
+    "reference_area_m2",
+    "deposition_side_count",
+    "coverage_fraction_by_cell",
+    "evidence",
+    "endpoint_split_and_volume_basis_reviewed",
+    "reaction_extent_units_and_direction_reviewed",
+    "element_charge_and_phase_stoichiometry_reviewed",
+    "solid_inventory_and_dissolution_limits_reviewed",
+    "molar_volume_state_and_source_reviewed",
+    "deposition_face_coverage_mapping_reviewed",
+    "deterministic_re_evaluation_reviewed",
+    "reference_area_and_cell_volume_basis_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceGeometryAwareSolidDepositionContract",
+  "type": "object"
+}

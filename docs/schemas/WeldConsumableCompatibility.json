@@ -1,0 +1,291 @@
+{
+  "$defs": {
+    "ConsumableCompatibilityDeclaration": {
+      "additionalProperties": false,
+      "properties": {
+        "declaration_id": {
+          "minLength": 1,
+          "title": "Declaration Id",
+          "type": "string"
+        },
+        "base_material_condition_ids": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Base Material Condition Ids",
+          "type": "array"
+        },
+        "consumable_lot_id": {
+          "minLength": 1,
+          "title": "Consumable Lot Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "service_environment_id": {
+          "minLength": 1,
+          "title": "Service Environment Id",
+          "type": "string"
+        },
+        "minimum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Temperature K",
+          "type": "number"
+        },
+        "declaration_basis": {
+          "minLength": 1,
+          "title": "Declaration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "declaration_id",
+        "base_material_condition_ids",
+        "consumable_lot_id",
+        "welding_process_id",
+        "service_environment_id",
+        "minimum_supported_temperature_K",
+        "maximum_supported_temperature_K",
+        "declaration_basis",
+        "evidence"
+      ],
+      "title": "ConsumableCompatibilityDeclaration",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ProductionConsumableRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "base_material_condition_ids": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Base Material Condition Ids",
+          "type": "array"
+        },
+        "consumable_lot_id": {
+          "minLength": 1,
+          "title": "Consumable Lot Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "service_environment_id": {
+          "minLength": 1,
+          "title": "Service Environment Id",
+          "type": "string"
+        },
+        "minimum_service_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Service Temperature K",
+          "type": "number"
+        },
+        "maximum_service_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Service Temperature K",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "weld_id",
+        "base_material_condition_ids",
+        "consumable_lot_id",
+        "welding_process_id",
+        "service_environment_id",
+        "minimum_service_temperature_K",
+        "maximum_service_temperature_K",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ProductionConsumableRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "production_records": {
+      "items": {
+        "$ref": "#/$defs/ProductionConsumableRecord"
+      },
+      "minItems": 1,
+      "title": "Production Records",
+      "type": "array"
+    },
+    "compatibility_declarations": {
+      "items": {
+        "$ref": "#/$defs/ConsumableCompatibilityDeclaration"
+      },
+      "minItems": 1,
+      "title": "Compatibility Declarations",
+      "type": "array"
+    },
+    "production_identity_reviewed": {
+      "title": "Production Identity Reviewed",
+      "type": "boolean"
+    },
+    "material_identity_reviewed": {
+      "title": "Material Identity Reviewed",
+      "type": "boolean"
+    },
+    "consumable_traceability_reviewed": {
+      "title": "Consumable Traceability Reviewed",
+      "type": "boolean"
+    },
+    "service_conditions_reviewed": {
+      "title": "Service Conditions Reviewed",
+      "type": "boolean"
+    },
+    "declaration_authority_reviewed": {
+      "title": "Declaration Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "production_records",
+    "compatibility_declarations",
+    "production_identity_reviewed",
+    "material_identity_reviewed",
+    "consumable_traceability_reviewed",
+    "service_conditions_reviewed",
+    "declaration_authority_reviewed"
+  ],
+  "title": "WeldConsumableCompatibility",
+  "type": "object"
+}

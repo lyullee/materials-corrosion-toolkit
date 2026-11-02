@@ -1,0 +1,144 @@
+{
+  "$defs": {
+    "RiskCostComponent": {
+      "additionalProperties": false,
+      "description": "One reviewed additive cost in the comparison's declared common cost basis.",
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount": {
+          "minimum": 0,
+          "title": "Amount",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount",
+        "basis"
+      ],
+      "title": "RiskCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One complete action alternative and its externally evaluated residual event probability.",
+  "properties": {
+    "action_id": {
+      "minLength": 1,
+      "title": "Action Id",
+      "type": "string"
+    },
+    "action_label": {
+      "minLength": 1,
+      "title": "Action Label",
+      "type": "string"
+    },
+    "candidate_kind": {
+      "enum": [
+        "baseline",
+        "intervention"
+      ],
+      "title": "Candidate Kind",
+      "type": "string"
+    },
+    "action_definition": {
+      "minLength": 1,
+      "title": "Action Definition",
+      "type": "string"
+    },
+    "action_effect_model_id": {
+      "minLength": 1,
+      "title": "Action Effect Model Id",
+      "type": "string"
+    },
+    "action_effect_model_revision": {
+      "minLength": 1,
+      "title": "Action Effect Model Revision",
+      "type": "string"
+    },
+    "action_effect_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Effect Input Sha256",
+      "type": "string"
+    },
+    "action_effect_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Effect Configuration Sha256",
+      "type": "string"
+    },
+    "risk_model_structure_id": {
+      "minLength": 1,
+      "title": "Risk Model Structure Id",
+      "type": "string"
+    },
+    "event_probability_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Event Probability Result Sha256",
+      "type": "string"
+    },
+    "common_cause_group_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Common Cause Group Ids",
+      "type": "array"
+    },
+    "residual_failure_probability_estimate": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Residual Failure Probability Estimate",
+      "type": "number"
+    },
+    "residual_failure_probability_upper_bound": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Residual Failure Probability Upper Bound"
+    },
+    "action_cost_components": {
+      "items": {
+        "$ref": "#/$defs/RiskCostComponent"
+      },
+      "title": "Action Cost Components",
+      "type": "array"
+    }
+  },
+  "required": [
+    "action_id",
+    "action_label",
+    "candidate_kind",
+    "action_definition",
+    "action_effect_model_id",
+    "action_effect_model_revision",
+    "action_effect_input_sha256",
+    "action_effect_configuration_sha256",
+    "risk_model_structure_id",
+    "event_probability_result_sha256",
+    "residual_failure_probability_estimate"
+  ],
+  "title": "InspectionActionRiskCandidate",
+  "type": "object"
+}

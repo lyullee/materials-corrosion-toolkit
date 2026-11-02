@@ -1,0 +1,563 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketBackbonePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "compressive_strain": {
+          "minimum": 0,
+          "title": "Compressive Strain",
+          "type": "number"
+        },
+        "stress_Pa": {
+          "minimum": 0,
+          "title": "Stress Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "compressive_strain",
+        "stress_Pa"
+      ],
+      "title": "GasketBackbonePoint",
+      "type": "object"
+    },
+    "NonlinearGasketMaxwellBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "relaxation_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Relaxation Time S",
+          "type": "number"
+        },
+        "stress_strain_backbone": {
+          "items": {
+            "$ref": "#/$defs/GasketBackbonePoint"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Stress Strain Backbone",
+          "type": "array"
+        }
+      },
+      "required": [
+        "branch_id",
+        "relaxation_time_s",
+        "stress_strain_backbone"
+      ],
+      "title": "NonlinearGasketMaxwellBranch",
+      "type": "object"
+    },
+    "NonlinearGasketViscoelasticMaterial": {
+      "additionalProperties": false,
+      "properties": {
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "condition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Condition Sha256",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "equilibrium_stress_strain_backbone": {
+          "items": {
+            "$ref": "#/$defs/GasketBackbonePoint"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Equilibrium Stress Strain Backbone",
+          "type": "array"
+        },
+        "branches": {
+          "items": {
+            "$ref": "#/$defs/NonlinearGasketMaxwellBranch"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Branches",
+          "type": "array"
+        },
+        "initial_branch_stress_Pa": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Initial Branch Stress Pa",
+          "type": "array"
+        },
+        "nonlinear_branch_calibration_reviewed": {
+          "title": "Nonlinear Branch Calibration Reviewed",
+          "type": "boolean"
+        },
+        "initial_branch_state_reviewed": {
+          "title": "Initial Branch State Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "material_condition_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "condition_sha256",
+        "source_sha256",
+        "provider_id",
+        "provider_revision",
+        "temperature_K",
+        "equilibrium_stress_strain_backbone",
+        "branches",
+        "initial_branch_stress_Pa",
+        "nonlinear_branch_calibration_reviewed",
+        "initial_branch_state_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "NonlinearGasketViscoelasticMaterial",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.flange_nonlinear_viscoelastic_contact_history.v1",
+      "default": "matintegrity.flange_nonlinear_viscoelastic_contact_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "response_provider_id": {
+      "minLength": 1,
+      "title": "Response Provider Id",
+      "type": "string"
+    },
+    "response_provider_revision": {
+      "minLength": 1,
+      "title": "Response Provider Revision",
+      "type": "string"
+    },
+    "response_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Configuration Digest",
+      "type": "string"
+    },
+    "response_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Result Digest",
+      "type": "string"
+    },
+    "material": {
+      "$ref": "#/$defs/NonlinearGasketViscoelasticMaterial"
+    },
+    "node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Node Ids",
+      "type": "array"
+    },
+    "times_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Times S",
+      "type": "array"
+    },
+    "circumferential_coordinate_rad": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Circumferential Coordinate Rad",
+      "type": "array"
+    },
+    "gasket_contact_area_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Gasket Contact Area M2",
+      "type": "array"
+    },
+    "gasket_thickness_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Gasket Thickness M",
+      "type": "array"
+    },
+    "initial_branch_stress_by_node_Pa": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Initial Branch Stress By Node Pa"
+    },
+    "free_closure_without_gasket_m": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Free Closure Without Gasket M",
+      "type": "array"
+    },
+    "flange_relative_compliance_matrix_m_N": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Flange Relative Compliance Matrix M N",
+      "type": "array"
+    },
+    "flange_relative_compliance_history_m_N": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Flange Relative Compliance History M N"
+    },
+    "compliance_history_interpolation_reviewed": {
+      "default": false,
+      "title": "Compliance History Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "maximum_compressive_strain": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Compressive Strain",
+      "type": "number"
+    },
+    "matrix_symmetry_tolerance_m_N": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Matrix Symmetry Tolerance M N",
+      "type": "number"
+    },
+    "compliance_psd_tolerance_m_N": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Compliance Psd Tolerance M N",
+      "type": "number"
+    },
+    "maximum_contact_iterations": {
+      "default": 10000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Contact Iterations",
+      "type": "integer"
+    },
+    "maximum_newton_iterations_per_active_set": {
+      "default": 100,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Maximum Newton Iterations Per Active Set",
+      "type": "integer"
+    },
+    "maximum_contact_work_units": {
+      "default": 50000000,
+      "maximum": 1000000000,
+      "minimum": 1,
+      "title": "Maximum Contact Work Units",
+      "type": "integer"
+    },
+    "maximum_contact_transition_step_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Contact Transition Step S"
+    },
+    "additional_contact_sampling_times_s": {
+      "default": [],
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 9998,
+      "title": "Additional Contact Sampling Times S",
+      "type": "array"
+    },
+    "contact_transition_time_sampling_reviewed": {
+      "default": false,
+      "title": "Contact Transition Time Sampling Reviewed",
+      "type": "boolean"
+    },
+    "contact_transition_time_tolerance_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Contact Transition Time Tolerance S"
+    },
+    "single_contact_transition_per_refined_interval_reviewed": {
+      "default": false,
+      "title": "Single Contact Transition Per Refined Interval Reviewed",
+      "type": "boolean"
+    },
+    "maximum_transition_refinement_solves": {
+      "default": 100,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Transition Refinement Solves",
+      "type": "integer"
+    },
+    "maximum_transition_refinement_work_units": {
+      "default": 50000000,
+      "maximum": 1000000000,
+      "minimum": 1,
+      "title": "Maximum Transition Refinement Work Units",
+      "type": "integer"
+    },
+    "gap_tolerance_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Gap Tolerance M",
+      "type": "number"
+    },
+    "force_tolerance_N": {
+      "default": 1e-05,
+      "exclusiveMinimum": 0,
+      "title": "Force Tolerance N",
+      "type": "number"
+    },
+    "flange_operator_basis_reviewed": {
+      "title": "Flange Operator Basis Reviewed",
+      "type": "boolean"
+    },
+    "response_scope_and_coordinates_reviewed": {
+      "title": "Response Scope And Coordinates Reviewed",
+      "type": "boolean"
+    },
+    "bolt_pressure_and_boundary_load_composition_reviewed": {
+      "title": "Bolt Pressure And Boundary Load Composition Reviewed",
+      "type": "boolean"
+    },
+    "material_curve_condition_and_support_reviewed": {
+      "title": "Material Curve Condition And Support Reviewed",
+      "type": "boolean"
+    },
+    "initial_branch_states_reviewed": {
+      "title": "Initial Branch States Reviewed",
+      "type": "boolean"
+    },
+    "zero_compression_branch_state_reviewed": {
+      "title": "Zero Compression Branch State Reviewed",
+      "type": "boolean"
+    },
+    "nonlinear_history_integration_reviewed": {
+      "title": "Nonlinear History Integration Reviewed",
+      "type": "boolean"
+    },
+    "unilateral_contact_model_reviewed": {
+      "title": "Unilateral Contact Model Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_id",
+    "physical_scope_id",
+    "response_provider_id",
+    "response_provider_revision",
+    "response_configuration_digest",
+    "response_result_digest",
+    "material",
+    "node_ids",
+    "times_s",
+    "circumferential_coordinate_rad",
+    "gasket_contact_area_m2",
+    "gasket_thickness_m",
+    "free_closure_without_gasket_m",
+    "flange_relative_compliance_matrix_m_N",
+    "maximum_compressive_strain",
+    "matrix_symmetry_tolerance_m_N",
+    "compliance_psd_tolerance_m_N",
+    "flange_operator_basis_reviewed",
+    "response_scope_and_coordinates_reviewed",
+    "bolt_pressure_and_boundary_load_composition_reviewed",
+    "material_curve_condition_and_support_reviewed",
+    "initial_branch_states_reviewed",
+    "zero_compression_branch_state_reviewed",
+    "nonlinear_history_integration_reviewed",
+    "unilateral_contact_model_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "FlangeNonlinearViscoelasticContactHistory",
+  "type": "object"
+}

@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "fully_reversed_axial_limit_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Fully Reversed Axial Limit Pa",
+      "type": "number"
+    },
+    "axial_source_id": {
+      "minLength": 1,
+      "title": "Axial Source Id",
+      "type": "string"
+    },
+    "axial_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Axial Source Sha256",
+      "type": "string"
+    },
+    "axial_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "fully_reversed_torsional_limit_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Fully Reversed Torsional Limit Pa",
+      "type": "number"
+    },
+    "torsion_source_id": {
+      "minLength": 1,
+      "title": "Torsion Source Id",
+      "type": "string"
+    },
+    "torsion_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Torsion Source Sha256",
+      "type": "string"
+    },
+    "torsion_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "matched_material_and_condition_reviewed": {
+      "title": "Matched Material And Condition Reviewed",
+      "type": "boolean"
+    },
+    "fully_reversed_ratio_minus_one_reviewed": {
+      "title": "Fully Reversed Ratio Minus One Reviewed",
+      "type": "boolean"
+    },
+    "smooth_specimen_endurance_limit_basis_reviewed": {
+      "title": "Smooth Specimen Endurance Limit Basis Reviewed",
+      "type": "boolean"
+    },
+    "calibration_method_and_use_reviewed": {
+      "title": "Calibration Method And Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "material_condition_id",
+    "fully_reversed_axial_limit_Pa",
+    "axial_source_id",
+    "axial_source_sha256",
+    "axial_evidence",
+    "fully_reversed_torsional_limit_Pa",
+    "torsion_source_id",
+    "torsion_source_sha256",
+    "torsion_evidence",
+    "matched_material_and_condition_reviewed",
+    "fully_reversed_ratio_minus_one_reviewed",
+    "smooth_specimen_endurance_limit_basis_reviewed",
+    "calibration_method_and_use_reviewed"
+  ],
+  "title": "PapadopoulosP1Calibration",
+  "type": "object"
+}

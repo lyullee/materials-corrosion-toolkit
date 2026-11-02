@@ -1,0 +1,341 @@
+{
+  "$defs": {
+    "FabestLcfExperimentAudit": {
+      "additionalProperties": false,
+      "properties": {
+        "experiment_id": {
+          "minLength": 1,
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "case_id": {
+          "enum": [
+            1,
+            2,
+            3
+          ],
+          "title": "Case Id",
+          "type": "integer"
+        },
+        "control_mode": {
+          "enum": [
+            "strain_controlled",
+            "stress_controlled"
+          ],
+          "title": "Control Mode",
+          "type": "string"
+        },
+        "table_members": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Table Members",
+          "type": "object"
+        },
+        "protocol_member": {
+          "minLength": 1,
+          "title": "Protocol Member",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "default": null,
+          "title": "Physical Specimen Id",
+          "type": "null"
+        },
+        "physical_specimen_identity_status": {
+          "const": "not_declared_by_archive_structure",
+          "default": "not_declared_by_archive_structure",
+          "title": "Physical Specimen Identity Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "case_id",
+        "control_mode",
+        "table_members",
+        "protocol_member"
+      ],
+      "title": "FabestLcfExperimentAudit",
+      "type": "object"
+    },
+    "FabestLcfMemberAudit": {
+      "additionalProperties": false,
+      "properties": {
+        "member": {
+          "minLength": 1,
+          "title": "Member",
+          "type": "string"
+        },
+        "bytes": {
+          "minimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "compressed_bytes": {
+          "minimum": 0,
+          "title": "Compressed Bytes",
+          "type": "integer"
+        },
+        "crc32": {
+          "pattern": "^[0-9a-f]{8}$",
+          "title": "Crc32",
+          "type": "string"
+        },
+        "encrypted": {
+          "title": "Encrypted",
+          "type": "boolean"
+        },
+        "is_directory": {
+          "title": "Is Directory",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "member",
+        "bytes",
+        "compressed_bytes",
+        "crc32",
+        "encrypted",
+        "is_directory"
+      ],
+      "title": "FabestLcfMemberAudit",
+      "type": "object"
+    },
+    "FabestLcfTableAudit": {
+      "additionalProperties": false,
+      "properties": {
+        "experiment_id": {
+          "minLength": 1,
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "case_id": {
+          "enum": [
+            1,
+            2,
+            3
+          ],
+          "title": "Case Id",
+          "type": "integer"
+        },
+        "table_kind": {
+          "enum": [
+            "cycle_summary",
+            "ordered_history",
+            "representative_cycle",
+            "experiment_summary"
+          ],
+          "title": "Table Kind",
+          "type": "string"
+        },
+        "member": {
+          "minLength": 1,
+          "title": "Member",
+          "type": "string"
+        },
+        "bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "header": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Header",
+          "type": "array"
+        },
+        "delimiter": {
+          "enum": [
+            ",",
+            ";"
+          ],
+          "title": "Delimiter",
+          "type": "string"
+        },
+        "data_rows": {
+          "minimum": 0,
+          "title": "Data Rows",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "case_id",
+        "table_kind",
+        "member",
+        "bytes",
+        "header",
+        "delimiter",
+        "data_rows"
+      ],
+      "title": "FabestLcfTableAudit",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "source_id": {
+      "const": "fabest-lcf-v2",
+      "default": "fabest-lcf-v2",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "record_doi": {
+      "const": "10.5281/zenodo.21420213",
+      "default": "10.5281/zenodo.21420213",
+      "title": "Record Doi",
+      "type": "string"
+    },
+    "source_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source Bytes",
+      "type": "integer"
+    },
+    "source_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Source Md5",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "archive_members": {
+      "exclusiveMinimum": 0,
+      "title": "Archive Members",
+      "type": "integer"
+    },
+    "archive_files": {
+      "exclusiveMinimum": 0,
+      "title": "Archive Files",
+      "type": "integer"
+    },
+    "archive_uncompressed_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Archive Uncompressed Bytes",
+      "type": "integer"
+    },
+    "unsafe_member_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unsafe Member Paths",
+      "type": "array"
+    },
+    "duplicate_member_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Duplicate Member Paths",
+      "type": "array"
+    },
+    "encrypted_members": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Encrypted Members",
+      "type": "array"
+    },
+    "extension_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Extension Counts",
+      "type": "object"
+    },
+    "members": {
+      "items": {
+        "$ref": "#/$defs/FabestLcfMemberAudit"
+      },
+      "title": "Members",
+      "type": "array"
+    },
+    "calibration_experiment_count": {
+      "exclusiveMinimum": 0,
+      "title": "Calibration Experiment Count",
+      "type": "integer"
+    },
+    "calibration_table_count": {
+      "exclusiveMinimum": 0,
+      "title": "Calibration Table Count",
+      "type": "integer"
+    },
+    "calibration_data_rows": {
+      "exclusiveMinimum": 0,
+      "title": "Calibration Data Rows",
+      "type": "integer"
+    },
+    "calibration_header_families": {
+      "exclusiveMinimum": 0,
+      "title": "Calibration Header Families",
+      "type": "integer"
+    },
+    "experiments_by_case": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Experiments By Case",
+      "type": "object"
+    },
+    "tables_by_kind": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Tables By Kind",
+      "type": "object"
+    },
+    "experiments": {
+      "items": {
+        "$ref": "#/$defs/FabestLcfExperimentAudit"
+      },
+      "title": "Experiments",
+      "type": "array"
+    },
+    "tables": {
+      "items": {
+        "$ref": "#/$defs/FabestLcfTableAudit"
+      },
+      "title": "Tables",
+      "type": "array"
+    },
+    "blind_outcome_status": {
+      "const": "not_present_in_validation_target_folder",
+      "default": "not_present_in_validation_target_folder",
+      "title": "Blind Outcome Status",
+      "type": "string"
+    },
+    "provider_code_executed": {
+      "const": false,
+      "default": false,
+      "title": "Provider Code Executed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "source_bytes",
+    "source_md5",
+    "source_sha256",
+    "archive_members",
+    "archive_files",
+    "archive_uncompressed_bytes",
+    "unsafe_member_paths",
+    "duplicate_member_paths",
+    "encrypted_members",
+    "extension_counts",
+    "members",
+    "calibration_experiment_count",
+    "calibration_table_count",
+    "calibration_data_rows",
+    "calibration_header_families",
+    "experiments_by_case",
+    "tables_by_kind",
+    "experiments",
+    "tables"
+  ],
+  "title": "FabestLcfArchiveAudit",
+  "type": "object"
+}

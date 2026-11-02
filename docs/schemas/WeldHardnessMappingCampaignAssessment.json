@@ -1,0 +1,884 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HardnessRegionCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "region": {
+          "enum": [
+            "base_material",
+            "haz",
+            "fusion_boundary",
+            "weld_metal",
+            "user_defined"
+          ],
+          "title": "Region",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "minimum": 0,
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "minimum": 0,
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "region",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "hardness_unit_token",
+        "criterion_basis"
+      ],
+      "title": "HardnessRegionCriterion",
+      "type": "object"
+    },
+    "HardnessTestConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_id": {
+          "minLength": 1,
+          "title": "Configuration Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "method_revision": {
+          "minLength": 1,
+          "title": "Method Revision",
+          "type": "string"
+        },
+        "hardness_scale_id": {
+          "minLength": 1,
+          "title": "Hardness Scale Id",
+          "type": "string"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "test_load_value": {
+          "exclusiveMinimum": 0,
+          "title": "Test Load Value",
+          "type": "number"
+        },
+        "test_load_unit_token": {
+          "minLength": 1,
+          "title": "Test Load Unit Token",
+          "type": "string"
+        },
+        "dwell_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Dwell Time S",
+          "type": "number"
+        },
+        "indenter_id": {
+          "minLength": 1,
+          "title": "Indenter Id",
+          "type": "string"
+        },
+        "instrument_id": {
+          "minLength": 1,
+          "title": "Instrument Id",
+          "type": "string"
+        },
+        "reference_calibration_id": {
+          "minLength": 1,
+          "title": "Reference Calibration Id",
+          "type": "string"
+        },
+        "reference_calibration_provider_id": {
+          "minLength": 1,
+          "title": "Reference Calibration Provider Id",
+          "type": "string"
+        },
+        "reference_calibration_valid": {
+          "title": "Reference Calibration Valid",
+          "type": "boolean"
+        },
+        "invalid_calibration_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Calibration Basis"
+        },
+        "reference_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Reference Calibration Digest",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "configuration_id",
+        "method_id",
+        "method_revision",
+        "hardness_scale_id",
+        "hardness_unit_token",
+        "test_load_value",
+        "test_load_unit_token",
+        "dwell_time_s",
+        "indenter_id",
+        "instrument_id",
+        "reference_calibration_id",
+        "reference_calibration_provider_id",
+        "reference_calibration_valid",
+        "reference_calibration_digest",
+        "configuration_digest",
+        "evidence"
+      ],
+      "title": "HardnessTestConfiguration",
+      "type": "object"
+    },
+    "WeldHardnessCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_regions": {
+          "items": {
+            "enum": [
+              "base_material",
+              "haz",
+              "fusion_boundary",
+              "weld_metal",
+              "user_defined"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Regions",
+          "type": "array"
+        },
+        "minimum_traverse_count": {
+          "minimum": 1,
+          "title": "Minimum Traverse Count",
+          "type": "integer"
+        },
+        "minimum_independent_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Independent Source Group Count",
+          "type": "integer"
+        },
+        "required_configuration_id": {
+          "minLength": 1,
+          "title": "Required Configuration Id",
+          "type": "string"
+        },
+        "required_method_id": {
+          "minLength": 1,
+          "title": "Required Method Id",
+          "type": "string"
+        },
+        "required_method_revision": {
+          "minLength": 1,
+          "title": "Required Method Revision",
+          "type": "string"
+        },
+        "required_hardness_scale_id": {
+          "minLength": 1,
+          "title": "Required Hardness Scale Id",
+          "type": "string"
+        },
+        "required_hardness_unit_token": {
+          "minLength": 1,
+          "title": "Required Hardness Unit Token",
+          "type": "string"
+        },
+        "required_test_load_value": {
+          "exclusiveMinimum": 0,
+          "title": "Required Test Load Value",
+          "type": "number"
+        },
+        "required_test_load_unit_token": {
+          "minLength": 1,
+          "title": "Required Test Load Unit Token",
+          "type": "string"
+        },
+        "required_dwell_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Required Dwell Time S",
+          "type": "number"
+        },
+        "required_indenter_id": {
+          "minLength": 1,
+          "title": "Required Indenter Id",
+          "type": "string"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/HardnessRegionCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "scale_conversion_used": {
+          "const": false,
+          "default": false,
+          "title": "Scale Conversion Used",
+          "type": "boolean"
+        },
+        "strength_inference_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Strength Inference Claimed",
+          "type": "boolean"
+        },
+        "built_in_code_or_standard_limits_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Code Or Standard Limits Used",
+          "type": "boolean"
+        },
+        "automatic_haz_classification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Haz Classification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_regions",
+        "minimum_traverse_count",
+        "minimum_independent_source_group_count",
+        "required_configuration_id",
+        "required_method_id",
+        "required_method_revision",
+        "required_hardness_scale_id",
+        "required_hardness_unit_token",
+        "required_test_load_value",
+        "required_test_load_unit_token",
+        "required_dwell_time_s",
+        "required_indenter_id",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "WeldHardnessCallerProfile",
+      "type": "object"
+    },
+    "WeldHardnessPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "traverse_id": {
+          "minLength": 1,
+          "title": "Traverse Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "coordinate_x": {
+          "title": "Coordinate X",
+          "type": "number"
+        },
+        "coordinate_y": {
+          "title": "Coordinate Y",
+          "type": "number"
+        },
+        "coordinate_z": {
+          "title": "Coordinate Z",
+          "type": "number"
+        },
+        "coordinate_unit_token": {
+          "minLength": 1,
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "caller_assigned_region": {
+          "enum": [
+            "base_material",
+            "haz",
+            "fusion_boundary",
+            "weld_metal",
+            "user_defined"
+          ],
+          "title": "Caller Assigned Region",
+          "type": "string"
+        },
+        "user_defined_region_description": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Defined Region Description"
+        },
+        "region_assignment_basis": {
+          "minLength": 1,
+          "title": "Region Assignment Basis",
+          "type": "string"
+        },
+        "hardness_value": {
+          "minimum": 0,
+          "title": "Hardness Value",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "expanded_hardness_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Hardness Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_basis": {
+          "minLength": 1,
+          "title": "Uncertainty Basis",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_reading_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Reading Digest",
+          "type": "string"
+        },
+        "point_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Point Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "traverse_id",
+        "coordinate_frame_id",
+        "coordinate_x",
+        "coordinate_y",
+        "coordinate_z",
+        "coordinate_unit_token",
+        "caller_assigned_region",
+        "region_assignment_basis",
+        "hardness_value",
+        "hardness_unit_token",
+        "expanded_hardness_uncertainty",
+        "uncertainty_basis",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_reading_digest",
+        "point_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "WeldHardnessPoint",
+      "type": "object"
+    },
+    "WeldHardnessSubject": {
+      "additionalProperties": false,
+      "properties": {
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "joint_configuration_id": {
+          "minLength": 1,
+          "title": "Joint Configuration Id",
+          "type": "string"
+        },
+        "wps_id": {
+          "minLength": 1,
+          "title": "Wps Id",
+          "type": "string"
+        },
+        "wps_revision": {
+          "minLength": 1,
+          "title": "Wps Revision",
+          "type": "string"
+        },
+        "production_heat_id": {
+          "minLength": 1,
+          "title": "Production Heat Id",
+          "type": "string"
+        },
+        "consumable_id": {
+          "minLength": 1,
+          "title": "Consumable Id",
+          "type": "string"
+        },
+        "consumable_lot_id": {
+          "minLength": 1,
+          "title": "Consumable Lot Id",
+          "type": "string"
+        },
+        "base_material_a_id": {
+          "minLength": 1,
+          "title": "Base Material A Id",
+          "type": "string"
+        },
+        "base_material_a_heat_id": {
+          "minLength": 1,
+          "title": "Base Material A Heat Id",
+          "type": "string"
+        },
+        "base_material_b_id": {
+          "minLength": 1,
+          "title": "Base Material B Id",
+          "type": "string"
+        },
+        "base_material_b_heat_id": {
+          "minLength": 1,
+          "title": "Base Material B Heat Id",
+          "type": "string"
+        },
+        "weld_metal_material_id": {
+          "minLength": 1,
+          "title": "Weld Metal Material Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "cross_section_id": {
+          "minLength": 1,
+          "title": "Cross Section Id",
+          "type": "string"
+        },
+        "cross_section_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Cross Section Record Digest",
+          "type": "string"
+        },
+        "subject_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Subject Configuration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "weld_id",
+        "joint_id",
+        "joint_configuration_id",
+        "wps_id",
+        "wps_revision",
+        "production_heat_id",
+        "consumable_id",
+        "consumable_lot_id",
+        "base_material_a_id",
+        "base_material_a_heat_id",
+        "base_material_b_id",
+        "base_material_b_heat_id",
+        "weld_metal_material_id",
+        "coordinate_frame_id",
+        "cross_section_id",
+        "cross_section_record_digest",
+        "subject_configuration_digest",
+        "evidence"
+      ],
+      "title": "WeldHardnessSubject",
+      "type": "object"
+    },
+    "WeldHardnessTraverse": {
+      "additionalProperties": false,
+      "properties": {
+        "traverse_id": {
+          "minLength": 1,
+          "title": "Traverse Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "orientation_definition": {
+          "minLength": 1,
+          "title": "Orientation Definition",
+          "type": "string"
+        },
+        "nominal_offset_or_depth": {
+          "title": "Nominal Offset Or Depth",
+          "type": "number"
+        },
+        "coordinate_unit_token": {
+          "minLength": 1,
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/WeldHardnessPoint"
+          },
+          "minItems": 1,
+          "title": "Points",
+          "type": "array"
+        },
+        "traverse_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Traverse Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "traverse_id",
+        "coordinate_frame_id",
+        "orientation_definition",
+        "nominal_offset_or_depth",
+        "coordinate_unit_token",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "points",
+        "traverse_record_digest",
+        "evidence"
+      ],
+      "title": "WeldHardnessTraverse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "subject": {
+      "$ref": "#/$defs/WeldHardnessSubject"
+    },
+    "configuration": {
+      "$ref": "#/$defs/HardnessTestConfiguration"
+    },
+    "traverses": {
+      "items": {
+        "$ref": "#/$defs/WeldHardnessTraverse"
+      },
+      "minItems": 1,
+      "title": "Traverses",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/WeldHardnessCallerProfile"
+    },
+    "weld_joint_wps_heat_consumable_material_identity_reviewed": {
+      "title": "Weld Joint Wps Heat Consumable Material Identity Reviewed",
+      "type": "boolean"
+    },
+    "coordinate_frame_traverse_and_orientation_reviewed": {
+      "title": "Coordinate Frame Traverse And Orientation Reviewed",
+      "type": "boolean"
+    },
+    "caller_region_assignment_and_basis_reviewed": {
+      "title": "Caller Region Assignment And Basis Reviewed",
+      "type": "boolean"
+    },
+    "method_scale_load_dwell_indenter_and_calibration_reviewed": {
+      "title": "Method Scale Load Dwell Indenter And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "point_coordinates_readings_units_and_uncertainty_reviewed": {
+      "title": "Point Coordinates Readings Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_claims_reviewed": {
+      "title": "Replicate Source And Independence Claims Reviewed",
+      "type": "boolean"
+    },
+    "provider_provenance_and_digests_reviewed": {
+      "title": "Provider Provenance And Digests Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "invalid_and_missing_records_reviewed": {
+      "title": "Invalid And Missing Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "subject",
+    "configuration",
+    "traverses",
+    "caller_profile",
+    "weld_joint_wps_heat_consumable_material_identity_reviewed",
+    "coordinate_frame_traverse_and_orientation_reviewed",
+    "caller_region_assignment_and_basis_reviewed",
+    "method_scale_load_dwell_indenter_and_calibration_reviewed",
+    "point_coordinates_readings_units_and_uncertainty_reviewed",
+    "replicate_source_and_independence_claims_reviewed",
+    "provider_provenance_and_digests_reviewed",
+    "caller_profile_reviewed",
+    "invalid_and_missing_records_reviewed",
+    "evidence"
+  ],
+  "title": "WeldHardnessMappingCampaignAssessment",
+  "type": "object"
+}

@@ -1,0 +1,376 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One provider observation record with per-row and source-file provenance.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.zenodo_ceit_field_observation_row.v1",
+      "default": "matintegrity.zenodo_ceit_field_observation_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "ceit-uniform-corrosion-field",
+      "default": "ceit-uniform-corrosion-field",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.5281/zenodo.13897090",
+      "default": "10.5281/zenodo.13897090",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "const": "UniformCorrosionExperiment_Ceit.json",
+      "default": "UniformCorrosionExperiment_Ceit.json",
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "source_file_md5": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Source File Md5",
+      "type": "string"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "series_id": {
+      "minLength": 1,
+      "title": "Series Id",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "provider_array_index": {
+      "minimum": 0,
+      "title": "Provider Array Index",
+      "type": "integer"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "timestamp_basis": {
+      "const": "provider_naive_calendar_time_timezone_unresolved",
+      "default": "provider_naive_calendar_time_timezone_unresolved",
+      "title": "Timestamp Basis",
+      "type": "string"
+    },
+    "node_id": {
+      "title": "Node Id",
+      "type": "string"
+    },
+    "sample_id": {
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "piezo_id": {
+      "title": "Piezo Id",
+      "type": "string"
+    },
+    "reported_frequency_code": {
+      "title": "Reported Frequency Code"
+    },
+    "reported_pwm": {
+      "title": "Reported Pwm"
+    },
+    "reported_echo_index": {
+      "title": "Reported Echo Index"
+    },
+    "reported_tof_reference": {
+      "title": "Reported Tof Reference"
+    },
+    "reported_tof": {
+      "title": "Reported Tof",
+      "type": "number"
+    },
+    "reported_temperature": {
+      "title": "Reported Temperature",
+      "type": "number"
+    },
+    "reported_battery": {
+      "title": "Reported Battery"
+    },
+    "reported_amplitude": {
+      "title": "Reported Amplitude"
+    },
+    "reported_tof_unit": {
+      "anyOf": [
+        {
+          "enum": [
+            "ns",
+            "s"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reported Tof Unit"
+    },
+    "tof_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Tof S"
+    },
+    "reported_temperature_unit": {
+      "anyOf": [
+        {
+          "enum": [
+            "degC",
+            "K"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reported Temperature Unit"
+    },
+    "ambient_temperature_K": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Ambient Temperature K"
+    },
+    "sample_interval_s": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Sample Interval S"
+    },
+    "sample_time_s": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Sample Time S"
+    },
+    "raw_signal": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Raw Signal",
+      "type": "array"
+    },
+    "filtered_signal": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Filtered Signal",
+      "type": "array"
+    },
+    "correlation_signal": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Correlation Signal",
+      "type": "array"
+    },
+    "envelope_signal": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Envelope Signal",
+      "type": "array"
+    },
+    "signal_units": {
+      "const": "provider_adc_and_processed_scales_unresolved",
+      "default": "provider_adc_and_processed_scales_unresolved",
+      "title": "Signal Units",
+      "type": "string"
+    },
+    "raw_adc_rail_count": {
+      "minimum": 0,
+      "title": "Raw Adc Rail Count",
+      "type": "integer"
+    },
+    "observation_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observation Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "wall_thickness_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Wall Thickness Inferred",
+      "type": "boolean"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "remaining_life_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Remaining Life Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_file_bytes",
+    "source_file_md5",
+    "source_file_sha256",
+    "series_id",
+    "source_order",
+    "provider_array_index",
+    "timestamp",
+    "node_id",
+    "sample_id",
+    "piezo_id",
+    "reported_frequency_code",
+    "reported_pwm",
+    "reported_echo_index",
+    "reported_tof_reference",
+    "reported_tof",
+    "reported_temperature",
+    "reported_battery",
+    "reported_amplitude",
+    "reported_tof_unit",
+    "tof_s",
+    "reported_temperature_unit",
+    "ambient_temperature_K",
+    "sample_interval_s",
+    "sample_time_s",
+    "raw_signal",
+    "filtered_signal",
+    "correlation_signal",
+    "envelope_signal",
+    "raw_adc_rail_count",
+    "observation_row_sha256",
+    "evidence"
+  ],
+  "title": "CeitFieldObservationRow",
+  "type": "object"
+}

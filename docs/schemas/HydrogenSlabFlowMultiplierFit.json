@@ -1,0 +1,721 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HydrogenKineticTrap": {
+      "additionalProperties": false,
+      "properties": {
+        "population": {
+          "$ref": "#/$defs/HydrogenTrapPopulation"
+        },
+        "rate_model": {
+          "default": "binding_energy_ratio",
+          "enum": [
+            "binding_energy_ratio",
+            "independent_frequencies"
+          ],
+          "title": "Rate Model",
+          "type": "string"
+        },
+        "capture_frequency_per_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Capture Frequency Per S",
+          "type": "array"
+        },
+        "release_frequency_per_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Release Frequency Per S"
+        },
+        "initial_occupancy": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Initial Occupancy",
+          "type": "array"
+        },
+        "independent_rate_histories_reviewed": {
+          "default": false,
+          "title": "Independent Rate Histories Reviewed",
+          "type": "boolean"
+        },
+        "rate_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Rate Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "population",
+        "capture_frequency_per_s",
+        "initial_occupancy",
+        "rate_evidence"
+      ],
+      "title": "HydrogenKineticTrap",
+      "type": "object"
+    },
+    "HydrogenSlab": {
+      "additionalProperties": false,
+      "properties": {
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "reference_lattice_id": {
+          "minLength": 1,
+          "title": "Reference Lattice Id",
+          "type": "string"
+        },
+        "elapsed_time_origin_id": {
+          "minLength": 1,
+          "title": "Elapsed Time Origin Id",
+          "type": "string"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "cell_count": {
+          "maximum": 512,
+          "minimum": 2,
+          "title": "Cell Count",
+          "type": "integer"
+        },
+        "lattice_site_density_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Lattice Site Density Mol M3",
+          "type": "number"
+        },
+        "initial_lattice_hydrogen_atoms_mol_m3": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Initial Lattice Hydrogen Atoms Mol M3",
+          "type": "array"
+        },
+        "elapsed_time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 4096,
+          "minItems": 2,
+          "title": "Elapsed Time S",
+          "type": "array"
+        },
+        "uniform_temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Uniform Temperature K",
+          "type": "array"
+        },
+        "lattice_diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Lattice Diffusivity M2 S",
+          "type": "array"
+        },
+        "left_boundary": {
+          "$ref": "#/$defs/LatticeBoundary"
+        },
+        "right_boundary": {
+          "$ref": "#/$defs/LatticeBoundary"
+        },
+        "traps": {
+          "items": {
+            "$ref": "#/$defs/HydrogenKineticTrap"
+          },
+          "maxItems": 16,
+          "title": "Traps",
+          "type": "array"
+        },
+        "maximum_supported_lattice_occupancy": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Maximum Supported Lattice Occupancy",
+          "type": "number"
+        },
+        "maximum_supported_total_trap_to_lattice_site_ratio": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Total Trap To Lattice Site Ratio",
+          "type": "number"
+        },
+        "planar_geometry_reviewed": {
+          "default": false,
+          "title": "Planar Geometry Reviewed",
+          "type": "boolean"
+        },
+        "fixed_populations_and_uniform_temperature_reviewed": {
+          "default": false,
+          "title": "Fixed Populations And Uniform Temperature Reviewed",
+          "type": "boolean"
+        },
+        "independent_single_occupancy_and_dilute_trap_regime_reviewed": {
+          "default": false,
+          "title": "Independent Single Occupancy And Dilute Trap Regime Reviewed",
+          "type": "boolean"
+        },
+        "negligible_stress_gradient_reviewed": {
+          "default": false,
+          "title": "Negligible Stress Gradient Reviewed",
+          "type": "boolean"
+        },
+        "detailed_balance_rate_ratio_reviewed": {
+          "default": false,
+          "title": "Detailed Balance Rate Ratio Reviewed",
+          "type": "boolean"
+        },
+        "relative_tolerance": {
+          "default": 0.0001,
+          "maximum": 0.01,
+          "minimum": 1e-09,
+          "title": "Relative Tolerance",
+          "type": "number"
+        },
+        "absolute_occupancy_tolerance": {
+          "default": 1e-10,
+          "maximum": 0.001,
+          "minimum": 1e-18,
+          "title": "Absolute Occupancy Tolerance",
+          "type": "number"
+        },
+        "maximum_step_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Step S"
+        },
+        "maximum_step_attempts": {
+          "default": 50000,
+          "maximum": 500000,
+          "minimum": 1,
+          "title": "Maximum Step Attempts",
+          "type": "integer"
+        },
+        "maximum_relative_mass_balance_error": {
+          "default": 1e-07,
+          "maximum": 0.01,
+          "minimum": 1e-12,
+          "title": "Maximum Relative Mass Balance Error",
+          "type": "number"
+        },
+        "store_profiles": {
+          "default": false,
+          "title": "Store Profiles",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "material_condition_id",
+        "reference_lattice_id",
+        "elapsed_time_origin_id",
+        "thickness_m",
+        "cell_count",
+        "lattice_site_density_mol_m3",
+        "initial_lattice_hydrogen_atoms_mol_m3",
+        "elapsed_time_s",
+        "uniform_temperature_K",
+        "lattice_diffusivity_m2_s",
+        "left_boundary",
+        "right_boundary",
+        "maximum_supported_lattice_occupancy",
+        "maximum_supported_total_trap_to_lattice_site_ratio"
+      ],
+      "title": "HydrogenSlab",
+      "type": "object"
+    },
+    "HydrogenTrapPopulation": {
+      "additionalProperties": false,
+      "properties": {
+        "trap_id": {
+          "minLength": 1,
+          "title": "Trap Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "reference_lattice_id": {
+          "minLength": 1,
+          "title": "Reference Lattice Id",
+          "type": "string"
+        },
+        "site_density_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Site Density Mol M3",
+          "type": "number"
+        },
+        "binding_energy_J_mol": {
+          "minimum": 0,
+          "title": "Binding Energy J Mol",
+          "type": "number"
+        },
+        "maximum_supported_occupancy": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Maximum Supported Occupancy",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "trap_id",
+        "material_condition_id",
+        "reference_lattice_id",
+        "site_density_mol_m3",
+        "binding_energy_J_mol",
+        "maximum_supported_occupancy",
+        "evidence"
+      ],
+      "title": "HydrogenTrapPopulation",
+      "type": "object"
+    },
+    "LatticeBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "minLength": 1,
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "prescribed_lattice_concentration",
+            "linear_surface_transfer",
+            "dissociative_surface_reaction",
+            "no_flux"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "lattice_hydrogen_atoms_mol_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lattice Hydrogen Atoms Mol M3"
+        },
+        "equilibrium_lattice_hydrogen_atoms_mol_m3": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equilibrium Lattice Hydrogen Atoms Mol M3"
+        },
+        "transfer_coefficient_m_s": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transfer Coefficient M S"
+        },
+        "absorption_capacity_flux_mol_m2_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Absorption Capacity Flux Mol M2 S"
+        },
+        "desorption_capacity_flux_mol_m2_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Desorption Capacity Flux Mol M2 S"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "kind",
+        "evidence"
+      ],
+      "title": "LatticeBoundary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Fit one positive history multiplier without consuming holdout observations.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_slab_flow_multiplier_fit.v1",
+      "default": "matintegrity.hydrogen_slab_flow_multiplier_fit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "fit_id": {
+      "minLength": 1,
+      "title": "Fit Id",
+      "type": "string"
+    },
+    "observation_series_id": {
+      "minLength": 1,
+      "title": "Observation Series Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "detector_calibration_id": {
+      "minLength": 1,
+      "title": "Detector Calibration Id",
+      "type": "string"
+    },
+    "observed_surface": {
+      "enum": [
+        "left",
+        "right"
+      ],
+      "title": "Observed Surface",
+      "type": "string"
+    },
+    "observed_surface_id": {
+      "minLength": 1,
+      "title": "Observed Surface Id",
+      "type": "string"
+    },
+    "base_slab": {
+      "$ref": "#/$defs/HydrogenSlab"
+    },
+    "physical_surface_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Physical Surface Area M2",
+      "type": "number"
+    },
+    "observation_id": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4096,
+      "minItems": 4,
+      "title": "Observation Id",
+      "type": "array"
+    },
+    "source_group_id": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Group Id",
+      "type": "array"
+    },
+    "partition": {
+      "items": {
+        "enum": [
+          "calibration",
+          "holdout"
+        ],
+        "type": "string"
+      },
+      "title": "Partition",
+      "type": "array"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "outward_hydrogen_atoms_mol_s": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Outward Hydrogen Atoms Mol S",
+      "type": "array"
+    },
+    "outward_flow_standard_uncertainty_mol_s": {
+      "anyOf": [
+        {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outward Flow Standard Uncertainty Mol S"
+    },
+    "residual_scale_mol_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Residual Scale Mol S"
+    },
+    "parameter_target": {
+      "enum": [
+        "lattice_diffusivity",
+        "trap_capture_frequency",
+        "trap_release_frequency",
+        "left_transfer_coefficient",
+        "right_transfer_coefficient",
+        "left_absorption_capacity",
+        "right_absorption_capacity",
+        "left_desorption_capacity",
+        "right_desorption_capacity"
+      ],
+      "title": "Parameter Target",
+      "type": "string"
+    },
+    "parameter_target_id": {
+      "minLength": 1,
+      "title": "Parameter Target Id",
+      "type": "string"
+    },
+    "initial_multiplier": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Multiplier",
+      "type": "number"
+    },
+    "multiplier_bounds": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      ],
+      "title": "Multiplier Bounds",
+      "type": "array"
+    },
+    "minimum_calibration_jacobian_norm": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "title": "Minimum Calibration Jacobian Norm",
+      "type": "number"
+    },
+    "maximum_function_evaluations": {
+      "default": 80,
+      "maximum": 1000,
+      "minimum": 5,
+      "title": "Maximum Function Evaluations",
+      "type": "integer"
+    },
+    "observation_conversion_reviewed": {
+      "default": false,
+      "title": "Observation Conversion Reviewed",
+      "type": "boolean"
+    },
+    "physical_surface_area_reviewed": {
+      "default": false,
+      "title": "Physical Surface Area Reviewed",
+      "type": "boolean"
+    },
+    "fixed_inputs_independent_of_holdout_reviewed": {
+      "default": false,
+      "title": "Fixed Inputs Independent Of Holdout Reviewed",
+      "type": "boolean"
+    },
+    "one_parameter_scope_reviewed": {
+      "default": false,
+      "title": "One Parameter Scope Reviewed",
+      "type": "boolean"
+    },
+    "holdout_partition_predeclared": {
+      "default": false,
+      "title": "Holdout Partition Predeclared",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fit_id",
+    "observation_series_id",
+    "specimen_id",
+    "detector_calibration_id",
+    "observed_surface",
+    "observed_surface_id",
+    "base_slab",
+    "physical_surface_area_m2",
+    "observation_id",
+    "source_group_id",
+    "partition",
+    "elapsed_time_s",
+    "outward_hydrogen_atoms_mol_s",
+    "parameter_target",
+    "parameter_target_id",
+    "initial_multiplier",
+    "multiplier_bounds",
+    "evidence"
+  ],
+  "title": "HydrogenSlabFlowMultiplierFit",
+  "type": "object"
+}

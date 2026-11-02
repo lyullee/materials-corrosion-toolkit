@@ -1,0 +1,223 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Integrate tabulated differential capacitance over a supplied potential path.\n\nPotential and active area are knot histories in source order. Capacitance is\na caller-supplied differential-capacitance density curve; no electrochemical\npotential, area, or capacitance is inferred by this calculator.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_double_layer_charge_history.v1",
+      "default": "matintegrity.crevice_double_layer_charge_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "cell_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Cell Ids",
+      "type": "array"
+    },
+    "potential_V_by_knot_and_cell": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Potential V By Knot And Cell",
+      "type": "array"
+    },
+    "active_area_m2_by_knot_and_cell": {
+      "items": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Active Area M2 By Knot And Cell",
+      "type": "array"
+    },
+    "reference_potential_V_by_cell": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 300,
+      "minItems": 1,
+      "title": "Reference Potential V By Cell",
+      "type": "array"
+    },
+    "differential_capacitance_curve_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Differential Capacitance Curve Sha256",
+      "type": "string"
+    },
+    "potential_axis_V": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Potential Axis V",
+      "type": "array"
+    },
+    "differential_capacitance_F_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Differential Capacitance F M2",
+      "type": "array"
+    },
+    "curve_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Curve Evidence",
+      "type": "array"
+    },
+    "area_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Area Record Sha256",
+      "type": "string"
+    },
+    "area_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Area Evidence",
+      "type": "array"
+    },
+    "positive_current_direction_basis": {
+      "const": "into_electrode",
+      "default": "into_electrode",
+      "title": "Positive Current Direction Basis",
+      "type": "string"
+    },
+    "tabulated_differential_capacitance_reviewed": {
+      "title": "Tabulated Differential Capacitance Reviewed",
+      "type": "boolean"
+    },
+    "active_area_and_potential_alignment_reviewed": {
+      "title": "Active Area And Potential Alignment Reviewed",
+      "type": "boolean"
+    },
+    "linear_charge_interpolation_between_knots_reviewed": {
+      "title": "Linear Charge Interpolation Between Knots Reviewed",
+      "type": "boolean"
+    },
+    "double_layer_only_interpretation_reviewed": {
+      "title": "Double Layer Only Interpretation Reviewed",
+      "type": "boolean"
+    },
+    "computation_budget_reviewed": {
+      "title": "Computation Budget Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "time_s",
+    "cell_ids",
+    "potential_V_by_knot_and_cell",
+    "active_area_m2_by_knot_and_cell",
+    "reference_potential_V_by_cell",
+    "differential_capacitance_curve_sha256",
+    "potential_axis_V",
+    "differential_capacitance_F_m2",
+    "curve_evidence",
+    "area_record_sha256",
+    "area_evidence",
+    "tabulated_differential_capacitance_reviewed",
+    "active_area_and_potential_alignment_reviewed",
+    "linear_charge_interpolation_between_knots_reviewed",
+    "double_layer_only_interpretation_reviewed",
+    "computation_budget_reviewed"
+  ],
+  "title": "CreviceDoubleLayerChargeHistoryRequest",
+  "type": "object"
+}

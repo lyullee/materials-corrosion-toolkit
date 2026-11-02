@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "access_region_id": {
+      "minLength": 1,
+      "title": "Access Region Id",
+      "type": "string"
+    },
+    "access_event_id": {
+      "minLength": 1,
+      "title": "Access Event Id",
+      "type": "string"
+    },
+    "physical_location_definition": {
+      "minLength": 1,
+      "title": "Physical Location Definition",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "target_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Target Extent",
+      "type": "number"
+    },
+    "accessed_extent": {
+      "minimum": 0,
+      "title": "Accessed Extent",
+      "type": "number"
+    },
+    "extent_unit_token": {
+      "minLength": 1,
+      "title": "Extent Unit Token",
+      "type": "string"
+    },
+    "coverage_uncertainty": {
+      "minimum": 0,
+      "title": "Coverage Uncertainty",
+      "type": "number"
+    },
+    "overlap_group_id": {
+      "minLength": 1,
+      "title": "Overlap Group Id",
+      "type": "string"
+    },
+    "unaccessed_basis": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unaccessed Basis"
+    },
+    "coverage_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Coverage Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "access_region_id",
+    "access_event_id",
+    "physical_location_definition",
+    "coordinate_frame_id",
+    "target_extent",
+    "accessed_extent",
+    "extent_unit_token",
+    "coverage_uncertainty",
+    "overlap_group_id",
+    "coverage_record_digest",
+    "evidence"
+  ],
+  "title": "CUIAccessCoverageRegion",
+  "type": "object"
+}

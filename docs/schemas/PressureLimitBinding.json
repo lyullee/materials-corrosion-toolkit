@@ -1,0 +1,453 @@
+{
+  "$defs": {
+    "ComponentPressureLimit": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "pressure_limit_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Pressure Limit Pa",
+          "type": "number"
+        },
+        "elevation_m": {
+          "title": "Elevation M",
+          "type": "number"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "capacity_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Capacity Input Digest",
+          "type": "string"
+        },
+        "capacity_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Capacity Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component_id",
+        "pressure_limit_Pa",
+        "elevation_m",
+        "condition_id",
+        "temperature_K",
+        "capacity_input_digest",
+        "capacity_result_digest",
+        "evidence"
+      ],
+      "title": "ComponentPressureLimit",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "DeclaredPressureThicknessRelation": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/CorrelationBasis"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "geometry_definition_id": {
+          "minLength": 1,
+          "title": "Geometry Definition Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "coefficient_definition_id": {
+          "minLength": 1,
+          "title": "Coefficient Definition Id",
+          "type": "string"
+        },
+        "dimension_convention_id": {
+          "minLength": 1,
+          "title": "Dimension Convention Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "pressure_from_thickness",
+            "thickness_from_pressure"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "allowable_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Allowable Stress Pa",
+          "type": "number"
+        },
+        "joint_efficiency": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Joint Efficiency",
+          "type": "number"
+        },
+        "numerator_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Numerator Factor",
+          "type": "number"
+        },
+        "geometry_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Geometry Length M",
+          "type": "number"
+        },
+        "thickness_coefficient": {
+          "title": "Thickness Coefficient",
+          "type": "number"
+        },
+        "effective_thickness_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective Thickness M"
+        },
+        "pressure_difference_Pa": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Difference Pa"
+        },
+        "minimum_supported_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Thickness M",
+          "type": "number"
+        },
+        "maximum_supported_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Thickness M",
+          "type": "number"
+        },
+        "minimum_supported_pressure_Pa": {
+          "minimum": 0,
+          "title": "Minimum Supported Pressure Pa",
+          "type": "number"
+        },
+        "maximum_supported_pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Pressure Pa",
+          "type": "number"
+        },
+        "geometry_material_temperature_and_coefficient_scope_reviewed": {
+          "title": "Geometry Material Temperature And Coefficient Scope Reviewed",
+          "type": "boolean"
+        },
+        "effective_thickness_and_allowances_reviewed": {
+          "title": "Effective Thickness And Allowances Reviewed",
+          "type": "boolean"
+        },
+        "pressure_difference_and_load_scope_reviewed": {
+          "title": "Pressure Difference And Load Scope Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "basis",
+        "asset_id",
+        "location_id",
+        "component_id",
+        "geometry_definition_id",
+        "material_condition_id",
+        "temperature_K",
+        "coefficient_definition_id",
+        "dimension_convention_id",
+        "direction",
+        "allowable_stress_Pa",
+        "joint_efficiency",
+        "numerator_factor",
+        "geometry_length_m",
+        "thickness_coefficient",
+        "minimum_supported_thickness_m",
+        "maximum_supported_thickness_m",
+        "minimum_supported_pressure_Pa",
+        "maximum_supported_pressure_Pa",
+        "geometry_material_temperature_and_coefficient_scope_reviewed",
+        "effective_thickness_and_allowances_reviewed",
+        "pressure_difference_and_load_scope_reviewed"
+      ],
+      "title": "DeclaredPressureThicknessRelation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PressureLimitReferenceContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "component_elevation_m": {
+          "title": "Component Elevation M",
+          "type": "number"
+        },
+        "pressure_basis": {
+          "enum": [
+            "absolute",
+            "gauge_common_reference"
+          ],
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "common_pressure_reference_id": {
+          "minLength": 1,
+          "title": "Common Pressure Reference Id",
+          "type": "string"
+        },
+        "external_absolute_pressure_Pa": {
+          "minimum": 0,
+          "title": "External Absolute Pressure Pa",
+          "type": "number"
+        },
+        "common_reference_absolute_pressure_Pa": {
+          "minimum": 0,
+          "title": "Common Reference Absolute Pressure Pa",
+          "type": "number"
+        },
+        "external_pressure_and_common_reference_reviewed": {
+          "title": "External Pressure And Common Reference Reviewed",
+          "type": "boolean"
+        },
+        "component_scenario_and_coordinate_mapping_reviewed": {
+          "title": "Component Scenario And Coordinate Mapping Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "condition_id",
+        "coordinate_frame_id",
+        "component_elevation_m",
+        "pressure_basis",
+        "common_pressure_reference_id",
+        "external_absolute_pressure_Pa",
+        "common_reference_absolute_pressure_Pa",
+        "external_pressure_and_common_reference_reviewed",
+        "component_scenario_and_coordinate_mapping_reviewed",
+        "evidence"
+      ],
+      "title": "PressureLimitReferenceContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "relation": {
+      "$ref": "#/$defs/DeclaredPressureThicknessRelation"
+    },
+    "reference": {
+      "$ref": "#/$defs/PressureLimitReferenceContext"
+    },
+    "component_limit": {
+      "$ref": "#/$defs/ComponentPressureLimit"
+    },
+    "binding_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "relation",
+    "reference",
+    "component_limit",
+    "binding_digest"
+  ],
+  "title": "PressureLimitBinding",
+  "type": "object"
+}

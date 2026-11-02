@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One provider state observation bound to its exact query and context.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.external_contact_state_grid_response.v1",
+      "default": "matintegrity.external_contact_state_grid_response.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "query_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Query Sha256",
+      "type": "string"
+    },
+    "source_contact_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Contact History Sha256",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Context Sha256",
+      "type": "string"
+    },
+    "node_id": {
+      "minLength": 1,
+      "title": "Node Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "contact_state": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "Contact State",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "query_sha256",
+    "source_contact_history_sha256",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "physical_scope_id",
+    "asset_id",
+    "location_id",
+    "time_basis",
+    "context_sha256",
+    "node_id",
+    "time_s",
+    "contact_state",
+    "evidence",
+    "result_sha256"
+  ],
+  "title": "ExternalContactStateGridResponse",
+  "type": "object"
+}

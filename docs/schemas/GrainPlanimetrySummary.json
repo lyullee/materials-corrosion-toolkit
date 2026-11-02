@@ -1,0 +1,237 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GrainCountField": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "image_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Image Sha256",
+          "type": "string"
+        },
+        "counting_region_id": {
+          "minLength": 1,
+          "title": "Counting Region Id",
+          "type": "string"
+        },
+        "specimen_plane_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Plane Area M2",
+          "type": "number"
+        },
+        "effective_grain_count": {
+          "minimum": 0,
+          "title": "Effective Grain Count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "field_id",
+        "physical_specimen_id",
+        "image_sha256",
+        "counting_region_id",
+        "specimen_plane_area_m2",
+        "effective_grain_count"
+      ],
+      "title": "GrainCountField",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "phase_id": {
+      "minLength": 1,
+      "title": "Phase Id",
+      "type": "string"
+    },
+    "counting_procedure_id": {
+      "minLength": 1,
+      "title": "Counting Procedure Id",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "reference_number": {
+      "title": "Reference Number",
+      "type": "number"
+    },
+    "reference_areal_density_per_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Areal Density Per M2",
+      "type": "number"
+    },
+    "number_increment_per_density_doubling": {
+      "exclusiveMinimum": 0,
+      "title": "Number Increment Per Density Doubling",
+      "type": "number"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/GrainCountField"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Fields",
+      "type": "array"
+    },
+    "specimen_area_boundary_counting_and_nonoverlap_reviewed": {
+      "title": "Specimen Area Boundary Counting And Nonoverlap Reviewed",
+      "type": "boolean"
+    },
+    "population_and_number_calibration_reviewed": {
+      "title": "Population And Number Calibration Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "physical_specimen_id",
+    "material_condition_id",
+    "phase_id",
+    "counting_procedure_id",
+    "calibration_id",
+    "reference_number",
+    "reference_areal_density_per_m2",
+    "number_increment_per_density_doubling",
+    "fields",
+    "specimen_area_boundary_counting_and_nonoverlap_reviewed",
+    "population_and_number_calibration_reviewed"
+  ],
+  "title": "GrainPlanimetrySummary",
+  "type": "object"
+}

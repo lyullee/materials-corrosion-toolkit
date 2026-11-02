@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "MlNdtFlawMetadata": {
+      "additionalProperties": false,
+      "description": "One provider JSON flaw object with its original text fields intact.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.ml_ndt_flaw_metadata.v1",
+          "default": "matintegrity.ml_ndt_flaw_metadata.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "raw_fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Raw Fields",
+          "type": "object"
+        },
+        "source_flaw_size_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Flaw Size Value"
+        },
+        "equivalent_flaw_size_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equivalent Flaw Size Value"
+        },
+        "augmentation_factor_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Augmentation Factor Value"
+        }
+      },
+      "required": [
+        "raw_fields"
+      ],
+      "title": "MlNdtFlawMetadata",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Provider classification/size labels aligned to one image in a batch.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.ml_ndt_image_label.v1",
+      "default": "matintegrity.ml_ndt_image_label.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "image_index": {
+      "minimum": 0,
+      "title": "Image Index",
+      "type": "integer"
+    },
+    "provider_hit_label": {
+      "enum": [
+        0,
+        1
+      ],
+      "title": "Provider Hit Label",
+      "type": "integer"
+    },
+    "provider_equivalent_size_value": {
+      "minimum": 0,
+      "title": "Provider Equivalent Size Value",
+      "type": "number"
+    },
+    "metadata_equivalent_size_value": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Metadata Equivalent Size Value"
+    },
+    "label_metadata_size_match": {
+      "title": "Label Metadata Size Match",
+      "type": "boolean"
+    },
+    "flaws": {
+      "items": {
+        "$ref": "#/$defs/MlNdtFlawMetadata"
+      },
+      "title": "Flaws",
+      "type": "array"
+    },
+    "augmentation_status": {
+      "const": "provider_augmented",
+      "default": "provider_augmented",
+      "title": "Augmentation Status",
+      "type": "string"
+    },
+    "physical_specimen_identity": {
+      "const": "not_resolved_per_image",
+      "default": "not_resolved_per_image",
+      "title": "Physical Specimen Identity",
+      "type": "string"
+    },
+    "physical_flaw_identity": {
+      "const": "not_resolved_per_image",
+      "default": "not_resolved_per_image",
+      "title": "Physical Flaw Identity",
+      "type": "string"
+    }
+  },
+  "required": [
+    "image_index",
+    "provider_hit_label",
+    "provider_equivalent_size_value",
+    "label_metadata_size_match",
+    "flaws"
+  ],
+  "title": "MlNdtImageLabel",
+  "type": "object"
+}

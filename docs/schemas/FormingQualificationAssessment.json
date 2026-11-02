@@ -1,0 +1,904 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FormingEvidenceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "evidence_kind": {
+          "enum": [
+            "inspection",
+            "property_test"
+          ],
+          "title": "Evidence Kind",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "physical_region_id": {
+          "minLength": 1,
+          "title": "Physical Region Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "result_definition": {
+          "minLength": 1,
+          "title": "Result Definition",
+          "type": "string"
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Value"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "result_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Descriptor"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "uncertainty_coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Coverage Factor"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "evidence_kind",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "physical_region_id",
+        "method_id",
+        "result_definition",
+        "unit_token",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "FormingEvidenceRecord",
+      "type": "object"
+    },
+    "FormingEvidenceRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "evidence_kind": {
+          "enum": [
+            "inspection",
+            "property_test"
+          ],
+          "title": "Evidence Kind",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "result_definition": {
+          "minLength": 1,
+          "title": "Result Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_record_count": {
+          "minimum": 1,
+          "title": "Minimum Record Count",
+          "type": "integer"
+        },
+        "supported_result_descriptors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supported Result Descriptors",
+          "type": "array"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "evidence_kind",
+        "method_id",
+        "result_definition",
+        "unit_token",
+        "minimum_record_count",
+        "requirement_basis"
+      ],
+      "title": "FormingEvidenceRequirement",
+      "type": "object"
+    },
+    "FormingMetricRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_record_id": {
+          "minLength": 1,
+          "title": "Metric Record Id",
+          "type": "string"
+        },
+        "metric_definition_id": {
+          "minLength": 1,
+          "title": "Metric Definition Id",
+          "type": "string"
+        },
+        "direction_id": {
+          "minLength": 1,
+          "title": "Direction Id",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "measurement_or_derivation_method_id": {
+          "minLength": 1,
+          "title": "Measurement Or Derivation Method Id",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "metric_record_id",
+        "metric_definition_id",
+        "direction_id",
+        "value",
+        "unit_token",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "measurement_or_derivation_method_id",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "FormingMetricRecord",
+      "type": "object"
+    },
+    "FormingMetricRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_definition_id": {
+          "minLength": 1,
+          "title": "Metric Definition Id",
+          "type": "string"
+        },
+        "direction_id": {
+          "minLength": 1,
+          "title": "Direction Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric_definition_id",
+        "direction_id",
+        "unit_token",
+        "requirement_basis"
+      ],
+      "title": "FormingMetricRequirement",
+      "type": "object"
+    },
+    "FormingQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "product_form_id": {
+          "minLength": 1,
+          "title": "Product Form Id",
+          "type": "string"
+        },
+        "forming_mode": {
+          "enum": [
+            "cold",
+            "hot"
+          ],
+          "title": "Forming Mode",
+          "type": "string"
+        },
+        "forming_method_id": {
+          "minLength": 1,
+          "title": "Forming Method Id",
+          "type": "string"
+        },
+        "minimum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Thickness M",
+          "type": "number"
+        },
+        "maximum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Thickness M",
+          "type": "number"
+        },
+        "supported_direction_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Direction Ids",
+          "type": "array"
+        },
+        "metric_requirements": {
+          "items": {
+            "$ref": "#/$defs/FormingMetricRequirement"
+          },
+          "minItems": 1,
+          "title": "Metric Requirements",
+          "type": "array"
+        },
+        "thermal_supports": {
+          "items": {
+            "$ref": "#/$defs/FormingThermalSupport"
+          },
+          "minItems": 1,
+          "title": "Thermal Supports",
+          "type": "array"
+        },
+        "evidence_requirements": {
+          "items": {
+            "$ref": "#/$defs/FormingEvidenceRequirement"
+          },
+          "minItems": 1,
+          "title": "Evidence Requirements",
+          "type": "array"
+        },
+        "minimum_physical_specimen_count": {
+          "minimum": 1,
+          "title": "Minimum Physical Specimen Count",
+          "type": "integer"
+        },
+        "minimum_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Source Group Count",
+          "type": "integer"
+        },
+        "minimum_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Independence Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_id",
+        "material_condition_id",
+        "product_form_id",
+        "forming_mode",
+        "forming_method_id",
+        "minimum_thickness_m",
+        "maximum_thickness_m",
+        "supported_direction_ids",
+        "metric_requirements",
+        "thermal_supports",
+        "evidence_requirements",
+        "minimum_physical_specimen_count",
+        "minimum_source_group_count",
+        "minimum_independence_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "FormingQualificationEnvelope",
+      "type": "object"
+    },
+    "FormingThermalInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "forming",
+            "post_forming_heat_treatment"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "stage",
+        "procedure_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "data_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "FormingThermalInterval",
+      "type": "object"
+    },
+    "FormingThermalSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "forming",
+            "post_forming_heat_treatment"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "maximum_single_interval_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Single Interval S",
+          "type": "number"
+        },
+        "maximum_cumulative_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Duration S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "stage",
+        "procedure_id",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "maximum_single_interval_s",
+        "maximum_cumulative_duration_s"
+      ],
+      "title": "FormingThermalSupport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "product_form_id": {
+      "minLength": 1,
+      "title": "Product Form Id",
+      "type": "string"
+    },
+    "governing_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Governing Thickness M",
+      "type": "number"
+    },
+    "governing_direction_id": {
+      "minLength": 1,
+      "title": "Governing Direction Id",
+      "type": "string"
+    },
+    "forming_mode": {
+      "enum": [
+        "cold",
+        "hot"
+      ],
+      "title": "Forming Mode",
+      "type": "string"
+    },
+    "forming_method_id": {
+      "minLength": 1,
+      "title": "Forming Method Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "forming_metrics": {
+      "items": {
+        "$ref": "#/$defs/FormingMetricRecord"
+      },
+      "minItems": 1,
+      "title": "Forming Metrics",
+      "type": "array"
+    },
+    "thermal_history": {
+      "items": {
+        "$ref": "#/$defs/FormingThermalInterval"
+      },
+      "minItems": 1,
+      "title": "Thermal History",
+      "type": "array"
+    },
+    "inspection_and_property_evidence": {
+      "items": {
+        "$ref": "#/$defs/FormingEvidenceRecord"
+      },
+      "minItems": 1,
+      "title": "Inspection And Property Evidence",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/FormingQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "component_material_product_and_thickness_reviewed": {
+      "title": "Component Material Product And Thickness Reviewed",
+      "type": "boolean"
+    },
+    "forming_mode_method_and_direction_reviewed": {
+      "title": "Forming Mode Method And Direction Reviewed",
+      "type": "boolean"
+    },
+    "deformation_metric_definitions_units_and_uncertainty_reviewed": {
+      "title": "Deformation Metric Definitions Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "temperature_time_history_reviewed": {
+      "title": "Temperature Time History Reviewed",
+      "type": "boolean"
+    },
+    "post_forming_heat_treatment_reviewed": {
+      "title": "Post Forming Heat Treatment Reviewed",
+      "type": "boolean"
+    },
+    "inspection_property_and_partition_evidence_reviewed": {
+      "title": "Inspection Property And Partition Evidence Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "material_id",
+    "material_condition_id",
+    "product_form_id",
+    "governing_thickness_m",
+    "governing_direction_id",
+    "forming_mode",
+    "forming_method_id",
+    "clock_id",
+    "forming_metrics",
+    "thermal_history",
+    "inspection_and_property_evidence",
+    "candidate_envelopes",
+    "component_material_product_and_thickness_reviewed",
+    "forming_mode_method_and_direction_reviewed",
+    "deformation_metric_definitions_units_and_uncertainty_reviewed",
+    "temperature_time_history_reviewed",
+    "post_forming_heat_treatment_reviewed",
+    "inspection_property_and_partition_evidence_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed"
+  ],
+  "title": "FormingQualificationAssessment",
+  "type": "object"
+}

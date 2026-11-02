@@ -1,0 +1,322 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ManufacturingHeatTreatment": {
+      "additionalProperties": false,
+      "properties": {
+        "treatment_id": {
+          "minLength": 1,
+          "title": "Treatment Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "treatment_type": {
+          "minLength": 1,
+          "title": "Treatment Type",
+          "type": "string"
+        },
+        "furnace_or_provider_id": {
+          "minLength": 1,
+          "title": "Furnace Or Provider Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_recorded_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Recorded Temperature K",
+          "type": "number"
+        },
+        "maximum_recorded_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Recorded Temperature K",
+          "type": "number"
+        },
+        "temperature_uncertainty_K": {
+          "minimum": 0,
+          "title": "Temperature Uncertainty K",
+          "type": "number"
+        },
+        "cooling_route_definition": {
+          "minLength": 1,
+          "title": "Cooling Route Definition",
+          "type": "string"
+        },
+        "controller_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Controller Data Digest",
+          "type": "string"
+        },
+        "treatment_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Treatment Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "treatment_id",
+        "sequence_index",
+        "treatment_type",
+        "furnace_or_provider_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_recorded_temperature_K",
+        "maximum_recorded_temperature_K",
+        "temperature_uncertainty_K",
+        "cooling_route_definition",
+        "controller_data_digest",
+        "treatment_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ManufacturingHeatTreatment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "product_id": {
+      "minLength": 1,
+      "title": "Product Id",
+      "type": "string"
+    },
+    "product_kind": {
+      "enum": [
+        "casting",
+        "forging"
+      ],
+      "title": "Product Kind",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "product_form_descriptor": {
+      "minLength": 1,
+      "title": "Product Form Descriptor",
+      "type": "string"
+    },
+    "manufacturing_route_id": {
+      "minLength": 1,
+      "title": "Manufacturing Route Id",
+      "type": "string"
+    },
+    "manufacturing_route_revision": {
+      "minLength": 1,
+      "title": "Manufacturing Route Revision",
+      "type": "string"
+    },
+    "route_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Route Configuration Digest",
+      "type": "string"
+    },
+    "forging_ratio": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Forging Ratio"
+    },
+    "forging_ratio_definition": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Forging Ratio Definition"
+    },
+    "forging_ratio_unit_token": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Forging Ratio Unit Token"
+    },
+    "casting_process_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Casting Process Id"
+    },
+    "casting_process_definition": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Casting Process Definition"
+    },
+    "heat_treatments": {
+      "items": {
+        "$ref": "#/$defs/ManufacturingHeatTreatment"
+      },
+      "minItems": 1,
+      "title": "Heat Treatments",
+      "type": "array"
+    },
+    "product_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Product Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "product_id",
+    "product_kind",
+    "heat_id",
+    "material_id",
+    "material_condition_id",
+    "product_form_descriptor",
+    "manufacturing_route_id",
+    "manufacturing_route_revision",
+    "route_configuration_digest",
+    "heat_treatments",
+    "product_record_digest",
+    "evidence"
+  ],
+  "title": "ManufacturedProductEvidence",
+  "type": "object"
+}

@@ -1,0 +1,292 @@
+{
+  "$defs": {
+    "ClassificationContext": {
+      "additionalProperties": false,
+      "properties": {
+        "code_namespace": {
+          "minLength": 1,
+          "title": "Code Namespace",
+          "type": "string"
+        },
+        "code_edition": {
+          "minLength": 1,
+          "title": "Code Edition",
+          "type": "string"
+        },
+        "classification_scheme_id": {
+          "minLength": 1,
+          "title": "Classification Scheme Id",
+          "type": "string"
+        },
+        "process_id": {
+          "minLength": 1,
+          "title": "Process Id",
+          "type": "string"
+        },
+        "subject_kind": {
+          "enum": [
+            "base_material",
+            "filler_material",
+            "consumable",
+            "weld_deposit"
+          ],
+          "title": "Subject Kind",
+          "type": "string"
+        },
+        "qualification_purpose_id": {
+          "minLength": 1,
+          "title": "Qualification Purpose Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code_namespace",
+        "code_edition",
+        "classification_scheme_id",
+        "process_id",
+        "subject_kind",
+        "qualification_purpose_id"
+      ],
+      "title": "ClassificationContext",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ProductionEssentialVariableRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "variable_id": {
+          "minLength": 1,
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "variable_kind": {
+          "enum": [
+            "numeric",
+            "categorical"
+          ],
+          "title": "Variable Kind",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numeric Value"
+        },
+        "categorical_value_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Categorical Value Token"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "variable_id",
+        "variable_kind",
+        "unit_token",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ProductionEssentialVariableRecord",
+      "type": "object"
+    },
+    "SpecificationDesignation": {
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "minLength": 1,
+          "title": "Namespace",
+          "type": "string"
+        },
+        "designation": {
+          "minLength": 1,
+          "title": "Designation",
+          "type": "string"
+        },
+        "edition": {
+          "minLength": 1,
+          "title": "Edition",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "condition": {
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "designation",
+        "edition",
+        "product_form",
+        "condition"
+      ],
+      "title": "SpecificationDesignation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "query_id": {
+      "minLength": 1,
+      "title": "Query Id",
+      "type": "string"
+    },
+    "physical_item_id": {
+      "minLength": 1,
+      "title": "Physical Item Id",
+      "type": "string"
+    },
+    "designation": {
+      "$ref": "#/$defs/SpecificationDesignation"
+    },
+    "context": {
+      "$ref": "#/$defs/ClassificationContext"
+    },
+    "selected_record_id": {
+      "minLength": 1,
+      "title": "Selected Record Id",
+      "type": "string"
+    },
+    "assignment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Assignment Sha256",
+      "type": "string"
+    },
+    "lookup_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Lookup Input Sha256",
+      "type": "string"
+    },
+    "production_variable": {
+      "$ref": "#/$defs/ProductionEssentialVariableRecord"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "query_id",
+    "physical_item_id",
+    "designation",
+    "context",
+    "selected_record_id",
+    "assignment_sha256",
+    "lookup_input_sha256",
+    "production_variable",
+    "binding_sha256"
+  ],
+  "title": "ClassificationWPSBinding",
+  "type": "object"
+}

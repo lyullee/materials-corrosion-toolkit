@@ -1,0 +1,104 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "rule_id": {
+      "minLength": 1,
+      "title": "Rule Id",
+      "type": "string"
+    },
+    "metric_kind": {
+      "minLength": 1,
+      "title": "Metric Kind",
+      "type": "string"
+    },
+    "metric_id": {
+      "minLength": 1,
+      "title": "Metric Id",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "aggregation": {
+      "enum": [
+        "individual",
+        "replicate_mean",
+        "replicate_minimum",
+        "replicate_maximum"
+      ],
+      "title": "Aggregation",
+      "type": "string"
+    },
+    "minimum_inclusive": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Inclusive"
+    },
+    "maximum_inclusive": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Inclusive"
+    },
+    "uncertainty_policy": {
+      "enum": [
+        "point_value",
+        "interval_must_fit"
+      ],
+      "title": "Uncertainty Policy",
+      "type": "string"
+    },
+    "uncertainty_coverage_factor": {
+      "default": 1.0,
+      "exclusiveMinimum": 0,
+      "title": "Uncertainty Coverage Factor",
+      "type": "number"
+    },
+    "minimum_replicates_per_group": {
+      "minimum": 1,
+      "title": "Minimum Replicates Per Group",
+      "type": "integer"
+    },
+    "missing_disposition": {
+      "enum": [
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Missing Disposition",
+      "type": "string"
+    },
+    "rule_description": {
+      "minLength": 1,
+      "title": "Rule Description",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_id",
+    "metric_kind",
+    "metric_id",
+    "unit_token",
+    "aggregation",
+    "uncertainty_policy",
+    "minimum_replicates_per_group",
+    "missing_disposition",
+    "rule_description"
+  ],
+  "title": "CallerCoatingMetricRule",
+  "type": "object"
+}

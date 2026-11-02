@@ -1,0 +1,72 @@
+{
+  "additionalProperties": false,
+  "description": "Propose cycle allocations by deterministic overlap of rainflow sample intervals.",
+  "properties": {
+    "projected_rainflow_result": {
+      "additionalProperties": true,
+      "title": "Projected Rainflow Result",
+      "type": "object"
+    },
+    "projected_rainflow_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Projected Rainflow Result Sha256",
+      "type": "string"
+    },
+    "plane_id": {
+      "minLength": 1,
+      "title": "Plane Id",
+      "type": "string"
+    },
+    "shear_projection": {
+      "pattern": "^(engineering_shear_strain_directional_component|engineering_shear_strain_vector_magnitude)$",
+      "title": "Shear Projection",
+      "type": "string"
+    },
+    "minimum_interval_iou": {
+      "default": 0.0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Minimum Interval Iou",
+      "type": "number"
+    },
+    "method_revision": {
+      "minLength": 1,
+      "title": "Method Revision",
+      "type": "string"
+    },
+    "configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Sha256",
+      "type": "string"
+    },
+    "same_ordered_sample_clock_reviewed": {
+      "default": false,
+      "title": "Same Ordered Sample Clock Reviewed",
+      "type": "boolean"
+    },
+    "maximum_cycle_pair_work": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Cycle Pair Work",
+      "type": "integer"
+    },
+    "maximum_flow_augmentations": {
+      "default": 100000,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Maximum Flow Augmentations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "projected_rainflow_result",
+    "projected_rainflow_result_sha256",
+    "plane_id",
+    "shear_projection",
+    "method_revision",
+    "configuration_sha256"
+  ],
+  "title": "CriticalPlaneIntervalOverlapPairing",
+  "type": "object"
+}

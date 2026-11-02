@@ -1,0 +1,383 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "UnderDepositLossInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "deposit_coverage_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deposit Coverage Fraction"
+        },
+        "stagnation_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stagnation Descriptor"
+        },
+        "differential_aeration_descriptor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Differential Aeration Descriptor"
+        },
+        "calibrated_local_loss_rate_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Calibrated Local Loss Rate M S"
+        },
+        "rate_provider_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Provider Id"
+        },
+        "rate_provider_state_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Provider State Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "UnderDepositLossInterval",
+      "type": "object"
+    },
+    "UnderDepositRateSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "rate_provider_id": {
+          "minLength": 1,
+          "title": "Rate Provider Id",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_deposit_coverage_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Deposit Coverage Fraction",
+          "type": "number"
+        },
+        "maximum_deposit_coverage_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Deposit Coverage Fraction",
+          "type": "number"
+        },
+        "supported_stagnation_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Stagnation Descriptors",
+          "type": "array"
+        },
+        "supported_differential_aeration_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Differential Aeration Descriptors",
+          "type": "array"
+        },
+        "support_basis": {
+          "minLength": 1,
+          "title": "Support Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "material_condition_id",
+        "environment_id",
+        "rate_provider_id",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_deposit_coverage_fraction",
+        "maximum_deposit_coverage_fraction",
+        "supported_stagnation_descriptors",
+        "supported_differential_aeration_descriptors",
+        "support_basis",
+        "evidence"
+      ],
+      "title": "UnderDepositRateSupport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "assessed_surface_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Assessed Surface Area M2",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/UnderDepositLossInterval"
+      },
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "rate_support": {
+      "$ref": "#/$defs/UnderDepositRateSupport"
+    },
+    "material_and_environment_reviewed": {
+      "title": "Material And Environment Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_interval_completeness_reviewed": {
+      "title": "Clock And Interval Completeness Reviewed",
+      "type": "boolean"
+    },
+    "deposit_coverage_reviewed": {
+      "title": "Deposit Coverage Reviewed",
+      "type": "boolean"
+    },
+    "stagnation_and_aeration_mapping_reviewed": {
+      "title": "Stagnation And Aeration Mapping Reviewed",
+      "type": "boolean"
+    },
+    "calibrated_rate_provider_reviewed": {
+      "title": "Calibrated Rate Provider Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "material_condition_id",
+    "environment_id",
+    "assessed_surface_area_m2",
+    "intervals",
+    "rate_support",
+    "material_and_environment_reviewed",
+    "clock_and_interval_completeness_reviewed",
+    "deposit_coverage_reviewed",
+    "stagnation_and_aeration_mapping_reviewed",
+    "calibrated_rate_provider_reviewed"
+  ],
+  "title": "UnderDepositExposureHistory",
+  "type": "object"
+}

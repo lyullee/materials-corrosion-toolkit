@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketCompressionCurveObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "compression_m": {
+          "minimum": 0,
+          "title": "Compression M",
+          "type": "number"
+        },
+        "compressive_force_N": {
+          "minimum": 0,
+          "title": "Compressive Force N",
+          "type": "number"
+        },
+        "standard_uncertainty_N": {
+          "exclusiveMinimum": 0,
+          "title": "Standard Uncertainty N",
+          "type": "number"
+        }
+      },
+      "required": [
+        "observation_id",
+        "compression_m",
+        "compressive_force_N",
+        "standard_uncertainty_N"
+      ],
+      "title": "GasketCompressionCurveObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_compression_curve_monotone_fit.v1",
+      "default": "matintegrity.gasket_compression_curve_monotone_fit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "gasket_id": {
+      "minLength": 1,
+      "title": "Gasket Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_or_lot_id": {
+      "minLength": 1,
+      "title": "Specimen Or Lot Id",
+      "type": "string"
+    },
+    "test_method_id": {
+      "minLength": 1,
+      "title": "Test Method Id",
+      "type": "string"
+    },
+    "loading_branch_id": {
+      "minLength": 1,
+      "title": "Loading Branch Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "loading_rate_m_s": {
+      "minimum": 0,
+      "title": "Loading Rate M S",
+      "type": "number"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/GasketCompressionCurveObservation"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_tangent_stiffness_N_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Tangent Stiffness N M"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "common_material_state_and_loading_branch_reviewed": {
+      "title": "Common Material State And Loading Branch Reviewed",
+      "type": "boolean"
+    },
+    "displacement_force_units_and_reference_reviewed": {
+      "title": "Displacement Force Units And Reference Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_weights_and_independence_reviewed": {
+      "title": "Uncertainty Weights And Independence Reviewed",
+      "type": "boolean"
+    },
+    "monotone_fit_and_optional_stiffness_floor_reviewed": {
+      "title": "Monotone Fit And Optional Stiffness Floor Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "gasket_id",
+    "material_condition_id",
+    "specimen_or_lot_id",
+    "test_method_id",
+    "loading_branch_id",
+    "temperature_K",
+    "loading_rate_m_s",
+    "observations",
+    "provider_id",
+    "provider_revision",
+    "record_id",
+    "record_sha256",
+    "usage_license_id",
+    "evidence",
+    "common_material_state_and_loading_branch_reviewed",
+    "displacement_force_units_and_reference_reviewed",
+    "uncertainty_weights_and_independence_reviewed",
+    "monotone_fit_and_optional_stiffness_floor_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketCompressionCurveMonotoneFit",
+  "type": "object"
+}

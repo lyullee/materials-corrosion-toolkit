@@ -1,0 +1,399 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WallThicknessReplicate": {
+      "additionalProperties": false,
+      "properties": {
+        "replicate_id": {
+          "minLength": 1,
+          "title": "Replicate Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "reported",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "measured_thickness": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Thickness"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "measurement_location_id": {
+          "minLength": 1,
+          "title": "Measurement Location Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "instrument_id": {
+          "minLength": 1,
+          "title": "Instrument Id",
+          "type": "string"
+        },
+        "measurement_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Measurement Record Digest",
+          "type": "string"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "replicate_id",
+        "status",
+        "unit_token",
+        "measurement_location_id",
+        "method_id",
+        "instrument_id",
+        "measurement_record_digest",
+        "evidence"
+      ],
+      "title": "WallThicknessReplicate",
+      "type": "object"
+    },
+    "WallToleranceCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "product_form_id": {
+          "minLength": 1,
+          "title": "Product Form Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "nominal_thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Nominal Thickness",
+          "type": "number"
+        },
+        "thickness_unit_token": {
+          "minLength": 1,
+          "title": "Thickness Unit Token",
+          "type": "string"
+        },
+        "lower_tolerance_from_nominal": {
+          "minimum": 0,
+          "title": "Lower Tolerance From Nominal",
+          "type": "number"
+        },
+        "upper_tolerance_from_nominal": {
+          "minimum": 0,
+          "title": "Upper Tolerance From Nominal",
+          "type": "number"
+        },
+        "forming_allowance": {
+          "minimum": 0,
+          "title": "Forming Allowance",
+          "type": "number"
+        },
+        "corrosion_allowance": {
+          "minimum": 0,
+          "title": "Corrosion Allowance",
+          "type": "number"
+        },
+        "allowance_accounting": {
+          "const": "record_only_not_applied_to_product_tolerance",
+          "default": "record_only_not_applied_to_product_tolerance",
+          "title": "Allowance Accounting",
+          "type": "string"
+        },
+        "comparison_basis": {
+          "const": "reported_thickness_uncertainty_interval_against_nominal_band",
+          "default": "reported_thickness_uncertainty_interval_against_nominal_band",
+          "title": "Comparison Basis",
+          "type": "string"
+        },
+        "profile_basis": {
+          "minLength": 1,
+          "title": "Profile Basis",
+          "type": "string"
+        },
+        "profile_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Source Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "product_id",
+        "product_form_id",
+        "region_id",
+        "nominal_thickness",
+        "thickness_unit_token",
+        "lower_tolerance_from_nominal",
+        "upper_tolerance_from_nominal",
+        "forming_allowance",
+        "corrosion_allowance",
+        "profile_basis",
+        "profile_source_digest",
+        "evidence"
+      ],
+      "title": "WallToleranceCallerProfile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wall_tolerances.v1",
+      "default": "matintegrity.wall_tolerances.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "product_id": {
+      "minLength": 1,
+      "title": "Product Id",
+      "type": "string"
+    },
+    "product_form_id": {
+      "minLength": 1,
+      "title": "Product Form Id",
+      "type": "string"
+    },
+    "region_id": {
+      "minLength": 1,
+      "title": "Region Id",
+      "type": "string"
+    },
+    "nominal_thickness": {
+      "exclusiveMinimum": 0,
+      "title": "Nominal Thickness",
+      "type": "number"
+    },
+    "thickness_unit_token": {
+      "minLength": 1,
+      "title": "Thickness Unit Token",
+      "type": "string"
+    },
+    "forming_allowance": {
+      "minimum": 0,
+      "title": "Forming Allowance",
+      "type": "number"
+    },
+    "corrosion_allowance": {
+      "minimum": 0,
+      "title": "Corrosion Allowance",
+      "type": "number"
+    },
+    "replicates": {
+      "items": {
+        "$ref": "#/$defs/WallThicknessReplicate"
+      },
+      "minItems": 1,
+      "title": "Replicates",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/WallToleranceCallerProfile"
+    },
+    "product_region_nominal_and_units_reviewed": {
+      "title": "Product Region Nominal And Units Reviewed",
+      "type": "boolean"
+    },
+    "allowances_and_nonapplication_policy_reviewed": {
+      "title": "Allowances And Nonapplication Policy Reviewed",
+      "type": "boolean"
+    },
+    "replicate_methods_uncertainties_and_provenance_reviewed": {
+      "title": "Replicate Methods Uncertainties And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_and_missing_evidence_policy_reviewed": {
+      "title": "Caller Profile And Missing Evidence Policy Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "component_id",
+    "location_id",
+    "product_id",
+    "product_form_id",
+    "region_id",
+    "nominal_thickness",
+    "thickness_unit_token",
+    "forming_allowance",
+    "corrosion_allowance",
+    "replicates",
+    "caller_profile",
+    "product_region_nominal_and_units_reviewed",
+    "allowances_and_nonapplication_policy_reviewed",
+    "replicate_methods_uncertainties_and_provenance_reviewed",
+    "caller_profile_and_missing_evidence_policy_reviewed",
+    "evidence",
+    "payload_digest"
+  ],
+  "title": "WallToleranceAssessment",
+  "type": "object"
+}

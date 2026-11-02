@@ -1,0 +1,433 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HardnessReferenceObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_reference_block_id": {
+          "minLength": 1,
+          "title": "Physical Reference Block Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "reference_block_condition_id": {
+          "minLength": 1,
+          "title": "Reference Block Condition Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "scale_id": {
+          "minLength": 1,
+          "title": "Scale Id",
+          "type": "string"
+        },
+        "indenter_id": {
+          "minLength": 1,
+          "title": "Indenter Id",
+          "type": "string"
+        },
+        "applied_load_value": {
+          "exclusiveMinimum": 0,
+          "title": "Applied Load Value",
+          "type": "number"
+        },
+        "applied_load_unit_token": {
+          "minLength": 1,
+          "title": "Applied Load Unit Token",
+          "type": "string"
+        },
+        "dwell_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Dwell Time S",
+          "type": "number"
+        },
+        "instrument_id": {
+          "minLength": 1,
+          "title": "Instrument Id",
+          "type": "string"
+        },
+        "instrument_configuration_id": {
+          "minLength": 1,
+          "title": "Instrument Configuration Id",
+          "type": "string"
+        },
+        "instrument_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Instrument Configuration Digest",
+          "type": "string"
+        },
+        "specimen_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Temperature K",
+          "type": "number"
+        },
+        "certified_hardness_value": {
+          "title": "Certified Hardness Value",
+          "type": "number"
+        },
+        "certified_standard_uncertainty": {
+          "minimum": 0,
+          "title": "Certified Standard Uncertainty",
+          "type": "number"
+        },
+        "certificate_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Certificate Weight",
+          "type": "number"
+        },
+        "observed_hardness_value": {
+          "title": "Observed Hardness Value",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "certificate_provider_id": {
+          "minLength": 1,
+          "title": "Certificate Provider Id",
+          "type": "string"
+        },
+        "certificate_revision": {
+          "minLength": 1,
+          "title": "Certificate Revision",
+          "type": "string"
+        },
+        "certificate_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Certificate Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_reference_block_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "reference_block_condition_id",
+        "method_id",
+        "scale_id",
+        "indenter_id",
+        "applied_load_value",
+        "applied_load_unit_token",
+        "dwell_time_s",
+        "instrument_id",
+        "instrument_configuration_id",
+        "instrument_configuration_digest",
+        "specimen_temperature_K",
+        "certified_hardness_value",
+        "certified_standard_uncertainty",
+        "certificate_weight",
+        "observed_hardness_value",
+        "hardness_unit_token",
+        "certificate_provider_id",
+        "certificate_revision",
+        "certificate_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HardnessReferenceObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "reference_block_condition_id": {
+      "minLength": 1,
+      "title": "Reference Block Condition Id",
+      "type": "string"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "scale_id": {
+      "minLength": 1,
+      "title": "Scale Id",
+      "type": "string"
+    },
+    "indenter_id": {
+      "minLength": 1,
+      "title": "Indenter Id",
+      "type": "string"
+    },
+    "applied_load_value": {
+      "exclusiveMinimum": 0,
+      "title": "Applied Load Value",
+      "type": "number"
+    },
+    "applied_load_unit_token": {
+      "minLength": 1,
+      "title": "Applied Load Unit Token",
+      "type": "string"
+    },
+    "dwell_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dwell Time S",
+      "type": "number"
+    },
+    "dwell_time_tolerance_s": {
+      "minimum": 0,
+      "title": "Dwell Time Tolerance S",
+      "type": "number"
+    },
+    "instrument_id": {
+      "minLength": 1,
+      "title": "Instrument Id",
+      "type": "string"
+    },
+    "instrument_configuration_id": {
+      "minLength": 1,
+      "title": "Instrument Configuration Id",
+      "type": "string"
+    },
+    "instrument_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Instrument Configuration Digest",
+      "type": "string"
+    },
+    "hardness_unit_token": {
+      "minLength": 1,
+      "title": "Hardness Unit Token",
+      "type": "string"
+    },
+    "temperature_support_tolerance_K": {
+      "minimum": 0,
+      "title": "Temperature Support Tolerance K",
+      "type": "number"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/HardnessReferenceObservation"
+      },
+      "minItems": 8,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_calibration_record_count": {
+      "minimum": 6,
+      "title": "Minimum Calibration Record Count",
+      "type": "integer"
+    },
+    "minimum_calibration_physical_block_count": {
+      "minimum": 3,
+      "title": "Minimum Calibration Physical Block Count",
+      "type": "integer"
+    },
+    "minimum_holdout_record_count": {
+      "minimum": 2,
+      "title": "Minimum Holdout Record Count",
+      "type": "integer"
+    },
+    "method_scale_indenter_load_and_dwell_reviewed": {
+      "title": "Method Scale Indenter Load And Dwell Reviewed",
+      "type": "boolean"
+    },
+    "instrument_identity_configuration_and_digest_reviewed": {
+      "title": "Instrument Identity Configuration And Digest Reviewed",
+      "type": "boolean"
+    },
+    "reference_block_condition_and_temperature_reviewed": {
+      "title": "Reference Block Condition And Temperature Reviewed",
+      "type": "boolean"
+    },
+    "certificate_values_uncertainties_and_weights_reviewed": {
+      "title": "Certificate Values Uncertainties And Weights Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_and_independence_partitions_reviewed": {
+      "title": "Specimen Source And Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "certificate_and_result_digests_reviewed": {
+      "title": "Certificate And Result Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_support_reviewed": {
+      "title": "Calibration Holdout Support Reviewed",
+      "type": "boolean"
+    },
+    "bias_and_repeatability_model_reviewed": {
+      "title": "Bias And Repeatability Model Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "reference_block_condition_id",
+    "method_id",
+    "scale_id",
+    "indenter_id",
+    "applied_load_value",
+    "applied_load_unit_token",
+    "dwell_time_s",
+    "dwell_time_tolerance_s",
+    "instrument_id",
+    "instrument_configuration_id",
+    "instrument_configuration_digest",
+    "hardness_unit_token",
+    "temperature_support_tolerance_K",
+    "observations",
+    "minimum_calibration_record_count",
+    "minimum_calibration_physical_block_count",
+    "minimum_holdout_record_count",
+    "method_scale_indenter_load_and_dwell_reviewed",
+    "instrument_identity_configuration_and_digest_reviewed",
+    "reference_block_condition_and_temperature_reviewed",
+    "certificate_values_uncertainties_and_weights_reviewed",
+    "specimen_source_and_independence_partitions_reviewed",
+    "certificate_and_result_digests_reviewed",
+    "calibration_holdout_support_reviewed",
+    "bias_and_repeatability_model_reviewed",
+    "evidence"
+  ],
+  "title": "HardnessReferenceBlockCalibration",
+  "type": "object"
+}

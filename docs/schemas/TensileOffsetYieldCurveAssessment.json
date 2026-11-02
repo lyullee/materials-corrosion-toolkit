@@ -1,0 +1,468 @@
+{
+  "$defs": {
+    "EngineeringStressStrainPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "engineering_strain": {
+          "minimum": 0,
+          "title": "Engineering Strain",
+          "type": "number"
+        },
+        "engineering_stress_Pa": {
+          "minimum": 0,
+          "title": "Engineering Stress Pa",
+          "type": "number"
+        },
+        "elastic_fit_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Fit Weight",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "engineering_strain",
+        "engineering_stress_Pa",
+        "elastic_fit_weight",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "EngineeringStressStrainPoint",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "OffsetYieldReferenceComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_record_id": {
+          "minLength": 1,
+          "title": "Reference Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "reference_method_id": {
+          "minLength": 1,
+          "title": "Reference Method Id",
+          "type": "string"
+        },
+        "offset_strain": {
+          "exclusiveMinimum": 0,
+          "title": "Offset Strain",
+          "type": "number"
+        },
+        "offset_yield_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Offset Yield Stress Pa",
+          "type": "number"
+        },
+        "expanded_uncertainty_Pa": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty Pa",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reference_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "reference_method_id",
+        "offset_strain",
+        "offset_yield_stress_Pa",
+        "expanded_uncertainty_Pa",
+        "uncertainty_coverage_factor",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "OffsetYieldReferenceComparison",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "tensile_test_id": {
+      "minLength": 1,
+      "title": "Tensile Test Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_geometry_id": {
+      "minLength": 1,
+      "title": "Specimen Geometry Id",
+      "type": "string"
+    },
+    "extensometer_id": {
+      "minLength": 1,
+      "title": "Extensometer Id",
+      "type": "string"
+    },
+    "gauge_length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Gauge Length M",
+      "type": "number"
+    },
+    "instrument_provider_id": {
+      "minLength": 1,
+      "title": "Instrument Provider Id",
+      "type": "string"
+    },
+    "instrument_provider_revision": {
+      "minLength": 1,
+      "title": "Instrument Provider Revision",
+      "type": "string"
+    },
+    "instrument_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Instrument Configuration Digest",
+      "type": "string"
+    },
+    "extensometer_calibration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Extensometer Calibration Digest",
+      "type": "string"
+    },
+    "curve_data_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Data Digest",
+      "type": "string"
+    },
+    "result_provider_id": {
+      "minLength": 1,
+      "title": "Result Provider Id",
+      "type": "string"
+    },
+    "result_provider_revision": {
+      "minLength": 1,
+      "title": "Result Provider Revision",
+      "type": "string"
+    },
+    "result_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Configuration Digest",
+      "type": "string"
+    },
+    "engineering_strain_unit_token": {
+      "const": "1",
+      "default": "1",
+      "title": "Engineering Strain Unit Token",
+      "type": "string"
+    },
+    "engineering_stress_unit_token": {
+      "const": "Pa",
+      "default": "Pa",
+      "title": "Engineering Stress Unit Token",
+      "type": "string"
+    },
+    "curve_points": {
+      "items": {
+        "$ref": "#/$defs/EngineeringStressStrainPoint"
+      },
+      "minItems": 4,
+      "title": "Curve Points",
+      "type": "array"
+    },
+    "elastic_fit_start_point_id": {
+      "minLength": 1,
+      "title": "Elastic Fit Start Point Id",
+      "type": "string"
+    },
+    "elastic_fit_end_point_id": {
+      "minLength": 1,
+      "title": "Elastic Fit End Point Id",
+      "type": "string"
+    },
+    "analysis_start_point_id": {
+      "minLength": 1,
+      "title": "Analysis Start Point Id",
+      "type": "string"
+    },
+    "analysis_end_point_id": {
+      "minLength": 1,
+      "title": "Analysis End Point Id",
+      "type": "string"
+    },
+    "offset_strain": {
+      "exclusiveMinimum": 0,
+      "title": "Offset Strain",
+      "type": "number"
+    },
+    "crossing_zero_tolerance_Pa": {
+      "minimum": 0,
+      "title": "Crossing Zero Tolerance Pa",
+      "type": "number"
+    },
+    "reference_comparison": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OffsetYieldReferenceComparison"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "specimen_gauge_and_extensometer_identity_reviewed": {
+      "title": "Specimen Gauge And Extensometer Identity Reviewed",
+      "type": "boolean"
+    },
+    "instrument_calibration_configuration_and_digests_reviewed": {
+      "title": "Instrument Calibration Configuration And Digests Reviewed",
+      "type": "boolean"
+    },
+    "engineering_units_and_raw_curve_reviewed": {
+      "title": "Engineering Units And Raw Curve Reviewed",
+      "type": "boolean"
+    },
+    "monotonic_loading_branch_reviewed": {
+      "title": "Monotonic Loading Branch Reviewed",
+      "type": "boolean"
+    },
+    "elastic_fit_window_and_weights_reviewed": {
+      "title": "Elastic Fit Window And Weights Reviewed",
+      "type": "boolean"
+    },
+    "offset_and_linear_interpolation_reviewed": {
+      "title": "Offset And Linear Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "pre_necking_analysis_window_reviewed": {
+      "title": "Pre Necking Analysis Window Reviewed",
+      "type": "boolean"
+    },
+    "crossing_uniqueness_reviewed": {
+      "title": "Crossing Uniqueness Reviewed",
+      "type": "boolean"
+    },
+    "optional_reference_comparison_reviewed": {
+      "title": "Optional Reference Comparison Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "tensile_test_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "independence_group_id",
+    "material_condition_id",
+    "specimen_geometry_id",
+    "extensometer_id",
+    "gauge_length_m",
+    "instrument_provider_id",
+    "instrument_provider_revision",
+    "instrument_configuration_digest",
+    "extensometer_calibration_digest",
+    "curve_data_digest",
+    "result_provider_id",
+    "result_provider_revision",
+    "result_configuration_digest",
+    "curve_points",
+    "elastic_fit_start_point_id",
+    "elastic_fit_end_point_id",
+    "analysis_start_point_id",
+    "analysis_end_point_id",
+    "offset_strain",
+    "crossing_zero_tolerance_Pa",
+    "specimen_gauge_and_extensometer_identity_reviewed",
+    "instrument_calibration_configuration_and_digests_reviewed",
+    "engineering_units_and_raw_curve_reviewed",
+    "monotonic_loading_branch_reviewed",
+    "elastic_fit_window_and_weights_reviewed",
+    "offset_and_linear_interpolation_reviewed",
+    "pre_necking_analysis_window_reviewed",
+    "crossing_uniqueness_reviewed",
+    "optional_reference_comparison_reviewed"
+  ],
+  "title": "TensileOffsetYieldCurveAssessment",
+  "type": "object"
+}

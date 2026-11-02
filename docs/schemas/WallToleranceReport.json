@@ -1,0 +1,161 @@
+{
+  "$defs": {
+    "WallToleranceReplicateFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "replicate_id": {
+          "title": "Replicate Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "within",
+            "outside",
+            "boundary_overlap",
+            "missing",
+            "invalid",
+            "unit_mismatch"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "lower_measurement_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower Measurement Bound"
+        },
+        "upper_measurement_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Measurement Bound"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "replicate_id",
+        "outcome",
+        "basis"
+      ],
+      "title": "WallToleranceReplicateFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "nominal_thickness": {
+      "title": "Nominal Thickness",
+      "type": "number"
+    },
+    "lower_tolerance_limit": {
+      "title": "Lower Tolerance Limit",
+      "type": "number"
+    },
+    "upper_tolerance_limit": {
+      "title": "Upper Tolerance Limit",
+      "type": "number"
+    },
+    "forming_allowance_recorded": {
+      "title": "Forming Allowance Recorded",
+      "type": "number"
+    },
+    "corrosion_allowance_recorded": {
+      "title": "Corrosion Allowance Recorded",
+      "type": "number"
+    },
+    "allowances_applied_to_tolerance_decision": {
+      "const": false,
+      "default": false,
+      "title": "Allowances Applied To Tolerance Decision",
+      "type": "boolean"
+    },
+    "conservative_reported_lower_bound": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conservative Reported Lower Bound"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/WallToleranceReplicateFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "input_digest": {
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "profile_digest": {
+      "title": "Profile Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "specification_qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Specification Qualification Claim",
+      "type": "boolean"
+    },
+    "design_adequacy_claim": {
+      "const": false,
+      "default": false,
+      "title": "Design Adequacy Claim",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "decision",
+    "nominal_thickness",
+    "lower_tolerance_limit",
+    "upper_tolerance_limit",
+    "forming_allowance_recorded",
+    "corrosion_allowance_recorded",
+    "findings",
+    "input_digest",
+    "profile_digest",
+    "report_digest"
+  ],
+  "title": "WallToleranceReport",
+  "type": "object"
+}

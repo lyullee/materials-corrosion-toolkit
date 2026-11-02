@@ -1,0 +1,125 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "coupon_id": {
+      "minLength": 1,
+      "title": "Coupon Id",
+      "type": "string"
+    },
+    "weld_id": {
+      "minLength": 1,
+      "title": "Weld Id",
+      "type": "string"
+    },
+    "extraction_location_id": {
+      "minLength": 1,
+      "title": "Extraction Location Id",
+      "type": "string"
+    },
+    "extraction_orientation": {
+      "minLength": 1,
+      "title": "Extraction Orientation",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "extraction_reviewed": {
+      "title": "Extraction Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "specimen_id",
+    "coupon_id",
+    "weld_id",
+    "extraction_location_id",
+    "extraction_orientation",
+    "source_group_id",
+    "independence_group_id",
+    "extraction_reviewed",
+    "evidence"
+  ],
+  "title": "WeldCouponSpecimen",
+  "type": "object"
+}

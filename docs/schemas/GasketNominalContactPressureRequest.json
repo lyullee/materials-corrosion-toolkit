@@ -1,0 +1,139 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Inputs for a uniform-area mean-pressure calculation.\n\nSupply either an already reviewed effective area or the inner and outer\ndiameters of a circular annulus. The force must be the compressive gasket\nreaction for the same load state and boundary basis as the selected area.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "compressive_gasket_force_N": {
+      "minimum": 0,
+      "title": "Compressive Gasket Force N",
+      "type": "number"
+    },
+    "gasket_force_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "effective_contact_area_m2": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Effective Contact Area M2"
+    },
+    "inner_diameter_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inner Diameter M"
+    },
+    "outer_diameter_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outer Diameter M"
+    },
+    "geometry_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "force_area_scope_reviewed": {
+      "title": "Force Area Scope Reviewed",
+      "type": "boolean"
+    },
+    "uniform_mean_pressure_interpretation_reviewed": {
+      "title": "Uniform Mean Pressure Interpretation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "compressive_gasket_force_N",
+    "gasket_force_evidence",
+    "geometry_evidence",
+    "force_area_scope_reviewed",
+    "uniform_mean_pressure_interpretation_reviewed"
+  ],
+  "title": "GasketNominalContactPressureRequest",
+  "type": "object"
+}

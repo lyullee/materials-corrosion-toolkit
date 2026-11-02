@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "component_role": {
+      "enum": [
+        "bolt",
+        "gasket_sector"
+      ],
+      "title": "Component Role",
+      "type": "string"
+    },
+    "effective_free_dimension_m": {
+      "exclusiveMinimum": 0,
+      "title": "Effective Free Dimension M",
+      "type": "number"
+    },
+    "reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Temperature K",
+      "type": "number"
+    },
+    "temperature_knots_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Temperature Knots K",
+      "type": "array"
+    },
+    "linear_expansion_coefficient_per_K": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Linear Expansion Coefficient Per K",
+      "type": "array"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "component_id",
+    "component_role",
+    "effective_free_dimension_m",
+    "reference_temperature_K",
+    "temperature_knots_K",
+    "linear_expansion_coefficient_per_K",
+    "provider_id",
+    "provider_revision",
+    "record_id",
+    "record_sha256",
+    "usage_license_id",
+    "evidence"
+  ],
+  "title": "ComponentThermalExpansionRecord",
+  "type": "object"
+}

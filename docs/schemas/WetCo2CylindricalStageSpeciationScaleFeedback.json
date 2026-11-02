@@ -1,0 +1,2057 @@
+{
+  "$defs": {
+    "AqueousActivitySpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "initial_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Activity",
+          "type": "number"
+        },
+        "elemental_composition": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elemental Composition"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "activity_coefficient",
+        "initial_activity"
+      ],
+      "title": "AqueousActivitySpecies",
+      "type": "object"
+    },
+    "AqueousBdotIteration": {
+      "additionalProperties": false,
+      "description": "Self-consistent single-liquid speciation with caller-owned B-dot parameters.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_bdot_iteration.v1",
+          "default": "matintegrity.aqueous_bdot_iteration.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "system": {
+          "$ref": "#/$defs/AqueousMassActionSystem"
+        },
+        "water_mass_per_solution_volume_kg_L": {
+          "exclusiveMinimum": 0,
+          "title": "Water Mass Per Solution Volume Kg L",
+          "type": "number"
+        },
+        "debye_huckel_A_at_temperature": {
+          "exclusiveMinimum": 0,
+          "title": "Debye Huckel A At Temperature",
+          "type": "number"
+        },
+        "debye_huckel_B_at_temperature_sqrt_kg_mol_per_angstrom": {
+          "exclusiveMinimum": 0,
+          "title": "Debye Huckel B At Temperature Sqrt Kg Mol Per Angstrom",
+          "type": "number"
+        },
+        "parameter_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Temperature K",
+          "type": "number"
+        },
+        "temperature_match_tolerance_K": {
+          "default": 0.01,
+          "maximum": 5.0,
+          "minimum": 0.0,
+          "title": "Temperature Match Tolerance K",
+          "type": "number"
+        },
+        "parameter_provider_id": {
+          "minLength": 1,
+          "title": "Parameter Provider Id",
+          "type": "string"
+        },
+        "parameter_provider_revision": {
+          "minLength": 1,
+          "title": "Parameter Provider Revision",
+          "type": "string"
+        },
+        "parameter_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameter Configuration Sha256",
+          "type": "string"
+        },
+        "parameter_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameter Record Sha256",
+          "type": "string"
+        },
+        "maximum_supported_ionic_strength_mol_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Ionic Strength Mol Kg",
+          "type": "number"
+        },
+        "charge_balance_tolerance_mol_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Charge Balance Tolerance Mol Kg",
+          "type": "number"
+        },
+        "species_parameters": {
+          "items": {
+            "$ref": "#/$defs/BdotSpeciesParameter"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Species Parameters",
+          "type": "array"
+        },
+        "maximum_outer_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Outer Iterations",
+          "type": "integer"
+        },
+        "log_gamma_tolerance": {
+          "default": 1e-09,
+          "exclusiveMinimum": 0,
+          "maximum": 0.001,
+          "title": "Log Gamma Tolerance",
+          "type": "number"
+        },
+        "damping_fraction": {
+          "default": 0.5,
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Damping Fraction",
+          "type": "number"
+        },
+        "water_mass_conversion_reviewed": {
+          "title": "Water Mass Conversion Reviewed",
+          "type": "boolean"
+        },
+        "molarity_to_molality_standard_state_mapping_reviewed": {
+          "title": "Molarity To Molality Standard State Mapping Reviewed",
+          "type": "boolean"
+        },
+        "temperature_solvent_and_parameter_basis_reviewed": {
+          "title": "Temperature Solvent And Parameter Basis Reviewed",
+          "type": "boolean"
+        },
+        "complete_inventory_and_charge_scope_reviewed": {
+          "title": "Complete Inventory And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "species_parameter_completeness_and_applicability_reviewed": {
+          "title": "Species Parameter Completeness And Applicability Reviewed",
+          "type": "boolean"
+        },
+        "fixed_point_solver_settings_reviewed": {
+          "title": "Fixed Point Solver Settings Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_no_precipitation_scope_reviewed": {
+          "title": "Single Liquid No Precipitation Scope Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "system",
+        "water_mass_per_solution_volume_kg_L",
+        "debye_huckel_A_at_temperature",
+        "debye_huckel_B_at_temperature_sqrt_kg_mol_per_angstrom",
+        "parameter_temperature_K",
+        "parameter_provider_id",
+        "parameter_provider_revision",
+        "parameter_configuration_sha256",
+        "parameter_record_sha256",
+        "maximum_supported_ionic_strength_mol_kg",
+        "charge_balance_tolerance_mol_kg",
+        "species_parameters",
+        "water_mass_conversion_reviewed",
+        "molarity_to_molality_standard_state_mapping_reviewed",
+        "temperature_solvent_and_parameter_basis_reviewed",
+        "complete_inventory_and_charge_scope_reviewed",
+        "species_parameter_completeness_and_applicability_reviewed",
+        "fixed_point_solver_settings_reviewed",
+        "single_liquid_no_precipitation_scope_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousBdotIteration",
+      "type": "object"
+    },
+    "AqueousEquilibriumReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "log10_equilibrium_constant",
+        "terms"
+      ],
+      "title": "AqueousEquilibriumReaction",
+      "type": "object"
+    },
+    "AqueousLinearConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_id": {
+          "minLength": 1,
+          "title": "Constraint Id",
+          "type": "string"
+        },
+        "target_mol_L": {
+          "title": "Target Mol L",
+          "type": "number"
+        },
+        "residual_scale_mol_L": {
+          "exclusiveMinimum": 0,
+          "title": "Residual Scale Mol L",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_id",
+        "target_mol_L",
+        "residual_scale_mol_L",
+        "terms"
+      ],
+      "title": "AqueousLinearConstraint",
+      "type": "object"
+    },
+    "AqueousMassActionSystem": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_mass_action.v1",
+          "default": "matintegrity.aqueous_mass_action.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "solution_id": {
+          "minLength": 1,
+          "title": "Solution Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/AqueousActivitySpecies"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Species",
+          "type": "array"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/AqueousEquilibriumReaction"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/AqueousLinearConstraint"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "maximum_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Iterations",
+          "type": "integer"
+        },
+        "normalized_residual_tolerance": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "maximum": 0.0001,
+          "title": "Normalized Residual Tolerance",
+          "type": "number"
+        },
+        "maximum_jacobian_condition_number": {
+          "default": 100000000000000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1e+16,
+          "title": "Maximum Jacobian Condition Number",
+          "type": "number"
+        },
+        "local_parameter_covariance": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Parameter Covariance"
+        },
+        "local_parameter_covariance_reviewed": {
+          "default": false,
+          "title": "Local Parameter Covariance Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "minLength": 1,
+          "title": "Activity Provider Id",
+          "type": "string"
+        },
+        "activity_provider_revision": {
+          "minLength": 1,
+          "title": "Activity Provider Revision",
+          "type": "string"
+        },
+        "activity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Configuration Digest",
+          "type": "string"
+        },
+        "activity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Record Digest",
+          "type": "string"
+        },
+        "equilibrium_provider_id": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Id",
+          "type": "string"
+        },
+        "equilibrium_provider_revision": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Revision",
+          "type": "string"
+        },
+        "equilibrium_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Configuration Digest",
+          "type": "string"
+        },
+        "equilibrium_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Record Digest",
+          "type": "string"
+        },
+        "complete_aqueous_species_inventory_reviewed": {
+          "title": "Complete Aqueous Species Inventory Reviewed",
+          "type": "boolean"
+        },
+        "reaction_stoichiometry_and_constant_reviewed": {
+          "title": "Reaction Stoichiometry And Constant Reviewed",
+          "type": "boolean"
+        },
+        "balance_constraints_and_charge_scope_reviewed": {
+          "title": "Balance Constraints And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "fixed_activity_coefficients_and_standard_state_reviewed": {
+          "title": "Fixed Activity Coefficients And Standard State Reviewed",
+          "type": "boolean"
+        },
+        "temperature_and_provider_lineage_reviewed": {
+          "title": "Temperature And Provider Lineage Reviewed",
+          "type": "boolean"
+        },
+        "initial_activity_guess_and_solver_tolerance_reviewed": {
+          "title": "Initial Activity Guess And Solver Tolerance Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_phase_and_no_precipitation_reviewed": {
+          "title": "Single Liquid Phase And No Precipitation Reviewed",
+          "type": "boolean"
+        },
+        "elemental_formula_and_reaction_balance_reviewed": {
+          "default": false,
+          "title": "Elemental Formula And Reaction Balance Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "solution_id",
+        "temperature_K",
+        "activity_standard_state",
+        "species",
+        "reactions",
+        "constraints",
+        "activity_provider_id",
+        "activity_provider_revision",
+        "activity_configuration_digest",
+        "activity_record_digest",
+        "equilibrium_provider_id",
+        "equilibrium_provider_revision",
+        "equilibrium_configuration_digest",
+        "equilibrium_record_digest",
+        "complete_aqueous_species_inventory_reviewed",
+        "reaction_stoichiometry_and_constant_reviewed",
+        "balance_constraints_and_charge_scope_reviewed",
+        "fixed_activity_coefficients_and_standard_state_reviewed",
+        "temperature_and_provider_lineage_reviewed",
+        "initial_activity_guess_and_solver_tolerance_reviewed",
+        "single_liquid_phase_and_no_precipitation_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousMassActionSystem",
+      "type": "object"
+    },
+    "AqueousSITIteration": {
+      "additionalProperties": false,
+      "description": "Self-consistent mass-action speciation with a caller-owned SIT parameter set.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_sit_iteration.v2",
+          "default": "matintegrity.aqueous_sit_iteration.v2",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "system": {
+          "$ref": "#/$defs/AqueousMassActionSystem"
+        },
+        "water_mass_per_solution_volume_kg_L": {
+          "exclusiveMinimum": 0,
+          "title": "Water Mass Per Solution Volume Kg L",
+          "type": "number"
+        },
+        "debye_huckel_A_at_temperature": {
+          "exclusiveMinimum": 0,
+          "title": "Debye Huckel A At Temperature",
+          "type": "number"
+        },
+        "A_evidence_source_id": {
+          "minLength": 1,
+          "title": "A Evidence Source Id",
+          "type": "string"
+        },
+        "sit_provider_id": {
+          "minLength": 1,
+          "title": "Sit Provider Id",
+          "type": "string"
+        },
+        "sit_provider_revision": {
+          "minLength": 1,
+          "title": "Sit Provider Revision",
+          "type": "string"
+        },
+        "sit_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sit Configuration Sha256",
+          "type": "string"
+        },
+        "sit_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sit Record Sha256",
+          "type": "string"
+        },
+        "ionic_strength_limit_mol_kg": {
+          "exclusiveMinimum": 0,
+          "maximum": 6.0,
+          "title": "Ionic Strength Limit Mol Kg",
+          "type": "number"
+        },
+        "charge_balance_tolerance_mol_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Charge Balance Tolerance Mol Kg",
+          "type": "number"
+        },
+        "interactions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SITInteraction"
+          },
+          "maxItems": 100000,
+          "title": "Interactions",
+          "type": "array"
+        },
+        "maximum_outer_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Outer Iterations",
+          "type": "integer"
+        },
+        "log_gamma_tolerance": {
+          "default": 1e-09,
+          "exclusiveMinimum": 0,
+          "maximum": 0.001,
+          "title": "Log Gamma Tolerance",
+          "type": "number"
+        },
+        "damping_fraction": {
+          "default": 0.5,
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Damping Fraction",
+          "type": "number"
+        },
+        "water_mass_conversion_reviewed": {
+          "title": "Water Mass Conversion Reviewed",
+          "type": "boolean"
+        },
+        "temperature_solvent_and_A_basis_reviewed": {
+          "title": "Temperature Solvent And A Basis Reviewed",
+          "type": "boolean"
+        },
+        "molarity_to_molality_standard_state_mapping_reviewed": {
+          "title": "Molarity To Molality Standard State Mapping Reviewed",
+          "type": "boolean"
+        },
+        "complete_inventory_and_charge_scope_reviewed": {
+          "title": "Complete Inventory And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "interaction_parameter_set_completeness_and_applicability_reviewed": {
+          "title": "Interaction Parameter Set Completeness And Applicability Reviewed",
+          "type": "boolean"
+        },
+        "fixed_point_solver_settings_reviewed": {
+          "title": "Fixed Point Solver Settings Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_no_precipitation_scope_reviewed": {
+          "title": "Single Liquid No Precipitation Scope Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "system",
+        "water_mass_per_solution_volume_kg_L",
+        "debye_huckel_A_at_temperature",
+        "A_evidence_source_id",
+        "sit_provider_id",
+        "sit_provider_revision",
+        "sit_configuration_sha256",
+        "sit_record_sha256",
+        "ionic_strength_limit_mol_kg",
+        "charge_balance_tolerance_mol_kg",
+        "water_mass_conversion_reviewed",
+        "temperature_solvent_and_A_basis_reviewed",
+        "molarity_to_molality_standard_state_mapping_reviewed",
+        "complete_inventory_and_charge_scope_reviewed",
+        "interaction_parameter_set_completeness_and_applicability_reviewed",
+        "fixed_point_solver_settings_reviewed",
+        "single_liquid_no_precipitation_scope_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousSITIteration",
+      "type": "object"
+    },
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "BdotSpeciesParameter": {
+      "additionalProperties": false,
+      "description": "Caller-owned species parameters for the extended Debye-Huckel B-dot form.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "ion_size_angstrom": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Ion Size Angstrom",
+          "type": "number"
+        },
+        "bdot_kg_per_mol": {
+          "title": "Bdot Kg Per Mol",
+          "type": "number"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "source_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Record Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "species_id",
+        "ion_size_angstrom",
+        "bdot_kg_per_mol",
+        "source_id",
+        "source_record_id",
+        "source_record_sha256"
+      ],
+      "title": "BdotSpeciesParameter",
+      "type": "object"
+    },
+    "ButlerVolmerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "calibration_and_reaction_direction_reviewed": {
+          "title": "Calibration And Reaction Direction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "calibration_sha256",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "equilibrium_potential_V",
+        "temperature_K",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "calibration_and_reaction_direction_reviewed"
+      ],
+      "title": "ButlerVolmerReaction",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SITInteraction": {
+      "additionalProperties": false,
+      "description": "One directional epsilon coefficient and digest-bound source record.",
+      "properties": {
+        "target_species_id": {
+          "minLength": 1,
+          "title": "Target Species Id",
+          "type": "string"
+        },
+        "counter_species_id": {
+          "minLength": 1,
+          "title": "Counter Species Id",
+          "type": "string"
+        },
+        "epsilon_kg_mol": {
+          "title": "Epsilon Kg Mol",
+          "type": "number"
+        },
+        "evidence_source_id": {
+          "minLength": 1,
+          "title": "Evidence Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evidence Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_species_id",
+        "counter_species_id",
+        "epsilon_kg_mol",
+        "evidence_source_id",
+        "source_record_id",
+        "evidence_sha256"
+      ],
+      "title": "SITInteraction",
+      "type": "object"
+    },
+    "WetCo2CylindricalGeometryKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "wall_recession_m": {
+          "minimum": 0,
+          "title": "Wall Recession M",
+          "type": "number"
+        },
+        "phase_inventories": {
+          "items": {
+            "$ref": "#/$defs/WetCo2ScalePhaseLineInventory"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phase Inventories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "wall_recession_m",
+        "phase_inventories"
+      ],
+      "title": "WetCo2CylindricalGeometryKnot",
+      "type": "object"
+    },
+    "WetCo2CylindricalScaleGeometryHistory": {
+      "additionalProperties": false,
+      "description": "Map lineal phase inventory into an axisymmetric cylindrical bore at exact knots.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "default": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Time Basis Id",
+          "type": "string"
+        },
+        "outer_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Outer Radius M",
+          "type": "number"
+        },
+        "initial_inner_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Inner Radius M",
+          "type": "number"
+        },
+        "initial_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Wall Thickness M",
+          "type": "number"
+        },
+        "segment_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Segment Length M",
+          "type": "number"
+        },
+        "geometry_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Id",
+          "type": "string"
+        },
+        "geometry_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Revision",
+          "type": "string"
+        },
+        "geometry_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Sha256",
+          "type": "string"
+        },
+        "geometry_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "history_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Id",
+          "type": "string"
+        },
+        "history_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Revision",
+          "type": "string"
+        },
+        "history_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Record Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "phases": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalScalePhase"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phases",
+          "type": "array"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalGeometryKnot"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "History",
+          "type": "array"
+        },
+        "axisymmetric_uniformity_reviewed": {
+          "title": "Axisymmetric Uniformity Reviewed",
+          "type": "boolean"
+        },
+        "phase_inventory_reference_basis_reviewed": {
+          "title": "Phase Inventory Reference Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "time_basis_id",
+        "outer_radius_m",
+        "initial_inner_radius_m",
+        "initial_wall_thickness_m",
+        "segment_length_m",
+        "geometry_provider_id",
+        "geometry_provider_revision",
+        "geometry_record_sha256",
+        "geometry_evidence",
+        "history_provider_id",
+        "history_provider_revision",
+        "history_record_sha256",
+        "history_evidence",
+        "phases",
+        "history",
+        "axisymmetric_uniformity_reviewed",
+        "phase_inventory_reference_basis_reviewed"
+      ],
+      "title": "WetCo2CylindricalScaleGeometryHistory",
+      "type": "object"
+    },
+    "WetCo2CylindricalScalePhase": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "molar_volume_m3_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Volume M3 Mol",
+          "type": "number"
+        },
+        "provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "phase_id",
+        "molar_volume_m3_mol",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalScalePhase",
+      "type": "object"
+    },
+    "WetCo2CylindricalSpatialMixedPotential": {
+      "additionalProperties": false,
+      "description": "Finite transient radial inventory and common mixed-potential DAE on exact knots.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_cylindrical_spatial_mixed_potential.v1",
+          "default": "matintegrity.wet_co2_cylindrical_spatial_mixed_potential.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "geometry": {
+          "$ref": "#/$defs/WetCo2CylindricalScaleGeometryHistory"
+        },
+        "geometry_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Sha256",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/WetCo2TransientSpecies"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Species",
+          "type": "array"
+        },
+        "initial_species": {
+          "items": {
+            "$ref": "#/$defs/WetCo2TransientInitialSpecies"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Initial Species",
+          "type": "array"
+        },
+        "initial_state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Initial State Sha256",
+          "type": "string"
+        },
+        "initial_state_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "wall_elements": {
+          "items": {
+            "$ref": "#/$defs/WetCo2WallElement"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Wall Elements",
+          "type": "array"
+        },
+        "wall_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Density Kg M3",
+          "type": "number"
+        },
+        "wall_material_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Wall Material Record Sha256",
+          "type": "string"
+        },
+        "wall_material_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "knots": {
+          "items": {
+            "$ref": "#/$defs/WetCo2SpatialElectrochemicalKnot"
+          },
+          "maxItems": 2000,
+          "minItems": 2,
+          "title": "Knots",
+          "type": "array"
+        },
+        "relative_tolerance": {
+          "default": 1e-07,
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Relative Tolerance",
+          "type": "number"
+        },
+        "concentration_absolute_tolerance_mol_m3": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Concentration Absolute Tolerance Mol M3",
+          "type": "number"
+        },
+        "inventory_absolute_tolerance_mol_m": {
+          "default": 1e-12,
+          "exclusiveMinimum": 0,
+          "title": "Inventory Absolute Tolerance Mol M",
+          "type": "number"
+        },
+        "charge_absolute_tolerance_C_m": {
+          "default": 1e-07,
+          "exclusiveMinimum": 0,
+          "title": "Charge Absolute Tolerance C M",
+          "type": "number"
+        },
+        "inventory_relative_tolerance": {
+          "default": 1e-08,
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Inventory Relative Tolerance",
+          "type": "number"
+        },
+        "potential_absolute_tolerance_V": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Potential Absolute Tolerance V",
+          "type": "number"
+        },
+        "maximum_bisection_iterations": {
+          "default": 200,
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Maximum Bisection Iterations",
+          "type": "integer"
+        },
+        "maximum_step_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Step S",
+          "type": "number"
+        },
+        "axisymmetric_reaction_area_and_material_mapping_reviewed": {
+          "title": "Axisymmetric Reaction Area And Material Mapping Reviewed",
+          "type": "boolean"
+        },
+        "boundary_transport_and_chemistry_reviewed": {
+          "title": "Boundary Transport And Chemistry Reviewed",
+          "type": "boolean"
+        },
+        "element_charge_and_reaction_direction_reviewed": {
+          "title": "Element Charge And Reaction Direction Reviewed",
+          "type": "boolean"
+        },
+        "geometry_trial_mode": {
+          "default": false,
+          "title": "Geometry Trial Mode",
+          "type": "boolean"
+        },
+        "fixed_point_input_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixed Point Input Sha256"
+        },
+        "trial_geometry_closure_exemption_reviewed": {
+          "default": false,
+          "title": "Trial Geometry Closure Exemption Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "geometry",
+        "geometry_sha256",
+        "species",
+        "initial_species",
+        "initial_state_sha256",
+        "initial_state_evidence",
+        "wall_elements",
+        "wall_density_kg_m3",
+        "wall_material_record_sha256",
+        "wall_material_evidence",
+        "knots",
+        "maximum_step_s",
+        "axisymmetric_reaction_area_and_material_mapping_reviewed",
+        "boundary_transport_and_chemistry_reviewed",
+        "element_charge_and_reaction_direction_reviewed"
+      ],
+      "title": "WetCo2CylindricalSpatialMixedPotential",
+      "type": "object"
+    },
+    "WetCo2ScalePhaseLineInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "moles_per_axial_metre_mol_m": {
+          "minimum": 0,
+          "title": "Moles Per Axial Metre Mol M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase_id",
+        "moles_per_axial_metre_mol_m"
+      ],
+      "title": "WetCo2ScalePhaseLineInventory",
+      "type": "object"
+    },
+    "WetCo2SpatialElectrochemicalKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "solution_film_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Solution Film Thickness M",
+          "type": "number"
+        },
+        "species_boundaries": {
+          "items": {
+            "$ref": "#/$defs/WetCo2TransientSpeciesBoundary"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Species Boundaries",
+          "type": "array"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/ButlerVolmerReaction"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "boundary_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Boundary Record Sha256",
+          "type": "string"
+        },
+        "boundary_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Boundary Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "solution_film_thickness_m",
+        "species_boundaries",
+        "reactions",
+        "boundary_record_sha256",
+        "boundary_evidence"
+      ],
+      "title": "WetCo2SpatialElectrochemicalKnot",
+      "type": "object"
+    },
+    "WetCo2StageDaviesActivity": {
+      "additionalProperties": false,
+      "description": "Optional caller-owned Davies fixed-point configuration for BDF-stage chemistry.",
+      "properties": {
+        "water_mass_per_solution_volume_kg_L": {
+          "exclusiveMinimum": 0,
+          "title": "Water Mass Per Solution Volume Kg L",
+          "type": "number"
+        },
+        "davies_A_at_temperature": {
+          "exclusiveMinimum": 0,
+          "title": "Davies A At Temperature",
+          "type": "number"
+        },
+        "parameter_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Parameter Temperature K",
+          "type": "number"
+        },
+        "temperature_match_tolerance_K": {
+          "default": 0.01,
+          "maximum": 5.0,
+          "minimum": 0.0,
+          "title": "Temperature Match Tolerance K",
+          "type": "number"
+        },
+        "davies_A_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Davies A Provider Id",
+          "type": "string"
+        },
+        "davies_A_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Davies A Provider Revision",
+          "type": "string"
+        },
+        "davies_A_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Davies A Configuration Digest",
+          "type": "string"
+        },
+        "davies_A_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Davies A Record Digest",
+          "type": "string"
+        },
+        "ionic_strength_limit_mol_kg": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.5,
+          "title": "Ionic Strength Limit Mol Kg",
+          "type": "number"
+        },
+        "charge_balance_tolerance_mol_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Charge Balance Tolerance Mol Kg",
+          "type": "number"
+        },
+        "maximum_outer_iterations": {
+          "default": 30,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Maximum Outer Iterations",
+          "type": "integer"
+        },
+        "log_gamma_tolerance": {
+          "default": 1e-08,
+          "exclusiveMinimum": 0,
+          "maximum": 0.001,
+          "title": "Log Gamma Tolerance",
+          "type": "number"
+        },
+        "damping_fraction": {
+          "default": 0.5,
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Damping Fraction",
+          "type": "number"
+        },
+        "water_mass_conversion_reviewed": {
+          "title": "Water Mass Conversion Reviewed",
+          "type": "boolean"
+        },
+        "Davies_A_temperature_solvent_basis_reviewed": {
+          "title": "Davies A Temperature Solvent Basis Reviewed",
+          "type": "boolean"
+        },
+        "molarity_to_molality_standard_state_mapping_reviewed": {
+          "title": "Molarity To Molality Standard State Mapping Reviewed",
+          "type": "boolean"
+        },
+        "complete_inventory_and_charge_scope_reviewed": {
+          "title": "Complete Inventory And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "fixed_point_solver_settings_reviewed": {
+          "title": "Fixed Point Solver Settings Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_no_precipitation_scope_reviewed": {
+          "title": "Single Liquid No Precipitation Scope Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "water_mass_per_solution_volume_kg_L",
+        "davies_A_at_temperature",
+        "parameter_temperature_K",
+        "davies_A_provider_id",
+        "davies_A_provider_revision",
+        "davies_A_configuration_digest",
+        "davies_A_record_digest",
+        "ionic_strength_limit_mol_kg",
+        "charge_balance_tolerance_mol_kg",
+        "water_mass_conversion_reviewed",
+        "Davies_A_temperature_solvent_basis_reviewed",
+        "molarity_to_molality_standard_state_mapping_reviewed",
+        "complete_inventory_and_charge_scope_reviewed",
+        "fixed_point_solver_settings_reviewed",
+        "single_liquid_no_precipitation_scope_reviewed",
+        "evidence"
+      ],
+      "title": "WetCo2StageDaviesActivity",
+      "type": "object"
+    },
+    "WetCo2StageShearDetachmentLaw": {
+      "additionalProperties": false,
+      "description": "Caller-calibrated phase-specific threshold shear detachment law.",
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "critical_shear_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Critical Shear Stress Pa",
+          "type": "number"
+        },
+        "detachment_velocity_scale_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Detachment Velocity Scale M S",
+          "type": "number"
+        },
+        "stress_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Stress Exponent",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "phase_id",
+        "critical_shear_stress_Pa",
+        "detachment_velocity_scale_m_s",
+        "stress_exponent",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2StageShearDetachmentLaw",
+      "type": "object"
+    },
+    "WetCo2StageShearKnot": {
+      "additionalProperties": false,
+      "description": "Caller-supplied wall shear stress bound to an exact model knot.",
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "wall_shear_stress_Pa": {
+          "minimum": 0,
+          "title": "Wall Shear Stress Pa",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "wall_shear_stress_Pa",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2StageShearKnot",
+      "type": "object"
+    },
+    "WetCo2StageShearRemoval": {
+      "additionalProperties": false,
+      "description": "Opt-in exact-knot wall shear records and caller phase detachment laws.",
+      "properties": {
+        "shear_history": {
+          "items": {
+            "$ref": "#/$defs/WetCo2StageShearKnot"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "title": "Shear History",
+          "type": "array"
+        },
+        "phase_laws": {
+          "items": {
+            "$ref": "#/$defs/WetCo2StageShearDetachmentLaw"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phase Laws",
+          "type": "array"
+        },
+        "exact_knot_left_hold_reviewed": {
+          "title": "Exact Knot Left Hold Reviewed",
+          "type": "boolean"
+        },
+        "detached_solid_export_and_inner_area_reviewed": {
+          "title": "Detached Solid Export And Inner Area Reviewed",
+          "type": "boolean"
+        },
+        "phase_law_applicability_reviewed": {
+          "title": "Phase Law Applicability Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "shear_history",
+        "phase_laws",
+        "exact_knot_left_hold_reviewed",
+        "detached_solid_export_and_inner_area_reviewed",
+        "phase_law_applicability_reviewed"
+      ],
+      "title": "WetCo2StageShearRemoval",
+      "type": "object"
+    },
+    "WetCo2StageSpeciationKineticPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "species_moles_per_mole_solid": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Species Moles Per Mole Solid",
+          "type": "object"
+        },
+        "phase_element_composition": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Phase Element Composition",
+          "type": "object"
+        },
+        "activity_product_terms": {
+          "items": {
+            "$ref": "#/$defs/WetCo2StageSpeciationProductTerm"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Activity Product Terms",
+          "type": "array"
+        },
+        "log_solubility_activity_product": {
+          "title": "Log Solubility Activity Product",
+          "type": "number"
+        },
+        "precipitation_rate_constant_mol_m2_s": {
+          "minimum": 0,
+          "title": "Precipitation Rate Constant Mol M2 S",
+          "type": "number"
+        },
+        "precipitation_log_supersaturation_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Precipitation Log Supersaturation Exponent",
+          "type": "number"
+        },
+        "dissolution_rate_constant_mol_m2_s": {
+          "minimum": 0,
+          "title": "Dissolution Rate Constant Mol M2 S",
+          "type": "number"
+        },
+        "dissolution_log_undersaturation_exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Dissolution Log Undersaturation Exponent",
+          "type": "number"
+        },
+        "maximum_absolute_flux_mol_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Absolute Flux Mol M2 S",
+          "type": "number"
+        },
+        "kinetic_law_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Kinetic Law Sha256",
+          "type": "string"
+        },
+        "kinetic_law_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Kinetic Law Evidence",
+          "type": "array"
+        },
+        "chemistry_and_rate_law_reviewed": {
+          "title": "Chemistry And Rate Law Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "phase_id",
+        "species_moles_per_mole_solid",
+        "phase_element_composition",
+        "activity_product_terms",
+        "log_solubility_activity_product",
+        "precipitation_rate_constant_mol_m2_s",
+        "precipitation_log_supersaturation_exponent",
+        "dissolution_rate_constant_mol_m2_s",
+        "dissolution_log_undersaturation_exponent",
+        "maximum_absolute_flux_mol_m2_s",
+        "kinetic_law_sha256",
+        "kinetic_law_evidence",
+        "chemistry_and_rate_law_reviewed"
+      ],
+      "title": "WetCo2StageSpeciationKineticPhase",
+      "type": "object"
+    },
+    "WetCo2StageSpeciationProductTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Exponent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "exponent"
+      ],
+      "title": "WetCo2StageSpeciationProductTerm",
+      "type": "object"
+    },
+    "WetCo2TransientInitialSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "cell_concentrations_mol_m3": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Cell Concentrations Mol M3",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "cell_concentrations_mol_m3"
+      ],
+      "title": "WetCo2TransientInitialSpecies",
+      "type": "object"
+    },
+    "WetCo2TransientSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "WetCo2TransientSpecies",
+      "type": "object"
+    },
+    "WetCo2TransientSpeciesBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "bulk_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Concentration Mol M3",
+          "type": "number"
+        },
+        "radial_cell_diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Radial Cell Diffusivity M2 S",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "bulk_concentration_mol_m3",
+        "radial_cell_diffusivity_m2_s"
+      ],
+      "title": "WetCo2TransientSpeciesBoundary",
+      "type": "object"
+    },
+    "WetCo2WallElement": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "maxLength": 32,
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "atomic_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Atomic Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "alloy_mass_fraction": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Alloy Mass Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "element_id",
+        "atomic_molar_mass_kg_mol",
+        "alloy_mass_fraction"
+      ],
+      "title": "WetCo2WallElement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "matintegrity.wet_co2_cylindrical_stage_speciation_scale_feedback.v2",
+      "enum": [
+        "matintegrity.wet_co2_cylindrical_stage_speciation_scale_feedback.v1",
+        "matintegrity.wet_co2_cylindrical_stage_speciation_scale_feedback.v2",
+        "matintegrity.wet_co2_cylindrical_stage_speciation_scale_feedback.v3",
+        "matintegrity.wet_co2_cylindrical_stage_speciation_scale_feedback.v4",
+        "matintegrity.wet_co2_cylindrical_stage_speciation_scale_feedback.v5"
+      ],
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "spatial_request": {
+      "$ref": "#/$defs/WetCo2CylindricalSpatialMixedPotential"
+    },
+    "mass_action_system_template": {
+      "$ref": "#/$defs/AqueousMassActionSystem"
+    },
+    "davies_activity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WetCo2StageDaviesActivity"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "sit_activity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AqueousSITIteration"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "bdot_activity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AqueousBdotIteration"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "shear_removal": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WetCo2StageShearRemoval"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "phases": {
+      "items": {
+        "$ref": "#/$defs/WetCo2StageSpeciationKineticPhase"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Phases",
+      "type": "array"
+    },
+    "maximum_feedback_iterations": {
+      "default": 20,
+      "maximum": 60,
+      "minimum": 1,
+      "title": "Maximum Feedback Iterations",
+      "type": "integer"
+    },
+    "relaxation_factor": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Relaxation Factor",
+      "type": "number"
+    },
+    "absolute_radius_tolerance_m": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Radius Tolerance M",
+      "type": "number"
+    },
+    "relative_radius_tolerance": {
+      "default": 1e-07,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Radius Tolerance",
+      "type": "number"
+    },
+    "absolute_inventory_tolerance_mol_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Inventory Tolerance Mol M",
+      "type": "number"
+    },
+    "relative_inventory_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Inventory Tolerance",
+      "type": "number"
+    },
+    "maximum_work_units": {
+      "default": 30000000,
+      "maximum": 300000000,
+      "minimum": 10000,
+      "title": "Maximum Work Units",
+      "type": "integer"
+    },
+    "mass_action_network_and_standard_state_reviewed": {
+      "title": "Mass Action Network And Standard State Reviewed",
+      "type": "boolean"
+    },
+    "phase_identity_and_balanced_reaction_reviewed": {
+      "title": "Phase Identity And Balanced Reaction Reviewed",
+      "type": "boolean"
+    },
+    "cylindrical_supply_map_reviewed": {
+      "title": "Cylindrical Supply Map Reviewed",
+      "type": "boolean"
+    },
+    "exact_knot_left_hold_and_geometry_reviewed": {
+      "title": "Exact Knot Left Hold And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "no_qualification_claim_reviewed": {
+      "title": "No Qualification Claim Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "spatial_request",
+    "mass_action_system_template",
+    "phases",
+    "mass_action_network_and_standard_state_reviewed",
+    "phase_identity_and_balanced_reaction_reviewed",
+    "cylindrical_supply_map_reviewed",
+    "exact_knot_left_hold_and_geometry_reviewed",
+    "no_qualification_claim_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "WetCo2CylindricalStageSpeciationScaleFeedback",
+  "type": "object"
+}

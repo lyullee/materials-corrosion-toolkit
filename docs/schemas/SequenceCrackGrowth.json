@@ -1,0 +1,260 @@
+{
+  "$defs": {
+    "SequenceGrowthState": {
+      "additionalProperties": false,
+      "properties": {
+        "depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Depth M",
+          "type": "number"
+        },
+        "plastic_zone_tip_m": {
+          "exclusiveMinimum": 0,
+          "title": "Plastic Zone Tip M",
+          "type": "number"
+        },
+        "accumulated_cycles": {
+          "minimum": 0,
+          "title": "Accumulated Cycles",
+          "type": "integer"
+        },
+        "law_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Law Configuration Sha256",
+          "type": "string"
+        },
+        "state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "depth_m",
+        "plastic_zone_tip_m",
+        "accumulated_cycles",
+        "law_configuration_sha256",
+        "state_sha256"
+      ],
+      "title": "SequenceGrowthState",
+      "type": "object"
+    },
+    "TensileLoadBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "minimum_stress_Pa": {
+          "minimum": 0,
+          "title": "Minimum Stress Pa",
+          "type": "number"
+        },
+        "maximum_stress_Pa": {
+          "minimum": 0,
+          "title": "Maximum Stress Pa",
+          "type": "number"
+        },
+        "cycles": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles",
+          "type": "number"
+        }
+      },
+      "required": [
+        "minimum_stress_Pa",
+        "maximum_stress_Pa",
+        "cycles"
+      ],
+      "title": "TensileLoadBlock",
+      "type": "object"
+    },
+    "VariableParis": {
+      "additionalProperties": false,
+      "properties": {
+        "initial_depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Depth M",
+          "type": "number"
+        },
+        "terminal_depth_m": {
+          "exclusiveMinimum": 0,
+          "title": "Terminal Depth M",
+          "type": "number"
+        },
+        "geometry_depth_m": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Geometry Depth M",
+          "type": "array"
+        },
+        "geometry_factor": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Geometry Factor",
+          "type": "array"
+        },
+        "blocks": {
+          "items": {
+            "$ref": "#/$defs/TensileLoadBlock"
+          },
+          "minItems": 1,
+          "title": "Blocks",
+          "type": "array"
+        },
+        "coefficient_m_cycle_per_Pa_sqrt_m_power": {
+          "exclusiveMinimum": 0,
+          "title": "Coefficient M Cycle Per Pa Sqrt M Power",
+          "type": "number"
+        },
+        "exponent": {
+          "exclusiveMinimum": 0,
+          "title": "Exponent",
+          "type": "number"
+        },
+        "threshold_delta_K_Pa_sqrt_m": {
+          "minimum": 0,
+          "title": "Threshold Delta K Pa Sqrt M",
+          "type": "number"
+        },
+        "minimum_calibrated_delta_K_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Calibrated Delta K Pa Sqrt M",
+          "type": "number"
+        },
+        "maximum_calibrated_delta_K_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Calibrated Delta K Pa Sqrt M",
+          "type": "number"
+        },
+        "minimum_calibrated_stress_ratio": {
+          "exclusiveMaximum": 1,
+          "minimum": 0,
+          "title": "Minimum Calibrated Stress Ratio",
+          "type": "number"
+        },
+        "maximum_calibrated_stress_ratio": {
+          "exclusiveMaximum": 1,
+          "minimum": 0,
+          "title": "Maximum Calibrated Stress Ratio",
+          "type": "number"
+        },
+        "fracture_toughness_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Toughness Pa Sqrt M",
+          "type": "number"
+        },
+        "relative_integration_tolerance": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "title": "Relative Integration Tolerance",
+          "type": "number"
+        },
+        "absolute_cycle_tolerance": {
+          "exclusiveMinimum": 0,
+          "title": "Absolute Cycle Tolerance",
+          "type": "number"
+        },
+        "absolute_depth_tolerance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Absolute Depth Tolerance M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "initial_depth_m",
+        "terminal_depth_m",
+        "geometry_depth_m",
+        "geometry_factor",
+        "blocks",
+        "coefficient_m_cycle_per_Pa_sqrt_m_power",
+        "exponent",
+        "threshold_delta_K_Pa_sqrt_m",
+        "minimum_calibrated_delta_K_Pa_sqrt_m",
+        "maximum_calibrated_delta_K_Pa_sqrt_m",
+        "minimum_calibrated_stress_ratio",
+        "maximum_calibrated_stress_ratio",
+        "fracture_toughness_Pa_sqrt_m",
+        "relative_integration_tolerance",
+        "absolute_cycle_tolerance",
+        "absolute_depth_tolerance_m"
+      ],
+      "title": "VariableParis",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "growth": {
+      "$ref": "#/$defs/VariableParis"
+    },
+    "yield_strength_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Yield Strength Pa",
+      "type": "number"
+    },
+    "plastic_zone_coefficient": {
+      "exclusiveMinimum": 0,
+      "title": "Plastic Zone Coefficient",
+      "type": "number"
+    },
+    "retardation_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Retardation Exponent",
+      "type": "number"
+    },
+    "opening_K_fraction_of_maximum": {
+      "exclusiveMaximum": 1,
+      "minimum": 0,
+      "title": "Opening K Fraction Of Maximum",
+      "type": "number"
+    },
+    "maximum_depth_increment_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Depth Increment M",
+      "type": "number"
+    },
+    "maximum_cycle_steps": {
+      "maximum": 2000000,
+      "minimum": 1,
+      "title": "Maximum Cycle Steps",
+      "type": "integer"
+    },
+    "calibrated_sequence_law_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibrated Sequence Law Sha256",
+      "type": "string"
+    },
+    "sequence_and_closure_law_reviewed": {
+      "title": "Sequence And Closure Law Reviewed",
+      "type": "boolean"
+    },
+    "initial_state": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SequenceGrowthState"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "growth",
+    "yield_strength_Pa",
+    "plastic_zone_coefficient",
+    "retardation_exponent",
+    "opening_K_fraction_of_maximum",
+    "maximum_depth_increment_m",
+    "maximum_cycle_steps",
+    "calibrated_sequence_law_sha256",
+    "sequence_and_closure_law_reviewed"
+  ],
+  "title": "SequenceCrackGrowth",
+  "type": "object"
+}

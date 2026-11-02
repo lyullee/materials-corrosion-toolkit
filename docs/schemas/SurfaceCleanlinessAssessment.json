@@ -1,0 +1,351 @@
+{
+  "$defs": {
+    "CleanlinessObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "value": {
+          "minimum": 0,
+          "title": "Value",
+          "type": "number"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "sample_location_description": {
+          "minLength": 1,
+          "title": "Sample Location Description",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "area_id",
+        "metric_id",
+        "method_id",
+        "value",
+        "expanded_uncertainty",
+        "unit_token",
+        "sample_location_description",
+        "evidence"
+      ],
+      "title": "CleanlinessObservation",
+      "type": "object"
+    },
+    "DeclaredCleanlinessRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "comparator": {
+          "enum": [
+            "maximum",
+            "minimum"
+          ],
+          "title": "Comparator",
+          "type": "string"
+        },
+        "limit_value": {
+          "minimum": 0,
+          "title": "Limit Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "area_id",
+        "metric_id",
+        "comparator",
+        "limit_value",
+        "unit_token",
+        "requirement_basis",
+        "evidence"
+      ],
+      "title": "DeclaredCleanlinessRequirement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PreparedSurfaceArea": {
+      "additionalProperties": false,
+      "properties": {
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "preparation_process_id": {
+          "minLength": 1,
+          "title": "Preparation Process Id",
+          "type": "string"
+        },
+        "target_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Target Area M2",
+          "type": "number"
+        },
+        "inspected_area_m2": {
+          "minimum": 0,
+          "title": "Inspected Area M2",
+          "type": "number"
+        },
+        "uninspected_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uninspected Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "area_id",
+        "physical_location_id",
+        "material_condition_id",
+        "preparation_process_id",
+        "target_area_m2",
+        "inspected_area_m2",
+        "evidence"
+      ],
+      "title": "PreparedSurfaceArea",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "areas": {
+      "items": {
+        "$ref": "#/$defs/PreparedSurfaceArea"
+      },
+      "minItems": 1,
+      "title": "Areas",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/CleanlinessObservation"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "declared_requirements": {
+      "items": {
+        "$ref": "#/$defs/DeclaredCleanlinessRequirement"
+      },
+      "minItems": 1,
+      "title": "Declared Requirements",
+      "type": "array"
+    },
+    "areas_mutually_exclusive_reviewed": {
+      "title": "Areas Mutually Exclusive Reviewed",
+      "type": "boolean"
+    },
+    "preparation_identity_reviewed": {
+      "title": "Preparation Identity Reviewed",
+      "type": "boolean"
+    },
+    "method_applicability_reviewed": {
+      "title": "Method Applicability Reviewed",
+      "type": "boolean"
+    },
+    "calibration_and_uncertainty_reviewed": {
+      "title": "Calibration And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "observation_mapping_reviewed": {
+      "title": "Observation Mapping Reviewed",
+      "type": "boolean"
+    },
+    "requirement_authority_reviewed": {
+      "title": "Requirement Authority Reviewed",
+      "type": "boolean"
+    },
+    "negative_result_reviewed": {
+      "default": false,
+      "title": "Negative Result Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "procedure_id",
+    "procedure_revision",
+    "areas",
+    "declared_requirements",
+    "areas_mutually_exclusive_reviewed",
+    "preparation_identity_reviewed",
+    "method_applicability_reviewed",
+    "calibration_and_uncertainty_reviewed",
+    "observation_mapping_reviewed",
+    "requirement_authority_reviewed",
+    "evidence"
+  ],
+  "title": "SurfaceCleanlinessAssessment",
+  "type": "object"
+}

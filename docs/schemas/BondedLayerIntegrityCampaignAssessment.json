@@ -1,0 +1,1073 @@
+{
+  "$defs": {
+    "BondProcessEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "process_kind": {
+          "enum": [
+            "surface_preparation",
+            "layer_application",
+            "bonding",
+            "cure",
+            "heat_treatment",
+            "cooling",
+            "other"
+          ],
+          "title": "Process Kind",
+          "type": "string"
+        },
+        "process_step_id": {
+          "minLength": 1,
+          "title": "Process Step Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_recorded_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Recorded Temperature K",
+          "type": "number"
+        },
+        "maximum_recorded_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Recorded Temperature K",
+          "type": "number"
+        },
+        "expanded_temperature_uncertainty_K": {
+          "minimum": 0,
+          "title": "Expanded Temperature Uncertainty K",
+          "type": "number"
+        },
+        "applied_pressure": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applied Pressure"
+        },
+        "pressure_unit_token": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Unit Token"
+        },
+        "expanded_pressure_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Pressure Uncertainty"
+        },
+        "process_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Process Configuration Digest",
+          "type": "string"
+        },
+        "process_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Process Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_index",
+        "process_kind",
+        "process_step_id",
+        "start_time_s",
+        "end_time_s",
+        "minimum_recorded_temperature_K",
+        "maximum_recorded_temperature_K",
+        "expanded_temperature_uncertainty_K",
+        "process_configuration_digest",
+        "process_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "BondProcessEvent",
+      "type": "object"
+    },
+    "BondedAssemblyEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "assembly_id": {
+          "minLength": 1,
+          "title": "Assembly Id",
+          "type": "string"
+        },
+        "product_id": {
+          "minLength": 1,
+          "title": "Product Id",
+          "type": "string"
+        },
+        "substrate_id": {
+          "minLength": 1,
+          "title": "Substrate Id",
+          "type": "string"
+        },
+        "substrate_material_id": {
+          "minLength": 1,
+          "title": "Substrate Material Id",
+          "type": "string"
+        },
+        "substrate_material_lot_id": {
+          "minLength": 1,
+          "title": "Substrate Material Lot Id",
+          "type": "string"
+        },
+        "substrate_condition_id": {
+          "minLength": 1,
+          "title": "Substrate Condition Id",
+          "type": "string"
+        },
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "layer_material_id": {
+          "minLength": 1,
+          "title": "Layer Material Id",
+          "type": "string"
+        },
+        "layer_material_lot_id": {
+          "minLength": 1,
+          "title": "Layer Material Lot Id",
+          "type": "string"
+        },
+        "layer_condition_id": {
+          "minLength": 1,
+          "title": "Layer Condition Id",
+          "type": "string"
+        },
+        "interface_id": {
+          "minLength": 1,
+          "title": "Interface Id",
+          "type": "string"
+        },
+        "interface_definition": {
+          "minLength": 1,
+          "title": "Interface Definition",
+          "type": "string"
+        },
+        "bond_process_id": {
+          "minLength": 1,
+          "title": "Bond Process Id",
+          "type": "string"
+        },
+        "bond_process_revision": {
+          "minLength": 1,
+          "title": "Bond Process Revision",
+          "type": "string"
+        },
+        "bond_process_provider_id": {
+          "minLength": 1,
+          "title": "Bond Process Provider Id",
+          "type": "string"
+        },
+        "bond_process_route_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Bond Process Route Digest",
+          "type": "string"
+        },
+        "geometry": {
+          "$ref": "#/$defs/BondedAssemblyGeometry"
+        },
+        "process_events": {
+          "items": {
+            "$ref": "#/$defs/BondProcessEvent"
+          },
+          "minItems": 1,
+          "title": "Process Events",
+          "type": "array"
+        },
+        "assembly_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Assembly Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assembly_id",
+        "product_id",
+        "substrate_id",
+        "substrate_material_id",
+        "substrate_material_lot_id",
+        "substrate_condition_id",
+        "layer_id",
+        "layer_material_id",
+        "layer_material_lot_id",
+        "layer_condition_id",
+        "interface_id",
+        "interface_definition",
+        "bond_process_id",
+        "bond_process_revision",
+        "bond_process_provider_id",
+        "bond_process_route_digest",
+        "geometry",
+        "process_events",
+        "assembly_record_digest",
+        "evidence"
+      ],
+      "title": "BondedAssemblyEvidence",
+      "type": "object"
+    },
+    "BondedAssemblyGeometry": {
+      "additionalProperties": false,
+      "properties": {
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "substrate_thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Substrate Thickness",
+          "type": "number"
+        },
+        "layer_nominal_thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Layer Nominal Thickness",
+          "type": "number"
+        },
+        "bonded_area": {
+          "exclusiveMinimum": 0,
+          "title": "Bonded Area",
+          "type": "number"
+        },
+        "thickness_unit_token": {
+          "minLength": 1,
+          "title": "Thickness Unit Token",
+          "type": "string"
+        },
+        "area_unit_token": {
+          "minLength": 1,
+          "title": "Area Unit Token",
+          "type": "string"
+        },
+        "geometry_uncertainty": {
+          "minimum": 0,
+          "title": "Geometry Uncertainty",
+          "type": "number"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "geometry_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "geometry_id",
+        "substrate_thickness",
+        "layer_nominal_thickness",
+        "bonded_area",
+        "thickness_unit_token",
+        "area_unit_token",
+        "geometry_uncertainty",
+        "coordinate_frame_id",
+        "geometry_record_digest"
+      ],
+      "title": "BondedAssemblyGeometry",
+      "type": "object"
+    },
+    "BondedLayerCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_process_kinds": {
+          "items": {
+            "enum": [
+              "surface_preparation",
+              "layer_application",
+              "bonding",
+              "cure",
+              "heat_treatment",
+              "cooling",
+              "other"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Process Kinds",
+          "type": "array"
+        },
+        "required_observation_categories": {
+          "items": {
+            "enum": [
+              "thickness",
+              "adhesion",
+              "shear",
+              "peel",
+              "porosity",
+              "disbond",
+              "continuity",
+              "nde"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Observation Categories",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/BondedLayerCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "built_in_code_or_specification_limits_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Code Or Specification Limits Used",
+          "type": "boolean"
+        },
+        "automatic_cohesive_or_adhesive_mechanism_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Cohesive Or Adhesive Mechanism Claimed",
+          "type": "boolean"
+        },
+        "service_life_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Service Life Claimed",
+          "type": "boolean"
+        },
+        "physical_qualification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Physical Qualification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_process_kinds",
+        "required_observation_categories",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "BondedLayerCallerProfile",
+      "type": "object"
+    },
+    "BondedLayerCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "criterion_source": {
+          "enum": [
+            "campaign",
+            "observation"
+          ],
+          "title": "Criterion Source",
+          "type": "string"
+        },
+        "campaign_metric": {
+          "anyOf": [
+            {
+              "enum": [
+                "assembly_count",
+                "sample_count",
+                "replicate_group_count",
+                "independent_source_group_count",
+                "valid_observation_fraction"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Campaign Metric"
+        },
+        "observation_category": {
+          "anyOf": [
+            {
+              "enum": [
+                "thickness",
+                "adhesion",
+                "shear",
+                "peel",
+                "porosity",
+                "disbond",
+                "continuity",
+                "nde"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Category"
+        },
+        "observation_metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Metric Id"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "criterion_source",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "BondedLayerCriterion",
+      "type": "object"
+    },
+    "BondedLayerObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "assembly_id": {
+          "minLength": 1,
+          "title": "Assembly Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "interface_id": {
+          "minLength": 1,
+          "title": "Interface Id",
+          "type": "string"
+        },
+        "observation_category": {
+          "enum": [
+            "thickness",
+            "adhesion",
+            "shear",
+            "peel",
+            "porosity",
+            "disbond",
+            "continuity",
+            "nde"
+          ],
+          "title": "Observation Category",
+          "type": "string"
+        },
+        "test_or_examination_method_id": {
+          "minLength": 1,
+          "title": "Test Or Examination Method Id",
+          "type": "string"
+        },
+        "method_revision": {
+          "minLength": 1,
+          "title": "Method Revision",
+          "type": "string"
+        },
+        "metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Id"
+        },
+        "metric_definition": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Definition"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "uncertainty_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Basis"
+        },
+        "reported_finding": {
+          "minLength": 1,
+          "title": "Reported Finding",
+          "type": "string"
+        },
+        "caller_reported_failure_descriptor": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Reported Failure Descriptor"
+        },
+        "caller_disposition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Disposition Id"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "assembly_id",
+        "sample_id",
+        "interface_id",
+        "observation_category",
+        "test_or_examination_method_id",
+        "method_revision",
+        "reported_finding",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_data_digest",
+        "observation_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "BondedLayerObservation",
+      "type": "object"
+    },
+    "BondedLayerSample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "assembly_id": {
+          "minLength": 1,
+          "title": "Assembly Id",
+          "type": "string"
+        },
+        "interface_id": {
+          "minLength": 1,
+          "title": "Interface Id",
+          "type": "string"
+        },
+        "sampling_plan_id": {
+          "minLength": 1,
+          "title": "Sampling Plan Id",
+          "type": "string"
+        },
+        "physical_location_definition": {
+          "minLength": 1,
+          "title": "Physical Location Definition",
+          "type": "string"
+        },
+        "orientation_id": {
+          "minLength": 1,
+          "title": "Orientation Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "sampling_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sampling Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "assembly_id",
+        "interface_id",
+        "sampling_plan_id",
+        "physical_location_definition",
+        "orientation_id",
+        "coordinate_frame_id",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "sampling_record_digest",
+        "evidence"
+      ],
+      "title": "BondedLayerSample",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "assemblies": {
+      "items": {
+        "$ref": "#/$defs/BondedAssemblyEvidence"
+      },
+      "minItems": 1,
+      "title": "Assemblies",
+      "type": "array"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/BondedLayerSample"
+      },
+      "minItems": 1,
+      "title": "Samples",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/BondedLayerObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/BondedLayerCallerProfile"
+    },
+    "substrate_layer_lot_interface_and_geometry_reviewed": {
+      "title": "Substrate Layer Lot Interface And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "bond_process_provider_route_and_order_reviewed": {
+      "title": "Bond Process Provider Route And Order Reviewed",
+      "type": "boolean"
+    },
+    "process_time_temperature_pressure_and_digests_reviewed": {
+      "title": "Process Time Temperature Pressure And Digests Reviewed",
+      "type": "boolean"
+    },
+    "sampling_location_orientation_and_groups_reviewed": {
+      "title": "Sampling Location Orientation And Groups Reviewed",
+      "type": "boolean"
+    },
+    "observation_method_units_uncertainty_and_findings_reviewed": {
+      "title": "Observation Method Units Uncertainty And Findings Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_claims_reviewed": {
+      "title": "Replicate Source And Independence Claims Reviewed",
+      "type": "boolean"
+    },
+    "provider_provenance_and_digests_reviewed": {
+      "title": "Provider Provenance And Digests Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "invalid_and_missing_records_reviewed": {
+      "title": "Invalid And Missing Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "assemblies",
+    "samples",
+    "observations",
+    "caller_profile",
+    "substrate_layer_lot_interface_and_geometry_reviewed",
+    "bond_process_provider_route_and_order_reviewed",
+    "process_time_temperature_pressure_and_digests_reviewed",
+    "sampling_location_orientation_and_groups_reviewed",
+    "observation_method_units_uncertainty_and_findings_reviewed",
+    "replicate_source_and_independence_claims_reviewed",
+    "provider_provenance_and_digests_reviewed",
+    "caller_profile_reviewed",
+    "invalid_and_missing_records_reviewed",
+    "evidence"
+  ],
+  "title": "BondedLayerIntegrityCampaignAssessment",
+  "type": "object"
+}

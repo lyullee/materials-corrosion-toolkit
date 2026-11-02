@@ -1,0 +1,133 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "scan_id": {
+      "minLength": 1,
+      "title": "Scan Id",
+      "type": "string"
+    },
+    "magnetizer_id": {
+      "minLength": 1,
+      "title": "Magnetizer Id",
+      "type": "string"
+    },
+    "sensor_array_id": {
+      "minLength": 1,
+      "title": "Sensor Array Id",
+      "type": "string"
+    },
+    "active_channel_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Active Channel Ids",
+      "type": "array"
+    },
+    "data_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Data Sha256",
+      "type": "string"
+    },
+    "sample_count": {
+      "exclusiveMinimum": 0,
+      "title": "Sample Count",
+      "type": "integer"
+    },
+    "signal_encoding": {
+      "minLength": 1,
+      "title": "Signal Encoding",
+      "type": "string"
+    },
+    "signal_unit_token": {
+      "minLength": 1,
+      "title": "Signal Unit Token",
+      "type": "string"
+    },
+    "pass_direction": {
+      "enum": [
+        "forward",
+        "reverse",
+        "stationary",
+        "other"
+      ],
+      "title": "Pass Direction",
+      "type": "string"
+    },
+    "scan_speed_m_s": {
+      "minimum": 0,
+      "title": "Scan Speed M S",
+      "type": "number"
+    },
+    "scan_speed_basis": {
+      "minLength": 1,
+      "title": "Scan Speed Basis",
+      "type": "string"
+    },
+    "sample_spacing_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sample Spacing M"
+    },
+    "encoder_origin_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Encoder Origin M"
+    },
+    "coordinate_mapping_basis": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Coordinate Mapping Basis"
+    },
+    "acquisition_order": {
+      "minimum": 0,
+      "title": "Acquisition Order",
+      "type": "integer"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    }
+  },
+  "required": [
+    "scan_id",
+    "magnetizer_id",
+    "sensor_array_id",
+    "active_channel_ids",
+    "data_sha256",
+    "sample_count",
+    "signal_encoding",
+    "signal_unit_token",
+    "pass_direction",
+    "scan_speed_m_s",
+    "scan_speed_basis",
+    "acquisition_order",
+    "time_basis"
+  ],
+  "title": "EncodedMflScan",
+  "type": "object"
+}

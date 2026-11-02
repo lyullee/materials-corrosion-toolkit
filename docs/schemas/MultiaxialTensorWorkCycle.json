@@ -1,0 +1,129 @@
+{
+  "additionalProperties": false,
+  "description": "Aligned sampled Cauchy-stress and infinitesimal-strain tensor history.\n\nStress components are always physical symmetric-tensor components in Pa.\nStrain shear components follow the explicit ``strain_shear_convention``.\nThe path between adjacent samples is interpreted as a straight segment in\nthe joint stress/strain sample space.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "stress_history_source_id": {
+      "minLength": 1,
+      "title": "Stress History Source Id",
+      "type": "string"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "strain_history_source_id": {
+      "minLength": 1,
+      "title": "Strain History Source Id",
+      "type": "string"
+    },
+    "strain_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Strain History Sha256",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 50000,
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 50000,
+      "minItems": 3,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "tensor_component_order": {
+      "default": [
+        "xx",
+        "yy",
+        "zz",
+        "xy",
+        "yz",
+        "zx"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Tensor Component Order",
+      "type": "array"
+    },
+    "strain_shear_convention": {
+      "pattern": "^(tensor|engineering)$",
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "cycle_closure_and_sample_order_reviewed": {
+      "title": "Cycle Closure And Sample Order Reviewed",
+      "type": "boolean"
+    },
+    "stress_basis_and_sign_reviewed": {
+      "title": "Stress Basis And Sign Reviewed",
+      "type": "boolean"
+    },
+    "strain_basis_and_sign_reviewed": {
+      "title": "Strain Basis And Sign Reviewed",
+      "type": "boolean"
+    },
+    "stress_strain_conjugacy_reviewed": {
+      "title": "Stress Strain Conjugacy Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "location_id",
+    "stress_history_source_id",
+    "stress_history_sha256",
+    "strain_history_source_id",
+    "strain_history_sha256",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "strain_shear_convention",
+    "cycle_closure_and_sample_order_reviewed",
+    "stress_basis_and_sign_reviewed",
+    "strain_basis_and_sign_reviewed",
+    "stress_strain_conjugacy_reviewed"
+  ],
+  "title": "MultiaxialTensorWorkCycle",
+  "type": "object"
+}

@@ -1,0 +1,376 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FlangePronyBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Modulus Pa",
+          "type": "number"
+        },
+        "relaxation_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Relaxation Time S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "branch_id",
+        "modulus_Pa",
+        "relaxation_time_s"
+      ],
+      "title": "FlangePronyBranch",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Spatial linear-Prony gasket contact on a caller-supplied flange operator.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.flange_viscoelastic_contact_history.v1",
+      "default": "matintegrity.flange_viscoelastic_contact_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "response_provider_id": {
+      "minLength": 1,
+      "title": "Response Provider Id",
+      "type": "string"
+    },
+    "response_provider_revision": {
+      "minLength": 1,
+      "title": "Response Provider Revision",
+      "type": "string"
+    },
+    "response_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Configuration Digest",
+      "type": "string"
+    },
+    "response_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Result Digest",
+      "type": "string"
+    },
+    "node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Node Ids",
+      "type": "array"
+    },
+    "times_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Times S",
+      "type": "array"
+    },
+    "circumferential_coordinate_rad": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Circumferential Coordinate Rad",
+      "type": "array"
+    },
+    "gasket_contact_area_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Gasket Contact Area M2",
+      "type": "array"
+    },
+    "gasket_thickness_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Gasket Thickness M",
+      "type": "array"
+    },
+    "equilibrium_modulus_Pa": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Equilibrium Modulus Pa",
+      "type": "array"
+    },
+    "prony_branches": {
+      "items": {
+        "items": {
+          "$ref": "#/$defs/FlangePronyBranch"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Prony Branches",
+      "type": "array"
+    },
+    "initial_branch_stress_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Initial Branch Stress Pa",
+      "type": "array"
+    },
+    "free_closure_without_gasket_m": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Free Closure Without Gasket M",
+      "type": "array"
+    },
+    "flange_relative_compliance_matrix_m_N": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Flange Relative Compliance Matrix M N",
+      "type": "array"
+    },
+    "flange_compliance_history_result": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Flange Compliance History Result"
+    },
+    "flange_compliance_history_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Flange Compliance History Sha256"
+    },
+    "matrix_symmetry_tolerance_m_N": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Matrix Symmetry Tolerance M N",
+      "type": "number"
+    },
+    "compliance_psd_tolerance_m_N": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Compliance Psd Tolerance M N",
+      "type": "number"
+    },
+    "maximum_contact_iterations": {
+      "default": 10000,
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Contact Iterations",
+      "type": "integer"
+    },
+    "maximum_contact_work_units": {
+      "default": 50000000,
+      "maximum": 1000000000,
+      "minimum": 1,
+      "title": "Maximum Contact Work Units",
+      "type": "integer"
+    },
+    "gap_tolerance_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Gap Tolerance M",
+      "type": "number"
+    },
+    "force_tolerance_N": {
+      "default": 1e-06,
+      "exclusiveMinimum": 0,
+      "title": "Force Tolerance N",
+      "type": "number"
+    },
+    "flange_operator_basis_reviewed": {
+      "title": "Flange Operator Basis Reviewed",
+      "type": "boolean"
+    },
+    "response_scope_and_coordinates_reviewed": {
+      "title": "Response Scope And Coordinates Reviewed",
+      "type": "boolean"
+    },
+    "bolt_pressure_and_boundary_load_composition_reviewed": {
+      "title": "Bolt Pressure And Boundary Load Composition Reviewed",
+      "type": "boolean"
+    },
+    "gasket_prony_calibration_and_support_reviewed": {
+      "title": "Gasket Prony Calibration And Support Reviewed",
+      "type": "boolean"
+    },
+    "initial_branch_state_reviewed": {
+      "title": "Initial Branch State Reviewed",
+      "type": "boolean"
+    },
+    "zero_compression_branch_state_reviewed": {
+      "title": "Zero Compression Branch State Reviewed",
+      "type": "boolean"
+    },
+    "compression_only_contact_model_reviewed": {
+      "title": "Compression Only Contact Model Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_id",
+    "physical_scope_id",
+    "response_provider_id",
+    "response_provider_revision",
+    "response_configuration_digest",
+    "response_result_digest",
+    "node_ids",
+    "times_s",
+    "circumferential_coordinate_rad",
+    "gasket_contact_area_m2",
+    "gasket_thickness_m",
+    "equilibrium_modulus_Pa",
+    "prony_branches",
+    "initial_branch_stress_Pa",
+    "free_closure_without_gasket_m",
+    "flange_relative_compliance_matrix_m_N",
+    "matrix_symmetry_tolerance_m_N",
+    "compliance_psd_tolerance_m_N",
+    "flange_operator_basis_reviewed",
+    "response_scope_and_coordinates_reviewed",
+    "bolt_pressure_and_boundary_load_composition_reviewed",
+    "gasket_prony_calibration_and_support_reviewed",
+    "initial_branch_state_reviewed",
+    "zero_compression_branch_state_reviewed",
+    "compression_only_contact_model_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "FlangeViscoelasticContactHistoryRequest",
+  "type": "object"
+}

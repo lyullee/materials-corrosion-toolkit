@@ -1,0 +1,384 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "InspectionDispositionOutcomeBranch": {
+      "additionalProperties": false,
+      "description": "One mutually exclusive inspection outcome and its reviewed downstream disposition.",
+      "properties": {
+        "outcome_id": {
+          "minLength": 1,
+          "title": "Outcome Id",
+          "type": "string"
+        },
+        "outcome_label": {
+          "minLength": 1,
+          "title": "Outcome Label",
+          "type": "string"
+        },
+        "probability_given_inspection": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given Inspection",
+          "type": "number"
+        },
+        "disposition_id": {
+          "minLength": 1,
+          "title": "Disposition Id",
+          "type": "string"
+        },
+        "disposition_label": {
+          "minLength": 1,
+          "title": "Disposition Label",
+          "type": "string"
+        },
+        "disposition_definition": {
+          "minLength": 1,
+          "title": "Disposition Definition",
+          "type": "string"
+        },
+        "disposition_effect_model_id": {
+          "minLength": 1,
+          "title": "Disposition Effect Model Id",
+          "type": "string"
+        },
+        "disposition_effect_model_revision": {
+          "minLength": 1,
+          "title": "Disposition Effect Model Revision",
+          "type": "string"
+        },
+        "disposition_effect_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Disposition Effect Configuration Sha256",
+          "type": "string"
+        },
+        "disposition_effect_input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Disposition Effect Input Sha256",
+          "type": "string"
+        },
+        "disposition_event_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Disposition Event Result Sha256",
+          "type": "string"
+        },
+        "residual_failure_probability_given_outcome_and_disposition": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Residual Failure Probability Given Outcome And Disposition",
+          "type": "number"
+        },
+        "disposition_cost_components": {
+          "items": {
+            "$ref": "#/$defs/RiskCostComponent"
+          },
+          "title": "Disposition Cost Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "outcome_id",
+        "outcome_label",
+        "probability_given_inspection",
+        "disposition_id",
+        "disposition_label",
+        "disposition_definition",
+        "disposition_effect_model_id",
+        "disposition_effect_model_revision",
+        "disposition_effect_configuration_sha256",
+        "disposition_effect_input_sha256",
+        "disposition_event_result_sha256",
+        "residual_failure_probability_given_outcome_and_disposition"
+      ],
+      "title": "InspectionDispositionOutcomeBranch",
+      "type": "object"
+    },
+    "RiskCostComponent": {
+      "additionalProperties": false,
+      "description": "One reviewed additive cost in the comparison's declared common cost basis.",
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount": {
+          "minimum": 0,
+          "title": "Amount",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount",
+        "basis"
+      ],
+      "title": "RiskCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reduce a complete reviewed one-inspection outcome tree to expected cost and residual risk.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.inspection_disposition_tree.v1",
+      "default": "matintegrity.inspection_disposition_tree.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "tree_id": {
+      "minLength": 1,
+      "title": "Tree Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_definition": {
+      "minLength": 1,
+      "title": "Event Definition",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Event Probability Meaning",
+      "type": "string"
+    },
+    "inspection_action_id": {
+      "minLength": 1,
+      "title": "Inspection Action Id",
+      "type": "string"
+    },
+    "inspection_action_label": {
+      "minLength": 1,
+      "title": "Inspection Action Label",
+      "type": "string"
+    },
+    "inspection_action_definition": {
+      "minLength": 1,
+      "title": "Inspection Action Definition",
+      "type": "string"
+    },
+    "inspection_outcome_model_id": {
+      "minLength": 1,
+      "title": "Inspection Outcome Model Id",
+      "type": "string"
+    },
+    "inspection_outcome_model_revision": {
+      "minLength": 1,
+      "title": "Inspection Outcome Model Revision",
+      "type": "string"
+    },
+    "inspection_outcome_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Inspection Outcome Configuration Sha256",
+      "type": "string"
+    },
+    "inspection_outcome_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Inspection Outcome Input Sha256",
+      "type": "string"
+    },
+    "risk_model_structure_id": {
+      "minLength": 1,
+      "title": "Risk Model Structure Id",
+      "type": "string"
+    },
+    "common_cause_group_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Common Cause Group Ids",
+      "type": "array"
+    },
+    "cost_basis_id": {
+      "minLength": 1,
+      "title": "Cost Basis Id",
+      "type": "string"
+    },
+    "currency_or_normalized_unit": {
+      "minLength": 1,
+      "title": "Currency Or Normalized Unit",
+      "type": "string"
+    },
+    "inspection_cost_components": {
+      "items": {
+        "$ref": "#/$defs/RiskCostComponent"
+      },
+      "title": "Inspection Cost Components",
+      "type": "array"
+    },
+    "outcome_branches": {
+      "items": {
+        "$ref": "#/$defs/InspectionDispositionOutcomeBranch"
+      },
+      "minItems": 2,
+      "title": "Outcome Branches",
+      "type": "array"
+    },
+    "maximum_outcome_probability_sum_error": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Maximum Outcome Probability Sum Error",
+      "type": "number"
+    },
+    "outcome_partition_reviewed": {
+      "title": "Outcome Partition Reviewed",
+      "type": "boolean"
+    },
+    "outcome_probabilities_reviewed": {
+      "title": "Outcome Probabilities Reviewed",
+      "type": "boolean"
+    },
+    "disposition_definitions_reviewed": {
+      "title": "Disposition Definitions Reviewed",
+      "type": "boolean"
+    },
+    "disposition_effects_reviewed": {
+      "title": "Disposition Effects Reviewed",
+      "type": "boolean"
+    },
+    "costs_reviewed": {
+      "title": "Costs Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "tree_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "event_id",
+    "event_definition",
+    "horizon_start_s",
+    "horizon_end_s",
+    "conditioning",
+    "event_probability_meaning",
+    "inspection_action_id",
+    "inspection_action_label",
+    "inspection_action_definition",
+    "inspection_outcome_model_id",
+    "inspection_outcome_model_revision",
+    "inspection_outcome_configuration_sha256",
+    "inspection_outcome_input_sha256",
+    "risk_model_structure_id",
+    "cost_basis_id",
+    "currency_or_normalized_unit",
+    "outcome_branches",
+    "outcome_partition_reviewed",
+    "outcome_probabilities_reviewed",
+    "disposition_definitions_reviewed",
+    "disposition_effects_reviewed",
+    "costs_reviewed",
+    "evidence"
+  ],
+  "title": "InspectionDispositionDecisionTree",
+  "type": "object"
+}

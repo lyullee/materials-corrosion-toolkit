@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "CcpsReleaseHistoryInterval": {
+      "additionalProperties": false,
+      "description": "Caller-specified constant mass-rate segment on the source clock.",
+      "properties": {
+        "start_s": {
+          "minimum": 0,
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "exclusiveMinimum": 0,
+          "title": "End S",
+          "type": "number"
+        },
+        "mass_rate_kg_s": {
+          "minimum": 0,
+          "title": "Mass Rate Kg S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_s",
+        "end_s",
+        "mass_rate_kg_s"
+      ],
+      "title": "CcpsReleaseHistoryInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed source history matching the receiver's closed source contract.",
+  "properties": {
+    "asset_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "operating_case_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Operating Case Id",
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "prism",
+        "user_supplied"
+      ],
+      "title": "Origin",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "source_code_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Code Digest",
+      "type": "string"
+    },
+    "evidence_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Evidence Ids",
+      "type": "array"
+    },
+    "mode": {
+      "enum": [
+        "finite",
+        "continuous_through_window"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/CcpsReleaseHistoryInterval"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "declared_mass_within_history_kg": {
+      "exclusiveMinimum": 0,
+      "title": "Declared Mass Within History Kg",
+      "type": "number"
+    },
+    "area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Area M2",
+      "type": "number"
+    },
+    "temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "qualification_basis": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Qualification Basis",
+      "type": "string"
+    },
+    "boundary": {
+      "const": "qualified_ground_level_thermalized_pure_vapour",
+      "default": "qualified_ground_level_thermalized_pure_vapour",
+      "title": "Boundary",
+      "type": "string"
+    },
+    "source_clock_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Source Clock Id",
+      "type": "string"
+    },
+    "source_time_basis": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Source Time Basis",
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_id",
+    "scenario_id",
+    "operating_case_id",
+    "origin",
+    "source_digest",
+    "source_code_digest",
+    "mode",
+    "intervals",
+    "declared_mass_within_history_kg",
+    "area_m2",
+    "temperature_k",
+    "qualification_basis",
+    "source_clock_id",
+    "source_time_basis"
+  ],
+  "title": "CcpsReleaseHistorySource",
+  "type": "object"
+}

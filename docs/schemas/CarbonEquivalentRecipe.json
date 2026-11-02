@@ -1,0 +1,254 @@
+{
+  "$defs": {
+    "CarbonIndexResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "offset": {
+          "title": "Offset",
+          "type": "number"
+        },
+        "amplitude": {
+          "title": "Amplitude",
+          "type": "number"
+        },
+        "slope_per_carbon_mass_percent": {
+          "title": "Slope Per Carbon Mass Percent",
+          "type": "number"
+        },
+        "center_carbon_mass_percent": {
+          "minimum": 0,
+          "title": "Center Carbon Mass Percent",
+          "type": "number"
+        },
+        "minimum_valid_carbon_mass_percent": {
+          "minimum": 0,
+          "title": "Minimum Valid Carbon Mass Percent",
+          "type": "number"
+        },
+        "maximum_valid_carbon_mass_percent": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Valid Carbon Mass Percent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "offset",
+        "amplitude",
+        "slope_per_carbon_mass_percent",
+        "center_carbon_mass_percent",
+        "minimum_valid_carbon_mass_percent",
+        "maximum_valid_carbon_mass_percent"
+      ],
+      "title": "CarbonIndexResponse",
+      "type": "object"
+    },
+    "CarbonIndexTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "term_id": {
+          "minLength": 1,
+          "title": "Term Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        },
+        "numerator_element": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numerator Element"
+        },
+        "denominator_element": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Denominator Element"
+        }
+      },
+      "required": [
+        "term_id",
+        "coefficient"
+      ],
+      "title": "CarbonIndexTerm",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "chemistry_mass_percent": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxProperties": 40,
+      "minProperties": 1,
+      "title": "Chemistry Mass Percent",
+      "type": "object"
+    },
+    "base_carbon_multiplier": {
+      "title": "Base Carbon Multiplier",
+      "type": "number"
+    },
+    "terms": {
+      "items": {
+        "$ref": "#/$defs/CarbonIndexTerm"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Terms",
+      "type": "array"
+    },
+    "carbon_response": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CarbonIndexResponse"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "basis",
+    "method_id",
+    "chemistry_mass_percent",
+    "base_carbon_multiplier",
+    "terms"
+  ],
+  "title": "CarbonEquivalentRecipe",
+  "type": "object"
+}

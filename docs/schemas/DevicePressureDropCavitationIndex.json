@@ -1,0 +1,173 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "device_id": {
+      "minLength": 1,
+      "title": "Device Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "inlet_pressure_location_id": {
+      "minLength": 1,
+      "title": "Inlet Pressure Location Id",
+      "type": "string"
+    },
+    "outlet_pressure_location_id": {
+      "minLength": 1,
+      "title": "Outlet Pressure Location Id",
+      "type": "string"
+    },
+    "vapor_pressure_basis_id": {
+      "minLength": 1,
+      "title": "Vapor Pressure Basis Id",
+      "type": "string"
+    },
+    "inlet_absolute_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Inlet Absolute Pressure Pa",
+      "type": "number"
+    },
+    "outlet_absolute_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Outlet Absolute Pressure Pa",
+      "type": "number"
+    },
+    "vapor_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Vapor Pressure Pa",
+      "type": "number"
+    }
+  },
+  "required": [
+    "basis",
+    "device_id",
+    "condition_id",
+    "inlet_pressure_location_id",
+    "outlet_pressure_location_id",
+    "vapor_pressure_basis_id",
+    "inlet_absolute_pressure_Pa",
+    "outlet_absolute_pressure_Pa",
+    "vapor_pressure_Pa"
+  ],
+  "title": "DevicePressureDropCavitationIndex",
+  "type": "object"
+}

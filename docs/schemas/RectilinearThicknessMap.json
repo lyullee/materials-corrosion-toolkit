@@ -1,0 +1,78 @@
+{
+  "additionalProperties": false,
+  "description": "Cell-centred thickness values on explicit rectilinear cell edges.\n\nMatrix rows follow successive ``y_cell_edges_m`` intervals and columns follow\nsuccessive ``x_cell_edges_m`` intervals. ``None`` is an unobserved cell.",
+  "properties": {
+    "x_cell_edges_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "X Cell Edges M",
+      "type": "array"
+    },
+    "y_cell_edges_m": {
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Y Cell Edges M",
+      "type": "array"
+    },
+    "cell_thickness_m": {
+      "items": {
+        "items": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "array"
+      },
+      "minItems": 1,
+      "title": "Cell Thickness M",
+      "type": "array"
+    },
+    "reference_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Thickness M",
+      "type": "number"
+    },
+    "reporting_threshold_m": {
+      "minimum": 0,
+      "title": "Reporting Threshold M",
+      "type": "number"
+    },
+    "threshold_comparison": {
+      "enum": [
+        "less_than",
+        "less_than_or_equal"
+      ],
+      "title": "Threshold Comparison",
+      "type": "string"
+    },
+    "connectivity": {
+      "default": "four_neighbour",
+      "enum": [
+        "four_neighbour",
+        "eight_neighbour"
+      ],
+      "title": "Connectivity",
+      "type": "string"
+    }
+  },
+  "required": [
+    "x_cell_edges_m",
+    "y_cell_edges_m",
+    "cell_thickness_m",
+    "reference_thickness_m",
+    "reporting_threshold_m",
+    "threshold_comparison"
+  ],
+  "title": "RectilinearThicknessMap",
+  "type": "object"
+}

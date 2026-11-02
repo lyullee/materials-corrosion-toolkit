@@ -1,0 +1,342 @@
+{
+  "$defs": {
+    "BinaryEventPairObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_sequence_id": {
+          "minLength": 1,
+          "title": "Physical Sequence Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "observation_start_s": {
+          "minimum": 0,
+          "title": "Observation Start S",
+          "type": "number"
+        },
+        "observation_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Observation End S",
+          "type": "number"
+        },
+        "event_a_occurs": {
+          "title": "Event A Occurs",
+          "type": "boolean"
+        },
+        "event_b_occurs": {
+          "title": "Event B Occurs",
+          "type": "boolean"
+        },
+        "sample_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Weight",
+          "type": "number"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_sequence_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "observation_start_s",
+        "observation_end_s",
+        "event_a_occurs",
+        "event_b_occurs",
+        "sample_weight",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "BinaryEventPairObservation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "observation_clock_id": {
+      "minLength": 1,
+      "title": "Observation Clock Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "event_a_id": {
+      "minLength": 1,
+      "title": "Event A Id",
+      "type": "string"
+    },
+    "event_a_definition": {
+      "minLength": 1,
+      "title": "Event A Definition",
+      "type": "string"
+    },
+    "event_b_id": {
+      "minLength": 1,
+      "title": "Event B Id",
+      "type": "string"
+    },
+    "event_b_definition": {
+      "minLength": 1,
+      "title": "Event B Definition",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/BinaryEventPairObservation"
+      },
+      "minItems": 2,
+      "title": "Observations",
+      "type": "array"
+    },
+    "symmetric_cell_pseudocount": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Symmetric Cell Pseudocount"
+    },
+    "pseudocount_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pseudocount Basis"
+    },
+    "minimum_calibration_record_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Record Count",
+      "type": "integer"
+    },
+    "minimum_holdout_record_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Record Count",
+      "type": "integer"
+    },
+    "minimum_calibration_sequence_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Sequence Count",
+      "type": "integer"
+    },
+    "minimum_holdout_sequence_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Sequence Count",
+      "type": "integer"
+    },
+    "minimum_calibration_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_independence_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Independence Group Count",
+      "type": "integer"
+    },
+    "event_definitions_reviewed": {
+      "title": "Event Definitions Reviewed",
+      "type": "boolean"
+    },
+    "observation_clock_and_scope_reviewed": {
+      "title": "Observation Clock And Scope Reviewed",
+      "type": "boolean"
+    },
+    "partition_assignments_reviewed": {
+      "title": "Partition Assignments Reviewed",
+      "type": "boolean"
+    },
+    "physical_sequence_source_and_independence_groups_reviewed": {
+      "title": "Physical Sequence Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "sample_weights_and_missingness_reviewed": {
+      "title": "Sample Weights And Missingness Reviewed",
+      "type": "boolean"
+    },
+    "pseudocount_choice_reviewed": {
+      "title": "Pseudocount Choice Reviewed",
+      "type": "boolean"
+    },
+    "record_digests_reviewed": {
+      "title": "Record Digests Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "observation_clock_id",
+    "time_basis",
+    "event_a_id",
+    "event_a_definition",
+    "event_b_id",
+    "event_b_definition",
+    "observations",
+    "minimum_calibration_record_count",
+    "minimum_holdout_record_count",
+    "minimum_calibration_sequence_count",
+    "minimum_holdout_sequence_count",
+    "minimum_calibration_source_group_count",
+    "minimum_holdout_source_group_count",
+    "minimum_holdout_independence_group_count",
+    "event_definitions_reviewed",
+    "observation_clock_and_scope_reviewed",
+    "partition_assignments_reviewed",
+    "physical_sequence_source_and_independence_groups_reviewed",
+    "sample_weights_and_missingness_reviewed",
+    "pseudocount_choice_reviewed",
+    "record_digests_reviewed"
+  ],
+  "title": "BinaryEventPairCalibration",
+  "type": "object"
+}

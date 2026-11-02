@@ -1,0 +1,196 @@
+{
+  "additionalProperties": false,
+  "description": "Reviewed local pressure and equilibrium liquid-property history.",
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "history_origin": {
+      "enum": [
+        "measured",
+        "model_prediction",
+        "user_declared",
+        "synthetic"
+      ],
+      "title": "History Origin",
+      "type": "string"
+    },
+    "hydraulic_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydraulic Source Digest",
+      "type": "string"
+    },
+    "fluid_id": {
+      "minLength": 1,
+      "title": "Fluid Id",
+      "type": "string"
+    },
+    "pressure_basis": {
+      "const": "absolute",
+      "default": "absolute",
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "local_static_pressure_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Local Static Pressure Pa",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "vapor_pressure_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Vapor Pressure Pa",
+      "type": "array"
+    },
+    "liquid_density_kg_m3": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Liquid Density Kg M3",
+      "type": "array"
+    },
+    "characteristic_velocity_m_s": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Characteristic Velocity M S",
+      "type": "array"
+    },
+    "sample_valid": {
+      "items": {
+        "type": "boolean"
+      },
+      "minItems": 2,
+      "title": "Sample Valid",
+      "type": "array"
+    },
+    "property_provider_id": {
+      "minLength": 1,
+      "title": "Property Provider Id",
+      "type": "string"
+    },
+    "property_provider_version": {
+      "minLength": 1,
+      "title": "Property Provider Version",
+      "type": "string"
+    },
+    "property_state_digests": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Property State Digests",
+      "type": "array"
+    },
+    "property_history_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Property History Digest",
+      "type": "string"
+    },
+    "local_pressure_definition": {
+      "minLength": 1,
+      "title": "Local Pressure Definition",
+      "type": "string"
+    },
+    "velocity_definition": {
+      "minLength": 1,
+      "title": "Velocity Definition",
+      "type": "string"
+    },
+    "interpolation": {
+      "const": "linear",
+      "default": "linear",
+      "title": "Interpolation",
+      "type": "string"
+    },
+    "absolute_pressure_reviewed": {
+      "title": "Absolute Pressure Reviewed",
+      "type": "boolean"
+    },
+    "thermodynamic_state_reviewed": {
+      "title": "Thermodynamic State Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "history_origin",
+    "hydraulic_source_digest",
+    "fluid_id",
+    "sample_ids",
+    "time_s",
+    "local_static_pressure_Pa",
+    "temperature_K",
+    "vapor_pressure_Pa",
+    "liquid_density_kg_m3",
+    "characteristic_velocity_m_s",
+    "sample_valid",
+    "property_provider_id",
+    "property_provider_version",
+    "property_state_digests",
+    "property_history_digest",
+    "local_pressure_definition",
+    "velocity_definition",
+    "absolute_pressure_reviewed",
+    "thermodynamic_state_reviewed"
+  ],
+  "title": "CavitationHistory",
+  "type": "object"
+}

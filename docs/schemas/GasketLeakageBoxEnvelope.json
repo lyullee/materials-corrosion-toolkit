@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketLeakageBoxNode": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        },
+        "minimum_contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Minimum Contact Pressure Pa",
+          "type": "number"
+        },
+        "maximum_contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Maximum Contact Pressure Pa",
+          "type": "number"
+        },
+        "minimum_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Area M2",
+          "type": "number"
+        },
+        "maximum_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Area M2",
+          "type": "number"
+        }
+      },
+      "required": [
+        "node_id",
+        "minimum_contact_pressure_Pa",
+        "maximum_contact_pressure_Pa",
+        "minimum_area_m2",
+        "maximum_area_m2"
+      ],
+      "title": "GasketLeakageBoxNode",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationMap": {
+      "additionalProperties": false,
+      "properties": {
+        "differential_pressure_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Differential Pressure Pa",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/GasketLeakageCalibrationRow"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "differential_pressure_Pa",
+        "rows"
+      ],
+      "title": "GasketLeakageCalibrationMap",
+      "type": "object"
+    },
+    "GasketLeakageCalibrationRow": {
+      "additionalProperties": false,
+      "properties": {
+        "contact_pressure_Pa": {
+          "minimum": 0,
+          "title": "Contact Pressure Pa",
+          "type": "number"
+        },
+        "molar_leak_flux_by_delta_pressure_mol_s_m2": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Molar Leak Flux By Delta Pressure Mol S M2",
+          "type": "array"
+        }
+      },
+      "required": [
+        "contact_pressure_Pa",
+        "molar_leak_flux_by_delta_pressure_mol_s_m2"
+      ],
+      "title": "GasketLeakageCalibrationRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Deterministic total-leak bounds over a caller-declared rectangular input set.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_leakage_box_envelope.v1",
+      "default": "matintegrity.gasket_leakage_box_envelope.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "calibration": {
+      "$ref": "#/$defs/GasketLeakageCalibrationMap"
+    },
+    "nodes": {
+      "items": {
+        "$ref": "#/$defs/GasketLeakageBoxNode"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Nodes",
+      "type": "array"
+    },
+    "minimum_differential_pressure_Pa": {
+      "minimum": 0,
+      "title": "Minimum Differential Pressure Pa",
+      "type": "number"
+    },
+    "maximum_differential_pressure_Pa": {
+      "minimum": 0,
+      "title": "Maximum Differential Pressure Pa",
+      "type": "number"
+    },
+    "calibration_flux_lower_bound_mol_s_m2": {
+      "items": {
+        "items": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Calibration Flux Lower Bound Mol S M2",
+      "type": "array"
+    },
+    "calibration_flux_upper_bound_mol_s_m2": {
+      "items": {
+        "items": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Calibration Flux Upper Bound Mol S M2",
+      "type": "array"
+    },
+    "calibration_provider_id": {
+      "minLength": 1,
+      "title": "Calibration Provider Id",
+      "type": "string"
+    },
+    "calibration_provider_revision": {
+      "minLength": 1,
+      "title": "Calibration Provider Revision",
+      "type": "string"
+    },
+    "calibration_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Record Sha256",
+      "type": "string"
+    },
+    "bound_provider_id": {
+      "minLength": 1,
+      "title": "Bound Provider Id",
+      "type": "string"
+    },
+    "bound_provider_revision": {
+      "minLength": 1,
+      "title": "Bound Provider Revision",
+      "type": "string"
+    },
+    "bound_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bound Record Sha256",
+      "type": "string"
+    },
+    "maximum_candidate_evaluations": {
+      "default": 2000000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Maximum Candidate Evaluations",
+      "type": "integer"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 2,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "calibration_and_bound_records_reviewed": {
+      "title": "Calibration And Bound Records Reviewed",
+      "type": "boolean"
+    },
+    "box_uncertainty_set_and_independence_scope_reviewed": {
+      "title": "Box Uncertainty Set And Independence Scope Reviewed",
+      "type": "boolean"
+    },
+    "pressure_area_units_and_physical_mapping_reviewed": {
+      "title": "Pressure Area Units And Physical Mapping Reviewed",
+      "type": "boolean"
+    },
+    "box_covers_intended_operating_uncertainty_reviewed": {
+      "title": "Box Covers Intended Operating Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "joint_id",
+    "physical_scope_id",
+    "time_s",
+    "calibration",
+    "nodes",
+    "minimum_differential_pressure_Pa",
+    "maximum_differential_pressure_Pa",
+    "calibration_flux_lower_bound_mol_s_m2",
+    "calibration_flux_upper_bound_mol_s_m2",
+    "calibration_provider_id",
+    "calibration_provider_revision",
+    "calibration_record_sha256",
+    "bound_provider_id",
+    "bound_provider_revision",
+    "bound_record_sha256",
+    "evidence",
+    "usage_rights_evidence",
+    "usage_license_id",
+    "calibration_and_bound_records_reviewed",
+    "box_uncertainty_set_and_independence_scope_reviewed",
+    "pressure_area_units_and_physical_mapping_reviewed",
+    "box_covers_intended_operating_uncertainty_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketLeakageBoxEnvelope",
+  "type": "object"
+}

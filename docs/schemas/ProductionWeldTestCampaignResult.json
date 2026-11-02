@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "WeldTestFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "observed_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Value"
+        },
+        "unit_token": {
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "evaluated_lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluated Lower"
+        },
+        "evaluated_upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluated Upper"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "target_id",
+        "outcome",
+        "observed_value",
+        "unit_token",
+        "basis"
+      ],
+      "title": "WeldTestFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.production_weld_test_campaign.v1",
+      "default": "matintegrity.production_weld_test_campaign.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "model_id": {
+      "const": "welding.production_weld_test_campaign_evidence",
+      "default": "welding.production_weld_test_campaign_evidence",
+      "title": "Model Id",
+      "type": "string"
+    },
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "disposition": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Disposition",
+      "type": "string"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/WeldTestFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "review_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Reasons",
+      "type": "array"
+    },
+    "insufficient_evidence_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Insufficient Evidence Reasons",
+      "type": "array"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "wps_or_code_qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Wps Or Code Qualification Claim",
+      "type": "boolean"
+    },
+    "strength_conversion_or_standard_acceptance_claim": {
+      "const": false,
+      "default": false,
+      "title": "Strength Conversion Or Standard Acceptance Claim",
+      "type": "boolean"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "campaign_id",
+    "profile_id",
+    "disposition",
+    "input_digest",
+    "findings",
+    "review_reasons",
+    "insufficient_evidence_reasons",
+    "result_digest",
+    "notes"
+  ],
+  "title": "ProductionWeldTestCampaignResult",
+  "type": "object"
+}

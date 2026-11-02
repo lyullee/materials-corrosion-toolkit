@@ -1,0 +1,656 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermalCalibrationParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        },
+        "parameter_kind": {
+          "enum": [
+            "thermal_property_multiplier",
+            "thermal_diffusivity"
+          ],
+          "title": "Parameter Kind",
+          "type": "string"
+        },
+        "parameter_definition": {
+          "minLength": 1,
+          "title": "Parameter Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "enum": [
+            "1",
+            "m^2/s"
+          ],
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "reference_value": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Value",
+          "type": "number"
+        },
+        "minimum_supported_value": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Value",
+          "type": "number"
+        },
+        "maximum_supported_value": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Value",
+          "type": "number"
+        },
+        "support_basis": {
+          "minLength": 1,
+          "title": "Support Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "parameter_id",
+        "parameter_kind",
+        "parameter_definition",
+        "unit_token",
+        "reference_value",
+        "minimum_supported_value",
+        "maximum_supported_value",
+        "support_basis",
+        "evidence"
+      ],
+      "title": "ThermalCalibrationParameter",
+      "type": "object"
+    },
+    "ThermalResponseProviderIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "response_basis": {
+          "enum": [
+            "external_provider_sensitivity",
+            "declared_analytical_sensitivity"
+          ],
+          "title": "Response Basis",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "solver_or_response_id": {
+          "minLength": 1,
+          "title": "Solver Or Response Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "geometry_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Digest",
+          "type": "string"
+        },
+        "boundary_condition_id": {
+          "minLength": 1,
+          "title": "Boundary Condition Id",
+          "type": "string"
+        },
+        "boundary_condition_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Boundary Condition Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "analytical_response_definition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analytical Response Definition"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "response_basis",
+        "provider_id",
+        "solver_or_response_id",
+        "provider_revision",
+        "geometry_id",
+        "geometry_digest",
+        "boundary_condition_id",
+        "boundary_condition_digest",
+        "provider_configuration_digest",
+        "provider_state_digest",
+        "evidence"
+      ],
+      "title": "ThermalResponseProviderIdentity",
+      "type": "object"
+    },
+    "ThermalSensorIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "position_m": {
+          "minimum": 0,
+          "title": "Position M",
+          "type": "number"
+        },
+        "expanded_position_uncertainty_m": {
+          "minimum": 0,
+          "title": "Expanded Position Uncertainty M",
+          "type": "number"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "sensor_calibration_id": {
+          "minLength": 1,
+          "title": "Sensor Calibration Id",
+          "type": "string"
+        },
+        "sensor_calibration_provider_id": {
+          "minLength": 1,
+          "title": "Sensor Calibration Provider Id",
+          "type": "string"
+        },
+        "sensor_calibration_provider_revision": {
+          "minLength": 1,
+          "title": "Sensor Calibration Provider Revision",
+          "type": "string"
+        },
+        "sensor_calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sensor Calibration Digest",
+          "type": "string"
+        },
+        "calibration_valid": {
+          "title": "Calibration Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "position_m",
+        "expanded_position_uncertainty_m",
+        "clock_id",
+        "sensor_calibration_id",
+        "sensor_calibration_provider_id",
+        "sensor_calibration_provider_revision",
+        "sensor_calibration_digest",
+        "calibration_valid",
+        "evidence"
+      ],
+      "title": "ThermalSensorIdentity",
+      "type": "object"
+    },
+    "TransientTemperatureResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "sequence_id": {
+          "minLength": 1,
+          "title": "Sequence Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "observation_clock_id": {
+          "minLength": 1,
+          "title": "Observation Clock Id",
+          "type": "string"
+        },
+        "observed_elapsed_time_s": {
+          "minimum": 0,
+          "title": "Observed Elapsed Time S",
+          "type": "number"
+        },
+        "provider_elapsed_time_s": {
+          "minimum": 0,
+          "title": "Provider Elapsed Time S",
+          "type": "number"
+        },
+        "provider_sensor_position_m": {
+          "minimum": 0,
+          "title": "Provider Sensor Position M",
+          "type": "number"
+        },
+        "observed_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Observed Temperature K",
+          "type": "number"
+        },
+        "expanded_observed_temperature_uncertainty_K": {
+          "minimum": 0,
+          "title": "Expanded Observed Temperature Uncertainty K",
+          "type": "number"
+        },
+        "baseline_predicted_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Baseline Predicted Temperature K",
+          "type": "number"
+        },
+        "expanded_baseline_prediction_uncertainty_K": {
+          "minimum": 0,
+          "title": "Expanded Baseline Prediction Uncertainty K",
+          "type": "number"
+        },
+        "predicted_temperature_sensitivity_K_per_parameter_unit": {
+          "title": "Predicted Temperature Sensitivity K Per Parameter Unit",
+          "type": "number"
+        },
+        "sample_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Weight",
+          "type": "number"
+        },
+        "sequence_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sequence Record Digest",
+          "type": "string"
+        },
+        "provider_response_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Response Digest",
+          "type": "string"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        },
+        "record_available": {
+          "title": "Record Available",
+          "type": "boolean"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "partition",
+        "sequence_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "sensor_id",
+        "observation_clock_id",
+        "observed_elapsed_time_s",
+        "provider_elapsed_time_s",
+        "provider_sensor_position_m",
+        "observed_temperature_K",
+        "expanded_observed_temperature_uncertainty_K",
+        "baseline_predicted_temperature_K",
+        "expanded_baseline_prediction_uncertainty_K",
+        "predicted_temperature_sensitivity_K_per_parameter_unit",
+        "sample_weight",
+        "sequence_record_digest",
+        "provider_response_digest",
+        "observation_record_digest",
+        "record_available",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TransientTemperatureResponse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "experiment_or_campaign_id": {
+      "minLength": 1,
+      "title": "Experiment Or Campaign Id",
+      "type": "string"
+    },
+    "specimen_material_id": {
+      "minLength": 1,
+      "title": "Specimen Material Id",
+      "type": "string"
+    },
+    "specimen_material_state_id": {
+      "minLength": 1,
+      "title": "Specimen Material State Id",
+      "type": "string"
+    },
+    "physical_scope_definition": {
+      "minLength": 1,
+      "title": "Physical Scope Definition",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "provider": {
+      "$ref": "#/$defs/ThermalResponseProviderIdentity"
+    },
+    "parameter": {
+      "$ref": "#/$defs/ThermalCalibrationParameter"
+    },
+    "sensors": {
+      "items": {
+        "$ref": "#/$defs/ThermalSensorIdentity"
+      },
+      "minItems": 1,
+      "title": "Sensors",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/TransientTemperatureResponse"
+      },
+      "minItems": 3,
+      "title": "Observations",
+      "type": "array"
+    },
+    "maximum_time_alignment_error_s": {
+      "minimum": 0,
+      "title": "Maximum Time Alignment Error S",
+      "type": "number"
+    },
+    "maximum_sensor_position_alignment_error_m": {
+      "minimum": 0,
+      "title": "Maximum Sensor Position Alignment Error M",
+      "type": "number"
+    },
+    "minimum_calibration_observation_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Observation Count",
+      "type": "integer"
+    },
+    "minimum_holdout_observation_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Observation Count",
+      "type": "integer"
+    },
+    "minimum_calibration_sequence_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Sequence Count",
+      "type": "integer"
+    },
+    "minimum_holdout_sequence_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Sequence Count",
+      "type": "integer"
+    },
+    "minimum_holdout_independence_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Independence Group Count",
+      "type": "integer"
+    },
+    "minimum_weighted_sensitivity_information": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Weighted Sensitivity Information",
+      "type": "number"
+    },
+    "specimen_material_state_and_scope_reviewed": {
+      "title": "Specimen Material State And Scope Reviewed",
+      "type": "boolean"
+    },
+    "geometry_boundary_and_provider_identity_reviewed": {
+      "title": "Geometry Boundary And Provider Identity Reviewed",
+      "type": "boolean"
+    },
+    "sensor_positions_clocks_calibrations_and_uncertainty_reviewed": {
+      "title": "Sensor Positions Clocks Calibrations And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "parameter_definition_units_and_support_reviewed": {
+      "title": "Parameter Definition Units And Support Reviewed",
+      "type": "boolean"
+    },
+    "source_specimen_independence_partitions_reviewed": {
+      "title": "Source Specimen Independence Partitions Reviewed",
+      "type": "boolean"
+    },
+    "observation_provider_alignment_reviewed": {
+      "title": "Observation Provider Alignment Reviewed",
+      "type": "boolean"
+    },
+    "provider_response_and_record_digests_reviewed": {
+      "title": "Provider Response And Record Digests Reviewed",
+      "type": "boolean"
+    },
+    "missing_invalid_and_support_gates_reviewed": {
+      "title": "Missing Invalid And Support Gates Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "experiment_or_campaign_id",
+    "specimen_material_id",
+    "specimen_material_state_id",
+    "physical_scope_definition",
+    "time_basis",
+    "provider",
+    "parameter",
+    "sensors",
+    "observations",
+    "maximum_time_alignment_error_s",
+    "maximum_sensor_position_alignment_error_m",
+    "minimum_calibration_observation_count",
+    "minimum_holdout_observation_count",
+    "minimum_calibration_sequence_count",
+    "minimum_holdout_sequence_count",
+    "minimum_holdout_independence_group_count",
+    "minimum_weighted_sensitivity_information",
+    "specimen_material_state_and_scope_reviewed",
+    "geometry_boundary_and_provider_identity_reviewed",
+    "sensor_positions_clocks_calibrations_and_uncertainty_reviewed",
+    "parameter_definition_units_and_support_reviewed",
+    "source_specimen_independence_partitions_reviewed",
+    "observation_provider_alignment_reviewed",
+    "provider_response_and_record_digests_reviewed",
+    "missing_invalid_and_support_gates_reviewed",
+    "evidence"
+  ],
+  "title": "ThermalGradientParameterCalibration",
+  "type": "object"
+}

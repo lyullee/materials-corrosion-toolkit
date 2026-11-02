@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One caller-provided GSA-to-life calibration point.",
+  "properties": {
+    "point_id": {
+      "minLength": 1,
+      "title": "Point Id",
+      "type": "string"
+    },
+    "gsa_parameter": {
+      "exclusiveMinimum": 0,
+      "title": "Gsa Parameter",
+      "type": "number"
+    },
+    "cycles_to_failure": {
+      "exclusiveMinimum": 0,
+      "title": "Cycles To Failure",
+      "type": "number"
+    },
+    "source_record_id": {
+      "minLength": 1,
+      "title": "Source Record Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "point_id",
+    "gsa_parameter",
+    "cycles_to_failure",
+    "source_record_id",
+    "evidence"
+  ],
+  "title": "GSALifeCurvePoint",
+  "type": "object"
+}

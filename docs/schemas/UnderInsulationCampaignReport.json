@@ -1,0 +1,116 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "report_schema_version": {
+      "const": "matintegrity.under_insulation_campaign_report.v1",
+      "default": "matintegrity.under_insulation_campaign_report.v1",
+      "title": "Report Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "campaign_outcome": {
+      "enum": [
+        "accept",
+        "review",
+        "reject",
+        "insufficient_evidence"
+      ],
+      "title": "Campaign Outcome",
+      "type": "string"
+    },
+    "caller_profile_id": {
+      "minLength": 1,
+      "title": "Caller Profile Id",
+      "type": "string"
+    },
+    "metric_values": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Metric Values",
+      "type": "object"
+    },
+    "criterion_findings": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Criterion Findings",
+      "type": "array"
+    },
+    "diagnostics": {
+      "additionalProperties": true,
+      "title": "Diagnostics",
+      "type": "object"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "caller_profile_only": {
+      "const": true,
+      "default": true,
+      "title": "Caller Profile Only",
+      "type": "boolean"
+    },
+    "corrosion_rate_or_remaining_life": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Or Remaining Life",
+      "type": "boolean"
+    },
+    "hidden_area_extrapolated": {
+      "const": false,
+      "default": false,
+      "title": "Hidden Area Extrapolated",
+      "type": "boolean"
+    },
+    "risk_pod_or_standard_acceptance": {
+      "const": false,
+      "default": false,
+      "title": "Risk Pod Or Standard Acceptance",
+      "type": "boolean"
+    },
+    "report_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "downstream_receipt": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Downstream Receipt"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "campaign_id",
+    "campaign_outcome",
+    "caller_profile_id",
+    "metric_values",
+    "criterion_findings",
+    "diagnostics",
+    "input_digest",
+    "report_digest"
+  ],
+  "title": "UnderInsulationCampaignReport",
+  "type": "object"
+}

@@ -1,0 +1,414 @@
+{
+  "$defs": {
+    "CreviceKineticInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "exchange_flow_m3_s": {
+          "minimum": 0,
+          "title": "Exchange Flow M3 S",
+          "type": "number"
+        },
+        "bulk_concentration_mol_m3_by_species": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxProperties": 100,
+          "minProperties": 1,
+          "title": "Bulk Concentration Mol M3 By Species",
+          "type": "object"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "temperature_K",
+        "exchange_flow_m3_s",
+        "bulk_concentration_mol_m3_by_species"
+      ],
+      "title": "CreviceKineticInterval",
+      "type": "object"
+    },
+    "CreviceKineticReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "reactants": {
+          "items": {
+            "$ref": "#/$defs/CreviceKineticTerm"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Reactants",
+          "type": "array"
+        },
+        "products": {
+          "items": {
+            "$ref": "#/$defs/CreviceKineticTerm"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Products",
+          "type": "array"
+        },
+        "forward_rate_constant_by_interval": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Forward Rate Constant By Interval",
+          "type": "array"
+        },
+        "forward_rate_constant_units": {
+          "minLength": 1,
+          "title": "Forward Rate Constant Units",
+          "type": "string"
+        },
+        "reverse_rate_constant_by_interval": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Reverse Rate Constant By Interval",
+          "type": "array"
+        },
+        "reverse_rate_constant_units": {
+          "minLength": 1,
+          "title": "Reverse Rate Constant Units",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "reactants",
+        "products",
+        "forward_rate_constant_by_interval",
+        "forward_rate_constant_units",
+        "reverse_rate_constant_by_interval",
+        "reverse_rate_constant_units"
+      ],
+      "title": "CreviceKineticReaction",
+      "type": "object"
+    },
+    "CreviceKineticSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Elemental Composition",
+          "type": "object"
+        },
+        "initial_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Concentration Mol M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition",
+        "initial_concentration_mol_m3"
+      ],
+      "title": "CreviceKineticSpecies",
+      "type": "object"
+    },
+    "CreviceKineticTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometric_coefficient": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Stoichiometric Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometric_coefficient"
+      ],
+      "title": "CreviceKineticTerm",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite homogeneous reaction network with caller-supplied interval rates.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "control_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Control Volume M3",
+      "type": "number"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/CreviceKineticSpecies"
+      },
+      "maxItems": 40,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/CreviceKineticReaction"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/CreviceKineticInterval"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "solver_method": {
+      "default": "BDF",
+      "enum": [
+        "BDF",
+        "Radau"
+      ],
+      "title": "Solver Method",
+      "type": "string"
+    },
+    "relative_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "absolute_tolerance_mol_m3": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Tolerance Mol M3",
+      "type": "number"
+    },
+    "maximum_function_evaluations": {
+      "default": 100000,
+      "maximum": 10000000,
+      "minimum": 100,
+      "title": "Maximum Function Evaluations",
+      "type": "integer"
+    },
+    "maximum_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Step S",
+      "type": "number"
+    },
+    "temperature_support_min_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Support Min K",
+      "type": "number"
+    },
+    "temperature_support_max_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Support Max K",
+      "type": "number"
+    },
+    "model_provider_id": {
+      "minLength": 1,
+      "title": "Model Provider Id",
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "reaction_network_and_conservation_reviewed": {
+      "title": "Reaction Network And Conservation Reviewed",
+      "type": "boolean"
+    },
+    "kinetic_parameter_units_and_calibration_reviewed": {
+      "title": "Kinetic Parameter Units And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "mixed_volume_and_exchange_boundary_reviewed": {
+      "title": "Mixed Volume And Exchange Boundary Reviewed",
+      "type": "boolean"
+    },
+    "temperature_knot_mapping_and_parameter_support_reviewed": {
+      "title": "Temperature Knot Mapping And Parameter Support Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "clock_id",
+    "control_volume_m3",
+    "species",
+    "reactions",
+    "intervals",
+    "maximum_step_s",
+    "temperature_support_min_K",
+    "temperature_support_max_K",
+    "model_provider_id",
+    "model_revision",
+    "evidence",
+    "usage_rights_evidence",
+    "reaction_network_and_conservation_reviewed",
+    "kinetic_parameter_units_and_calibration_reviewed",
+    "mixed_volume_and_exchange_boundary_reviewed",
+    "temperature_knot_mapping_and_parameter_support_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceAqueousKineticNetwork",
+  "type": "object"
+}

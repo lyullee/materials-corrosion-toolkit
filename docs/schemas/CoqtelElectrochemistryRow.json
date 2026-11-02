@@ -1,0 +1,216 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One original EC series row with source order and file/row provenance.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.coqtel_electrochemistry_row.v1",
+      "default": "matintegrity.coqtel_electrochemistry_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "coqtel",
+      "default": "coqtel",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "article_doi": {
+      "const": "10.1016/j.dib.2025.111393",
+      "default": "10.1016/j.dib.2025.111393",
+      "title": "Article Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "source_order": {
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "provider_source_row": {
+      "minimum": 1,
+      "title": "Provider Source Row",
+      "type": "integer"
+    },
+    "state_index": {
+      "minimum": 1,
+      "title": "State Index",
+      "type": "integer"
+    },
+    "experiment_id": {
+      "minLength": 1,
+      "title": "Experiment Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "time_s": {
+      "title": "Time S",
+      "type": "number"
+    },
+    "current_A": {
+      "title": "Current A",
+      "type": "number"
+    },
+    "potential_V": {
+      "title": "Potential V",
+      "type": "number"
+    },
+    "duplicate_timestamp_from_previous_row": {
+      "title": "Duplicate Timestamp From Previous Row",
+      "type": "boolean"
+    },
+    "anomaly": {
+      "enum": [
+        "none_reported",
+        "reported_air_bubble_interval"
+      ],
+      "title": "Anomaly",
+      "type": "string"
+    },
+    "pit_dimension_per_state": {
+      "default": null,
+      "title": "Pit Dimension Per State",
+      "type": "null"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "corrosion_rate_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Corrosion Rate Inferred",
+      "type": "boolean"
+    },
+    "wall_loss_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Wall Loss Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_filename",
+    "source_file_sha256",
+    "source_order",
+    "provider_source_row",
+    "state_index",
+    "experiment_id",
+    "specimen_id",
+    "time_s",
+    "current_A",
+    "potential_V",
+    "duplicate_timestamp_from_previous_row",
+    "anomaly",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "CoqtelElectrochemistryRow",
+  "type": "object"
+}

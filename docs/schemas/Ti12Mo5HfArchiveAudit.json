@@ -1,0 +1,132 @@
+{
+  "$defs": {
+    "ArchiveMember": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "uncompressed_bytes": {
+          "minimum": 0,
+          "title": "Uncompressed Bytes",
+          "type": "integer"
+        },
+        "compressed_bytes": {
+          "minimum": 0,
+          "title": "Compressed Bytes",
+          "type": "integer"
+        },
+        "crc32_hex": {
+          "pattern": "^[0-9a-f]{8}$",
+          "title": "Crc32 Hex",
+          "type": "string"
+        },
+        "suffix": {
+          "minLength": 1,
+          "title": "Suffix",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "uncompressed_bytes",
+        "compressed_bytes",
+        "crc32_hex",
+        "suffix"
+      ],
+      "title": "ArchiveMember",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.zenodo_ti12mo5hf_archive_audit.v1",
+      "default": "matintegrity.zenodo_ti12mo5hf_archive_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "zenodo-ti12mo5hf-oxygen-corrosion",
+      "default": "zenodo-ti12mo5hf-oxygen-corrosion",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "provider_record": {
+      "const": "https://doi.org/10.5281/zenodo.19462164",
+      "default": "https://doi.org/10.5281/zenodo.19462164",
+      "title": "Provider Record",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC0-1.0",
+      "default": "CC0-1.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "archive_filename": {
+      "const": "Data_Zenodo_EA2026.zip",
+      "default": "Data_Zenodo_EA2026.zip",
+      "title": "Archive Filename",
+      "type": "string"
+    },
+    "archive_bytes": {
+      "const": 47558332,
+      "default": 47558332,
+      "title": "Archive Bytes",
+      "type": "integer"
+    },
+    "archive_md5": {
+      "const": "36611789e98e7608a99841541447a918",
+      "default": "36611789e98e7608a99841541447a918",
+      "title": "Archive Md5",
+      "type": "string"
+    },
+    "archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Archive Sha256",
+      "type": "string"
+    },
+    "member_count": {
+      "maximum": 20000,
+      "minimum": 0,
+      "title": "Member Count",
+      "type": "integer"
+    },
+    "uncompressed_total_bytes": {
+      "maximum": 2000000000,
+      "minimum": 0,
+      "title": "Uncompressed Total Bytes",
+      "type": "integer"
+    },
+    "members": {
+      "items": {
+        "$ref": "#/$defs/ArchiveMember"
+      },
+      "title": "Members",
+      "type": "array"
+    },
+    "extracted": {
+      "const": false,
+      "default": false,
+      "title": "Extracted",
+      "type": "boolean"
+    },
+    "point_data_interpreted": {
+      "const": false,
+      "default": false,
+      "title": "Point Data Interpreted",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "archive_sha256",
+    "member_count",
+    "uncompressed_total_bytes",
+    "members"
+  ],
+  "title": "Ti12Mo5HfArchiveAudit",
+  "type": "object"
+}

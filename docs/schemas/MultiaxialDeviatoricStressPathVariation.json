@@ -1,0 +1,140 @@
+{
+  "$defs": {
+    "SampledStressInvariantHistory": {
+      "additionalProperties": false,
+      "description": "Ordered symmetric stress tensors at caller-declared cycle samples.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "tensor_component_order": {
+          "default": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tensor Component Order",
+          "type": "array"
+        },
+        "closed_cycle_and_sample_order_reviewed": {
+          "title": "Closed Cycle And Sample Order Reviewed",
+          "type": "boolean"
+        },
+        "stress_tensor_basis_reviewed": {
+          "title": "Stress Tensor Basis Reviewed",
+          "type": "boolean"
+        },
+        "maximum_pair_evaluations": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Pair Evaluations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "location_id",
+        "source_id",
+        "source_sha256",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "closed_cycle_and_sample_order_reviewed",
+        "stress_tensor_basis_reviewed"
+      ],
+      "title": "SampledStressInvariantHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Characterize a caller-declared closed stress path without inferring damage.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "stress_history": {
+      "$ref": "#/$defs/SampledStressInvariantHistory"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "maximum_increment_evaluations": {
+      "default": 10000,
+      "maximum": 100000,
+      "minimum": 2,
+      "title": "Maximum Increment Evaluations",
+      "type": "integer"
+    },
+    "closed_path_and_basis_reviewed": {
+      "title": "Closed Path And Basis Reviewed",
+      "type": "boolean"
+    },
+    "path_sampling_scope_reviewed": {
+      "title": "Path Sampling Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "stress_history",
+    "stress_history_sha256",
+    "closed_path_and_basis_reviewed",
+    "path_sampling_scope_reviewed"
+  ],
+  "title": "MultiaxialDeviatoricStressPathVariation",
+  "type": "object"
+}

@@ -1,0 +1,99 @@
+{
+  "$defs": {
+    "StructuralAcceptanceFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "within",
+            "outside",
+            "boundary_overlap",
+            "missing",
+            "invalid",
+            "mismatch"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "state",
+        "basis"
+      ],
+      "title": "StructuralAcceptanceFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "receipt_id": {
+      "title": "Receipt Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "reject",
+        "review",
+        "insufficient_evidence"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/StructuralAcceptanceFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "receipt_digest": {
+      "title": "Receipt Digest",
+      "type": "string"
+    },
+    "profile_digest": {
+      "title": "Profile Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Qualification Claim",
+      "type": "boolean"
+    },
+    "physical_validation_claim": {
+      "const": false,
+      "default": false,
+      "title": "Physical Validation Claim",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_id",
+    "profile_id",
+    "decision",
+    "findings",
+    "receipt_digest",
+    "profile_digest",
+    "report_digest"
+  ],
+  "title": "StructuralAcceptanceReport",
+  "type": "object"
+}

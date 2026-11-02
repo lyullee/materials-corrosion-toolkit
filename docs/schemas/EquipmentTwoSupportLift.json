@@ -1,0 +1,267 @@
+{
+  "$defs": {
+    "EquipmentMassComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "mass_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Mass Kg",
+          "type": "number"
+        },
+        "center_of_mass_position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Center Of Mass Position M",
+          "type": "array"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component_id",
+        "mass_kg",
+        "center_of_mass_position_m",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "EquipmentMassComponent",
+      "type": "object"
+    },
+    "EquipmentMassProperties": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "assembly_id": {
+          "minLength": 1,
+          "title": "Assembly Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "components": {
+          "items": {
+            "$ref": "#/$defs/EquipmentMassComponent"
+          },
+          "minItems": 1,
+          "title": "Components",
+          "type": "array"
+        },
+        "complete_installed_inventory_and_common_frame_reviewed": {
+          "title": "Complete Installed Inventory And Common Frame Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "assembly_id",
+        "coordinate_frame_id",
+        "components",
+        "complete_installed_inventory_and_common_frame_reviewed",
+        "evidence"
+      ],
+      "title": "EquipmentMassProperties",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "inventory": {
+      "$ref": "#/$defs/EquipmentMassProperties"
+    },
+    "first_support_id": {
+      "minLength": 1,
+      "title": "First Support Id",
+      "type": "string"
+    },
+    "second_support_id": {
+      "minLength": 1,
+      "title": "Second Support Id",
+      "type": "string"
+    },
+    "first_support_position_xy_m": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "First Support Position Xy M",
+      "type": "array"
+    },
+    "second_support_position_xy_m": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Second Support Position Xy M",
+      "type": "array"
+    },
+    "body_to_world_rotation_rad": {
+      "title": "Body To World Rotation Rad",
+      "type": "number"
+    },
+    "gravity_m_s2": {
+      "exclusiveMinimum": 0,
+      "title": "Gravity M S2",
+      "type": "number"
+    },
+    "caller_load_multiplier": {
+      "exclusiveMinimum": 0,
+      "title": "Caller Load Multiplier",
+      "type": "number"
+    },
+    "minimum_supported_horizontal_span_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Horizontal Span M",
+      "type": "number"
+    },
+    "planar_xy_projection_parallel_vertical_reactions_and_rigid_body_reviewed": {
+      "title": "Planar Xy Projection Parallel Vertical Reactions And Rigid Body Reviewed",
+      "type": "boolean"
+    },
+    "load_multiplier_and_orientation_applicability_reviewed": {
+      "title": "Load Multiplier And Orientation Applicability Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "inventory",
+    "first_support_id",
+    "second_support_id",
+    "first_support_position_xy_m",
+    "second_support_position_xy_m",
+    "body_to_world_rotation_rad",
+    "gravity_m_s2",
+    "caller_load_multiplier",
+    "minimum_supported_horizontal_span_m",
+    "planar_xy_projection_parallel_vertical_reactions_and_rigid_body_reviewed",
+    "load_multiplier_and_orientation_applicability_reviewed",
+    "evidence"
+  ],
+  "title": "EquipmentTwoSupportLift",
+  "type": "object"
+}

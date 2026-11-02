@@ -1,0 +1,221 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2TwoFilmTransferRequest": {
+      "additionalProperties": false,
+      "description": "One steady gas/liquid contact state with caller-supplied film coefficients.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_two_film_transfer.v1",
+          "default": "matintegrity.wet_co2_two_film_transfer.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "co2_fugacity_Pa": {
+          "minimum": 0,
+          "title": "Co2 Fugacity Pa",
+          "type": "number"
+        },
+        "bulk_co2star_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Co2Star Mol M3",
+          "type": "number"
+        },
+        "henry_concentration_over_fugacity_mol_m3_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+          "type": "number"
+        },
+        "gas_film_coefficient_mol_m2_s_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Film Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "liquid_film_coefficient_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Film Coefficient M S",
+          "type": "number"
+        },
+        "henry_record_id": {
+          "minLength": 1,
+          "title": "Henry Record Id",
+          "type": "string"
+        },
+        "solvent_composition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "fugacity_provider_id": {
+          "minLength": 1,
+          "title": "Fugacity Provider Id",
+          "type": "string"
+        },
+        "fugacity_provider_revision": {
+          "minLength": 1,
+          "title": "Fugacity Provider Revision",
+          "type": "string"
+        },
+        "gas_liquid_single_phase_and_area_basis_reviewed": {
+          "title": "Gas Liquid Single Phase And Area Basis Reviewed",
+          "type": "boolean"
+        },
+        "fugacity_henry_convention_and_units_reviewed": {
+          "title": "Fugacity Henry Convention And Units Reviewed",
+          "type": "boolean"
+        },
+        "solvent_temperature_and_condition_match_reviewed": {
+          "title": "Solvent Temperature And Condition Match Reviewed",
+          "type": "boolean"
+        },
+        "stationary_film_coefficient_applicability_reviewed": {
+          "title": "Stationary Film Coefficient Applicability Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "condition_id",
+        "time_s",
+        "temperature_K",
+        "co2_fugacity_Pa",
+        "bulk_co2star_mol_m3",
+        "henry_concentration_over_fugacity_mol_m3_Pa",
+        "gas_film_coefficient_mol_m2_s_Pa",
+        "liquid_film_coefficient_m_s",
+        "henry_record_id",
+        "solvent_composition_sha256",
+        "fugacity_provider_id",
+        "fugacity_provider_revision",
+        "gas_liquid_single_phase_and_area_basis_reviewed",
+        "fugacity_henry_convention_and_units_reviewed",
+        "solvent_temperature_and_condition_match_reviewed",
+        "stationary_film_coefficient_applicability_reviewed",
+        "evidence"
+      ],
+      "title": "WetCo2TwoFilmTransferRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One exact point state; no interpolation is performed around it.",
+  "properties": {
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "transfer_request": {
+      "$ref": "#/$defs/WetCo2TwoFilmTransferRequest"
+    }
+  },
+  "required": [
+    "time_s",
+    "transfer_request"
+  ],
+  "title": "WetCo2TwoFilmTransferKnot",
+  "type": "object"
+}

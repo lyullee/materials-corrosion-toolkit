@@ -1,0 +1,54 @@
+{
+  "$defs": {
+    "GasketBackbonePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "compressive_strain": {
+          "minimum": 0,
+          "title": "Compressive Strain",
+          "type": "number"
+        },
+        "stress_Pa": {
+          "minimum": 0,
+          "title": "Stress Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "compressive_strain",
+        "stress_Pa"
+      ],
+      "title": "GasketBackbonePoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "branch_id": {
+      "minLength": 1,
+      "title": "Branch Id",
+      "type": "string"
+    },
+    "relaxation_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Relaxation Time S",
+      "type": "number"
+    },
+    "stress_strain_backbone": {
+      "items": {
+        "$ref": "#/$defs/GasketBackbonePoint"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Stress Strain Backbone",
+      "type": "array"
+    }
+  },
+  "required": [
+    "branch_id",
+    "relaxation_time_s",
+    "stress_strain_backbone"
+  ],
+  "title": "NonlinearGasketMaxwellBranch",
+  "type": "object"
+}

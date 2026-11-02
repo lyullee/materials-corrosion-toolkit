@@ -1,0 +1,467 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2CylindricalGeometryKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "wall_recession_m": {
+          "minimum": 0,
+          "title": "Wall Recession M",
+          "type": "number"
+        },
+        "phase_inventories": {
+          "items": {
+            "$ref": "#/$defs/WetCo2ScalePhaseLineInventory"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phase Inventories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "wall_recession_m",
+        "phase_inventories"
+      ],
+      "title": "WetCo2CylindricalGeometryKnot",
+      "type": "object"
+    },
+    "WetCo2CylindricalScaleGeometryHistory": {
+      "additionalProperties": false,
+      "description": "Map lineal phase inventory into an axisymmetric cylindrical bore at exact knots.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "default": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Time Basis Id",
+          "type": "string"
+        },
+        "outer_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Outer Radius M",
+          "type": "number"
+        },
+        "initial_inner_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Inner Radius M",
+          "type": "number"
+        },
+        "initial_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Wall Thickness M",
+          "type": "number"
+        },
+        "segment_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Segment Length M",
+          "type": "number"
+        },
+        "geometry_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Id",
+          "type": "string"
+        },
+        "geometry_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Revision",
+          "type": "string"
+        },
+        "geometry_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Sha256",
+          "type": "string"
+        },
+        "geometry_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "history_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Id",
+          "type": "string"
+        },
+        "history_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Revision",
+          "type": "string"
+        },
+        "history_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Record Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "phases": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalScalePhase"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phases",
+          "type": "array"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalGeometryKnot"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "History",
+          "type": "array"
+        },
+        "axisymmetric_uniformity_reviewed": {
+          "title": "Axisymmetric Uniformity Reviewed",
+          "type": "boolean"
+        },
+        "phase_inventory_reference_basis_reviewed": {
+          "title": "Phase Inventory Reference Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "time_basis_id",
+        "outer_radius_m",
+        "initial_inner_radius_m",
+        "initial_wall_thickness_m",
+        "segment_length_m",
+        "geometry_provider_id",
+        "geometry_provider_revision",
+        "geometry_record_sha256",
+        "geometry_evidence",
+        "history_provider_id",
+        "history_provider_revision",
+        "history_record_sha256",
+        "history_evidence",
+        "phases",
+        "history",
+        "axisymmetric_uniformity_reviewed",
+        "phase_inventory_reference_basis_reviewed"
+      ],
+      "title": "WetCo2CylindricalScaleGeometryHistory",
+      "type": "object"
+    },
+    "WetCo2CylindricalScalePhase": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "molar_volume_m3_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Volume M3 Mol",
+          "type": "number"
+        },
+        "provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "phase_id",
+        "molar_volume_m3_mol",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalScalePhase",
+      "type": "object"
+    },
+    "WetCo2ScalePhaseLineInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "moles_per_axial_metre_mol_m": {
+          "minimum": 0,
+          "title": "Moles Per Axial Metre Mol M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase_id",
+        "moles_per_axial_metre_mol_m"
+      ],
+      "title": "WetCo2ScalePhaseLineInventory",
+      "type": "object"
+    },
+    "WetCo2ScaleShearKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "wall_shear_stress_Pa": {
+          "minimum": 0,
+          "title": "Wall Shear Stress Pa",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "wall_shear_stress_Pa",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2ScaleShearKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Apply caller-calibrated threshold stripping to one selected scale growth ledger.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_cylindrical_shear_limited_scale_removal.v1",
+      "default": "matintegrity.wet_co2_cylindrical_shear_limited_scale_removal.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "solid_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Solid Id",
+      "type": "string"
+    },
+    "geometry": {
+      "$ref": "#/$defs/WetCo2CylindricalScaleGeometryHistory"
+    },
+    "geometry_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "growth_ledger": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "shear_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2ScaleShearKnot"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Shear History",
+      "type": "array"
+    },
+    "critical_shear_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Critical Shear Stress Pa",
+      "type": "number"
+    },
+    "detachment_velocity_scale_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Detachment Velocity Scale M S",
+      "type": "number"
+    },
+    "stress_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Stress Exponent",
+      "type": "number"
+    },
+    "detachment_law_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Detachment Law Record Sha256",
+      "type": "string"
+    },
+    "detachment_law_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Detachment Law Evidence",
+      "type": "array"
+    },
+    "detached_layer_and_inner_area_basis_reviewed": {
+      "title": "Detached Layer And Inner Area Basis Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "solid_id",
+    "geometry",
+    "geometry_result",
+    "growth_ledger",
+    "shear_history",
+    "critical_shear_stress_Pa",
+    "detachment_velocity_scale_m_s",
+    "stress_exponent",
+    "detachment_law_record_sha256",
+    "detachment_law_evidence",
+    "detached_layer_and_inner_area_basis_reviewed"
+  ],
+  "title": "WetCo2CylindricalShearLimitedScaleRemoval",
+  "type": "object"
+}

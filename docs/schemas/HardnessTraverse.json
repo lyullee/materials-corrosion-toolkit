@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "HardnessPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "position_m": {
+          "title": "Position M",
+          "type": "number"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "hardness_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Hardness Pa",
+          "type": "number"
+        },
+        "expanded_uncertainty_Pa": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "point_id",
+        "position_m",
+        "region_id",
+        "hardness_Pa",
+        "expanded_uncertainty_Pa"
+      ],
+      "title": "HardnessPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "test_force_N": {
+      "exclusiveMinimum": 0,
+      "title": "Test Force N",
+      "type": "number"
+    },
+    "dwell_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dwell S",
+      "type": "number"
+    },
+    "uncertainty_coverage_description": {
+      "minLength": 1,
+      "title": "Uncertainty Coverage Description",
+      "type": "string"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/HardnessPoint"
+      },
+      "minItems": 1,
+      "title": "Points",
+      "type": "array"
+    },
+    "declared_region_upper_limits_Pa": {
+      "additionalProperties": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minProperties": 1,
+      "title": "Declared Region Upper Limits Pa",
+      "type": "object"
+    }
+  },
+  "required": [
+    "method_id",
+    "test_force_N",
+    "dwell_s",
+    "uncertainty_coverage_description",
+    "points",
+    "declared_region_upper_limits_Pa"
+  ],
+  "title": "HardnessTraverse",
+  "type": "object"
+}

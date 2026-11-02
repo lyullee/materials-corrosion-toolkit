@@ -1,0 +1,380 @@
+{
+  "$defs": {
+    "AcidDissolutionRateInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "concentration": {
+          "minimum": 0,
+          "title": "Concentration",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "flow_mass_transfer_descriptor": {
+          "minLength": 1,
+          "title": "Flow Mass Transfer Descriptor",
+          "type": "string"
+        },
+        "dissolution_rate_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolution Rate M S"
+        },
+        "rate_record_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Record Digest"
+        },
+        "rate_valid": {
+          "title": "Rate Valid",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "support_id",
+        "concentration",
+        "temperature_K",
+        "flow_mass_transfer_descriptor",
+        "rate_valid",
+        "evidence"
+      ],
+      "title": "AcidDissolutionRateInterval",
+      "type": "object"
+    },
+    "AcidDissolutionRateSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "acid_species_id": {
+          "minLength": 1,
+          "title": "Acid Species Id",
+          "type": "string"
+        },
+        "concentration_min": {
+          "minimum": 0,
+          "title": "Concentration Min",
+          "type": "number"
+        },
+        "concentration_max": {
+          "minimum": 0,
+          "title": "Concentration Max",
+          "type": "number"
+        },
+        "concentration_unit_token": {
+          "minLength": 1,
+          "title": "Concentration Unit Token",
+          "type": "string"
+        },
+        "concentration_basis": {
+          "minLength": 1,
+          "title": "Concentration Basis",
+          "type": "string"
+        },
+        "temperature_min_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Min K",
+          "type": "number"
+        },
+        "temperature_max_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Max K",
+          "type": "number"
+        },
+        "applicable_flow_mass_transfer_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Flow Mass Transfer Descriptors",
+          "type": "array"
+        },
+        "rate_provider_id": {
+          "minLength": 1,
+          "title": "Rate Provider Id",
+          "type": "string"
+        },
+        "rate_provider_version": {
+          "minLength": 1,
+          "title": "Rate Provider Version",
+          "type": "string"
+        },
+        "rate_provider_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Rate Provider Digest",
+          "type": "string"
+        },
+        "calibration_basis": {
+          "minLength": 1,
+          "title": "Calibration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "material_condition_id",
+        "acid_species_id",
+        "concentration_min",
+        "concentration_max",
+        "concentration_unit_token",
+        "concentration_basis",
+        "temperature_min_K",
+        "temperature_max_K",
+        "applicable_flow_mass_transfer_descriptors",
+        "rate_provider_id",
+        "rate_provider_version",
+        "rate_provider_digest",
+        "calibration_basis",
+        "evidence"
+      ],
+      "title": "AcidDissolutionRateSupport",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "acid_species_id": {
+      "minLength": 1,
+      "title": "Acid Species Id",
+      "type": "string"
+    },
+    "concentration_unit_token": {
+      "minLength": 1,
+      "title": "Concentration Unit Token",
+      "type": "string"
+    },
+    "concentration_basis": {
+      "minLength": 1,
+      "title": "Concentration Basis",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "rate_intervals": {
+      "items": {
+        "$ref": "#/$defs/AcidDissolutionRateInterval"
+      },
+      "minItems": 1,
+      "title": "Rate Intervals",
+      "type": "array"
+    },
+    "rate_supports": {
+      "items": {
+        "$ref": "#/$defs/AcidDissolutionRateSupport"
+      },
+      "minItems": 1,
+      "title": "Rate Supports",
+      "type": "array"
+    },
+    "material_and_acid_identity_reviewed": {
+      "title": "Material And Acid Identity Reviewed",
+      "type": "boolean"
+    },
+    "concentration_definition_reviewed": {
+      "title": "Concentration Definition Reviewed",
+      "type": "boolean"
+    },
+    "temperature_history_reviewed": {
+      "title": "Temperature History Reviewed",
+      "type": "boolean"
+    },
+    "flow_mass_transfer_history_reviewed": {
+      "title": "Flow Mass Transfer History Reviewed",
+      "type": "boolean"
+    },
+    "rate_provider_and_calibration_reviewed": {
+      "title": "Rate Provider And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_interval_alignment_reviewed": {
+      "title": "Clock And Interval Alignment Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "material_condition_id",
+    "acid_species_id",
+    "concentration_unit_token",
+    "concentration_basis",
+    "elapsed_time_s",
+    "rate_intervals",
+    "rate_supports",
+    "material_and_acid_identity_reviewed",
+    "concentration_definition_reviewed",
+    "temperature_history_reviewed",
+    "flow_mass_transfer_history_reviewed",
+    "rate_provider_and_calibration_reviewed",
+    "clock_and_interval_alignment_reviewed",
+    "evidence"
+  ],
+  "title": "AcidDissolutionHistory",
+  "type": "object"
+}

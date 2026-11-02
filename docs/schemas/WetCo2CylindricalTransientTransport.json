@@ -1,0 +1,716 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2CylindricalGeometryKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "wall_recession_m": {
+          "minimum": 0,
+          "title": "Wall Recession M",
+          "type": "number"
+        },
+        "phase_inventories": {
+          "items": {
+            "$ref": "#/$defs/WetCo2ScalePhaseLineInventory"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phase Inventories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "wall_recession_m",
+        "phase_inventories"
+      ],
+      "title": "WetCo2CylindricalGeometryKnot",
+      "type": "object"
+    },
+    "WetCo2CylindricalScaleGeometryHistory": {
+      "additionalProperties": false,
+      "description": "Map lineal phase inventory into an axisymmetric cylindrical bore at exact knots.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "default": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Time Basis Id",
+          "type": "string"
+        },
+        "outer_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Outer Radius M",
+          "type": "number"
+        },
+        "initial_inner_radius_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Inner Radius M",
+          "type": "number"
+        },
+        "initial_wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Wall Thickness M",
+          "type": "number"
+        },
+        "segment_length_m": {
+          "exclusiveMinimum": 0,
+          "title": "Segment Length M",
+          "type": "number"
+        },
+        "geometry_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Id",
+          "type": "string"
+        },
+        "geometry_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Geometry Provider Revision",
+          "type": "string"
+        },
+        "geometry_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Sha256",
+          "type": "string"
+        },
+        "geometry_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "history_provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Id",
+          "type": "string"
+        },
+        "history_provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "History Provider Revision",
+          "type": "string"
+        },
+        "history_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Record Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "phases": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalScalePhase"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Phases",
+          "type": "array"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/WetCo2CylindricalGeometryKnot"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "History",
+          "type": "array"
+        },
+        "axisymmetric_uniformity_reviewed": {
+          "title": "Axisymmetric Uniformity Reviewed",
+          "type": "boolean"
+        },
+        "phase_inventory_reference_basis_reviewed": {
+          "title": "Phase Inventory Reference Basis Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "time_basis_id",
+        "outer_radius_m",
+        "initial_inner_radius_m",
+        "initial_wall_thickness_m",
+        "segment_length_m",
+        "geometry_provider_id",
+        "geometry_provider_revision",
+        "geometry_record_sha256",
+        "geometry_evidence",
+        "history_provider_id",
+        "history_provider_revision",
+        "history_record_sha256",
+        "history_evidence",
+        "phases",
+        "history",
+        "axisymmetric_uniformity_reviewed",
+        "phase_inventory_reference_basis_reviewed"
+      ],
+      "title": "WetCo2CylindricalScaleGeometryHistory",
+      "type": "object"
+    },
+    "WetCo2CylindricalScalePhase": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "molar_volume_m3_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Molar Volume M3 Mol",
+          "type": "number"
+        },
+        "provider_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "phase_id",
+        "molar_volume_m3_mol",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalScalePhase",
+      "type": "object"
+    },
+    "WetCo2ReactionExtentRate": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "signed_extent_mol_m2_s": {
+          "title": "Signed Extent Mol M2 S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "signed_extent_mol_m2_s"
+      ],
+      "title": "WetCo2ReactionExtentRate",
+      "type": "object"
+    },
+    "WetCo2ScalePhaseLineInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "moles_per_axial_metre_mol_m": {
+          "minimum": 0,
+          "title": "Moles Per Axial Metre Mol M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase_id",
+        "moles_per_axial_metre_mol_m"
+      ],
+      "title": "WetCo2ScalePhaseLineInventory",
+      "type": "object"
+    },
+    "WetCo2TransientInitialSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "cell_concentrations_mol_m3": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Cell Concentrations Mol M3",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "cell_concentrations_mol_m3"
+      ],
+      "title": "WetCo2TransientInitialSpecies",
+      "type": "object"
+    },
+    "WetCo2TransientSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "WetCo2TransientSpecies",
+      "type": "object"
+    },
+    "WetCo2TransientSpeciesBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "bulk_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Concentration Mol M3",
+          "type": "number"
+        },
+        "radial_cell_diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Radial Cell Diffusivity M2 S",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "bulk_concentration_mol_m3",
+        "radial_cell_diffusivity_m2_s"
+      ],
+      "title": "WetCo2TransientSpeciesBoundary",
+      "type": "object"
+    },
+    "WetCo2TransientTransportKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "solution_film_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Solution Film Thickness M",
+          "type": "number"
+        },
+        "species_boundaries": {
+          "items": {
+            "$ref": "#/$defs/WetCo2TransientSpeciesBoundary"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Species Boundaries",
+          "type": "array"
+        },
+        "reaction_extent_rates": {
+          "items": {
+            "$ref": "#/$defs/WetCo2ReactionExtentRate"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Reaction Extent Rates",
+          "type": "array"
+        },
+        "boundary_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Boundary Record Sha256",
+          "type": "string"
+        },
+        "boundary_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Boundary Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "solution_film_thickness_m",
+        "species_boundaries",
+        "reaction_extent_rates",
+        "boundary_record_sha256",
+        "boundary_evidence"
+      ],
+      "title": "WetCo2TransientTransportKnot",
+      "type": "object"
+    },
+    "WetCo2TransientWallReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "maximum": 32,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "aqueous_species_stoichiometry": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Aqueous Species Stoichiometry",
+          "type": "object"
+        },
+        "metal_element_release_mol_per_extent": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Metal Element Release Mol Per Extent",
+          "type": "object"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "electron_count",
+        "aqueous_species_stoichiometry",
+        "calibration_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2TransientWallReaction",
+      "type": "object"
+    },
+    "WetCo2WallElement": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "maxLength": 32,
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "atomic_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Atomic Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "alloy_mass_fraction": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Alloy Mass Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "element_id",
+        "atomic_molar_mass_kg_mol",
+        "alloy_mass_fraction"
+      ],
+      "title": "WetCo2WallElement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Transient multicomponent radial FV inventory model using exact geometry knots.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_cylindrical_transient_transport.v1",
+      "default": "matintegrity.wet_co2_cylindrical_transient_transport.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "geometry": {
+      "$ref": "#/$defs/WetCo2CylindricalScaleGeometryHistory"
+    },
+    "geometry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Sha256",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/WetCo2TransientSpecies"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "initial_species": {
+      "items": {
+        "$ref": "#/$defs/WetCo2TransientInitialSpecies"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Initial Species",
+      "type": "array"
+    },
+    "initial_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Initial State Sha256",
+      "type": "string"
+    },
+    "initial_state_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "wall_elements": {
+      "items": {
+        "$ref": "#/$defs/WetCo2WallElement"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Wall Elements",
+      "type": "array"
+    },
+    "wall_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Density Kg M3",
+      "type": "number"
+    },
+    "wall_material_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Wall Material Record Sha256",
+      "type": "string"
+    },
+    "wall_material_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/WetCo2TransientWallReaction"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/WetCo2TransientTransportKnot"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "relative_tolerance": {
+      "default": 1e-07,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "concentration_absolute_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Concentration Absolute Tolerance Mol M3",
+      "type": "number"
+    },
+    "inventory_absolute_tolerance_mol_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Inventory Absolute Tolerance Mol M",
+      "type": "number"
+    },
+    "charge_absolute_tolerance_C_m": {
+      "default": 1e-07,
+      "exclusiveMinimum": 0,
+      "title": "Charge Absolute Tolerance C M",
+      "type": "number"
+    },
+    "inventory_relative_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Inventory Relative Tolerance",
+      "type": "number"
+    },
+    "maximum_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Step S",
+      "type": "number"
+    },
+    "axisymmetric_reaction_area_and_material_mapping_reviewed": {
+      "title": "Axisymmetric Reaction Area And Material Mapping Reviewed",
+      "type": "boolean"
+    },
+    "boundary_and_transport_history_reviewed": {
+      "title": "Boundary And Transport History Reviewed",
+      "type": "boolean"
+    },
+    "element_charge_and_reaction_direction_reviewed": {
+      "title": "Element Charge And Reaction Direction Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "geometry",
+    "geometry_sha256",
+    "species",
+    "initial_species",
+    "initial_state_sha256",
+    "initial_state_evidence",
+    "wall_elements",
+    "wall_density_kg_m3",
+    "wall_material_record_sha256",
+    "wall_material_evidence",
+    "reactions",
+    "knots",
+    "maximum_step_s",
+    "axisymmetric_reaction_area_and_material_mapping_reviewed",
+    "boundary_and_transport_history_reviewed",
+    "element_charge_and_reaction_direction_reviewed"
+  ],
+  "title": "WetCo2CylindricalTransientTransport",
+  "type": "object"
+}

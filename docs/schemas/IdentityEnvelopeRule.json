@@ -1,0 +1,76 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "rule_kind": {
+      "const": "identity_envelope",
+      "default": "identity_envelope",
+      "title": "Rule Kind",
+      "type": "string"
+    },
+    "rule_id": {
+      "minLength": 1,
+      "title": "Rule Id",
+      "type": "string"
+    },
+    "target_kind": {
+      "enum": [
+        "material_role",
+        "layer_role",
+        "layer_position",
+        "service_environment"
+      ],
+      "title": "Target Kind",
+      "type": "string"
+    },
+    "target_value": {
+      "minLength": 1,
+      "title": "Target Value",
+      "type": "string"
+    },
+    "identity_field": {
+      "enum": [
+        "material_id",
+        "material_condition_id",
+        "material_lot_id",
+        "consumable_id",
+        "process_id",
+        "procedure_id",
+        "service_environment_id"
+      ],
+      "title": "Identity Field",
+      "type": "string"
+    },
+    "allowed_values": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Values",
+      "type": "array"
+    },
+    "mismatch_disposition": {
+      "enum": [
+        "reject",
+        "review"
+      ],
+      "title": "Mismatch Disposition",
+      "type": "string"
+    },
+    "rule_description": {
+      "minLength": 1,
+      "title": "Rule Description",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_id",
+    "target_kind",
+    "target_value",
+    "identity_field",
+    "allowed_values",
+    "mismatch_disposition",
+    "rule_description"
+  ],
+  "title": "IdentityEnvelopeRule",
+  "type": "object"
+}

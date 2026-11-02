@@ -1,0 +1,346 @@
+{
+  "$defs": {
+    "CreviceActivityRateReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "reactants": {
+          "items": {
+            "$ref": "#/$defs/CreviceActivityRateTerm"
+          },
+          "maxItems": 24,
+          "minItems": 1,
+          "title": "Reactants",
+          "type": "array"
+        },
+        "products": {
+          "items": {
+            "$ref": "#/$defs/CreviceActivityRateTerm"
+          },
+          "maxItems": 24,
+          "minItems": 1,
+          "title": "Products",
+          "type": "array"
+        },
+        "forward_rate_constant_mol_m3_s": {
+          "exclusiveMinimum": 0,
+          "title": "Forward Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "reverse_rate_constant_mol_m3_s": {
+          "exclusiveMinimum": 0,
+          "title": "Reverse Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "equilibrium_constant_dimensionless": {
+          "exclusiveMinimum": 0,
+          "title": "Equilibrium Constant Dimensionless",
+          "type": "number"
+        },
+        "parameter_record_id": {
+          "minLength": 1,
+          "title": "Parameter Record Id",
+          "type": "string"
+        },
+        "parameter_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameter Record Sha256",
+          "type": "string"
+        },
+        "rate_record_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Rate Record Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "reactants",
+        "products",
+        "forward_rate_constant_mol_m3_s",
+        "reverse_rate_constant_mol_m3_s",
+        "equilibrium_constant_dimensionless",
+        "parameter_record_id",
+        "parameter_record_sha256",
+        "rate_record_evidence"
+      ],
+      "title": "CreviceActivityRateReaction",
+      "type": "object"
+    },
+    "CreviceActivityRateSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "maxProperties": 16,
+          "minProperties": 1,
+          "title": "Elemental Composition",
+          "type": "object"
+        },
+        "concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition",
+        "concentration_mol_m3",
+        "activity_coefficient"
+      ],
+      "title": "CreviceActivityRateSpecies",
+      "type": "object"
+    },
+    "CreviceActivityRateTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Coefficient",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "CreviceActivityRateTerm",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "state_id": {
+      "minLength": 1,
+      "title": "State Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "concentration_standard_state_mol_m3": {
+      "default": 1000.0,
+      "exclusiveMinimum": 0,
+      "title": "Concentration Standard State Mol M3",
+      "type": "number"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/CreviceActivityRateSpecies"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Species",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/CreviceActivityRateReaction"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Sha256",
+      "type": "string"
+    },
+    "provider_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Provider Evidence",
+      "type": "array"
+    },
+    "rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Rights Evidence",
+      "type": "array"
+    },
+    "activity_standard_state_and_single_ion_convention_reviewed": {
+      "title": "Activity Standard State And Single Ion Convention Reviewed",
+      "type": "boolean"
+    },
+    "kinetic_rate_basis_and_units_reviewed": {
+      "title": "Kinetic Rate Basis And Units Reviewed",
+      "type": "boolean"
+    },
+    "detailed_balance_and_equilibrium_constant_reviewed": {
+      "title": "Detailed Balance And Equilibrium Constant Reviewed",
+      "type": "boolean"
+    },
+    "temperature_and_parameter_support_reviewed": {
+      "title": "Temperature And Parameter Support Reviewed",
+      "type": "boolean"
+    },
+    "single_liquid_no_phase_change_interval_reviewed": {
+      "title": "Single Liquid No Phase Change Interval Reviewed",
+      "type": "boolean"
+    },
+    "local_electroneutrality_reviewed": {
+      "title": "Local Electroneutrality Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "detailed_balance_relative_tolerance": {
+      "default": 1e-06,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Detailed Balance Relative Tolerance",
+      "type": "number"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "state_id",
+    "temperature_K",
+    "species",
+    "reactions",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_sha256",
+    "provider_evidence",
+    "rights_evidence",
+    "activity_standard_state_and_single_ion_convention_reviewed",
+    "kinetic_rate_basis_and_units_reviewed",
+    "detailed_balance_and_equilibrium_constant_reviewed",
+    "temperature_and_parameter_support_reviewed",
+    "single_liquid_no_phase_change_interval_reviewed",
+    "local_electroneutrality_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceActivityRateRequest",
+  "type": "object"
+}

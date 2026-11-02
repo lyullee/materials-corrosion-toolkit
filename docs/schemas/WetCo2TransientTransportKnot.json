@@ -1,0 +1,171 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2ReactionExtentRate": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "signed_extent_mol_m2_s": {
+          "title": "Signed Extent Mol M2 S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "signed_extent_mol_m2_s"
+      ],
+      "title": "WetCo2ReactionExtentRate",
+      "type": "object"
+    },
+    "WetCo2TransientSpeciesBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "bulk_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Concentration Mol M3",
+          "type": "number"
+        },
+        "radial_cell_diffusivity_m2_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Radial Cell Diffusivity M2 S",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "bulk_concentration_mol_m3",
+        "radial_cell_diffusivity_m2_s"
+      ],
+      "title": "WetCo2TransientSpeciesBoundary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "solution_film_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Solution Film Thickness M",
+      "type": "number"
+    },
+    "species_boundaries": {
+      "items": {
+        "$ref": "#/$defs/WetCo2TransientSpeciesBoundary"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Species Boundaries",
+      "type": "array"
+    },
+    "reaction_extent_rates": {
+      "items": {
+        "$ref": "#/$defs/WetCo2ReactionExtentRate"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Reaction Extent Rates",
+      "type": "array"
+    },
+    "boundary_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Boundary Record Sha256",
+      "type": "string"
+    },
+    "boundary_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Boundary Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "solution_film_thickness_m",
+    "species_boundaries",
+    "reaction_extent_rates",
+    "boundary_record_sha256",
+    "boundary_evidence"
+  ],
+  "title": "WetCo2TransientTransportKnot",
+  "type": "object"
+}

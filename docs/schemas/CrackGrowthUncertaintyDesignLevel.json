@@ -1,0 +1,107 @@
+{
+  "$defs": {
+    "CrackGrowthUncertaintySample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "normalized_weight": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Normalized Weight",
+          "type": "number"
+        },
+        "crack_growth_rate_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Crack Growth Rate Multiplier",
+          "type": "number"
+        },
+        "geometry_factor_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Geometry Factor Multiplier",
+          "type": "number"
+        },
+        "stress_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Stress Multiplier",
+          "type": "number"
+        },
+        "fracture_toughness_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Toughness Multiplier",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sample_id",
+        "normalized_weight",
+        "crack_growth_rate_multiplier",
+        "geometry_factor_multiplier",
+        "stress_multiplier",
+        "fracture_toughness_multiplier"
+      ],
+      "title": "CrackGrowthUncertaintySample",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crack_growth_uncertainty_design_level.v1",
+      "default": "matintegrity.crack_growth_uncertainty_design_level.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "level_id": {
+      "minLength": 1,
+      "title": "Level Id",
+      "type": "string"
+    },
+    "sample_design_id": {
+      "minLength": 1,
+      "title": "Sample Design Id",
+      "type": "string"
+    },
+    "joint_sample_source_id": {
+      "minLength": 1,
+      "title": "Joint Sample Source Id",
+      "type": "string"
+    },
+    "joint_sample_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Joint Sample Source Sha256",
+      "type": "string"
+    },
+    "relationship_to_previous": {
+      "enum": [
+        "initial",
+        "nested_refinement",
+        "refined_design",
+        "independent_replicate"
+      ],
+      "title": "Relationship To Previous",
+      "type": "string"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/CrackGrowthUncertaintySample"
+      },
+      "minItems": 2,
+      "title": "Samples",
+      "type": "array"
+    }
+  },
+  "required": [
+    "level_id",
+    "sample_design_id",
+    "joint_sample_source_id",
+    "joint_sample_source_sha256",
+    "relationship_to_previous",
+    "samples"
+  ],
+  "title": "CrackGrowthUncertaintyDesignLevel",
+  "type": "object"
+}

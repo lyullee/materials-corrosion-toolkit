@@ -1,0 +1,263 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One signed force-displacement sample with file, member, and row lineage.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crack_arrest_observation_row.v1",
+      "default": "matintegrity.crack_arrest_observation_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "crack-arrest-c1-c2",
+      "default": "crack-arrest-c1-c2",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.17632/g69875w65c.1",
+      "default": "10.17632/g69875w65c.1",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_archive_filename": {
+      "const": "g69875w65c-1.zip",
+      "default": "g69875w65c-1.zip",
+      "title": "Source Archive Filename",
+      "type": "string"
+    },
+    "source_archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Archive Sha256",
+      "type": "string"
+    },
+    "source_archive_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source Archive Bytes",
+      "type": "integer"
+    },
+    "source_member": {
+      "minLength": 1,
+      "title": "Source Member",
+      "type": "string"
+    },
+    "source_member_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Member Sha256",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "test_family": {
+      "enum": [
+        "C1",
+        "C2"
+      ],
+      "title": "Test Family",
+      "type": "string"
+    },
+    "reported_temperature_C_from_filename": {
+      "title": "Reported Temperature C From Filename",
+      "type": "number"
+    },
+    "reported_temperature_K_from_filename": {
+      "title": "Reported Temperature K From Filename",
+      "type": "number"
+    },
+    "temperature_provenance": {
+      "const": "filename_token_only; specimen_log_not_checked",
+      "default": "filename_token_only; specimen_log_not_checked",
+      "title": "Temperature Provenance",
+      "type": "string"
+    },
+    "source_row_order": {
+      "minimum": 0,
+      "title": "Source Row Order",
+      "type": "integer"
+    },
+    "provider_source_row": {
+      "minimum": 2,
+      "title": "Provider Source Row",
+      "type": "integer"
+    },
+    "time_s": {
+      "title": "Time S",
+      "type": "number"
+    },
+    "machine_displacement_m": {
+      "title": "Machine Displacement M",
+      "type": "number"
+    },
+    "force_N": {
+      "title": "Force N",
+      "type": "number"
+    },
+    "extensometer_displacement_m": {
+      "title": "Extensometer Displacement M",
+      "type": "number"
+    },
+    "reported_cycle_index": {
+      "minimum": 0,
+      "title": "Reported Cycle Index",
+      "type": "integer"
+    },
+    "time_unit": {
+      "const": "s",
+      "default": "s",
+      "title": "Time Unit",
+      "type": "string"
+    },
+    "displacement_unit": {
+      "const": "m",
+      "default": "m",
+      "title": "Displacement Unit",
+      "type": "string"
+    },
+    "force_unit": {
+      "const": "N",
+      "default": "N",
+      "title": "Force Unit",
+      "type": "string"
+    },
+    "sign_and_zero_handling": {
+      "const": "source_sign_and_zero_preserved",
+      "default": "source_sign_and_zero_preserved",
+      "title": "Sign And Zero Handling",
+      "type": "string"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "toughness_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Toughness Inferred",
+      "type": "boolean"
+    },
+    "acceptance_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Acceptance Inferred",
+      "type": "boolean"
+    },
+    "failure_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Failure Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_archive_sha256",
+    "source_archive_bytes",
+    "source_member",
+    "source_member_sha256",
+    "specimen_id",
+    "test_family",
+    "reported_temperature_C_from_filename",
+    "reported_temperature_K_from_filename",
+    "source_row_order",
+    "provider_source_row",
+    "time_s",
+    "machine_displacement_m",
+    "force_N",
+    "extensometer_displacement_m",
+    "reported_cycle_index",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "CrackArrestObservationRow",
+  "type": "object"
+}

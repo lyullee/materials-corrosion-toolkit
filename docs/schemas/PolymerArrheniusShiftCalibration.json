@@ -1,0 +1,342 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PolymerShiftObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "polymer_formulation_id": {
+          "minLength": 1,
+          "title": "Polymer Formulation Id",
+          "type": "string"
+        },
+        "physical_state_id": {
+          "minLength": 1,
+          "title": "Physical State Id",
+          "type": "string"
+        },
+        "endpoint_definition_id": {
+          "minLength": 1,
+          "title": "Endpoint Definition Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "log_time_shift_factor": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Log Time Shift Factor"
+        },
+        "log_basis": {
+          "const": "natural",
+          "default": "natural",
+          "title": "Log Basis",
+          "type": "string"
+        },
+        "weight": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weight"
+        },
+        "record_status": {
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Record Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "polymer_formulation_id",
+        "physical_state_id",
+        "endpoint_definition_id",
+        "temperature_K",
+        "record_status",
+        "provider_id",
+        "provider_revision",
+        "provider_record_digest",
+        "evidence"
+      ],
+      "title": "PolymerShiftObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "polymer_formulation_id": {
+      "minLength": 1,
+      "title": "Polymer Formulation Id",
+      "type": "string"
+    },
+    "physical_state_id": {
+      "minLength": 1,
+      "title": "Physical State Id",
+      "type": "string"
+    },
+    "endpoint_definition_id": {
+      "minLength": 1,
+      "title": "Endpoint Definition Id",
+      "type": "string"
+    },
+    "reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Temperature K",
+      "type": "number"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/PolymerShiftObservation"
+      },
+      "minItems": 4,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_calibration_specimen_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Specimen Count",
+      "type": "integer"
+    },
+    "minimum_calibration_source_group_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_specimen_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Specimen Count",
+      "type": "integer"
+    },
+    "minimum_holdout_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Source Group Count",
+      "type": "integer"
+    },
+    "formulation_physical_state_and_endpoint_reviewed": {
+      "title": "Formulation Physical State And Endpoint Reviewed",
+      "type": "boolean"
+    },
+    "absolute_temperature_reference_and_log_basis_reviewed": {
+      "title": "Absolute Temperature Reference And Log Basis Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_independence_and_partitions_reviewed": {
+      "title": "Specimen Source Independence And Partitions Reviewed",
+      "type": "boolean"
+    },
+    "weights_missingness_and_validity_reviewed": {
+      "title": "Weights Missingness And Validity Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_support_and_no_extrapolation_reviewed": {
+      "title": "Calibration Support And No Extrapolation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "polymer_formulation_id",
+    "physical_state_id",
+    "endpoint_definition_id",
+    "reference_temperature_K",
+    "observations",
+    "minimum_calibration_specimen_count",
+    "minimum_calibration_source_group_count",
+    "minimum_holdout_specimen_count",
+    "minimum_holdout_source_group_count",
+    "formulation_physical_state_and_endpoint_reviewed",
+    "absolute_temperature_reference_and_log_basis_reviewed",
+    "specimen_source_independence_and_partitions_reviewed",
+    "weights_missingness_and_validity_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "calibration_support_and_no_extrapolation_reviewed",
+    "evidence"
+  ],
+  "title": "PolymerArrheniusShiftCalibration",
+  "type": "object"
+}

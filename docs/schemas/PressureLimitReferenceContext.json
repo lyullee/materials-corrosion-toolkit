@@ -1,0 +1,150 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "component_elevation_m": {
+      "title": "Component Elevation M",
+      "type": "number"
+    },
+    "pressure_basis": {
+      "enum": [
+        "absolute",
+        "gauge_common_reference"
+      ],
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "common_pressure_reference_id": {
+      "minLength": 1,
+      "title": "Common Pressure Reference Id",
+      "type": "string"
+    },
+    "external_absolute_pressure_Pa": {
+      "minimum": 0,
+      "title": "External Absolute Pressure Pa",
+      "type": "number"
+    },
+    "common_reference_absolute_pressure_Pa": {
+      "minimum": 0,
+      "title": "Common Reference Absolute Pressure Pa",
+      "type": "number"
+    },
+    "external_pressure_and_common_reference_reviewed": {
+      "title": "External Pressure And Common Reference Reviewed",
+      "type": "boolean"
+    },
+    "component_scenario_and_coordinate_mapping_reviewed": {
+      "title": "Component Scenario And Coordinate Mapping Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "coordinate_frame_id",
+    "component_elevation_m",
+    "pressure_basis",
+    "common_pressure_reference_id",
+    "external_absolute_pressure_Pa",
+    "common_reference_absolute_pressure_Pa",
+    "external_pressure_and_common_reference_reviewed",
+    "component_scenario_and_coordinate_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "PressureLimitReferenceContext",
+  "type": "object"
+}

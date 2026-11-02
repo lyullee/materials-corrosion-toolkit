@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "sequence_position": {
+      "minimum": 1,
+      "title": "Sequence Position",
+      "type": "integer"
+    },
+    "process_id": {
+      "minLength": 1,
+      "title": "Process Id",
+      "type": "string"
+    },
+    "start_time_s": {
+      "minimum": 0,
+      "title": "Start Time S",
+      "type": "number"
+    },
+    "end_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "End Time S",
+      "type": "number"
+    },
+    "ambient_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Ambient Temperature K",
+      "type": "number"
+    },
+    "surface_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Surface Temperature K",
+      "type": "number"
+    },
+    "dewpoint_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Dewpoint Temperature K",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "event_id",
+    "sequence_position",
+    "process_id",
+    "start_time_s",
+    "end_time_s",
+    "ambient_temperature_k",
+    "surface_temperature_k",
+    "dewpoint_temperature_k",
+    "provider_id",
+    "result_digest",
+    "evidence"
+  ],
+  "title": "PreparationEvent",
+  "type": "object"
+}

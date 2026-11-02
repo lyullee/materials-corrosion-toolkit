@@ -1,0 +1,228 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One original temperature row with separate weld-metal and base-metal cells.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.ct110_wet_co2_corrosion_row.v1",
+      "default": "matintegrity.ct110_wet_co2_corrosion_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "plos_coiled_tubing_weld_hpht_co2_weight_loss_2021_s1",
+      "default": "plos_coiled_tubing_weld_hpht_co2_weight_loss_2021_s1",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.1371/journal.pone.0244237.s017",
+      "default": "10.1371/journal.pone.0244237.s017",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "article_doi": {
+      "const": "10.1371/journal.pone.0244237",
+      "default": "10.1371/journal.pone.0244237",
+      "title": "Article Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "const": "pone.0244237.s017.xlsx",
+      "default": "pone.0244237.s017.xlsx",
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "worksheet_name": {
+      "const": "Sheet1",
+      "default": "Sheet1",
+      "title": "Worksheet Name",
+      "type": "string"
+    },
+    "provider_row_number": {
+      "maximum": 8,
+      "minimum": 6,
+      "title": "Provider Row Number",
+      "type": "integer"
+    },
+    "source_order": {
+      "maximum": 2,
+      "minimum": 0,
+      "title": "Source Order",
+      "type": "integer"
+    },
+    "temperature_cell": {
+      "title": "Temperature Cell",
+      "type": "string"
+    },
+    "weld_metal_cell": {
+      "title": "Weld Metal Cell",
+      "type": "string"
+    },
+    "base_metal_cell": {
+      "title": "Base Metal Cell",
+      "type": "string"
+    },
+    "source_cells": {
+      "items": {},
+      "title": "Source Cells",
+      "type": "array"
+    },
+    "source_cell_types": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Cell Types",
+      "type": "array"
+    },
+    "temperature_C": {
+      "title": "Temperature C",
+      "type": "number"
+    },
+    "weld_metal_corrosion_rate_mm_per_year": {
+      "title": "Weld Metal Corrosion Rate Mm Per Year",
+      "type": "number"
+    },
+    "base_metal_corrosion_rate_mm_per_year": {
+      "title": "Base Metal Corrosion Rate Mm Per Year",
+      "type": "number"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "specimen_identity_resolved": {
+      "const": false,
+      "default": false,
+      "title": "Specimen Identity Resolved",
+      "type": "boolean"
+    },
+    "replicate_independence_established": {
+      "const": false,
+      "default": false,
+      "title": "Replicate Independence Established",
+      "type": "boolean"
+    },
+    "life_or_probability_inferred": {
+      "const": false,
+      "default": false,
+      "title": "Life Or Probability Inferred",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_file_bytes",
+    "source_file_sha256",
+    "provider_row_number",
+    "source_order",
+    "temperature_cell",
+    "weld_metal_cell",
+    "base_metal_cell",
+    "source_cells",
+    "source_cell_types",
+    "temperature_C",
+    "weld_metal_corrosion_rate_mm_per_year",
+    "base_metal_corrosion_rate_mm_per_year",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "CT110CorrosionRateRow",
+  "type": "object"
+}

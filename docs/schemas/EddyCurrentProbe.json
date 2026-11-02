@@ -1,0 +1,134 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "probe_id": {
+      "minLength": 1,
+      "title": "Probe Id",
+      "type": "string"
+    },
+    "probe_mode": {
+      "enum": [
+        "absolute",
+        "differential",
+        "reflection",
+        "array",
+        "remote_field",
+        "other"
+      ],
+      "title": "Probe Mode",
+      "type": "string"
+    },
+    "coil_configuration": {
+      "minLength": 1,
+      "title": "Coil Configuration",
+      "type": "string"
+    },
+    "nominal_excitation_frequencies_Hz": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Nominal Excitation Frequencies Hz",
+      "type": "array"
+    },
+    "active_channel_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Active Channel Ids",
+      "type": "array"
+    },
+    "probe_geometry_basis": {
+      "minLength": 1,
+      "title": "Probe Geometry Basis",
+      "type": "string"
+    },
+    "lift_off_control_basis": {
+      "minLength": 1,
+      "title": "Lift Off Control Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "probe_id",
+    "probe_mode",
+    "coil_configuration",
+    "nominal_excitation_frequencies_Hz",
+    "active_channel_ids",
+    "probe_geometry_basis",
+    "lift_off_control_basis",
+    "evidence"
+  ],
+  "title": "EddyCurrentProbe",
+  "type": "object"
+}

@@ -1,0 +1,211 @@
+{
+  "$defs": {
+    "CriticalPlaneCyclePair": {
+      "additionalProperties": false,
+      "description": "One explicit normal-stress/shear-strain cycle allocation.",
+      "properties": {
+        "pair_id": {
+          "minLength": 1,
+          "title": "Pair Id",
+          "type": "string"
+        },
+        "normal_stress_cycle_index": {
+          "minimum": 0,
+          "title": "Normal Stress Cycle Index",
+          "type": "integer"
+        },
+        "shear_strain_cycle_index": {
+          "minimum": 0,
+          "title": "Shear Strain Cycle Index",
+          "type": "integer"
+        },
+        "allocated_cycle_count": {
+          "exclusiveMinimum": 0,
+          "title": "Allocated Cycle Count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "pair_id",
+        "normal_stress_cycle_index",
+        "shear_strain_cycle_index",
+        "allocated_cycle_count"
+      ],
+      "title": "CriticalPlaneCyclePair",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Apply a reviewed cycle map and caller-calibrated FS strain-life relation.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "projected_rainflow_result": {
+      "additionalProperties": true,
+      "title": "Projected Rainflow Result",
+      "type": "object"
+    },
+    "projected_rainflow_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Projected Rainflow Result Sha256",
+      "type": "string"
+    },
+    "plane_id": {
+      "minLength": 1,
+      "title": "Plane Id",
+      "type": "string"
+    },
+    "shear_projection": {
+      "pattern": "^(engineering_shear_strain_directional_component|engineering_shear_strain_vector_magnitude)$",
+      "title": "Shear Projection",
+      "type": "string"
+    },
+    "pairings": {
+      "items": {
+        "$ref": "#/$defs/CriticalPlaneCyclePair"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Pairings",
+      "type": "array"
+    },
+    "cycle_pairing_method_id": {
+      "minLength": 1,
+      "title": "Cycle Pairing Method Id",
+      "type": "string"
+    },
+    "cycle_pairing_method_revision": {
+      "minLength": 1,
+      "title": "Cycle Pairing Method Revision",
+      "type": "string"
+    },
+    "cycle_pairing_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Cycle Pairing Configuration Sha256",
+      "type": "string"
+    },
+    "pairing_proposal": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pairing Proposal"
+    },
+    "pairing_proposal_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pairing Proposal Sha256"
+    },
+    "cycle_pairing_and_allocation_reviewed": {
+      "title": "Cycle Pairing And Allocation Reviewed",
+      "type": "boolean"
+    },
+    "load_channel_interpretation_reviewed": {
+      "title": "Load Channel Interpretation Reviewed",
+      "type": "boolean"
+    },
+    "fatemi_socie_coefficient": {
+      "minimum": 0,
+      "title": "Fatemi Socie Coefficient",
+      "type": "number"
+    },
+    "normalization_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Normalization Stress Pa",
+      "type": "number"
+    },
+    "calibration_material_condition_id": {
+      "minLength": 1,
+      "title": "Calibration Material Condition Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "shear_modulus_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Shear Modulus Pa",
+      "type": "number"
+    },
+    "shear_fatigue_strength_coefficient_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Shear Fatigue Strength Coefficient Pa",
+      "type": "number"
+    },
+    "shear_fatigue_strength_exponent": {
+      "exclusiveMaximum": 0,
+      "title": "Shear Fatigue Strength Exponent",
+      "type": "number"
+    },
+    "shear_fatigue_ductility_coefficient": {
+      "exclusiveMinimum": 0,
+      "title": "Shear Fatigue Ductility Coefficient",
+      "type": "number"
+    },
+    "shear_fatigue_ductility_exponent": {
+      "exclusiveMaximum": 0,
+      "title": "Shear Fatigue Ductility Exponent",
+      "type": "number"
+    },
+    "minimum_valid_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Valid Cycles",
+      "type": "number"
+    },
+    "maximum_valid_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Valid Cycles",
+      "type": "number"
+    },
+    "material_calibration_and_factor_convention_reviewed": {
+      "title": "Material Calibration And Factor Convention Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "projected_rainflow_result",
+    "projected_rainflow_result_sha256",
+    "plane_id",
+    "shear_projection",
+    "pairings",
+    "cycle_pairing_method_id",
+    "cycle_pairing_method_revision",
+    "cycle_pairing_configuration_sha256",
+    "cycle_pairing_and_allocation_reviewed",
+    "load_channel_interpretation_reviewed",
+    "fatemi_socie_coefficient",
+    "normalization_stress_Pa",
+    "calibration_material_condition_id",
+    "calibration_sha256",
+    "shear_modulus_Pa",
+    "shear_fatigue_strength_coefficient_Pa",
+    "shear_fatigue_strength_exponent",
+    "shear_fatigue_ductility_coefficient",
+    "shear_fatigue_ductility_exponent",
+    "minimum_valid_cycles",
+    "maximum_valid_cycles",
+    "material_calibration_and_factor_convention_reviewed"
+  ],
+  "title": "CriticalPlaneCyclePairDamage",
+  "type": "object"
+}

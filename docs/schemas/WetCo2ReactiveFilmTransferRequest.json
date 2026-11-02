@@ -1,0 +1,248 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Steady CO2 uptake across a gas film and reactive liquid film.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_reactive_film_transfer.v1",
+      "default": "matintegrity.wet_co2_reactive_film_transfer.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "gas_co2_fugacity_Pa": {
+      "minimum": 0,
+      "title": "Gas Co2 Fugacity Pa",
+      "type": "number"
+    },
+    "bulk_co2star_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Bulk Co2Star Concentration Mol M3",
+      "type": "number"
+    },
+    "henry_concentration_over_fugacity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Henry Concentration Over Fugacity Mol M3 Pa",
+      "type": "number"
+    },
+    "gas_film_coefficient_mol_m2_s_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Film Coefficient Mol M2 S Pa",
+      "type": "number"
+    },
+    "liquid_physical_film_coefficient_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Liquid Physical Film Coefficient M S",
+      "type": "number"
+    },
+    "co2star_diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Co2Star Diffusivity M2 S",
+      "type": "number"
+    },
+    "apparent_irreversible_first_order_sink_s": {
+      "minimum": 0,
+      "title": "Apparent Irreversible First Order Sink S",
+      "type": "number"
+    },
+    "state_provider_id": {
+      "minLength": 1,
+      "title": "State Provider Id",
+      "type": "string"
+    },
+    "state_provider_revision": {
+      "minLength": 1,
+      "title": "State Provider Revision",
+      "type": "string"
+    },
+    "state_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Configuration Sha256",
+      "type": "string"
+    },
+    "state_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Result Sha256",
+      "type": "string"
+    },
+    "kinetics_provider_id": {
+      "minLength": 1,
+      "title": "Kinetics Provider Id",
+      "type": "string"
+    },
+    "kinetics_provider_revision": {
+      "minLength": 1,
+      "title": "Kinetics Provider Revision",
+      "type": "string"
+    },
+    "kinetics_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetics Configuration Sha256",
+      "type": "string"
+    },
+    "kinetics_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetics Result Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "state_units_and_alignment_reviewed": {
+      "title": "State Units And Alignment Reviewed",
+      "type": "boolean"
+    },
+    "first_order_irreversible_sink_scope_reviewed": {
+      "title": "First Order Irreversible Sink Scope Reviewed",
+      "type": "boolean"
+    },
+    "excess_reactant_and_constant_rate_reviewed": {
+      "title": "Excess Reactant And Constant Rate Reviewed",
+      "type": "boolean"
+    },
+    "film_model_and_co2star_basis_reviewed": {
+      "title": "Film Model And Co2Star Basis Reviewed",
+      "type": "boolean"
+    },
+    "temperature_and_property_applicability_reviewed": {
+      "title": "Temperature And Property Applicability Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "time_s",
+    "temperature_K",
+    "gas_co2_fugacity_Pa",
+    "bulk_co2star_concentration_mol_m3",
+    "henry_concentration_over_fugacity_mol_m3_Pa",
+    "gas_film_coefficient_mol_m2_s_Pa",
+    "liquid_physical_film_coefficient_m_s",
+    "co2star_diffusivity_m2_s",
+    "apparent_irreversible_first_order_sink_s",
+    "state_provider_id",
+    "state_provider_revision",
+    "state_configuration_sha256",
+    "state_result_sha256",
+    "kinetics_provider_id",
+    "kinetics_provider_revision",
+    "kinetics_configuration_sha256",
+    "kinetics_result_sha256",
+    "evidence",
+    "state_units_and_alignment_reviewed",
+    "first_order_irreversible_sink_scope_reviewed",
+    "excess_reactant_and_constant_rate_reviewed",
+    "film_model_and_co2star_basis_reviewed",
+    "temperature_and_property_applicability_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "WetCo2ReactiveFilmTransferRequest",
+  "type": "object"
+}

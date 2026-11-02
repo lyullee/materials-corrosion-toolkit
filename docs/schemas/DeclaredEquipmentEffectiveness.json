@@ -1,0 +1,184 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "observation_window_id": {
+      "minLength": 1,
+      "title": "Observation Window Id",
+      "type": "string"
+    },
+    "production_quantity_unit": {
+      "minLength": 1,
+      "title": "Production Quantity Unit",
+      "type": "string"
+    },
+    "planned_operating_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Planned Operating Time S",
+      "type": "number"
+    },
+    "actual_running_time_s": {
+      "minimum": 0,
+      "title": "Actual Running Time S",
+      "type": "number"
+    },
+    "reference_production_rate_per_s": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Production Rate Per S",
+      "type": "number"
+    },
+    "actual_running_production_rate_per_s": {
+      "minimum": 0,
+      "title": "Actual Running Production Rate Per S",
+      "type": "number"
+    },
+    "total_output_quantity": {
+      "minimum": 0,
+      "title": "Total Output Quantity",
+      "type": "number"
+    },
+    "conforming_output_quantity": {
+      "minimum": 0,
+      "title": "Conforming Output Quantity",
+      "type": "number"
+    },
+    "window_rate_and_quality_definitions_reviewed": {
+      "title": "Window Rate And Quality Definitions Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "asset_id",
+    "observation_window_id",
+    "production_quantity_unit",
+    "planned_operating_time_s",
+    "actual_running_time_s",
+    "reference_production_rate_per_s",
+    "actual_running_production_rate_per_s",
+    "total_output_quantity",
+    "conforming_output_quantity",
+    "window_rate_and_quality_definitions_reviewed"
+  ],
+  "title": "DeclaredEquipmentEffectiveness",
+  "type": "object"
+}

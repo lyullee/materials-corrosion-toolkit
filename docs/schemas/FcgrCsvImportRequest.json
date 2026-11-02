@@ -1,0 +1,203 @@
+{
+  "additionalProperties": false,
+  "description": "Mapping and review declarations for one UTF-8 CSV source.",
+  "properties": {
+    "csv_bytes": {
+      "format": "binary",
+      "minLength": 1,
+      "title": "Csv Bytes",
+      "type": "string"
+    },
+    "expected_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Source Sha256"
+    },
+    "curve_id": {
+      "minLength": 1,
+      "title": "Curve Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_citation": {
+      "minLength": 1,
+      "title": "Source Citation",
+      "type": "string"
+    },
+    "license_id": {
+      "minLength": 1,
+      "title": "License Id",
+      "type": "string"
+    },
+    "rights_review_id": {
+      "minLength": 1,
+      "title": "Rights Review Id",
+      "type": "string"
+    },
+    "applicability_review_id": {
+      "minLength": 1,
+      "title": "Applicability Review Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "stress_ratio": {
+      "exclusiveMaximum": 1,
+      "minimum": 0,
+      "title": "Stress Ratio",
+      "type": "number"
+    },
+    "frequency_Hz": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Frequency Hz"
+    },
+    "delta_k_column": {
+      "minLength": 1,
+      "title": "Delta K Column",
+      "type": "string"
+    },
+    "rate_column": {
+      "minLength": 1,
+      "title": "Rate Column",
+      "type": "string"
+    },
+    "row_id_column": {
+      "minLength": 1,
+      "title": "Row Id Column",
+      "type": "string"
+    },
+    "disposition_column": {
+      "minLength": 1,
+      "title": "Disposition Column",
+      "type": "string"
+    },
+    "exclusion_reason_column": {
+      "default": "exclusion_reason",
+      "minLength": 1,
+      "title": "Exclusion Reason Column",
+      "type": "string"
+    },
+    "stage_column": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stage Column"
+    },
+    "delta_k_unit": {
+      "enum": [
+        "Pa*sqrt(m)",
+        "MPa*sqrt(m)",
+        "N/mm^1.5"
+      ],
+      "title": "Delta K Unit",
+      "type": "string"
+    },
+    "rate_unit": {
+      "enum": [
+        "m/cycle",
+        "mm/cycle"
+      ],
+      "title": "Rate Unit",
+      "type": "string"
+    },
+    "below_minimum_policy": {
+      "enum": [
+        "out_of_scope",
+        "zero_below_declared_threshold"
+      ],
+      "title": "Below Minimum Policy",
+      "type": "string"
+    },
+    "declared_threshold_delta_k_Pa_sqrt_m": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Declared Threshold Delta K Pa Sqrt M"
+    },
+    "pointwise_computational_use_authorized": {
+      "const": true,
+      "title": "Pointwise Computational Use Authorized",
+      "type": "boolean"
+    },
+    "curve_applicability_reviewed": {
+      "const": true,
+      "title": "Curve Applicability Reviewed",
+      "type": "boolean"
+    },
+    "physical_specimen_identity_status": {
+      "enum": [
+        "identified",
+        "not_required_for_user_model",
+        "not_established"
+      ],
+      "title": "Physical Specimen Identity Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "csv_bytes",
+    "curve_id",
+    "source_group_id",
+    "source_citation",
+    "license_id",
+    "rights_review_id",
+    "applicability_review_id",
+    "material_condition_id",
+    "environment_id",
+    "stress_ratio",
+    "delta_k_column",
+    "rate_column",
+    "row_id_column",
+    "disposition_column",
+    "delta_k_unit",
+    "rate_unit",
+    "below_minimum_policy",
+    "pointwise_computational_use_authorized",
+    "curve_applicability_reviewed",
+    "physical_specimen_identity_status"
+  ],
+  "title": "FcgrCsvImportRequest",
+  "type": "object"
+}

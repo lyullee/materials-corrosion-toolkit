@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "AqueousCandidateReactionSelection": {
+      "additionalProperties": false,
+      "description": "A manually selected balanced candidate with caller-owned equilibrium data.",
+      "properties": {
+        "candidate_id": {
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "candidate_forward",
+            "candidate_reverse"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "equilibrium_parameter_set_id": {
+          "minLength": 1,
+          "title": "Equilibrium Parameter Set Id",
+          "type": "string"
+        },
+        "equilibrium_record_id": {
+          "minLength": 1,
+          "title": "Equilibrium Record Id",
+          "type": "string"
+        },
+        "equilibrium_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Record Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "candidate_sha256",
+        "reaction_id",
+        "direction",
+        "log10_equilibrium_constant",
+        "temperature_K",
+        "equilibrium_parameter_set_id",
+        "equilibrium_record_id",
+        "equilibrium_record_sha256"
+      ],
+      "title": "AqueousCandidateReactionSelection",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Bind selected balance proposals to explicitly reviewed thermodynamic data.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.aqueous_candidate_reaction_binding.v1",
+      "default": "matintegrity.aqueous_candidate_reaction_binding.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "binding_id": {
+      "minLength": 1,
+      "title": "Binding Id",
+      "type": "string"
+    },
+    "candidate_enumeration_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Enumeration Input Sha256",
+      "type": "string"
+    },
+    "target_mass_action_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Target Mass Action Temperature K",
+      "type": "number"
+    },
+    "temperature_match_tolerance_K": {
+      "default": 0.0,
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "title": "Temperature Match Tolerance K",
+      "type": "number"
+    },
+    "target_activity_standard_state": {
+      "const": "molarity_1_mol_L",
+      "title": "Target Activity Standard State",
+      "type": "string"
+    },
+    "selections": {
+      "items": {
+        "$ref": "#/$defs/AqueousCandidateReactionSelection"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Selections",
+      "type": "array"
+    },
+    "reaction_selection_and_constant_reviewed": {
+      "title": "Reaction Selection And Constant Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "binding_id",
+    "candidate_enumeration_input_sha256",
+    "target_mass_action_temperature_K",
+    "target_activity_standard_state",
+    "selections",
+    "reaction_selection_and_constant_reviewed",
+    "evidence"
+  ],
+  "title": "AqueousCandidateReactionBindingRequest",
+  "type": "object"
+}

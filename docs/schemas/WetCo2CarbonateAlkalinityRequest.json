@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Solve carbonate-only alkalinity at a fixed neutral dissolved CO2-star state.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_carbonate_alkalinity_speciation.v1",
+      "default": "matintegrity.wet_co2_carbonate_alkalinity_speciation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "co2star_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Co2Star Concentration Mol M3",
+      "type": "number"
+    },
+    "total_alkalinity_mol_m3": {
+      "title": "Total Alkalinity Mol M3",
+      "type": "number"
+    },
+    "conditional_k1_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Conditional K1 Mol M3",
+      "type": "number"
+    },
+    "conditional_k2_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Conditional K2 Mol M3",
+      "type": "number"
+    },
+    "conditional_kw_mol2_m6": {
+      "exclusiveMinimum": 0,
+      "title": "Conditional Kw Mol2 M6",
+      "type": "number"
+    },
+    "pH_lower_bound": {
+      "maximum": 15,
+      "minimum": -2,
+      "title": "Ph Lower Bound",
+      "type": "number"
+    },
+    "pH_upper_bound": {
+      "maximum": 15,
+      "minimum": -2,
+      "title": "Ph Upper Bound",
+      "type": "number"
+    },
+    "constant_provider_id": {
+      "minLength": 1,
+      "title": "Constant Provider Id",
+      "type": "string"
+    },
+    "constant_provider_revision": {
+      "minLength": 1,
+      "title": "Constant Provider Revision",
+      "type": "string"
+    },
+    "constant_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Constant Configuration Sha256",
+      "type": "string"
+    },
+    "constant_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Constant Result Sha256",
+      "type": "string"
+    },
+    "constant_record_id": {
+      "minLength": 1,
+      "title": "Constant Record Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "alkalinity_species_scope_reviewed": {
+      "title": "Alkalinity Species Scope Reviewed",
+      "type": "boolean"
+    },
+    "conditional_constant_convention_reviewed": {
+      "title": "Conditional Constant Convention Reviewed",
+      "type": "boolean"
+    },
+    "ideal_concentration_activity_approximation_reviewed": {
+      "title": "Ideal Concentration Activity Approximation Reviewed",
+      "type": "boolean"
+    },
+    "state_and_use_authorized": {
+      "title": "State And Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "temperature_K",
+    "co2star_concentration_mol_m3",
+    "total_alkalinity_mol_m3",
+    "conditional_k1_mol_m3",
+    "conditional_k2_mol_m3",
+    "conditional_kw_mol2_m6",
+    "pH_lower_bound",
+    "pH_upper_bound",
+    "constant_provider_id",
+    "constant_provider_revision",
+    "constant_configuration_sha256",
+    "constant_result_sha256",
+    "constant_record_id",
+    "evidence",
+    "alkalinity_species_scope_reviewed",
+    "conditional_constant_convention_reviewed",
+    "ideal_concentration_activity_approximation_reviewed",
+    "state_and_use_authorized"
+  ],
+  "title": "WetCo2CarbonateAlkalinityRequest",
+  "type": "object"
+}

@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "McDiarmidIndexLifePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_index": {
+          "exclusiveMinimum": 0,
+          "title": "Criterion Index",
+          "type": "number"
+        },
+        "cycles_to_failure": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles To Failure",
+          "type": "number"
+        }
+      },
+      "required": [
+        "criterion_index",
+        "cycles_to_failure"
+      ],
+      "title": "McDiarmidIndexLifePoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "crack_case": {
+      "enum": [
+        "A",
+        "B"
+      ],
+      "title": "Crack Case",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "reference_record_id": {
+      "minLength": 1,
+      "title": "Reference Record Id",
+      "type": "string"
+    },
+    "calibration_points": {
+      "items": {
+        "$ref": "#/$defs/McDiarmidIndexLifePoint"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Calibration Points",
+      "type": "array"
+    },
+    "calibration_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "material_condition_id",
+    "crack_case",
+    "provider_id",
+    "provider_revision",
+    "reference_record_id",
+    "calibration_points",
+    "calibration_record_sha256",
+    "usage_license_id",
+    "evidence"
+  ],
+  "title": "McDiarmidLifeCurve",
+  "type": "object"
+}

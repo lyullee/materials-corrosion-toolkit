@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "verification_id": {
+      "minLength": 1,
+      "title": "Verification Id",
+      "type": "string"
+    },
+    "reference_feature_id": {
+      "minLength": 1,
+      "title": "Reference Feature Id",
+      "type": "string"
+    },
+    "check_stage": {
+      "minLength": 1,
+      "title": "Check Stage",
+      "type": "string"
+    },
+    "reported_response_present": {
+      "title": "Reported Response Present",
+      "type": "boolean"
+    },
+    "sensitivity_metric": {
+      "title": "Sensitivity Metric",
+      "type": "number"
+    },
+    "sensitivity_unit_token": {
+      "minLength": 1,
+      "title": "Sensitivity Unit Token",
+      "type": "string"
+    },
+    "expanded_sensitivity_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Sensitivity Uncertainty",
+      "type": "number"
+    },
+    "resolution_metric": {
+      "minimum": 0,
+      "title": "Resolution Metric",
+      "type": "number"
+    },
+    "resolution_unit_token": {
+      "minLength": 1,
+      "title": "Resolution Unit Token",
+      "type": "string"
+    },
+    "expanded_resolution_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Resolution Uncertainty",
+      "type": "number"
+    },
+    "verification_method_definition": {
+      "minLength": 1,
+      "title": "Verification Method Definition",
+      "type": "string"
+    },
+    "verification_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Verification Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "verification_id",
+    "reference_feature_id",
+    "check_stage",
+    "reported_response_present",
+    "sensitivity_metric",
+    "sensitivity_unit_token",
+    "expanded_sensitivity_uncertainty",
+    "resolution_metric",
+    "resolution_unit_token",
+    "expanded_resolution_uncertainty",
+    "verification_method_definition",
+    "verification_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "ImagingReferenceVerification",
+  "type": "object"
+}

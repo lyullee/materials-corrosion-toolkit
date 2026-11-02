@@ -1,0 +1,522 @@
+{
+  "$defs": {
+    "Api581InspectionLineage": {
+      "additionalProperties": false,
+      "properties": {
+        "inspection_id": {
+          "minLength": 1,
+          "title": "Inspection Id",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "procedure_revision": {
+          "minLength": 1,
+          "title": "Procedure Revision",
+          "type": "string"
+        },
+        "inspection_time_s": {
+          "minimum": 0,
+          "title": "Inspection Time S",
+          "type": "number"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "inspection_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Inspection Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "inspection_id",
+        "procedure_id",
+        "procedure_revision",
+        "inspection_time_s",
+        "physical_scope_id",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "inspection_record_digest",
+        "evidence"
+      ],
+      "title": "Api581InspectionLineage",
+      "type": "object"
+    },
+    "Api581WallFlawMaterialState": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "wall_thickness_value": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Thickness Value",
+          "type": "number"
+        },
+        "wall_thickness_unit_token": {
+          "minLength": 1,
+          "title": "Wall Thickness Unit Token",
+          "type": "string"
+        },
+        "wall_thickness_basis": {
+          "minLength": 1,
+          "title": "Wall Thickness Basis",
+          "type": "string"
+        },
+        "flaw_definition_id": {
+          "minLength": 1,
+          "title": "Flaw Definition Id",
+          "type": "string"
+        },
+        "flaw_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Flaw State Digest",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "material_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Material State Digest",
+          "type": "string"
+        },
+        "state_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "state_id",
+        "wall_thickness_value",
+        "wall_thickness_unit_token",
+        "wall_thickness_basis",
+        "flaw_definition_id",
+        "flaw_state_digest",
+        "material_id",
+        "material_condition_id",
+        "material_state_digest",
+        "state_record_digest",
+        "evidence"
+      ],
+      "title": "Api581WallFlawMaterialState",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.api581_damage_exchange.v1",
+      "default": "matintegrity.api581_damage_exchange.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "exchange_id": {
+      "minLength": 1,
+      "title": "Exchange Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "survival_conditioning": {
+      "minLength": 1,
+      "title": "Survival Conditioning",
+      "type": "string"
+    },
+    "damage_mechanism_id": {
+      "minLength": 1,
+      "title": "Damage Mechanism Id",
+      "type": "string"
+    },
+    "damage_mechanism_definition": {
+      "minLength": 1,
+      "title": "Damage Mechanism Definition",
+      "type": "string"
+    },
+    "wall_flaw_material_state": {
+      "$ref": "#/$defs/Api581WallFlawMaterialState"
+    },
+    "inspection_lineage": {
+      "items": {
+        "$ref": "#/$defs/Api581InspectionLineage"
+      },
+      "title": "Inspection Lineage",
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "status_basis": {
+      "minLength": 1,
+      "title": "Status Basis",
+      "type": "string"
+    },
+    "damage_factor": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Damage Factor"
+    },
+    "damage_factor_definition": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Damage Factor Definition"
+    },
+    "damage_factor_unit_token": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Damage Factor Unit Token"
+    },
+    "probability_of_failure": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Probability Of Failure"
+    },
+    "probability_semantics": {
+      "anyOf": [
+        {
+          "const": "conditional_first_failure_in_period",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Probability Semantics"
+    },
+    "probability_event_definition": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Probability Event Definition"
+    },
+    "inspection_pod": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inspection Pod"
+    },
+    "inspection_pod_semantics": {
+      "anyOf": [
+        {
+          "const": "detection_given_flaw_and_procedure",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inspection Pod Semantics"
+    },
+    "spatial_exceedance_probability": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Spatial Exceedance Probability"
+    },
+    "spatial_probability_semantics": {
+      "anyOf": [
+        {
+          "const": "spatial_size_exceedance_at_one_exposure",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Spatial Probability Semantics"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "provider_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Input Digest",
+      "type": "string"
+    },
+    "provider_result_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Result Digest"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "acceptance_claim": {
+      "const": false,
+      "default": false,
+      "title": "Acceptance Claim",
+      "type": "boolean"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "exchange_id",
+    "asset_id",
+    "component_id",
+    "location_id",
+    "physical_scope_id",
+    "horizon_start_s",
+    "horizon_end_s",
+    "survival_conditioning",
+    "damage_mechanism_id",
+    "damage_mechanism_definition",
+    "wall_flaw_material_state",
+    "inspection_lineage",
+    "status",
+    "status_basis",
+    "provider_id",
+    "provider_revision",
+    "model_id",
+    "model_revision",
+    "provider_configuration_digest",
+    "provider_input_digest",
+    "evidence",
+    "limitations",
+    "payload_digest"
+  ],
+  "title": "Api581DamageExchangeRecord",
+  "type": "object"
+}

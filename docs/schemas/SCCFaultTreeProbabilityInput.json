@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Explicit caller event and probability provenance for one finite-period event.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.scc_fta_probability_input.v1",
+      "default": "matintegrity.scc_fta_probability_input.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "failure_mode": {
+      "minLength": 1,
+      "title": "Failure Mode",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "condition_statement": {
+      "minLength": 1,
+      "title": "Condition Statement",
+      "type": "string"
+    },
+    "probability": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Probability",
+      "type": "number"
+    },
+    "probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Probability Meaning",
+      "type": "string"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "probability_scope_id": {
+      "minLength": 1,
+      "title": "Probability Scope Id",
+      "type": "string"
+    },
+    "probability_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Probability Evidence",
+      "type": "array"
+    },
+    "rights_boundary": {
+      "enum": [
+        "local_only",
+        "caller_authorized_open_distribution"
+      ],
+      "title": "Rights Boundary",
+      "type": "string"
+    },
+    "rights_authorization_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rights Authorization Digest"
+    }
+  },
+  "required": [
+    "event_id",
+    "failure_mode",
+    "condition_id",
+    "condition_statement",
+    "probability",
+    "probability_meaning",
+    "conditioning",
+    "probability_scope_id",
+    "probability_evidence",
+    "rights_boundary"
+  ],
+  "title": "SCCFaultTreeProbabilityInput",
+  "type": "object"
+}

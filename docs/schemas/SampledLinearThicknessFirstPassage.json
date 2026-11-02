@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "LinearThicknessFirstPassageSample": {
+      "additionalProperties": false,
+      "description": "One joint thickness/rate row from a caller-qualified conditional distribution.",
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "remaining_thickness_at_assessment_m": {
+          "exclusiveMinimum": 0,
+          "title": "Remaining Thickness At Assessment M",
+          "type": "number"
+        },
+        "nonnegative_loss_rate_m_s": {
+          "minimum": 0,
+          "title": "Nonnegative Loss Rate M S",
+          "type": "number"
+        },
+        "normalized_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Normalized Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sample_id",
+        "remaining_thickness_at_assessment_m",
+        "nonnegative_loss_rate_m_s",
+        "normalized_weight"
+      ],
+      "title": "LinearThicknessFirstPassageSample",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Push a joint discrete distribution through a monotone linear crossing time.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.sampled_linear_thickness_first_passage.v1",
+      "default": "matintegrity.sampled_linear_thickness_first_passage.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "forecast_id": {
+      "minLength": 1,
+      "title": "Forecast Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "physical_location_id": {
+      "minLength": 1,
+      "title": "Physical Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "assessment_time_s": {
+      "minimum": 0,
+      "title": "Assessment Time S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_definition": {
+      "minLength": 1,
+      "title": "Event Definition",
+      "type": "string"
+    },
+    "required_thickness_m": {
+      "minimum": 0,
+      "title": "Required Thickness M",
+      "type": "number"
+    },
+    "distribution_definition_id": {
+      "minLength": 1,
+      "title": "Distribution Definition Id",
+      "type": "string"
+    },
+    "sample_design_id": {
+      "minLength": 1,
+      "title": "Sample Design Id",
+      "type": "string"
+    },
+    "joint_sample_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Joint Sample Source Sha256",
+      "type": "string"
+    },
+    "source_lineage": {
+      "additionalProperties": true,
+      "title": "Source Lineage",
+      "type": "object"
+    },
+    "review_reference_ids": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Review Reference Ids",
+      "type": "object"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/LinearThicknessFirstPassageSample"
+      },
+      "minItems": 2,
+      "title": "Samples",
+      "type": "array"
+    },
+    "candidate_horizon_end_s": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Candidate Horizon End S",
+      "type": "array"
+    },
+    "maximum_weight_sum_error": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Maximum Weight Sum Error",
+      "type": "number"
+    },
+    "samples_conditioned_on_survival_to_assessment": {
+      "title": "Samples Conditioned On Survival To Assessment",
+      "type": "boolean"
+    },
+    "constant_nonnegative_loss_model_reviewed": {
+      "title": "Constant Nonnegative Loss Model Reviewed",
+      "type": "boolean"
+    },
+    "joint_sample_distribution_reviewed": {
+      "title": "Joint Sample Distribution Reviewed",
+      "type": "boolean"
+    },
+    "required_thickness_basis_reviewed": {
+      "title": "Required Thickness Basis Reviewed",
+      "type": "boolean"
+    },
+    "candidate_horizons_reviewed": {
+      "title": "Candidate Horizons Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "forecast_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "physical_location_id",
+    "time_basis",
+    "assessment_time_s",
+    "conditioning",
+    "event_id",
+    "event_definition",
+    "required_thickness_m",
+    "distribution_definition_id",
+    "sample_design_id",
+    "joint_sample_source_sha256",
+    "samples",
+    "candidate_horizon_end_s",
+    "samples_conditioned_on_survival_to_assessment",
+    "constant_nonnegative_loss_model_reviewed",
+    "joint_sample_distribution_reviewed",
+    "required_thickness_basis_reviewed",
+    "candidate_horizons_reviewed"
+  ],
+  "title": "SampledLinearThicknessFirstPassage",
+  "type": "object"
+}

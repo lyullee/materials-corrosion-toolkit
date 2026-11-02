@@ -1,0 +1,410 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MagnetizationPass": {
+      "additionalProperties": false,
+      "properties": {
+        "pass_id": {
+          "minLength": 1,
+          "title": "Pass Id",
+          "type": "string"
+        },
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "technique": {
+          "minLength": 1,
+          "title": "Technique",
+          "type": "string"
+        },
+        "current_mode": {
+          "enum": [
+            "ac",
+            "dc",
+            "half_wave_dc",
+            "permanent_magnet",
+            "other"
+          ],
+          "title": "Current Mode",
+          "type": "string"
+        },
+        "field_direction_rad": {
+          "exclusiveMaximum": 3.141592653589793,
+          "minimum": 0,
+          "title": "Field Direction Rad",
+          "type": "number"
+        },
+        "field_adequacy_basis": {
+          "minLength": 1,
+          "title": "Field Adequacy Basis",
+          "type": "string"
+        },
+        "equipment_id": {
+          "minLength": 1,
+          "title": "Equipment Id",
+          "type": "string"
+        },
+        "magnetizing_current_A": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Magnetizing Current A"
+        }
+      },
+      "required": [
+        "pass_id",
+        "area_id",
+        "technique",
+        "current_mode",
+        "field_direction_rad",
+        "field_adequacy_basis",
+        "equipment_id"
+      ],
+      "title": "MagnetizationPass",
+      "type": "object"
+    },
+    "SurfaceExaminationArea": {
+      "additionalProperties": false,
+      "properties": {
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "target_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Target Area M2",
+          "type": "number"
+        },
+        "examined_area_m2": {
+          "minimum": 0,
+          "title": "Examined Area M2",
+          "type": "number"
+        },
+        "unexamined_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unexamined Basis"
+        }
+      },
+      "required": [
+        "area_id",
+        "physical_location_id",
+        "target_area_m2",
+        "examined_area_m2"
+      ],
+      "title": "SurfaceExaminationArea",
+      "type": "object"
+    },
+    "SurfaceIndication": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "area_id": {
+          "minLength": 1,
+          "title": "Area Id",
+          "type": "string"
+        },
+        "physical_location_id": {
+          "minLength": 1,
+          "title": "Physical Location Id",
+          "type": "string"
+        },
+        "reported_indication_type": {
+          "minLength": 1,
+          "title": "Reported Indication Type",
+          "type": "string"
+        },
+        "location_description": {
+          "minLength": 1,
+          "title": "Location Description",
+          "type": "string"
+        },
+        "measured_length_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Length M"
+        },
+        "measured_width_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Width M"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indication_id",
+        "area_id",
+        "physical_location_id",
+        "reported_indication_type",
+        "location_description",
+        "evidence"
+      ],
+      "title": "SurfaceIndication",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "examination_id": {
+      "minLength": 1,
+      "title": "Examination Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "surface_material_id": {
+      "minLength": 1,
+      "title": "Surface Material Id",
+      "type": "string"
+    },
+    "surface_condition": {
+      "minLength": 1,
+      "title": "Surface Condition",
+      "type": "string"
+    },
+    "particle_medium": {
+      "enum": [
+        "dry",
+        "wet_visible",
+        "wet_fluorescent"
+      ],
+      "title": "Particle Medium",
+      "type": "string"
+    },
+    "particle_batch_id": {
+      "minLength": 1,
+      "title": "Particle Batch Id",
+      "type": "string"
+    },
+    "carrier_batch_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Carrier Batch Id"
+    },
+    "observation_lighting_basis": {
+      "minLength": 1,
+      "title": "Observation Lighting Basis",
+      "type": "string"
+    },
+    "minimum_direction_separation_rad": {
+      "exclusiveMinimum": 0,
+      "maximum": 1.5707963267948966,
+      "title": "Minimum Direction Separation Rad",
+      "type": "number"
+    },
+    "directional_coverage_requirement_basis": {
+      "minLength": 1,
+      "title": "Directional Coverage Requirement Basis",
+      "type": "string"
+    },
+    "areas": {
+      "items": {
+        "$ref": "#/$defs/SurfaceExaminationArea"
+      },
+      "minItems": 1,
+      "title": "Areas",
+      "type": "array"
+    },
+    "magnetization_passes": {
+      "items": {
+        "$ref": "#/$defs/MagnetizationPass"
+      },
+      "minItems": 1,
+      "title": "Magnetization Passes",
+      "type": "array"
+    },
+    "indications": {
+      "items": {
+        "$ref": "#/$defs/SurfaceIndication"
+      },
+      "title": "Indications",
+      "type": "array"
+    },
+    "areas_mutually_exclusive_reviewed": {
+      "title": "Areas Mutually Exclusive Reviewed",
+      "type": "boolean"
+    },
+    "ferromagnetic_applicability_reviewed": {
+      "title": "Ferromagnetic Applicability Reviewed",
+      "type": "boolean"
+    },
+    "equipment_and_media_reviewed": {
+      "title": "Equipment And Media Reviewed",
+      "type": "boolean"
+    },
+    "field_adequacy_reviewed": {
+      "title": "Field Adequacy Reviewed",
+      "type": "boolean"
+    },
+    "directional_requirement_reviewed": {
+      "title": "Directional Requirement Reviewed",
+      "type": "boolean"
+    },
+    "surface_condition_reviewed": {
+      "title": "Surface Condition Reviewed",
+      "type": "boolean"
+    },
+    "indication_mapping_reviewed": {
+      "title": "Indication Mapping Reviewed",
+      "type": "boolean"
+    },
+    "negative_result_reviewed": {
+      "default": false,
+      "title": "Negative Result Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "examination_id",
+    "procedure_id",
+    "procedure_revision",
+    "surface_material_id",
+    "surface_condition",
+    "particle_medium",
+    "particle_batch_id",
+    "observation_lighting_basis",
+    "minimum_direction_separation_rad",
+    "directional_coverage_requirement_basis",
+    "areas",
+    "magnetization_passes",
+    "areas_mutually_exclusive_reviewed",
+    "ferromagnetic_applicability_reviewed",
+    "equipment_and_media_reviewed",
+    "field_adequacy_reviewed",
+    "directional_requirement_reviewed",
+    "surface_condition_reviewed",
+    "indication_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "MagneticParticleExamination",
+  "type": "object"
+}

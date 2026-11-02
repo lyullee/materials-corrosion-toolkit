@@ -1,0 +1,102 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.mendeley_mdea_eis_complex_point.v1",
+      "default": "matintegrity.mendeley_mdea_eis_complex_point.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_filename": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "source_line_number": {
+      "minimum": 2,
+      "title": "Source Line Number",
+      "type": "integer"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "data_kind": {
+      "enum": [
+        "experimental",
+        "simulated"
+      ],
+      "title": "Data Kind",
+      "type": "string"
+    },
+    "frequency_hz": {
+      "exclusiveMinimum": 0,
+      "title": "Frequency Hz",
+      "type": "number"
+    },
+    "real_impedance_ohm": {
+      "title": "Real Impedance Ohm",
+      "type": "number"
+    },
+    "imaginary_impedance_ohm": {
+      "title": "Imaginary Impedance Ohm",
+      "type": "number"
+    },
+    "magnitude_ohm": {
+      "minimum": 0,
+      "title": "Magnitude Ohm",
+      "type": "number"
+    },
+    "phase_radians": {
+      "title": "Phase Radians",
+      "type": "number"
+    },
+    "source_magnitude_ohm": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Magnitude Ohm"
+    },
+    "magnitude_relative_discrepancy": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Magnitude Relative Discrepancy"
+    }
+  },
+  "required": [
+    "source_filename",
+    "source_file_sha256",
+    "source_line_number",
+    "source_row_sha256",
+    "data_kind",
+    "frequency_hz",
+    "real_impedance_ohm",
+    "imaginary_impedance_ohm",
+    "magnitude_ohm",
+    "phase_radians"
+  ],
+  "title": "MDEAEISComplexPoint",
+  "type": "object"
+}

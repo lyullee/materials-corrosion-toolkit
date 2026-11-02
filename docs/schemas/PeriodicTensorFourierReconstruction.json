@@ -1,0 +1,189 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4097,
+      "minItems": 4,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 4097,
+      "minItems": 4,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 4097,
+      "minItems": 4,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "evaluation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Evaluation Ids",
+      "type": "array"
+    },
+    "evaluation_phase_rad": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Evaluation Phase Rad",
+      "type": "array"
+    },
+    "input_strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Input Strain Shear Convention",
+      "type": "string"
+    },
+    "maximum_trigonometric_term_work": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Trigonometric Term Work",
+      "type": "integer"
+    },
+    "tensor_basis_and_order_reviewed": {
+      "title": "Tensor Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "uniform_periodic_sampling_reviewed": {
+      "title": "Uniform Periodic Sampling Reviewed",
+      "type": "boolean"
+    },
+    "closed_cycle_and_path_order_reviewed": {
+      "title": "Closed Cycle And Path Order Reviewed",
+      "type": "boolean"
+    },
+    "fourier_reconstruction_and_aliasing_reviewed": {
+      "title": "Fourier Reconstruction And Aliasing Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "source_id",
+    "source_sha256",
+    "evidence",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "evaluation_ids",
+    "evaluation_phase_rad",
+    "input_strain_shear_convention",
+    "tensor_basis_and_order_reviewed",
+    "uniform_periodic_sampling_reviewed",
+    "closed_cycle_and_path_order_reviewed",
+    "fourier_reconstruction_and_aliasing_reviewed"
+  ],
+  "title": "PeriodicTensorFourierReconstruction",
+  "type": "object"
+}

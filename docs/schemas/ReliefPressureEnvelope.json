@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "equipment_allowable_gauge_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Equipment Allowable Gauge Pressure Pa",
+      "type": "number"
+    },
+    "device_set_gauge_pressure_Pa": {
+      "minimum": 0,
+      "title": "Device Set Gauge Pressure Pa",
+      "type": "number"
+    },
+    "peak_equipment_gauge_pressure_Pa": {
+      "minimum": 0,
+      "title": "Peak Equipment Gauge Pressure Pa",
+      "type": "number"
+    },
+    "gauge_reference_id": {
+      "minLength": 1,
+      "title": "Gauge Reference Id",
+      "type": "string"
+    },
+    "maximum_set_pressure_multiplier": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Set Pressure Multiplier",
+      "type": "number"
+    },
+    "fractional_accumulation_allowance": {
+      "minimum": 0,
+      "title": "Fractional Accumulation Allowance",
+      "type": "number"
+    },
+    "absolute_accumulation_allowance_Pa": {
+      "minimum": 0,
+      "title": "Absolute Accumulation Allowance Pa",
+      "type": "number"
+    },
+    "allowance_combination": {
+      "enum": [
+        "larger_of",
+        "smaller_of",
+        "sum"
+      ],
+      "title": "Allowance Combination",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "basis",
+    "equipment_allowable_gauge_pressure_Pa",
+    "device_set_gauge_pressure_Pa",
+    "peak_equipment_gauge_pressure_Pa",
+    "gauge_reference_id",
+    "maximum_set_pressure_multiplier",
+    "fractional_accumulation_allowance",
+    "absolute_accumulation_allowance_Pa",
+    "allowance_combination",
+    "scenario_id"
+  ],
+  "title": "ReliefPressureEnvelope",
+  "type": "object"
+}

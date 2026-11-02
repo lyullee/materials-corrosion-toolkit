@@ -1,0 +1,520 @@
+{
+  "$defs": {
+    "CallerValidityFlag": {
+      "additionalProperties": false,
+      "properties": {
+        "flag_id": {
+          "minLength": 1,
+          "title": "Flag Id",
+          "type": "string"
+        },
+        "flag_result": {
+          "enum": [
+            "satisfied",
+            "not_satisfied",
+            "not_evaluated"
+          ],
+          "title": "Flag Result",
+          "type": "string"
+        },
+        "flag_definition": {
+          "minLength": 1,
+          "title": "Flag Definition",
+          "type": "string"
+        },
+        "review_basis": {
+          "minLength": 1,
+          "title": "Review Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "flag_id",
+        "flag_result",
+        "flag_definition",
+        "review_basis",
+        "evidence"
+      ],
+      "title": "CallerValidityFlag",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FatiguePrecrackEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "precrack_method_id": {
+          "minLength": 1,
+          "title": "Precrack Method Id",
+          "type": "string"
+        },
+        "cycle_count": {
+          "minimum": 1,
+          "title": "Cycle Count",
+          "type": "integer"
+        },
+        "maximum_load_value": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Load Value",
+          "type": "number"
+        },
+        "load_unit_token": {
+          "minLength": 1,
+          "title": "Load Unit Token",
+          "type": "string"
+        },
+        "load_ratio": {
+          "title": "Load Ratio",
+          "type": "number"
+        },
+        "frequency_hz": {
+          "exclusiveMinimum": 0,
+          "title": "Frequency Hz",
+          "type": "number"
+        },
+        "precrack_extension": {
+          "exclusiveMinimum": 0,
+          "title": "Precrack Extension",
+          "type": "number"
+        },
+        "extension_unit_token": {
+          "minLength": 1,
+          "title": "Extension Unit Token",
+          "type": "string"
+        },
+        "precrack_front_definition": {
+          "minLength": 1,
+          "title": "Precrack Front Definition",
+          "type": "string"
+        },
+        "precrack_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Precrack Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "precrack_method_id",
+        "cycle_count",
+        "maximum_load_value",
+        "load_unit_token",
+        "load_ratio",
+        "frequency_hz",
+        "precrack_extension",
+        "extension_unit_token",
+        "precrack_front_definition",
+        "precrack_record_digest",
+        "evidence"
+      ],
+      "title": "FatiguePrecrackEvidence",
+      "type": "object"
+    },
+    "FractureSpecimenGeometry": {
+      "additionalProperties": false,
+      "properties": {
+        "geometry_id": {
+          "minLength": 1,
+          "title": "Geometry Id",
+          "type": "string"
+        },
+        "specimen_type_descriptor": {
+          "minLength": 1,
+          "title": "Specimen Type Descriptor",
+          "type": "string"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "number"
+        },
+        "thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness",
+          "type": "number"
+        },
+        "net_thickness": {
+          "exclusiveMinimum": 0,
+          "title": "Net Thickness",
+          "type": "number"
+        },
+        "initial_notch_length": {
+          "minimum": 0,
+          "title": "Initial Notch Length",
+          "type": "number"
+        },
+        "final_crack_length": {
+          "exclusiveMinimum": 0,
+          "title": "Final Crack Length",
+          "type": "number"
+        },
+        "dimension_unit_token": {
+          "minLength": 1,
+          "title": "Dimension Unit Token",
+          "type": "string"
+        },
+        "geometry_measurement_uncertainty": {
+          "minimum": 0,
+          "title": "Geometry Measurement Uncertainty",
+          "type": "number"
+        },
+        "geometry_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "geometry_id",
+        "specimen_type_descriptor",
+        "width",
+        "thickness",
+        "net_thickness",
+        "initial_notch_length",
+        "final_crack_length",
+        "dimension_unit_token",
+        "geometry_measurement_uncertainty",
+        "geometry_record_digest"
+      ],
+      "title": "FractureSpecimenGeometry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "replicate_group_id": {
+      "minLength": 1,
+      "title": "Replicate Group Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "product_form_id": {
+      "minLength": 1,
+      "title": "Product Form Id",
+      "type": "string"
+    },
+    "extraction_location_definition": {
+      "minLength": 1,
+      "title": "Extraction Location Definition",
+      "type": "string"
+    },
+    "notch_orientation_id": {
+      "minLength": 1,
+      "title": "Notch Orientation Id",
+      "type": "string"
+    },
+    "crack_plane_orientation_id": {
+      "minLength": 1,
+      "title": "Crack Plane Orientation Id",
+      "type": "string"
+    },
+    "crack_growth_direction_id": {
+      "minLength": 1,
+      "title": "Crack Growth Direction Id",
+      "type": "string"
+    },
+    "geometry": {
+      "$ref": "#/$defs/FractureSpecimenGeometry"
+    },
+    "test_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Test Temperature K",
+      "type": "number"
+    },
+    "expanded_temperature_uncertainty_K": {
+      "minimum": 0,
+      "title": "Expanded Temperature Uncertainty K",
+      "type": "number"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "loading_mode": {
+      "minLength": 1,
+      "title": "Loading Mode",
+      "type": "string"
+    },
+    "loading_control_definition": {
+      "minLength": 1,
+      "title": "Loading Control Definition",
+      "type": "string"
+    },
+    "loading_rate_value": {
+      "exclusiveMinimum": 0,
+      "title": "Loading Rate Value",
+      "type": "number"
+    },
+    "loading_rate_unit_token": {
+      "minLength": 1,
+      "title": "Loading Rate Unit Token",
+      "type": "string"
+    },
+    "expanded_loading_rate_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Loading Rate Uncertainty",
+      "type": "number"
+    },
+    "fatigue_precrack": {
+      "$ref": "#/$defs/FatiguePrecrackEvidence"
+    },
+    "toughness_kind": {
+      "enum": [
+        "K",
+        "J",
+        "CTOD",
+        "arrest",
+        "user_defined"
+      ],
+      "title": "Toughness Kind",
+      "type": "string"
+    },
+    "user_defined_toughness_description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "User Defined Toughness Description"
+    },
+    "test_method_id": {
+      "minLength": 1,
+      "title": "Test Method Id",
+      "type": "string"
+    },
+    "test_method_revision": {
+      "minLength": 1,
+      "title": "Test Method Revision",
+      "type": "string"
+    },
+    "reported_toughness": {
+      "minimum": 0,
+      "title": "Reported Toughness",
+      "type": "number"
+    },
+    "toughness_unit_token": {
+      "minLength": 1,
+      "title": "Toughness Unit Token",
+      "type": "string"
+    },
+    "expanded_toughness_uncertainty": {
+      "minimum": 0,
+      "title": "Expanded Toughness Uncertainty",
+      "type": "number"
+    },
+    "uncertainty_coverage_definition": {
+      "minLength": 1,
+      "title": "Uncertainty Coverage Definition",
+      "type": "string"
+    },
+    "caller_validity_flags": {
+      "items": {
+        "$ref": "#/$defs/CallerValidityFlag"
+      },
+      "minItems": 1,
+      "title": "Caller Validity Flags",
+      "type": "array"
+    },
+    "caller_overall_valid": {
+      "title": "Caller Overall Valid",
+      "type": "boolean"
+    },
+    "caller_validity_record_id": {
+      "minLength": 1,
+      "title": "Caller Validity Record Id",
+      "type": "string"
+    },
+    "invalid_or_limiting_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Limiting Basis"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "raw_data_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Raw Data Digest",
+      "type": "string"
+    },
+    "result_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_id",
+    "physical_specimen_id",
+    "replicate_group_id",
+    "source_group_id",
+    "independence_group_id",
+    "material_id",
+    "material_condition_id",
+    "product_form_id",
+    "extraction_location_definition",
+    "notch_orientation_id",
+    "crack_plane_orientation_id",
+    "crack_growth_direction_id",
+    "geometry",
+    "test_temperature_K",
+    "expanded_temperature_uncertainty_K",
+    "environment_id",
+    "loading_mode",
+    "loading_control_definition",
+    "loading_rate_value",
+    "loading_rate_unit_token",
+    "expanded_loading_rate_uncertainty",
+    "fatigue_precrack",
+    "toughness_kind",
+    "test_method_id",
+    "test_method_revision",
+    "reported_toughness",
+    "toughness_unit_token",
+    "expanded_toughness_uncertainty",
+    "uncertainty_coverage_definition",
+    "caller_validity_flags",
+    "caller_overall_valid",
+    "caller_validity_record_id",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_digest",
+    "raw_data_digest",
+    "result_record_digest",
+    "evidence"
+  ],
+  "title": "FractureToughnessSpecimenRecord",
+  "type": "object"
+}

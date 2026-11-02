@@ -1,0 +1,95 @@
+{
+  "additionalProperties": false,
+  "description": "Ordered symmetric stress tensors at caller-declared cycle samples.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "tensor_component_order": {
+      "default": [
+        "xx",
+        "yy",
+        "zz",
+        "xy",
+        "yz",
+        "zx"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Tensor Component Order",
+      "type": "array"
+    },
+    "closed_cycle_and_sample_order_reviewed": {
+      "title": "Closed Cycle And Sample Order Reviewed",
+      "type": "boolean"
+    },
+    "stress_tensor_basis_reviewed": {
+      "title": "Stress Tensor Basis Reviewed",
+      "type": "boolean"
+    },
+    "maximum_pair_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Pair Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "location_id",
+    "source_id",
+    "source_sha256",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "closed_cycle_and_sample_order_reviewed",
+    "stress_tensor_basis_reviewed"
+  ],
+  "title": "SampledStressInvariantHistory",
+  "type": "object"
+}

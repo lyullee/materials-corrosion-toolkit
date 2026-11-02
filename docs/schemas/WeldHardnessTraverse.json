@@ -1,0 +1,299 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WeldHardnessPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "traverse_id": {
+          "minLength": 1,
+          "title": "Traverse Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "coordinate_x": {
+          "title": "Coordinate X",
+          "type": "number"
+        },
+        "coordinate_y": {
+          "title": "Coordinate Y",
+          "type": "number"
+        },
+        "coordinate_z": {
+          "title": "Coordinate Z",
+          "type": "number"
+        },
+        "coordinate_unit_token": {
+          "minLength": 1,
+          "title": "Coordinate Unit Token",
+          "type": "string"
+        },
+        "caller_assigned_region": {
+          "enum": [
+            "base_material",
+            "haz",
+            "fusion_boundary",
+            "weld_metal",
+            "user_defined"
+          ],
+          "title": "Caller Assigned Region",
+          "type": "string"
+        },
+        "user_defined_region_description": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Defined Region Description"
+        },
+        "region_assignment_basis": {
+          "minLength": 1,
+          "title": "Region Assignment Basis",
+          "type": "string"
+        },
+        "hardness_value": {
+          "minimum": 0,
+          "title": "Hardness Value",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "expanded_hardness_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Hardness Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_basis": {
+          "minLength": 1,
+          "title": "Uncertainty Basis",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_reading_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Reading Digest",
+          "type": "string"
+        },
+        "point_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Point Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "traverse_id",
+        "coordinate_frame_id",
+        "coordinate_x",
+        "coordinate_y",
+        "coordinate_z",
+        "coordinate_unit_token",
+        "caller_assigned_region",
+        "region_assignment_basis",
+        "hardness_value",
+        "hardness_unit_token",
+        "expanded_hardness_uncertainty",
+        "uncertainty_basis",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_reading_digest",
+        "point_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "WeldHardnessPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "traverse_id": {
+      "minLength": 1,
+      "title": "Traverse Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "orientation_definition": {
+      "minLength": 1,
+      "title": "Orientation Definition",
+      "type": "string"
+    },
+    "nominal_offset_or_depth": {
+      "title": "Nominal Offset Or Depth",
+      "type": "number"
+    },
+    "coordinate_unit_token": {
+      "minLength": 1,
+      "title": "Coordinate Unit Token",
+      "type": "string"
+    },
+    "replicate_group_id": {
+      "minLength": 1,
+      "title": "Replicate Group Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/WeldHardnessPoint"
+      },
+      "minItems": 1,
+      "title": "Points",
+      "type": "array"
+    },
+    "traverse_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Traverse Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "traverse_id",
+    "coordinate_frame_id",
+    "orientation_definition",
+    "nominal_offset_or_depth",
+    "coordinate_unit_token",
+    "replicate_group_id",
+    "source_group_id",
+    "independence_group_id",
+    "points",
+    "traverse_record_digest",
+    "evidence"
+  ],
+  "title": "WeldHardnessTraverse",
+  "type": "object"
+}

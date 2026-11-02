@@ -1,0 +1,210 @@
+{
+  "$defs": {
+    "AZ31BCorrosionFatigueWorkbookCell": {
+      "additionalProperties": false,
+      "properties": {
+        "column_number": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Column Number",
+          "type": "integer"
+        },
+        "address": {
+          "maxLength": 16,
+          "minLength": 2,
+          "title": "Address",
+          "type": "string"
+        },
+        "cell_type": {
+          "maxLength": 8,
+          "minLength": 1,
+          "title": "Cell Type",
+          "type": "string"
+        },
+        "raw_value": {
+          "title": "Raw Value"
+        }
+      },
+      "required": [
+        "column_number",
+        "address",
+        "cell_type",
+        "raw_value"
+      ],
+      "title": "AZ31BCorrosionFatigueWorkbookCell",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.mendeley_az31b_corrosion_fatigue_row.v1",
+      "default": "matintegrity.mendeley_az31b_corrosion_fatigue_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "mendeley-az31b-corrosion-fatigue-cold-spray",
+      "default": "mendeley-az31b-corrosion-fatigue-cold-spray",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_doi": {
+      "const": "10.17632/5b5rk27wmx.1",
+      "default": "10.17632/5b5rk27wmx.1",
+      "title": "Dataset Doi",
+      "type": "string"
+    },
+    "article_doi": {
+      "const": "10.3390/coatings8120443",
+      "default": "10.3390/coatings8120443",
+      "title": "Article Doi",
+      "type": "string"
+    },
+    "license_id": {
+      "const": "CC-BY-4.0",
+      "default": "CC-BY-4.0",
+      "title": "License Id",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "source_filename": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "provider_file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Provider File Id",
+      "type": "string"
+    },
+    "source_file_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source File Bytes",
+      "type": "integer"
+    },
+    "source_file_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source File Sha256",
+      "type": "string"
+    },
+    "worksheet_name": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Worksheet Name",
+      "type": "string"
+    },
+    "provider_row_number": {
+      "minimum": 1,
+      "title": "Provider Row Number",
+      "type": "integer"
+    },
+    "cells": {
+      "items": {
+        "$ref": "#/$defs/AZ31BCorrosionFatigueWorkbookCell"
+      },
+      "maxItems": 512,
+      "minItems": 1,
+      "title": "Cells",
+      "type": "array"
+    },
+    "source_row_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Row Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    }
+  },
+  "required": [
+    "attribution",
+    "authorization_sha256",
+    "source_filename",
+    "provider_file_id",
+    "source_file_bytes",
+    "source_file_sha256",
+    "worksheet_name",
+    "provider_row_number",
+    "cells",
+    "source_row_sha256",
+    "evidence"
+  ],
+  "title": "AZ31BCorrosionFatigueWorkbookRow",
+  "type": "object"
+}

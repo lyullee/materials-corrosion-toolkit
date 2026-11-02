@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "GasketCompressionPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "compression_m": {
+          "minimum": 0,
+          "title": "Compression M",
+          "type": "number"
+        },
+        "force_N": {
+          "minimum": 0,
+          "title": "Force N",
+          "type": "number"
+        }
+      },
+      "required": [
+        "compression_m",
+        "force_N"
+      ],
+      "title": "GasketCompressionPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "gasket_curve_id": {
+      "minLength": 1,
+      "title": "Gasket Curve Id",
+      "type": "string"
+    },
+    "curve_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Source Sha256",
+      "type": "string"
+    },
+    "compression_curve": {
+      "items": {
+        "$ref": "#/$defs/GasketCompressionPoint"
+      },
+      "minItems": 2,
+      "title": "Compression Curve",
+      "type": "array"
+    },
+    "initial_compression_m": {
+      "minimum": 0,
+      "title": "Initial Compression M",
+      "type": "number"
+    },
+    "bolt_stiffness_N_m": {
+      "exclusiveMinimum": 0,
+      "title": "Bolt Stiffness N M",
+      "type": "number"
+    },
+    "external_separating_force_N": {
+      "minimum": 0,
+      "title": "External Separating Force N",
+      "type": "number"
+    },
+    "bolt_free_length_change_m": {
+      "default": 0.0,
+      "title": "Bolt Free Length Change M",
+      "type": "number"
+    },
+    "reversible_curve_and_uniform_contact_reviewed": {
+      "title": "Reversible Curve And Uniform Contact Reviewed",
+      "type": "boolean"
+    },
+    "curve_computational_use_authorized": {
+      "title": "Curve Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "joint_id",
+    "gasket_curve_id",
+    "curve_source_sha256",
+    "compression_curve",
+    "initial_compression_m",
+    "bolt_stiffness_N_m",
+    "external_separating_force_N",
+    "reversible_curve_and_uniform_contact_reviewed",
+    "curve_computational_use_authorized"
+  ],
+  "title": "NonlinearGasketJoint",
+  "type": "object"
+}

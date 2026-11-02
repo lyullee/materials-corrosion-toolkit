@@ -1,0 +1,191 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HydrogenTrapPopulation": {
+      "additionalProperties": false,
+      "properties": {
+        "trap_id": {
+          "minLength": 1,
+          "title": "Trap Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "reference_lattice_id": {
+          "minLength": 1,
+          "title": "Reference Lattice Id",
+          "type": "string"
+        },
+        "site_density_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Site Density Mol M3",
+          "type": "number"
+        },
+        "binding_energy_J_mol": {
+          "minimum": 0,
+          "title": "Binding Energy J Mol",
+          "type": "number"
+        },
+        "maximum_supported_occupancy": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Maximum Supported Occupancy",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "trap_id",
+        "material_condition_id",
+        "reference_lattice_id",
+        "site_density_mol_m3",
+        "binding_energy_J_mol",
+        "maximum_supported_occupancy",
+        "evidence"
+      ],
+      "title": "HydrogenTrapPopulation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_lattice_id": {
+      "minLength": 1,
+      "title": "Reference Lattice Id",
+      "type": "string"
+    },
+    "total_hydrogen_atoms_mol_m3": {
+      "minimum": 0,
+      "title": "Total Hydrogen Atoms Mol M3",
+      "type": "number"
+    },
+    "lattice_site_density_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Lattice Site Density Mol M3",
+      "type": "number"
+    },
+    "lattice_diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Lattice Diffusivity M2 S",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "maximum_supported_lattice_occupancy": {
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Maximum Supported Lattice Occupancy",
+      "type": "number"
+    },
+    "traps": {
+      "items": {
+        "$ref": "#/$defs/HydrogenTrapPopulation"
+      },
+      "maxItems": 100,
+      "title": "Traps",
+      "type": "array"
+    },
+    "local_equilibrium_confirmed": {
+      "title": "Local Equilibrium Confirmed",
+      "type": "boolean"
+    },
+    "independent_single_occupancy_sites_confirmed": {
+      "title": "Independent Single Occupancy Sites Confirmed",
+      "type": "boolean"
+    },
+    "fixed_trap_population_and_uniform_temperature_confirmed": {
+      "title": "Fixed Trap Population And Uniform Temperature Confirmed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "material_condition_id",
+    "reference_lattice_id",
+    "total_hydrogen_atoms_mol_m3",
+    "lattice_site_density_mol_m3",
+    "lattice_diffusivity_m2_s",
+    "temperature_K",
+    "maximum_supported_lattice_occupancy",
+    "traps",
+    "local_equilibrium_confirmed",
+    "independent_single_occupancy_sites_confirmed",
+    "fixed_trap_population_and_uniform_temperature_confirmed"
+  ],
+  "title": "HydrogenPartition",
+  "type": "object"
+}

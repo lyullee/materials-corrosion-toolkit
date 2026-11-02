@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Rate-independent J2 response with linear isotropic and Prager hardening.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "initial_stress_components_Pa": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Initial Stress Components Pa",
+      "type": "array"
+    },
+    "initial_plastic_strain_components": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Initial Plastic Strain Components",
+      "type": "array"
+    },
+    "initial_backstress_components_Pa": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "title": "Initial Backstress Components Pa",
+      "type": "array"
+    },
+    "initial_equivalent_plastic_strain": {
+      "minimum": 0,
+      "title": "Initial Equivalent Plastic Strain",
+      "type": "number"
+    },
+    "young_modulus_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Young Modulus Pa",
+      "type": "number"
+    },
+    "poisson_ratio": {
+      "exclusiveMaximum": 0.5,
+      "exclusiveMinimum": -1,
+      "title": "Poisson Ratio",
+      "type": "number"
+    },
+    "initial_yield_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Yield Stress Pa",
+      "type": "number"
+    },
+    "isotropic_hardening_modulus_Pa": {
+      "minimum": 0,
+      "title": "Isotropic Hardening Modulus Pa",
+      "type": "number"
+    },
+    "prager_kinematic_modulus_Pa": {
+      "minimum": 0,
+      "title": "Prager Kinematic Modulus Pa",
+      "type": "number"
+    },
+    "tensor_basis_and_order_reviewed": {
+      "title": "Tensor Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "material_model_and_parameters_reviewed": {
+      "title": "Material Model And Parameters Reviewed",
+      "type": "boolean"
+    },
+    "initial_state_at_first_sample_reviewed": {
+      "title": "Initial State At First Sample Reviewed",
+      "type": "boolean"
+    },
+    "small_strain_quasistatic_applicability_reviewed": {
+      "title": "Small Strain Quasistatic Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "source_id",
+    "source_sha256",
+    "evidence",
+    "sample_ids",
+    "strain_tensor_components",
+    "initial_stress_components_Pa",
+    "initial_plastic_strain_components",
+    "initial_backstress_components_Pa",
+    "initial_equivalent_plastic_strain",
+    "young_modulus_Pa",
+    "poisson_ratio",
+    "initial_yield_stress_Pa",
+    "isotropic_hardening_modulus_Pa",
+    "prager_kinematic_modulus_Pa",
+    "tensor_basis_and_order_reviewed",
+    "material_model_and_parameters_reviewed",
+    "initial_state_at_first_sample_reviewed",
+    "small_strain_quasistatic_applicability_reviewed"
+  ],
+  "title": "J2PragerStrainHistory",
+  "type": "object"
+}

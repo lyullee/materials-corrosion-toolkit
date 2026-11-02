@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed interpretation of one spatial reaction-current branch.",
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "metal_species_id": {
+      "minLength": 1,
+      "title": "Metal Species Id",
+      "type": "string"
+    },
+    "electron_count": {
+      "exclusiveMinimum": 0,
+      "maximum": 64,
+      "title": "Electron Count",
+      "type": "integer"
+    },
+    "metal_moles_per_reaction_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Moles Per Reaction Extent",
+      "type": "number"
+    },
+    "metal_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "metal_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Density Kg M3",
+      "type": "number"
+    },
+    "current_efficiency": {
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Current Efficiency",
+      "type": "number"
+    },
+    "reactive_area_m2_by_cell": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Reactive Area M2 By Cell",
+      "type": "array"
+    },
+    "mapping_record_id": {
+      "minLength": 1,
+      "title": "Mapping Record Id",
+      "type": "string"
+    },
+    "mapping_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mapping Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "anodic_positive_sign_reviewed": {
+      "title": "Anodic Positive Sign Reviewed",
+      "type": "boolean"
+    },
+    "branch_is_metal_dissolution_reviewed": {
+      "title": "Branch Is Metal Dissolution Reviewed",
+      "type": "boolean"
+    },
+    "area_mapping_and_uniform_cell_recession_reviewed": {
+      "title": "Area Mapping And Uniform Cell Recession Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "metal_species_id",
+    "electron_count",
+    "metal_moles_per_reaction_extent",
+    "metal_molar_mass_kg_mol",
+    "metal_density_kg_m3",
+    "current_efficiency",
+    "reactive_area_m2_by_cell",
+    "mapping_record_id",
+    "mapping_sha256",
+    "evidence",
+    "anodic_positive_sign_reviewed",
+    "branch_is_metal_dissolution_reviewed",
+    "area_mapping_and_uniform_cell_recession_reviewed"
+  ],
+  "title": "CreviceSpatialDissolutionBranchMapping",
+  "type": "object"
+}

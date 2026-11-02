@@ -1,0 +1,351 @@
+{
+  "$defs": {
+    "ElectromagneticReferenceCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "minLength": 1,
+          "title": "Check Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "check_stage": {
+          "minLength": 1,
+          "title": "Check Stage",
+          "type": "string"
+        },
+        "reference_feature_id": {
+          "minLength": 1,
+          "title": "Reference Feature Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "drift_group_id": {
+          "minLength": 1,
+          "title": "Drift Group Id",
+          "type": "string"
+        },
+        "reported_response_present": {
+          "title": "Reported Response Present",
+          "type": "boolean"
+        },
+        "sensitivity_metric": {
+          "minimum": 0,
+          "title": "Sensitivity Metric",
+          "type": "number"
+        },
+        "sensitivity_unit_token": {
+          "minLength": 1,
+          "title": "Sensitivity Unit Token",
+          "type": "string"
+        },
+        "expanded_sensitivity_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Sensitivity Uncertainty",
+          "type": "number"
+        },
+        "noise_metric": {
+          "minimum": 0,
+          "title": "Noise Metric",
+          "type": "number"
+        },
+        "noise_unit_token": {
+          "minLength": 1,
+          "title": "Noise Unit Token",
+          "type": "string"
+        },
+        "expanded_noise_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Noise Uncertainty",
+          "type": "number"
+        },
+        "resolution_metric": {
+          "minimum": 0,
+          "title": "Resolution Metric",
+          "type": "number"
+        },
+        "resolution_unit_token": {
+          "minLength": 1,
+          "title": "Resolution Unit Token",
+          "type": "string"
+        },
+        "expanded_resolution_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Resolution Uncertainty",
+          "type": "number"
+        },
+        "check_method_definition": {
+          "minLength": 1,
+          "title": "Check Method Definition",
+          "type": "string"
+        },
+        "check_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Check Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "check_id",
+        "sequence_index",
+        "elapsed_time_s",
+        "check_stage",
+        "reference_feature_id",
+        "channel_id",
+        "drift_group_id",
+        "reported_response_present",
+        "sensitivity_metric",
+        "sensitivity_unit_token",
+        "expanded_sensitivity_uncertainty",
+        "noise_metric",
+        "noise_unit_token",
+        "expanded_noise_uncertainty",
+        "resolution_metric",
+        "resolution_unit_token",
+        "expanded_resolution_uncertainty",
+        "check_method_definition",
+        "check_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ElectromagneticReferenceCheck",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scan_id": {
+      "minLength": 1,
+      "title": "Scan Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "configuration_id": {
+      "minLength": 1,
+      "title": "Configuration Id",
+      "type": "string"
+    },
+    "reference_standard_id": {
+      "minLength": 1,
+      "title": "Reference Standard Id",
+      "type": "string"
+    },
+    "active_channel_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Active Channel Ids",
+      "type": "array"
+    },
+    "scan_speed_m_s": {
+      "minimum": 0,
+      "title": "Scan Speed M S",
+      "type": "number"
+    },
+    "expanded_scan_speed_uncertainty_m_s": {
+      "minimum": 0,
+      "title": "Expanded Scan Speed Uncertainty M S",
+      "type": "number"
+    },
+    "speed_control_basis": {
+      "minLength": 1,
+      "title": "Speed Control Basis",
+      "type": "string"
+    },
+    "target_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Target Extent",
+      "type": "number"
+    },
+    "examined_extent": {
+      "minimum": 0,
+      "title": "Examined Extent",
+      "type": "number"
+    },
+    "extent_unit_token": {
+      "minLength": 1,
+      "title": "Extent Unit Token",
+      "type": "string"
+    },
+    "encoded_data_id": {
+      "minLength": 1,
+      "title": "Encoded Data Id",
+      "type": "string"
+    },
+    "encoded_data_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Encoded Data Digest",
+      "type": "string"
+    },
+    "encoded_data_format": {
+      "minLength": 1,
+      "title": "Encoded Data Format",
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/ElectromagneticReferenceCheck"
+      },
+      "minItems": 1,
+      "title": "Checks",
+      "type": "array"
+    },
+    "scan_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scan Record Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "scan_id",
+    "procedure_id",
+    "procedure_revision",
+    "configuration_id",
+    "reference_standard_id",
+    "active_channel_ids",
+    "scan_speed_m_s",
+    "expanded_scan_speed_uncertainty_m_s",
+    "speed_control_basis",
+    "target_extent",
+    "examined_extent",
+    "extent_unit_token",
+    "encoded_data_id",
+    "encoded_data_digest",
+    "encoded_data_format",
+    "checks",
+    "scan_record_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "EncodedElectromagneticScanEvidence",
+  "type": "object"
+}

@@ -1,0 +1,481 @@
+{
+  "$defs": {
+    "CreviceRateSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "bulk_solution_id": {
+          "minLength": 1,
+          "title": "Bulk Solution Id",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_gap_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Gap M",
+          "type": "number"
+        },
+        "maximum_gap_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Gap M",
+          "type": "number"
+        },
+        "rate_provider_id": {
+          "minLength": 1,
+          "title": "Rate Provider Id",
+          "type": "string"
+        },
+        "rate_provider_version": {
+          "minLength": 1,
+          "title": "Rate Provider Version",
+          "type": "string"
+        },
+        "rate_provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Rate Provider State Digest",
+          "type": "string"
+        },
+        "supported_species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Species Ids",
+          "type": "array"
+        },
+        "maximum_absolute_charge_imbalance_mol_charge": {
+          "minimum": 0,
+          "title": "Maximum Absolute Charge Imbalance Mol Charge",
+          "type": "number"
+        },
+        "calibration_basis": {
+          "minLength": 1,
+          "title": "Calibration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "material_condition_id",
+        "bulk_solution_id",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_gap_m",
+        "maximum_gap_m",
+        "rate_provider_id",
+        "rate_provider_version",
+        "rate_provider_state_digest",
+        "supported_species_ids",
+        "maximum_absolute_charge_imbalance_mol_charge",
+        "calibration_basis",
+        "evidence"
+      ],
+      "title": "CreviceRateSupport",
+      "type": "object"
+    },
+    "CreviceSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "initial_amount_mol": {
+          "minimum": 0,
+          "title": "Initial Amount Mol",
+          "type": "number"
+        },
+        "species_definition": {
+          "minLength": 1,
+          "title": "Species Definition",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "initial_amount_mol",
+        "species_definition",
+        "evidence"
+      ],
+      "title": "CreviceSpecies",
+      "type": "object"
+    },
+    "CreviceSpeciesRateInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "gap_m": {
+          "exclusiveMinimum": 0,
+          "title": "Gap M",
+          "type": "number"
+        },
+        "end_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Temperature K"
+        },
+        "end_gap_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Gap M"
+        },
+        "linear_condition_interpolation_reviewed": {
+          "default": false,
+          "title": "Linear Condition Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "boundary_condition_jump_reviewed": {
+          "default": false,
+          "title": "Boundary Condition Jump Reviewed",
+          "type": "boolean"
+        },
+        "net_species_source_mol_s": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Net Species Source Mol S",
+          "type": "object"
+        },
+        "net_species_source_end_mol_s": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Net Species Source End Mol S"
+        },
+        "linear_rate_interpolation_reviewed": {
+          "default": false,
+          "title": "Linear Rate Interpolation Reviewed",
+          "type": "boolean"
+        },
+        "provider_record_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider Record Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "support_id",
+        "temperature_K",
+        "gap_m",
+        "net_species_source_mol_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CreviceSpeciesRateInterval",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "bulk_solution_id": {
+      "minLength": 1,
+      "title": "Bulk Solution Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "crevice_solution_volume_m3": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Crevice Solution Volume M3",
+      "type": "array"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/CreviceSpecies"
+      },
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "rate_intervals": {
+      "items": {
+        "$ref": "#/$defs/CreviceSpeciesRateInterval"
+      },
+      "minItems": 1,
+      "title": "Rate Intervals",
+      "type": "array"
+    },
+    "rate_supports": {
+      "items": {
+        "$ref": "#/$defs/CreviceRateSupport"
+      },
+      "minItems": 1,
+      "title": "Rate Supports",
+      "type": "array"
+    },
+    "geometry_and_volume_history_reviewed": {
+      "title": "Geometry And Volume History Reviewed",
+      "type": "boolean"
+    },
+    "material_and_bulk_solution_identity_reviewed": {
+      "title": "Material And Bulk Solution Identity Reviewed",
+      "type": "boolean"
+    },
+    "species_definitions_and_initial_inventory_reviewed": {
+      "title": "Species Definitions And Initial Inventory Reviewed",
+      "type": "boolean"
+    },
+    "temperature_and_gap_history_reviewed": {
+      "title": "Temperature And Gap History Reviewed",
+      "type": "boolean"
+    },
+    "rate_provider_and_calibration_reviewed": {
+      "title": "Rate Provider And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_interval_alignment_reviewed": {
+      "title": "Clock And Interval Alignment Reviewed",
+      "type": "boolean"
+    },
+    "charge_balance_tolerance_reviewed": {
+      "title": "Charge Balance Tolerance Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_condition_id",
+    "bulk_solution_id",
+    "elapsed_time_s",
+    "crevice_solution_volume_m3",
+    "species",
+    "rate_intervals",
+    "rate_supports",
+    "geometry_and_volume_history_reviewed",
+    "material_and_bulk_solution_identity_reviewed",
+    "species_definitions_and_initial_inventory_reviewed",
+    "temperature_and_gap_history_reviewed",
+    "rate_provider_and_calibration_reviewed",
+    "clock_and_interval_alignment_reviewed",
+    "charge_balance_tolerance_reviewed",
+    "evidence"
+  ],
+  "title": "CreviceSpeciesInventoryHistory",
+  "type": "object"
+}

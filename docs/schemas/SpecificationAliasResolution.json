@@ -1,0 +1,139 @@
+{
+  "$defs": {
+    "SpecificationDesignation": {
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "minLength": 1,
+          "title": "Namespace",
+          "type": "string"
+        },
+        "designation": {
+          "minLength": 1,
+          "title": "Designation",
+          "type": "string"
+        },
+        "edition": {
+          "minLength": 1,
+          "title": "Edition",
+          "type": "string"
+        },
+        "product_form": {
+          "minLength": 1,
+          "title": "Product Form",
+          "type": "string"
+        },
+        "condition": {
+          "minLength": 1,
+          "title": "Condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "designation",
+        "edition",
+        "product_form",
+        "condition"
+      ],
+      "title": "SpecificationDesignation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "observed_designation": {
+      "$ref": "#/$defs/SpecificationDesignation"
+    },
+    "status": {
+      "enum": [
+        "exact",
+        "resolved_alias",
+        "unknown",
+        "ambiguous"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "profile_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Profile Id"
+    },
+    "canonical_designation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SpecificationDesignation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "matched_alias_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Matched Alias Ids",
+      "type": "array"
+    },
+    "candidate_profile_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Candidate Profile Ids",
+      "type": "array"
+    },
+    "evidence_state": {
+      "enum": [
+        "matched",
+        "unknown",
+        "conflicting"
+      ],
+      "title": "Evidence State",
+      "type": "string"
+    },
+    "basis": {
+      "minLength": 1,
+      "title": "Basis",
+      "type": "string"
+    },
+    "profile_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Profile Digest"
+    },
+    "resolution_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Resolution Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "observed_designation",
+    "status",
+    "evidence_state",
+    "basis",
+    "resolution_digest"
+  ],
+  "title": "SpecificationAliasResolution",
+  "type": "object"
+}

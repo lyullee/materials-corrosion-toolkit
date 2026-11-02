@@ -1,0 +1,528 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SourApplicabilityEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_grade_id": {
+          "minLength": 1,
+          "title": "Material Grade Id",
+          "type": "string"
+        },
+        "heat_applicability": {
+          "enum": [
+            "exact_heats",
+            "all_heats_of_grade"
+          ],
+          "title": "Heat Applicability",
+          "type": "string"
+        },
+        "applicable_heat_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Applicable Heat Ids",
+          "type": "array"
+        },
+        "applicable_microstructure_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Microstructure Ids",
+          "type": "array"
+        },
+        "hardness_min": {
+          "minimum": 0,
+          "title": "Hardness Min",
+          "type": "number"
+        },
+        "hardness_max": {
+          "minimum": 0,
+          "title": "Hardness Max",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "h2s_partial_pressure_min_Pa_abs": {
+          "minimum": 0,
+          "title": "H2S Partial Pressure Min Pa Abs",
+          "type": "number"
+        },
+        "h2s_partial_pressure_max_Pa_abs": {
+          "minimum": 0,
+          "title": "H2S Partial Pressure Max Pa Abs",
+          "type": "number"
+        },
+        "h2s_partial_pressure_basis": {
+          "minLength": 1,
+          "title": "H2S Partial Pressure Basis",
+          "type": "string"
+        },
+        "pH_min": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Ph Min",
+          "type": "number"
+        },
+        "pH_max": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Ph Max",
+          "type": "number"
+        },
+        "temperature_min_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Min K",
+          "type": "number"
+        },
+        "temperature_max_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Max K",
+          "type": "number"
+        },
+        "chloride_min": {
+          "minimum": 0,
+          "title": "Chloride Min",
+          "type": "number"
+        },
+        "chloride_max": {
+          "minimum": 0,
+          "title": "Chloride Max",
+          "type": "number"
+        },
+        "chloride_unit_token": {
+          "minLength": 1,
+          "title": "Chloride Unit Token",
+          "type": "string"
+        },
+        "exposure_duration_min_s": {
+          "minimum": 0,
+          "title": "Exposure Duration Min S",
+          "type": "number"
+        },
+        "exposure_duration_max_s": {
+          "exclusiveMinimum": 0,
+          "title": "Exposure Duration Max S",
+          "type": "number"
+        },
+        "applicable_stress_state_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Stress State Descriptors",
+          "type": "array"
+        },
+        "qualification_test_record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Qualification Test Record Ids",
+          "type": "array"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_grade_id",
+        "heat_applicability",
+        "applicable_microstructure_ids",
+        "hardness_min",
+        "hardness_max",
+        "hardness_unit_token",
+        "h2s_partial_pressure_min_Pa_abs",
+        "h2s_partial_pressure_max_Pa_abs",
+        "h2s_partial_pressure_basis",
+        "pH_min",
+        "pH_max",
+        "temperature_min_K",
+        "temperature_max_K",
+        "chloride_min",
+        "chloride_max",
+        "chloride_unit_token",
+        "exposure_duration_min_s",
+        "exposure_duration_max_s",
+        "applicable_stress_state_descriptors",
+        "qualification_test_record_ids",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "SourApplicabilityEnvelope",
+      "type": "object"
+    },
+    "SourEnvironmentTestRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "test_record_id": {
+          "minLength": 1,
+          "title": "Test Record Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_grade_id": {
+          "minLength": 1,
+          "title": "Material Grade Id",
+          "type": "string"
+        },
+        "material_heat_id": {
+          "minLength": 1,
+          "title": "Material Heat Id",
+          "type": "string"
+        },
+        "microstructure_id": {
+          "minLength": 1,
+          "title": "Microstructure Id",
+          "type": "string"
+        },
+        "hardness_value": {
+          "minimum": 0,
+          "title": "Hardness Value",
+          "type": "number"
+        },
+        "hardness_unit_token": {
+          "minLength": 1,
+          "title": "Hardness Unit Token",
+          "type": "string"
+        },
+        "h2s_partial_pressure_Pa_abs": {
+          "minimum": 0,
+          "title": "H2S Partial Pressure Pa Abs",
+          "type": "number"
+        },
+        "h2s_partial_pressure_basis": {
+          "minLength": 1,
+          "title": "H2S Partial Pressure Basis",
+          "type": "string"
+        },
+        "pH": {
+          "maximum": 14,
+          "minimum": 0,
+          "title": "Ph",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "chloride_concentration": {
+          "minimum": 0,
+          "title": "Chloride Concentration",
+          "type": "number"
+        },
+        "chloride_unit_token": {
+          "minLength": 1,
+          "title": "Chloride Unit Token",
+          "type": "string"
+        },
+        "exposure_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Exposure Duration S",
+          "type": "number"
+        },
+        "stress_state_descriptor": {
+          "minLength": 1,
+          "title": "Stress State Descriptor",
+          "type": "string"
+        },
+        "reported_outcome": {
+          "minLength": 1,
+          "title": "Reported Outcome",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "test_record_id",
+        "source_group_id",
+        "partition",
+        "material_grade_id",
+        "material_heat_id",
+        "microstructure_id",
+        "hardness_value",
+        "hardness_unit_token",
+        "h2s_partial_pressure_Pa_abs",
+        "h2s_partial_pressure_basis",
+        "pH",
+        "temperature_K",
+        "chloride_concentration",
+        "chloride_unit_token",
+        "exposure_duration_s",
+        "stress_state_descriptor",
+        "reported_outcome",
+        "evidence"
+      ],
+      "title": "SourEnvironmentTestRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_grade_id": {
+      "minLength": 1,
+      "title": "Material Grade Id",
+      "type": "string"
+    },
+    "material_heat_id": {
+      "minLength": 1,
+      "title": "Material Heat Id",
+      "type": "string"
+    },
+    "microstructure_id": {
+      "minLength": 1,
+      "title": "Microstructure Id",
+      "type": "string"
+    },
+    "hardness_value": {
+      "minimum": 0,
+      "title": "Hardness Value",
+      "type": "number"
+    },
+    "hardness_unit_token": {
+      "minLength": 1,
+      "title": "Hardness Unit Token",
+      "type": "string"
+    },
+    "h2s_partial_pressure_Pa_abs": {
+      "minimum": 0,
+      "title": "H2S Partial Pressure Pa Abs",
+      "type": "number"
+    },
+    "h2s_partial_pressure_basis": {
+      "minLength": 1,
+      "title": "H2S Partial Pressure Basis",
+      "type": "string"
+    },
+    "pH": {
+      "maximum": 14,
+      "minimum": 0,
+      "title": "Ph",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "chloride_concentration": {
+      "minimum": 0,
+      "title": "Chloride Concentration",
+      "type": "number"
+    },
+    "chloride_unit_token": {
+      "minLength": 1,
+      "title": "Chloride Unit Token",
+      "type": "string"
+    },
+    "exposure_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Duration S",
+      "type": "number"
+    },
+    "stress_state_descriptor": {
+      "minLength": 1,
+      "title": "Stress State Descriptor",
+      "type": "string"
+    },
+    "test_records": {
+      "items": {
+        "$ref": "#/$defs/SourEnvironmentTestRecord"
+      },
+      "minItems": 2,
+      "title": "Test Records",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/SourApplicabilityEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_identity_and_hardness_reviewed": {
+      "title": "Material Identity And Hardness Reviewed",
+      "type": "boolean"
+    },
+    "media_composition_and_pH_reviewed": {
+      "title": "Media Composition And Ph Reviewed",
+      "type": "boolean"
+    },
+    "absolute_partial_pressure_reviewed": {
+      "title": "Absolute Partial Pressure Reviewed",
+      "type": "boolean"
+    },
+    "temperature_and_exposure_reviewed": {
+      "title": "Temperature And Exposure Reviewed",
+      "type": "boolean"
+    },
+    "stress_state_reviewed": {
+      "title": "Stress State Reviewed",
+      "type": "boolean"
+    },
+    "test_partition_independence_reviewed": {
+      "title": "Test Partition Independence Reviewed",
+      "type": "boolean"
+    },
+    "envelope_authority_reviewed": {
+      "title": "Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "heat_transfer_reviewed": {
+      "title": "Heat Transfer Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "material_grade_id",
+    "material_heat_id",
+    "microstructure_id",
+    "hardness_value",
+    "hardness_unit_token",
+    "h2s_partial_pressure_Pa_abs",
+    "h2s_partial_pressure_basis",
+    "pH",
+    "temperature_K",
+    "chloride_concentration",
+    "chloride_unit_token",
+    "exposure_duration_s",
+    "stress_state_descriptor",
+    "test_records",
+    "candidate_envelopes",
+    "material_identity_and_hardness_reviewed",
+    "media_composition_and_pH_reviewed",
+    "absolute_partial_pressure_reviewed",
+    "temperature_and_exposure_reviewed",
+    "stress_state_reviewed",
+    "test_partition_independence_reviewed",
+    "envelope_authority_reviewed",
+    "heat_transfer_reviewed",
+    "evidence"
+  ],
+  "title": "SourEnvironmentApplicability",
+  "type": "object"
+}

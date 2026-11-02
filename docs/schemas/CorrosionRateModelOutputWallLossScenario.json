@@ -1,0 +1,241 @@
+{
+  "$defs": {
+    "CorrosionRateProjectionRow": {
+      "additionalProperties": false,
+      "description": "A non-empirical corrosion-rate scenario row with portable source lineage.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.corrosion_rate_projection_row.v1",
+          "default": "matintegrity.corrosion_rate_projection_row.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scenario_id": {
+          "minLength": 1,
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "source_dataset_id": {
+          "minLength": 1,
+          "title": "Source Dataset Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "source_archive_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Archive Sha256",
+          "type": "string"
+        },
+        "source_role": {
+          "enum": [
+            "simulated_model_output",
+            "caller_assumed_scenario"
+          ],
+          "title": "Source Role",
+          "type": "string"
+        },
+        "rate_m_s": {
+          "minimum": 0,
+          "title": "Rate M S",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "physical_specimen_id": {
+          "default": null,
+          "title": "Physical Specimen Id",
+          "type": "null"
+        },
+        "independent_physical_observation": {
+          "const": false,
+          "default": false,
+          "title": "Independent Physical Observation",
+          "type": "boolean"
+        },
+        "empirical_calibration_ready": {
+          "const": false,
+          "default": false,
+          "title": "Empirical Calibration Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scenario_id",
+        "source_dataset_id",
+        "source_group_id",
+        "source_record_id",
+        "source_archive_sha256",
+        "source_role",
+        "rate_m_s",
+        "evidence"
+      ],
+      "title": "CorrosionRateProjectionRow",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Portable model-output rate scenarios projected through reviewed linear wall loss.",
+  "properties": {
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/CorrosionRateProjectionRow"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Rows",
+      "type": "array"
+    },
+    "current_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Current Thickness M",
+      "type": "number"
+    },
+    "required_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Required Thickness M",
+      "type": "number"
+    },
+    "horizon_s": {
+      "minimum": 0,
+      "title": "Horizon S",
+      "type": "number"
+    },
+    "material_state_compatibility_reviewed": {
+      "title": "Material State Compatibility Reviewed",
+      "type": "boolean"
+    },
+    "material_state_review_id": {
+      "minLength": 1,
+      "title": "Material State Review Id",
+      "type": "string"
+    },
+    "condition_transferability_reviewed": {
+      "title": "Condition Transferability Reviewed",
+      "type": "boolean"
+    },
+    "condition_transfer_review_id": {
+      "minLength": 1,
+      "title": "Condition Transfer Review Id",
+      "type": "string"
+    },
+    "linear_loss_model_reviewed": {
+      "title": "Linear Loss Model Reviewed",
+      "type": "boolean"
+    },
+    "linear_loss_model_review_id": {
+      "minLength": 1,
+      "title": "Linear Loss Model Review Id",
+      "type": "string"
+    },
+    "scenario_weights": {
+      "items": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Scenario Weights",
+      "type": "array"
+    },
+    "weight_meaning": {
+      "const": "caller_declared_scenario_weight",
+      "title": "Weight Meaning",
+      "type": "string"
+    },
+    "scenario_set_id": {
+      "minLength": 1,
+      "title": "Scenario Set Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rows",
+    "current_thickness_m",
+    "required_thickness_m",
+    "horizon_s",
+    "material_state_compatibility_reviewed",
+    "material_state_review_id",
+    "condition_transferability_reviewed",
+    "condition_transfer_review_id",
+    "linear_loss_model_reviewed",
+    "linear_loss_model_review_id",
+    "scenario_weights",
+    "weight_meaning",
+    "scenario_set_id"
+  ],
+  "title": "CorrosionRateModelOutputWallLossScenario",
+  "type": "object"
+}

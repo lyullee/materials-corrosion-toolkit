@@ -1,0 +1,85 @@
+{
+  "additionalProperties": false,
+  "description": "Declared export chain; matching digests establish bytes, not physical validity.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.tabular_export.v1",
+      "default": "matintegrity.tabular_export.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "minLength": 1,
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Archive Sha256",
+      "type": "string"
+    },
+    "member_path": {
+      "minLength": 1,
+      "title": "Member Path",
+      "type": "string"
+    },
+    "member_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Member Sha256",
+      "type": "string"
+    },
+    "tool_name": {
+      "minLength": 1,
+      "title": "Tool Name",
+      "type": "string"
+    },
+    "tool_version": {
+      "minLength": 1,
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "workbook_id": {
+      "minLength": 1,
+      "title": "Workbook Id",
+      "type": "string"
+    },
+    "worksheet_id": {
+      "minLength": 1,
+      "title": "Worksheet Id",
+      "type": "string"
+    },
+    "csv_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Csv Sha256",
+      "type": "string"
+    },
+    "export_method": {
+      "const": "origin_viewer_csv",
+      "default": "origin_viewer_csv",
+      "title": "Export Method",
+      "type": "string"
+    },
+    "identity_review": {
+      "default": "mapping_requires_review",
+      "enum": [
+        "viewer_reviewed",
+        "mapping_requires_review"
+      ],
+      "title": "Identity Review",
+      "type": "string"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "archive_sha256",
+    "member_path",
+    "member_sha256",
+    "tool_name",
+    "tool_version",
+    "workbook_id",
+    "worksheet_id",
+    "csv_sha256"
+  ],
+  "title": "TabularExportProvenance",
+  "type": "object"
+}

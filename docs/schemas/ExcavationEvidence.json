@@ -1,0 +1,127 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "defect_id": {
+      "title": "Defect Id",
+      "type": "string"
+    },
+    "removal_method_id": {
+      "title": "Removal Method Id",
+      "type": "string"
+    },
+    "excavation_geometry_id": {
+      "title": "Excavation Geometry Id",
+      "type": "string"
+    },
+    "length_m": {
+      "minimum": 0,
+      "title": "Length M",
+      "type": "number"
+    },
+    "depth_m": {
+      "minimum": 0,
+      "title": "Depth M",
+      "type": "number"
+    },
+    "width_m": {
+      "minimum": 0,
+      "title": "Width M",
+      "type": "number"
+    },
+    "standard_uncertainty_m": {
+      "minimum": 0,
+      "title": "Standard Uncertainty M",
+      "type": "number"
+    },
+    "provider_id": {
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "defect_id",
+    "removal_method_id",
+    "excavation_geometry_id",
+    "length_m",
+    "depth_m",
+    "width_m",
+    "standard_uncertainty_m",
+    "provider_id",
+    "result_digest",
+    "evidence"
+  ],
+  "title": "ExcavationEvidence",
+  "type": "object"
+}

@@ -1,0 +1,223 @@
+{
+  "$defs": {
+    "CreviceActivityGradientSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "left_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Left Concentration Mol M3",
+          "type": "number"
+        },
+        "right_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Right Concentration Mol M3",
+          "type": "number"
+        },
+        "left_activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Left Activity Coefficient",
+          "type": "number"
+        },
+        "right_activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Right Activity Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "diffusivity_m2_s",
+        "left_concentration_mol_m3",
+        "right_concentration_mol_m3",
+        "left_activity_coefficient",
+        "right_activity_coefficient"
+      ],
+      "title": "CreviceActivityGradientSpecies",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "face_id": {
+      "minLength": 1,
+      "title": "Face Id",
+      "type": "string"
+    },
+    "face_distance_m": {
+      "exclusiveMinimum": 0,
+      "title": "Face Distance M",
+      "type": "number"
+    },
+    "axial_velocity_m_s": {
+      "title": "Axial Velocity M S",
+      "type": "number"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/CreviceActivityGradientSpecies"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Species",
+      "type": "array"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Provider Evidence",
+      "type": "array"
+    },
+    "rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Rights Evidence",
+      "type": "array"
+    },
+    "activity_standard_state_and_single_ion_convention_reviewed": {
+      "title": "Activity Standard State And Single Ion Convention Reviewed",
+      "type": "boolean"
+    },
+    "activity_gradient_thermodynamic_consistency_reviewed": {
+      "title": "Activity Gradient Thermodynamic Consistency Reviewed",
+      "type": "boolean"
+    },
+    "diffusivity_and_face_mapping_reviewed": {
+      "title": "Diffusivity And Face Mapping Reviewed",
+      "type": "boolean"
+    },
+    "local_electroneutrality_and_zero_current_reviewed": {
+      "title": "Local Electroneutrality And Zero Current Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "face_id",
+    "face_distance_m",
+    "axial_velocity_m_s",
+    "species",
+    "provider_id",
+    "provider_revision",
+    "provider_evidence",
+    "rights_evidence",
+    "activity_standard_state_and_single_ion_convention_reviewed",
+    "activity_gradient_thermodynamic_consistency_reviewed",
+    "diffusivity_and_face_mapping_reviewed",
+    "local_electroneutrality_and_zero_current_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceActivityGradientFluxRequest",
+  "type": "object"
+}

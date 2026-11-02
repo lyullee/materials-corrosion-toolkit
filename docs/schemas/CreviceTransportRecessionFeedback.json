@@ -1,0 +1,280 @@
+{
+  "additionalProperties": false,
+  "description": "Reviewed material and geometry mapping for sequential transport-derived recession.",
+  "properties": {
+    "metal_species_id": {
+      "minLength": 1,
+      "title": "Metal Species Id",
+      "type": "string"
+    },
+    "metal_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "metal_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Density Kg M3",
+      "type": "number"
+    },
+    "one_metal_atom_per_species_mole_reviewed": {
+      "title": "One Metal Atom Per Species Mole Reviewed",
+      "type": "boolean"
+    },
+    "all_selected_wall_flux_is_metal_dissolution_or_redeposition_reviewed": {
+      "title": "All Selected Wall Flux Is Metal Dissolution Or Redeposition Reviewed",
+      "type": "boolean"
+    },
+    "both_slit_faces_share_equal_recession_reviewed": {
+      "default": false,
+      "title": "Both Slit Faces Share Equal Recession Reviewed",
+      "type": "boolean"
+    },
+    "supported_minimum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Supported Minimum Aperture M",
+      "type": "number"
+    },
+    "supported_maximum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Supported Maximum Aperture M",
+      "type": "number"
+    },
+    "aperture_feedback_mapping_reviewed": {
+      "title": "Aperture Feedback Mapping Reviewed",
+      "type": "boolean"
+    },
+    "maximum_geometry_update_step_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Geometry Update Step S"
+    },
+    "geometry_update_step_sampling_reviewed": {
+      "default": false,
+      "title": "Geometry Update Step Sampling Reviewed",
+      "type": "boolean"
+    },
+    "maximum_internal_segments": {
+      "default": 1000,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Internal Segments",
+      "type": "integer"
+    },
+    "maximum_relative_aperture_change_per_segment": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Relative Aperture Change Per Segment"
+    },
+    "adaptive_aperture_update_reviewed": {
+      "default": false,
+      "title": "Adaptive Aperture Update Reviewed",
+      "type": "boolean"
+    },
+    "callback_re_evaluation_deterministic_reviewed": {
+      "default": false,
+      "title": "Callback Re Evaluation Deterministic Reviewed",
+      "type": "boolean"
+    },
+    "maximum_adaptive_aperture_refinements": {
+      "default": 100,
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Maximum Adaptive Aperture Refinements",
+      "type": "integer"
+    },
+    "within_segment_geometry_feedback_enabled": {
+      "default": false,
+      "title": "Within Segment Geometry Feedback Enabled",
+      "type": "boolean"
+    },
+    "within_segment_geometry_feedback_reviewed": {
+      "default": false,
+      "title": "Within Segment Geometry Feedback Reviewed",
+      "type": "boolean"
+    },
+    "within_segment_feedback_convergence_reviewed": {
+      "default": false,
+      "title": "Within Segment Feedback Convergence Reviewed",
+      "type": "boolean"
+    },
+    "within_segment_hydraulic_feedback_enabled": {
+      "default": false,
+      "title": "Within Segment Hydraulic Feedback Enabled",
+      "type": "boolean"
+    },
+    "within_segment_hydraulic_velocity_path_reviewed": {
+      "default": false,
+      "title": "Within Segment Hydraulic Velocity Path Reviewed",
+      "type": "boolean"
+    },
+    "maximum_within_segment_feedback_iterations": {
+      "default": 8,
+      "maximum": 50,
+      "minimum": 2,
+      "title": "Maximum Within Segment Feedback Iterations",
+      "type": "integer"
+    },
+    "within_segment_relative_aperture_tolerance": {
+      "default": 1e-05,
+      "exclusiveMinimum": 0,
+      "maximum": 0.1,
+      "title": "Within Segment Relative Aperture Tolerance",
+      "type": "number"
+    },
+    "within_segment_feedback_relaxation": {
+      "default": 0.5,
+      "exclusiveMinimum": 0,
+      "maximum": 1.0,
+      "title": "Within Segment Feedback Relaxation",
+      "type": "number"
+    },
+    "steady_hydraulic_recalculation_enabled": {
+      "default": false,
+      "title": "Steady Hydraulic Recalculation Enabled",
+      "type": "boolean"
+    },
+    "pressure_drop_history_Pa": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pressure Drop History Pa"
+    },
+    "pressure_history_interpolation": {
+      "default": "exact_requested_knots",
+      "enum": [
+        "exact_requested_knots",
+        "piecewise_linear"
+      ],
+      "title": "Pressure History Interpolation",
+      "type": "string"
+    },
+    "pressure_interpolation_reviewed": {
+      "default": false,
+      "title": "Pressure Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "pressure_history_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pressure History Source Sha256"
+    },
+    "fluid_property_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Fluid Property Source Sha256"
+    },
+    "dynamic_viscosity_Pa_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dynamic Viscosity Pa S"
+    },
+    "density_kg_m3": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Density Kg M3"
+    },
+    "minimum_width_to_aperture_ratio": {
+      "default": 20.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "minimum": 20.0,
+      "title": "Minimum Width To Aperture Ratio",
+      "type": "number"
+    },
+    "maximum_reviewed_reynolds_number": {
+      "default": 1000.0,
+      "exclusiveMinimum": 0,
+      "maximum": 1000.0,
+      "title": "Maximum Reviewed Reynolds Number",
+      "type": "number"
+    },
+    "steady_hydraulics_and_pressure_alignment_reviewed": {
+      "default": false,
+      "title": "Steady Hydraulics And Pressure Alignment Reviewed",
+      "type": "boolean"
+    },
+    "incompressible_newtonian_fluid_properties_reviewed": {
+      "default": false,
+      "title": "Incompressible Newtonian Fluid Properties Reviewed",
+      "type": "boolean"
+    },
+    "laminar_fully_developed_slit_assumption_reviewed": {
+      "default": false,
+      "title": "Laminar Fully Developed Slit Assumption Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "metal_species_id",
+    "metal_molar_mass_kg_mol",
+    "metal_density_kg_m3",
+    "one_metal_atom_per_species_mole_reviewed",
+    "all_selected_wall_flux_is_metal_dissolution_or_redeposition_reviewed",
+    "supported_minimum_aperture_m",
+    "supported_maximum_aperture_m",
+    "aperture_feedback_mapping_reviewed"
+  ],
+  "title": "CreviceTransportRecessionFeedback",
+  "type": "object"
+}

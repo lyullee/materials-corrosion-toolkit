@@ -1,0 +1,81 @@
+{
+  "$defs": {
+    "OutputBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "output_key": {
+          "minLength": 1,
+          "title": "Output Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step_id",
+        "output_key"
+      ],
+      "title": "OutputBinding",
+      "type": "object"
+    },
+    "SatisfactionGate": {
+      "additionalProperties": false,
+      "properties": {
+        "output_key": {
+          "default": "outcome",
+          "minLength": 1,
+          "title": "Output Key",
+          "type": "string"
+        }
+      },
+      "title": "SatisfactionGate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "inputs": {
+      "additionalProperties": true,
+      "title": "Inputs",
+      "type": "object"
+    },
+    "bindings": {
+      "additionalProperties": {
+        "$ref": "#/$defs/OutputBinding"
+      },
+      "title": "Bindings",
+      "type": "object"
+    },
+    "satisfaction_gate": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SatisfactionGate"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "model_id",
+    "inputs"
+  ],
+  "title": "WorkflowStep",
+  "type": "object"
+}

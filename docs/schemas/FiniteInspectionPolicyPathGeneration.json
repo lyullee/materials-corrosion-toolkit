@@ -1,0 +1,554 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FinitePolicyAction": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_definition": {
+          "minLength": 1,
+          "title": "Action Definition",
+          "type": "string"
+        },
+        "action_model_id": {
+          "minLength": 1,
+          "title": "Action Model Id",
+          "type": "string"
+        },
+        "action_model_revision": {
+          "minLength": 1,
+          "title": "Action Model Revision",
+          "type": "string"
+        },
+        "action_model_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Configuration Sha256",
+          "type": "string"
+        },
+        "action_model_input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Input Sha256",
+          "type": "string"
+        },
+        "cost_components": {
+          "items": {
+            "$ref": "#/$defs/PolicyStageCostComponent"
+          },
+          "title": "Cost Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "action_id",
+        "action_definition",
+        "action_model_id",
+        "action_model_revision",
+        "action_model_configuration_sha256",
+        "action_model_input_sha256"
+      ],
+      "title": "FinitePolicyAction",
+      "type": "object"
+    },
+    "FinitePolicyDecisionEpoch": {
+      "additionalProperties": false,
+      "properties": {
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_time_s": {
+          "minimum": 0,
+          "title": "Stage Time S",
+          "type": "number"
+        },
+        "observation_probabilities": {
+          "items": {
+            "$ref": "#/$defs/FinitePolicyObservationProbability"
+          },
+          "minItems": 1,
+          "title": "Observation Probabilities",
+          "type": "array"
+        },
+        "decision_rules": {
+          "items": {
+            "$ref": "#/$defs/FinitePolicyDecisionRule"
+          },
+          "minItems": 1,
+          "title": "Decision Rules",
+          "type": "array"
+        },
+        "actions": {
+          "items": {
+            "$ref": "#/$defs/FinitePolicyAction"
+          },
+          "minItems": 1,
+          "title": "Actions",
+          "type": "array"
+        },
+        "transition_probabilities": {
+          "items": {
+            "$ref": "#/$defs/FinitePolicyTransitionProbability"
+          },
+          "minItems": 1,
+          "title": "Transition Probabilities",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage_id",
+        "stage_time_s",
+        "observation_probabilities",
+        "decision_rules",
+        "actions",
+        "transition_probabilities"
+      ],
+      "title": "FinitePolicyDecisionEpoch",
+      "type": "object"
+    },
+    "FinitePolicyDecisionRule": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation_id",
+        "action_id"
+      ],
+      "title": "FinitePolicyDecisionRule",
+      "type": "object"
+    },
+    "FinitePolicyObservationProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "probability_given_state": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given State",
+          "type": "number"
+        }
+      },
+      "required": [
+        "state_id",
+        "observation_id",
+        "probability_given_state"
+      ],
+      "title": "FinitePolicyObservationProbability",
+      "type": "object"
+    },
+    "FinitePolicyState": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "state_definition": {
+          "minLength": 1,
+          "title": "State Definition",
+          "type": "string"
+        },
+        "is_failure_state": {
+          "title": "Is Failure State",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "state_id",
+        "state_definition",
+        "is_failure_state"
+      ],
+      "title": "FinitePolicyState",
+      "type": "object"
+    },
+    "FinitePolicyTransitionProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "from_state_id": {
+          "minLength": 1,
+          "title": "From State Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "to_state_id": {
+          "minLength": 1,
+          "title": "To State Id",
+          "type": "string"
+        },
+        "probability_given_state_and_action": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given State And Action",
+          "type": "number"
+        },
+        "failure_consequence_present_value_factor": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Consequence Present Value Factor"
+        }
+      },
+      "required": [
+        "from_state_id",
+        "action_id",
+        "to_state_id",
+        "probability_given_state_and_action"
+      ],
+      "title": "FinitePolicyTransitionProbability",
+      "type": "object"
+    },
+    "InitialPolicyStateProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "probability_given_start_survival": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability Given Start Survival",
+          "type": "number"
+        }
+      },
+      "required": [
+        "state_id",
+        "probability_given_start_survival"
+      ],
+      "title": "InitialPolicyStateProbability",
+      "type": "object"
+    },
+    "PolicyStageCostComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount_at_stage_time": {
+          "minimum": 0,
+          "title": "Amount At Stage Time",
+          "type": "number"
+        },
+        "present_value_factor": {
+          "minimum": 0,
+          "title": "Present Value Factor",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount_at_stage_time",
+        "present_value_factor",
+        "basis"
+      ],
+      "title": "PolicyStageCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Expand reviewed finite state, observation, decision and transition tables exactly.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.finite_inspection_policy_path_generation.v1",
+      "default": "matintegrity.finite_inspection_policy_path_generation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "generation_id": {
+      "minLength": 1,
+      "title": "Generation Id",
+      "type": "string"
+    },
+    "generator_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Generator Configuration Sha256",
+      "type": "string"
+    },
+    "policy_id": {
+      "minLength": 1,
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_revision": {
+      "minLength": 1,
+      "title": "Policy Revision",
+      "type": "string"
+    },
+    "policy_definition": {
+      "minLength": 1,
+      "title": "Policy Definition",
+      "type": "string"
+    },
+    "policy_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Policy Configuration Sha256",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_definition": {
+      "minLength": 1,
+      "title": "Event Definition",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Event Probability Meaning",
+      "type": "string"
+    },
+    "cost_basis_id": {
+      "minLength": 1,
+      "title": "Cost Basis Id",
+      "type": "string"
+    },
+    "currency_or_normalized_unit": {
+      "minLength": 1,
+      "title": "Currency Or Normalized Unit",
+      "type": "string"
+    },
+    "discount_basis_id": {
+      "minLength": 1,
+      "title": "Discount Basis Id",
+      "type": "string"
+    },
+    "states": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyState"
+      },
+      "minItems": 2,
+      "title": "States",
+      "type": "array"
+    },
+    "initial_state_probabilities": {
+      "items": {
+        "$ref": "#/$defs/InitialPolicyStateProbability"
+      },
+      "minItems": 1,
+      "title": "Initial State Probabilities",
+      "type": "array"
+    },
+    "decision_epochs": {
+      "items": {
+        "$ref": "#/$defs/FinitePolicyDecisionEpoch"
+      },
+      "minItems": 1,
+      "title": "Decision Epochs",
+      "type": "array"
+    },
+    "maximum_probability_sum_error": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Maximum Probability Sum Error",
+      "type": "number"
+    },
+    "maximum_generated_paths": {
+      "minimum": 1,
+      "title": "Maximum Generated Paths",
+      "type": "integer"
+    },
+    "state_space_reviewed": {
+      "title": "State Space Reviewed",
+      "type": "boolean"
+    },
+    "initial_distribution_reviewed": {
+      "title": "Initial Distribution Reviewed",
+      "type": "boolean"
+    },
+    "observation_models_reviewed": {
+      "title": "Observation Models Reviewed",
+      "type": "boolean"
+    },
+    "decision_rules_reviewed": {
+      "title": "Decision Rules Reviewed",
+      "type": "boolean"
+    },
+    "transition_models_reviewed": {
+      "title": "Transition Models Reviewed",
+      "type": "boolean"
+    },
+    "action_costs_and_discount_factors_reviewed": {
+      "title": "Action Costs And Discount Factors Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "generation_id",
+    "generator_configuration_sha256",
+    "policy_id",
+    "policy_revision",
+    "policy_definition",
+    "policy_configuration_sha256",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "event_id",
+    "event_definition",
+    "horizon_start_s",
+    "horizon_end_s",
+    "conditioning",
+    "event_probability_meaning",
+    "cost_basis_id",
+    "currency_or_normalized_unit",
+    "discount_basis_id",
+    "states",
+    "initial_state_probabilities",
+    "decision_epochs",
+    "maximum_generated_paths",
+    "state_space_reviewed",
+    "initial_distribution_reviewed",
+    "observation_models_reviewed",
+    "decision_rules_reviewed",
+    "transition_models_reviewed",
+    "action_costs_and_discount_factors_reviewed",
+    "evidence"
+  ],
+  "title": "FiniteInspectionPolicyPathGeneration",
+  "type": "object"
+}

@@ -1,0 +1,423 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "SensitivityMarginal": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "family": {
+          "enum": [
+            "uniform",
+            "normal",
+            "lognormal",
+            "quantile_table"
+          ],
+          "title": "Family",
+          "type": "string"
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean"
+        },
+        "standard_deviation": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Deviation"
+        },
+        "log_mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Log Mean"
+        },
+        "log_standard_deviation": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Log Standard Deviation"
+        },
+        "reference_value": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Value"
+        },
+        "probabilities": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probabilities"
+        },
+        "quantiles": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quantiles"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "unit",
+        "family",
+        "evidence"
+      ],
+      "title": "SensitivityMarginal",
+      "type": "object"
+    },
+    "SensitivityQuantity": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "repeat_absolute_tolerance": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Repeat Absolute Tolerance",
+          "type": "number"
+        },
+        "repeat_relative_tolerance": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Repeat Relative Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "unit"
+      ],
+      "title": "SensitivityQuantity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.sobol_request.v1",
+      "default": "matintegrity.sobol_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/$defs/RunContext"
+    },
+    "evaluator_id": {
+      "minLength": 1,
+      "title": "Evaluator Id",
+      "type": "string"
+    },
+    "evaluator_revision": {
+      "minLength": 1,
+      "title": "Evaluator Revision",
+      "type": "string"
+    },
+    "evaluator_configuration": {
+      "additionalProperties": true,
+      "title": "Evaluator Configuration",
+      "type": "object"
+    },
+    "parameters": {
+      "items": {
+        "$ref": "#/$defs/SensitivityMarginal"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Parameters",
+      "type": "array"
+    },
+    "quantities": {
+      "items": {
+        "$ref": "#/$defs/SensitivityQuantity"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Quantities",
+      "type": "array"
+    },
+    "sample_powers": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Sample Powers",
+      "type": "array"
+    },
+    "scrambles": {
+      "default": 8,
+      "maximum": 32,
+      "minimum": 4,
+      "title": "Scrambles",
+      "type": "integer"
+    },
+    "seed": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "independence_declared": {
+      "title": "Independence Declared",
+      "type": "boolean"
+    },
+    "deterministic_response_declared": {
+      "title": "Deterministic Response Declared",
+      "type": "boolean"
+    },
+    "confidence_level": {
+      "default": 0.95,
+      "exclusiveMinimum": 0,
+      "maximum": 0.999,
+      "title": "Confidence Level",
+      "type": "number"
+    },
+    "refinement_absolute_tolerance": {
+      "default": 0.03,
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Refinement Absolute Tolerance",
+      "type": "number"
+    },
+    "confidence_half_width_tolerance": {
+      "default": 0.03,
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Confidence Half Width Tolerance",
+      "type": "number"
+    },
+    "maximum_model_evaluations": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Model Evaluations",
+      "type": "integer"
+    },
+    "repeat_check_points": {
+      "default": 8,
+      "maximum": 32,
+      "minimum": 1,
+      "title": "Repeat Check Points",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "context",
+    "evaluator_id",
+    "evaluator_revision",
+    "parameters",
+    "quantities",
+    "seed",
+    "independence_declared",
+    "deterministic_response_declared"
+  ],
+  "title": "SobolRequest",
+  "type": "object"
+}

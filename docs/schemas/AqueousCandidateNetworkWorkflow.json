@@ -1,0 +1,634 @@
+{
+  "$defs": {
+    "AqueousActivitySpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "initial_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Activity",
+          "type": "number"
+        },
+        "elemental_composition": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elemental Composition"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "activity_coefficient",
+        "initial_activity"
+      ],
+      "title": "AqueousActivitySpecies",
+      "type": "object"
+    },
+    "AqueousCandidateReactionBindingRequest": {
+      "additionalProperties": false,
+      "description": "Bind selected balance proposals to explicitly reviewed thermodynamic data.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_candidate_reaction_binding.v1",
+          "default": "matintegrity.aqueous_candidate_reaction_binding.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "binding_id": {
+          "minLength": 1,
+          "title": "Binding Id",
+          "type": "string"
+        },
+        "candidate_enumeration_input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Enumeration Input Sha256",
+          "type": "string"
+        },
+        "target_mass_action_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Target Mass Action Temperature K",
+          "type": "number"
+        },
+        "temperature_match_tolerance_K": {
+          "default": 0.0,
+          "maximum": 5.0,
+          "minimum": 0.0,
+          "title": "Temperature Match Tolerance K",
+          "type": "number"
+        },
+        "target_activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "title": "Target Activity Standard State",
+          "type": "string"
+        },
+        "selections": {
+          "items": {
+            "$ref": "#/$defs/AqueousCandidateReactionSelection"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Selections",
+          "type": "array"
+        },
+        "reaction_selection_and_constant_reviewed": {
+          "title": "Reaction Selection And Constant Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "binding_id",
+        "candidate_enumeration_input_sha256",
+        "target_mass_action_temperature_K",
+        "target_activity_standard_state",
+        "selections",
+        "reaction_selection_and_constant_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousCandidateReactionBindingRequest",
+      "type": "object"
+    },
+    "AqueousCandidateReactionSelection": {
+      "additionalProperties": false,
+      "description": "A manually selected balanced candidate with caller-owned equilibrium data.",
+      "properties": {
+        "candidate_id": {
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "candidate_forward",
+            "candidate_reverse"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "equilibrium_parameter_set_id": {
+          "minLength": 1,
+          "title": "Equilibrium Parameter Set Id",
+          "type": "string"
+        },
+        "equilibrium_record_id": {
+          "minLength": 1,
+          "title": "Equilibrium Record Id",
+          "type": "string"
+        },
+        "equilibrium_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Record Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "candidate_sha256",
+        "reaction_id",
+        "direction",
+        "log10_equilibrium_constant",
+        "temperature_K",
+        "equilibrium_parameter_set_id",
+        "equilibrium_record_id",
+        "equilibrium_record_sha256"
+      ],
+      "title": "AqueousCandidateReactionSelection",
+      "type": "object"
+    },
+    "AqueousLinearConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_id": {
+          "minLength": 1,
+          "title": "Constraint Id",
+          "type": "string"
+        },
+        "target_mol_L": {
+          "title": "Target Mol L",
+          "type": "number"
+        },
+        "residual_scale_mol_L": {
+          "exclusiveMinimum": 0,
+          "title": "Residual Scale Mol L",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_id",
+        "target_mol_L",
+        "residual_scale_mol_L",
+        "terms"
+      ],
+      "title": "AqueousLinearConstraint",
+      "type": "object"
+    },
+    "AqueousMassActionSystemAssemblyRequest": {
+      "additionalProperties": false,
+      "description": "All non-reaction inputs needed to assemble a solver system from a binding result.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.aqueous_mass_action_assembly.v1",
+          "default": "matintegrity.aqueous_mass_action_assembly.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "solution_id": {
+          "minLength": 1,
+          "title": "Solution Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "activity_standard_state": {
+          "const": "molarity_1_mol_L",
+          "title": "Activity Standard State",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/AqueousActivitySpecies"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Species",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/AqueousLinearConstraint"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "maximum_iterations": {
+          "default": 100,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Iterations",
+          "type": "integer"
+        },
+        "normalized_residual_tolerance": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "maximum": 0.0001,
+          "title": "Normalized Residual Tolerance",
+          "type": "number"
+        },
+        "maximum_jacobian_condition_number": {
+          "default": 100000000000000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1e+16,
+          "title": "Maximum Jacobian Condition Number",
+          "type": "number"
+        },
+        "local_parameter_covariance": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Parameter Covariance"
+        },
+        "local_parameter_covariance_reviewed": {
+          "default": false,
+          "title": "Local Parameter Covariance Reviewed",
+          "type": "boolean"
+        },
+        "activity_provider_id": {
+          "minLength": 1,
+          "title": "Activity Provider Id",
+          "type": "string"
+        },
+        "activity_provider_revision": {
+          "minLength": 1,
+          "title": "Activity Provider Revision",
+          "type": "string"
+        },
+        "activity_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Configuration Digest",
+          "type": "string"
+        },
+        "activity_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Activity Record Digest",
+          "type": "string"
+        },
+        "equilibrium_provider_id": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Id",
+          "type": "string"
+        },
+        "equilibrium_provider_revision": {
+          "minLength": 1,
+          "title": "Equilibrium Provider Revision",
+          "type": "string"
+        },
+        "equilibrium_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Configuration Digest",
+          "type": "string"
+        },
+        "complete_aqueous_species_inventory_reviewed": {
+          "title": "Complete Aqueous Species Inventory Reviewed",
+          "type": "boolean"
+        },
+        "reaction_stoichiometry_and_constant_reviewed": {
+          "title": "Reaction Stoichiometry And Constant Reviewed",
+          "type": "boolean"
+        },
+        "balance_constraints_and_charge_scope_reviewed": {
+          "title": "Balance Constraints And Charge Scope Reviewed",
+          "type": "boolean"
+        },
+        "fixed_activity_coefficients_and_standard_state_reviewed": {
+          "title": "Fixed Activity Coefficients And Standard State Reviewed",
+          "type": "boolean"
+        },
+        "temperature_and_provider_lineage_reviewed": {
+          "title": "Temperature And Provider Lineage Reviewed",
+          "type": "boolean"
+        },
+        "initial_activity_guess_and_solver_tolerance_reviewed": {
+          "title": "Initial Activity Guess And Solver Tolerance Reviewed",
+          "type": "boolean"
+        },
+        "single_liquid_phase_and_no_precipitation_reviewed": {
+          "title": "Single Liquid Phase And No Precipitation Reviewed",
+          "type": "boolean"
+        },
+        "elemental_formula_and_reaction_balance_reviewed": {
+          "default": false,
+          "title": "Elemental Formula And Reaction Balance Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "solution_id",
+        "temperature_K",
+        "activity_standard_state",
+        "species",
+        "constraints",
+        "activity_provider_id",
+        "activity_provider_revision",
+        "activity_configuration_digest",
+        "activity_record_digest",
+        "equilibrium_provider_id",
+        "equilibrium_provider_revision",
+        "equilibrium_configuration_digest",
+        "complete_aqueous_species_inventory_reviewed",
+        "reaction_stoichiometry_and_constant_reviewed",
+        "balance_constraints_and_charge_scope_reviewed",
+        "fixed_activity_coefficients_and_standard_state_reviewed",
+        "temperature_and_provider_lineage_reviewed",
+        "initial_activity_guess_and_solver_tolerance_reviewed",
+        "single_liquid_phase_and_no_precipitation_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousMassActionSystemAssemblyRequest",
+      "type": "object"
+    },
+    "AqueousReactionCandidateEnumeration": {
+      "additionalProperties": false,
+      "description": "Enumerate bounded, element/charge-balanced stoichiometries without assigning chemistry.",
+      "properties": {
+        "enumeration_id": {
+          "minLength": 1,
+          "title": "Enumeration Id",
+          "type": "string"
+        },
+        "species": {
+          "items": {
+            "$ref": "#/$defs/AqueousReactionCandidateSpecies"
+          },
+          "maxItems": 12,
+          "minItems": 2,
+          "title": "Species",
+          "type": "array"
+        },
+        "maximum_total_stoichiometric_order": {
+          "default": 4,
+          "maximum": 8,
+          "minimum": 2,
+          "title": "Maximum Total Stoichiometric Order",
+          "type": "integer"
+        },
+        "maximum_side_multisets": {
+          "default": 250000,
+          "maximum": 2000000,
+          "minimum": 1,
+          "title": "Maximum Side Multisets",
+          "type": "integer"
+        },
+        "maximum_candidate_pair_checks": {
+          "default": 250000,
+          "maximum": 2000000,
+          "minimum": 1,
+          "title": "Maximum Candidate Pair Checks",
+          "type": "integer"
+        },
+        "maximum_candidate_reactions": {
+          "default": 50000,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Maximum Candidate Reactions",
+          "type": "integer"
+        },
+        "species_formula_and_charge_reviewed": {
+          "title": "Species Formula And Charge Reviewed",
+          "type": "boolean"
+        },
+        "closed_candidate_species_inventory_reviewed": {
+          "title": "Closed Candidate Species Inventory Reviewed",
+          "type": "boolean"
+        },
+        "candidate_use_and_manual_selection_reviewed": {
+          "title": "Candidate Use And Manual Selection Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "enumeration_id",
+        "species",
+        "species_formula_and_charge_reviewed",
+        "closed_candidate_species_inventory_reviewed",
+        "candidate_use_and_manual_selection_reviewed",
+        "evidence"
+      ],
+      "title": "AqueousReactionCandidateEnumeration",
+      "type": "object"
+    },
+    "AqueousReactionCandidateSpecies": {
+      "additionalProperties": false,
+      "description": "Caller-declared formula and charge used only for stoichiometric screening.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "AqueousReactionCandidateSpecies",
+      "type": "object"
+    },
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Explicit three-step workflow, retaining human thermodynamic selection.",
+  "properties": {
+    "workflow_id": {
+      "minLength": 1,
+      "title": "Workflow Id",
+      "type": "string"
+    },
+    "enumeration": {
+      "$ref": "#/$defs/AqueousReactionCandidateEnumeration"
+    },
+    "binding": {
+      "$ref": "#/$defs/AqueousCandidateReactionBindingRequest"
+    },
+    "assembly": {
+      "$ref": "#/$defs/AqueousMassActionSystemAssemblyRequest"
+    }
+  },
+  "required": [
+    "workflow_id",
+    "enumeration",
+    "binding",
+    "assembly"
+  ],
+  "title": "AqueousCandidateNetworkWorkflow",
+  "type": "object"
+}

@@ -1,0 +1,464 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HandlingActivityInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "activity_id": {
+          "minLength": 1,
+          "title": "Activity Id",
+          "type": "string"
+        },
+        "activity_kind": {
+          "minLength": 1,
+          "title": "Activity Kind",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "activity_id",
+        "activity_kind",
+        "start_time_s",
+        "end_time_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HandlingActivityInterval",
+      "type": "object"
+    },
+    "HandlingInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "inspection_id": {
+          "minLength": 1,
+          "title": "Inspection Id",
+          "type": "string"
+        },
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "inspection_time_s": {
+          "minimum": 0,
+          "title": "Inspection Time S",
+          "type": "number"
+        },
+        "inspection_type": {
+          "minLength": 1,
+          "title": "Inspection Type",
+          "type": "string"
+        },
+        "reported_finding": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Finding"
+        },
+        "caller_disposition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Disposition Id"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "inspection_id",
+        "stage_id",
+        "inspection_time_s",
+        "inspection_type",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HandlingInspection",
+      "type": "object"
+    },
+    "TransportMetricLimit": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "limit_basis": {
+          "minLength": 1,
+          "title": "Limit Basis",
+          "type": "string"
+        },
+        "caller_disposition_id_if_outside": {
+          "minLength": 1,
+          "title": "Caller Disposition Id If Outside",
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric_id",
+        "metric_definition",
+        "unit",
+        "limit_basis",
+        "caller_disposition_id_if_outside"
+      ],
+      "title": "TransportMetricLimit",
+      "type": "object"
+    },
+    "TransportMetricObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "observation_time_s": {
+          "minimum": 0,
+          "title": "Observation Time S",
+          "type": "number"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "interval_id",
+        "observation_time_s",
+        "metric_id",
+        "unit",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TransportMetricObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record_id": {
+      "minLength": 1,
+      "title": "Record Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "activity_intervals": {
+      "items": {
+        "$ref": "#/$defs/HandlingActivityInterval"
+      },
+      "minItems": 1,
+      "title": "Activity Intervals",
+      "type": "array"
+    },
+    "metric_observations": {
+      "items": {
+        "$ref": "#/$defs/TransportMetricObservation"
+      },
+      "title": "Metric Observations",
+      "type": "array"
+    },
+    "metric_limits": {
+      "items": {
+        "$ref": "#/$defs/TransportMetricLimit"
+      },
+      "title": "Metric Limits",
+      "type": "array"
+    },
+    "inspections": {
+      "items": {
+        "$ref": "#/$defs/HandlingInspection"
+      },
+      "title": "Inspections",
+      "type": "array"
+    },
+    "required_inspection_stage_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Inspection Stage Ids",
+      "type": "array"
+    },
+    "clock_and_activity_coverage_reviewed": {
+      "title": "Clock And Activity Coverage Reviewed",
+      "type": "boolean"
+    },
+    "metric_identity_and_units_reviewed": {
+      "title": "Metric Identity And Units Reviewed",
+      "type": "boolean"
+    },
+    "metric_limits_reviewed": {
+      "title": "Metric Limits Reviewed",
+      "type": "boolean"
+    },
+    "inspection_stage_mapping_reviewed": {
+      "title": "Inspection Stage Mapping Reviewed",
+      "type": "boolean"
+    },
+    "disposition_mapping_reviewed": {
+      "title": "Disposition Mapping Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "horizon_start_s",
+    "horizon_end_s",
+    "activity_intervals",
+    "clock_and_activity_coverage_reviewed",
+    "metric_identity_and_units_reviewed",
+    "metric_limits_reviewed",
+    "inspection_stage_mapping_reviewed",
+    "disposition_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "TransportErectionHistory",
+  "type": "object"
+}

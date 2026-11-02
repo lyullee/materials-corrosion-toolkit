@@ -1,0 +1,317 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TestWaterAnalyticalResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "analyte": {
+          "enum": [
+            "ph",
+            "conductivity",
+            "chloride",
+            "halide",
+            "oxygen",
+            "solids",
+            "microbiology",
+            "inhibitor",
+            "temperature"
+          ],
+          "title": "Analyte",
+          "type": "string"
+        },
+        "species_or_quantity_definition": {
+          "minLength": 1,
+          "title": "Species Or Quantity Definition",
+          "type": "string"
+        },
+        "value": {
+          "minimum": 0,
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_basis": {
+          "minLength": 1,
+          "title": "Uncertainty Basis",
+          "type": "string"
+        },
+        "analysis_method_id": {
+          "minLength": 1,
+          "title": "Analysis Method Id",
+          "type": "string"
+        },
+        "analysis_method_revision": {
+          "minLength": 1,
+          "title": "Analysis Method Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "result_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_id",
+        "sample_id",
+        "analyte",
+        "species_or_quantity_definition",
+        "value",
+        "unit_token",
+        "expanded_uncertainty",
+        "uncertainty_basis",
+        "analysis_method_id",
+        "analysis_method_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_data_digest",
+        "result_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TestWaterAnalyticalResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "sample_id": {
+      "minLength": 1,
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "sampling_time_s": {
+      "minimum": 0,
+      "title": "Sampling Time S",
+      "type": "number"
+    },
+    "sampling_location_id": {
+      "minLength": 1,
+      "title": "Sampling Location Id",
+      "type": "string"
+    },
+    "sampling_location_definition": {
+      "minLength": 1,
+      "title": "Sampling Location Definition",
+      "type": "string"
+    },
+    "sampling_method_id": {
+      "minLength": 1,
+      "title": "Sampling Method Id",
+      "type": "string"
+    },
+    "laboratory_id": {
+      "minLength": 1,
+      "title": "Laboratory Id",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_valid": {
+      "title": "Calibration Valid",
+      "type": "boolean"
+    },
+    "invalid_calibration_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Calibration Basis"
+    },
+    "calibration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Digest",
+      "type": "string"
+    },
+    "replicate_group_id": {
+      "minLength": 1,
+      "title": "Replicate Group Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "independence_group_id": {
+      "minLength": 1,
+      "title": "Independence Group Id",
+      "type": "string"
+    },
+    "results": {
+      "items": {
+        "$ref": "#/$defs/TestWaterAnalyticalResult"
+      },
+      "minItems": 1,
+      "title": "Results",
+      "type": "array"
+    },
+    "sample_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sample Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sample_id",
+    "event_id",
+    "sampling_time_s",
+    "sampling_location_id",
+    "sampling_location_definition",
+    "sampling_method_id",
+    "laboratory_id",
+    "calibration_id",
+    "calibration_valid",
+    "calibration_digest",
+    "replicate_group_id",
+    "source_group_id",
+    "independence_group_id",
+    "results",
+    "sample_record_digest",
+    "evidence"
+  ],
+  "title": "TestWaterSample",
+  "type": "object"
+}

@@ -1,0 +1,141 @@
+{
+  "additionalProperties": false,
+  "description": "Closed sampled cycle and budgets for a Lipschitz-bounded plane search.",
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "tensor_history_record_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tensor History Record Digest"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "minItems": 3,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "representative_cycle_declared": {
+      "title": "Representative Cycle Declared",
+      "type": "boolean"
+    },
+    "maximum_stress_closure_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Stress Closure Error Pa",
+      "type": "number"
+    },
+    "maximum_strain_closure_error": {
+      "minimum": 0,
+      "title": "Maximum Strain Closure Error",
+      "type": "number"
+    },
+    "fatemi_socie_coefficient": {
+      "minimum": 0,
+      "title": "Fatemi Socie Coefficient",
+      "type": "number"
+    },
+    "normalization_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Normalization Stress Pa",
+      "type": "number"
+    },
+    "maximum_refinement_level": {
+      "default": 4,
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Maximum Refinement Level",
+      "type": "integer"
+    },
+    "maximum_candidate_evaluations": {
+      "default": 15000,
+      "maximum": 20000,
+      "minimum": 12,
+      "title": "Maximum Candidate Evaluations",
+      "type": "integer"
+    },
+    "maximum_sample_pair_plane_work": {
+      "default": 30000000,
+      "minimum": 1,
+      "title": "Maximum Sample Pair Plane Work",
+      "type": "integer"
+    },
+    "fatemi_socie_bound_gap_tolerance": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Fatemi Socie Bound Gap Tolerance",
+      "type": "number"
+    },
+    "swt_bound_gap_tolerance_Pa": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Swt Bound Gap Tolerance Pa",
+      "type": "number"
+    }
+  },
+  "required": [
+    "history_id",
+    "material_condition_id",
+    "location_id",
+    "tensor_source_id",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "representative_cycle_declared",
+    "maximum_stress_closure_error_Pa",
+    "maximum_strain_closure_error",
+    "fatemi_socie_coefficient",
+    "normalization_stress_Pa"
+  ],
+  "title": "CriticalPlaneContinuousBound",
+  "type": "object"
+}

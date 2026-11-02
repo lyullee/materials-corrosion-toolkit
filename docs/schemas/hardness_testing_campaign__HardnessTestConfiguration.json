@@ -1,0 +1,144 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "scale_id": {
+      "minLength": 1,
+      "title": "Scale Id",
+      "type": "string"
+    },
+    "hardness_unit_token": {
+      "minLength": 1,
+      "title": "Hardness Unit Token",
+      "type": "string"
+    },
+    "applied_load": {
+      "exclusiveMinimum": 0,
+      "title": "Applied Load",
+      "type": "number"
+    },
+    "applied_load_unit_token": {
+      "minLength": 1,
+      "title": "Applied Load Unit Token",
+      "type": "string"
+    },
+    "dwell_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Dwell Time S",
+      "type": "number"
+    },
+    "indenter_id": {
+      "minLength": 1,
+      "title": "Indenter Id",
+      "type": "string"
+    },
+    "indenter_definition": {
+      "minLength": 1,
+      "title": "Indenter Definition",
+      "type": "string"
+    },
+    "instrument_id": {
+      "minLength": 1,
+      "title": "Instrument Id",
+      "type": "string"
+    },
+    "instrument_revision": {
+      "minLength": 1,
+      "title": "Instrument Revision",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "method_id",
+    "scale_id",
+    "hardness_unit_token",
+    "applied_load",
+    "applied_load_unit_token",
+    "dwell_time_s",
+    "indenter_id",
+    "indenter_definition",
+    "instrument_id",
+    "instrument_revision",
+    "configuration_digest",
+    "evidence"
+  ],
+  "title": "HardnessTestConfiguration",
+  "type": "object"
+}

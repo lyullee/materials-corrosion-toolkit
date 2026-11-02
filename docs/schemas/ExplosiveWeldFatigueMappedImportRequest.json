@@ -1,0 +1,268 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExplosiveWeldFatigueColumnMapping": {
+      "additionalProperties": false,
+      "description": "Caller-reviewed identity, unit and role for one exact workbook column.",
+      "properties": {
+        "column_number": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Column Number",
+          "type": "integer"
+        },
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "caller_meaning": {
+          "minLength": 1,
+          "title": "Caller Meaning",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "record_id",
+            "condition",
+            "measurement",
+            "derived_formula",
+            "metadata",
+            "unclassified"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "expected_header_value": {
+          "title": "Expected Header Value"
+        },
+        "mapping_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Mapping Evidence",
+          "type": "array"
+        },
+        "mapping_reviewed": {
+          "const": true,
+          "title": "Mapping Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "column_number",
+        "field_id",
+        "caller_meaning",
+        "unit_token",
+        "role",
+        "expected_header_value",
+        "mapping_evidence",
+        "mapping_reviewed"
+      ],
+      "title": "ExplosiveWeldFatigueColumnMapping",
+      "type": "object"
+    },
+    "ExplosiveWeldFatigueReadAuthorization": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "const": "mendeley-explosive-weld-multilayer-fatigue",
+          "default": "mendeley-explosive-weld-multilayer-fatigue",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.17632/mc8bc9tm59.1",
+          "default": "10.17632/mc8bc9tm59.1",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC-BY-4.0",
+          "default": "CC-BY-4.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "const": true,
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "local_only_authorized": {
+          "const": true,
+          "title": "Local Only Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "attribution",
+        "computational_use_authorized",
+        "local_only_authorized"
+      ],
+      "title": "ExplosiveWeldFatigueReadAuthorization",
+      "type": "object"
+    },
+    "ExplosiveWeldFatigueWorksheetMapping": {
+      "additionalProperties": false,
+      "description": "Caller-selected row span and column map for one exact worksheet.",
+      "properties": {
+        "worksheet_name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Worksheet Name",
+          "type": "string"
+        },
+        "header_row_number": {
+          "minimum": 1,
+          "title": "Header Row Number",
+          "type": "integer"
+        },
+        "data_start_row": {
+          "minimum": 1,
+          "title": "Data Start Row",
+          "type": "integer"
+        },
+        "data_end_row": {
+          "minimum": 1,
+          "title": "Data End Row",
+          "type": "integer"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/ExplosiveWeldFatigueColumnMapping"
+          },
+          "maxItems": 512,
+          "minItems": 1,
+          "title": "Columns",
+          "type": "array"
+        }
+      },
+      "required": [
+        "worksheet_name",
+        "header_row_number",
+        "data_start_row",
+        "data_end_row",
+        "columns"
+      ],
+      "title": "ExplosiveWeldFatigueWorksheetMapping",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exact local asset plus explicit, evidence-bound interpretation mapping.",
+  "properties": {
+    "local_data_directory": {
+      "minLength": 1,
+      "title": "Local Data Directory",
+      "type": "string"
+    },
+    "authorization": {
+      "$ref": "#/$defs/ExplosiveWeldFatigueReadAuthorization"
+    },
+    "worksheet_mappings": {
+      "items": {
+        "$ref": "#/$defs/ExplosiveWeldFatigueWorksheetMapping"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Worksheet Mappings",
+      "type": "array"
+    },
+    "maximum_output_rows": {
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Output Rows",
+      "type": "integer"
+    },
+    "maximum_output_cells": {
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum Output Cells",
+      "type": "integer"
+    },
+    "mapping_reviewed": {
+      "const": true,
+      "title": "Mapping Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "local_data_directory",
+    "authorization",
+    "worksheet_mappings",
+    "maximum_output_rows",
+    "maximum_output_cells",
+    "mapping_reviewed"
+  ],
+  "title": "ExplosiveWeldFatigueMappedImportRequest",
+  "type": "object"
+}

@@ -1,0 +1,195 @@
+{
+  "$defs": {
+    "CriticalPlaneCandidate": {
+      "additionalProperties": false,
+      "description": "One caller-declared plane normal and one shear direction in that plane.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Normal",
+          "type": "array"
+        },
+        "in_plane_direction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "In Plane Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "in_plane_direction"
+      ],
+      "title": "CriticalPlaneCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Explicit scalar projections of an ordered multiaxial tensor record.",
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "tensor_history_record_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tensor History Record Digest"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "sample_times_s": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sample Times S"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 50000,
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 50000,
+      "minItems": 3,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "input_strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Input Strain Shear Convention",
+      "type": "string"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/CriticalPlaneCandidate"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "projections": {
+      "items": {
+        "enum": [
+          "normal_stress",
+          "normal_strain",
+          "shear_stress_directional_component",
+          "engineering_shear_strain_directional_component",
+          "shear_stress_vector_magnitude",
+          "engineering_shear_strain_vector_magnitude"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Projections",
+      "type": "array"
+    },
+    "tensor_basis_and_order_reviewed": {
+      "title": "Tensor Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "path_boundary_and_sample_order_reviewed": {
+      "title": "Path Boundary And Sample Order Reviewed",
+      "type": "boolean"
+    },
+    "projection_method_and_use_reviewed": {
+      "title": "Projection Method And Use Reviewed",
+      "type": "boolean"
+    },
+    "maximum_projection_sample_work": {
+      "default": 5000000,
+      "maximum": 50000000,
+      "minimum": 1,
+      "title": "Maximum Projection Sample Work",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "history_id",
+    "material_condition_id",
+    "location_id",
+    "tensor_source_id",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "strain_tensor_components",
+    "input_strain_shear_convention",
+    "candidate_planes",
+    "projections",
+    "tensor_basis_and_order_reviewed",
+    "path_boundary_and_sample_order_reviewed",
+    "projection_method_and_use_reviewed"
+  ],
+  "title": "CriticalPlaneProjectedRainflow",
+  "type": "object"
+}

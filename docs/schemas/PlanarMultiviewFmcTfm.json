@@ -1,0 +1,519 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FmcElement": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position M",
+          "type": "array"
+        }
+      },
+      "required": [
+        "element_id",
+        "position_m"
+      ],
+      "title": "FmcElement",
+      "type": "object"
+    },
+    "FmcTimeTrace": {
+      "additionalProperties": false,
+      "properties": {
+        "trace_id": {
+          "minLength": 1,
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "transmit_element_id": {
+          "minLength": 1,
+          "title": "Transmit Element Id",
+          "type": "string"
+        },
+        "receive_element_id": {
+          "minLength": 1,
+          "title": "Receive Element Id",
+          "type": "string"
+        },
+        "signed_samples": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 32768,
+          "minItems": 2,
+          "title": "Signed Samples",
+          "type": "array"
+        },
+        "samples_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Samples Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trace_id",
+        "transmit_element_id",
+        "receive_element_id",
+        "signed_samples",
+        "samples_sha256"
+      ],
+      "title": "FmcTimeTrace",
+      "type": "object"
+    },
+    "PlanarTfmView": {
+      "additionalProperties": false,
+      "properties": {
+        "view_id": {
+          "minLength": 1,
+          "title": "View Id",
+          "type": "string"
+        },
+        "transmit_material_mode": {
+          "enum": [
+            "longitudinal",
+            "shear"
+          ],
+          "title": "Transmit Material Mode",
+          "type": "string"
+        },
+        "receive_material_mode": {
+          "enum": [
+            "longitudinal",
+            "shear"
+          ],
+          "title": "Receive Material Mode",
+          "type": "string"
+        },
+        "transmit_backwall_reflection": {
+          "title": "Transmit Backwall Reflection",
+          "type": "boolean"
+        },
+        "receive_backwall_reflection": {
+          "title": "Receive Backwall Reflection",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "view_id",
+        "transmit_material_mode",
+        "receive_material_mode",
+        "transmit_backwall_reflection",
+        "receive_backwall_reflection"
+      ],
+      "title": "PlanarTfmView",
+      "type": "object"
+    },
+    "TfmImagePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position M",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "position_m"
+      ],
+      "title": "TfmImagePoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "acquisition_id": {
+      "minLength": 1,
+      "title": "Acquisition Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "probe_id": {
+      "minLength": 1,
+      "title": "Probe Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "sample_clock_id": {
+      "minLength": 1,
+      "title": "Sample Clock Id",
+      "type": "string"
+    },
+    "time_zero_basis_id": {
+      "minLength": 1,
+      "title": "Time Zero Basis Id",
+      "type": "string"
+    },
+    "velocity_basis_id": {
+      "minLength": 1,
+      "title": "Velocity Basis Id",
+      "type": "string"
+    },
+    "raw_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Raw Record Sha256",
+      "type": "string"
+    },
+    "amplitude_unit": {
+      "minLength": 1,
+      "title": "Amplitude Unit",
+      "type": "string"
+    },
+    "propagation_model": {
+      "const": "planar_two_medium_transmission_and_same_mode_backwall",
+      "title": "Propagation Model",
+      "type": "string"
+    },
+    "aggregation": {
+      "enum": [
+        "coherent_sum",
+        "coherent_mean"
+      ],
+      "title": "Aggregation",
+      "type": "string"
+    },
+    "excitation_time_origin_s": {
+      "title": "Excitation Time Origin S",
+      "type": "number"
+    },
+    "longitudinal_velocity_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Longitudinal Velocity M S",
+      "type": "number"
+    },
+    "time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 32768,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "elements": {
+      "items": {
+        "$ref": "#/$defs/FmcElement"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Elements",
+      "type": "array"
+    },
+    "traces": {
+      "items": {
+        "$ref": "#/$defs/FmcTimeTrace"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Traces",
+      "type": "array"
+    },
+    "image_points": {
+      "items": {
+        "$ref": "#/$defs/TfmImagePoint"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Image Points",
+      "type": "array"
+    },
+    "maximum_point_trace_evaluations": {
+      "default": 1000000,
+      "maximum": 10000000,
+      "minimum": 1,
+      "title": "Maximum Point Trace Evaluations",
+      "type": "integer"
+    },
+    "couplant_condition_id": {
+      "minLength": 1,
+      "title": "Couplant Condition Id",
+      "type": "string"
+    },
+    "couplant_velocity_basis_id": {
+      "minLength": 1,
+      "title": "Couplant Velocity Basis Id",
+      "type": "string"
+    },
+    "interface_geometry_basis_id": {
+      "minLength": 1,
+      "title": "Interface Geometry Basis Id",
+      "type": "string"
+    },
+    "interface_z_m": {
+      "title": "Interface Z M",
+      "type": "number"
+    },
+    "couplant_longitudinal_velocity_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Couplant Longitudinal Velocity M S",
+      "type": "number"
+    },
+    "material_shear_velocity_m_s": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Material Shear Velocity M S"
+    },
+    "material_shear_velocity_basis_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Material Shear Velocity Basis Id"
+    },
+    "backwall_z_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Backwall Z M"
+    },
+    "views": {
+      "items": {
+        "$ref": "#/$defs/PlanarTfmView"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Views",
+      "type": "array"
+    },
+    "ray_fraction_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Ray Fraction Tolerance",
+      "type": "number"
+    },
+    "maximum_normalized_snell_residual": {
+      "default": 1e-08,
+      "minimum": 0,
+      "title": "Maximum Normalized Snell Residual",
+      "type": "number"
+    },
+    "maximum_ray_iterations": {
+      "default": 80,
+      "maximum": 256,
+      "minimum": 1,
+      "title": "Maximum Ray Iterations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "basis",
+    "acquisition_id",
+    "physical_specimen_id",
+    "physical_scope_id",
+    "source_group_id",
+    "material_condition_id",
+    "probe_id",
+    "coordinate_frame_id",
+    "sample_clock_id",
+    "time_zero_basis_id",
+    "velocity_basis_id",
+    "raw_record_sha256",
+    "amplitude_unit",
+    "propagation_model",
+    "aggregation",
+    "excitation_time_origin_s",
+    "longitudinal_velocity_m_s",
+    "time_s",
+    "elements",
+    "traces",
+    "image_points",
+    "couplant_condition_id",
+    "couplant_velocity_basis_id",
+    "interface_geometry_basis_id",
+    "interface_z_m",
+    "couplant_longitudinal_velocity_m_s",
+    "views"
+  ],
+  "title": "PlanarMultiviewFmcTfm",
+  "type": "object"
+}

@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "CoolingIntervalSensorBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "upper_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Upper Temperature K",
+          "type": "number"
+        },
+        "lower_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Lower Temperature K",
+          "type": "number"
+        },
+        "start_index": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Start Index",
+          "type": "integer"
+        },
+        "end_index": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Index"
+        }
+      },
+      "required": [
+        "branch_id",
+        "sensor_id",
+        "upper_temperature_K",
+        "lower_temperature_K"
+      ],
+      "title": "CoolingIntervalSensorBranch",
+      "type": "object"
+    },
+    "CoolingIntervalSensorTrace": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Temperature K",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "location_id",
+        "temperature_K"
+      ],
+      "title": "CoolingIntervalSensorTrace",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evaluate explicit sensor-local branches on a shared clock without cross-sensor interpolation.",
+  "properties": {
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "sensor_traces": {
+      "items": {
+        "$ref": "#/$defs/CoolingIntervalSensorTrace"
+      },
+      "minItems": 1,
+      "title": "Sensor Traces",
+      "type": "array"
+    },
+    "branches": {
+      "items": {
+        "$ref": "#/$defs/CoolingIntervalSensorBranch"
+      },
+      "minItems": 1,
+      "title": "Branches",
+      "type": "array"
+    },
+    "record_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Record Id"
+    },
+    "provider_file_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider File Sha256"
+    },
+    "evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "sensor_traces",
+    "branches"
+  ],
+  "title": "CoolingIntervalSensorBatch",
+  "type": "object"
+}

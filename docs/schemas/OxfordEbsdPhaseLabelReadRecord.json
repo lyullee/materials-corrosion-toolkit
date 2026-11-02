@@ -1,0 +1,137 @@
+{
+  "additionalProperties": false,
+  "description": "Audit metadata for labels read from one Oxford binary map pair.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.oxford_ebsd_phase_label_read.v1",
+      "default": "matintegrity.oxford_ebsd_phase_label_read.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "archive_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Archive Sha256",
+      "type": "string"
+    },
+    "cpr_member": {
+      "minLength": 1,
+      "title": "Cpr Member",
+      "type": "string"
+    },
+    "cpr_member_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Cpr Member Sha256",
+      "type": "string"
+    },
+    "crc_member": {
+      "minLength": 1,
+      "title": "Crc Member",
+      "type": "string"
+    },
+    "crc_member_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Crc Member Sha256",
+      "type": "string"
+    },
+    "label_array_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Label Array Sha256",
+      "type": "string"
+    },
+    "shape": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Shape",
+      "type": "array"
+    },
+    "dtype": {
+      "minLength": 1,
+      "title": "Dtype",
+      "type": "string"
+    },
+    "label_values": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Label Values",
+      "type": "array"
+    },
+    "nonindexed_label_value": {
+      "default": 0,
+      "title": "Nonindexed Label Value",
+      "type": "integer"
+    },
+    "provider_grid_step_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Grid Step Value"
+    },
+    "provider_grid_step_unit_status": {
+      "const": "not_declared_by_adapter",
+      "default": "not_declared_by_adapter",
+      "title": "Provider Grid Step Unit Status",
+      "type": "string"
+    },
+    "phase_descriptor_count": {
+      "minimum": 0,
+      "title": "Phase Descriptor Count",
+      "type": "integer"
+    },
+    "reader_compatibility_patch": {
+      "default": "none",
+      "enum": [
+        "none",
+        "identity_rotation_placeholder_for_omitted_orientation"
+      ],
+      "title": "Reader Compatibility Patch",
+      "type": "string"
+    },
+    "reader_name": {
+      "const": "DefDAP",
+      "default": "DefDAP",
+      "title": "Reader Name",
+      "type": "string"
+    },
+    "reader_version": {
+      "minLength": 1,
+      "title": "Reader Version",
+      "type": "string"
+    },
+    "file_format": {
+      "const": "Oxford .cpr/.crc",
+      "default": "Oxford .cpr/.crc",
+      "title": "File Format",
+      "type": "string"
+    }
+  },
+  "required": [
+    "archive_sha256",
+    "cpr_member",
+    "cpr_member_sha256",
+    "crc_member",
+    "crc_member_sha256",
+    "label_array_sha256",
+    "shape",
+    "dtype",
+    "label_values",
+    "phase_descriptor_count",
+    "reader_version"
+  ],
+  "title": "OxfordEbsdPhaseLabelReadRecord",
+  "type": "object"
+}

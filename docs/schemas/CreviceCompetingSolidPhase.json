@@ -1,0 +1,134 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "solid_species_id": {
+      "minLength": 1,
+      "title": "Solid Species Id",
+      "type": "string"
+    },
+    "solid_elemental_composition": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "minProperties": 1,
+      "title": "Solid Elemental Composition",
+      "type": "object"
+    },
+    "aqueous_reactant_stoichiometry": {
+      "additionalProperties": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minProperties": 1,
+      "title": "Aqueous Reactant Stoichiometry",
+      "type": "object"
+    },
+    "initial_solid_moles_per_solution_volume_mol_m3": {
+      "minimum": 0,
+      "title": "Initial Solid Moles Per Solution Volume Mol M3",
+      "type": "number"
+    },
+    "dimensionless_solubility_product": {
+      "exclusiveMinimum": 0,
+      "title": "Dimensionless Solubility Product",
+      "type": "number"
+    },
+    "equilibrium_constant_record_id": {
+      "minLength": 1,
+      "title": "Equilibrium Constant Record Id",
+      "type": "string"
+    },
+    "equilibrium_constant_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Equilibrium Constant Record Sha256",
+      "type": "string"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "solid_species_id",
+    "solid_elemental_composition",
+    "aqueous_reactant_stoichiometry",
+    "initial_solid_moles_per_solution_volume_mol_m3",
+    "dimensionless_solubility_product",
+    "equilibrium_constant_record_id",
+    "equilibrium_constant_record_sha256",
+    "record_sha256",
+    "evidence"
+  ],
+  "title": "CreviceCompetingSolidPhase",
+  "type": "object"
+}

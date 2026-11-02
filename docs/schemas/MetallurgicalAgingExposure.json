@@ -1,0 +1,306 @@
+{
+  "$defs": {
+    "AgingExposureInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "equivalent_time_rate_multiplier": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equivalent Time Rate Multiplier"
+        },
+        "multiplier_provider_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Multiplier Provider Id"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AgingExposureInterval",
+      "type": "object"
+    },
+    "DeclaredAgingExposureEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "aging_mechanism_id": {
+          "minLength": 1,
+          "title": "Aging Mechanism Id",
+          "type": "string"
+        },
+        "reference_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Temperature K",
+          "type": "number"
+        },
+        "multiplier_provider_id": {
+          "minLength": 1,
+          "title": "Multiplier Provider Id",
+          "type": "string"
+        },
+        "minimum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_equivalent_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Equivalent Exposure S",
+          "type": "number"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "aging_mechanism_id",
+        "reference_temperature_K",
+        "multiplier_provider_id",
+        "minimum_supported_temperature_K",
+        "maximum_supported_temperature_K",
+        "maximum_equivalent_exposure_s",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "DeclaredAgingExposureEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "aging_mechanism_id": {
+      "minLength": 1,
+      "title": "Aging Mechanism Id",
+      "type": "string"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/AgingExposureInterval"
+      },
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "exposure_envelope": {
+      "$ref": "#/$defs/DeclaredAgingExposureEnvelope"
+    },
+    "material_and_mechanism_reviewed": {
+      "title": "Material And Mechanism Reviewed",
+      "type": "boolean"
+    },
+    "clock_and_temperature_history_reviewed": {
+      "title": "Clock And Temperature History Reviewed",
+      "type": "boolean"
+    },
+    "multiplier_provider_reviewed": {
+      "title": "Multiplier Provider Reviewed",
+      "type": "boolean"
+    },
+    "interval_completeness_reviewed": {
+      "title": "Interval Completeness Reviewed",
+      "type": "boolean"
+    },
+    "envelope_authority_reviewed": {
+      "title": "Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "material_condition_id",
+    "aging_mechanism_id",
+    "intervals",
+    "exposure_envelope",
+    "material_and_mechanism_reviewed",
+    "clock_and_temperature_history_reviewed",
+    "multiplier_provider_reviewed",
+    "interval_completeness_reviewed",
+    "envelope_authority_reviewed"
+  ],
+  "title": "MetallurgicalAgingExposure",
+  "type": "object"
+}

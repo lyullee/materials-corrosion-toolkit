@@ -1,0 +1,450 @@
+{
+  "$defs": {
+    "ChemicalAnalysisLimit": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "minimum_mass_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Mass Fraction"
+        },
+        "maximum_mass_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Mass Fraction"
+        },
+        "permitted_under_minimum": {
+          "default": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Permitted Under Minimum",
+          "type": "number"
+        },
+        "permitted_over_maximum": {
+          "default": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Permitted Over Maximum",
+          "type": "number"
+        },
+        "tolerance_basis_id": {
+          "minLength": 1,
+          "title": "Tolerance Basis Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "element_id",
+        "tolerance_basis_id"
+      ],
+      "title": "ChemicalAnalysisLimit",
+      "type": "object"
+    },
+    "ChemicalAnalysisLinearRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "measurement_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "maxProperties": 100,
+          "minProperties": 1,
+          "title": "Measurement Coefficients",
+          "type": "object"
+        },
+        "constant_offset": {
+          "default": 0.0,
+          "title": "Constant Offset",
+          "type": "number"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "requirement_basis_id": {
+          "minLength": 1,
+          "title": "Requirement Basis Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "measurement_coefficients",
+        "requirement_basis_id"
+      ],
+      "title": "ChemicalAnalysisLinearRule",
+      "type": "object"
+    },
+    "ChemicalAnalysisObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "measured_mass_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Mass Fraction"
+        },
+        "expanded_uncertainty_mass_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty Mass Fraction"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "element_id",
+        "sample_id",
+        "method_id",
+        "record_sha256"
+      ],
+      "title": "ChemicalAnalysisObservation",
+      "type": "object"
+    },
+    "ChemicalAnalysisSumRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "measurement_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Measurement Ids",
+          "type": "array"
+        },
+        "minimum_mass_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Mass Fraction"
+        },
+        "maximum_mass_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Mass Fraction"
+        },
+        "requirement_basis_id": {
+          "minLength": 1,
+          "title": "Requirement Basis Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "measurement_ids",
+        "requirement_basis_id"
+      ],
+      "title": "ChemicalAnalysisSumRule",
+      "type": "object"
+    },
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "physical_product_id": {
+      "minLength": 1,
+      "title": "Physical Product Id",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "governing_requirement_id": {
+      "minLength": 1,
+      "title": "Governing Requirement Id",
+      "type": "string"
+    },
+    "analysis_kind": {
+      "enum": [
+        "heat_analysis",
+        "product_analysis"
+      ],
+      "title": "Analysis Kind",
+      "type": "string"
+    },
+    "sampling_and_analysis_kind_reviewed": {
+      "title": "Sampling And Analysis Kind Reviewed",
+      "type": "boolean"
+    },
+    "product_tolerance_application_authorized": {
+      "title": "Product Tolerance Application Authorized",
+      "type": "boolean"
+    },
+    "limits": {
+      "items": {
+        "$ref": "#/$defs/ChemicalAnalysisLimit"
+      },
+      "minItems": 1,
+      "title": "Limits",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ChemicalAnalysisObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "sum_rules": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ChemicalAnalysisSumRule"
+      },
+      "title": "Sum Rules",
+      "type": "array"
+    },
+    "linear_rules": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ChemicalAnalysisLinearRule"
+      },
+      "title": "Linear Rules",
+      "type": "array"
+    }
+  },
+  "required": [
+    "basis",
+    "physical_product_id",
+    "heat_id",
+    "material_condition_id",
+    "governing_requirement_id",
+    "analysis_kind",
+    "sampling_and_analysis_kind_reviewed",
+    "product_tolerance_application_authorized",
+    "limits",
+    "observations"
+  ],
+  "title": "DeclaredChemicalAnalysisComparison",
+  "type": "object"
+}

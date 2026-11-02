@@ -1,0 +1,191 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "composition_index_definition_id": {
+      "minLength": 1,
+      "title": "Composition Index Definition Id",
+      "type": "string"
+    },
+    "composition_index_mass_percent": {
+      "minimum": 0,
+      "title": "Composition Index Mass Percent",
+      "type": "number"
+    },
+    "hydrogen_definition_id": {
+      "minLength": 1,
+      "title": "Hydrogen Definition Id",
+      "type": "string"
+    },
+    "hydrogen_input_kind": {
+      "enum": [
+        "measured_quantity",
+        "declared_category_value"
+      ],
+      "title": "Hydrogen Input Kind",
+      "type": "string"
+    },
+    "hydrogen_unit_token": {
+      "minLength": 1,
+      "title": "Hydrogen Unit Token",
+      "type": "string"
+    },
+    "hydrogen_value": {
+      "exclusiveMinimum": 0,
+      "title": "Hydrogen Value",
+      "type": "number"
+    },
+    "hydrogen_reference_value": {
+      "exclusiveMinimum": 0,
+      "title": "Hydrogen Reference Value",
+      "type": "number"
+    },
+    "composition_coefficient": {
+      "title": "Composition Coefficient",
+      "type": "number"
+    },
+    "logarithmic_coefficient": {
+      "title": "Logarithmic Coefficient",
+      "type": "number"
+    },
+    "constant_offset": {
+      "title": "Constant Offset",
+      "type": "number"
+    }
+  },
+  "required": [
+    "basis",
+    "material_condition_id",
+    "composition_index_definition_id",
+    "composition_index_mass_percent",
+    "hydrogen_definition_id",
+    "hydrogen_input_kind",
+    "hydrogen_unit_token",
+    "hydrogen_value",
+    "hydrogen_reference_value",
+    "composition_coefficient",
+    "logarithmic_coefficient",
+    "constant_offset"
+  ],
+  "title": "DeclaredHydrogenSusceptibilityIndex",
+  "type": "object"
+}

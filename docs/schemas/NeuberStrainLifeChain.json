@@ -1,0 +1,113 @@
+{
+  "$defs": {
+    "NeuberNotchStrainAmplitude": {
+      "additionalProperties": false,
+      "description": "Caller-qualified scalar notch data for a stabilized cyclic estimate.",
+      "properties": {
+        "nominal_stress_amplitude_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Nominal Stress Amplitude Pa",
+          "type": "number"
+        },
+        "elastic_stress_concentration_factor": {
+          "exclusiveMinimum": 0,
+          "minimum": 1.0,
+          "title": "Elastic Stress Concentration Factor",
+          "type": "number"
+        },
+        "elastic_modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Elastic Modulus Pa",
+          "type": "number"
+        },
+        "cyclic_strength_coefficient_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Cyclic Strength Coefficient Pa",
+          "type": "number"
+        },
+        "cyclic_strain_hardening_exponent": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Cyclic Strain Hardening Exponent",
+          "type": "number"
+        },
+        "all_inputs_reviewed": {
+          "title": "All Inputs Reviewed",
+          "type": "boolean"
+        },
+        "max_iterations": {
+          "default": 100,
+          "maximum": 200,
+          "minimum": 10,
+          "title": "Max Iterations",
+          "type": "integer"
+        },
+        "relative_tolerance": {
+          "default": 1e-12,
+          "exclusiveMinimum": 0,
+          "maximum": 1e-06,
+          "title": "Relative Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "nominal_stress_amplitude_Pa",
+        "elastic_stress_concentration_factor",
+        "elastic_modulus_Pa",
+        "cyclic_strength_coefficient_Pa",
+        "cyclic_strain_hardening_exponent",
+        "all_inputs_reviewed"
+      ],
+      "title": "NeuberNotchStrainAmplitude",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Composable scalar notch estimate followed by a calibrated strain-life relation.",
+  "properties": {
+    "notch": {
+      "$ref": "#/$defs/NeuberNotchStrainAmplitude"
+    },
+    "fatigue_strength_coefficient_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Fatigue Strength Coefficient Pa",
+      "type": "number"
+    },
+    "fatigue_strength_exponent": {
+      "exclusiveMaximum": 0,
+      "title": "Fatigue Strength Exponent",
+      "type": "number"
+    },
+    "fatigue_ductility_coefficient": {
+      "exclusiveMinimum": 0,
+      "title": "Fatigue Ductility Coefficient",
+      "type": "number"
+    },
+    "fatigue_ductility_exponent": {
+      "exclusiveMaximum": 0,
+      "title": "Fatigue Ductility Exponent",
+      "type": "number"
+    },
+    "minimum_valid_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Valid Cycles",
+      "type": "number"
+    },
+    "maximum_valid_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Valid Cycles",
+      "type": "number"
+    }
+  },
+  "required": [
+    "notch",
+    "fatigue_strength_coefficient_Pa",
+    "fatigue_strength_exponent",
+    "fatigue_ductility_coefficient",
+    "fatigue_ductility_exponent",
+    "minimum_valid_cycles",
+    "maximum_valid_cycles"
+  ],
+  "title": "NeuberStrainLifeChain",
+  "type": "object"
+}

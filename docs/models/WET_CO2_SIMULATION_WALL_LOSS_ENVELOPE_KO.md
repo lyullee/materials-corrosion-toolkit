@@ -1,0 +1,7 @@
+# Wet-CO2 simulation rows as finite wall-loss scenarios
+
+`integration.wet_co2_simulation_wall_loss_envelope` takes a finite set of attributed NORSOK-style provider simulation rows and a caller-defined measured wall baseline, required-thickness limit, and exposure duration. Every scenario redundantly supplies the exact provider row identity, row digest, and corrosion-rate value; the contract rejects mismatches. The source rows must share their dataset, source group, and archive digest and include Evidence matching the licensed source archive.
+
+For each row, the API computes `uniform_wall_loss = provider_corrosion_rate × exposure_duration` and subtracts it from the caller baseline. It reports the finite-set extrema with row witnesses and, where applicable, whether the required-thickness crossing falls inside the requested exposure interval. There are no scenario weights.
+
+The baseline Evidence must have origin `measured`; the required-thickness Evidence must have origin `user_declared` or `open_dataset`. The caller must also review that each provider row is appropriate as a scenario, its rate is treated as constant over the interval, the baseline and limit share asset/location/material/time scope, and the result is interpreted only over the finite supplied set. The source is model-generated output; this arithmetic does not validate a field corrosion mechanism, estimate probability, issue acceptance, or qualify a corrosion allowance.

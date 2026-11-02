@@ -1,0 +1,102 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dimension_id": {
+      "minLength": 1,
+      "title": "Dimension Id",
+      "type": "string"
+    },
+    "value_m": {
+      "exclusiveMinimum": 0,
+      "title": "Value M",
+      "type": "number"
+    },
+    "definition": {
+      "minLength": 1,
+      "title": "Definition",
+      "type": "string"
+    },
+    "record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Digest",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dimension_id",
+    "value_m",
+    "definition",
+    "record_digest",
+    "evidence"
+  ],
+  "title": "ThicknessDimension",
+  "type": "object"
+}

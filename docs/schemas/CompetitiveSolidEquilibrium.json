@@ -1,0 +1,191 @@
+{
+  "$defs": {
+    "CompetitiveAqueousSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "initial_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_reference_concentration_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Reference Concentration Mol M3",
+          "type": "number"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "initial_concentration_mol_m3",
+        "activity_reference_concentration_mol_m3",
+        "activity_coefficient",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "CompetitiveAqueousSpecies",
+      "type": "object"
+    },
+    "CompetitiveSolidPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "precipitation_stoichiometry": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Precipitation Stoichiometry",
+          "type": "object"
+        },
+        "solid_elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Solid Elemental Composition",
+          "type": "object"
+        },
+        "initial_solid_moles_per_solution_volume_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Per Solution Volume Mol M3",
+          "type": "number"
+        },
+        "dimensionless_solubility_product": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Solubility Product",
+          "type": "number"
+        },
+        "equilibrium_constant_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Constant Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "precipitation_stoichiometry",
+        "solid_elemental_composition",
+        "initial_solid_moles_per_solution_volume_mol_m3",
+        "dimensionless_solubility_product",
+        "equilibrium_constant_source_sha256"
+      ],
+      "title": "CompetitiveSolidPhase",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "equilibrium_id": {
+      "minLength": 1,
+      "title": "Equilibrium Id",
+      "type": "string"
+    },
+    "aqueous_species": {
+      "items": {
+        "$ref": "#/$defs/CompetitiveAqueousSpecies"
+      },
+      "minItems": 1,
+      "title": "Aqueous Species",
+      "type": "array"
+    },
+    "candidate_solid_phases": {
+      "items": {
+        "$ref": "#/$defs/CompetitiveSolidPhase"
+      },
+      "maxItems": 16,
+      "minItems": 2,
+      "title": "Candidate Solid Phases",
+      "type": "array"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "standard_state_id": {
+      "minLength": 1,
+      "title": "Standard State Id",
+      "type": "string"
+    },
+    "candidate_phase_set_completeness_reviewed": {
+      "title": "Candidate Phase Set Completeness Reviewed",
+      "type": "boolean"
+    },
+    "fixed_activity_coefficients_and_standard_states_reviewed": {
+      "title": "Fixed Activity Coefficients And Standard States Reviewed",
+      "type": "boolean"
+    },
+    "equilibrium_constant_temperature_and_computational_use_reviewed": {
+      "title": "Equilibrium Constant Temperature And Computational Use Reviewed",
+      "type": "boolean"
+    },
+    "single_liquid_fixed_volume_and_neutral_solid_assumptions_reviewed": {
+      "title": "Single Liquid Fixed Volume And Neutral Solid Assumptions Reviewed",
+      "type": "boolean"
+    },
+    "optimizer_maximum_iterations": {
+      "default": 2000,
+      "maximum": 20000,
+      "minimum": 50,
+      "title": "Optimizer Maximum Iterations",
+      "type": "integer"
+    },
+    "maximum_absolute_log_saturation_residual": {
+      "default": 1e-07,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Maximum Absolute Log Saturation Residual",
+      "type": "number"
+    },
+    "absolute_extent_balance_tolerance_mol_m3": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Extent Balance Tolerance Mol M3",
+      "type": "number"
+    },
+    "relative_extent_balance_tolerance": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Extent Balance Tolerance",
+      "type": "number"
+    }
+  },
+  "required": [
+    "equilibrium_id",
+    "aqueous_species",
+    "candidate_solid_phases",
+    "temperature_K",
+    "standard_state_id",
+    "candidate_phase_set_completeness_reviewed",
+    "fixed_activity_coefficients_and_standard_states_reviewed",
+    "equilibrium_constant_temperature_and_computational_use_reviewed",
+    "single_liquid_fixed_volume_and_neutral_solid_assumptions_reviewed"
+  ],
+  "title": "CompetitiveSolidEquilibrium",
+  "type": "object"
+}

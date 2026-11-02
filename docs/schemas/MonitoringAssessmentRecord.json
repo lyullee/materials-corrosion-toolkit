@@ -1,0 +1,158 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.monitoring_context.v1",
+      "default": "matintegrity.monitoring_context.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_version": {
+      "minLength": 1,
+      "title": "Model Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "out_of_scope",
+        "needs_data"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "inputs": {
+      "additionalProperties": true,
+      "title": "Inputs",
+      "type": "object"
+    },
+    "values": {
+      "additionalProperties": true,
+      "title": "Values",
+      "type": "object"
+    },
+    "units": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Units",
+      "type": "object"
+    },
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    },
+    "context": {
+      "additionalProperties": true,
+      "title": "Context",
+      "type": "object"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Ids",
+      "type": "array"
+    },
+    "qualification": {
+      "enum": [
+        "engineering_screening",
+        "user_model"
+      ],
+      "title": "Qualification",
+      "type": "string"
+    },
+    "runtime": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Runtime",
+      "type": "object"
+    },
+    "probability_semantics": {
+      "additionalProperties": {
+        "enum": [
+          "conditional_first_failure_in_period",
+          "point_in_time_state_probability",
+          "posterior_parameter_probability",
+          "model_implied_input_uncertainty_probability",
+          "spatial_size_exceedance_at_one_exposure",
+          "detection_given_flaw_and_procedure",
+          "unscoped_event_probability",
+          "fault_tree_top_event_probability"
+        ],
+        "type": "string"
+      },
+      "title": "Probability Semantics",
+      "type": "object"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "meaning": {
+      "const": "Calculated features with preserved origin; anomalies do not themselves define failure probability.",
+      "default": "Calculated features with preserved origin; anomalies do not themselves define failure probability.",
+      "title": "Meaning",
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "model_id",
+    "model_version",
+    "status",
+    "inputs",
+    "values",
+    "units",
+    "assumptions",
+    "notes",
+    "context",
+    "input_digest",
+    "source_ids",
+    "qualification",
+    "runtime",
+    "probability_semantics",
+    "time_basis",
+    "source_digest"
+  ],
+  "title": "MonitoringAssessmentRecord",
+  "type": "object"
+}

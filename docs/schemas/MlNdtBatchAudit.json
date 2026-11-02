@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "MlNdtFlawMetadata": {
+      "additionalProperties": false,
+      "description": "One provider JSON flaw object with its original text fields intact.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.ml_ndt_flaw_metadata.v1",
+          "default": "matintegrity.ml_ndt_flaw_metadata.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "raw_fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Raw Fields",
+          "type": "object"
+        },
+        "source_flaw_size_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Flaw Size Value"
+        },
+        "equivalent_flaw_size_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equivalent Flaw Size Value"
+        },
+        "augmentation_factor_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Augmentation Factor Value"
+        }
+      },
+      "required": [
+        "raw_fields"
+      ],
+      "title": "MlNdtFlawMetadata",
+      "type": "object"
+    },
+    "MlNdtImageLabel": {
+      "additionalProperties": false,
+      "description": "Provider classification/size labels aligned to one image in a batch.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.ml_ndt_image_label.v1",
+          "default": "matintegrity.ml_ndt_image_label.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "image_index": {
+          "minimum": 0,
+          "title": "Image Index",
+          "type": "integer"
+        },
+        "provider_hit_label": {
+          "enum": [
+            0,
+            1
+          ],
+          "title": "Provider Hit Label",
+          "type": "integer"
+        },
+        "provider_equivalent_size_value": {
+          "minimum": 0,
+          "title": "Provider Equivalent Size Value",
+          "type": "number"
+        },
+        "metadata_equivalent_size_value": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metadata Equivalent Size Value"
+        },
+        "label_metadata_size_match": {
+          "title": "Label Metadata Size Match",
+          "type": "boolean"
+        },
+        "flaws": {
+          "items": {
+            "$ref": "#/$defs/MlNdtFlawMetadata"
+          },
+          "title": "Flaws",
+          "type": "array"
+        },
+        "augmentation_status": {
+          "const": "provider_augmented",
+          "default": "provider_augmented",
+          "title": "Augmentation Status",
+          "type": "string"
+        },
+        "physical_specimen_identity": {
+          "const": "not_resolved_per_image",
+          "default": "not_resolved_per_image",
+          "title": "Physical Specimen Identity",
+          "type": "string"
+        },
+        "physical_flaw_identity": {
+          "const": "not_resolved_per_image",
+          "default": "not_resolved_per_image",
+          "title": "Physical Flaw Identity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "image_index",
+        "provider_hit_label",
+        "provider_equivalent_size_value",
+        "label_metadata_size_match",
+        "flaws"
+      ],
+      "title": "MlNdtImageLabel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable audit of one four-file ML-NDT batch.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.ml_ndt_batch_audit.v1",
+      "default": "matintegrity.ml_ndt_batch_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "ml-ndt-augmented-phased-array",
+      "default": "ml-ndt-augmented-phased-array",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "repository_revision": {
+      "pattern": "^[a-f0-9]{40}$",
+      "title": "Repository Revision",
+      "type": "string"
+    },
+    "revision_basis": {
+      "const": "caller_verified_local_clone",
+      "default": "caller_verified_local_clone",
+      "title": "Revision Basis",
+      "type": "string"
+    },
+    "provider_partition": {
+      "enum": [
+        "training",
+        "validation"
+      ],
+      "title": "Provider Partition",
+      "type": "string"
+    },
+    "batch_uuid": {
+      "title": "Batch Uuid",
+      "type": "string"
+    },
+    "source_filenames": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Source Filenames",
+      "type": "object"
+    },
+    "source_sha256": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Source Sha256",
+      "type": "object"
+    },
+    "source_bytes": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Source Bytes",
+      "type": "object"
+    },
+    "dtype_token": {
+      "const": "UInt16",
+      "title": "Dtype Token",
+      "type": "string"
+    },
+    "rows": {
+      "exclusiveMinimum": 0,
+      "title": "Rows",
+      "type": "integer"
+    },
+    "columns": {
+      "exclusiveMinimum": 0,
+      "title": "Columns",
+      "type": "integer"
+    },
+    "image_count": {
+      "exclusiveMinimum": 0,
+      "title": "Image Count",
+      "type": "integer"
+    },
+    "byte_order_status": {
+      "const": "not_declared_by_meta",
+      "default": "not_declared_by_meta",
+      "title": "Byte Order Status",
+      "type": "string"
+    },
+    "storage_order": {
+      "const": "provider_code_c_order",
+      "default": "provider_code_c_order",
+      "title": "Storage Order",
+      "type": "string"
+    },
+    "labels": {
+      "items": {
+        "$ref": "#/$defs/MlNdtImageLabel"
+      },
+      "title": "Labels",
+      "type": "array"
+    },
+    "metadata_size_mismatch_count": {
+      "minimum": 0,
+      "title": "Metadata Size Mismatch Count",
+      "type": "integer"
+    },
+    "physical_source_scope": {
+      "const": "provider_reported_one_pipe_three_cracks",
+      "default": "provider_reported_one_pipe_three_cracks",
+      "title": "Physical Source Scope",
+      "type": "string"
+    },
+    "qualification": {
+      "const": "augmented_images_not_independent_physical_specimens",
+      "default": "augmented_images_not_independent_physical_specimens",
+      "title": "Qualification",
+      "type": "string"
+    }
+  },
+  "required": [
+    "repository_revision",
+    "provider_partition",
+    "batch_uuid",
+    "source_filenames",
+    "source_sha256",
+    "source_bytes",
+    "dtype_token",
+    "rows",
+    "columns",
+    "image_count",
+    "labels",
+    "metadata_size_mismatch_count"
+  ],
+  "title": "MlNdtBatchAudit",
+  "type": "object"
+}

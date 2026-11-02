@@ -1,0 +1,380 @@
+{
+  "$defs": {
+    "ClosedTensorCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "allocated_cycle_count": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Allocated Cycle Count",
+          "type": "number"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "sample_time_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Time S"
+        },
+        "stress_time_derivative_components_Pa_s": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stress Time Derivative Components Pa S"
+        },
+        "strain_time_derivative_components_s_inv": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain Time Derivative Components S Inv"
+        }
+      },
+      "required": [
+        "cycle_id",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components"
+      ],
+      "title": "ClosedTensorCycle",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "OrderedTensorCycleBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "block_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Block Source Sha256",
+          "type": "string"
+        },
+        "material_state_before_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Material State Before Sha256",
+          "type": "string"
+        },
+        "material_state_after_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Material State After Sha256",
+          "type": "string"
+        },
+        "cycles": {
+          "items": {
+            "$ref": "#/$defs/ClosedTensorCycle"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Cycles",
+          "type": "array"
+        },
+        "ordered_cycle_payload_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Ordered Cycle Payload Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "block_id",
+        "sequence_index",
+        "block_source_sha256",
+        "material_state_before_sha256",
+        "material_state_after_sha256",
+        "cycles",
+        "ordered_cycle_payload_sha256",
+        "evidence"
+      ],
+      "title": "OrderedTensorCycleBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Ordered, source-pinned cycle blocks with explicit material-state endpoints.",
+  "properties": {
+    "receipt_id": {
+      "minLength": 1,
+      "title": "Receipt Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_run_id": {
+      "minLength": 1,
+      "title": "Provider Run Id",
+      "type": "string"
+    },
+    "provider_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Result Sha256",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "stress_history_source_id": {
+      "minLength": 1,
+      "title": "Stress History Source Id",
+      "type": "string"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "strain_history_source_id": {
+      "minLength": 1,
+      "title": "Strain History Source Id",
+      "type": "string"
+    },
+    "strain_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Strain History Sha256",
+      "type": "string"
+    },
+    "strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "initial_material_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Initial Material State Sha256",
+      "type": "string"
+    },
+    "terminal_material_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Terminal Material State Sha256",
+      "type": "string"
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/OrderedTensorCycleBlock"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Blocks",
+      "type": "array"
+    },
+    "provider_result_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Provider Result Evidence",
+      "type": "array"
+    },
+    "block_sequence_and_order_reviewed": {
+      "title": "Block Sequence And Order Reviewed",
+      "type": "boolean"
+    },
+    "cycle_count_and_repetition_semantics_reviewed": {
+      "title": "Cycle Count And Repetition Semantics Reviewed",
+      "type": "boolean"
+    },
+    "material_state_identity_and_transition_reviewed": {
+      "title": "Material State Identity And Transition Reviewed",
+      "type": "boolean"
+    },
+    "tensor_units_order_and_shear_convention_reviewed": {
+      "title": "Tensor Units Order And Shear Convention Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_id",
+    "provider_id",
+    "provider_revision",
+    "provider_run_id",
+    "provider_result_sha256",
+    "material_condition_id",
+    "location_id",
+    "clock_id",
+    "stress_history_source_id",
+    "stress_history_sha256",
+    "strain_history_source_id",
+    "strain_history_sha256",
+    "strain_shear_convention",
+    "initial_material_state_sha256",
+    "terminal_material_state_sha256",
+    "blocks",
+    "provider_result_evidence",
+    "block_sequence_and_order_reviewed",
+    "cycle_count_and_repetition_semantics_reviewed",
+    "material_state_identity_and_transition_reviewed",
+    "tensor_units_order_and_shear_convention_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "MultiaxialCycleBlockReceipt",
+  "type": "object"
+}

@@ -1,0 +1,456 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ItohMinerCycleBlock": {
+      "additionalProperties": false,
+      "description": "One caller-decomposed representative cycle and its calibrated life request.",
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "cycle_count": {
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740992,
+          "title": "Cycle Count",
+          "type": "integer"
+        },
+        "life_request": {
+          "$ref": "#/$defs/ItohNonproportionalStrainLife"
+        }
+      },
+      "required": [
+        "block_id",
+        "cycle_count",
+        "life_request"
+      ],
+      "title": "ItohMinerCycleBlock",
+      "type": "object"
+    },
+    "ItohNonproportionalStrainLife": {
+      "additionalProperties": false,
+      "description": "Apply one digest-pinned, same-condition strain-range/life calibration curve.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "parameter_request": {
+          "$ref": "#/$defs/ItohNonproportionalStrainRequest"
+        },
+        "life_curve_id": {
+          "minLength": 1,
+          "title": "Life Curve Id",
+          "type": "string"
+        },
+        "curve_material_condition_id": {
+          "minLength": 1,
+          "title": "Curve Material Condition Id",
+          "type": "string"
+        },
+        "curve_strain_definition_id": {
+          "const": "itoh_1995_adjusted_nonproportional_principal_strain_range.v1",
+          "title": "Curve Strain Definition Id",
+          "type": "string"
+        },
+        "curve_source_id": {
+          "minLength": 1,
+          "title": "Curve Source Id",
+          "type": "string"
+        },
+        "curve_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Curve Source Sha256",
+          "type": "string"
+        },
+        "curve_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "curve_license_id": {
+          "minLength": 1,
+          "title": "Curve License Id",
+          "type": "string"
+        },
+        "nonproportional_strain_range_points": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Nonproportional Strain Range Points",
+          "type": "array"
+        },
+        "cycles_to_failure": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Cycles To Failure",
+          "type": "array"
+        },
+        "curve_condition_descriptor_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Curve Condition Descriptor Sha256",
+          "type": "string"
+        },
+        "curve_material_match_and_test_basis_reviewed": {
+          "title": "Curve Material Match And Test Basis Reviewed",
+          "type": "boolean"
+        },
+        "curve_rights_and_engineering_use_reviewed": {
+          "title": "Curve Rights And Engineering Use Reviewed",
+          "type": "boolean"
+        },
+        "log_log_interpolation_and_constant_amplitude_scope_reviewed": {
+          "title": "Log Log Interpolation And Constant Amplitude Scope Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "parameter_request",
+        "life_curve_id",
+        "curve_material_condition_id",
+        "curve_strain_definition_id",
+        "curve_source_id",
+        "curve_source_sha256",
+        "curve_evidence",
+        "curve_license_id",
+        "nonproportional_strain_range_points",
+        "cycles_to_failure",
+        "curve_condition_descriptor_sha256",
+        "curve_material_match_and_test_basis_reviewed",
+        "curve_rights_and_engineering_use_reviewed",
+        "log_log_interpolation_and_constant_amplitude_scope_reviewed"
+      ],
+      "title": "ItohNonproportionalStrainLife",
+      "type": "object"
+    },
+    "ItohNonproportionalStrainRequest": {
+      "additionalProperties": false,
+      "description": "Evaluate a caller-reviewed finite tensor cycle and material hardening factor.\n\nTensor components use ``[xx, yy, zz, xy, yz, zx]`` order. Shear entries\nare explicitly declared as tensorial or engineering strain. The principal\nstrain range and material coefficient are supplied and evidence-pinned by\nthe caller; the evaluator computes the sampled path non-proportionality\nfactor from the principal strain axes.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "history_source_id": {
+          "minLength": 1,
+          "title": "History Source Id",
+          "type": "string"
+        },
+        "history_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Source Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10001,
+          "minItems": 4,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10001,
+          "minItems": 4,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10001,
+          "minItems": 4,
+          "title": "Time S",
+          "type": "array"
+        },
+        "period_s": {
+          "exclusiveMinimum": 0,
+          "title": "Period S",
+          "type": "number"
+        },
+        "strain_shear_convention": {
+          "pattern": "^(tensor|engineering)$",
+          "title": "Strain Shear Convention",
+          "type": "string"
+        },
+        "tensor_component_order": {
+          "default": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tensor Component Order",
+          "type": "array"
+        },
+        "maximum_principal_strain_range": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Principal Strain Range",
+          "type": "number"
+        },
+        "principal_strain_range_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "hardening_coefficient_alpha": {
+          "title": "Hardening Coefficient Alpha",
+          "type": "number"
+        },
+        "calibration_source_id": {
+          "minLength": 1,
+          "title": "Calibration Source Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "calibration_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "maximum_absolute_principal_strain_direction_gap_relative_tolerance": {
+          "default": 1e-10,
+          "minimum": 0,
+          "title": "Maximum Absolute Principal Strain Direction Gap Relative Tolerance",
+          "type": "number"
+        },
+        "maximum_sample_count": {
+          "default": 10001,
+          "maximum": 10001,
+          "minimum": 4,
+          "title": "Maximum Sample Count",
+          "type": "integer"
+        },
+        "tensor_basis_reviewed": {
+          "title": "Tensor Basis Reviewed",
+          "type": "boolean"
+        },
+        "cycle_clock_and_sample_order_reviewed": {
+          "title": "Cycle Clock And Sample Order Reviewed",
+          "type": "boolean"
+        },
+        "cycle_closure_reviewed": {
+          "title": "Cycle Closure Reviewed",
+          "type": "boolean"
+        },
+        "principal_strain_range_basis_reviewed": {
+          "title": "Principal Strain Range Basis Reviewed",
+          "type": "boolean"
+        },
+        "material_condition_and_alpha_calibration_reviewed": {
+          "title": "Material Condition And Alpha Calibration Reviewed",
+          "type": "boolean"
+        },
+        "principal_axis_tie_convention_reviewed": {
+          "title": "Principal Axis Tie Convention Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "cycle_id",
+        "history_source_id",
+        "history_source_sha256",
+        "history_evidence",
+        "strain_tensor_components",
+        "sample_ids",
+        "time_s",
+        "period_s",
+        "strain_shear_convention",
+        "maximum_principal_strain_range",
+        "principal_strain_range_evidence",
+        "hardening_coefficient_alpha",
+        "calibration_source_id",
+        "calibration_sha256",
+        "calibration_evidence",
+        "tensor_basis_reviewed",
+        "cycle_clock_and_sample_order_reviewed",
+        "cycle_closure_reviewed",
+        "principal_strain_range_basis_reviewed",
+        "material_condition_and_alpha_calibration_reviewed",
+        "principal_axis_tie_convention_reviewed"
+      ],
+      "title": "ItohNonproportionalStrainRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Apply a reviewed Miner sum to complete, condition-matched Itoh blocks.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/ItohMinerCycleBlock"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Blocks",
+      "type": "array"
+    },
+    "declared_damage_limit": {
+      "exclusiveMinimum": 0,
+      "title": "Declared Damage Limit",
+      "type": "number"
+    },
+    "cycle_decomposition_and_integer_counts_reviewed": {
+      "title": "Cycle Decomposition And Integer Counts Reviewed",
+      "type": "boolean"
+    },
+    "curve_condition_and_strain_definition_reviewed": {
+      "title": "Curve Condition And Strain Definition Reviewed",
+      "type": "boolean"
+    },
+    "linear_miner_rule_reviewed": {
+      "title": "Linear Miner Rule Reviewed",
+      "type": "boolean"
+    },
+    "sequence_effects_excluded_reviewed": {
+      "title": "Sequence Effects Excluded Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_and_curve_rights_reviewed": {
+      "title": "Computational Use And Curve Rights Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "asset_id",
+    "physical_scope_id",
+    "location_id",
+    "time_basis",
+    "material_condition_id",
+    "blocks",
+    "declared_damage_limit",
+    "cycle_decomposition_and_integer_counts_reviewed",
+    "curve_condition_and_strain_definition_reviewed",
+    "linear_miner_rule_reviewed",
+    "sequence_effects_excluded_reviewed",
+    "computational_use_and_curve_rights_reviewed"
+  ],
+  "title": "ItohNonproportionalMinerBlocks",
+  "type": "object"
+}

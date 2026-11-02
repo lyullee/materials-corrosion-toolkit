@@ -1,0 +1,267 @@
+{
+  "$defs": {
+    "CT110ProviderFile": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "provider_md5": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Provider Md5",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "provider_md5",
+        "sha256",
+        "bytes"
+      ],
+      "title": "CT110ProviderFile",
+      "type": "object"
+    },
+    "CT110Source": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "article_doi": {
+          "minLength": 1,
+          "title": "Article Doi",
+          "type": "string"
+        },
+        "supplement_dois": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Supplement Dois",
+          "type": "array"
+        },
+        "license": {
+          "const": "CC BY 4.0",
+          "title": "License",
+          "type": "string"
+        },
+        "license_url": {
+          "minLength": 1,
+          "title": "License Url",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "provider_files": {
+          "items": {
+            "$ref": "#/$defs/CT110ProviderFile"
+          },
+          "minItems": 2,
+          "title": "Provider Files",
+          "type": "array"
+        }
+      },
+      "required": [
+        "citation",
+        "article_doi",
+        "supplement_dois",
+        "license",
+        "license_url",
+        "attribution",
+        "provider_files"
+      ],
+      "title": "CT110Source",
+      "type": "object"
+    },
+    "CT110WeldCorrosionObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "comparison_id": {
+          "minLength": 1,
+          "title": "Comparison Id",
+          "type": "string"
+        },
+        "condition_group_id": {
+          "minLength": 1,
+          "title": "Condition Group Id",
+          "type": "string"
+        },
+        "condition_signature": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "title": "Condition Signature",
+          "type": "object"
+        },
+        "weld_rate_mm_year": {
+          "exclusiveMinimum": 0,
+          "title": "Weld Rate Mm Year",
+          "type": "number"
+        },
+        "base_rate_mm_year": {
+          "exclusiveMinimum": 0,
+          "title": "Base Rate Mm Year",
+          "type": "number"
+        },
+        "weld_rate_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Weld Rate M S",
+          "type": "number"
+        },
+        "base_rate_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Base Rate M S",
+          "type": "number"
+        },
+        "reported_ratio_rounded": {
+          "exclusiveMinimum": 0,
+          "title": "Reported Ratio Rounded",
+          "type": "number"
+        }
+      },
+      "required": [
+        "comparison_id",
+        "condition_group_id",
+        "condition_signature",
+        "weld_rate_mm_year",
+        "base_rate_mm_year",
+        "weld_rate_m_s",
+        "base_rate_m_s",
+        "reported_ratio_rounded"
+      ],
+      "title": "CT110WeldCorrosionObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "matintegrity.ct110_weld_corrosion_rate_observations.v1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "experimental-ct110-weld-corrosion-rates",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/CT110Source"
+    },
+    "material": {
+      "minLength": 1,
+      "title": "Material",
+      "type": "string"
+    },
+    "numerator_material_id": {
+      "minLength": 1,
+      "title": "Numerator Material Id",
+      "type": "string"
+    },
+    "reference_material_id": {
+      "minLength": 1,
+      "title": "Reference Material Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "measurement_method": {
+      "const": "weight_loss",
+      "title": "Measurement Method",
+      "type": "string"
+    },
+    "reported_rate_unit": {
+      "const": "mm/year",
+      "title": "Reported Rate Unit",
+      "type": "string"
+    },
+    "normalized_rate_unit": {
+      "const": "m/s",
+      "title": "Normalized Rate Unit",
+      "type": "string"
+    },
+    "physical_specimen_ids_available": {
+      "const": false,
+      "title": "Physical Specimen Ids Available",
+      "type": "boolean"
+    },
+    "replicate_counts_available": {
+      "const": false,
+      "title": "Replicate Counts Available",
+      "type": "boolean"
+    },
+    "uncertainty_available": {
+      "const": false,
+      "title": "Uncertainty Available",
+      "type": "boolean"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/CT110WeldCorrosionObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "dataset_id",
+    "source",
+    "material",
+    "numerator_material_id",
+    "reference_material_id",
+    "source_group_id",
+    "measurement_method",
+    "reported_rate_unit",
+    "normalized_rate_unit",
+    "physical_specimen_ids_available",
+    "replicate_counts_available",
+    "uncertainty_available",
+    "observations",
+    "limitations"
+  ],
+  "title": "CT110WeldCorrosionDataset",
+  "type": "object"
+}

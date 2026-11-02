@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "CarbonateTransportBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "equilibrium_result_sha256": {
+          "title": "Equilibrium Result Sha256",
+          "type": "string"
+        },
+        "selection_sha256": {
+          "title": "Selection Sha256",
+          "type": "string"
+        },
+        "species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Species Ids",
+          "type": "array"
+        },
+        "concentration_mol_m3": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Concentration Mol M3",
+          "type": "array"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "solvent_composition_sha256": {
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "equilibrium_result_sha256",
+        "selection_sha256",
+        "species_ids",
+        "concentration_mol_m3",
+        "temperature_K",
+        "solvent_composition_sha256",
+        "interpretation"
+      ],
+      "title": "CarbonateTransportBoundary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "index": {
+      "minimum": 0,
+      "title": "Index",
+      "type": "integer"
+    },
+    "time_s": {
+      "minimum": 0.0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "sample_id": {
+      "minLength": 1,
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "point_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Point Result Sha256",
+      "type": "string"
+    },
+    "henry_corrected_record_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Henry Corrected Record Sha256"
+    },
+    "solvent_composition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Solvent Composition Sha256",
+      "type": "string"
+    },
+    "partition_provider_id": {
+      "minLength": 1,
+      "title": "Partition Provider Id",
+      "type": "string"
+    },
+    "partition_provider_revision": {
+      "minLength": 1,
+      "title": "Partition Provider Revision",
+      "type": "string"
+    },
+    "partition_source_record_id": {
+      "minLength": 1,
+      "title": "Partition Source Record Id",
+      "type": "string"
+    },
+    "partition_evidence_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Partition Evidence Sha256"
+    },
+    "boundary": {
+      "$ref": "#/$defs/CarbonateTransportBoundary"
+    }
+  },
+  "required": [
+    "index",
+    "time_s",
+    "sample_id",
+    "point_result_sha256",
+    "solvent_composition_sha256",
+    "partition_provider_id",
+    "partition_provider_revision",
+    "partition_source_record_id",
+    "partition_evidence_sha256",
+    "boundary"
+  ],
+  "title": "CarbonateTransportBoundaryHistoryKnot",
+  "type": "object"
+}

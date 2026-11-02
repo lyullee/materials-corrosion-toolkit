@@ -1,0 +1,198 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThicknessRetentionFactor": {
+      "additionalProperties": false,
+      "properties": {
+        "factor_id": {
+          "minLength": 1,
+          "title": "Factor Id",
+          "type": "string"
+        },
+        "retained_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Retained Fraction",
+          "type": "number"
+        },
+        "interpretation": {
+          "minLength": 1,
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "factor_id",
+        "retained_fraction",
+        "interpretation"
+      ],
+      "title": "ThicknessRetentionFactor",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "nominal_wall_m": {
+      "exclusiveMinimum": 0,
+      "title": "Nominal Wall M",
+      "type": "number"
+    },
+    "retention_factors": {
+      "items": {
+        "$ref": "#/$defs/ThicknessRetentionFactor"
+      },
+      "minItems": 1,
+      "title": "Retention Factors",
+      "type": "array"
+    },
+    "corrosion_allowance_m": {
+      "minimum": 0,
+      "title": "Corrosion Allowance M",
+      "type": "number"
+    },
+    "required_pressure_wall_m": {
+      "exclusiveMinimum": 0,
+      "title": "Required Pressure Wall M",
+      "type": "number"
+    },
+    "required_adjoining_wall_m": {
+      "minimum": 0,
+      "title": "Required Adjoining Wall M",
+      "type": "number"
+    }
+  },
+  "required": [
+    "basis",
+    "component_id",
+    "scenario_id",
+    "nominal_wall_m",
+    "retention_factors",
+    "corrosion_allowance_m",
+    "required_pressure_wall_m",
+    "required_adjoining_wall_m"
+  ],
+  "title": "PipeBendWallAllowance",
+  "type": "object"
+}

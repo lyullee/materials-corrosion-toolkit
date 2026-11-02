@@ -1,0 +1,86 @@
+{
+  "$defs": {
+    "CreviceSaturationHistoryKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "saturation_result": {
+          "additionalProperties": true,
+          "title": "Saturation Result",
+          "type": "object"
+        },
+        "saturation_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Saturation Result Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "elapsed_time_s",
+        "saturation_result",
+        "saturation_result_sha256"
+      ],
+      "title": "CreviceSaturationHistoryKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_saturation_exposure_history.v1",
+      "default": "matintegrity.crevice_saturation_exposure_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/CreviceSaturationHistoryKnot"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "piecewise_linear_log10_saturation_path_reviewed": {
+      "title": "Piecewise Linear Log10 Saturation Path Reviewed",
+      "type": "boolean"
+    },
+    "exact_knot_lineage_and_spatial_cell_identity_reviewed": {
+      "title": "Exact Knot Lineage And Spatial Cell Identity Reviewed",
+      "type": "boolean"
+    },
+    "same_candidate_solubility_basis_across_knots_reviewed": {
+      "title": "Same Candidate Solubility Basis Across Knots Reviewed",
+      "type": "boolean"
+    },
+    "exposure_metric_is_not_a_rate_law_reviewed": {
+      "title": "Exposure Metric Is Not A Rate Law Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "knots",
+    "piecewise_linear_log10_saturation_path_reviewed",
+    "exact_knot_lineage_and_spatial_cell_identity_reviewed",
+    "same_candidate_solubility_basis_across_knots_reviewed",
+    "exposure_metric_is_not_a_rate_law_reviewed"
+  ],
+  "title": "CreviceSaturationExposureHistoryRequest",
+  "type": "object"
+}

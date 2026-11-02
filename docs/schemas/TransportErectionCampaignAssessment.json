@@ -1,0 +1,974 @@
+{
+  "$defs": {
+    "ErectionMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "measurement_time_s": {
+          "minimum": 0,
+          "title": "Measurement Time S",
+          "type": "number"
+        },
+        "measurement_kind": {
+          "enum": [
+            "alignment",
+            "geometry",
+            "damage_survey",
+            "nde",
+            "other"
+          ],
+          "title": "Measurement Kind",
+          "type": "string"
+        },
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Id"
+        },
+        "metric_definition": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Definition"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "reported_finding": {
+          "minLength": 1,
+          "title": "Reported Finding",
+          "type": "string"
+        },
+        "caller_disposition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Caller Disposition Id"
+        },
+        "instrument_or_nde_procedure_id": {
+          "minLength": 1,
+          "title": "Instrument Or Nde Procedure Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "measurement_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Measurement Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "event_id",
+        "measurement_time_s",
+        "measurement_kind",
+        "stage_id",
+        "reported_finding",
+        "instrument_or_nde_procedure_id",
+        "provider_id",
+        "provider_revision",
+        "raw_data_digest",
+        "measurement_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ErectionMeasurement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HandlingObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "observation_time_s": {
+          "minimum": 0,
+          "title": "Observation Time S",
+          "type": "number"
+        },
+        "observation_kind": {
+          "enum": [
+            "acceleration",
+            "load",
+            "orientation",
+            "temperature",
+            "humidity",
+            "impact",
+            "other"
+          ],
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "sensor_or_instrument_id": {
+          "minLength": 1,
+          "title": "Sensor Or Instrument Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "observation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Observation Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "event_id",
+        "observation_time_s",
+        "observation_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "sensor_or_instrument_id",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "raw_data_digest",
+        "observation_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HandlingObservation",
+      "type": "object"
+    },
+    "OrderedHandlingEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "event_kind": {
+          "enum": [
+            "lift",
+            "transport",
+            "storage",
+            "erection",
+            "temporary_support_install",
+            "temporary_support_remove",
+            "other"
+          ],
+          "title": "Event Kind",
+          "type": "string"
+        },
+        "activity_id": {
+          "minLength": 1,
+          "title": "Activity Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "item_id": {
+          "minLength": 1,
+          "title": "Item Id",
+          "type": "string"
+        },
+        "lift_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lift Id"
+        },
+        "transport_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transport Id"
+        },
+        "storage_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Storage Id"
+        },
+        "erection_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Erection Id"
+        },
+        "support_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Support Id"
+        },
+        "orientation_definition": {
+          "minLength": 1,
+          "title": "Orientation Definition",
+          "type": "string"
+        },
+        "event_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Event Configuration Digest",
+          "type": "string"
+        },
+        "observations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/HandlingObservation"
+          },
+          "title": "Observations",
+          "type": "array"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_index",
+        "event_kind",
+        "activity_id",
+        "start_time_s",
+        "end_time_s",
+        "item_id",
+        "orientation_definition",
+        "event_configuration_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "OrderedHandlingEvent",
+      "type": "object"
+    },
+    "TemporarySupportEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "support_id": {
+          "minLength": 1,
+          "title": "Support Id",
+          "type": "string"
+        },
+        "support_type_descriptor": {
+          "minLength": 1,
+          "title": "Support Type Descriptor",
+          "type": "string"
+        },
+        "physical_location_definition": {
+          "minLength": 1,
+          "title": "Physical Location Definition",
+          "type": "string"
+        },
+        "installation_event_id": {
+          "minLength": 1,
+          "title": "Installation Event Id",
+          "type": "string"
+        },
+        "removal_event_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Removal Event Id"
+        },
+        "final_state": {
+          "enum": [
+            "installed",
+            "removed"
+          ],
+          "title": "Final State",
+          "type": "string"
+        },
+        "support_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Support Configuration Digest",
+          "type": "string"
+        },
+        "installation_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Installation Record Digest",
+          "type": "string"
+        },
+        "removal_record_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Removal Record Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "support_id",
+        "support_type_descriptor",
+        "physical_location_definition",
+        "installation_event_id",
+        "final_state",
+        "support_configuration_digest",
+        "installation_record_digest",
+        "evidence"
+      ],
+      "title": "TemporarySupportEvidence",
+      "type": "object"
+    },
+    "TransportErectionCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_event_kinds": {
+          "items": {
+            "enum": [
+              "lift",
+              "transport",
+              "storage",
+              "erection",
+              "temporary_support_install",
+              "temporary_support_remove",
+              "other"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Event Kinds",
+          "type": "array"
+        },
+        "required_measurement_kinds": {
+          "items": {
+            "enum": [
+              "alignment",
+              "geometry",
+              "damage_survey",
+              "nde",
+              "other"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Measurement Kinds",
+          "type": "array"
+        },
+        "required_measurement_stage_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Measurement Stage Ids",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/TransportErectionCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "structural_solver_used": {
+          "const": false,
+          "default": false,
+          "title": "Structural Solver Used",
+          "type": "boolean"
+        },
+        "allowable_load_or_code_table_embedded": {
+          "const": false,
+          "default": false,
+          "title": "Allowable Load Or Code Table Embedded",
+          "type": "boolean"
+        },
+        "automatic_damage_determination_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Damage Determination Claimed",
+          "type": "boolean"
+        },
+        "physical_qualification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Physical Qualification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_event_kinds",
+        "required_measurement_kinds",
+        "required_measurement_stage_ids",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "TransportErectionCallerProfile",
+      "type": "object"
+    },
+    "TransportErectionCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "evidence_source": {
+          "enum": [
+            "observation",
+            "measurement"
+          ],
+          "title": "Evidence Source",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "evidence_source",
+        "metric_id",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "TransportErectionCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "item_id": {
+      "minLength": 1,
+      "title": "Item Id",
+      "type": "string"
+    },
+    "item_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Item Configuration Digest",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/OrderedHandlingEvent"
+      },
+      "minItems": 1,
+      "title": "Events",
+      "type": "array"
+    },
+    "temporary_supports": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/TemporarySupportEvidence"
+      },
+      "title": "Temporary Supports",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/ErectionMeasurement"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/TransportErectionCallerProfile"
+    },
+    "item_lift_transport_storage_erection_identity_reviewed": {
+      "title": "Item Lift Transport Storage Erection Identity Reviewed",
+      "type": "boolean"
+    },
+    "ordered_event_clock_and_orientation_reviewed": {
+      "title": "Ordered Event Clock And Orientation Reviewed",
+      "type": "boolean"
+    },
+    "observation_units_uncertainty_and_provenance_reviewed": {
+      "title": "Observation Units Uncertainty And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "temporary_support_install_remove_state_reviewed": {
+      "title": "Temporary Support Install Remove State Reviewed",
+      "type": "boolean"
+    },
+    "alignment_geometry_damage_and_nde_evidence_reviewed": {
+      "title": "Alignment Geometry Damage And Nde Evidence Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_and_criteria_reviewed": {
+      "title": "Caller Profile And Criteria Reviewed",
+      "type": "boolean"
+    },
+    "invalid_and_missing_records_reviewed": {
+      "title": "Invalid And Missing Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "item_id",
+    "item_configuration_digest",
+    "clock_id",
+    "events",
+    "measurements",
+    "caller_profile",
+    "item_lift_transport_storage_erection_identity_reviewed",
+    "ordered_event_clock_and_orientation_reviewed",
+    "observation_units_uncertainty_and_provenance_reviewed",
+    "temporary_support_install_remove_state_reviewed",
+    "alignment_geometry_damage_and_nde_evidence_reviewed",
+    "caller_profile_and_criteria_reviewed",
+    "invalid_and_missing_records_reviewed",
+    "evidence"
+  ],
+  "title": "TransportErectionCampaignAssessment",
+  "type": "object"
+}

@@ -1,0 +1,646 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LMEQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "structural_material_id": {
+          "minLength": 1,
+          "title": "Structural Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "liquid_metal_species_id": {
+          "minLength": 1,
+          "title": "Liquid Metal Species Id",
+          "type": "string"
+        },
+        "liquid_metal_composition_id": {
+          "minLength": 1,
+          "title": "Liquid Metal Composition Id",
+          "type": "string"
+        },
+        "impurity_profile_id": {
+          "minLength": 1,
+          "title": "Impurity Profile Id",
+          "type": "string"
+        },
+        "supported_contact_state_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Contact State Descriptors",
+          "type": "array"
+        },
+        "supported_wetting_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Wetting Descriptors",
+          "type": "array"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_stress_value": {
+          "minimum": 0,
+          "title": "Minimum Stress Value",
+          "type": "number"
+        },
+        "maximum_stress_value": {
+          "minimum": 0,
+          "title": "Maximum Stress Value",
+          "type": "number"
+        },
+        "stress_unit_token": {
+          "minLength": 1,
+          "title": "Stress Unit Token",
+          "type": "string"
+        },
+        "minimum_strain_rate_value": {
+          "minimum": 0,
+          "title": "Minimum Strain Rate Value",
+          "type": "number"
+        },
+        "maximum_strain_rate_value": {
+          "minimum": 0,
+          "title": "Maximum Strain Rate Value",
+          "type": "number"
+        },
+        "strain_rate_unit_token": {
+          "minLength": 1,
+          "title": "Strain Rate Unit Token",
+          "type": "string"
+        },
+        "maximum_single_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Single Exposure S",
+          "type": "number"
+        },
+        "maximum_cumulative_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Exposure S",
+          "type": "number"
+        },
+        "test_evidence": {
+          "items": {
+            "$ref": "#/$defs/LMEQualificationTestEvidence"
+          },
+          "minItems": 1,
+          "title": "Test Evidence",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "structural_material_id",
+        "material_condition_id",
+        "liquid_metal_species_id",
+        "liquid_metal_composition_id",
+        "impurity_profile_id",
+        "supported_contact_state_descriptors",
+        "supported_wetting_descriptors",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_stress_value",
+        "maximum_stress_value",
+        "stress_unit_token",
+        "minimum_strain_rate_value",
+        "maximum_strain_rate_value",
+        "strain_rate_unit_token",
+        "maximum_single_exposure_s",
+        "maximum_cumulative_exposure_s",
+        "test_evidence",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "LMEQualificationEnvelope",
+      "type": "object"
+    },
+    "LMEQualificationObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observation_kind": {
+          "minLength": 1,
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "physical_region_id": {
+          "minLength": 1,
+          "title": "Physical Region Id",
+          "type": "string"
+        },
+        "reported_endpoint": {
+          "minLength": 1,
+          "title": "Reported Endpoint",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "observation_kind",
+        "method_id",
+        "physical_region_id",
+        "reported_endpoint",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "LMEQualificationObservation",
+      "type": "object"
+    },
+    "LMEQualificationTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "structural_material_id": {
+          "minLength": 1,
+          "title": "Structural Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "liquid_metal_species_id": {
+          "minLength": 1,
+          "title": "Liquid Metal Species Id",
+          "type": "string"
+        },
+        "liquid_metal_composition_id": {
+          "minLength": 1,
+          "title": "Liquid Metal Composition Id",
+          "type": "string"
+        },
+        "impurity_profile_id": {
+          "minLength": 1,
+          "title": "Impurity Profile Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/LMEQualificationObservation"
+          },
+          "minItems": 1,
+          "title": "Observations",
+          "type": "array"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "test_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "structural_material_id",
+        "material_condition_id",
+        "liquid_metal_species_id",
+        "liquid_metal_composition_id",
+        "impurity_profile_id",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "observations",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "LMEQualificationTestEvidence",
+      "type": "object"
+    },
+    "LiquidMetalExposureInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "liquid_metal_species_id": {
+          "minLength": 1,
+          "title": "Liquid Metal Species Id",
+          "type": "string"
+        },
+        "liquid_metal_composition_id": {
+          "minLength": 1,
+          "title": "Liquid Metal Composition Id",
+          "type": "string"
+        },
+        "impurity_profile_id": {
+          "minLength": 1,
+          "title": "Impurity Profile Id",
+          "type": "string"
+        },
+        "contact_state_descriptor": {
+          "minLength": 1,
+          "title": "Contact State Descriptor",
+          "type": "string"
+        },
+        "wetting_descriptor": {
+          "minLength": 1,
+          "title": "Wetting Descriptor",
+          "type": "string"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "minimum_stress_value": {
+          "minimum": 0,
+          "title": "Minimum Stress Value",
+          "type": "number"
+        },
+        "maximum_stress_value": {
+          "minimum": 0,
+          "title": "Maximum Stress Value",
+          "type": "number"
+        },
+        "stress_unit_token": {
+          "minLength": 1,
+          "title": "Stress Unit Token",
+          "type": "string"
+        },
+        "minimum_strain_rate_value": {
+          "minimum": 0,
+          "title": "Minimum Strain Rate Value",
+          "type": "number"
+        },
+        "maximum_strain_rate_value": {
+          "minimum": 0,
+          "title": "Maximum Strain Rate Value",
+          "type": "number"
+        },
+        "strain_rate_unit_token": {
+          "minLength": 1,
+          "title": "Strain Rate Unit Token",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "liquid_metal_species_id",
+        "liquid_metal_composition_id",
+        "impurity_profile_id",
+        "contact_state_descriptor",
+        "wetting_descriptor",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "minimum_stress_value",
+        "maximum_stress_value",
+        "stress_unit_token",
+        "minimum_strain_rate_value",
+        "maximum_strain_rate_value",
+        "strain_rate_unit_token",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "LiquidMetalExposureInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "structural_material_id": {
+      "minLength": 1,
+      "title": "Structural Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "exposures": {
+      "items": {
+        "$ref": "#/$defs/LiquidMetalExposureInterval"
+      },
+      "minItems": 1,
+      "title": "Exposures",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/LMEQualificationEnvelope"
+    },
+    "structural_material_and_condition_reviewed": {
+      "title": "Structural Material And Condition Reviewed",
+      "type": "boolean"
+    },
+    "liquid_metal_composition_and_impurities_reviewed": {
+      "title": "Liquid Metal Composition And Impurities Reviewed",
+      "type": "boolean"
+    },
+    "contact_state_and_wetting_reviewed": {
+      "title": "Contact State And Wetting Reviewed",
+      "type": "boolean"
+    },
+    "temperature_stress_and_strain_rate_reviewed": {
+      "title": "Temperature Stress And Strain Rate Reviewed",
+      "type": "boolean"
+    },
+    "exposure_clock_and_duration_reviewed": {
+      "title": "Exposure Clock And Duration Reviewed",
+      "type": "boolean"
+    },
+    "observation_and_test_evidence_reviewed": {
+      "title": "Observation And Test Evidence Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "structural_material_id",
+    "material_condition_id",
+    "exposures",
+    "qualification_envelope",
+    "structural_material_and_condition_reviewed",
+    "liquid_metal_composition_and_impurities_reviewed",
+    "contact_state_and_wetting_reviewed",
+    "temperature_stress_and_strain_rate_reviewed",
+    "exposure_clock_and_duration_reviewed",
+    "observation_and_test_evidence_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed"
+  ],
+  "title": "LiquidMetalEmbrittlementApplicability",
+  "type": "object"
+}

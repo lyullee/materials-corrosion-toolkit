@@ -1,0 +1,276 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PreservationFactCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "fact_kind": {
+          "enum": [
+            "temperature",
+            "relative_humidity",
+            "dewpoint",
+            "water_ingress",
+            "desiccant",
+            "inhibitor",
+            "cover",
+            "seal",
+            "surface",
+            "corrosion_observation"
+          ],
+          "title": "Fact Kind",
+          "type": "string"
+        },
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "result_mode": {
+          "enum": [
+            "quantitative",
+            "qualitative"
+          ],
+          "title": "Result Mode",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Acceptable"
+        },
+        "maximum_acceptable": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Acceptable"
+        },
+        "accepted_qualitative_classes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Accepted Qualitative Classes",
+          "type": "array"
+        },
+        "required_event_kinds": {
+          "items": {
+            "enum": [
+              "exposure",
+              "inspection",
+              "renewal"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Event Kinds",
+          "type": "array"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "fact_kind",
+        "quantity_id",
+        "result_mode",
+        "unit_token",
+        "required_event_kinds",
+        "criterion_basis",
+        "evidence"
+      ],
+      "title": "PreservationFactCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "item_id": {
+      "minLength": 1,
+      "title": "Item Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "storage_area_id": {
+      "minLength": 1,
+      "title": "Storage Area Id",
+      "type": "string"
+    },
+    "storage_location_id": {
+      "minLength": 1,
+      "title": "Storage Location Id",
+      "type": "string"
+    },
+    "supported_preservation_system_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supported Preservation System Ids",
+      "type": "array"
+    },
+    "maximum_uncovered_duration_s": {
+      "minimum": 0,
+      "title": "Maximum Uncovered Duration S",
+      "type": "number"
+    },
+    "minimum_inspection_count": {
+      "minimum": 0,
+      "title": "Minimum Inspection Count",
+      "type": "integer"
+    },
+    "minimum_renewal_count": {
+      "minimum": 0,
+      "title": "Minimum Renewal Count",
+      "type": "integer"
+    },
+    "fact_criteria": {
+      "items": {
+        "$ref": "#/$defs/PreservationFactCriterion"
+      },
+      "minItems": 1,
+      "title": "Fact Criteria",
+      "type": "array"
+    },
+    "profile_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Source Digest",
+      "type": "string"
+    },
+    "built_in_standard_cycle_used": {
+      "const": false,
+      "default": false,
+      "title": "Built In Standard Cycle Used",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "item_id",
+    "material_id",
+    "storage_area_id",
+    "storage_location_id",
+    "supported_preservation_system_ids",
+    "maximum_uncovered_duration_s",
+    "minimum_inspection_count",
+    "minimum_renewal_count",
+    "fact_criteria",
+    "profile_source_digest",
+    "evidence"
+  ],
+  "title": "StoragePreservationCallerProfile",
+  "type": "object"
+}

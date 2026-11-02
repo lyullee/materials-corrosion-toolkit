@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller mapping from one anodic reaction extent to removed metal atoms.",
+  "properties": {
+    "reaction_id": {
+      "minLength": 1,
+      "title": "Reaction Id",
+      "type": "string"
+    },
+    "metal_species_id": {
+      "minLength": 1,
+      "title": "Metal Species Id",
+      "type": "string"
+    },
+    "metal_atoms_per_reaction_extent": {
+      "exclusiveMinimum": 0,
+      "title": "Metal Atoms Per Reaction Extent",
+      "type": "number"
+    },
+    "molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "metal_data_provider_id": {
+      "minLength": 1,
+      "title": "Metal Data Provider Id",
+      "type": "string"
+    },
+    "metal_data_provider_revision": {
+      "minLength": 1,
+      "title": "Metal Data Provider Revision",
+      "type": "string"
+    },
+    "metal_data_record_id": {
+      "minLength": 1,
+      "title": "Metal Data Record Id",
+      "type": "string"
+    },
+    "metal_data_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Metal Data Sha256",
+      "type": "string"
+    },
+    "anodic_direction_is_metal_dissolution_reviewed": {
+      "title": "Anodic Direction Is Metal Dissolution Reviewed",
+      "type": "boolean"
+    },
+    "alloy_and_metal_basis_reviewed": {
+      "title": "Alloy And Metal Basis Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reaction_id",
+    "metal_species_id",
+    "metal_atoms_per_reaction_extent",
+    "molar_mass_kg_mol",
+    "density_kg_m3",
+    "metal_data_provider_id",
+    "metal_data_provider_revision",
+    "metal_data_record_id",
+    "metal_data_sha256",
+    "anodic_direction_is_metal_dissolution_reviewed",
+    "alloy_and_metal_basis_reviewed",
+    "evidence"
+  ],
+  "title": "MetalDissolutionReactionMapping",
+  "type": "object"
+}

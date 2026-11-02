@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "sensor_array_id": {
+      "minLength": 1,
+      "title": "Sensor Array Id",
+      "type": "string"
+    },
+    "channel_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Channel Ids",
+      "type": "array"
+    },
+    "measured_components": {
+      "items": {
+        "enum": [
+          "axial",
+          "circumferential",
+          "radial"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Measured Components",
+      "type": "array"
+    },
+    "channel_component_by_id": {
+      "additionalProperties": {
+        "enum": [
+          "axial",
+          "circumferential",
+          "radial"
+        ],
+        "type": "string"
+      },
+      "title": "Channel Component By Id",
+      "type": "object"
+    },
+    "nominal_channel_pitch_m": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Nominal Channel Pitch M"
+    },
+    "lift_off_control_basis": {
+      "minLength": 1,
+      "title": "Lift Off Control Basis",
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "calibration_basis": {
+      "minLength": 1,
+      "title": "Calibration Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sensor_array_id",
+    "channel_ids",
+    "measured_components",
+    "channel_component_by_id",
+    "lift_off_control_basis",
+    "calibration_id",
+    "calibration_basis",
+    "evidence"
+  ],
+  "title": "MflSensorArray",
+  "type": "object"
+}

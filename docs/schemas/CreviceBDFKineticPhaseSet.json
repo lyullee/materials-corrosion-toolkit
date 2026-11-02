@@ -1,0 +1,491 @@
+{
+  "$defs": {
+    "CreviceBDFInitialSolidInventory": {
+      "additionalProperties": false,
+      "description": "Initial solid amount paired with one ordered solid-phase identity.",
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "initial_solid_moles_mol": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Mol",
+          "type": "number"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "initial_solid_moles_mol"
+      ],
+      "title": "CreviceBDFInitialSolidInventory",
+      "type": "object"
+    },
+    "CreviceCompetingSolidPhase": {
+      "additionalProperties": false,
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "solid_elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "minProperties": 1,
+          "title": "Solid Elemental Composition",
+          "type": "object"
+        },
+        "aqueous_reactant_stoichiometry": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Aqueous Reactant Stoichiometry",
+          "type": "object"
+        },
+        "initial_solid_moles_per_solution_volume_mol_m3": {
+          "minimum": 0,
+          "title": "Initial Solid Moles Per Solution Volume Mol M3",
+          "type": "number"
+        },
+        "dimensionless_solubility_product": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Solubility Product",
+          "type": "number"
+        },
+        "equilibrium_constant_record_id": {
+          "minLength": 1,
+          "title": "Equilibrium Constant Record Id",
+          "type": "string"
+        },
+        "equilibrium_constant_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Equilibrium Constant Record Sha256",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "solid_elemental_composition",
+        "aqueous_reactant_stoichiometry",
+        "initial_solid_moles_per_solution_volume_mol_m3",
+        "dimensionless_solubility_product",
+        "equilibrium_constant_record_id",
+        "equilibrium_constant_record_sha256",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "CreviceCompetingSolidPhase",
+      "type": "object"
+    },
+    "CreviceMolarNucleationLaw": {
+      "additionalProperties": false,
+      "description": "A caller-calibrated phase-appearance source in molar inventory units.",
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "critical_saturation_ratio": {
+          "exclusiveMinimum": 0,
+          "title": "Critical Saturation Ratio",
+          "type": "number"
+        },
+        "source_rate_constant_mol_m3_s": {
+          "minimum": 0.0,
+          "title": "Source Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "supersaturation_order": {
+          "exclusiveMinimum": 0,
+          "maximum": 8.0,
+          "title": "Supersaturation Order",
+          "type": "number"
+        },
+        "nucleated_inventory_threshold_mol_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Nucleated Inventory Threshold Mol M3",
+          "type": "number"
+        },
+        "maximum_rate_mol_m3_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Rate Mol M3 S",
+          "type": "number"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "critical_saturation_ratio",
+        "source_rate_constant_mol_m3_s",
+        "supersaturation_order",
+        "nucleated_inventory_threshold_mol_m3",
+        "maximum_rate_mol_m3_s",
+        "source_sha256",
+        "evidence"
+      ],
+      "title": "CreviceMolarNucleationLaw",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "EvidenceBoundSaturationGrowthLaw": {
+      "additionalProperties": false,
+      "description": "Existing caller rate law plus Evidence pin for phase growth/dissolution.",
+      "properties": {
+        "law": {
+          "$ref": "#/$defs/SolidSaturationRateLaw"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "law",
+        "evidence"
+      ],
+      "title": "EvidenceBoundSaturationGrowthLaw",
+      "type": "object"
+    },
+    "SolidSaturationRateLaw": {
+      "additionalProperties": false,
+      "description": "Caller-calibrated precipitation and dissolution law for one neutral phase.",
+      "properties": {
+        "solid_species_id": {
+          "minLength": 1,
+          "title": "Solid Species Id",
+          "type": "string"
+        },
+        "precipitation_rate_constant_mol_m3_s": {
+          "minimum": 0,
+          "title": "Precipitation Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "precipitation_order": {
+          "exclusiveMinimum": 0,
+          "maximum": 8.0,
+          "title": "Precipitation Order",
+          "type": "number"
+        },
+        "dissolution_rate_constant_mol_m3_s": {
+          "minimum": 0,
+          "title": "Dissolution Rate Constant Mol M3 S",
+          "type": "number"
+        },
+        "dissolution_order": {
+          "exclusiveMinimum": 0,
+          "maximum": 8.0,
+          "title": "Dissolution Order",
+          "type": "number"
+        },
+        "rate_constant_reference_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Constant Reference Temperature K"
+        },
+        "minimum_valid_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Valid Temperature K"
+        },
+        "maximum_valid_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Valid Temperature K"
+        },
+        "precipitation_activation_energy_J_mol": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precipitation Activation Energy J Mol"
+        },
+        "dissolution_activation_energy_J_mol": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dissolution Activation Energy J Mol"
+        },
+        "arrhenius_parameter_applicability_reviewed": {
+          "default": false,
+          "title": "Arrhenius Parameter Applicability Reviewed",
+          "type": "boolean"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "solid_species_id",
+        "precipitation_rate_constant_mol_m3_s",
+        "precipitation_order",
+        "dissolution_rate_constant_mol_m3_s",
+        "dissolution_order",
+        "source_sha256"
+      ],
+      "title": "SolidSaturationRateLaw",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One-cell, exact-clock phase set for same-stage kinetic BDF integration.\n\nCandidate phases, initial phase inventories, nucleation laws and growth\nlaws use identical ordered solid species IDs. The phase-set digest binds\nevery identity, clock, temperature, phase record, amount and kinetic law.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_bdf_kinetic_phase_set.v1",
+      "default": "matintegrity.crevice_bdf_kinetic_phase_set.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "cell_id": {
+      "minLength": 1,
+      "title": "Cell Id",
+      "type": "string"
+    },
+    "phase_set_id": {
+      "minLength": 1,
+      "title": "Phase Set Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "valid_time_s": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 500,
+      "minItems": 2,
+      "title": "Valid Time S",
+      "type": "array"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "phase_candidates": {
+      "items": {
+        "$ref": "#/$defs/CreviceCompetingSolidPhase"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Phase Candidates",
+      "type": "array"
+    },
+    "initial_solid_inventory_by_phase": {
+      "items": {
+        "$ref": "#/$defs/CreviceBDFInitialSolidInventory"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Initial Solid Inventory By Phase",
+      "type": "array"
+    },
+    "nucleation_laws": {
+      "items": {
+        "$ref": "#/$defs/CreviceMolarNucleationLaw"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Nucleation Laws",
+      "type": "array"
+    },
+    "growth_laws": {
+      "items": {
+        "$ref": "#/$defs/EvidenceBoundSaturationGrowthLaw"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Growth Laws",
+      "type": "array"
+    },
+    "phase_set_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Phase Set Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "cell_id",
+    "phase_set_id",
+    "clock_id",
+    "valid_time_s",
+    "temperature_K",
+    "phase_candidates",
+    "initial_solid_inventory_by_phase",
+    "nucleation_laws",
+    "growth_laws",
+    "phase_set_sha256",
+    "evidence"
+  ],
+  "title": "CreviceBDFKineticPhaseSet",
+  "type": "object"
+}

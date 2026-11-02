@@ -1,0 +1,283 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Spatial field using a caller-supplied reversible gasket backbone per node.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.flange_nonlinear_contact_field.v1",
+      "default": "matintegrity.flange_nonlinear_contact_field.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "response_provider_id": {
+      "minLength": 1,
+      "title": "Response Provider Id",
+      "type": "string"
+    },
+    "response_provider_revision": {
+      "minLength": 1,
+      "title": "Response Provider Revision",
+      "type": "string"
+    },
+    "response_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Configuration Digest",
+      "type": "string"
+    },
+    "response_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Result Digest",
+      "type": "string"
+    },
+    "node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Node Ids",
+      "type": "array"
+    },
+    "circumferential_coordinate_rad": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Circumferential Coordinate Rad",
+      "type": "array"
+    },
+    "gasket_contact_area_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Gasket Contact Area M2",
+      "type": "array"
+    },
+    "free_closure_without_gasket_m": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Free Closure Without Gasket M",
+      "type": "array"
+    },
+    "flange_relative_compliance_matrix_m_N": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Flange Relative Compliance Matrix M N",
+      "type": "array"
+    },
+    "gasket_force_compression_curves": {
+      "items": {
+        "items": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "minimum": 0,
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Gasket Force Compression Curves",
+      "type": "array"
+    },
+    "matrix_symmetry_tolerance_m_N": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Matrix Symmetry Tolerance M N",
+      "type": "number"
+    },
+    "compliance_psd_tolerance_m_N": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Compliance Psd Tolerance M N",
+      "type": "number"
+    },
+    "maximum_curve_points_per_node": {
+      "default": 1000,
+      "maximum": 10000,
+      "minimum": 2,
+      "title": "Maximum Curve Points Per Node",
+      "type": "integer"
+    },
+    "maximum_nonlinear_iterations": {
+      "default": 100,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Nonlinear Iterations",
+      "type": "integer"
+    },
+    "maximum_line_search_steps": {
+      "default": 24,
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Maximum Line Search Steps",
+      "type": "integer"
+    },
+    "residual_tolerance_N": {
+      "default": 1e-05,
+      "exclusiveMinimum": 0,
+      "title": "Residual Tolerance N",
+      "type": "number"
+    },
+    "displacement_tolerance_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Displacement Tolerance M",
+      "type": "number"
+    },
+    "flange_operator_basis_reviewed": {
+      "title": "Flange Operator Basis Reviewed",
+      "type": "boolean"
+    },
+    "response_scope_and_coordinates_reviewed": {
+      "title": "Response Scope And Coordinates Reviewed",
+      "type": "boolean"
+    },
+    "bolt_pressure_and_boundary_load_composition_reviewed": {
+      "title": "Bolt Pressure And Boundary Load Composition Reviewed",
+      "type": "boolean"
+    },
+    "gasket_curve_and_support_reviewed": {
+      "title": "Gasket Curve And Support Reviewed",
+      "type": "boolean"
+    },
+    "compression_only_contact_model_reviewed": {
+      "title": "Compression Only Contact Model Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_id",
+    "physical_scope_id",
+    "response_provider_id",
+    "response_provider_revision",
+    "response_configuration_digest",
+    "response_result_digest",
+    "node_ids",
+    "circumferential_coordinate_rad",
+    "gasket_contact_area_m2",
+    "free_closure_without_gasket_m",
+    "flange_relative_compliance_matrix_m_N",
+    "gasket_force_compression_curves",
+    "matrix_symmetry_tolerance_m_N",
+    "compliance_psd_tolerance_m_N",
+    "flange_operator_basis_reviewed",
+    "response_scope_and_coordinates_reviewed",
+    "bolt_pressure_and_boundary_load_composition_reviewed",
+    "gasket_curve_and_support_reviewed",
+    "compression_only_contact_model_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "FlangeNonlinearContactFieldRequest",
+  "type": "object"
+}

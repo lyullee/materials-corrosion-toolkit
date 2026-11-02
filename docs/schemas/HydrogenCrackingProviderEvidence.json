@@ -1,0 +1,885 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "HydrogenCrackDrivingResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "K",
+            "J",
+            "CTOD",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_definition_id": {
+          "minLength": 1,
+          "title": "Metric Definition Id",
+          "type": "string"
+        },
+        "reported_value": {
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_id",
+        "load_case_id",
+        "metric_kind",
+        "metric_definition_id",
+        "reported_value",
+        "unit_token",
+        "expanded_uncertainty",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HydrogenCrackDrivingResult",
+      "type": "object"
+    },
+    "HydrogenCrackingEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "heat_id": {
+          "minLength": 1,
+          "title": "Heat Id",
+          "type": "string"
+        },
+        "hydrogen_state_id": {
+          "minLength": 1,
+          "title": "Hydrogen State Id",
+          "type": "string"
+        },
+        "pressure_or_fugacity_basis": {
+          "minLength": 1,
+          "title": "Pressure Or Fugacity Basis",
+          "type": "string"
+        },
+        "pressure_or_fugacity_unit_token": {
+          "minLength": 1,
+          "title": "Pressure Or Fugacity Unit Token",
+          "type": "string"
+        },
+        "minimum_pressure_or_fugacity_value": {
+          "minimum": 0,
+          "title": "Minimum Pressure Or Fugacity Value",
+          "type": "number"
+        },
+        "maximum_pressure_or_fugacity_value": {
+          "minimum": 0,
+          "title": "Maximum Pressure Or Fugacity Value",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "maximum_cumulative_exposure_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Cumulative Exposure S",
+          "type": "number"
+        },
+        "supported_crack_geometry_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Crack Geometry Ids",
+          "type": "array"
+        },
+        "supported_crack_location_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Crack Location Ids",
+          "type": "array"
+        },
+        "supported_crack_orientation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Crack Orientation Ids",
+          "type": "array"
+        },
+        "toughness_endpoint_kind": {
+          "enum": [
+            "K",
+            "J",
+            "CTOD",
+            "user_defined"
+          ],
+          "title": "Toughness Endpoint Kind",
+          "type": "string"
+        },
+        "toughness_endpoint_definition_id": {
+          "minLength": 1,
+          "title": "Toughness Endpoint Definition Id",
+          "type": "string"
+        },
+        "toughness_unit_token": {
+          "minLength": 1,
+          "title": "Toughness Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_toughness_value": {
+          "title": "Minimum Supported Toughness Value",
+          "type": "number"
+        },
+        "maximum_supported_toughness_value": {
+          "title": "Maximum Supported Toughness Value",
+          "type": "number"
+        },
+        "maximum_toughness_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Maximum Toughness Expanded Uncertainty",
+          "type": "number"
+        },
+        "toughness_provider_id": {
+          "minLength": 1,
+          "title": "Toughness Provider Id",
+          "type": "string"
+        },
+        "toughness_provider_revision": {
+          "minLength": 1,
+          "title": "Toughness Provider Revision",
+          "type": "string"
+        },
+        "toughness_provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Toughness Provider State Digest",
+          "type": "string"
+        },
+        "driving_metric_kind": {
+          "enum": [
+            "K",
+            "J",
+            "CTOD",
+            "user_defined"
+          ],
+          "title": "Driving Metric Kind",
+          "type": "string"
+        },
+        "driving_metric_definition_id": {
+          "minLength": 1,
+          "title": "Driving Metric Definition Id",
+          "type": "string"
+        },
+        "driving_unit_token": {
+          "minLength": 1,
+          "title": "Driving Unit Token",
+          "type": "string"
+        },
+        "minimum_supported_driving_value": {
+          "title": "Minimum Supported Driving Value",
+          "type": "number"
+        },
+        "maximum_supported_driving_value": {
+          "title": "Maximum Supported Driving Value",
+          "type": "number"
+        },
+        "maximum_driving_expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Maximum Driving Expanded Uncertainty",
+          "type": "number"
+        },
+        "driving_provider_id": {
+          "minLength": 1,
+          "title": "Driving Provider Id",
+          "type": "string"
+        },
+        "driving_provider_revision": {
+          "minLength": 1,
+          "title": "Driving Provider Revision",
+          "type": "string"
+        },
+        "driving_provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Driving Provider Configuration Digest",
+          "type": "string"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/HydrogenCrackingQualificationEvidence"
+          },
+          "minItems": 2,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_id",
+        "heat_id",
+        "hydrogen_state_id",
+        "pressure_or_fugacity_basis",
+        "pressure_or_fugacity_unit_token",
+        "minimum_pressure_or_fugacity_value",
+        "maximum_pressure_or_fugacity_value",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "maximum_cumulative_exposure_s",
+        "supported_crack_geometry_ids",
+        "supported_crack_location_ids",
+        "supported_crack_orientation_ids",
+        "toughness_endpoint_kind",
+        "toughness_endpoint_definition_id",
+        "toughness_unit_token",
+        "minimum_supported_toughness_value",
+        "maximum_supported_toughness_value",
+        "maximum_toughness_expanded_uncertainty",
+        "toughness_provider_id",
+        "toughness_provider_revision",
+        "toughness_provider_state_digest",
+        "driving_metric_kind",
+        "driving_metric_definition_id",
+        "driving_unit_token",
+        "minimum_supported_driving_value",
+        "maximum_supported_driving_value",
+        "maximum_driving_expanded_uncertainty",
+        "driving_provider_id",
+        "driving_provider_revision",
+        "driving_provider_configuration_digest",
+        "qualification_evidence",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "HydrogenCrackingEnvelope",
+      "type": "object"
+    },
+    "HydrogenCrackingExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "hydrogen_state_id": {
+          "minLength": 1,
+          "title": "Hydrogen State Id",
+          "type": "string"
+        },
+        "pressure_or_fugacity_basis": {
+          "minLength": 1,
+          "title": "Pressure Or Fugacity Basis",
+          "type": "string"
+        },
+        "pressure_or_fugacity_value": {
+          "minimum": 0,
+          "title": "Pressure Or Fugacity Value",
+          "type": "number"
+        },
+        "pressure_or_fugacity_unit_token": {
+          "minLength": 1,
+          "title": "Pressure Or Fugacity Unit Token",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "hydrogen_state_id",
+        "pressure_or_fugacity_basis",
+        "pressure_or_fugacity_value",
+        "pressure_or_fugacity_unit_token",
+        "temperature_K",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HydrogenCrackingExposure",
+      "type": "object"
+    },
+    "HydrogenCrackingQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "supported_toughness_endpoint_definition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Toughness Endpoint Definition Ids",
+          "type": "array"
+        },
+        "supported_driving_metric_definition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Driving Metric Definition Ids",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "supported_toughness_endpoint_definition_ids",
+        "supported_driving_metric_definition_ids",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "HydrogenCrackingQualificationEvidence",
+      "type": "object"
+    },
+    "HydrogenToughnessResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout",
+            "application"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "endpoint_kind": {
+          "enum": [
+            "K",
+            "J",
+            "CTOD",
+            "user_defined"
+          ],
+          "title": "Endpoint Kind",
+          "type": "string"
+        },
+        "endpoint_definition_id": {
+          "minLength": 1,
+          "title": "Endpoint Definition Id",
+          "type": "string"
+        },
+        "reported_value": {
+          "title": "Reported Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "endpoint_kind",
+        "endpoint_definition_id",
+        "reported_value",
+        "unit_token",
+        "expanded_uncertainty",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "HydrogenToughnessResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "heat_id": {
+      "minLength": 1,
+      "title": "Heat Id",
+      "type": "string"
+    },
+    "crack_geometry_id": {
+      "minLength": 1,
+      "title": "Crack Geometry Id",
+      "type": "string"
+    },
+    "crack_location_id": {
+      "minLength": 1,
+      "title": "Crack Location Id",
+      "type": "string"
+    },
+    "crack_orientation_id": {
+      "minLength": 1,
+      "title": "Crack Orientation Id",
+      "type": "string"
+    },
+    "exposure_intervals": {
+      "items": {
+        "$ref": "#/$defs/HydrogenCrackingExposure"
+      },
+      "minItems": 1,
+      "title": "Exposure Intervals",
+      "type": "array"
+    },
+    "toughness_result": {
+      "$ref": "#/$defs/HydrogenToughnessResult"
+    },
+    "crack_driving_result": {
+      "$ref": "#/$defs/HydrogenCrackDrivingResult"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/HydrogenCrackingEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_condition_and_heat_reviewed": {
+      "title": "Material Condition And Heat Reviewed",
+      "type": "boolean"
+    },
+    "hydrogen_state_pressure_or_fugacity_basis_reviewed": {
+      "title": "Hydrogen State Pressure Or Fugacity Basis Reviewed",
+      "type": "boolean"
+    },
+    "temperature_exposure_clock_reviewed": {
+      "title": "Temperature Exposure Clock Reviewed",
+      "type": "boolean"
+    },
+    "crack_geometry_location_and_orientation_reviewed": {
+      "title": "Crack Geometry Location And Orientation Reviewed",
+      "type": "boolean"
+    },
+    "toughness_endpoint_units_uncertainty_and_provider_reviewed": {
+      "title": "Toughness Endpoint Units Uncertainty And Provider Reviewed",
+      "type": "boolean"
+    },
+    "driving_metric_load_case_units_and_provider_reviewed": {
+      "title": "Driving Metric Load Case Units And Provider Reviewed",
+      "type": "boolean"
+    },
+    "physical_specimens_source_groups_and_partitions_reviewed": {
+      "title": "Physical Specimens Source Groups And Partitions Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_condition_id",
+    "heat_id",
+    "crack_geometry_id",
+    "crack_location_id",
+    "crack_orientation_id",
+    "exposure_intervals",
+    "toughness_result",
+    "crack_driving_result",
+    "candidate_envelopes",
+    "material_condition_and_heat_reviewed",
+    "hydrogen_state_pressure_or_fugacity_basis_reviewed",
+    "temperature_exposure_clock_reviewed",
+    "crack_geometry_location_and_orientation_reviewed",
+    "toughness_endpoint_units_uncertainty_and_provider_reviewed",
+    "driving_metric_load_case_units_and_provider_reviewed",
+    "physical_specimens_source_groups_and_partitions_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "HydrogenCrackingProviderEvidence",
+  "type": "object"
+}

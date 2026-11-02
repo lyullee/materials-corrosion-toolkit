@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "description": "One uncertain scalar at a non-reference load step.",
+  "properties": {
+    "step_index": {
+      "maximum": 9999,
+      "minimum": 1,
+      "title": "Step Index",
+      "type": "integer"
+    },
+    "quantity": {
+      "enum": [
+        "external_separating_force_N",
+        "bolt_free_length_change_m",
+        "gasket_free_thickness_change_m"
+      ],
+      "title": "Quantity",
+      "type": "string"
+    },
+    "component_index": {
+      "anyOf": [
+        {
+          "maximum": 255,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Component Index"
+    },
+    "finite_difference_step": {
+      "exclusiveMinimum": 0,
+      "title": "Finite Difference Step",
+      "type": "number"
+    }
+  },
+  "required": [
+    "step_index",
+    "quantity",
+    "finite_difference_step"
+  ],
+  "title": "JointLoadCovarianceCoordinate",
+  "type": "object"
+}

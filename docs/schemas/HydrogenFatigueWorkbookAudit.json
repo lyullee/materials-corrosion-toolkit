@@ -1,0 +1,101 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_fatigue_workbook_audit.v1",
+      "default": "matintegrity.hydrogen_fatigue_workbook_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_filename": {
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "source_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source Bytes",
+      "type": "integer"
+    },
+    "worksheet_names": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Worksheet Names",
+      "type": "array"
+    },
+    "formula_cell_count": {
+      "minimum": 0,
+      "title": "Formula Cell Count",
+      "type": "integer"
+    },
+    "series_count": {
+      "exclusiveMinimum": 0,
+      "title": "Series Count",
+      "type": "integer"
+    },
+    "point_count": {
+      "exclusiveMinimum": 0,
+      "title": "Point Count",
+      "type": "integer"
+    },
+    "point_count_by_series": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Point Count By Series",
+      "type": "object"
+    },
+    "delta_k_minimum_Pa_sqrt_m": {
+      "exclusiveMinimum": 0,
+      "title": "Delta K Minimum Pa Sqrt M",
+      "type": "number"
+    },
+    "delta_k_maximum_Pa_sqrt_m": {
+      "exclusiveMinimum": 0,
+      "title": "Delta K Maximum Pa Sqrt M",
+      "type": "number"
+    },
+    "crack_growth_minimum_m_cycle": {
+      "exclusiveMinimum": 0,
+      "title": "Crack Growth Minimum M Cycle",
+      "type": "number"
+    },
+    "crack_growth_maximum_m_cycle": {
+      "exclusiveMinimum": 0,
+      "title": "Crack Growth Maximum M Cycle",
+      "type": "number"
+    },
+    "pressure_reconciliation_status": {
+      "enum": [
+        "record_not_supplied",
+        "record_matches_workbook",
+        "record_conflicts_with_workbook"
+      ],
+      "title": "Pressure Reconciliation Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_filename",
+    "source_sha256",
+    "source_bytes",
+    "worksheet_names",
+    "formula_cell_count",
+    "series_count",
+    "point_count",
+    "point_count_by_series",
+    "delta_k_minimum_Pa_sqrt_m",
+    "delta_k_maximum_Pa_sqrt_m",
+    "crack_growth_minimum_m_cycle",
+    "crack_growth_maximum_m_cycle",
+    "pressure_reconciliation_status"
+  ],
+  "title": "HydrogenFatigueWorkbookAudit",
+  "type": "object"
+}

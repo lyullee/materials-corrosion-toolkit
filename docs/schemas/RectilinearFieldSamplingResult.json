@@ -1,0 +1,149 @@
+{
+  "additionalProperties": false,
+  "description": "Ordered sampled values with explicit outside/missing statuses.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.rectilinear_field_sampling_result.v1",
+      "default": "matintegrity.rectilinear_field_sampling_result.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "query_id": {
+      "minLength": 1,
+      "title": "Query Id",
+      "type": "string"
+    },
+    "field_id": {
+      "minLength": 1,
+      "title": "Field Id",
+      "type": "string"
+    },
+    "source_array_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Array Sha256",
+      "type": "string"
+    },
+    "source_missing_mask_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Missing Mask Sha256",
+      "type": "string"
+    },
+    "query_frame_id": {
+      "minLength": 1,
+      "title": "Query Frame Id",
+      "type": "string"
+    },
+    "source_frame_id": {
+      "minLength": 1,
+      "title": "Source Frame Id",
+      "type": "string"
+    },
+    "transform_schema_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transform Schema Version"
+    },
+    "transform_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transform Basis"
+    },
+    "interpolation": {
+      "enum": [
+        "nearest",
+        "bilinear"
+      ],
+      "title": "Interpolation",
+      "type": "string"
+    },
+    "quantity_name": {
+      "minLength": 1,
+      "title": "Quantity Name",
+      "type": "string"
+    },
+    "quantity_unit": {
+      "minLength": 1,
+      "title": "Quantity Unit",
+      "type": "string"
+    },
+    "point_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Point Ids",
+      "type": "array"
+    },
+    "source_x_coordinates_m": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Source X Coordinates M",
+      "type": "array"
+    },
+    "source_y_coordinates_m": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Source Y Coordinates M",
+      "type": "array"
+    },
+    "values": {
+      "items": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Values",
+      "type": "array"
+    },
+    "statuses": {
+      "items": {
+        "enum": [
+          "sampled",
+          "outside_support",
+          "missing_support"
+        ],
+        "type": "string"
+      },
+      "title": "Statuses",
+      "type": "array"
+    }
+  },
+  "required": [
+    "query_id",
+    "field_id",
+    "source_array_sha256",
+    "source_missing_mask_sha256",
+    "query_frame_id",
+    "source_frame_id",
+    "interpolation",
+    "quantity_name",
+    "quantity_unit",
+    "point_ids",
+    "source_x_coordinates_m",
+    "source_y_coordinates_m",
+    "values",
+    "statuses"
+  ],
+  "title": "RectilinearFieldSamplingResult",
+  "type": "object"
+}

@@ -1,0 +1,124 @@
+{
+  "$defs": {
+    "GasketPronyBranch": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "minLength": 1,
+          "title": "Branch Id",
+          "type": "string"
+        },
+        "modulus_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Modulus Pa",
+          "type": "number"
+        },
+        "relaxation_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "Relaxation Time S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "branch_id",
+        "modulus_Pa",
+        "relaxation_time_s"
+      ],
+      "title": "GasketPronyBranch",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "condition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Condition Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "equilibrium_modulus_Pa": {
+      "minimum": 0,
+      "title": "Equilibrium Modulus Pa",
+      "type": "number"
+    },
+    "prony_branches": {
+      "items": {
+        "$ref": "#/$defs/GasketPronyBranch"
+      },
+      "minItems": 1,
+      "title": "Prony Branches",
+      "type": "array"
+    },
+    "initial_branch_stress_Pa": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Initial Branch Stress Pa",
+      "type": "array"
+    },
+    "initial_branch_state_reviewed": {
+      "title": "Initial Branch State Reviewed",
+      "type": "boolean"
+    },
+    "calibration_basis_reviewed": {
+      "title": "Calibration Basis Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "material_condition_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "condition_sha256",
+    "source_sha256",
+    "provider_id",
+    "provider_revision",
+    "temperature_K",
+    "equilibrium_modulus_Pa",
+    "prony_branches",
+    "initial_branch_stress_Pa",
+    "initial_branch_state_reviewed",
+    "calibration_basis_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketViscoelasticMaterial",
+  "type": "object"
+}

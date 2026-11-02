@@ -1,0 +1,107 @@
+{
+  "$defs": {
+    "AqueousActivityCoefficientPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "ionic_strength_mol_kg": {
+          "minimum": 0,
+          "title": "Ionic Strength Mol Kg",
+          "type": "number"
+        },
+        "activity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Activity Coefficient",
+          "type": "number"
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Id"
+        },
+        "source_record_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Record Id"
+        }
+      },
+      "required": [
+        "ionic_strength_mol_kg",
+        "activity_coefficient"
+      ],
+      "title": "AqueousActivityCoefficientPoint",
+      "type": "object"
+    },
+    "AqueousActivityCoefficientTemperatureSlice": {
+      "additionalProperties": false,
+      "properties": {
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/AqueousActivityCoefficientPoint"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Points",
+          "type": "array"
+        }
+      },
+      "required": [
+        "temperature_K",
+        "points"
+      ],
+      "title": "AqueousActivityCoefficientTemperatureSlice",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "points": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/AqueousActivityCoefficientPoint"
+      },
+      "maxItems": 1000,
+      "title": "Points",
+      "type": "array"
+    },
+    "temperature_slices": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/AqueousActivityCoefficientTemperatureSlice"
+      },
+      "maxItems": 100,
+      "title": "Temperature Slices",
+      "type": "array"
+    }
+  },
+  "required": [
+    "species_id"
+  ],
+  "title": "AqueousSpeciesActivityCurve",
+  "type": "object"
+}

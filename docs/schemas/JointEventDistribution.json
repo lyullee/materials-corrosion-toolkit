@@ -1,0 +1,179 @@
+{
+  "$defs": {
+    "JointEventState": {
+      "additionalProperties": false,
+      "properties": {
+        "event_occurs": {
+          "items": {
+            "type": "boolean"
+          },
+          "title": "Event Occurs",
+          "type": "array"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "top_event_occurs": {
+          "title": "Top Event Occurs",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event_occurs",
+        "probability",
+        "top_event_occurs"
+      ],
+      "title": "JointEventState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "distribution_id": {
+      "minLength": 1,
+      "title": "Distribution Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "top_event_id": {
+      "minLength": 1,
+      "title": "Top Event Id",
+      "type": "string"
+    },
+    "top_event_definition": {
+      "minLength": 1,
+      "title": "Top Event Definition",
+      "type": "string"
+    },
+    "event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 2,
+      "title": "Event Ids",
+      "type": "array"
+    },
+    "event_definitions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Event Definitions",
+      "type": "array"
+    },
+    "states": {
+      "items": {
+        "$ref": "#/$defs/JointEventState"
+      },
+      "minItems": 1,
+      "title": "States",
+      "type": "array"
+    },
+    "dependence_basis": {
+      "enum": [
+        "empirical_joint_distribution",
+        "user_supplied_scenario_weights",
+        "model_prediction"
+      ],
+      "title": "Dependence Basis",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_version": {
+      "minLength": 1,
+      "title": "Provider Version",
+      "type": "string"
+    },
+    "source_content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Content Sha256",
+      "type": "string"
+    },
+    "common_cause_group_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Common Cause Group Ids",
+      "type": "array"
+    },
+    "state_space_complete_declared": {
+      "title": "State Space Complete Declared",
+      "type": "boolean"
+    },
+    "distribution_reviewed": {
+      "title": "Distribution Reviewed",
+      "type": "boolean"
+    },
+    "normalization_tolerance": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-06,
+      "title": "Normalization Tolerance",
+      "type": "number"
+    }
+  },
+  "required": [
+    "distribution_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "time_basis",
+    "horizon_start_s",
+    "horizon_end_s",
+    "conditioning",
+    "top_event_id",
+    "top_event_definition",
+    "event_ids",
+    "event_definitions",
+    "states",
+    "dependence_basis",
+    "provider_id",
+    "provider_version",
+    "source_content_sha256",
+    "state_space_complete_declared",
+    "distribution_reviewed",
+    "normalization_tolerance"
+  ],
+  "title": "JointEventDistribution",
+  "type": "object"
+}

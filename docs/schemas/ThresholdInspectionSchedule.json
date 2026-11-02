@@ -1,0 +1,257 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "InspectionForecastPoint": {
+      "additionalProperties": false,
+      "description": "One reviewed candidate time on a cumulative first-crossing probability curve.",
+      "properties": {
+        "forecast_point_id": {
+          "minLength": 1,
+          "title": "Forecast Point Id",
+          "type": "string"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "cumulative_probability_given_survival": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Cumulative Probability Given Survival",
+          "type": "number"
+        },
+        "cumulative_probability_upper_bound": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cumulative Probability Upper Bound"
+        }
+      },
+      "required": [
+        "forecast_point_id",
+        "horizon_end_s",
+        "cumulative_probability_given_survival"
+      ],
+      "title": "InspectionForecastPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Select one reviewed candidate without interpolating or optimizing consequences.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.threshold_inspection_schedule.v1",
+      "default": "matintegrity.threshold_inspection_schedule.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "schedule_id": {
+      "minLength": 1,
+      "title": "Schedule Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_definition": {
+      "minLength": 1,
+      "title": "Event Definition",
+      "type": "string"
+    },
+    "assessment_time_s": {
+      "minimum": 0,
+      "title": "Assessment Time S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Event Probability Meaning",
+      "type": "string"
+    },
+    "forecast_model_id": {
+      "minLength": 1,
+      "title": "Forecast Model Id",
+      "type": "string"
+    },
+    "forecast_model_revision": {
+      "minLength": 1,
+      "title": "Forecast Model Revision",
+      "type": "string"
+    },
+    "forecast_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Forecast Input Sha256",
+      "type": "string"
+    },
+    "forecast_points": {
+      "items": {
+        "$ref": "#/$defs/InspectionForecastPoint"
+      },
+      "minItems": 2,
+      "title": "Forecast Points",
+      "type": "array"
+    },
+    "probability_basis": {
+      "enum": [
+        "estimate",
+        "upper_bound"
+      ],
+      "title": "Probability Basis",
+      "type": "string"
+    },
+    "maximum_probability_before_inspection": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Maximum Probability Before Inspection",
+      "type": "number"
+    },
+    "minimum_notice_s": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Minimum Notice S",
+      "type": "number"
+    },
+    "maximum_deferral_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Deferral S",
+      "type": "number"
+    },
+    "forecast_identity_reviewed": {
+      "title": "Forecast Identity Reviewed",
+      "type": "boolean"
+    },
+    "event_scope_and_conditioning_reviewed": {
+      "title": "Event Scope And Conditioning Reviewed",
+      "type": "boolean"
+    },
+    "cumulative_probability_curve_reviewed": {
+      "title": "Cumulative Probability Curve Reviewed",
+      "type": "boolean"
+    },
+    "scheduling_criterion_user_approved": {
+      "title": "Scheduling Criterion User Approved",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schedule_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "event_id",
+    "event_definition",
+    "assessment_time_s",
+    "conditioning",
+    "event_probability_meaning",
+    "forecast_model_id",
+    "forecast_model_revision",
+    "forecast_input_sha256",
+    "forecast_points",
+    "probability_basis",
+    "maximum_probability_before_inspection",
+    "maximum_deferral_s",
+    "forecast_identity_reviewed",
+    "event_scope_and_conditioning_reviewed",
+    "cumulative_probability_curve_reviewed",
+    "scheduling_criterion_user_approved",
+    "evidence"
+  ],
+  "title": "ThresholdInspectionSchedule",
+  "type": "object"
+}

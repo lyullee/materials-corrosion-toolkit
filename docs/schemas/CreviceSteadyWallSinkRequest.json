@@ -1,0 +1,176 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed constant-property, one-species blind-slit model.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_steady_wall_sink.v1",
+      "default": "matintegrity.crevice_steady_wall_sink.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calculation_id": {
+      "minLength": 1,
+      "title": "Calculation Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "length_m": {
+      "exclusiveMinimum": 0,
+      "title": "Length M",
+      "type": "number"
+    },
+    "effective_diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Effective Diffusivity M2 S",
+      "type": "number"
+    },
+    "wall_area_per_volume_m_inv": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Area Per Volume M Inv",
+      "type": "number"
+    },
+    "wall_transfer_velocity_m_s": {
+      "minimum": 0,
+      "title": "Wall Transfer Velocity M S",
+      "type": "number"
+    },
+    "mouth_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Mouth Concentration Mol M3",
+      "type": "number"
+    },
+    "sample_positions_m": {
+      "default": [],
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1001,
+      "title": "Sample Positions M",
+      "type": "array"
+    },
+    "constant_property_and_geometry_reviewed": {
+      "title": "Constant Property And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "blind_tip_zero_flux_reviewed": {
+      "title": "Blind Tip Zero Flux Reviewed",
+      "type": "boolean"
+    },
+    "first_order_irreversible_wall_sink_reviewed": {
+      "title": "First Order Irreversible Wall Sink Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calculation_id",
+    "asset_id",
+    "location_id",
+    "geometry_id",
+    "species_id",
+    "condition_id",
+    "length_m",
+    "effective_diffusivity_m2_s",
+    "wall_area_per_volume_m_inv",
+    "wall_transfer_velocity_m_s",
+    "mouth_concentration_mol_m3",
+    "constant_property_and_geometry_reviewed",
+    "blind_tip_zero_flux_reviewed",
+    "first_order_irreversible_wall_sink_reviewed",
+    "evidence"
+  ],
+  "title": "CreviceSteadyWallSinkRequest",
+  "type": "object"
+}

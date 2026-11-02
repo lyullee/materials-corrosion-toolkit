@@ -1,0 +1,525 @@
+{
+  "$defs": {
+    "DeclaredWPSQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "qualified_procedure_id": {
+          "minLength": 1,
+          "title": "Qualified Procedure Id",
+          "type": "string"
+        },
+        "qualified_procedure_revision": {
+          "minLength": 1,
+          "title": "Qualified Procedure Revision",
+          "type": "string"
+        },
+        "base_material_side_a_condition_id": {
+          "minLength": 1,
+          "title": "Base Material Side A Condition Id",
+          "type": "string"
+        },
+        "base_material_side_b_condition_id": {
+          "minLength": 1,
+          "title": "Base Material Side B Condition Id",
+          "type": "string"
+        },
+        "joint_configuration_id": {
+          "minLength": 1,
+          "title": "Joint Configuration Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "essential_variables": {
+          "items": {
+            "$ref": "#/$defs/QualifiedEssentialVariable"
+          },
+          "minItems": 1,
+          "title": "Essential Variables",
+          "type": "array"
+        },
+        "test_evidence": {
+          "items": {
+            "$ref": "#/$defs/WPSQualificationTestEvidence"
+          },
+          "minItems": 1,
+          "title": "Test Evidence",
+          "type": "array"
+        },
+        "declaration_basis": {
+          "minLength": 1,
+          "title": "Declaration Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "qualified_procedure_id",
+        "qualified_procedure_revision",
+        "base_material_side_a_condition_id",
+        "base_material_side_b_condition_id",
+        "joint_configuration_id",
+        "welding_process_id",
+        "essential_variables",
+        "test_evidence",
+        "declaration_basis"
+      ],
+      "title": "DeclaredWPSQualificationEnvelope",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ProductionEssentialVariableRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "variable_id": {
+          "minLength": 1,
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "variable_kind": {
+          "enum": [
+            "numeric",
+            "categorical"
+          ],
+          "title": "Variable Kind",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numeric Value"
+        },
+        "categorical_value_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Categorical Value Token"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "variable_id",
+        "variable_kind",
+        "unit_token",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ProductionEssentialVariableRecord",
+      "type": "object"
+    },
+    "QualifiedEssentialVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "variable_id": {
+          "minLength": 1,
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "qualification_class": {
+          "default": "essential",
+          "enum": [
+            "essential",
+            "supplementary_essential",
+            "nonessential"
+          ],
+          "title": "Qualification Class",
+          "type": "string"
+        },
+        "variable_kind": {
+          "enum": [
+            "numeric",
+            "categorical"
+          ],
+          "title": "Variable Kind",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Value"
+        },
+        "maximum_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Value"
+        },
+        "supported_value_tokens": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supported Value Tokens",
+          "type": "array"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "variable_id",
+        "variable_kind",
+        "unit_token",
+        "applicability_basis"
+      ],
+      "title": "QualifiedEssentialVariable",
+      "type": "object"
+    },
+    "WPSQualificationTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "qualification_test_id": {
+          "minLength": 1,
+          "title": "Qualification Test Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "supported_variable_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Variable Ids",
+          "type": "array"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "qualification_test_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "supported_variable_ids",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "WPSQualificationTestEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "production_weld_id": {
+      "minLength": 1,
+      "title": "Production Weld Id",
+      "type": "string"
+    },
+    "production_procedure_id": {
+      "minLength": 1,
+      "title": "Production Procedure Id",
+      "type": "string"
+    },
+    "production_procedure_revision": {
+      "minLength": 1,
+      "title": "Production Procedure Revision",
+      "type": "string"
+    },
+    "base_material_side_a_condition_id": {
+      "minLength": 1,
+      "title": "Base Material Side A Condition Id",
+      "type": "string"
+    },
+    "base_material_side_b_condition_id": {
+      "minLength": 1,
+      "title": "Base Material Side B Condition Id",
+      "type": "string"
+    },
+    "joint_configuration_id": {
+      "minLength": 1,
+      "title": "Joint Configuration Id",
+      "type": "string"
+    },
+    "welding_process_id": {
+      "minLength": 1,
+      "title": "Welding Process Id",
+      "type": "string"
+    },
+    "production_variables": {
+      "items": {
+        "$ref": "#/$defs/ProductionEssentialVariableRecord"
+      },
+      "minItems": 1,
+      "title": "Production Variables",
+      "type": "array"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/DeclaredWPSQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "production_procedure_identity_reviewed": {
+      "title": "Production Procedure Identity Reviewed",
+      "type": "boolean"
+    },
+    "material_and_joint_identity_reviewed": {
+      "title": "Material And Joint Identity Reviewed",
+      "type": "boolean"
+    },
+    "variable_records_reviewed": {
+      "title": "Variable Records Reviewed",
+      "type": "boolean"
+    },
+    "qualification_specimen_identity_reviewed": {
+      "title": "Qualification Specimen Identity Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "production_weld_id",
+    "production_procedure_id",
+    "production_procedure_revision",
+    "base_material_side_a_condition_id",
+    "base_material_side_b_condition_id",
+    "joint_configuration_id",
+    "welding_process_id",
+    "production_variables",
+    "candidate_envelopes",
+    "production_procedure_identity_reviewed",
+    "material_and_joint_identity_reviewed",
+    "variable_records_reviewed",
+    "qualification_specimen_identity_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed"
+  ],
+  "title": "WPSQualificationAssessment",
+  "type": "object"
+}

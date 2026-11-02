@@ -1,0 +1,117 @@
+{
+  "schema_version": "matintegrity.verification.v1",
+  "run_at_utc": "2026-10-27T01:34:29.539969+00:00",
+  "python": "3.12.14",
+  "platform": "Windows",
+  "checks": [
+    {
+      "command": [
+        "python",
+        "scripts/build_source_catalog.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "826e8828f23ededff44b49014eea9cd46868bd36f4357594c01ed0ed5e6eeed9"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/build_capability_catalog.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "ab042aa53f5aa32c5d3d4a68aeed3ee7ee8e96108f1c2a04bf562da235c14220"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/sync_catalogs.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/build_model_reference.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/export_schemas.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "06f4ccc5050c95519fbe8ea94267610049373d90f5bd2c88f28f47c58551373e"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/validate_atmospheric_corrosion.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "f58159e2568af46ea6db16437190a3cea5479cb6adeeaffd5ba6d293ba2dfddc"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/validate_pulse_echo_thickness.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "511e21ded09418ca9d0258945284af859fd15f2ce185cf591c959b0cd35603ba"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/validate_pulse_echo_calibration.py"
+      ],
+      "returncode": 0,
+      "output_sha256": "b900080320b5c7176aa40e727428b42b3a529052cc19eadb1d6e0f8ac8998608"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests",
+        "scripts",
+        "examples"
+      ],
+      "returncode": 0,
+      "output_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests",
+        "scripts",
+        "examples"
+      ],
+      "returncode": 0,
+      "output_sha256": "1dd07b818cf0b88833d7b73401ce020e43e095920c3491b419728313ca53bc84"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junitxml=validation/unit_tests.xml"
+      ],
+      "returncode": 0,
+      "output_sha256": "91049c0306a5f48c4595349e8838427ee0addff6eef56b2cc9f8a3a413e7b21c"
+    }
+  ],
+  "tests": 868,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "qualification": "Local software and mathematical verification; see data inventory for calibration and experimental comparison scope."
+}

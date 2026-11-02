@@ -1,0 +1,265 @@
+{
+  "$defs": {
+    "ElectromagneticQualityCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "enum": [
+            "scan_count",
+            "coverage_fraction",
+            "channel_coverage_fraction",
+            "reference_feature_stage_coverage_fraction",
+            "response_present_fraction",
+            "minimum_sensitivity_metric",
+            "maximum_noise_metric",
+            "maximum_resolution_metric",
+            "maximum_drift_relative_change"
+          ],
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "pass_limit": {
+          "minimum": 0,
+          "title": "Pass Limit",
+          "type": "number"
+        },
+        "fail_limit": {
+          "minimum": 0,
+          "title": "Fail Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_id",
+        "direction",
+        "pass_limit",
+        "fail_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "ElectromagneticQualityCriterion",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "eddy_current",
+        "flux_leakage"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "required_check_stages": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Check Stages",
+      "type": "array"
+    },
+    "sensitivity_metric_definition": {
+      "minLength": 1,
+      "title": "Sensitivity Metric Definition",
+      "type": "string"
+    },
+    "sensitivity_unit_token": {
+      "minLength": 1,
+      "title": "Sensitivity Unit Token",
+      "type": "string"
+    },
+    "noise_metric_definition": {
+      "minLength": 1,
+      "title": "Noise Metric Definition",
+      "type": "string"
+    },
+    "noise_unit_token": {
+      "minLength": 1,
+      "title": "Noise Unit Token",
+      "type": "string"
+    },
+    "resolution_metric_definition": {
+      "minLength": 1,
+      "title": "Resolution Metric Definition",
+      "type": "string"
+    },
+    "resolution_unit_token": {
+      "minLength": 1,
+      "title": "Resolution Unit Token",
+      "type": "string"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/ElectromagneticQualityCriterion"
+      },
+      "minItems": 9,
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_provider_id": {
+      "minLength": 1,
+      "title": "Profile Provider Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Configuration Digest",
+      "type": "string"
+    },
+    "caller_acceptance_authority": {
+      "minLength": 1,
+      "title": "Caller Acceptance Authority",
+      "type": "string"
+    },
+    "built_in_code_or_standard_limits_used": {
+      "const": false,
+      "default": false,
+      "title": "Built In Code Or Standard Limits Used",
+      "type": "boolean"
+    },
+    "automatic_sizing_or_acceptance_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Sizing Or Acceptance Claimed",
+      "type": "boolean"
+    },
+    "pod_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Pod Claimed",
+      "type": "boolean"
+    },
+    "physical_qualification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Physical Qualification Claimed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_version",
+    "family",
+    "required_check_stages",
+    "sensitivity_metric_definition",
+    "sensitivity_unit_token",
+    "noise_metric_definition",
+    "noise_unit_token",
+    "resolution_metric_definition",
+    "resolution_unit_token",
+    "criteria",
+    "profile_provider_id",
+    "profile_revision",
+    "profile_configuration_digest",
+    "caller_acceptance_authority",
+    "evidence"
+  ],
+  "title": "ElectromagneticCampaignAcceptanceProfile",
+  "type": "object"
+}

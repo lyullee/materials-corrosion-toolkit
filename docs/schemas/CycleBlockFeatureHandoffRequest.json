@@ -1,0 +1,503 @@
+{
+  "$defs": {
+    "ClosedTensorCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_id": {
+          "minLength": 1,
+          "title": "Cycle Id",
+          "type": "string"
+        },
+        "allocated_cycle_count": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Allocated Cycle Count",
+          "type": "number"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "strain_tensor_components": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 50000,
+          "minItems": 3,
+          "title": "Strain Tensor Components",
+          "type": "array"
+        },
+        "sample_time_s": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Time S"
+        },
+        "stress_time_derivative_components_Pa_s": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stress Time Derivative Components Pa S"
+        },
+        "strain_time_derivative_components_s_inv": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strain Time Derivative Components S Inv"
+        }
+      },
+      "required": [
+        "cycle_id",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "strain_tensor_components"
+      ],
+      "title": "ClosedTensorCycle",
+      "type": "object"
+    },
+    "CycleBlockFeatureBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "feature_id": {
+          "enum": [
+            "normal_stress_max_Pa",
+            "normal_stress_min_Pa",
+            "normal_stress_range_Pa",
+            "normal_strain_range",
+            "normal_strain_amplitude",
+            "engineering_shear_strain_range",
+            "engineering_shear_strain_amplitude"
+          ],
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "parameter_id": {
+          "minLength": 1,
+          "title": "Parameter Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "plane_id",
+        "feature_id",
+        "parameter_id"
+      ],
+      "title": "CycleBlockFeatureBinding",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FiniteCyclePlane": {
+      "additionalProperties": false,
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Normal",
+          "type": "array"
+        },
+        "engineering_shear_direction": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Engineering Shear Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "engineering_shear_direction"
+      ],
+      "title": "FiniteCyclePlane",
+      "type": "object"
+    },
+    "TensorCycleBlockFeatureInput": {
+      "additionalProperties": false,
+      "properties": {
+        "block_id": {
+          "minLength": 1,
+          "title": "Block Id",
+          "type": "string"
+        },
+        "cycle_population_id": {
+          "minLength": 1,
+          "title": "Cycle Population Id",
+          "type": "string"
+        },
+        "loading_state_id": {
+          "minLength": 1,
+          "title": "Loading State Id",
+          "type": "string"
+        },
+        "cycle_count": {
+          "maximum": 9007199254740992,
+          "minimum": 1,
+          "title": "Cycle Count",
+          "type": "integer"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "source_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Record Sha256",
+          "type": "string"
+        },
+        "cycle": {
+          "$ref": "#/$defs/ClosedTensorCycle"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "block_id",
+        "cycle_population_id",
+        "loading_state_id",
+        "cycle_count",
+        "source_record_id",
+        "source_record_sha256",
+        "cycle",
+        "evidence"
+      ],
+      "title": "TensorCycleBlockFeatureInput",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller cycle histories and exact feature-to-block parameter bindings.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.cycle_block_feature_handoff.v1",
+      "default": "matintegrity.cycle_block_feature_handoff.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "cycle_count_basis_id": {
+      "minLength": 1,
+      "title": "Cycle Count Basis Id",
+      "type": "string"
+    },
+    "history_provider_id": {
+      "minLength": 1,
+      "title": "History Provider Id",
+      "type": "string"
+    },
+    "history_provider_revision": {
+      "minLength": 1,
+      "title": "History Provider Revision",
+      "type": "string"
+    },
+    "history_provider_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Provider Configuration Sha256",
+      "type": "string"
+    },
+    "history_provider_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Provider Record Sha256",
+      "type": "string"
+    },
+    "stress_history_source_id": {
+      "minLength": 1,
+      "title": "Stress History Source Id",
+      "type": "string"
+    },
+    "stress_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stress History Sha256",
+      "type": "string"
+    },
+    "strain_history_source_id": {
+      "minLength": 1,
+      "title": "Strain History Source Id",
+      "type": "string"
+    },
+    "strain_history_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Strain History Sha256",
+      "type": "string"
+    },
+    "strain_shear_convention": {
+      "enum": [
+        "tensor",
+        "engineering"
+      ],
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "maximum_stress_closure_error_Pa": {
+      "minimum": 0.0,
+      "title": "Maximum Stress Closure Error Pa",
+      "type": "number"
+    },
+    "maximum_strain_closure_error": {
+      "minimum": 0.0,
+      "title": "Maximum Strain Closure Error",
+      "type": "number"
+    },
+    "finite_planes": {
+      "items": {
+        "$ref": "#/$defs/FiniteCyclePlane"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Finite Planes",
+      "type": "array"
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/TensorCycleBlockFeatureInput"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Blocks",
+      "type": "array"
+    },
+    "parameter_bindings": {
+      "items": {
+        "$ref": "#/$defs/CycleBlockFeatureBinding"
+      },
+      "maxItems": 1000,
+      "minItems": 1,
+      "title": "Parameter Bindings",
+      "type": "array"
+    },
+    "tensor_order_units_and_shear_convention_reviewed": {
+      "title": "Tensor Order Units And Shear Convention Reviewed",
+      "type": "boolean"
+    },
+    "closed_cycle_and_representative_repetition_reviewed": {
+      "title": "Closed Cycle And Representative Repetition Reviewed",
+      "type": "boolean"
+    },
+    "finite_plane_selection_and_feature_mapping_reviewed": {
+      "title": "Finite Plane Selection And Feature Mapping Reviewed",
+      "type": "boolean"
+    },
+    "feature_parameter_semantics_reviewed": {
+      "title": "Feature Parameter Semantics Reviewed",
+      "type": "boolean"
+    },
+    "source_evidence_and_usage_rights_reviewed": {
+      "title": "Source Evidence And Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "downstream_caller_law_remains_external_reviewed": {
+      "title": "Downstream Caller Law Remains External Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "location_id",
+    "cycle_count_basis_id",
+    "history_provider_id",
+    "history_provider_revision",
+    "history_provider_configuration_sha256",
+    "history_provider_record_sha256",
+    "stress_history_source_id",
+    "stress_history_sha256",
+    "strain_history_source_id",
+    "strain_history_sha256",
+    "strain_shear_convention",
+    "maximum_stress_closure_error_Pa",
+    "maximum_strain_closure_error",
+    "finite_planes",
+    "blocks",
+    "parameter_bindings",
+    "tensor_order_units_and_shear_convention_reviewed",
+    "closed_cycle_and_representative_repetition_reviewed",
+    "finite_plane_selection_and_feature_mapping_reviewed",
+    "feature_parameter_semantics_reviewed",
+    "source_evidence_and_usage_rights_reviewed",
+    "downstream_caller_law_remains_external_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "CycleBlockFeatureHandoffRequest",
+  "type": "object"
+}

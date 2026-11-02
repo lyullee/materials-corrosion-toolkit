@@ -1,0 +1,267 @@
+{
+  "$defs": {
+    "PhaseMapClusterStatistics": {
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "minLength": 1,
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "label_value": {
+          "title": "Label Value",
+          "type": "integer"
+        },
+        "pixel_count": {
+          "minimum": 0,
+          "title": "Pixel Count",
+          "type": "integer"
+        },
+        "component_count": {
+          "minimum": 0,
+          "title": "Component Count",
+          "type": "integer"
+        },
+        "largest_component_pixel_count": {
+          "minimum": 0,
+          "title": "Largest Component Pixel Count",
+          "type": "integer"
+        },
+        "median_component_area_m2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Median Component Area M2"
+        },
+        "largest_component_fraction_of_phase": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Largest Component Fraction Of Phase"
+        },
+        "components_touching_roi_boundary": {
+          "minimum": 0,
+          "title": "Components Touching Roi Boundary",
+          "type": "integer"
+        },
+        "components_touching_missing_boundary": {
+          "minimum": 0,
+          "title": "Components Touching Missing Boundary",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "phase_id",
+        "label_value",
+        "pixel_count",
+        "component_count",
+        "largest_component_pixel_count",
+        "components_touching_roi_boundary",
+        "components_touching_missing_boundary"
+      ],
+      "title": "PhaseMapClusterStatistics",
+      "type": "object"
+    },
+    "PhaseMapInterfaceLength": {
+      "additionalProperties": false,
+      "properties": {
+        "left_label_value": {
+          "title": "Left Label Value",
+          "type": "integer"
+        },
+        "left_region_id": {
+          "minLength": 1,
+          "title": "Left Region Id",
+          "type": "string"
+        },
+        "right_label_value": {
+          "title": "Right Label Value",
+          "type": "integer"
+        },
+        "right_region_id": {
+          "minLength": 1,
+          "title": "Right Region Id",
+          "type": "string"
+        },
+        "horizontal_grid_edge_count": {
+          "minimum": 0,
+          "title": "Horizontal Grid Edge Count",
+          "type": "integer"
+        },
+        "vertical_grid_edge_count": {
+          "minimum": 0,
+          "title": "Vertical Grid Edge Count",
+          "type": "integer"
+        },
+        "sampled_interface_length_m": {
+          "minimum": 0,
+          "title": "Sampled Interface Length M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "left_label_value",
+        "left_region_id",
+        "right_label_value",
+        "right_region_id",
+        "horizontal_grid_edge_count",
+        "vertical_grid_edge_count",
+        "sampled_interface_length_m"
+      ],
+      "title": "PhaseMapInterfaceLength",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.phase_map_topology_summary.v1",
+      "default": "matintegrity.phase_map_topology_summary.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "map_id": {
+      "minLength": 1,
+      "title": "Map Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "label_array_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Label Array Sha256",
+      "type": "string"
+    },
+    "roi_mask_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Roi Mask Sha256",
+      "type": "string"
+    },
+    "missing_mask_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Missing Mask Sha256",
+      "type": "string"
+    },
+    "region_id": {
+      "minLength": 1,
+      "title": "Region Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "connectivity": {
+      "enum": [
+        4,
+        8
+      ],
+      "title": "Connectivity",
+      "type": "integer"
+    },
+    "roi_pixel_count": {
+      "exclusiveMinimum": 0,
+      "title": "Roi Pixel Count",
+      "type": "integer"
+    },
+    "analyzed_pixel_count": {
+      "minimum": 0,
+      "title": "Analyzed Pixel Count",
+      "type": "integer"
+    },
+    "classified_pixel_count": {
+      "minimum": 0,
+      "title": "Classified Pixel Count",
+      "type": "integer"
+    },
+    "unclassified_pixel_count": {
+      "minimum": 0,
+      "title": "Unclassified Pixel Count",
+      "type": "integer"
+    },
+    "phase_clusters": {
+      "items": {
+        "$ref": "#/$defs/PhaseMapClusterStatistics"
+      },
+      "title": "Phase Clusters",
+      "type": "array"
+    },
+    "interfaces": {
+      "items": {
+        "$ref": "#/$defs/PhaseMapInterfaceLength"
+      },
+      "title": "Interfaces",
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "interpretation": {
+      "const": "categorical_pixel_grid_descriptors",
+      "default": "categorical_pixel_grid_descriptors",
+      "title": "Interpretation",
+      "type": "string"
+    },
+    "uncertainty_status": {
+      "const": "not_estimated",
+      "default": "not_estimated",
+      "title": "Uncertainty Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "map_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "source_sha256",
+    "label_array_sha256",
+    "roi_mask_sha256",
+    "missing_mask_sha256",
+    "region_id",
+    "coordinate_frame_id",
+    "connectivity",
+    "roi_pixel_count",
+    "analyzed_pixel_count",
+    "classified_pixel_count",
+    "unclassified_pixel_count",
+    "phase_clusters",
+    "interfaces",
+    "status"
+  ],
+  "title": "PhaseMapTopologySummary",
+  "type": "object"
+}

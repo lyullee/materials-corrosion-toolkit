@@ -1,0 +1,222 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WellMixedPurgeStage": {
+      "additionalProperties": false,
+      "properties": {
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Duration S",
+          "type": "number"
+        },
+        "inlet_actual_volume_flow_m3_s": {
+          "minimum": 0,
+          "title": "Inlet Actual Volume Flow M3 S",
+          "type": "number"
+        },
+        "inlet_component_mole_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Inlet Component Mole Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "stage_id",
+        "duration_s",
+        "inlet_actual_volume_flow_m3_s",
+        "inlet_component_mole_fraction"
+      ],
+      "title": "WellMixedPurgeStage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "compartment_id": {
+      "minLength": 1,
+      "title": "Compartment Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "gas_state_basis_id": {
+      "minLength": 1,
+      "title": "Gas State Basis Id",
+      "type": "string"
+    },
+    "compartment_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Compartment Volume M3",
+      "type": "number"
+    },
+    "initial_component_mole_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Initial Component Mole Fraction",
+      "type": "number"
+    },
+    "flow_volume_basis": {
+      "const": "compartment_actual_volume",
+      "title": "Flow Volume Basis",
+      "type": "string"
+    },
+    "constant_volume_pressure_temperature_and_perfect_mixing_reviewed": {
+      "title": "Constant Volume Pressure Temperature And Perfect Mixing Reviewed",
+      "type": "boolean"
+    },
+    "equal_inlet_outlet_no_reaction_leak_or_adsorption_reviewed": {
+      "title": "Equal Inlet Outlet No Reaction Leak Or Adsorption Reviewed",
+      "type": "boolean"
+    },
+    "stages": {
+      "items": {
+        "$ref": "#/$defs/WellMixedPurgeStage"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Stages",
+      "type": "array"
+    }
+  },
+  "required": [
+    "basis",
+    "compartment_id",
+    "component_id",
+    "clock_id",
+    "gas_state_basis_id",
+    "compartment_volume_m3",
+    "initial_component_mole_fraction",
+    "flow_volume_basis",
+    "constant_volume_pressure_temperature_and_perfect_mixing_reviewed",
+    "equal_inlet_outlet_no_reaction_leak_or_adsorption_reviewed",
+    "stages"
+  ],
+  "title": "WellMixedGasPurge",
+  "type": "object"
+}

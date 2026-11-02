@@ -1,0 +1,327 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FaultTreeBasicEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "probability_meaning": {
+          "enum": [
+            "conditional_first_failure_in_period",
+            "point_in_time_state_probability",
+            "spatial_size_exceedance_at_one_exposure",
+            "detection_given_flaw_and_procedure",
+            "unscoped_event_probability"
+          ],
+          "title": "Probability Meaning",
+          "type": "string"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "probability_scope_id": {
+          "minLength": 1,
+          "title": "Probability Scope Id",
+          "type": "string"
+        },
+        "evidence_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evidence Digest",
+          "type": "string"
+        },
+        "integrity_event_basis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IntegrityEventBasis"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "event_id",
+        "probability",
+        "probability_meaning",
+        "conditioning",
+        "probability_scope_id",
+        "evidence_digest"
+      ],
+      "title": "FaultTreeBasicEvent",
+      "type": "object"
+    },
+    "IntegrityEventBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "event_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Event Probability",
+          "type": "number"
+        },
+        "probability_semantics": {
+          "enum": [
+            "conditional_first_failure_in_period",
+            "point_in_time_state_probability",
+            "posterior_parameter_probability",
+            "model_implied_input_uncertainty_probability",
+            "spatial_size_exceedance_at_one_exposure",
+            "detection_given_flaw_and_procedure",
+            "unscoped_event_probability",
+            "fault_tree_top_event_probability"
+          ],
+          "title": "Probability Semantics",
+          "type": "string"
+        },
+        "probability_conditioning": {
+          "minLength": 1,
+          "title": "Probability Conditioning",
+          "type": "string"
+        },
+        "integrity_model_id": {
+          "minLength": 1,
+          "title": "Integrity Model Id",
+          "type": "string"
+        },
+        "integrity_model_version": {
+          "minLength": 1,
+          "title": "Integrity Model Version",
+          "type": "string"
+        },
+        "integrity_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Input Digest",
+          "type": "string"
+        },
+        "integrity_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Result Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "asset_id",
+        "location_id",
+        "failure_mode",
+        "physical_scope_id",
+        "clock_id",
+        "horizon_start_s",
+        "horizon_end_s",
+        "event_probability",
+        "probability_semantics",
+        "probability_conditioning",
+        "integrity_model_id",
+        "integrity_model_version",
+        "integrity_input_digest",
+        "integrity_result_digest"
+      ],
+      "title": "IntegrityEventBasis",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Basic event and integrity basis tied to the source computation and caller p.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_faradaic_fta_event_binding.v1",
+      "default": "matintegrity.crevice_faradaic_fta_event_binding.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "basic_event": {
+      "$ref": "#/$defs/FaultTreeBasicEvent"
+    },
+    "integrity_event_basis": {
+      "$ref": "#/$defs/IntegrityEventBasis"
+    },
+    "calculation": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "calculation_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "probability_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Probability Evidence",
+      "type": "array"
+    },
+    "rights_boundary": {
+      "enum": [
+        "local_only",
+        "caller_authorized_open_distribution"
+      ],
+      "title": "Rights Boundary",
+      "type": "string"
+    },
+    "rights_authorization_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rights Authorization Digest"
+    }
+  },
+  "required": [
+    "basic_event",
+    "integrity_event_basis",
+    "calculation",
+    "calculation_evidence",
+    "probability_evidence",
+    "rights_boundary"
+  ],
+  "title": "CreviceFaradaicFaultTreeEventBinding",
+  "type": "object"
+}

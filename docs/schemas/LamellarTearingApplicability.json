@@ -1,0 +1,726 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LamellarEvidenceRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "observation_kind": {
+          "minLength": 1,
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "result_name": {
+          "minLength": 1,
+          "title": "Result Name",
+          "type": "string"
+        },
+        "direction_id": {
+          "minLength": 1,
+          "title": "Direction Id",
+          "type": "string"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "minimum_record_count": {
+          "minimum": 1,
+          "title": "Minimum Record Count",
+          "type": "integer"
+        },
+        "requirement_basis": {
+          "minLength": 1,
+          "title": "Requirement Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "observation_kind",
+        "result_name",
+        "direction_id",
+        "result_unit_token",
+        "minimum_record_count",
+        "requirement_basis"
+      ],
+      "title": "LamellarEvidenceRequirement",
+      "type": "object"
+    },
+    "LamellarTearingJointCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "joint_geometry_descriptor": {
+          "minLength": 1,
+          "title": "Joint Geometry Descriptor",
+          "type": "string"
+        },
+        "governing_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Governing Thickness M",
+          "type": "number"
+        },
+        "through_thickness_loading_descriptor": {
+          "minLength": 1,
+          "title": "Through Thickness Loading Descriptor",
+          "type": "string"
+        },
+        "restraint_descriptor": {
+          "minLength": 1,
+          "title": "Restraint Descriptor",
+          "type": "string"
+        },
+        "weld_process_id": {
+          "minLength": 1,
+          "title": "Weld Process Id",
+          "type": "string"
+        },
+        "consumable_id": {
+          "minLength": 1,
+          "title": "Consumable Id",
+          "type": "string"
+        },
+        "minimum_heat_input_value": {
+          "minimum": 0,
+          "title": "Minimum Heat Input Value",
+          "type": "number"
+        },
+        "maximum_heat_input_value": {
+          "minimum": 0,
+          "title": "Maximum Heat Input Value",
+          "type": "number"
+        },
+        "heat_input_unit_token": {
+          "minLength": 1,
+          "title": "Heat Input Unit Token",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "joint_id",
+        "joint_geometry_descriptor",
+        "governing_thickness_m",
+        "through_thickness_loading_descriptor",
+        "restraint_descriptor",
+        "weld_process_id",
+        "consumable_id",
+        "minimum_heat_input_value",
+        "maximum_heat_input_value",
+        "heat_input_unit_token",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "LamellarTearingJointCondition",
+      "type": "object"
+    },
+    "LamellarTearingQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "parent_material_id": {
+          "minLength": 1,
+          "title": "Parent Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "product_form_id": {
+          "minLength": 1,
+          "title": "Product Form Id",
+          "type": "string"
+        },
+        "directionality_descriptor": {
+          "minLength": 1,
+          "title": "Directionality Descriptor",
+          "type": "string"
+        },
+        "minimum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Thickness M",
+          "type": "number"
+        },
+        "maximum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Thickness M",
+          "type": "number"
+        },
+        "supported_joint_geometry_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Joint Geometry Descriptors",
+          "type": "array"
+        },
+        "supported_through_thickness_loading_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Through Thickness Loading Descriptors",
+          "type": "array"
+        },
+        "supported_restraint_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Restraint Descriptors",
+          "type": "array"
+        },
+        "supported_weld_process_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Weld Process Ids",
+          "type": "array"
+        },
+        "supported_consumable_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Consumable Ids",
+          "type": "array"
+        },
+        "minimum_heat_input_value": {
+          "minimum": 0,
+          "title": "Minimum Heat Input Value",
+          "type": "number"
+        },
+        "maximum_heat_input_value": {
+          "minimum": 0,
+          "title": "Maximum Heat Input Value",
+          "type": "number"
+        },
+        "heat_input_unit_token": {
+          "minLength": 1,
+          "title": "Heat Input Unit Token",
+          "type": "string"
+        },
+        "evidence_requirements": {
+          "items": {
+            "$ref": "#/$defs/LamellarEvidenceRequirement"
+          },
+          "minItems": 1,
+          "title": "Evidence Requirements",
+          "type": "array"
+        },
+        "test_evidence": {
+          "items": {
+            "$ref": "#/$defs/LamellarTearingTestEvidence"
+          },
+          "minItems": 1,
+          "title": "Test Evidence",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "parent_material_id",
+        "material_condition_id",
+        "product_form_id",
+        "directionality_descriptor",
+        "minimum_thickness_m",
+        "maximum_thickness_m",
+        "supported_joint_geometry_descriptors",
+        "supported_through_thickness_loading_descriptors",
+        "supported_restraint_descriptors",
+        "supported_weld_process_ids",
+        "supported_consumable_ids",
+        "minimum_heat_input_value",
+        "maximum_heat_input_value",
+        "heat_input_unit_token",
+        "evidence_requirements",
+        "test_evidence",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "LamellarTearingQualificationEnvelope",
+      "type": "object"
+    },
+    "LamellarTearingTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "parent_material_id": {
+          "minLength": 1,
+          "title": "Parent Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "product_form_id": {
+          "minLength": 1,
+          "title": "Product Form Id",
+          "type": "string"
+        },
+        "specimen_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Thickness M",
+          "type": "number"
+        },
+        "directionality_descriptor": {
+          "minLength": 1,
+          "title": "Directionality Descriptor",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/ThroughThicknessObservation"
+          },
+          "minItems": 1,
+          "title": "Observations",
+          "type": "array"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "parent_material_id",
+        "material_condition_id",
+        "product_form_id",
+        "specimen_thickness_m",
+        "directionality_descriptor",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "input_digest",
+        "observations",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "LamellarTearingTestEvidence",
+      "type": "object"
+    },
+    "ThroughThicknessObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observation_kind": {
+          "minLength": 1,
+          "title": "Observation Kind",
+          "type": "string"
+        },
+        "result_name": {
+          "minLength": 1,
+          "title": "Result Name",
+          "type": "string"
+        },
+        "direction_id": {
+          "minLength": 1,
+          "title": "Direction Id",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "result_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Value"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "coverage_factor": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage Factor"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_available": {
+          "title": "Record Available",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "observation_kind",
+        "result_name",
+        "direction_id",
+        "method_id",
+        "result_unit_token",
+        "record_available",
+        "evidence"
+      ],
+      "title": "ThroughThicknessObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "parent_material_id": {
+      "minLength": 1,
+      "title": "Parent Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "product_form_id": {
+      "minLength": 1,
+      "title": "Product Form Id",
+      "type": "string"
+    },
+    "directionality_descriptor": {
+      "minLength": 1,
+      "title": "Directionality Descriptor",
+      "type": "string"
+    },
+    "joints": {
+      "items": {
+        "$ref": "#/$defs/LamellarTearingJointCondition"
+      },
+      "minItems": 1,
+      "title": "Joints",
+      "type": "array"
+    },
+    "qualification_envelope": {
+      "$ref": "#/$defs/LamellarTearingQualificationEnvelope"
+    },
+    "material_product_and_condition_reviewed": {
+      "title": "Material Product And Condition Reviewed",
+      "type": "boolean"
+    },
+    "directionality_and_thickness_reviewed": {
+      "title": "Directionality And Thickness Reviewed",
+      "type": "boolean"
+    },
+    "joint_geometry_and_through_thickness_loading_reviewed": {
+      "title": "Joint Geometry And Through Thickness Loading Reviewed",
+      "type": "boolean"
+    },
+    "restraint_descriptor_reviewed": {
+      "title": "Restraint Descriptor Reviewed",
+      "type": "boolean"
+    },
+    "welding_process_consumable_and_heat_input_reviewed": {
+      "title": "Welding Process Consumable And Heat Input Reviewed",
+      "type": "boolean"
+    },
+    "physical_specimen_and_source_group_partitions_reviewed": {
+      "title": "Physical Specimen And Source Group Partitions Reviewed",
+      "type": "boolean"
+    },
+    "test_method_units_and_uncertainty_reviewed": {
+      "title": "Test Method Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "parent_material_id",
+    "material_condition_id",
+    "product_form_id",
+    "directionality_descriptor",
+    "joints",
+    "qualification_envelope",
+    "material_product_and_condition_reviewed",
+    "directionality_and_thickness_reviewed",
+    "joint_geometry_and_through_thickness_loading_reviewed",
+    "restraint_descriptor_reviewed",
+    "welding_process_consumable_and_heat_input_reviewed",
+    "physical_specimen_and_source_group_partitions_reviewed",
+    "test_method_units_and_uncertainty_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "LamellarTearingApplicability",
+  "type": "object"
+}

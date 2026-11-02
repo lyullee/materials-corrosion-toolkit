@@ -1,0 +1,211 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Single-species, constant-volume well-mixed control-volume screening model.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_lumped_exchange_reaction_history.v1",
+      "default": "matintegrity.crevice_lumped_exchange_reaction_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100001,
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "control_volume_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Control Volume M3",
+      "type": "number"
+    },
+    "initial_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Initial Concentration Mol M3",
+      "type": "number"
+    },
+    "bulk_concentration_by_interval_mol_m3": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Bulk Concentration By Interval Mol M3",
+      "type": "array"
+    },
+    "exchange_flow_by_interval_m3_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Exchange Flow By Interval M3 S",
+      "type": "array"
+    },
+    "first_order_sink_rate_by_interval_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "First Order Sink Rate By Interval S",
+      "type": "array"
+    },
+    "model_provider_id": {
+      "minLength": 1,
+      "title": "Model Provider Id",
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "single_mixed_volume_and_constant_volume_reviewed": {
+      "title": "Single Mixed Volume And Constant Volume Reviewed",
+      "type": "boolean"
+    },
+    "interval_constant_forcing_and_sink_law_reviewed": {
+      "title": "Interval Constant Forcing And Sink Law Reviewed",
+      "type": "boolean"
+    },
+    "concentration_units_and_species_identity_reviewed": {
+      "title": "Concentration Units And Species Identity Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "physical_scope_id",
+    "species_id",
+    "time_s",
+    "control_volume_m3",
+    "initial_concentration_mol_m3",
+    "bulk_concentration_by_interval_mol_m3",
+    "exchange_flow_by_interval_m3_s",
+    "first_order_sink_rate_by_interval_s",
+    "model_provider_id",
+    "model_revision",
+    "evidence",
+    "usage_rights_evidence",
+    "single_mixed_volume_and_constant_volume_reviewed",
+    "interval_constant_forcing_and_sink_law_reviewed",
+    "concentration_units_and_species_identity_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceLumpedExchangeReactionHistory",
+  "type": "object"
+}

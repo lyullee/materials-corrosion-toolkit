@@ -1,0 +1,276 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MultiaxialCrosslandProportionalLimitScreen": {
+      "additionalProperties": false,
+      "description": "Evaluate a finite closed proportional stress cycle against caller data.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "stress_history": {
+          "$ref": "#/$defs/SampledStressInvariantHistory"
+        },
+        "stress_history_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Stress History Sha256",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_source_id": {
+          "minLength": 1,
+          "title": "Calibration Source Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "calibration_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "calibration_material_condition_id": {
+          "minLength": 1,
+          "title": "Calibration Material Condition Id",
+          "type": "string"
+        },
+        "hydrostatic_coefficient_alpha": {
+          "minimum": 0,
+          "title": "Hydrostatic Coefficient Alpha",
+          "type": "number"
+        },
+        "caller_limit_beta_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Caller Limit Beta Pa",
+          "type": "number"
+        },
+        "proportionality_tolerance_Pa": {
+          "minimum": 0,
+          "title": "Proportionality Tolerance Pa",
+          "type": "number"
+        },
+        "coefficients_and_limit_reviewed": {
+          "title": "Coefficients And Limit Reviewed",
+          "type": "boolean"
+        },
+        "calibration_material_and_scope_reviewed": {
+          "title": "Calibration Material And Scope Reviewed",
+          "type": "boolean"
+        },
+        "proportional_path_assumption_and_tolerance_reviewed": {
+          "title": "Proportional Path Assumption And Tolerance Reviewed",
+          "type": "boolean"
+        },
+        "maximum_pair_evaluations": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Pair Evaluations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "stress_history",
+        "stress_history_sha256",
+        "calibration_id",
+        "calibration_source_id",
+        "calibration_sha256",
+        "calibration_evidence",
+        "calibration_material_condition_id",
+        "hydrostatic_coefficient_alpha",
+        "caller_limit_beta_Pa",
+        "proportionality_tolerance_Pa",
+        "coefficients_and_limit_reviewed",
+        "calibration_material_and_scope_reviewed",
+        "proportional_path_assumption_and_tolerance_reviewed"
+      ],
+      "title": "MultiaxialCrosslandProportionalLimitScreen",
+      "type": "object"
+    },
+    "SampledStressInvariantHistory": {
+      "additionalProperties": false,
+      "description": "Ordered symmetric stress tensors at caller-declared cycle samples.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "tensor_component_order": {
+          "default": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tensor Component Order",
+          "type": "array"
+        },
+        "closed_cycle_and_sample_order_reviewed": {
+          "title": "Closed Cycle And Sample Order Reviewed",
+          "type": "boolean"
+        },
+        "stress_tensor_basis_reviewed": {
+          "title": "Stress Tensor Basis Reviewed",
+          "type": "boolean"
+        },
+        "maximum_pair_evaluations": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Pair Evaluations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "location_id",
+        "source_id",
+        "source_sha256",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "closed_cycle_and_sample_order_reviewed",
+        "stress_tensor_basis_reviewed"
+      ],
+      "title": "SampledStressInvariantHistory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One caller-counted block and its finite stress-path evaluation request.",
+  "properties": {
+    "block_id": {
+      "minLength": 1,
+      "title": "Block Id",
+      "type": "string"
+    },
+    "cycle_count": {
+      "maximum": 1000000000000,
+      "minimum": 1,
+      "title": "Cycle Count",
+      "type": "integer"
+    },
+    "screen_request": {
+      "$ref": "#/$defs/MultiaxialCrosslandProportionalLimitScreen"
+    }
+  },
+  "required": [
+    "block_id",
+    "cycle_count",
+    "screen_request"
+  ],
+  "title": "CrosslandProportionalBlock",
+  "type": "object"
+}

@@ -1,0 +1,577 @@
+{
+  "$defs": {
+    "AlkalineExposureInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "envelope_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Envelope Id"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "alkaline_species_id": {
+          "minLength": 1,
+          "title": "Alkaline Species Id",
+          "type": "string"
+        },
+        "concentration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Concentration"
+        },
+        "concentration_unit": {
+          "minLength": 1,
+          "title": "Concentration Unit",
+          "type": "string"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        },
+        "electrochemical_descriptor_id": {
+          "minLength": 1,
+          "title": "Electrochemical Descriptor Id",
+          "type": "string"
+        },
+        "potential_reference_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Potential Reference Id"
+        },
+        "potential_V": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Potential V"
+        },
+        "applied_stress_definition": {
+          "minLength": 1,
+          "title": "Applied Stress Definition",
+          "type": "string"
+        },
+        "applied_stress_Pa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applied Stress Pa"
+        },
+        "residual_stress_definition": {
+          "minLength": 1,
+          "title": "Residual Stress Definition",
+          "type": "string"
+        },
+        "residual_stress_Pa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Residual Stress Pa"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "alkaline_species_id",
+        "concentration_unit",
+        "electrochemical_descriptor_id",
+        "applied_stress_definition",
+        "residual_stress_definition",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AlkalineExposureInterval",
+      "type": "object"
+    },
+    "AlkalineSCCQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "material_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Material Condition Ids",
+          "type": "array"
+        },
+        "heat_treatment_condition_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Heat Treatment Condition Ids",
+          "type": "array"
+        },
+        "alkaline_species_id": {
+          "minLength": 1,
+          "title": "Alkaline Species Id",
+          "type": "string"
+        },
+        "concentration_unit": {
+          "minLength": 1,
+          "title": "Concentration Unit",
+          "type": "string"
+        },
+        "minimum_concentration": {
+          "minimum": 0,
+          "title": "Minimum Concentration",
+          "type": "number"
+        },
+        "maximum_concentration": {
+          "minimum": 0,
+          "title": "Maximum Concentration",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "electrochemical_descriptor_id": {
+          "minLength": 1,
+          "title": "Electrochemical Descriptor Id",
+          "type": "string"
+        },
+        "potential_reference_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Potential Reference Id"
+        },
+        "minimum_potential_V": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Potential V"
+        },
+        "maximum_potential_V": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Potential V"
+        },
+        "applied_stress_definition": {
+          "minLength": 1,
+          "title": "Applied Stress Definition",
+          "type": "string"
+        },
+        "minimum_applied_stress_Pa": {
+          "title": "Minimum Applied Stress Pa",
+          "type": "number"
+        },
+        "maximum_applied_stress_Pa": {
+          "title": "Maximum Applied Stress Pa",
+          "type": "number"
+        },
+        "residual_stress_definition": {
+          "minLength": 1,
+          "title": "Residual Stress Definition",
+          "type": "string"
+        },
+        "minimum_residual_stress_Pa": {
+          "title": "Minimum Residual Stress Pa",
+          "type": "number"
+        },
+        "maximum_residual_stress_Pa": {
+          "title": "Maximum Residual Stress Pa",
+          "type": "number"
+        },
+        "maximum_exposure_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Exposure Duration S",
+          "type": "number"
+        },
+        "test_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Test Evidence Ids",
+          "type": "array"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "material_condition_ids",
+        "heat_treatment_condition_ids",
+        "alkaline_species_id",
+        "concentration_unit",
+        "minimum_concentration",
+        "maximum_concentration",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "electrochemical_descriptor_id",
+        "applied_stress_definition",
+        "minimum_applied_stress_Pa",
+        "maximum_applied_stress_Pa",
+        "residual_stress_definition",
+        "minimum_residual_stress_Pa",
+        "maximum_residual_stress_Pa",
+        "maximum_exposure_duration_s",
+        "test_evidence_ids",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "AlkalineSCCQualificationEnvelope",
+      "type": "object"
+    },
+    "AlkalineSCCTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "test_method_id": {
+          "minLength": 1,
+          "title": "Test Method Id",
+          "type": "string"
+        },
+        "reported_endpoint": {
+          "minLength": 1,
+          "title": "Reported Endpoint",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "test_id",
+        "physical_specimen_id",
+        "test_method_id",
+        "reported_endpoint",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AlkalineSCCTestEvidence",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "heat_treatment_condition_id": {
+      "minLength": 1,
+      "title": "Heat Treatment Condition Id",
+      "type": "string"
+    },
+    "qualification_tests": {
+      "items": {
+        "$ref": "#/$defs/AlkalineSCCTestEvidence"
+      },
+      "minItems": 1,
+      "title": "Qualification Tests",
+      "type": "array"
+    },
+    "qualification_envelopes": {
+      "items": {
+        "$ref": "#/$defs/AlkalineSCCQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Qualification Envelopes",
+      "type": "array"
+    },
+    "exposure_intervals": {
+      "items": {
+        "$ref": "#/$defs/AlkalineExposureInterval"
+      },
+      "minItems": 1,
+      "title": "Exposure Intervals",
+      "type": "array"
+    },
+    "material_and_heat_treatment_reviewed": {
+      "title": "Material And Heat Treatment Reviewed",
+      "type": "boolean"
+    },
+    "alkaline_chemistry_and_units_reviewed": {
+      "title": "Alkaline Chemistry And Units Reviewed",
+      "type": "boolean"
+    },
+    "temperature_history_reviewed": {
+      "title": "Temperature History Reviewed",
+      "type": "boolean"
+    },
+    "electrochemical_descriptor_reviewed": {
+      "title": "Electrochemical Descriptor Reviewed",
+      "type": "boolean"
+    },
+    "applied_and_residual_stress_reviewed": {
+      "title": "Applied And Residual Stress Reviewed",
+      "type": "boolean"
+    },
+    "exposure_clock_reviewed": {
+      "title": "Exposure Clock Reviewed",
+      "type": "boolean"
+    },
+    "qualification_tests_and_envelopes_reviewed": {
+      "title": "Qualification Tests And Envelopes Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "clock_id",
+    "material_condition_id",
+    "heat_treatment_condition_id",
+    "qualification_tests",
+    "qualification_envelopes",
+    "exposure_intervals",
+    "material_and_heat_treatment_reviewed",
+    "alkaline_chemistry_and_units_reviewed",
+    "temperature_history_reviewed",
+    "electrochemical_descriptor_reviewed",
+    "applied_and_residual_stress_reviewed",
+    "exposure_clock_reviewed",
+    "qualification_tests_and_envelopes_reviewed",
+    "evidence"
+  ],
+  "title": "AlkalineSCCApplicability",
+  "type": "object"
+}

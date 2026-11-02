@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "species_id": {
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "initial_concentration_mol_m3": {
+      "minimum": 0,
+      "title": "Initial Concentration Mol M3",
+      "type": "number"
+    },
+    "activity_reference_concentration_mol_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Activity Reference Concentration Mol M3",
+      "type": "number"
+    },
+    "activity_coefficient": {
+      "exclusiveMinimum": 0,
+      "title": "Activity Coefficient",
+      "type": "number"
+    },
+    "charge_number": {
+      "title": "Charge Number",
+      "type": "integer"
+    },
+    "elemental_composition": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "minProperties": 1,
+      "title": "Elemental Composition",
+      "type": "object"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "species_id",
+    "initial_concentration_mol_m3",
+    "activity_reference_concentration_mol_m3",
+    "activity_coefficient",
+    "charge_number",
+    "elemental_composition",
+    "record_sha256",
+    "evidence"
+  ],
+  "title": "CreviceEquilibriumAqueousSpecies",
+  "type": "object"
+}

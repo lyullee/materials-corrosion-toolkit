@@ -1,0 +1,219 @@
+{
+  "$defs": {
+    "Criterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_kind",
+        "metric_id",
+        "unit_token",
+        "uncertainty_policy",
+        "missing_disposition"
+      ],
+      "title": "Criterion",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    },
+    "permitted_wps_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Wps Ids",
+      "type": "array"
+    },
+    "permitted_base_heat_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Base Heat Ids",
+      "type": "array"
+    },
+    "permitted_consumable_lots": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Permitted Consumable Lots",
+      "type": "array"
+    },
+    "maximum_repair_count": {
+      "minimum": 1,
+      "title": "Maximum Repair Count",
+      "type": "integer"
+    },
+    "maximum_excavation_depth_m": {
+      "minimum": 0,
+      "title": "Maximum Excavation Depth M",
+      "type": "number"
+    },
+    "maximum_event_temperature_k": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Event Temperature K",
+      "type": "number"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/Criterion"
+      },
+      "title": "Criteria",
+      "type": "array"
+    },
+    "profile_reviewed": {
+      "title": "Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_revision",
+    "source_digest",
+    "permitted_wps_ids",
+    "permitted_base_heat_ids",
+    "permitted_consumable_lots",
+    "maximum_repair_count",
+    "maximum_excavation_depth_m",
+    "maximum_event_temperature_k",
+    "criteria",
+    "profile_reviewed",
+    "evidence"
+  ],
+  "title": "Profile",
+  "type": "object"
+}

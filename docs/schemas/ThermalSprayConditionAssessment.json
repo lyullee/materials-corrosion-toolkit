@@ -1,0 +1,500 @@
+{
+  "$defs": {
+    "DeclaredThermalSprayRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "minLength": 1,
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "applicable_region_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Region Ids",
+          "type": "array"
+        },
+        "required_partitions": {
+          "items": {
+            "enum": [
+              "qualification",
+              "production"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Partitions",
+          "type": "array"
+        },
+        "comparator": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Comparator",
+          "type": "string"
+        },
+        "limit_value": {
+          "title": "Limit Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "authority_basis": {
+          "minLength": 1,
+          "title": "Authority Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "metric_id",
+        "metric_kind",
+        "metric_definition",
+        "applicable_region_ids",
+        "required_partitions",
+        "comparator",
+        "limit_value",
+        "unit_token",
+        "authority_basis",
+        "evidence"
+      ],
+      "title": "DeclaredThermalSprayRequirement",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermalSprayObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "qualification",
+            "production"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_kind": {
+          "enum": [
+            "layer_thickness",
+            "porosity_fraction",
+            "bond_strength",
+            "oxide_content_fraction",
+            "surface_roughness",
+            "user_defined"
+          ],
+          "title": "Metric Kind",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "expanded_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "region_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "metric_id",
+        "metric_kind",
+        "metric_definition",
+        "unit_token",
+        "method_id",
+        "provider_id",
+        "provider_version",
+        "provider_state_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ThermalSprayObservation",
+      "type": "object"
+    },
+    "ThermalSprayRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "region_id": {
+          "minLength": 1,
+          "title": "Region Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "nominal_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Nominal Area M2",
+          "type": "number"
+        },
+        "examined_area_m2": {
+          "minimum": 0,
+          "title": "Examined Area M2",
+          "type": "number"
+        },
+        "surface_preparation_id": {
+          "minLength": 1,
+          "title": "Surface Preparation Id",
+          "type": "string"
+        },
+        "deposition_pass_group_id": {
+          "minLength": 1,
+          "title": "Deposition Pass Group Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "physical_scope_id",
+        "nominal_area_m2",
+        "examined_area_m2",
+        "surface_preparation_id",
+        "deposition_pass_group_id",
+        "evidence"
+      ],
+      "title": "ThermalSprayRegion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "coating_system_id": {
+      "minLength": 1,
+      "title": "Coating System Id",
+      "type": "string"
+    },
+    "spray_process_id": {
+      "minLength": 1,
+      "title": "Spray Process Id",
+      "type": "string"
+    },
+    "feedstock_lot_id": {
+      "minLength": 1,
+      "title": "Feedstock Lot Id",
+      "type": "string"
+    },
+    "substrate_material_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Material Condition Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "procedure_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Procedure State Digest",
+      "type": "string"
+    },
+    "regions": {
+      "items": {
+        "$ref": "#/$defs/ThermalSprayRegion"
+      },
+      "minItems": 1,
+      "title": "Regions",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ThermalSprayObservation"
+      },
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "declared_requirements": {
+      "items": {
+        "$ref": "#/$defs/DeclaredThermalSprayRequirement"
+      },
+      "minItems": 1,
+      "title": "Declared Requirements",
+      "type": "array"
+    },
+    "system_and_lot_identity_reviewed": {
+      "title": "System And Lot Identity Reviewed",
+      "type": "boolean"
+    },
+    "surface_preparation_and_pass_traceability_reviewed": {
+      "title": "Surface Preparation And Pass Traceability Reviewed",
+      "type": "boolean"
+    },
+    "region_coverage_reviewed": {
+      "title": "Region Coverage Reviewed",
+      "type": "boolean"
+    },
+    "measurement_methods_reviewed": {
+      "title": "Measurement Methods Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_and_provider_lineage_reviewed": {
+      "title": "Uncertainty And Provider Lineage Reviewed",
+      "type": "boolean"
+    },
+    "requirement_authority_reviewed": {
+      "title": "Requirement Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "coating_system_id",
+    "spray_process_id",
+    "feedstock_lot_id",
+    "substrate_material_condition_id",
+    "procedure_id",
+    "procedure_revision",
+    "procedure_state_digest",
+    "regions",
+    "observations",
+    "declared_requirements",
+    "system_and_lot_identity_reviewed",
+    "surface_preparation_and_pass_traceability_reviewed",
+    "region_coverage_reviewed",
+    "measurement_methods_reviewed",
+    "uncertainty_and_provider_lineage_reviewed",
+    "requirement_authority_reviewed",
+    "evidence"
+  ],
+  "title": "ThermalSprayConditionAssessment",
+  "type": "object"
+}

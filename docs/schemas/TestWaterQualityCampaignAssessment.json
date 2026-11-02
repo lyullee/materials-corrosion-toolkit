@@ -1,0 +1,816 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TestWaterAnalyticalResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "analyte": {
+          "enum": [
+            "ph",
+            "conductivity",
+            "chloride",
+            "halide",
+            "oxygen",
+            "solids",
+            "microbiology",
+            "inhibitor",
+            "temperature"
+          ],
+          "title": "Analyte",
+          "type": "string"
+        },
+        "species_or_quantity_definition": {
+          "minLength": 1,
+          "title": "Species Or Quantity Definition",
+          "type": "string"
+        },
+        "value": {
+          "minimum": 0,
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_basis": {
+          "minLength": 1,
+          "title": "Uncertainty Basis",
+          "type": "string"
+        },
+        "analysis_method_id": {
+          "minLength": 1,
+          "title": "Analysis Method Id",
+          "type": "string"
+        },
+        "analysis_method_revision": {
+          "minLength": 1,
+          "title": "Analysis Method Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "raw_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Raw Data Digest",
+          "type": "string"
+        },
+        "result_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_id",
+        "sample_id",
+        "analyte",
+        "species_or_quantity_definition",
+        "value",
+        "unit_token",
+        "expanded_uncertainty",
+        "uncertainty_basis",
+        "analysis_method_id",
+        "analysis_method_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "raw_data_digest",
+        "result_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TestWaterAnalyticalResult",
+      "type": "object"
+    },
+    "TestWaterCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_history_kinds": {
+          "items": {
+            "enum": [
+              "fill",
+              "hold",
+              "drain",
+              "dry",
+              "other"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required History Kinds",
+          "type": "array"
+        },
+        "required_analytes": {
+          "items": {
+            "enum": [
+              "ph",
+              "conductivity",
+              "chloride",
+              "halide",
+              "oxygen",
+              "solids",
+              "microbiology",
+              "inhibitor",
+              "temperature"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Analytes",
+          "type": "array"
+        },
+        "minimum_sample_count": {
+          "minimum": 1,
+          "title": "Minimum Sample Count",
+          "type": "integer"
+        },
+        "minimum_independent_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Independent Source Group Count",
+          "type": "integer"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/TestWaterCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "chemical_species_conversion_used": {
+          "const": false,
+          "default": false,
+          "title": "Chemical Species Conversion Used",
+          "type": "boolean"
+        },
+        "corrosion_rate_inference_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Corrosion Rate Inference Claimed",
+          "type": "boolean"
+        },
+        "microbiological_risk_inference_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Microbiological Risk Inference Claimed",
+          "type": "boolean"
+        },
+        "built_in_code_or_standard_limits_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Code Or Standard Limits Used",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_history_kinds",
+        "required_analytes",
+        "minimum_sample_count",
+        "minimum_independent_source_group_count",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "TestWaterCallerProfile",
+      "type": "object"
+    },
+    "TestWaterCircuitIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "water_batch_id": {
+          "minLength": 1,
+          "title": "Water Batch Id",
+          "type": "string"
+        },
+        "source_type_descriptor": {
+          "minLength": 1,
+          "title": "Source Type Descriptor",
+          "type": "string"
+        },
+        "tank_id": {
+          "minLength": 1,
+          "title": "Tank Id",
+          "type": "string"
+        },
+        "circuit_id": {
+          "minLength": 1,
+          "title": "Circuit Id",
+          "type": "string"
+        },
+        "circuit_scope_definition": {
+          "minLength": 1,
+          "title": "Circuit Scope Definition",
+          "type": "string"
+        },
+        "contacted_material_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Contacted Material Ids",
+          "type": "array"
+        },
+        "contact_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Contact Configuration Digest",
+          "type": "string"
+        },
+        "source_batch_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Batch Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_id",
+        "water_batch_id",
+        "source_type_descriptor",
+        "tank_id",
+        "circuit_id",
+        "circuit_scope_definition",
+        "contacted_material_ids",
+        "contact_configuration_digest",
+        "source_batch_record_digest",
+        "evidence"
+      ],
+      "title": "TestWaterCircuitIdentity",
+      "type": "object"
+    },
+    "TestWaterCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "analyte": {
+          "enum": [
+            "ph",
+            "conductivity",
+            "chloride",
+            "halide",
+            "oxygen",
+            "solids",
+            "microbiology",
+            "inhibitor",
+            "temperature"
+          ],
+          "title": "Analyte",
+          "type": "string"
+        },
+        "species_or_quantity_definition": {
+          "minLength": 1,
+          "title": "Species Or Quantity Definition",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "minimum": 0,
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "minimum": 0,
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "analyte",
+        "species_or_quantity_definition",
+        "aggregation",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "TestWaterCriterion",
+      "type": "object"
+    },
+    "TestWaterHistoryEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "event_kind": {
+          "enum": [
+            "fill",
+            "hold",
+            "drain",
+            "dry",
+            "other"
+          ],
+          "title": "Event Kind",
+          "type": "string"
+        },
+        "state_definition": {
+          "minLength": 1,
+          "title": "State Definition",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "water_batch_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Water Batch Id"
+        },
+        "event_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Event Configuration Digest",
+          "type": "string"
+        },
+        "event_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Event Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence_index",
+        "event_kind",
+        "state_definition",
+        "start_time_s",
+        "end_time_s",
+        "event_configuration_digest",
+        "event_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "TestWaterHistoryEvent",
+      "type": "object"
+    },
+    "TestWaterSample": {
+      "additionalProperties": false,
+      "properties": {
+        "sample_id": {
+          "minLength": 1,
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sampling_time_s": {
+          "minimum": 0,
+          "title": "Sampling Time S",
+          "type": "number"
+        },
+        "sampling_location_id": {
+          "minLength": 1,
+          "title": "Sampling Location Id",
+          "type": "string"
+        },
+        "sampling_location_definition": {
+          "minLength": 1,
+          "title": "Sampling Location Definition",
+          "type": "string"
+        },
+        "sampling_method_id": {
+          "minLength": 1,
+          "title": "Sampling Method Id",
+          "type": "string"
+        },
+        "laboratory_id": {
+          "minLength": 1,
+          "title": "Laboratory Id",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_valid": {
+          "title": "Calibration Valid",
+          "type": "boolean"
+        },
+        "invalid_calibration_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Calibration Basis"
+        },
+        "calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Digest",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "results": {
+          "items": {
+            "$ref": "#/$defs/TestWaterAnalyticalResult"
+          },
+          "minItems": 1,
+          "title": "Results",
+          "type": "array"
+        },
+        "sample_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sample Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sample_id",
+        "event_id",
+        "sampling_time_s",
+        "sampling_location_id",
+        "sampling_location_definition",
+        "sampling_method_id",
+        "laboratory_id",
+        "calibration_id",
+        "calibration_valid",
+        "calibration_digest",
+        "replicate_group_id",
+        "source_group_id",
+        "independence_group_id",
+        "results",
+        "sample_record_digest",
+        "evidence"
+      ],
+      "title": "TestWaterSample",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "circuit_identity": {
+      "$ref": "#/$defs/TestWaterCircuitIdentity"
+    },
+    "history": {
+      "items": {
+        "$ref": "#/$defs/TestWaterHistoryEvent"
+      },
+      "minItems": 1,
+      "title": "History",
+      "type": "array"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/TestWaterSample"
+      },
+      "minItems": 1,
+      "title": "Samples",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/TestWaterCallerProfile"
+    },
+    "source_batch_tank_circuit_material_contact_identity_reviewed": {
+      "title": "Source Batch Tank Circuit Material Contact Identity Reviewed",
+      "type": "boolean"
+    },
+    "ordered_fill_hold_drain_dry_history_reviewed": {
+      "title": "Ordered Fill Hold Drain Dry History Reviewed",
+      "type": "boolean"
+    },
+    "sampling_time_location_method_lab_and_calibration_reviewed": {
+      "title": "Sampling Time Location Method Lab And Calibration Reviewed",
+      "type": "boolean"
+    },
+    "analyte_species_units_uncertainty_and_methods_reviewed": {
+      "title": "Analyte Species Units Uncertainty And Methods Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_claims_reviewed": {
+      "title": "Replicate Source And Independence Claims Reviewed",
+      "type": "boolean"
+    },
+    "provider_provenance_and_digests_reviewed": {
+      "title": "Provider Provenance And Digests Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "invalid_and_missing_records_reviewed": {
+      "title": "Invalid And Missing Records Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "circuit_identity",
+    "history",
+    "samples",
+    "caller_profile",
+    "source_batch_tank_circuit_material_contact_identity_reviewed",
+    "ordered_fill_hold_drain_dry_history_reviewed",
+    "sampling_time_location_method_lab_and_calibration_reviewed",
+    "analyte_species_units_uncertainty_and_methods_reviewed",
+    "replicate_source_and_independence_claims_reviewed",
+    "provider_provenance_and_digests_reviewed",
+    "caller_profile_reviewed",
+    "invalid_and_missing_records_reviewed",
+    "evidence"
+  ],
+  "title": "TestWaterQualityCampaignAssessment",
+  "type": "object"
+}

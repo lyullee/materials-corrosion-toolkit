@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "ReconciledEvidenceRow": {
+      "additionalProperties": false,
+      "properties": {
+        "certificate_id": {
+          "title": "Certificate Id",
+          "type": "string"
+        },
+        "measurement_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measurement Id"
+        },
+        "requirement_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requirement Id"
+        },
+        "state": {
+          "enum": [
+            "match",
+            "mismatch",
+            "unknown",
+            "uncertainty_overlap"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        },
+        "normalized_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalized Value"
+        },
+        "normalized_uncertainty": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalized Uncertainty"
+        },
+        "canonical_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Canonical Unit"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "certificate_id",
+        "state",
+        "basis",
+        "source_digest"
+      ],
+      "title": "ReconciledEvidenceRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reconciliation_id": {
+      "title": "Reconciliation Id",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "consistent",
+        "mismatch",
+        "unknown"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Digest",
+      "type": "string"
+    },
+    "evidence_rows": {
+      "items": {
+        "$ref": "#/$defs/ReconciledEvidenceRow"
+      },
+      "title": "Evidence Rows",
+      "type": "array"
+    },
+    "matched_certificate_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Matched Certificate Ids",
+      "type": "array"
+    },
+    "mismatched_certificate_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Mismatched Certificate Ids",
+      "type": "array"
+    },
+    "unknown_certificate_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unknown Certificate Ids",
+      "type": "array"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "qualification_claim": {
+      "const": false,
+      "default": false,
+      "title": "Qualification Claim",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "reconciliation_id",
+    "state",
+    "profile_id",
+    "profile_digest",
+    "evidence_rows",
+    "matched_certificate_ids",
+    "mismatched_certificate_ids",
+    "unknown_certificate_ids",
+    "input_digest",
+    "report_digest"
+  ],
+  "title": "CertificateReconciliationReport",
+  "type": "object"
+}

@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "criterion_id": {
+      "minLength": 1,
+      "title": "Criterion Id",
+      "type": "string"
+    },
+    "observation_kind": {
+      "enum": [
+        "grain",
+        "cavity",
+        "phase",
+        "precipitate",
+        "decarburization",
+        "user_defined"
+      ],
+      "title": "Observation Kind",
+      "type": "string"
+    },
+    "metric_id": {
+      "minLength": 1,
+      "title": "Metric Id",
+      "type": "string"
+    },
+    "metric_definition": {
+      "minLength": 1,
+      "title": "Metric Definition",
+      "type": "string"
+    },
+    "result_mode": {
+      "enum": [
+        "quantitative",
+        "qualitative"
+      ],
+      "title": "Result Mode",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "minimum_acceptable": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Acceptable"
+    },
+    "maximum_acceptable": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Acceptable"
+    },
+    "accepted_qualitative_classes": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Accepted Qualitative Classes",
+      "type": "array"
+    },
+    "criterion_basis": {
+      "minLength": 1,
+      "title": "Criterion Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "criterion_id",
+    "observation_kind",
+    "metric_id",
+    "metric_definition",
+    "result_mode",
+    "unit_token",
+    "criterion_basis",
+    "evidence"
+  ],
+  "title": "ReplicaObservationCriterion",
+  "type": "object"
+}

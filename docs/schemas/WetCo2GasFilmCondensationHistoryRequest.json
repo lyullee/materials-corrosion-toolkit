@@ -1,0 +1,274 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2GasFilmCondensationInterval": {
+      "additionalProperties": false,
+      "description": "One piecewise-constant local water-transfer state over an exact interval.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "bulk_water_vapor_fugacity_Pa": {
+          "minimum": 0,
+          "title": "Bulk Water Vapor Fugacity Pa",
+          "type": "number"
+        },
+        "wall_saturation_water_fugacity_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Saturation Water Fugacity Pa",
+          "type": "number"
+        },
+        "gas_film_molar_transfer_coefficient_mol_m2_s_Pa": {
+          "minimum": 0,
+          "title": "Gas Film Molar Transfer Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "liquid_water_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Water Density Kg M3",
+          "type": "number"
+        },
+        "transfer_provider_id": {
+          "minLength": 1,
+          "title": "Transfer Provider Id",
+          "type": "string"
+        },
+        "transfer_provider_revision": {
+          "minLength": 1,
+          "title": "Transfer Provider Revision",
+          "type": "string"
+        },
+        "transfer_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transfer Configuration Sha256",
+          "type": "string"
+        },
+        "transfer_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transfer Result Sha256",
+          "type": "string"
+        },
+        "saturation_provider_id": {
+          "minLength": 1,
+          "title": "Saturation Provider Id",
+          "type": "string"
+        },
+        "saturation_provider_revision": {
+          "minLength": 1,
+          "title": "Saturation Provider Revision",
+          "type": "string"
+        },
+        "saturation_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Saturation Configuration Sha256",
+          "type": "string"
+        },
+        "saturation_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Saturation Result Sha256",
+          "type": "string"
+        },
+        "density_record_id": {
+          "minLength": 1,
+          "title": "Density Record Id",
+          "type": "string"
+        },
+        "density_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Density Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "interval_state_basis_and_units_reviewed": {
+          "title": "Interval State Basis And Units Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "bulk_water_vapor_fugacity_Pa",
+        "wall_saturation_water_fugacity_Pa",
+        "gas_film_molar_transfer_coefficient_mol_m2_s_Pa",
+        "liquid_water_density_kg_m3",
+        "transfer_provider_id",
+        "transfer_provider_revision",
+        "transfer_configuration_sha256",
+        "transfer_result_sha256",
+        "saturation_provider_id",
+        "saturation_provider_revision",
+        "saturation_configuration_sha256",
+        "saturation_result_sha256",
+        "density_record_id",
+        "density_record_sha256",
+        "evidence",
+        "interval_state_basis_and_units_reviewed"
+      ],
+      "title": "WetCo2GasFilmCondensationInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Local fixed-patch film inventory driven by caller gas/wall fugacity states.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_gas_film_condensation_transfer_history.v1",
+      "default": "matintegrity.wet_co2_gas_film_condensation_transfer_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "wall_patch_id": {
+      "minLength": 1,
+      "title": "Wall Patch Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "initial_water_areal_inventory_kg_m2": {
+      "minimum": 0,
+      "title": "Initial Water Areal Inventory Kg M2",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2GasFilmCondensationInterval"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "exact_gas_and_wall_state_alignment_reviewed": {
+      "title": "Exact Gas And Wall State Alignment Reviewed",
+      "type": "boolean"
+    },
+    "fugacity_reference_and_gas_film_coefficient_units_reviewed": {
+      "title": "Fugacity Reference And Gas Film Coefficient Units Reviewed",
+      "type": "boolean"
+    },
+    "fixed_patch_no_lateral_exchange_and_uniform_film_reviewed": {
+      "title": "Fixed Patch No Lateral Exchange And Uniform Film Reviewed",
+      "type": "boolean"
+    },
+    "pure_water_saturation_applicability_reviewed": {
+      "title": "Pure Water Saturation Applicability Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "wall_patch_id",
+    "condition_id",
+    "initial_water_areal_inventory_kg_m2",
+    "intervals",
+    "exact_gas_and_wall_state_alignment_reviewed",
+    "fugacity_reference_and_gas_film_coefficient_units_reviewed",
+    "fixed_patch_no_lateral_exchange_and_uniform_film_reviewed",
+    "pure_water_saturation_applicability_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "WetCo2GasFilmCondensationHistoryRequest",
+  "type": "object"
+}

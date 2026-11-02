@@ -1,0 +1,112 @@
+{
+  "additionalProperties": false,
+  "description": "One selected cycle-mean PSA stream and its optional CoolProp request.",
+  "properties": {
+    "stream_id": {
+      "minLength": 1,
+      "title": "Stream Id",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ready",
+        "needs_data",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "state_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "State Basis"
+    },
+    "total_pressure_Pa": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Total Pressure Pa"
+    },
+    "temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Temperature K"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "mole_fractions": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Mole Fractions"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "request": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Request"
+    }
+  },
+  "required": [
+    "stream_id",
+    "status",
+    "state_basis",
+    "total_pressure_Pa",
+    "temperature_K",
+    "components",
+    "mole_fractions",
+    "reason",
+    "request"
+  ],
+  "title": "PSADynaMeanStreamFugacityRow",
+  "type": "object"
+}

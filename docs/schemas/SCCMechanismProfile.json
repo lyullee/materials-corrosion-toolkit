@@ -1,0 +1,308 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SCCRuleCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "fact_id": {
+          "minLength": 1,
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "expected_fact_kind": {
+          "enum": [
+            "number",
+            "descriptor",
+            "boolean"
+          ],
+          "title": "Expected Fact Kind",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "greater_than",
+            "greater_than_or_equal",
+            "less_than",
+            "less_than_or_equal",
+            "between_inclusive",
+            "equals",
+            "in_set",
+            "is_true",
+            "is_false"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "unit_token": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Token"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Threshold"
+        },
+        "lower_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower Bound"
+        },
+        "upper_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Bound"
+        },
+        "expected_descriptors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Descriptors",
+          "type": "array"
+        },
+        "condition_basis": {
+          "minLength": 1,
+          "title": "Condition Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "condition_id",
+        "fact_id",
+        "expected_fact_kind",
+        "operator",
+        "condition_basis"
+      ],
+      "title": "SCCRuleCondition",
+      "type": "object"
+    },
+    "SCCScreeningRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_definition": {
+          "minLength": 1,
+          "title": "Rule Definition",
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/SCCRuleCondition"
+          },
+          "minItems": 1,
+          "title": "Conditions",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "rule_definition",
+        "conditions",
+        "evidence"
+      ],
+      "title": "SCCScreeningRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "mechanism": {
+      "enum": [
+        "chloride_scc",
+        "ammonia_scc",
+        "alkaline_scc"
+      ],
+      "title": "Mechanism",
+      "type": "string"
+    },
+    "mechanism_definition": {
+      "minLength": 1,
+      "title": "Mechanism Definition",
+      "type": "string"
+    },
+    "unknown_policy": {
+      "enum": [
+        "indeterminate",
+        "screen_in"
+      ],
+      "title": "Unknown Policy",
+      "type": "string"
+    },
+    "rules": {
+      "items": {
+        "$ref": "#/$defs/SCCScreeningRule"
+      },
+      "minItems": 1,
+      "title": "Rules",
+      "type": "array"
+    },
+    "profile_provider_id": {
+      "minLength": 1,
+      "title": "Profile Provider Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "minLength": 1,
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "profile_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Configuration Digest",
+      "type": "string"
+    },
+    "profile_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Source Digest",
+      "type": "string"
+    },
+    "screening_only": {
+      "const": true,
+      "default": true,
+      "title": "Screening Only",
+      "type": "boolean"
+    },
+    "qualification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Qualification Claimed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "profile_version",
+    "mechanism",
+    "mechanism_definition",
+    "unknown_policy",
+    "rules",
+    "profile_provider_id",
+    "profile_revision",
+    "profile_configuration_digest",
+    "profile_source_digest",
+    "evidence"
+  ],
+  "title": "SCCMechanismProfile",
+  "type": "object"
+}

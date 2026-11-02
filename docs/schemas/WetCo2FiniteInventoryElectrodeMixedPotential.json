@@ -1,0 +1,527 @@
+{
+  "$defs": {
+    "ButlerVolmerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "calibration_and_reaction_direction_reviewed": {
+          "title": "Calibration And Reaction Direction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "calibration_sha256",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "equilibrium_potential_V",
+        "temperature_K",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "calibration_and_reaction_direction_reviewed"
+      ],
+      "title": "ButlerVolmerReaction",
+      "type": "object"
+    },
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2LumpedElectrochemicalExternalExchange": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "bulk_inventory_change_mol": {
+          "title": "Bulk Inventory Change Mol",
+          "type": "number"
+        },
+        "wall_inventory_change_mol": {
+          "title": "Wall Inventory Change Mol",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "start_time_s",
+        "end_time_s",
+        "bulk_inventory_change_mol",
+        "wall_inventory_change_mol",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2LumpedElectrochemicalExternalExchange",
+      "type": "object"
+    },
+    "WetCo2LumpedElectrochemicalInitialInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "bulk_inventory_mol": {
+          "minimum": 0,
+          "title": "Bulk Inventory Mol",
+          "type": "number"
+        },
+        "wall_inventory_mol": {
+          "minimum": 0,
+          "title": "Wall Inventory Mol",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "bulk_inventory_mol",
+        "wall_inventory_mol",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2LumpedElectrochemicalInitialInventory",
+      "type": "object"
+    },
+    "WetCo2LumpedElectrochemicalInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/WetCo2LumpedElectrochemicalReaction"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Reactions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "reactions"
+      ],
+      "title": "WetCo2LumpedElectrochemicalInterval",
+      "type": "object"
+    },
+    "WetCo2LumpedElectrochemicalReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "kinetics": {
+          "$ref": "#/$defs/ButlerVolmerReaction"
+        },
+        "metal_element_release_mol_per_extent": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Metal Element Release Mol Per Extent",
+          "type": "object"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kinetics",
+        "evidence"
+      ],
+      "title": "WetCo2LumpedElectrochemicalReaction",
+      "type": "object"
+    },
+    "WetCo2LumpedElectrochemicalSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "WetCo2LumpedElectrochemicalSpecies",
+      "type": "object"
+    },
+    "WetCo2LumpedElectrochemicalVolumeKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "bulk_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Bulk Volume M3",
+          "type": "number"
+        },
+        "wall_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Volume M3",
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_s",
+        "bulk_volume_m3",
+        "wall_volume_m3"
+      ],
+      "title": "WetCo2LumpedElectrochemicalVolumeKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Transient finite-reservoir electrode coupling with branch supply limits and common potential.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_finite_inventory_electrode_mixed_potential.v1",
+      "default": "matintegrity.wet_co2_finite_inventory_electrode_mixed_potential.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "geometry_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "transfer_capacity_results": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Calculation"
+      },
+      "maxProperties": 32,
+      "minProperties": 2,
+      "title": "Transfer Capacity Results",
+      "type": "object"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LumpedElectrochemicalSpecies"
+      },
+      "maxItems": 32,
+      "minItems": 2,
+      "title": "Species",
+      "type": "array"
+    },
+    "initial_inventories": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LumpedElectrochemicalInitialInventory"
+      },
+      "maxItems": 32,
+      "minItems": 2,
+      "title": "Initial Inventories",
+      "type": "array"
+    },
+    "volume_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LumpedElectrochemicalVolumeKnot"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Volume History",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LumpedElectrochemicalInterval"
+      },
+      "maxItems": 4999,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "external_exchanges": {
+      "items": {
+        "$ref": "#/$defs/WetCo2LumpedElectrochemicalExternalExchange"
+      },
+      "maxItems": 159968,
+      "minItems": 2,
+      "title": "External Exchanges",
+      "type": "array"
+    },
+    "potential_absolute_tolerance_V": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "title": "Potential Absolute Tolerance V",
+      "type": "number"
+    },
+    "current_absolute_tolerance_A_m2": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "title": "Current Absolute Tolerance A M2",
+      "type": "number"
+    },
+    "inventory_absolute_tolerance_mol": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Inventory Absolute Tolerance Mol",
+      "type": "number"
+    },
+    "inventory_relative_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Inventory Relative Tolerance",
+      "type": "number"
+    },
+    "maximum_bisection_iterations": {
+      "default": 200,
+      "maximum": 500,
+      "minimum": 10,
+      "title": "Maximum Bisection Iterations",
+      "type": "integer"
+    },
+    "finite_reservoir_and_current_area_reviewed": {
+      "title": "Finite Reservoir And Current Area Reviewed",
+      "type": "boolean"
+    },
+    "reaction_formula_charge_and_direction_reviewed": {
+      "title": "Reaction Formula Charge And Direction Reviewed",
+      "type": "boolean"
+    },
+    "well_mixed_bulk_and_wall_compartments_reviewed": {
+      "title": "Well Mixed Bulk And Wall Compartments Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "geometry_result",
+    "transfer_capacity_results",
+    "species",
+    "initial_inventories",
+    "volume_history",
+    "intervals",
+    "external_exchanges",
+    "finite_reservoir_and_current_area_reviewed",
+    "reaction_formula_charge_and_direction_reviewed",
+    "well_mixed_bulk_and_wall_compartments_reviewed"
+  ],
+  "title": "WetCo2FiniteInventoryElectrodeMixedPotential",
+  "type": "object"
+}

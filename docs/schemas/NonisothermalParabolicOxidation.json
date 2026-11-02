@@ -1,0 +1,492 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "OxidationQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_table": {
+          "title": "Supports Declared Table",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "partition",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_table",
+        "evidence"
+      ],
+      "title": "OxidationQualificationEvidence",
+      "type": "object"
+    },
+    "OxidationRatePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "point_id": {
+          "minLength": 1,
+          "title": "Point Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "parabolic_rate_m2_s": {
+          "minimum": 0,
+          "title": "Parabolic Rate M2 S",
+          "type": "number"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "point_id",
+        "temperature_K",
+        "parabolic_rate_m2_s",
+        "result_digest",
+        "evidence"
+      ],
+      "title": "OxidationRatePoint",
+      "type": "object"
+    },
+    "OxidationTemperatureKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "knot_id": {
+          "minLength": 1,
+          "title": "Knot Id",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "knot_id",
+        "elapsed_time_s",
+        "temperature_K",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "OxidationTemperatureKnot",
+      "type": "object"
+    },
+    "TemperatureDependentParabolicRateTable": {
+      "additionalProperties": false,
+      "properties": {
+        "table_id": {
+          "minLength": 1,
+          "title": "Table Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "surface_condition_id": {
+          "minLength": 1,
+          "title": "Surface Condition Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "rate_unit_token": {
+          "const": "m^2/s",
+          "title": "Rate Unit Token",
+          "type": "string"
+        },
+        "interpolation_policy": {
+          "const": "linear_rate_vs_temperature",
+          "title": "Interpolation Policy",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/OxidationRatePoint"
+          },
+          "minItems": 2,
+          "title": "Points",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/OxidationQualificationEvidence"
+          },
+          "minItems": 2,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "table_id",
+        "material_condition_id",
+        "surface_condition_id",
+        "environment_id",
+        "rate_unit_token",
+        "interpolation_policy",
+        "points",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "data_digest",
+        "result_digest",
+        "qualification_evidence",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "TemperatureDependentParabolicRateTable",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "surface_condition_id": {
+      "minLength": 1,
+      "title": "Surface Condition Id",
+      "type": "string"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "initial_oxide_thickness_m": {
+      "minimum": 0,
+      "title": "Initial Oxide Thickness M",
+      "type": "number"
+    },
+    "temperature_history": {
+      "items": {
+        "$ref": "#/$defs/OxidationTemperatureKnot"
+      },
+      "minItems": 2,
+      "title": "Temperature History",
+      "type": "array"
+    },
+    "rate_table": {
+      "$ref": "#/$defs/TemperatureDependentParabolicRateTable"
+    },
+    "material_surface_and_environment_identity_reviewed": {
+      "title": "Material Surface And Environment Identity Reviewed",
+      "type": "boolean"
+    },
+    "temperature_clock_and_interpolation_reviewed": {
+      "title": "Temperature Clock And Interpolation Reviewed",
+      "type": "boolean"
+    },
+    "rate_units_and_temperature_support_reviewed": {
+      "title": "Rate Units And Temperature Support Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_and_source_groups_reviewed": {
+      "title": "Calibration Holdout And Source Groups Reviewed",
+      "type": "boolean"
+    },
+    "retained_parabolic_scale_regime_reviewed": {
+      "title": "Retained Parabolic Scale Regime Reviewed",
+      "type": "boolean"
+    },
+    "rate_table_authority_reviewed": {
+      "title": "Rate Table Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "material_condition_id",
+    "surface_condition_id",
+    "environment_id",
+    "initial_oxide_thickness_m",
+    "temperature_history",
+    "rate_table",
+    "material_surface_and_environment_identity_reviewed",
+    "temperature_clock_and_interpolation_reviewed",
+    "rate_units_and_temperature_support_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "calibration_holdout_and_source_groups_reviewed",
+    "retained_parabolic_scale_regime_reviewed",
+    "rate_table_authority_reviewed",
+    "evidence"
+  ],
+  "title": "NonisothermalParabolicOxidation",
+  "type": "object"
+}

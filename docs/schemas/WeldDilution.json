@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "WeldConstituent": {
+      "additionalProperties": false,
+      "properties": {
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "role": {
+          "pattern": "^(base|filler|previous_layer)$",
+          "title": "Role",
+          "type": "string"
+        },
+        "melted_mass_kg": {
+          "exclusiveMinimum": 0,
+          "title": "Melted Mass Kg",
+          "type": "number"
+        },
+        "composition_mass_fraction": {
+          "patternProperties": {
+            "^[A-Z][a-z]?$": {
+              "anyOf": [
+                {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "title": "Composition Mass Fraction",
+          "type": "object"
+        }
+      },
+      "required": [
+        "material_id",
+        "role",
+        "melted_mass_kg",
+        "composition_mass_fraction"
+      ],
+      "title": "WeldConstituent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "constituents": {
+      "items": {
+        "$ref": "#/$defs/WeldConstituent"
+      },
+      "minItems": 2,
+      "title": "Constituents",
+      "type": "array"
+    },
+    "requested_elements": {
+      "items": {
+        "pattern": "^[A-Z][a-z]?$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Requested Elements",
+      "type": "array"
+    }
+  },
+  "required": [
+    "constituents",
+    "requested_elements"
+  ],
+  "title": "WeldDilution",
+  "type": "object"
+}

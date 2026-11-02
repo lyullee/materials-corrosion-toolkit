@@ -1,0 +1,233 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketPolarContactMap": {
+      "additionalProperties": false,
+      "properties": {
+        "radial_cell_edges_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1001,
+          "minItems": 2,
+          "title": "Radial Cell Edges M",
+          "type": "array"
+        },
+        "angular_sector_edges_rad": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1001,
+          "minItems": 2,
+          "title": "Angular Sector Edges Rad",
+          "type": "array"
+        },
+        "mean_contact_pressure_by_cell_Pa": {
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 1000,
+          "minItems": 1,
+          "title": "Mean Contact Pressure By Cell Pa",
+          "type": "array"
+        }
+      },
+      "required": [
+        "radial_cell_edges_m",
+        "angular_sector_edges_rad",
+        "mean_contact_pressure_by_cell_Pa"
+      ],
+      "title": "GasketPolarContactMap",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Map a caller pressure field to connected low-contact radial paths.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_radial_open_path_screen.v1",
+      "default": "matintegrity.gasket_radial_open_path_screen.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "contact_map": {
+      "$ref": "#/$defs/GasketPolarContactMap"
+    },
+    "map_provider_id": {
+      "minLength": 1,
+      "title": "Map Provider Id",
+      "type": "string"
+    },
+    "map_provider_revision": {
+      "minLength": 1,
+      "title": "Map Provider Revision",
+      "type": "string"
+    },
+    "map_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Map Record Sha256",
+      "type": "string"
+    },
+    "map_usage_license_id": {
+      "minLength": 1,
+      "title": "Map Usage License Id",
+      "type": "string"
+    },
+    "map_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Map Evidence",
+      "type": "array"
+    },
+    "minimum_closing_contact_pressure_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Closing Contact Pressure Pa",
+      "type": "number"
+    },
+    "criterion_provider_id": {
+      "minLength": 1,
+      "title": "Criterion Provider Id",
+      "type": "string"
+    },
+    "criterion_provider_revision": {
+      "minLength": 1,
+      "title": "Criterion Provider Revision",
+      "type": "string"
+    },
+    "criterion_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Criterion Record Sha256",
+      "type": "string"
+    },
+    "criterion_usage_license_id": {
+      "minLength": 1,
+      "title": "Criterion Usage License Id",
+      "type": "string"
+    },
+    "criterion_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Criterion Evidence",
+      "type": "array"
+    },
+    "grid_to_annular_seal_and_flow_direction_reviewed": {
+      "title": "Grid To Annular Seal And Flow Direction Reviewed",
+      "type": "boolean"
+    },
+    "pressure_definition_and_threshold_reviewed": {
+      "title": "Pressure Definition And Threshold Reviewed",
+      "type": "boolean"
+    },
+    "mesh_resolution_and_four_neighbor_connectivity_reviewed": {
+      "title": "Mesh Resolution And Four Neighbor Connectivity Reviewed",
+      "type": "boolean"
+    },
+    "scope_and_time_alignment_reviewed": {
+      "title": "Scope And Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "evidence_rights_and_computational_use_reviewed": {
+      "title": "Evidence Rights And Computational Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "contact_map",
+    "map_provider_id",
+    "map_provider_revision",
+    "map_record_sha256",
+    "map_usage_license_id",
+    "map_evidence",
+    "minimum_closing_contact_pressure_Pa",
+    "criterion_provider_id",
+    "criterion_provider_revision",
+    "criterion_record_sha256",
+    "criterion_usage_license_id",
+    "criterion_evidence",
+    "grid_to_annular_seal_and_flow_direction_reviewed",
+    "pressure_definition_and_threshold_reviewed",
+    "mesh_resolution_and_four_neighbor_connectivity_reviewed",
+    "scope_and_time_alignment_reviewed",
+    "evidence_rights_and_computational_use_reviewed"
+  ],
+  "title": "GasketRadialOpenPathScreen",
+  "type": "object"
+}

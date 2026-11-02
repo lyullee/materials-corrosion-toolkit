@@ -1,0 +1,254 @@
+{
+  "$defs": {
+    "DepositedLayerGeometry": {
+      "additionalProperties": false,
+      "properties": {
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "thickness_origin": {
+          "enum": [
+            "measured",
+            "procedure_target"
+          ],
+          "title": "Thickness Origin",
+          "type": "string"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "layer_id",
+        "material_condition_id",
+        "thickness_m",
+        "thickness_origin",
+        "record_digest"
+      ],
+      "title": "DepositedLayerGeometry",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LayerGeometryEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "deposit",
+            "surface_removal"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "thickness_origin": {
+          "enum": [
+            "measured",
+            "procedure_target"
+          ],
+          "title": "Thickness Origin",
+          "type": "string"
+        },
+        "layer_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Layer Id"
+        },
+        "material_condition_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Material Condition Id"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "kind",
+        "thickness_m",
+        "thickness_origin",
+        "record_digest"
+      ],
+      "title": "LayerGeometryEvent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_region_id": {
+      "minLength": 1,
+      "title": "Physical Region Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "outward_normal_direction_id": {
+      "minLength": 1,
+      "title": "Outward Normal Direction Id",
+      "type": "string"
+    },
+    "initial_layers": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/DepositedLayerGeometry"
+      },
+      "title": "Initial Layers",
+      "type": "array"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/LayerGeometryEvent"
+      },
+      "minItems": 1,
+      "title": "Events",
+      "type": "array"
+    },
+    "history_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Digest",
+      "type": "string"
+    },
+    "common_normal_and_uniform_local_thickness_reviewed": {
+      "title": "Common Normal And Uniform Local Thickness Reviewed",
+      "type": "boolean"
+    },
+    "event_order_and_thickness_origins_reviewed": {
+      "title": "Event Order And Thickness Origins Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "asset_id",
+    "location_id",
+    "physical_region_id",
+    "coordinate_frame_id",
+    "outward_normal_direction_id",
+    "events",
+    "history_digest",
+    "common_normal_and_uniform_local_thickness_reviewed",
+    "event_order_and_thickness_origins_reviewed",
+    "evidence"
+  ],
+  "title": "DepositionRemovalHistory",
+  "type": "object"
+}

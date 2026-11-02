@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "envelope_id": {
+      "minLength": 1,
+      "title": "Envelope Id",
+      "type": "string"
+    },
+    "revision": {
+      "minLength": 1,
+      "title": "Revision",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "creep_damage_definition": {
+      "minLength": 1,
+      "title": "Creep Damage Definition",
+      "type": "string"
+    },
+    "fatigue_damage_definition": {
+      "minLength": 1,
+      "title": "Fatigue Damage Definition",
+      "type": "string"
+    },
+    "creep_coordinates": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Creep Coordinates",
+      "type": "array"
+    },
+    "fatigue_limits": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Fatigue Limits",
+      "type": "array"
+    },
+    "applicable_temperature_min_K": {
+      "exclusiveMinimum": 0,
+      "title": "Applicable Temperature Min K",
+      "type": "number"
+    },
+    "applicable_temperature_max_K": {
+      "exclusiveMinimum": 0,
+      "title": "Applicable Temperature Max K",
+      "type": "number"
+    },
+    "calibration_basis": {
+      "minLength": 1,
+      "title": "Calibration Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "curve_and_applicability_reviewed": {
+      "title": "Curve And Applicability Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "envelope_id",
+    "revision",
+    "material_condition_id",
+    "creep_damage_definition",
+    "fatigue_damage_definition",
+    "creep_coordinates",
+    "fatigue_limits",
+    "applicable_temperature_min_K",
+    "applicable_temperature_max_K",
+    "calibration_basis",
+    "evidence",
+    "curve_and_applicability_reviewed"
+  ],
+  "title": "CreepFatigueInteractionEnvelope",
+  "type": "object"
+}

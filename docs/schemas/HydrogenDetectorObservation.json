@@ -1,0 +1,258 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Map a signed atomic-hydrogen flow to one reviewed ideal detector signal.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_detector_observation.v1",
+      "default": "matintegrity.hydrogen_detector_observation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "observation_id": {
+      "minLength": 1,
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "elapsed_time_origin_id": {
+      "minLength": 1,
+      "title": "Elapsed Time Origin Id",
+      "type": "string"
+    },
+    "source_model_id": {
+      "minLength": 1,
+      "title": "Source Model Id",
+      "type": "string"
+    },
+    "source_model_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Model Result Digest",
+      "type": "string"
+    },
+    "source_surface_id": {
+      "minLength": 1,
+      "title": "Source Surface Id",
+      "type": "string"
+    },
+    "source_flow_basis": {
+      "minLength": 1,
+      "title": "Source Flow Basis",
+      "type": "string"
+    },
+    "detector_calibration_id": {
+      "minLength": 1,
+      "title": "Detector Calibration Id",
+      "type": "string"
+    },
+    "detector_kind": {
+      "enum": [
+        "electrochemical_current",
+        "mass_normalized_tds"
+      ],
+      "title": "Detector Kind",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Elapsed Time S",
+      "type": "array"
+    },
+    "outward_hydrogen_atoms_mol_s": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Outward Hydrogen Atoms Mol S",
+      "type": "array"
+    },
+    "current_sign_for_outward_hydrogen": {
+      "anyOf": [
+        {
+          "enum": [
+            -1,
+            1
+          ],
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Sign For Outward Hydrogen"
+    },
+    "electron_mol_per_hydrogen_atom_mol": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Electron Mol Per Hydrogen Atom Mol"
+    },
+    "current_efficiency": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Efficiency"
+    },
+    "background_current_A": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Background Current A"
+    },
+    "sample_mass_kg": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sample Mass Kg"
+    },
+    "hydrogen_atomic_molar_mass_kg_mol": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Hydrogen Atomic Molar Mass Kg Mol"
+    },
+    "source_surface_mapping_reviewed": {
+      "default": false,
+      "title": "Source Surface Mapping Reviewed",
+      "type": "boolean"
+    },
+    "detector_response_mapping_reviewed": {
+      "default": false,
+      "title": "Detector Response Mapping Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "observation_id",
+    "material_condition_id",
+    "specimen_id",
+    "elapsed_time_origin_id",
+    "source_model_id",
+    "source_model_result_digest",
+    "source_surface_id",
+    "source_flow_basis",
+    "detector_calibration_id",
+    "detector_kind",
+    "elapsed_time_s",
+    "outward_hydrogen_atoms_mol_s",
+    "evidence"
+  ],
+  "title": "HydrogenDetectorObservation",
+  "type": "object"
+}

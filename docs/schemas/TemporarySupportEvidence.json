@@ -1,0 +1,149 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "support_id": {
+      "minLength": 1,
+      "title": "Support Id",
+      "type": "string"
+    },
+    "support_type_descriptor": {
+      "minLength": 1,
+      "title": "Support Type Descriptor",
+      "type": "string"
+    },
+    "physical_location_definition": {
+      "minLength": 1,
+      "title": "Physical Location Definition",
+      "type": "string"
+    },
+    "installation_event_id": {
+      "minLength": 1,
+      "title": "Installation Event Id",
+      "type": "string"
+    },
+    "removal_event_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Removal Event Id"
+    },
+    "final_state": {
+      "enum": [
+        "installed",
+        "removed"
+      ],
+      "title": "Final State",
+      "type": "string"
+    },
+    "support_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Support Configuration Digest",
+      "type": "string"
+    },
+    "installation_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Installation Record Digest",
+      "type": "string"
+    },
+    "removal_record_digest": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Removal Record Digest"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "support_id",
+    "support_type_descriptor",
+    "physical_location_definition",
+    "installation_event_id",
+    "final_state",
+    "support_configuration_digest",
+    "installation_record_digest",
+    "evidence"
+  ],
+  "title": "TemporarySupportEvidence",
+  "type": "object"
+}

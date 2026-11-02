@@ -1,0 +1,149 @@
+{
+  "$defs": {
+    "PODCampaignFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "satisfied",
+            "not_satisfied"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "observed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Observed"
+        },
+        "required": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Required"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "status",
+        "observed",
+        "required",
+        "detail"
+      ],
+      "title": "PODCampaignFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pod_campaign_audit.v1",
+      "default": "matintegrity.pod_campaign_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "campaign_id": {
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "profile_revision": {
+      "title": "Profile Revision",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ready_for_model_fit",
+        "coverage_not_satisfied"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/PODCampaignFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "observation_count": {
+      "title": "Observation Count",
+      "type": "integer"
+    },
+    "hit_count": {
+      "title": "Hit Count",
+      "type": "integer"
+    },
+    "miss_count": {
+      "title": "Miss Count",
+      "type": "integer"
+    },
+    "distinct_flaw_size_bins": {
+      "title": "Distinct Flaw Size Bins",
+      "type": "integer"
+    },
+    "request_digest": {
+      "title": "Request Digest",
+      "type": "string"
+    },
+    "report_digest": {
+      "title": "Report Digest",
+      "type": "string"
+    },
+    "qualification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Qualification Claimed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "profile_id",
+    "profile_revision",
+    "status",
+    "findings",
+    "observation_count",
+    "hit_count",
+    "miss_count",
+    "distinct_flaw_size_bins",
+    "request_digest",
+    "report_digest"
+  ],
+  "title": "PODCampaignAuditReport",
+  "type": "object"
+}

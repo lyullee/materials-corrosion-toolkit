@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "electrolyte_record_id": {
+      "minLength": 1,
+      "title": "Electrolyte Record Id",
+      "type": "string"
+    },
+    "electrolyte_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Electrolyte Sha256",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0.0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "chloride_molality_mol_kg": {
+      "minimum": 0,
+      "title": "Chloride Molality Mol Kg",
+      "type": "number"
+    },
+    "reference_electrode_id": {
+      "minLength": 1,
+      "title": "Reference Electrode Id",
+      "type": "string"
+    },
+    "potential_convention_id": {
+      "minLength": 1,
+      "title": "Potential Convention Id",
+      "type": "string"
+    },
+    "repassivation_potential_mV": {
+      "title": "Repassivation Potential Mv",
+      "type": "number"
+    },
+    "standard_uncertainty_mV": {
+      "minimum": 0,
+      "title": "Standard Uncertainty Mv",
+      "type": "number"
+    },
+    "specimen_count": {
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Specimen Count",
+      "type": "integer"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "material_id",
+    "condition_id",
+    "electrolyte_record_id",
+    "electrolyte_sha256",
+    "temperature_K",
+    "chloride_molality_mol_kg",
+    "reference_electrode_id",
+    "potential_convention_id",
+    "repassivation_potential_mV",
+    "standard_uncertainty_mV",
+    "specimen_count",
+    "record_sha256",
+    "evidence"
+  ],
+  "title": "CreviceRepassivationThresholdKnot",
+  "type": "object"
+}

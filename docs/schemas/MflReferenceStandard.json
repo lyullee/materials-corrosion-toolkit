@@ -1,0 +1,221 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MflReferenceFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "feature_kind": {
+          "minLength": 1,
+          "title": "Feature Kind",
+          "type": "string"
+        },
+        "surface": {
+          "enum": [
+            "internal",
+            "external",
+            "through_wall",
+            "not_applicable",
+            "unresolved"
+          ],
+          "title": "Surface",
+          "type": "string"
+        },
+        "geometry_description": {
+          "minLength": 1,
+          "title": "Geometry Description",
+          "type": "string"
+        },
+        "nominal_depth_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Depth M"
+        },
+        "nominal_length_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Length M"
+        },
+        "nominal_width_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Width M"
+        },
+        "physical_feature_identity_reviewed": {
+          "title": "Physical Feature Identity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "feature_id",
+        "feature_kind",
+        "surface",
+        "geometry_description",
+        "physical_feature_identity_reviewed",
+        "evidence"
+      ],
+      "title": "MflReferenceFeature",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reference_standard_id": {
+      "minLength": 1,
+      "title": "Reference Standard Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "wall_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Wall Thickness M",
+      "type": "number"
+    },
+    "applicable_magnetizer_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applicable Magnetizer Ids",
+      "type": "array"
+    },
+    "applicable_sensor_array_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applicable Sensor Array Ids",
+      "type": "array"
+    },
+    "features": {
+      "items": {
+        "$ref": "#/$defs/MflReferenceFeature"
+      },
+      "minItems": 1,
+      "title": "Features",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reference_standard_id",
+    "material_id",
+    "material_condition_id",
+    "wall_thickness_m",
+    "applicable_magnetizer_ids",
+    "applicable_sensor_array_ids",
+    "features",
+    "evidence"
+  ],
+  "title": "MflReferenceStandard",
+  "type": "object"
+}

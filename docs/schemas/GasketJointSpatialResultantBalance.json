@@ -1,0 +1,503 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketBoltPlanarPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "bolt_id": {
+          "minLength": 1,
+          "title": "Bolt Id",
+          "type": "string"
+        },
+        "x_from_reference_center_m": {
+          "title": "X From Reference Center M",
+          "type": "number"
+        },
+        "y_from_reference_center_m": {
+          "title": "Y From Reference Center M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "bolt_id",
+        "x_from_reference_center_m",
+        "y_from_reference_center_m"
+      ],
+      "title": "GasketBoltPlanarPosition",
+      "type": "object"
+    },
+    "GasketContactNodePlanarPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        },
+        "x_from_reference_center_m": {
+          "title": "X From Reference Center M",
+          "type": "number"
+        },
+        "y_from_reference_center_m": {
+          "title": "Y From Reference Center M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "node_id",
+        "x_from_reference_center_m",
+        "y_from_reference_center_m"
+      ],
+      "title": "GasketContactNodePlanarPosition",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reconcile compressive contact and bolt resultants without making acceptance claims.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_joint_spatial_resultant_balance.v1",
+      "default": "matintegrity.gasket_joint_spatial_resultant_balance.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "bolt_load_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "bolt_load_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bolt Load Result Sha256",
+      "type": "string"
+    },
+    "selected_step_id": {
+      "minLength": 1,
+      "title": "Selected Step Id",
+      "type": "string"
+    },
+    "contact_result": {
+      "$ref": "#/$defs/AssessmentResult"
+    },
+    "contact_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Contact Result Sha256",
+      "type": "string"
+    },
+    "contact_evaluation_time_s": {
+      "minimum": 0,
+      "title": "Contact Evaluation Time S",
+      "type": "number"
+    },
+    "contact_time_alignment_source_id": {
+      "minLength": 1,
+      "title": "Contact Time Alignment Source Id",
+      "type": "string"
+    },
+    "contact_time_alignment_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Contact Time Alignment Record Sha256",
+      "type": "string"
+    },
+    "contact_time_alignment_usage_license_id": {
+      "minLength": 1,
+      "title": "Contact Time Alignment Usage License Id",
+      "type": "string"
+    },
+    "contact_time_alignment_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Contact Time Alignment Evidence",
+      "type": "array"
+    },
+    "bolt_positions": {
+      "items": {
+        "$ref": "#/$defs/GasketBoltPlanarPosition"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Bolt Positions",
+      "type": "array"
+    },
+    "contact_node_positions": {
+      "items": {
+        "$ref": "#/$defs/GasketContactNodePlanarPosition"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Contact Node Positions",
+      "type": "array"
+    },
+    "geometry_provider_id": {
+      "minLength": 1,
+      "title": "Geometry Provider Id",
+      "type": "string"
+    },
+    "geometry_provider_revision": {
+      "minLength": 1,
+      "title": "Geometry Provider Revision",
+      "type": "string"
+    },
+    "reference_center_id": {
+      "minLength": 1,
+      "title": "Reference Center Id",
+      "type": "string"
+    },
+    "geometry_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Record Sha256",
+      "type": "string"
+    },
+    "geometry_usage_license_id": {
+      "minLength": 1,
+      "title": "Geometry Usage License Id",
+      "type": "string"
+    },
+    "geometry_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Geometry Evidence",
+      "type": "array"
+    },
+    "external_moment_Mx_Nm": {
+      "title": "External Moment Mx Nm",
+      "type": "number"
+    },
+    "external_moment_My_Nm": {
+      "title": "External Moment My Nm",
+      "type": "number"
+    },
+    "external_moment_provider_id": {
+      "minLength": 1,
+      "title": "External Moment Provider Id",
+      "type": "string"
+    },
+    "external_moment_provider_revision": {
+      "minLength": 1,
+      "title": "External Moment Provider Revision",
+      "type": "string"
+    },
+    "external_moment_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "External Moment Record Sha256",
+      "type": "string"
+    },
+    "external_moment_usage_license_id": {
+      "minLength": 1,
+      "title": "External Moment Usage License Id",
+      "type": "string"
+    },
+    "external_moment_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "External Moment Evidence",
+      "type": "array"
+    },
+    "force_balance_tolerance_N": {
+      "exclusiveMinimum": 0,
+      "title": "Force Balance Tolerance N",
+      "type": "number"
+    },
+    "moment_balance_tolerance_Nm": {
+      "exclusiveMinimum": 0,
+      "title": "Moment Balance Tolerance Nm",
+      "type": "number"
+    },
+    "bolt_contact_scope_reviewed": {
+      "title": "Bolt Contact Scope Reviewed",
+      "type": "boolean"
+    },
+    "exact_knot_time_alignment_reviewed": {
+      "title": "Exact Knot Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "planar_coordinate_and_sign_convention_reviewed": {
+      "title": "Planar Coordinate And Sign Convention Reviewed",
+      "type": "boolean"
+    },
+    "external_moment_not_double_counted_reviewed": {
+      "title": "External Moment Not Double Counted Reviewed",
+      "type": "boolean"
+    },
+    "geometry_lineage_and_license_reviewed": {
+      "title": "Geometry Lineage And License Reviewed",
+      "type": "boolean"
+    },
+    "external_moment_lineage_and_license_reviewed": {
+      "title": "External Moment Lineage And License Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "bolt_load_result",
+    "bolt_load_result_sha256",
+    "selected_step_id",
+    "contact_result",
+    "contact_result_sha256",
+    "contact_evaluation_time_s",
+    "contact_time_alignment_source_id",
+    "contact_time_alignment_record_sha256",
+    "contact_time_alignment_usage_license_id",
+    "contact_time_alignment_evidence",
+    "bolt_positions",
+    "contact_node_positions",
+    "geometry_provider_id",
+    "geometry_provider_revision",
+    "reference_center_id",
+    "geometry_record_sha256",
+    "geometry_usage_license_id",
+    "geometry_evidence",
+    "external_moment_Mx_Nm",
+    "external_moment_My_Nm",
+    "external_moment_provider_id",
+    "external_moment_provider_revision",
+    "external_moment_record_sha256",
+    "external_moment_usage_license_id",
+    "external_moment_evidence",
+    "force_balance_tolerance_N",
+    "moment_balance_tolerance_Nm",
+    "bolt_contact_scope_reviewed",
+    "exact_knot_time_alignment_reviewed",
+    "planar_coordinate_and_sign_convention_reviewed",
+    "external_moment_not_double_counted_reviewed",
+    "geometry_lineage_and_license_reviewed",
+    "external_moment_lineage_and_license_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketJointSpatialResultantBalance",
+  "type": "object"
+}

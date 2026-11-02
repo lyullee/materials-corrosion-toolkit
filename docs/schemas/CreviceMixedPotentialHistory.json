@@ -1,0 +1,444 @@
+{
+  "$defs": {
+    "AssessmentResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.assessment.v1",
+          "default": "matintegrity.assessment.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "context": {
+          "$ref": "#/$defs/RunContext"
+        },
+        "input_digest": {
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "qualification": {
+          "enum": [
+            "engineering_screening",
+            "user_model",
+            "data_import"
+          ],
+          "title": "Qualification",
+          "type": "string"
+        },
+        "runtime": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Runtime",
+          "type": "object"
+        },
+        "probability_semantics": {
+          "additionalProperties": {
+            "enum": [
+              "conditional_first_failure_in_period",
+              "point_in_time_state_probability",
+              "posterior_parameter_probability",
+              "model_implied_input_uncertainty_probability",
+              "spatial_size_exceedance_at_one_exposure",
+              "detection_given_flaw_and_procedure",
+              "unscoped_event_probability",
+              "fault_tree_top_event_probability"
+            ],
+            "type": "string"
+          },
+          "title": "Probability Semantics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "model_id",
+        "model_version",
+        "status",
+        "inputs",
+        "values",
+        "units",
+        "assumptions",
+        "notes",
+        "context",
+        "input_digest",
+        "source_ids",
+        "qualification",
+        "runtime"
+      ],
+      "title": "AssessmentResult",
+      "type": "object"
+    },
+    "CreviceMixedPotentialReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "nernst_result": {
+          "$ref": "#/$defs/AssessmentResult"
+        },
+        "nernst_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Nernst Result Sha256",
+          "type": "string"
+        },
+        "reference_electrode_id": {
+          "minLength": 1,
+          "title": "Reference Electrode Id",
+          "type": "string"
+        },
+        "exposed_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Exposed Area M2",
+          "type": "number"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_number": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Electron Number",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1.0,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "kinetics_provider_id": {
+          "minLength": 1,
+          "title": "Kinetics Provider Id",
+          "type": "string"
+        },
+        "kinetics_provider_revision": {
+          "minLength": 1,
+          "title": "Kinetics Provider Revision",
+          "type": "string"
+        },
+        "kinetics_calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Kinetics Calibration Sha256",
+          "type": "string"
+        },
+        "kinetics_and_anodic_direction_reviewed": {
+          "title": "Kinetics And Anodic Direction Reviewed",
+          "type": "boolean"
+        },
+        "species_flux_mapping_and_area_basis_reviewed": {
+          "title": "Species Flux Mapping And Area Basis Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "nernst_result",
+        "nernst_result_sha256",
+        "reference_electrode_id",
+        "exposed_area_m2",
+        "exchange_current_density_A_m2",
+        "electron_number",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "kinetics_provider_id",
+        "kinetics_provider_revision",
+        "kinetics_calibration_sha256",
+        "kinetics_and_anodic_direction_reviewed",
+        "species_flux_mapping_and_area_basis_reviewed",
+        "evidence"
+      ],
+      "title": "CreviceMixedPotentialReaction",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_mixed_potential_history.v1",
+      "default": "matintegrity.crevice_mixed_potential_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "common_reference_electrode_id": {
+      "minLength": 1,
+      "title": "Common Reference Electrode Id",
+      "type": "string"
+    },
+    "reference_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Area M2",
+      "type": "number"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/CreviceMixedPotentialReaction"
+      },
+      "maxItems": 32,
+      "minItems": 2,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "quasi_steady_local_balance_reviewed": {
+      "title": "Quasi Steady Local Balance Reviewed",
+      "type": "boolean"
+    },
+    "negligible_solution_ohmic_drop_reviewed": {
+      "title": "Negligible Solution Ohmic Drop Reviewed",
+      "type": "boolean"
+    },
+    "common_electronic_potential_basis_reviewed": {
+      "title": "Common Electronic Potential Basis Reviewed",
+      "type": "boolean"
+    },
+    "reaction_set_and_area_partition_complete_reviewed": {
+      "title": "Reaction Set And Area Partition Complete Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "clock_id",
+    "common_reference_electrode_id",
+    "reference_area_m2",
+    "reactions",
+    "quasi_steady_local_balance_reviewed",
+    "negligible_solution_ohmic_drop_reviewed",
+    "common_electronic_potential_basis_reviewed",
+    "reaction_set_and_area_partition_complete_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "CreviceMixedPotentialHistory",
+  "type": "object"
+}

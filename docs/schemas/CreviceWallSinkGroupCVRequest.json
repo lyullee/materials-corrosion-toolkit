@@ -1,0 +1,296 @@
+{
+  "$defs": {
+    "CreviceWallSinkArrheniusCalibrationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.crevice_wall_sink_arrhenius_calibration.v1",
+          "default": "matintegrity.crevice_wall_sink_arrhenius_calibration.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "wall_surface_state_id": {
+          "minLength": 1,
+          "title": "Wall Surface State Id",
+          "type": "string"
+        },
+        "fluid_chemistry_state_id": {
+          "minLength": 1,
+          "title": "Fluid Chemistry State Id",
+          "type": "string"
+        },
+        "reference_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Reference Temperature K",
+          "type": "number"
+        },
+        "minimum_calibration_temperature_span_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Calibration Temperature Span K",
+          "type": "number"
+        },
+        "observations": {
+          "$ref": "#/$defs/CreviceWallSinkRateObservations"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "observation_to_effective_wall_velocity_mapping_reviewed": {
+          "title": "Observation To Effective Wall Velocity Mapping Reviewed",
+          "type": "boolean"
+        },
+        "shared_surface_and_fluid_state_across_temperatures_reviewed": {
+          "title": "Shared Surface And Fluid State Across Temperatures Reviewed",
+          "type": "boolean"
+        },
+        "calibration_holdout_partition_predeclared": {
+          "title": "Calibration Holdout Partition Predeclared",
+          "type": "boolean"
+        },
+        "temperature_and_measurement_support_reviewed": {
+          "title": "Temperature And Measurement Support Reviewed",
+          "type": "boolean"
+        },
+        "arrhenius_law_applicability_reviewed": {
+          "title": "Arrhenius Law Applicability Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_and_data_rights_reviewed": {
+          "title": "Computational Use And Data Rights Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "physical_scope_id",
+        "material_condition_id",
+        "wall_surface_state_id",
+        "fluid_chemistry_state_id",
+        "reference_temperature_K",
+        "minimum_calibration_temperature_span_K",
+        "observations",
+        "evidence",
+        "observation_to_effective_wall_velocity_mapping_reviewed",
+        "shared_surface_and_fluid_state_across_temperatures_reviewed",
+        "calibration_holdout_partition_predeclared",
+        "temperature_and_measurement_support_reviewed",
+        "arrhenius_law_applicability_reviewed",
+        "computational_use_and_data_rights_reviewed"
+      ],
+      "title": "CreviceWallSinkArrheniusCalibrationRequest",
+      "type": "object"
+    },
+    "CreviceWallSinkRateObservations": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5000,
+          "minItems": 4,
+          "title": "Observation Id",
+          "type": "array"
+        },
+        "source_group_id": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5000,
+          "minItems": 4,
+          "title": "Source Group Id",
+          "type": "array"
+        },
+        "partition": {
+          "items": {
+            "enum": [
+              "calibration",
+              "holdout"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5000,
+          "minItems": 4,
+          "title": "Partition",
+          "type": "array"
+        },
+        "temperature_K": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 5000,
+          "minItems": 4,
+          "title": "Temperature K",
+          "type": "array"
+        },
+        "wall_transfer_velocity_m_s": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 5000,
+          "minItems": 4,
+          "title": "Wall Transfer Velocity M S",
+          "type": "array"
+        },
+        "log_velocity_standard_uncertainty": {
+          "anyOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "maxItems": 5000,
+              "minItems": 4,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Log Velocity Standard Uncertainty"
+        }
+      },
+      "required": [
+        "observation_id",
+        "source_group_id",
+        "partition",
+        "temperature_K",
+        "wall_transfer_velocity_m_s"
+      ],
+      "title": "CreviceWallSinkRateObservations",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_wall_sink_group_cv.v1",
+      "default": "matintegrity.crevice_wall_sink_group_cv.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "diagnostic_id": {
+      "minLength": 1,
+      "title": "Diagnostic Id",
+      "type": "string"
+    },
+    "calibration_request": {
+      "$ref": "#/$defs/CreviceWallSinkArrheniusCalibrationRequest"
+    },
+    "calibration_result": {
+      "additionalProperties": true,
+      "title": "Calibration Result",
+      "type": "object"
+    },
+    "calibration_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Result Sha256",
+      "type": "string"
+    },
+    "source_group_independence_and_replication_reviewed": {
+      "title": "Source Group Independence And Replication Reviewed",
+      "type": "boolean"
+    },
+    "use_only_predeclared_calibration_rows_reviewed": {
+      "title": "Use Only Predeclared Calibration Rows Reviewed",
+      "type": "boolean"
+    },
+    "diagnostic_is_not_qualification_reviewed": {
+      "title": "Diagnostic Is Not Qualification Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "diagnostic_id",
+    "calibration_request",
+    "calibration_result",
+    "calibration_result_sha256",
+    "source_group_independence_and_replication_reviewed",
+    "use_only_predeclared_calibration_rows_reviewed",
+    "diagnostic_is_not_qualification_reviewed"
+  ],
+  "title": "CreviceWallSinkGroupCVRequest",
+  "type": "object"
+}

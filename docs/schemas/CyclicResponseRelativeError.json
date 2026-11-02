@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "CyclicResponseSeries": {
+      "additionalProperties": false,
+      "description": "One experiment's aligned observed and predicted cyclic descriptors.",
+      "properties": {
+        "experiment_id": {
+          "minLength": 1,
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "cycle": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Cycle",
+          "type": "array"
+        },
+        "observed_mean": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Observed Mean",
+          "type": "array"
+        },
+        "predicted_mean": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Predicted Mean",
+          "type": "array"
+        },
+        "observed_amplitude": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Observed Amplitude",
+          "type": "array"
+        },
+        "predicted_amplitude": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Predicted Amplitude",
+          "type": "array"
+        },
+        "mean_normalizer": {
+          "exclusiveMinimum": 0,
+          "title": "Mean Normalizer",
+          "type": "number"
+        },
+        "amplitude_normalizer": {
+          "exclusiveMinimum": 0,
+          "title": "Amplitude Normalizer",
+          "type": "number"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "cycle",
+        "observed_mean",
+        "predicted_mean",
+        "observed_amplitude",
+        "predicted_amplitude",
+        "mean_normalizer",
+        "amplitude_normalizer"
+      ],
+      "title": "CyclicResponseSeries",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Balanced mean/amplitude discrepancy across preselected experiments.",
+  "properties": {
+    "series": {
+      "items": {
+        "$ref": "#/$defs/CyclicResponseSeries"
+      },
+      "minItems": 1,
+      "title": "Series",
+      "type": "array"
+    },
+    "mean_weight": {
+      "default": 0.6,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Mean Weight",
+      "type": "number"
+    },
+    "amplitude_weight": {
+      "default": 0.4,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Amplitude Weight",
+      "type": "number"
+    }
+  },
+  "required": [
+    "series"
+  ],
+  "title": "CyclicResponseRelativeError",
+  "type": "object"
+}

@@ -1,0 +1,868 @@
+{
+  "$defs": {
+    "EncodedMflScan": {
+      "additionalProperties": false,
+      "properties": {
+        "scan_id": {
+          "minLength": 1,
+          "title": "Scan Id",
+          "type": "string"
+        },
+        "magnetizer_id": {
+          "minLength": 1,
+          "title": "Magnetizer Id",
+          "type": "string"
+        },
+        "sensor_array_id": {
+          "minLength": 1,
+          "title": "Sensor Array Id",
+          "type": "string"
+        },
+        "active_channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Active Channel Ids",
+          "type": "array"
+        },
+        "data_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Sha256",
+          "type": "string"
+        },
+        "sample_count": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "signal_encoding": {
+          "minLength": 1,
+          "title": "Signal Encoding",
+          "type": "string"
+        },
+        "signal_unit_token": {
+          "minLength": 1,
+          "title": "Signal Unit Token",
+          "type": "string"
+        },
+        "pass_direction": {
+          "enum": [
+            "forward",
+            "reverse",
+            "stationary",
+            "other"
+          ],
+          "title": "Pass Direction",
+          "type": "string"
+        },
+        "scan_speed_m_s": {
+          "minimum": 0,
+          "title": "Scan Speed M S",
+          "type": "number"
+        },
+        "scan_speed_basis": {
+          "minLength": 1,
+          "title": "Scan Speed Basis",
+          "type": "string"
+        },
+        "sample_spacing_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Spacing M"
+        },
+        "encoder_origin_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Encoder Origin M"
+        },
+        "coordinate_mapping_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coordinate Mapping Basis"
+        },
+        "acquisition_order": {
+          "minimum": 0,
+          "title": "Acquisition Order",
+          "type": "integer"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scan_id",
+        "magnetizer_id",
+        "sensor_array_id",
+        "active_channel_ids",
+        "data_sha256",
+        "sample_count",
+        "signal_encoding",
+        "signal_unit_token",
+        "pass_direction",
+        "scan_speed_m_s",
+        "scan_speed_basis",
+        "acquisition_order",
+        "time_basis"
+      ],
+      "title": "EncodedMflScan",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "MflIndication": {
+      "additionalProperties": false,
+      "properties": {
+        "indication_id": {
+          "minLength": 1,
+          "title": "Indication Id",
+          "type": "string"
+        },
+        "scan_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Scan Ids",
+          "type": "array"
+        },
+        "reported_indication_type": {
+          "minLength": 1,
+          "title": "Reported Indication Type",
+          "type": "string"
+        },
+        "signal_response_description": {
+          "minLength": 1,
+          "title": "Signal Response Description",
+          "type": "string"
+        },
+        "reference_feature_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reference Feature Ids",
+          "type": "array"
+        },
+        "physical_location_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Physical Location Id"
+        },
+        "object_mapping_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Object Mapping Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indication_id",
+        "scan_ids",
+        "reported_indication_type",
+        "signal_response_description",
+        "evidence"
+      ],
+      "title": "MflIndication",
+      "type": "object"
+    },
+    "MflMagneticFieldCheckpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_id": {
+          "minLength": 1,
+          "title": "Checkpoint Id",
+          "type": "string"
+        },
+        "physical_location_description": {
+          "minLength": 1,
+          "title": "Physical Location Description",
+          "type": "string"
+        },
+        "coordinate_frame": {
+          "minLength": 1,
+          "title": "Coordinate Frame",
+          "type": "string"
+        },
+        "magnetic_field_strength_A_m": {
+          "anyOf": [
+            {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Magnetic Field Strength A M"
+        },
+        "magnetic_flux_density_T": {
+          "anyOf": [
+            {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Magnetic Flux Density T"
+        },
+        "measurement_temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measurement Temperature K"
+        },
+        "measurement_basis": {
+          "minLength": 1,
+          "title": "Measurement Basis",
+          "type": "string"
+        },
+        "state_identity_reviewed": {
+          "title": "State Identity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "checkpoint_id",
+        "physical_location_description",
+        "coordinate_frame",
+        "measurement_basis",
+        "state_identity_reviewed",
+        "evidence"
+      ],
+      "title": "MflMagneticFieldCheckpoint",
+      "type": "object"
+    },
+    "MflMagnetizer": {
+      "additionalProperties": false,
+      "properties": {
+        "magnetizer_id": {
+          "minLength": 1,
+          "title": "Magnetizer Id",
+          "type": "string"
+        },
+        "excitation_type": {
+          "enum": [
+            "permanent_magnet",
+            "electromagnet",
+            "hybrid",
+            "other"
+          ],
+          "title": "Excitation Type",
+          "type": "string"
+        },
+        "nominal_magnetization_direction": {
+          "enum": [
+            "axial",
+            "circumferential",
+            "other"
+          ],
+          "title": "Nominal Magnetization Direction",
+          "type": "string"
+        },
+        "pole_spacing_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pole Spacing M"
+        },
+        "excitation_current_A": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Excitation Current A"
+        },
+        "excitation_current_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Excitation Current Basis"
+        },
+        "magnetization_control_basis": {
+          "minLength": 1,
+          "title": "Magnetization Control Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "magnetizer_id",
+        "excitation_type",
+        "nominal_magnetization_direction",
+        "magnetization_control_basis",
+        "evidence"
+      ],
+      "title": "MflMagnetizer",
+      "type": "object"
+    },
+    "MflReferenceFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "feature_kind": {
+          "minLength": 1,
+          "title": "Feature Kind",
+          "type": "string"
+        },
+        "surface": {
+          "enum": [
+            "internal",
+            "external",
+            "through_wall",
+            "not_applicable",
+            "unresolved"
+          ],
+          "title": "Surface",
+          "type": "string"
+        },
+        "geometry_description": {
+          "minLength": 1,
+          "title": "Geometry Description",
+          "type": "string"
+        },
+        "nominal_depth_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Depth M"
+        },
+        "nominal_length_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Length M"
+        },
+        "nominal_width_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Width M"
+        },
+        "physical_feature_identity_reviewed": {
+          "title": "Physical Feature Identity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "feature_id",
+        "feature_kind",
+        "surface",
+        "geometry_description",
+        "physical_feature_identity_reviewed",
+        "evidence"
+      ],
+      "title": "MflReferenceFeature",
+      "type": "object"
+    },
+    "MflReferenceStandard": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_standard_id": {
+          "minLength": 1,
+          "title": "Reference Standard Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "wall_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Thickness M",
+          "type": "number"
+        },
+        "applicable_magnetizer_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Magnetizer Ids",
+          "type": "array"
+        },
+        "applicable_sensor_array_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Sensor Array Ids",
+          "type": "array"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/$defs/MflReferenceFeature"
+          },
+          "minItems": 1,
+          "title": "Features",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reference_standard_id",
+        "material_id",
+        "material_condition_id",
+        "wall_thickness_m",
+        "applicable_magnetizer_ids",
+        "applicable_sensor_array_ids",
+        "features",
+        "evidence"
+      ],
+      "title": "MflReferenceStandard",
+      "type": "object"
+    },
+    "MflSensorArray": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_array_id": {
+          "minLength": 1,
+          "title": "Sensor Array Id",
+          "type": "string"
+        },
+        "channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Channel Ids",
+          "type": "array"
+        },
+        "measured_components": {
+          "items": {
+            "enum": [
+              "axial",
+              "circumferential",
+              "radial"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Measured Components",
+          "type": "array"
+        },
+        "channel_component_by_id": {
+          "additionalProperties": {
+            "enum": [
+              "axial",
+              "circumferential",
+              "radial"
+            ],
+            "type": "string"
+          },
+          "title": "Channel Component By Id",
+          "type": "object"
+        },
+        "nominal_channel_pitch_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nominal Channel Pitch M"
+        },
+        "lift_off_control_basis": {
+          "minLength": 1,
+          "title": "Lift Off Control Basis",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_basis": {
+          "minLength": 1,
+          "title": "Calibration Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sensor_array_id",
+        "channel_ids",
+        "measured_components",
+        "channel_component_by_id",
+        "lift_off_control_basis",
+        "calibration_id",
+        "calibration_basis",
+        "evidence"
+      ],
+      "title": "MflSensorArray",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "examination_id": {
+      "minLength": 1,
+      "title": "Examination Id",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "surface_condition": {
+      "minLength": 1,
+      "title": "Surface Condition",
+      "type": "string"
+    },
+    "magnetizer": {
+      "$ref": "#/$defs/MflMagnetizer"
+    },
+    "sensor_arrays": {
+      "items": {
+        "$ref": "#/$defs/MflSensorArray"
+      },
+      "minItems": 1,
+      "title": "Sensor Arrays",
+      "type": "array"
+    },
+    "reference_standard": {
+      "$ref": "#/$defs/MflReferenceStandard"
+    },
+    "magnetic_field_checkpoints": {
+      "items": {
+        "$ref": "#/$defs/MflMagneticFieldCheckpoint"
+      },
+      "title": "Magnetic Field Checkpoints",
+      "type": "array"
+    },
+    "scans": {
+      "items": {
+        "$ref": "#/$defs/EncodedMflScan"
+      },
+      "minItems": 1,
+      "title": "Scans",
+      "type": "array"
+    },
+    "indications": {
+      "items": {
+        "$ref": "#/$defs/MflIndication"
+      },
+      "title": "Indications",
+      "type": "array"
+    },
+    "magnetizer_identity_reviewed": {
+      "title": "Magnetizer Identity Reviewed",
+      "type": "boolean"
+    },
+    "sensor_calibration_reviewed": {
+      "title": "Sensor Calibration Reviewed",
+      "type": "boolean"
+    },
+    "reference_standard_reviewed": {
+      "title": "Reference Standard Reviewed",
+      "type": "boolean"
+    },
+    "magnetization_state_reviewed": {
+      "title": "Magnetization State Reviewed",
+      "type": "boolean"
+    },
+    "lift_off_and_surface_condition_reviewed": {
+      "title": "Lift Off And Surface Condition Reviewed",
+      "type": "boolean"
+    },
+    "encoder_calibration_reviewed": {
+      "title": "Encoder Calibration Reviewed",
+      "type": "boolean"
+    },
+    "scan_identity_reviewed": {
+      "title": "Scan Identity Reviewed",
+      "type": "boolean"
+    },
+    "indication_mapping_reviewed": {
+      "title": "Indication Mapping Reviewed",
+      "type": "boolean"
+    },
+    "negative_result_reviewed": {
+      "default": false,
+      "title": "Negative Result Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "examination_id",
+    "procedure_id",
+    "procedure_revision",
+    "physical_scope_id",
+    "material_id",
+    "material_condition_id",
+    "surface_condition",
+    "magnetizer",
+    "sensor_arrays",
+    "reference_standard",
+    "scans",
+    "magnetizer_identity_reviewed",
+    "sensor_calibration_reviewed",
+    "reference_standard_reviewed",
+    "magnetization_state_reviewed",
+    "lift_off_and_surface_condition_reviewed",
+    "encoder_calibration_reviewed",
+    "scan_identity_reviewed",
+    "indication_mapping_reviewed",
+    "evidence"
+  ],
+  "title": "MflExamination",
+  "type": "object"
+}

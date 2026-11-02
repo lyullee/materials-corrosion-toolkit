@@ -1,0 +1,131 @@
+{
+  "$defs": {
+    "GasketRelaxationCurve": {
+      "additionalProperties": false,
+      "description": "Reviewed normalized force-retention curve for one identified condition.",
+      "properties": {
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "gasket_material_condition_id": {
+          "minLength": 1,
+          "title": "Gasket Material Condition Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "condition_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Condition Sha256",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Elapsed Time S",
+          "type": "array"
+        },
+        "retained_preload_fraction": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 2,
+          "title": "Retained Preload Fraction",
+          "type": "array"
+        },
+        "test_and_normalization_basis_reviewed": {
+          "title": "Test And Normalization Basis Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "curve_id",
+        "gasket_material_condition_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "condition_sha256",
+        "source_sha256",
+        "provider_id",
+        "provider_revision",
+        "elapsed_time_s",
+        "retained_preload_fraction",
+        "test_and_normalization_basis_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "GasketRelaxationCurve",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "initial_preload_N": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Preload N",
+      "type": "number"
+    },
+    "curve": {
+      "$ref": "#/$defs/GasketRelaxationCurve"
+    },
+    "evaluation_time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Evaluation Time S",
+      "type": "array"
+    },
+    "preload_and_curve_transfer_reviewed": {
+      "title": "Preload And Curve Transfer Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "request_id",
+    "initial_preload_N",
+    "curve",
+    "evaluation_time_s",
+    "preload_and_curve_transfer_reviewed"
+  ],
+  "title": "GasketRelaxationRequest",
+  "type": "object"
+}

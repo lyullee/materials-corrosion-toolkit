@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "convergence_record_id": {
+      "minLength": 1,
+      "title": "Convergence Record Id",
+      "type": "string"
+    },
+    "provider_assessment_id": {
+      "minLength": 1,
+      "title": "Provider Assessment Id",
+      "type": "string"
+    },
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "result_kind": {
+      "enum": [
+        "eigen_buckling_pressure",
+        "nonlinear_limit_pressure"
+      ],
+      "title": "Result Kind",
+      "type": "string"
+    },
+    "mesh_family_id": {
+      "minLength": 1,
+      "title": "Mesh Family Id",
+      "type": "string"
+    },
+    "model_family_id": {
+      "minLength": 1,
+      "title": "Model Family Id",
+      "type": "string"
+    },
+    "pressure_basis": {
+      "minLength": 1,
+      "title": "Pressure Basis",
+      "type": "string"
+    },
+    "convergence_metric_definition": {
+      "minLength": 1,
+      "title": "Convergence Metric Definition",
+      "type": "string"
+    },
+    "convergence_metric_value": {
+      "minimum": 0,
+      "title": "Convergence Metric Value",
+      "type": "number"
+    },
+    "convergence_metric_unit_token": {
+      "minLength": 1,
+      "title": "Convergence Metric Unit Token",
+      "type": "string"
+    },
+    "comparison_result_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Comparison Result Ids",
+      "type": "array"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "comparison_input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Comparison Input Digest",
+      "type": "string"
+    },
+    "comparison_result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Comparison Result Digest",
+      "type": "string"
+    },
+    "record_valid": {
+      "title": "Record Valid",
+      "type": "boolean"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "convergence_record_id",
+    "provider_assessment_id",
+    "analysis_id",
+    "result_kind",
+    "mesh_family_id",
+    "model_family_id",
+    "pressure_basis",
+    "convergence_metric_definition",
+    "convergence_metric_value",
+    "convergence_metric_unit_token",
+    "comparison_result_ids",
+    "provider_id",
+    "provider_revision",
+    "provider_configuration_digest",
+    "comparison_input_digest",
+    "comparison_result_digest",
+    "record_valid",
+    "evidence"
+  ],
+  "title": "ExternalPressureConvergenceEvidence",
+  "type": "object"
+}

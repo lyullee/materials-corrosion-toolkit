@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "stress_basis": {
+      "enum": [
+        "initial_nominal_constant_load",
+        "constant_true_stress"
+      ],
+      "title": "Stress Basis",
+      "type": "string"
+    },
+    "temperature_basis": {
+      "enum": [
+        "nominal_specified",
+        "measured_representative"
+      ],
+      "title": "Temperature Basis",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "stress_only",
+        "arrhenius_stress"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "specimen_id": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "minItems": 8,
+      "title": "Specimen Id",
+      "type": "array"
+    },
+    "initial_stress_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Initial Stress Pa",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "endpoint_time_s": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "title": "Endpoint Time S",
+      "type": "array"
+    },
+    "right_censored": {
+      "items": {
+        "type": "boolean"
+      },
+      "title": "Right Censored",
+      "type": "array"
+    },
+    "temperature_tolerance_K": {
+      "minimum": 0,
+      "title": "Temperature Tolerance K",
+      "type": "number"
+    },
+    "independent_specimens_confirmed": {
+      "title": "Independent Specimens Confirmed",
+      "type": "boolean"
+    },
+    "common_mechanism_and_condition_confirmed": {
+      "title": "Common Mechanism And Condition Confirmed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "material_condition_id",
+    "stress_basis",
+    "temperature_basis",
+    "family",
+    "specimen_id",
+    "initial_stress_Pa",
+    "temperature_K",
+    "endpoint_time_s",
+    "right_censored",
+    "temperature_tolerance_K",
+    "independent_specimens_confirmed",
+    "common_mechanism_and_condition_confirmed",
+    "evidence"
+  ],
+  "title": "CreepLifeFit",
+  "type": "object"
+}

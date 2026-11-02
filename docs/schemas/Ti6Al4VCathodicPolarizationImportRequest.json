@@ -1,0 +1,144 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "curve_id": {
+      "minLength": 1,
+      "title": "Curve Id",
+      "type": "string"
+    },
+    "medium": {
+      "enum": [
+        "pbs",
+        "pbs_h2o2"
+      ],
+      "title": "Medium",
+      "type": "string"
+    },
+    "expected_csv_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Csv Sha256",
+      "type": "string"
+    },
+    "surface_condition_id": {
+      "minLength": 1,
+      "title": "Surface Condition Id",
+      "type": "string"
+    },
+    "protocol_id": {
+      "minLength": 1,
+      "title": "Protocol Id",
+      "type": "string"
+    },
+    "electrolyte_id": {
+      "minLength": 1,
+      "title": "Electrolyte Id",
+      "type": "string"
+    },
+    "reference_electrode_id": {
+      "minLength": 1,
+      "title": "Reference Electrode Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "source_conditions_reviewed": {
+      "title": "Source Conditions Reviewed",
+      "type": "boolean"
+    },
+    "source_reference_and_scan_identity_reviewed": {
+      "title": "Source Reference And Scan Identity Reviewed",
+      "type": "boolean"
+    },
+    "unit_conversion_reviewed": {
+      "title": "Unit Conversion Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "curve_id",
+    "medium",
+    "expected_csv_sha256",
+    "surface_condition_id",
+    "protocol_id",
+    "electrolyte_id",
+    "reference_electrode_id",
+    "temperature_K",
+    "source_conditions_reviewed",
+    "source_reference_and_scan_identity_reviewed",
+    "unit_conversion_reviewed",
+    "evidence"
+  ],
+  "title": "Ti6Al4VCathodicPolarizationImportRequest",
+  "type": "object"
+}

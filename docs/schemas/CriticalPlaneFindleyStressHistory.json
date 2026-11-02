@@ -1,0 +1,377 @@
+{
+  "$defs": {
+    "CriticalPlaneCandidate": {
+      "additionalProperties": false,
+      "description": "One caller-declared plane normal and one shear direction in that plane.",
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Normal",
+          "type": "array"
+        },
+        "in_plane_direction": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "In Plane Direction",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "in_plane_direction"
+      ],
+      "title": "CriticalPlaneCandidate",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Digest-bound Cauchy stress samples for one caller-declared representative cycle.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis_id": {
+      "minLength": 1,
+      "title": "Time Basis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "load_case_id": {
+      "minLength": 1,
+      "title": "Load Case Id",
+      "type": "string"
+    },
+    "cycle_id": {
+      "minLength": 1,
+      "title": "Cycle Id",
+      "type": "string"
+    },
+    "tensor_source_id": {
+      "minLength": 1,
+      "title": "Tensor Source Id",
+      "type": "string"
+    },
+    "tensor_provider_id": {
+      "minLength": 1,
+      "title": "Tensor Provider Id",
+      "type": "string"
+    },
+    "tensor_provider_revision": {
+      "minLength": 1,
+      "title": "Tensor Provider Revision",
+      "type": "string"
+    },
+    "tensor_record_id": {
+      "minLength": 1,
+      "title": "Tensor Record Id",
+      "type": "string"
+    },
+    "tensor_content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Tensor Content Sha256",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "stress_measure": {
+      "const": "cauchy",
+      "title": "Stress Measure",
+      "type": "string"
+    },
+    "component_order": {
+      "const": "xx,yy,zz,xy,yz,zx",
+      "title": "Component Order",
+      "type": "string"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20000,
+      "minItems": 3,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "sample_times_s": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sample Times S"
+    },
+    "stress_tensor_components_Pa": {
+      "items": {
+        "maxItems": 6,
+        "minItems": 6,
+        "prefixItems": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "type": "array"
+      },
+      "maxItems": 20000,
+      "minItems": 3,
+      "title": "Stress Tensor Components Pa",
+      "type": "array"
+    },
+    "candidate_planes": {
+      "items": {
+        "$ref": "#/$defs/CriticalPlaneCandidate"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Candidate Planes",
+      "type": "array"
+    },
+    "representative_cycle_declared": {
+      "title": "Representative Cycle Declared",
+      "type": "boolean"
+    },
+    "maximum_stress_closure_error_Pa": {
+      "minimum": 0,
+      "title": "Maximum Stress Closure Error Pa",
+      "type": "number"
+    },
+    "findley_coefficient": {
+      "minimum": 0,
+      "title": "Findley Coefficient",
+      "type": "number"
+    },
+    "reference_parameter_strength_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Parameter Strength Pa",
+      "type": "number"
+    },
+    "reference_life_cycles": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Life Cycles",
+      "type": "number"
+    },
+    "calibration_provider_id": {
+      "minLength": 1,
+      "title": "Calibration Provider Id",
+      "type": "string"
+    },
+    "calibration_provider_revision": {
+      "minLength": 1,
+      "title": "Calibration Provider Revision",
+      "type": "string"
+    },
+    "calibration_record_id": {
+      "minLength": 1,
+      "title": "Calibration Record Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 2,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "usage_rights_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Usage Rights Evidence",
+      "type": "array"
+    },
+    "maximum_shear_pair_evaluations": {
+      "default": 50000000,
+      "maximum": 2000000000,
+      "minimum": 1,
+      "title": "Maximum Shear Pair Evaluations",
+      "type": "integer"
+    },
+    "tensor_units_and_component_order_reviewed": {
+      "title": "Tensor Units And Component Order Reviewed",
+      "type": "boolean"
+    },
+    "candidate_plane_set_and_coverage_reviewed": {
+      "title": "Candidate Plane Set And Coverage Reviewed",
+      "type": "boolean"
+    },
+    "cycle_definition_and_closure_reviewed": {
+      "title": "Cycle Definition And Closure Reviewed",
+      "type": "boolean"
+    },
+    "findley_coefficient_and_calibration_basis_reviewed": {
+      "title": "Findley Coefficient And Calibration Basis Reviewed",
+      "type": "boolean"
+    },
+    "calibration_same_material_and_reference_life_reviewed": {
+      "title": "Calibration Same Material And Reference Life Reviewed",
+      "type": "boolean"
+    },
+    "usage_rights_reviewed": {
+      "title": "Usage Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "time_basis_id",
+    "material_condition_id",
+    "load_case_id",
+    "cycle_id",
+    "tensor_source_id",
+    "tensor_provider_id",
+    "tensor_provider_revision",
+    "tensor_record_id",
+    "tensor_content_sha256",
+    "coordinate_frame_id",
+    "stress_measure",
+    "component_order",
+    "sample_ids",
+    "stress_tensor_components_Pa",
+    "candidate_planes",
+    "representative_cycle_declared",
+    "maximum_stress_closure_error_Pa",
+    "findley_coefficient",
+    "reference_parameter_strength_Pa",
+    "reference_life_cycles",
+    "calibration_provider_id",
+    "calibration_provider_revision",
+    "calibration_record_id",
+    "calibration_sha256",
+    "evidence",
+    "usage_rights_evidence",
+    "tensor_units_and_component_order_reviewed",
+    "candidate_plane_set_and_coverage_reviewed",
+    "cycle_definition_and_closure_reviewed",
+    "findley_coefficient_and_calibration_basis_reviewed",
+    "calibration_same_material_and_reference_life_reviewed",
+    "usage_rights_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CriticalPlaneFindleyStressHistory",
+  "type": "object"
+}

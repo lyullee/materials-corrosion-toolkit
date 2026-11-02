@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "CorrosionRateHistoryKnot": {
+      "additionalProperties": false,
+      "description": "One caller-provided, provenance-bearing point in a corrosion-rate history.",
+      "properties": {
+        "knot_index": {
+          "minimum": 0,
+          "title": "Knot Index",
+          "type": "integer"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "corrosion_rate_m_s": {
+          "minimum": 0,
+          "title": "Corrosion Rate M S",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "knot_index",
+        "time_s",
+        "corrosion_rate_m_s",
+        "evidence"
+      ],
+      "title": "CorrosionRateHistoryKnot",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite thickness history under a caller-reviewed linear rate path.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.corrosion_rate_thickness_history.v1",
+      "default": "matintegrity.corrosion_rate_thickness_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_id": {
+      "minLength": 1,
+      "title": "Material Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "knots": {
+      "items": {
+        "$ref": "#/$defs/CorrosionRateHistoryKnot"
+      },
+      "maxItems": 100000,
+      "minItems": 2,
+      "title": "Knots",
+      "type": "array"
+    },
+    "baseline_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Baseline Thickness M",
+      "type": "number"
+    },
+    "baseline_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "required_thickness_m": {
+      "minimum": 0,
+      "title": "Required Thickness M",
+      "type": "number"
+    },
+    "required_thickness_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "ordered_history_reviewed": {
+      "title": "Ordered History Reviewed",
+      "type": "boolean"
+    },
+    "rate_source_mapping_reviewed": {
+      "title": "Rate Source Mapping Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_linear_rate_reconstruction_reviewed": {
+      "title": "Piecewise Linear Rate Reconstruction Reviewed",
+      "type": "boolean"
+    },
+    "uniform_area_average_loss_reviewed": {
+      "title": "Uniform Area Average Loss Reviewed",
+      "type": "boolean"
+    },
+    "material_condition_and_location_reviewed": {
+      "title": "Material Condition And Location Reviewed",
+      "type": "boolean"
+    },
+    "finite_support_no_extrapolation_reviewed": {
+      "title": "Finite Support No Extrapolation Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "material_id",
+    "material_condition_id",
+    "physical_scope_id",
+    "time_basis",
+    "knots",
+    "baseline_thickness_m",
+    "baseline_evidence",
+    "required_thickness_m",
+    "required_thickness_evidence",
+    "ordered_history_reviewed",
+    "rate_source_mapping_reviewed",
+    "piecewise_linear_rate_reconstruction_reviewed",
+    "uniform_area_average_loss_reviewed",
+    "material_condition_and_location_reviewed",
+    "finite_support_no_extrapolation_reviewed"
+  ],
+  "title": "CorrosionRateThicknessHistoryRequest",
+  "type": "object"
+}

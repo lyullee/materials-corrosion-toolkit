@@ -1,0 +1,192 @@
+{
+  "$defs": {
+    "CoolPropCo2FugacityRequest": {
+      "additionalProperties": false,
+      "description": "Absolute CO2 partial pressure and temperature for a pure-component EOS state.",
+      "properties": {
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "co2_partial_pressure_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Co2 Partial Pressure Pa",
+          "type": "number"
+        },
+        "backend": {
+          "default": "HEOS",
+          "minLength": 1,
+          "title": "Backend",
+          "type": "string"
+        },
+        "pure_component_approximation_reviewed": {
+          "title": "Pure Component Approximation Reviewed",
+          "type": "boolean"
+        },
+        "single_phase_gas_or_supercritical_reviewed": {
+          "title": "Single Phase Gas Or Supercritical Reviewed",
+          "type": "boolean"
+        },
+        "review_id": {
+          "minLength": 1,
+          "title": "Review Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "temperature_K",
+        "co2_partial_pressure_Pa",
+        "pure_component_approximation_reviewed",
+        "single_phase_gas_or_supercritical_reviewed",
+        "review_id",
+        "evidence"
+      ],
+      "title": "CoolPropCo2FugacityRequest",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exact-time sequence of independently specified pure-CO2 fugacity states.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pure_co2_fugacity_history.v1",
+      "default": "matintegrity.pure_co2_fugacity_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Time S",
+      "type": "array"
+    },
+    "requests": {
+      "items": {
+        "$ref": "#/$defs/CoolPropCo2FugacityRequest"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Requests",
+      "type": "array"
+    },
+    "history_clock_and_state_alignment_reviewed": {
+      "title": "History Clock And State Alignment Reviewed",
+      "type": "boolean"
+    },
+    "maximum_point_evaluations": {
+      "default": 20000,
+      "maximum": 20000,
+      "minimum": 1,
+      "title": "Maximum Point Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "time_basis",
+    "time_s",
+    "requests",
+    "history_clock_and_state_alignment_reviewed"
+  ],
+  "title": "PureCo2FugacityHistory",
+  "type": "object"
+}

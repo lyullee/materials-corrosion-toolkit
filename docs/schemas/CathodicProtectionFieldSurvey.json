@@ -1,0 +1,710 @@
+{
+  "$defs": {
+    "CallerPotentialThreshold": {
+      "additionalProperties": false,
+      "properties": {
+        "threshold_id": {
+          "minLength": 1,
+          "title": "Threshold Id",
+          "type": "string"
+        },
+        "potential_convention": {
+          "enum": [
+            "native",
+            "on",
+            "off",
+            "instant_off"
+          ],
+          "title": "Potential Convention",
+          "type": "string"
+        },
+        "reference_electrode_id": {
+          "minLength": 1,
+          "title": "Reference Electrode Id",
+          "type": "string"
+        },
+        "comparison_direction": {
+          "enum": [
+            "at_or_more_negative",
+            "at_or_more_positive"
+          ],
+          "title": "Comparison Direction",
+          "type": "string"
+        },
+        "threshold_V": {
+          "title": "Threshold V",
+          "type": "number"
+        },
+        "threshold_basis": {
+          "minLength": 1,
+          "title": "Threshold Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "threshold_id",
+        "potential_convention",
+        "reference_electrode_id",
+        "comparison_direction",
+        "threshold_V",
+        "threshold_basis",
+        "evidence"
+      ],
+      "title": "CallerPotentialThreshold",
+      "type": "object"
+    },
+    "CathodicCurrentObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "structure_id": {
+          "minLength": 1,
+          "title": "Structure Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "source_kind": {
+          "enum": [
+            "rectifier",
+            "anode"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "measurement_location_id": {
+          "minLength": 1,
+          "title": "Measurement Location Id",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "current_A": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current A"
+        },
+        "expanded_uncertainty_A": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty A"
+        },
+        "current_sign_basis": {
+          "minLength": 1,
+          "title": "Current Sign Basis",
+          "type": "string"
+        },
+        "specimen_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Temperature K",
+          "type": "number"
+        },
+        "electrolyte_id": {
+          "minLength": 1,
+          "title": "Electrolyte Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "record_status": {
+          "enum": [
+            "observed",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "structure_id",
+        "zone_id",
+        "source_kind",
+        "source_id",
+        "measurement_location_id",
+        "elapsed_time_s",
+        "current_sign_basis",
+        "specimen_temperature_K",
+        "electrolyte_id",
+        "environment_id",
+        "record_status",
+        "provider_id",
+        "provider_revision",
+        "evidence"
+      ],
+      "title": "CathodicCurrentObservation",
+      "type": "object"
+    },
+    "CathodicPotentialObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "structure_id": {
+          "minLength": 1,
+          "title": "Structure Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "measurement_location_id": {
+          "minLength": 1,
+          "title": "Measurement Location Id",
+          "type": "string"
+        },
+        "location_definition": {
+          "minLength": 1,
+          "title": "Location Definition",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "potential_convention": {
+          "enum": [
+            "native",
+            "on",
+            "off",
+            "instant_off"
+          ],
+          "title": "Potential Convention",
+          "type": "string"
+        },
+        "reference_electrode_id": {
+          "minLength": 1,
+          "title": "Reference Electrode Id",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "potential_V": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Potential V"
+        },
+        "expanded_uncertainty_V": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty V"
+        },
+        "ir_drop_handling_status": {
+          "enum": [
+            "not_applicable",
+            "not_corrected",
+            "caller_corrected",
+            "instant_off_used",
+            "unknown"
+          ],
+          "title": "Ir Drop Handling Status",
+          "type": "string"
+        },
+        "specimen_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Specimen Temperature K",
+          "type": "number"
+        },
+        "electrolyte_id": {
+          "minLength": 1,
+          "title": "Electrolyte Id",
+          "type": "string"
+        },
+        "environment_id": {
+          "minLength": 1,
+          "title": "Environment Id",
+          "type": "string"
+        },
+        "record_status": {
+          "enum": [
+            "observed",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "structure_id",
+        "zone_id",
+        "measurement_location_id",
+        "location_definition",
+        "elapsed_time_s",
+        "potential_convention",
+        "reference_electrode_id",
+        "calibration_id",
+        "ir_drop_handling_status",
+        "specimen_temperature_K",
+        "electrolyte_id",
+        "environment_id",
+        "record_status",
+        "provider_id",
+        "provider_revision",
+        "evidence"
+      ],
+      "title": "CathodicPotentialObservation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ReferenceElectrodeCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "reference_electrode_id": {
+          "minLength": 1,
+          "title": "Reference Electrode Id",
+          "type": "string"
+        },
+        "reference_electrode_type_id": {
+          "minLength": 1,
+          "title": "Reference Electrode Type Id",
+          "type": "string"
+        },
+        "minimum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Supported Temperature K",
+          "type": "number"
+        },
+        "maximum_supported_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Supported Temperature K",
+          "type": "number"
+        },
+        "reported_offset_V": {
+          "title": "Reported Offset V",
+          "type": "number"
+        },
+        "expanded_uncertainty_V": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty V",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "reference_electrode_id",
+        "reference_electrode_type_id",
+        "minimum_supported_temperature_K",
+        "maximum_supported_temperature_K",
+        "reported_offset_V",
+        "expanded_uncertainty_V",
+        "provider_id",
+        "provider_revision",
+        "configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ReferenceElectrodeCalibration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "survey_id": {
+      "minLength": 1,
+      "title": "Survey Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "structure_id": {
+      "minLength": 1,
+      "title": "Structure Id",
+      "type": "string"
+    },
+    "zone_id": {
+      "minLength": 1,
+      "title": "Zone Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "electrolyte_id": {
+      "minLength": 1,
+      "title": "Electrolyte Id",
+      "type": "string"
+    },
+    "environment_id": {
+      "minLength": 1,
+      "title": "Environment Id",
+      "type": "string"
+    },
+    "reference_calibrations": {
+      "items": {
+        "$ref": "#/$defs/ReferenceElectrodeCalibration"
+      },
+      "minItems": 1,
+      "title": "Reference Calibrations",
+      "type": "array"
+    },
+    "potential_observations": {
+      "items": {
+        "$ref": "#/$defs/CathodicPotentialObservation"
+      },
+      "minItems": 1,
+      "title": "Potential Observations",
+      "type": "array"
+    },
+    "current_observations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CathodicCurrentObservation"
+      },
+      "title": "Current Observations",
+      "type": "array"
+    },
+    "caller_thresholds": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/CallerPotentialThreshold"
+      },
+      "title": "Caller Thresholds",
+      "type": "array"
+    },
+    "structure_zone_reference_and_location_identity_reviewed": {
+      "title": "Structure Zone Reference And Location Identity Reviewed",
+      "type": "boolean"
+    },
+    "reference_electrode_calibrations_reviewed": {
+      "title": "Reference Electrode Calibrations Reviewed",
+      "type": "boolean"
+    },
+    "potential_conventions_and_clock_reviewed": {
+      "title": "Potential Conventions And Clock Reviewed",
+      "type": "boolean"
+    },
+    "rectifier_anode_current_and_sign_basis_reviewed": {
+      "title": "Rectifier Anode Current And Sign Basis Reviewed",
+      "type": "boolean"
+    },
+    "ir_drop_handling_status_reviewed": {
+      "title": "Ir Drop Handling Status Reviewed",
+      "type": "boolean"
+    },
+    "temperature_electrolyte_and_environment_reviewed": {
+      "title": "Temperature Electrolyte And Environment Reviewed",
+      "type": "boolean"
+    },
+    "uncertainty_provider_and_result_digests_reviewed": {
+      "title": "Uncertainty Provider And Result Digests Reviewed",
+      "type": "boolean"
+    },
+    "missing_and_invalid_records_reviewed": {
+      "title": "Missing And Invalid Records Reviewed",
+      "type": "boolean"
+    },
+    "caller_threshold_authority_reviewed": {
+      "title": "Caller Threshold Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "survey_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "structure_id",
+    "zone_id",
+    "clock_id",
+    "electrolyte_id",
+    "environment_id",
+    "reference_calibrations",
+    "potential_observations",
+    "structure_zone_reference_and_location_identity_reviewed",
+    "reference_electrode_calibrations_reviewed",
+    "potential_conventions_and_clock_reviewed",
+    "rectifier_anode_current_and_sign_basis_reviewed",
+    "ir_drop_handling_status_reviewed",
+    "temperature_electrolyte_and_environment_reviewed",
+    "uncertainty_provider_and_result_digests_reviewed",
+    "missing_and_invalid_records_reviewed",
+    "caller_threshold_authority_reviewed",
+    "evidence"
+  ],
+  "title": "CathodicProtectionFieldSurvey",
+  "type": "object"
+}

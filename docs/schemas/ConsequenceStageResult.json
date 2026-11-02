@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "ConsequenceQuantity": {
+      "additionalProperties": false,
+      "properties": {
+        "quantity_id": {
+          "minLength": 1,
+          "title": "Quantity Id",
+          "type": "string"
+        },
+        "quantity_definition": {
+          "minLength": 1,
+          "title": "Quantity Definition",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "receptor_id": {
+          "minLength": 1,
+          "title": "Receptor Id",
+          "type": "string"
+        },
+        "receptor_type": {
+          "minLength": 1,
+          "title": "Receptor Type",
+          "type": "string"
+        },
+        "receptor_location_id": {
+          "minLength": 1,
+          "title": "Receptor Location Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quantity_id",
+        "quantity_definition",
+        "value",
+        "unit_token",
+        "receptor_id",
+        "receptor_type",
+        "receptor_location_id",
+        "clock_id",
+        "time_s",
+        "time_basis"
+      ],
+      "title": "ConsequenceQuantity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "stage": {
+      "enum": [
+        "source",
+        "release",
+        "dispersion",
+        "effect"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Digest",
+      "type": "string"
+    },
+    "input_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "result_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Digest",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope",
+        "not_run"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "quantities": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ConsequenceQuantity"
+      },
+      "title": "Quantities",
+      "type": "array"
+    },
+    "missing_items": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Missing Items",
+      "type": "array"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "stage",
+    "provider_id",
+    "model_id",
+    "model_revision",
+    "configuration_digest",
+    "input_digest",
+    "result_digest",
+    "status",
+    "notes"
+  ],
+  "title": "ConsequenceStageResult",
+  "type": "object"
+}

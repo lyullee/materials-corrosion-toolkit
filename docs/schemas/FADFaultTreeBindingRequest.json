@@ -1,0 +1,617 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FADAssessmentHistoryKnot": {
+      "additionalProperties": false,
+      "description": "One exact time knot with provider-calculated FAD coordinates and receipts.",
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "effective_stress_intensity_Pa_sqrt_m": {
+          "minimum": 0,
+          "title": "Effective Stress Intensity Pa Sqrt M",
+          "type": "number"
+        },
+        "fracture_resistance_Pa_sqrt_m": {
+          "exclusiveMinimum": 0,
+          "title": "Fracture Resistance Pa Sqrt M",
+          "type": "number"
+        },
+        "reference_stress_Pa": {
+          "minimum": 0,
+          "title": "Reference Stress Pa",
+          "type": "number"
+        },
+        "normalizing_strength_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Normalizing Strength Pa",
+          "type": "number"
+        },
+        "provider_receipts": {
+          "items": {
+            "$ref": "#/$defs/FADHistoryProviderReceipt"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Provider Receipts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "effective_stress_intensity_Pa_sqrt_m",
+        "fracture_resistance_Pa_sqrt_m",
+        "reference_stress_Pa",
+        "normalizing_strength_Pa",
+        "provider_receipts"
+      ],
+      "title": "FADAssessmentHistoryKnot",
+      "type": "object"
+    },
+    "FADAssessmentHistoryRequest": {
+      "additionalProperties": false,
+      "description": "Bounded FAD time history; every physical input remains caller/provider owned.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.fad_assessment_history.v1",
+          "default": "matintegrity.fad_assessment_history.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "geometry_basis_id": {
+          "minLength": 1,
+          "title": "Geometry Basis Id",
+          "type": "string"
+        },
+        "load_history_id": {
+          "minLength": 1,
+          "title": "Load History Id",
+          "type": "string"
+        },
+        "curve": {
+          "$ref": "#/$defs/FailureAssessmentCurve"
+        },
+        "curve_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Curve Sha256",
+          "type": "string"
+        },
+        "knots": {
+          "items": {
+            "$ref": "#/$defs/FADAssessmentHistoryKnot"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Knots",
+          "type": "array"
+        },
+        "linear_elastic_k_solution_reviewed": {
+          "title": "Linear Elastic K Solution Reviewed",
+          "type": "boolean"
+        },
+        "reference_stress_solution_reviewed": {
+          "title": "Reference Stress Solution Reviewed",
+          "type": "boolean"
+        },
+        "toughness_and_strength_applicability_reviewed": {
+          "title": "Toughness And Strength Applicability Reviewed",
+          "type": "boolean"
+        },
+        "load_history_and_combination_reviewed": {
+          "title": "Load History And Combination Reviewed",
+          "type": "boolean"
+        },
+        "geometry_and_material_scope_reviewed": {
+          "title": "Geometry And Material Scope Reviewed",
+          "type": "boolean"
+        },
+        "curve_applicability_reviewed": {
+          "title": "Curve Applicability Reviewed",
+          "type": "boolean"
+        },
+        "maximum_curve_evaluations": {
+          "default": 10000,
+          "maximum": 10000,
+          "minimum": 2,
+          "title": "Maximum Curve Evaluations",
+          "type": "integer"
+        },
+        "maximum_output_knots": {
+          "default": 10000,
+          "maximum": 10000,
+          "minimum": 2,
+          "title": "Maximum Output Knots",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "clock_id",
+        "material_condition_id",
+        "geometry_basis_id",
+        "load_history_id",
+        "curve",
+        "curve_sha256",
+        "knots",
+        "linear_elastic_k_solution_reviewed",
+        "reference_stress_solution_reviewed",
+        "toughness_and_strength_applicability_reviewed",
+        "load_history_and_combination_reviewed",
+        "geometry_and_material_scope_reviewed",
+        "curve_applicability_reviewed"
+      ],
+      "title": "FADAssessmentHistoryRequest",
+      "type": "object"
+    },
+    "FADFaultTreeProbabilityInput": {
+      "additionalProperties": false,
+      "description": "Explicit caller probability and physical scope for the period event.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.fad_fta_probability_input.v1",
+          "default": "matintegrity.fad_fta_probability_input.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "event_condition": {
+          "const": "first_outside_pinned_fad_boundary_during_period",
+          "title": "Event Condition",
+          "type": "string"
+        },
+        "condition_id": {
+          "minLength": 1,
+          "title": "Condition Id",
+          "type": "string"
+        },
+        "condition_statement": {
+          "minLength": 1,
+          "title": "Condition Statement",
+          "type": "string"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "probability_meaning": {
+          "const": "conditional_first_failure_in_period",
+          "title": "Probability Meaning",
+          "type": "string"
+        },
+        "conditioning": {
+          "minLength": 1,
+          "title": "Conditioning",
+          "type": "string"
+        },
+        "probability_scope_id": {
+          "minLength": 1,
+          "title": "Probability Scope Id",
+          "type": "string"
+        },
+        "probability_evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Probability Evidence",
+          "type": "array"
+        },
+        "rights_boundary": {
+          "enum": [
+            "local_only",
+            "caller_authorized_open_distribution"
+          ],
+          "title": "Rights Boundary",
+          "type": "string"
+        },
+        "rights_authorization_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rights Authorization Digest"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "geometry_basis_id": {
+          "minLength": 1,
+          "title": "Geometry Basis Id",
+          "type": "string"
+        },
+        "load_history_id": {
+          "minLength": 1,
+          "title": "Load History Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "failure_mode",
+        "event_condition",
+        "condition_id",
+        "condition_statement",
+        "probability",
+        "probability_meaning",
+        "conditioning",
+        "probability_scope_id",
+        "probability_evidence",
+        "rights_boundary",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "clock_id",
+        "horizon_start_s",
+        "horizon_end_s",
+        "material_condition_id",
+        "geometry_basis_id",
+        "load_history_id"
+      ],
+      "title": "FADFaultTreeProbabilityInput",
+      "type": "object"
+    },
+    "FADHistoryProviderReceipt": {
+      "additionalProperties": false,
+      "description": "Digest and evidence receipt for one caller-produced physical history value.",
+      "properties": {
+        "quantity": {
+          "enum": [
+            "effective_mode_i_stress_intensity",
+            "fracture_resistance",
+            "reference_stress",
+            "normalizing_strength"
+          ],
+          "title": "Quantity",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "geometry_basis_id": {
+          "minLength": 1,
+          "title": "Geometry Basis Id",
+          "type": "string"
+        },
+        "load_history_id": {
+          "minLength": 1,
+          "title": "Load History Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "quantity",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "clock_id",
+        "time_s",
+        "material_condition_id",
+        "geometry_basis_id",
+        "load_history_id",
+        "provider_id",
+        "result_id",
+        "result_sha256",
+        "evidence"
+      ],
+      "title": "FADHistoryProviderReceipt",
+      "type": "object"
+    },
+    "FailureAssessmentCurve": {
+      "additionalProperties": false,
+      "properties": {
+        "curve_id": {
+          "minLength": 1,
+          "title": "Curve Id",
+          "type": "string"
+        },
+        "assessment_basis_id": {
+          "minLength": 1,
+          "title": "Assessment Basis Id",
+          "type": "string"
+        },
+        "load_ratio": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Load Ratio",
+          "type": "array"
+        },
+        "allowable_toughness_ratio": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Allowable Toughness Ratio",
+          "type": "array"
+        },
+        "interpolation": {
+          "const": "linear",
+          "default": "linear",
+          "title": "Interpolation",
+          "type": "string"
+        },
+        "validity_description": {
+          "minLength": 1,
+          "title": "Validity Description",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "curve_id",
+        "assessment_basis_id",
+        "load_ratio",
+        "allowable_toughness_ratio",
+        "validity_description",
+        "evidence"
+      ],
+      "title": "FailureAssessmentCurve",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exact FAD history request/result, plus caller-defined FTA probability.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.fad_fta_binding_request.v1",
+      "default": "matintegrity.fad_fta_binding_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "fad_request": {
+      "$ref": "#/$defs/FADAssessmentHistoryRequest"
+    },
+    "fad_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "probability_input": {
+      "$ref": "#/$defs/FADFaultTreeProbabilityInput"
+    }
+  },
+  "required": [
+    "fad_request",
+    "fad_result",
+    "probability_input"
+  ],
+  "title": "FADFaultTreeBindingRequest",
+  "type": "object"
+}

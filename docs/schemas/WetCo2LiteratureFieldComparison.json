@@ -1,0 +1,126 @@
+{
+  "additionalProperties": false,
+  "description": "One transparent transformed-value comparison; mismatches remain first-class.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_literature_field_comparison.v1",
+      "default": "matintegrity.wet_co2_literature_field_comparison.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "compilation_field": {
+      "minLength": 1,
+      "title": "Compilation Field",
+      "type": "string"
+    },
+    "source_fields": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Source Fields",
+      "type": "array"
+    },
+    "source_values": {
+      "items": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Source Values",
+      "type": "array"
+    },
+    "operation": {
+      "enum": [
+        "single_value_affine",
+        "arithmetic_mean_affine"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "scale": {
+      "title": "Scale",
+      "type": "number"
+    },
+    "offset": {
+      "title": "Offset",
+      "type": "number"
+    },
+    "absolute_tolerance": {
+      "minimum": 0,
+      "title": "Absolute Tolerance",
+      "type": "number"
+    },
+    "reviewed_transform_basis_id": {
+      "minLength": 1,
+      "title": "Reviewed Transform Basis Id",
+      "type": "string"
+    },
+    "transformed_source_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Transformed Source Value"
+    },
+    "compilation_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Compilation Value"
+    },
+    "absolute_difference": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Absolute Difference"
+    },
+    "status": {
+      "enum": [
+        "match",
+        "mismatch",
+        "source_missing",
+        "compilation_missing"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "compilation_field",
+    "source_fields",
+    "source_values",
+    "operation",
+    "scale",
+    "offset",
+    "absolute_tolerance",
+    "reviewed_transform_basis_id",
+    "transformed_source_value",
+    "compilation_value",
+    "absolute_difference",
+    "status"
+  ],
+  "title": "WetCo2LiteratureFieldComparison",
+  "type": "object"
+}

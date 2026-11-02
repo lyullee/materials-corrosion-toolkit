@@ -1,0 +1,258 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GeometryAwareAqueousSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "GeometryAwareAqueousSpecies",
+      "type": "object"
+    },
+    "GeometryAwareReactionDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "stoichiometric_coefficients": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Stoichiometric Coefficients",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "stoichiometric_coefficients"
+      ],
+      "title": "GeometryAwareReactionDefinition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Serializable identity, support and conservation declaration for a caller law.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_geometry_aware_chemistry.v1",
+      "default": "matintegrity.crevice_geometry_aware_chemistry.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Sha256",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/GeometryAwareAqueousSpecies"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Species",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/GeometryAwareReactionDefinition"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "valid_time_start_s": {
+      "minimum": 0,
+      "title": "Valid Time Start S",
+      "type": "number"
+    },
+    "valid_time_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Valid Time End S",
+      "type": "number"
+    },
+    "minimum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Aperture M",
+      "type": "number"
+    },
+    "maximum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Aperture M",
+      "type": "number"
+    },
+    "maximum_concentration_mol_m3_by_species": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Maximum Concentration Mol M3 By Species",
+      "type": "array"
+    },
+    "rate_basis": {
+      "const": "net_reaction_extent_mol_m3_s",
+      "default": "net_reaction_extent_mol_m3_s",
+      "title": "Rate Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "geometry_dependence_and_path_reviewed": {
+      "title": "Geometry Dependence And Path Reviewed",
+      "type": "boolean"
+    },
+    "reaction_order_and_units_reviewed": {
+      "title": "Reaction Order And Units Reviewed",
+      "type": "boolean"
+    },
+    "element_and_charge_balance_reviewed": {
+      "title": "Element And Charge Balance Reviewed",
+      "type": "boolean"
+    },
+    "concentration_and_aperture_support_reviewed": {
+      "title": "Concentration And Aperture Support Reviewed",
+      "type": "boolean"
+    },
+    "deterministic_callback_reviewed": {
+      "title": "Deterministic Callback Reviewed",
+      "type": "boolean"
+    },
+    "inventory_closure_reviewed": {
+      "title": "Inventory Closure Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_revision",
+    "source_sha256",
+    "configuration_sha256",
+    "species",
+    "reactions",
+    "valid_time_start_s",
+    "valid_time_end_s",
+    "minimum_aperture_m",
+    "maximum_aperture_m",
+    "maximum_concentration_mol_m3_by_species",
+    "evidence",
+    "geometry_dependence_and_path_reviewed",
+    "reaction_order_and_units_reviewed",
+    "element_and_charge_balance_reviewed",
+    "concentration_and_aperture_support_reviewed",
+    "deterministic_callback_reviewed",
+    "inventory_closure_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "CreviceGeometryAwareAqueousChemistryContract",
+  "type": "object"
+}

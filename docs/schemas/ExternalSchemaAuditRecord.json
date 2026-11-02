@@ -1,0 +1,136 @@
+{
+  "additionalProperties": false,
+  "description": "Metadata-only record for an externally hosted, pinned JSON Schema.\n\nThe schema document itself is intentionally absent.  This record does not\nprove that the URL remains available or that the schema is correct for a\nphysical or engineering use.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.external_schema_audit.v1",
+      "default": "matintegrity.external_schema_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "audit_id": {
+      "pattern": "^external-schema-[a-f0-9]{64}$",
+      "title": "Audit Id",
+      "type": "string"
+    },
+    "source_url": {
+      "minLength": 1,
+      "title": "Source Url",
+      "type": "string"
+    },
+    "repository_id": {
+      "pattern": "^[^/\\s]+/[^/\\s]+$",
+      "title": "Repository Id",
+      "type": "string"
+    },
+    "pinned_commit": {
+      "pattern": "^[a-fA-F0-9]{40}$|^[a-fA-F0-9]{64}$",
+      "title": "Pinned Commit",
+      "type": "string"
+    },
+    "repository_path": {
+      "minLength": 1,
+      "title": "Repository Path",
+      "type": "string"
+    },
+    "content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Sha256",
+      "type": "string"
+    },
+    "content_byte_count": {
+      "minimum": 1,
+      "title": "Content Byte Count",
+      "type": "integer"
+    },
+    "json_schema_id": {
+      "minLength": 1,
+      "title": "Json Schema Id",
+      "type": "string"
+    },
+    "json_schema_version": {
+      "minLength": 1,
+      "title": "Json Schema Version",
+      "type": "string"
+    },
+    "required_properties": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Properties",
+      "type": "array"
+    },
+    "top_level_properties": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Top Level Properties",
+      "type": "array"
+    },
+    "additional_properties": {
+      "title": "Additional Properties",
+      "type": "boolean"
+    },
+    "compatibility_summary_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Compatibility Summary Digest",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "network_download_performed": {
+      "const": false,
+      "default": false,
+      "title": "Network Download Performed",
+      "type": "boolean"
+    },
+    "external_repository_executed": {
+      "const": false,
+      "default": false,
+      "title": "External Repository Executed",
+      "type": "boolean"
+    },
+    "schema_qualification_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Schema Qualification Claimed",
+      "type": "boolean"
+    },
+    "physical_validation_claimed": {
+      "const": false,
+      "default": false,
+      "title": "Physical Validation Claimed",
+      "type": "boolean"
+    },
+    "audit_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Audit Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "audit_id",
+    "source_url",
+    "repository_id",
+    "pinned_commit",
+    "repository_path",
+    "content_sha256",
+    "content_byte_count",
+    "json_schema_id",
+    "json_schema_version",
+    "required_properties",
+    "top_level_properties",
+    "additional_properties",
+    "compatibility_summary_digest",
+    "limitations",
+    "audit_digest"
+  ],
+  "title": "ExternalSchemaAuditRecord",
+  "type": "object"
+}

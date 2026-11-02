@@ -1,0 +1,303 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FiniteGasWaterExchangeInterval": {
+      "additionalProperties": false,
+      "description": "Constant transfer/thermodynamic inputs over a contiguous interval.",
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "gas_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Temperature K",
+          "type": "number"
+        },
+        "gas_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Gas Volume M3",
+          "type": "number"
+        },
+        "water_vapor_fugacity_coefficient": {
+          "exclusiveMinimum": 0,
+          "title": "Water Vapor Fugacity Coefficient",
+          "type": "number"
+        },
+        "wall_water_saturation_fugacity_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Water Saturation Fugacity Pa",
+          "type": "number"
+        },
+        "gas_film_molar_transfer_coefficient_mol_m2_s_Pa": {
+          "minimum": 0,
+          "title": "Gas Film Molar Transfer Coefficient Mol M2 S Pa",
+          "type": "number"
+        },
+        "transfer_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Transfer Area M2",
+          "type": "number"
+        },
+        "liquid_water_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Liquid Water Density Kg M3",
+          "type": "number"
+        },
+        "transfer_provider_id": {
+          "minLength": 1,
+          "title": "Transfer Provider Id",
+          "type": "string"
+        },
+        "transfer_provider_revision": {
+          "minLength": 1,
+          "title": "Transfer Provider Revision",
+          "type": "string"
+        },
+        "transfer_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transfer Configuration Sha256",
+          "type": "string"
+        },
+        "transfer_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Transfer Result Sha256",
+          "type": "string"
+        },
+        "wall_state_provider_id": {
+          "minLength": 1,
+          "title": "Wall State Provider Id",
+          "type": "string"
+        },
+        "wall_state_provider_revision": {
+          "minLength": 1,
+          "title": "Wall State Provider Revision",
+          "type": "string"
+        },
+        "wall_state_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Wall State Configuration Sha256",
+          "type": "string"
+        },
+        "wall_state_result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Wall State Result Sha256",
+          "type": "string"
+        },
+        "density_record_id": {
+          "minLength": 1,
+          "title": "Density Record Id",
+          "type": "string"
+        },
+        "density_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Density Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 3,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "interval_model_assumptions_reviewed": {
+          "title": "Interval Model Assumptions Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "gas_temperature_K",
+        "gas_volume_m3",
+        "water_vapor_fugacity_coefficient",
+        "wall_water_saturation_fugacity_Pa",
+        "gas_film_molar_transfer_coefficient_mol_m2_s_Pa",
+        "transfer_area_m2",
+        "liquid_water_density_kg_m3",
+        "transfer_provider_id",
+        "transfer_provider_revision",
+        "transfer_configuration_sha256",
+        "transfer_result_sha256",
+        "wall_state_provider_id",
+        "wall_state_provider_revision",
+        "wall_state_configuration_sha256",
+        "wall_state_result_sha256",
+        "density_record_id",
+        "density_record_sha256",
+        "evidence",
+        "interval_model_assumptions_reviewed"
+      ],
+      "title": "FiniteGasWaterExchangeInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite ideal-gas water vapor inventory exchanging with one wall patch.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_finite_gas_water_condensation_history.v1",
+      "default": "matintegrity.wet_co2_finite_gas_water_condensation_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "wall_patch_id": {
+      "minLength": 1,
+      "title": "Wall Patch Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "initial_gas_water_vapor_moles": {
+      "minimum": 0,
+      "title": "Initial Gas Water Vapor Moles",
+      "type": "number"
+    },
+    "initial_wall_water_areal_inventory_kg_m2": {
+      "minimum": 0,
+      "title": "Initial Wall Water Areal Inventory Kg M2",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/FiniteGasWaterExchangeInterval"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "closed_gas_inventory_and_ideal_partial_pressure_reviewed": {
+      "title": "Closed Gas Inventory And Ideal Partial Pressure Reviewed",
+      "type": "boolean"
+    },
+    "fugacity_coefficient_and_transfer_basis_reviewed": {
+      "title": "Fugacity Coefficient And Transfer Basis Reviewed",
+      "type": "boolean"
+    },
+    "fixed_patch_no_lateral_transport_reviewed": {
+      "title": "Fixed Patch No Lateral Transport Reviewed",
+      "type": "boolean"
+    },
+    "wall_saturation_and_liquid_density_applicability_reviewed": {
+      "title": "Wall Saturation And Liquid Density Applicability Reviewed",
+      "type": "boolean"
+    },
+    "piecewise_constant_interval_state_reviewed": {
+      "title": "Piecewise Constant Interval State Reviewed",
+      "type": "boolean"
+    },
+    "calculation_use_authorized": {
+      "title": "Calculation Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "wall_patch_id",
+    "condition_id",
+    "initial_gas_water_vapor_moles",
+    "initial_wall_water_areal_inventory_kg_m2",
+    "intervals",
+    "closed_gas_inventory_and_ideal_partial_pressure_reviewed",
+    "fugacity_coefficient_and_transfer_basis_reviewed",
+    "fixed_patch_no_lateral_transport_reviewed",
+    "wall_saturation_and_liquid_density_applicability_reviewed",
+    "piecewise_constant_interval_state_reviewed",
+    "calculation_use_authorized"
+  ],
+  "title": "FiniteGasWaterCondensationHistoryRequest",
+  "type": "object"
+}

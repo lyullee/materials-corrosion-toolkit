@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "Ti12Mo5ZrWorkbookProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.zenodo_ti12mo5zr_workbook_provenance.v1",
+          "default": "matintegrity.zenodo_ti12mo5zr_workbook_provenance.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "dataset_id": {
+          "const": "zenodo-ti12mo5zr-aqueous-corrosion",
+          "default": "zenodo-ti12mo5zr-aqueous-corrosion",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "provider_record": {
+          "const": "https://doi.org/10.5281/zenodo.14981665",
+          "default": "https://doi.org/10.5281/zenodo.14981665",
+          "title": "Provider Record",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC0-1.0",
+          "default": "CC0-1.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "archive_name": {
+          "const": "zenodo_APSUC_2024.zip",
+          "default": "zenodo_APSUC_2024.zip",
+          "title": "Archive Name",
+          "type": "string"
+        },
+        "archive_bytes": {
+          "const": 54257020,
+          "default": 54257020,
+          "title": "Archive Bytes",
+          "type": "integer"
+        },
+        "archive_sha256": {
+          "const": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+          "default": "caf53855e78ff7162c361ba73435892759926f2d60513f5d42220239ce21f537",
+          "title": "Archive Sha256",
+          "type": "string"
+        },
+        "member_path": {
+          "minLength": 1,
+          "title": "Member Path",
+          "type": "string"
+        },
+        "member_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 800000,
+          "title": "Member Bytes",
+          "type": "integer"
+        },
+        "member_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Member Sha256",
+          "type": "string"
+        },
+        "row_count_including_header": {
+          "maximum": 11000,
+          "minimum": 2,
+          "title": "Row Count Including Header",
+          "type": "integer"
+        },
+        "column_count": {
+          "maximum": 8,
+          "minimum": 2,
+          "title": "Column Count",
+          "type": "integer"
+        },
+        "source_kind": {
+          "enum": [
+            "ocp_monitor",
+            "eis_spectrum",
+            "aesec_potential",
+            "aesec_elemental_dissolution_rate"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "source_row_number_base": {
+          "const": 1,
+          "default": 1,
+          "title": "Source Row Number Base",
+          "type": "integer"
+        },
+        "values_transformed": {
+          "const": false,
+          "default": false,
+          "title": "Values Transformed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "member_path",
+        "member_bytes",
+        "member_sha256",
+        "row_count_including_header",
+        "column_count",
+        "source_kind"
+      ],
+      "title": "Ti12Mo5ZrWorkbookProvenance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.zenodo_ti12mo5zr_raw_row.v1",
+      "default": "matintegrity.zenodo_ti12mo5zr_raw_row.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Ti12Mo5ZrWorkbookProvenance"
+    },
+    "source_row_number": {
+      "maximum": 11000,
+      "minimum": 2,
+      "title": "Source Row Number",
+      "type": "integer"
+    },
+    "raw_headers": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Raw Headers",
+      "type": "array"
+    },
+    "raw_cells": {
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Raw Cells",
+      "type": "array"
+    },
+    "row_semantics": {
+      "const": "provider_row_unmodified_units_and_time_unconverted",
+      "default": "provider_row_unmodified_units_and_time_unconverted",
+      "title": "Row Semantics",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provenance",
+    "source_row_number",
+    "raw_headers",
+    "raw_cells"
+  ],
+  "title": "Ti12Mo5ZrRawRow",
+  "type": "object"
+}

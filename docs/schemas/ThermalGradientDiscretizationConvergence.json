@@ -1,0 +1,496 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermalDiscretizationLevel": {
+      "additionalProperties": false,
+      "properties": {
+        "level_id": {
+          "minLength": 1,
+          "title": "Level Id",
+          "type": "string"
+        },
+        "ordinal": {
+          "minimum": 0,
+          "title": "Ordinal",
+          "type": "integer"
+        },
+        "relationship_to_previous": {
+          "enum": [
+            "initial",
+            "nested_refinement",
+            "nonnested_refinement"
+          ],
+          "title": "Relationship To Previous",
+          "type": "string"
+        },
+        "spatial_characteristic_size_m": {
+          "exclusiveMinimum": 0,
+          "title": "Spatial Characteristic Size M",
+          "type": "number"
+        },
+        "maximum_time_step_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Time Step S",
+          "type": "number"
+        },
+        "spatial_cell_count": {
+          "minimum": 1,
+          "title": "Spatial Cell Count",
+          "type": "integer"
+        },
+        "time_step_count": {
+          "minimum": 1,
+          "title": "Time Step Count",
+          "type": "integer"
+        },
+        "refinement_path_scale": {
+          "exclusiveMinimum": 0,
+          "title": "Refinement Path Scale",
+          "type": "number"
+        },
+        "mesh_id": {
+          "minLength": 1,
+          "title": "Mesh Id",
+          "type": "string"
+        },
+        "mesh_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mesh Digest",
+          "type": "string"
+        },
+        "time_step_schedule_id": {
+          "minLength": 1,
+          "title": "Time Step Schedule Id",
+          "type": "string"
+        },
+        "time_step_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Time Step Digest",
+          "type": "string"
+        },
+        "provider_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Input Digest",
+          "type": "string"
+        },
+        "provider_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Result Digest",
+          "type": "string"
+        },
+        "level_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Level Record Digest",
+          "type": "string"
+        },
+        "query_temperatures": {
+          "items": {
+            "$ref": "#/$defs/ThermalQueryTemperature"
+          },
+          "minItems": 1,
+          "title": "Query Temperatures",
+          "type": "array"
+        },
+        "level_record_valid": {
+          "title": "Level Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "level_id",
+        "ordinal",
+        "relationship_to_previous",
+        "spatial_characteristic_size_m",
+        "maximum_time_step_s",
+        "spatial_cell_count",
+        "time_step_count",
+        "refinement_path_scale",
+        "mesh_id",
+        "mesh_digest",
+        "time_step_schedule_id",
+        "time_step_digest",
+        "provider_input_digest",
+        "provider_result_digest",
+        "level_record_digest",
+        "query_temperatures",
+        "level_record_valid",
+        "evidence"
+      ],
+      "title": "ThermalDiscretizationLevel",
+      "type": "object"
+    },
+    "ThermalObservationQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "minLength": 1,
+          "title": "Query Id",
+          "type": "string"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "position_m": {
+          "minimum": 0,
+          "title": "Position M",
+          "type": "number"
+        },
+        "query_definition": {
+          "minLength": 1,
+          "title": "Query Definition",
+          "type": "string"
+        },
+        "comparison_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Comparison Weight",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "query_id",
+        "elapsed_time_s",
+        "position_m",
+        "query_definition",
+        "comparison_weight",
+        "evidence"
+      ],
+      "title": "ThermalObservationQuery",
+      "type": "object"
+    },
+    "ThermalQueryTemperature": {
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "minLength": 1,
+          "title": "Query Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "provider_query_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Query Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "query_id",
+        "temperature_K",
+        "provider_query_result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ThermalQueryTemperature",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "comparison_id": {
+      "minLength": 1,
+      "title": "Comparison Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "physical_scope_definition": {
+      "minLength": 1,
+      "title": "Physical Scope Definition",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "geometry_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Digest",
+      "type": "string"
+    },
+    "boundary_condition_id": {
+      "minLength": 1,
+      "title": "Boundary Condition Id",
+      "type": "string"
+    },
+    "boundary_condition_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Boundary Condition Digest",
+      "type": "string"
+    },
+    "material_property_state_id": {
+      "minLength": 1,
+      "title": "Material Property State Id",
+      "type": "string"
+    },
+    "material_property_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Material Property State Digest",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "solver_id": {
+      "minLength": 1,
+      "title": "Solver Id",
+      "type": "string"
+    },
+    "solver_revision": {
+      "minLength": 1,
+      "title": "Solver Revision",
+      "type": "string"
+    },
+    "provider_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provider Configuration Digest",
+      "type": "string"
+    },
+    "common_queries": {
+      "items": {
+        "$ref": "#/$defs/ThermalObservationQuery"
+      },
+      "minItems": 1,
+      "title": "Common Queries",
+      "type": "array"
+    },
+    "refinement_levels": {
+      "items": {
+        "$ref": "#/$defs/ThermalDiscretizationLevel"
+      },
+      "minItems": 2,
+      "title": "Refinement Levels",
+      "type": "array"
+    },
+    "refinement_path_scale_definition": {
+      "minLength": 1,
+      "title": "Refinement Path Scale Definition",
+      "type": "string"
+    },
+    "temperature_change_normalization_scale_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Change Normalization Scale K",
+      "type": "number"
+    },
+    "maximum_adjacent_weighted_rms_change_K": {
+      "minimum": 0,
+      "title": "Maximum Adjacent Weighted Rms Change K",
+      "type": "number"
+    },
+    "maximum_adjacent_relative_rms_change": {
+      "minimum": 0,
+      "title": "Maximum Adjacent Relative Rms Change",
+      "type": "number"
+    },
+    "observed_order_refinement_ratio_tolerance": {
+      "minimum": 0,
+      "title": "Observed Order Refinement Ratio Tolerance",
+      "type": "number"
+    },
+    "geometry_boundary_property_and_provider_identity_reviewed": {
+      "title": "Geometry Boundary Property And Provider Identity Reviewed",
+      "type": "boolean"
+    },
+    "input_result_mesh_and_time_step_digests_reviewed": {
+      "title": "Input Result Mesh And Time Step Digests Reviewed",
+      "type": "boolean"
+    },
+    "common_query_identity_units_and_weights_reviewed": {
+      "title": "Common Query Identity Units And Weights Reviewed",
+      "type": "boolean"
+    },
+    "refinement_order_and_relationships_reviewed": {
+      "title": "Refinement Order And Relationships Reviewed",
+      "type": "boolean"
+    },
+    "refinement_path_scale_definition_reviewed": {
+      "title": "Refinement Path Scale Definition Reviewed",
+      "type": "boolean"
+    },
+    "level_validity_and_missingness_reviewed": {
+      "title": "Level Validity And Missingness Reviewed",
+      "type": "boolean"
+    },
+    "diagnostic_norm_tolerances_reviewed": {
+      "title": "Diagnostic Norm Tolerances Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "comparison_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "physical_scope_definition",
+    "time_basis",
+    "geometry_id",
+    "geometry_digest",
+    "boundary_condition_id",
+    "boundary_condition_digest",
+    "material_property_state_id",
+    "material_property_state_digest",
+    "provider_id",
+    "solver_id",
+    "solver_revision",
+    "provider_configuration_digest",
+    "common_queries",
+    "refinement_levels",
+    "refinement_path_scale_definition",
+    "temperature_change_normalization_scale_K",
+    "maximum_adjacent_weighted_rms_change_K",
+    "maximum_adjacent_relative_rms_change",
+    "observed_order_refinement_ratio_tolerance",
+    "geometry_boundary_property_and_provider_identity_reviewed",
+    "input_result_mesh_and_time_step_digests_reviewed",
+    "common_query_identity_units_and_weights_reviewed",
+    "refinement_order_and_relationships_reviewed",
+    "refinement_path_scale_definition_reviewed",
+    "level_validity_and_missingness_reviewed",
+    "diagnostic_norm_tolerances_reviewed",
+    "evidence"
+  ],
+  "title": "ThermalGradientDiscretizationConvergence",
+  "type": "object"
+}

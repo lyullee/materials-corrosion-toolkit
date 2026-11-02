@@ -1,0 +1,263 @@
+{
+  "$defs": {
+    "CallerSpeciesActivityRecord": {
+      "additionalProperties": false,
+      "description": "Explicit dimensionless activity for a non-carbonate species at one knot.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "dimensionless_activity": {
+          "exclusiveMinimum": 0,
+          "title": "Dimensionless Activity",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "species_id",
+        "dimensionless_activity",
+        "provider_id",
+        "provider_revision",
+        "record_id",
+        "sha256",
+        "evidence"
+      ],
+      "title": "CallerSpeciesActivityRecord",
+      "type": "object"
+    },
+    "CarbonateActivityCoefficientRecord": {
+      "additionalProperties": false,
+      "description": "Caller activity coefficient for one carbonate species at one exact knot.",
+      "properties": {
+        "value": {
+          "exclusiveMinimum": 0,
+          "title": "Value",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "value",
+        "provider_id",
+        "provider_revision",
+        "record_id",
+        "sha256",
+        "evidence"
+      ],
+      "title": "CarbonateActivityCoefficientRecord",
+      "type": "object"
+    },
+    "CarbonateKspKnotRecord": {
+      "additionalProperties": false,
+      "description": "Caller-supplied temperature-supported solubility product at one source knot.",
+      "properties": {
+        "log10_solubility_product": {
+          "title": "Log10 Solubility Product",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "temperature_support_min_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Support Min K",
+          "type": "number"
+        },
+        "temperature_support_max_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Support Max K",
+          "type": "number"
+        },
+        "temperature_applicability_reviewed": {
+          "title": "Temperature Applicability Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "log10_solubility_product",
+        "provider_id",
+        "provider_revision",
+        "record_id",
+        "sha256",
+        "temperature_support_min_K",
+        "temperature_support_max_K",
+        "temperature_applicability_reviewed",
+        "evidence"
+      ],
+      "title": "CarbonateKspKnotRecord",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Supporting caller activity and Ksp records aligned to one exact carbonate knot.",
+  "properties": {
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "carbonate_activity_coefficient": {
+      "$ref": "#/$defs/CarbonateActivityCoefficientRecord"
+    },
+    "other_species_activities": {
+      "items": {
+        "$ref": "#/$defs/CallerSpeciesActivityRecord"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Other Species Activities",
+      "type": "array"
+    },
+    "solubility_product": {
+      "$ref": "#/$defs/CarbonateKspKnotRecord"
+    }
+  },
+  "required": [
+    "time_s",
+    "carbonate_activity_coefficient",
+    "other_species_activities",
+    "solubility_product"
+  ],
+  "title": "FixedFugacityCarbonateScaleKnot",
+  "type": "object"
+}

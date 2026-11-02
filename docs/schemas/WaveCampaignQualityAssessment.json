@@ -1,0 +1,851 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WaveAcquisitionConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_id": {
+          "minLength": 1,
+          "title": "Configuration Id",
+          "type": "string"
+        },
+        "family": {
+          "enum": [
+            "acoustic_emission",
+            "guided_waves"
+          ],
+          "title": "Family",
+          "type": "string"
+        },
+        "array_id": {
+          "minLength": 1,
+          "title": "Array Id",
+          "type": "string"
+        },
+        "elements": {
+          "items": {
+            "$ref": "#/$defs/WaveArrayElement"
+          },
+          "minItems": 1,
+          "title": "Elements",
+          "type": "array"
+        },
+        "coupling_method": {
+          "minLength": 1,
+          "title": "Coupling Method",
+          "type": "string"
+        },
+        "coupling_state_id": {
+          "minLength": 1,
+          "title": "Coupling State Id",
+          "type": "string"
+        },
+        "coupling_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Coupling Record Digest",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "sampling_rate_hz": {
+          "exclusiveMinimum": 0,
+          "title": "Sampling Rate Hz",
+          "type": "number"
+        },
+        "acquisition_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Acquisition Configuration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "configuration_id",
+        "family",
+        "array_id",
+        "elements",
+        "coupling_method",
+        "coupling_state_id",
+        "coupling_record_digest",
+        "clock_id",
+        "sampling_rate_hz",
+        "acquisition_configuration_digest",
+        "evidence"
+      ],
+      "title": "WaveAcquisitionConfiguration",
+      "type": "object"
+    },
+    "WaveAcquisitionRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "record_role": {
+          "enum": [
+            "baseline",
+            "observation"
+          ],
+          "title": "Record Role",
+          "type": "string"
+        },
+        "configuration_id": {
+          "minLength": 1,
+          "title": "Configuration Id",
+          "type": "string"
+        },
+        "coupling_state_id": {
+          "minLength": 1,
+          "title": "Coupling State Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "active_channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Active Channel Ids",
+          "type": "array"
+        },
+        "target_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Target Extent",
+          "type": "number"
+        },
+        "examined_extent": {
+          "minimum": 0,
+          "title": "Examined Extent",
+          "type": "number"
+        },
+        "extent_unit_token": {
+          "minLength": 1,
+          "title": "Extent Unit Token",
+          "type": "string"
+        },
+        "encoded_data_id": {
+          "minLength": 1,
+          "title": "Encoded Data Id",
+          "type": "string"
+        },
+        "encoded_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Encoded Data Digest",
+          "type": "string"
+        },
+        "encoded_data_format": {
+          "minLength": 1,
+          "title": "Encoded Data Format",
+          "type": "string"
+        },
+        "reference_checks": {
+          "items": {
+            "$ref": "#/$defs/WaveReferenceSourceCheck"
+          },
+          "minItems": 1,
+          "title": "Reference Checks",
+          "type": "array"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "record_role",
+        "configuration_id",
+        "coupling_state_id",
+        "clock_id",
+        "source_group_id",
+        "independence_group_id",
+        "active_channel_ids",
+        "target_extent",
+        "examined_extent",
+        "extent_unit_token",
+        "encoded_data_id",
+        "encoded_data_digest",
+        "encoded_data_format",
+        "reference_checks",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "WaveAcquisitionRecord",
+      "type": "object"
+    },
+    "WaveArrayElement": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "minLength": 1,
+          "title": "Element Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "element_kind": {
+          "enum": [
+            "sensor",
+            "transducer"
+          ],
+          "title": "Element Kind",
+          "type": "string"
+        },
+        "physical_position_definition": {
+          "minLength": 1,
+          "title": "Physical Position Definition",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "element_id",
+        "channel_id",
+        "element_kind",
+        "physical_position_definition",
+        "calibration_id",
+        "calibration_digest",
+        "evidence"
+      ],
+      "title": "WaveArrayElement",
+      "type": "object"
+    },
+    "WaveCampaignAcceptanceProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "family": {
+          "enum": [
+            "acoustic_emission",
+            "guided_waves"
+          ],
+          "title": "Family",
+          "type": "string"
+        },
+        "required_check_stages": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Check Stages",
+          "type": "array"
+        },
+        "amplitude_metric_definition": {
+          "minLength": 1,
+          "title": "Amplitude Metric Definition",
+          "type": "string"
+        },
+        "amplitude_unit_token": {
+          "minLength": 1,
+          "title": "Amplitude Unit Token",
+          "type": "string"
+        },
+        "noise_metric_definition": {
+          "minLength": 1,
+          "title": "Noise Metric Definition",
+          "type": "string"
+        },
+        "noise_unit_token": {
+          "minLength": 1,
+          "title": "Noise Unit Token",
+          "type": "string"
+        },
+        "reference_consistency_metric_definition": {
+          "minLength": 1,
+          "title": "Reference Consistency Metric Definition",
+          "type": "string"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/WaveQualityCriterion"
+          },
+          "minItems": 11,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_acceptance_authority": {
+          "minLength": 1,
+          "title": "Caller Acceptance Authority",
+          "type": "string"
+        },
+        "built_in_code_or_standard_limits_used": {
+          "const": false,
+          "default": false,
+          "title": "Built In Code Or Standard Limits Used",
+          "type": "boolean"
+        },
+        "automatic_damage_detection_or_sizing_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Damage Detection Or Sizing Claimed",
+          "type": "boolean"
+        },
+        "pod_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Pod Claimed",
+          "type": "boolean"
+        },
+        "physical_qualification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Physical Qualification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "family",
+        "required_check_stages",
+        "amplitude_metric_definition",
+        "amplitude_unit_token",
+        "noise_metric_definition",
+        "noise_unit_token",
+        "reference_consistency_metric_definition",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_acceptance_authority",
+        "evidence"
+      ],
+      "title": "WaveCampaignAcceptanceProfile",
+      "type": "object"
+    },
+    "WaveQualityCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "enum": [
+            "record_count",
+            "baseline_count",
+            "observation_count",
+            "coverage_fraction",
+            "channel_coverage_fraction",
+            "reference_stage_coverage_fraction",
+            "maximum_absolute_timing_error_s",
+            "minimum_amplitude_metric",
+            "maximum_noise_metric",
+            "maximum_localization_error_m",
+            "maximum_reference_consistency_error"
+          ],
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "pass_limit": {
+          "minimum": 0,
+          "title": "Pass Limit",
+          "type": "number"
+        },
+        "fail_limit": {
+          "minimum": 0,
+          "title": "Fail Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_id",
+        "direction",
+        "pass_limit",
+        "fail_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "WaveQualityCriterion",
+      "type": "object"
+    },
+    "WaveReferenceSourceCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "minLength": 1,
+          "title": "Check Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "check_stage": {
+          "minLength": 1,
+          "title": "Check Stage",
+          "type": "string"
+        },
+        "reference_source_id": {
+          "minLength": 1,
+          "title": "Reference Source Id",
+          "type": "string"
+        },
+        "reference_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Reference Source Digest",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "timing_error_s": {
+          "title": "Timing Error S",
+          "type": "number"
+        },
+        "expanded_timing_uncertainty_s": {
+          "minimum": 0,
+          "title": "Expanded Timing Uncertainty S",
+          "type": "number"
+        },
+        "amplitude_metric": {
+          "minimum": 0,
+          "title": "Amplitude Metric",
+          "type": "number"
+        },
+        "amplitude_unit_token": {
+          "minLength": 1,
+          "title": "Amplitude Unit Token",
+          "type": "string"
+        },
+        "expanded_amplitude_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Amplitude Uncertainty",
+          "type": "number"
+        },
+        "noise_metric": {
+          "minimum": 0,
+          "title": "Noise Metric",
+          "type": "number"
+        },
+        "noise_unit_token": {
+          "minLength": 1,
+          "title": "Noise Unit Token",
+          "type": "string"
+        },
+        "expanded_noise_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Noise Uncertainty",
+          "type": "number"
+        },
+        "localization_error_m": {
+          "minimum": 0,
+          "title": "Localization Error M",
+          "type": "number"
+        },
+        "expanded_localization_uncertainty_m": {
+          "minimum": 0,
+          "title": "Expanded Localization Uncertainty M",
+          "type": "number"
+        },
+        "reference_consistency_error": {
+          "minimum": 0,
+          "title": "Reference Consistency Error",
+          "type": "number"
+        },
+        "expanded_consistency_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Consistency Uncertainty",
+          "type": "number"
+        },
+        "check_method_definition": {
+          "minLength": 1,
+          "title": "Check Method Definition",
+          "type": "string"
+        },
+        "check_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Check Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "check_id",
+        "sequence_index",
+        "elapsed_time_s",
+        "check_stage",
+        "reference_source_id",
+        "reference_source_digest",
+        "channel_id",
+        "source_group_id",
+        "independence_group_id",
+        "timing_error_s",
+        "expanded_timing_uncertainty_s",
+        "amplitude_metric",
+        "amplitude_unit_token",
+        "expanded_amplitude_uncertainty",
+        "noise_metric",
+        "noise_unit_token",
+        "expanded_noise_uncertainty",
+        "localization_error_m",
+        "expanded_localization_uncertainty_m",
+        "reference_consistency_error",
+        "expanded_consistency_uncertainty",
+        "check_method_definition",
+        "check_record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "WaveReferenceSourceCheck",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "acoustic_emission",
+        "guided_waves"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "procedure_id": {
+      "minLength": 1,
+      "title": "Procedure Id",
+      "type": "string"
+    },
+    "procedure_revision": {
+      "minLength": 1,
+      "title": "Procedure Revision",
+      "type": "string"
+    },
+    "extent_unit_token": {
+      "minLength": 1,
+      "title": "Extent Unit Token",
+      "type": "string"
+    },
+    "acquisition_configuration": {
+      "$ref": "#/$defs/WaveAcquisitionConfiguration"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/WaveAcquisitionRecord"
+      },
+      "minItems": 1,
+      "title": "Records",
+      "type": "array"
+    },
+    "acceptance_profile": {
+      "$ref": "#/$defs/WaveCampaignAcceptanceProfile"
+    },
+    "procedure_array_and_acquisition_identity_reviewed": {
+      "title": "Procedure Array And Acquisition Identity Reviewed",
+      "type": "boolean"
+    },
+    "coupling_and_clock_identity_reviewed": {
+      "title": "Coupling And Clock Identity Reviewed",
+      "type": "boolean"
+    },
+    "calibration_and_reference_source_checks_reviewed": {
+      "title": "Calibration And Reference Source Checks Reviewed",
+      "type": "boolean"
+    },
+    "baseline_observation_identity_and_digests_reviewed": {
+      "title": "Baseline Observation Identity And Digests Reviewed",
+      "type": "boolean"
+    },
+    "channel_mapping_and_coverage_reviewed": {
+      "title": "Channel Mapping And Coverage Reviewed",
+      "type": "boolean"
+    },
+    "timing_amplitude_noise_localization_units_and_uncertainty_reviewed": {
+      "title": "Timing Amplitude Noise Localization Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "source_and_independence_groups_reviewed": {
+      "title": "Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "caller_acceptance_profile_reviewed": {
+      "title": "Caller Acceptance Profile Reviewed",
+      "type": "boolean"
+    },
+    "record_validity_and_missingness_reviewed": {
+      "title": "Record Validity And Missingness Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "campaign_id",
+    "family",
+    "procedure_id",
+    "procedure_revision",
+    "extent_unit_token",
+    "acquisition_configuration",
+    "records",
+    "acceptance_profile",
+    "procedure_array_and_acquisition_identity_reviewed",
+    "coupling_and_clock_identity_reviewed",
+    "calibration_and_reference_source_checks_reviewed",
+    "baseline_observation_identity_and_digests_reviewed",
+    "channel_mapping_and_coverage_reviewed",
+    "timing_amplitude_noise_localization_units_and_uncertainty_reviewed",
+    "source_and_independence_groups_reviewed",
+    "caller_acceptance_profile_reviewed",
+    "record_validity_and_missingness_reviewed",
+    "evidence"
+  ],
+  "title": "WaveCampaignQualityAssessment",
+  "type": "object"
+}

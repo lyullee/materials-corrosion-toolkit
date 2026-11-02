@@ -1,0 +1,282 @@
+{
+  "$defs": {
+    "AqueousCycleReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "log10_equilibrium_constant": {
+          "title": "Log10 Equilibrium Constant",
+          "type": "number"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/AqueousStoichiometricTerm"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Terms",
+          "type": "array"
+        },
+        "evidence_source_id": {
+          "minLength": 1,
+          "title": "Evidence Source Id",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Evidence Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "log10_equilibrium_constant",
+        "terms",
+        "evidence_source_id",
+        "source_record_id",
+        "evidence_sha256"
+      ],
+      "title": "AqueousCycleReaction",
+      "type": "object"
+    },
+    "AqueousCycleSpecies": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "charge_number": {
+          "maximum": 8,
+          "minimum": -8,
+          "title": "Charge Number",
+          "type": "integer"
+        },
+        "elemental_composition": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Elemental Composition",
+          "type": "object"
+        }
+      },
+      "required": [
+        "species_id",
+        "charge_number",
+        "elemental_composition"
+      ],
+      "title": "AqueousCycleSpecies",
+      "type": "object"
+    },
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.aqueous_thermodynamic_cycle_audit.v1",
+      "default": "matintegrity.aqueous_thermodynamic_cycle_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "audit_id": {
+      "minLength": 1,
+      "title": "Audit Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "activity_standard_state": {
+      "enum": [
+        "molarity_1_mol_L",
+        "molality_1_mol_kg_water",
+        "dimensionless"
+      ],
+      "title": "Activity Standard State",
+      "type": "string"
+    },
+    "parameter_provider_id": {
+      "minLength": 1,
+      "title": "Parameter Provider Id",
+      "type": "string"
+    },
+    "parameter_provider_revision": {
+      "minLength": 1,
+      "title": "Parameter Provider Revision",
+      "type": "string"
+    },
+    "species": {
+      "items": {
+        "$ref": "#/$defs/AqueousCycleSpecies"
+      },
+      "maxItems": 100,
+      "minItems": 2,
+      "title": "Species",
+      "type": "array"
+    },
+    "reactions": {
+      "items": {
+        "$ref": "#/$defs/AqueousCycleReaction"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Reactions",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "stoichiometric_balance_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "maximum": 0.0001,
+      "title": "Stoichiometric Balance Tolerance",
+      "type": "number"
+    },
+    "rank_relative_tolerance": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "maximum": 0.001,
+      "title": "Rank Relative Tolerance",
+      "type": "number"
+    },
+    "cycle_closure_tolerance_log10": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 1.0,
+      "title": "Cycle Closure Tolerance Log10",
+      "type": "number"
+    },
+    "complete_species_inventory_reviewed": {
+      "title": "Complete Species Inventory Reviewed",
+      "type": "boolean"
+    },
+    "elemental_formula_and_stoichiometry_reviewed": {
+      "title": "Elemental Formula And Stoichiometry Reviewed",
+      "type": "boolean"
+    },
+    "equilibrium_constant_conditions_reviewed": {
+      "title": "Equilibrium Constant Conditions Reviewed",
+      "type": "boolean"
+    },
+    "numerical_rank_and_cycle_tolerance_reviewed": {
+      "title": "Numerical Rank And Cycle Tolerance Reviewed",
+      "type": "boolean"
+    },
+    "evidence_and_usage_rights_reviewed": {
+      "title": "Evidence And Usage Rights Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "audit_id",
+    "temperature_K",
+    "activity_standard_state",
+    "parameter_provider_id",
+    "parameter_provider_revision",
+    "species",
+    "reactions",
+    "evidence",
+    "complete_species_inventory_reviewed",
+    "elemental_formula_and_stoichiometry_reviewed",
+    "equilibrium_constant_conditions_reviewed",
+    "numerical_rank_and_cycle_tolerance_reviewed",
+    "evidence_and_usage_rights_reviewed"
+  ],
+  "title": "AqueousThermodynamicCycleAudit",
+  "type": "object"
+}

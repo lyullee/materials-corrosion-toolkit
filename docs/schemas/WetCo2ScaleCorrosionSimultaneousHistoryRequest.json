@@ -1,0 +1,628 @@
+{
+  "$defs": {
+    "ButlerVolmerReaction": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "exchange_current_density_A_m2": {
+          "minimum": 0,
+          "title": "Exchange Current Density A M2",
+          "type": "number"
+        },
+        "electron_count": {
+          "exclusiveMinimum": 0,
+          "title": "Electron Count",
+          "type": "integer"
+        },
+        "anodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Anodic Transfer Coefficient",
+          "type": "number"
+        },
+        "cathodic_transfer_coefficient": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Cathodic Transfer Coefficient",
+          "type": "number"
+        },
+        "equilibrium_potential_V": {
+          "title": "Equilibrium Potential V",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "minimum_overpotential_V": {
+          "title": "Minimum Overpotential V",
+          "type": "number"
+        },
+        "maximum_overpotential_V": {
+          "title": "Maximum Overpotential V",
+          "type": "number"
+        },
+        "stoichiometric_species_coefficients": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Stoichiometric Species Coefficients",
+          "type": "object"
+        },
+        "calibration_and_reaction_direction_reviewed": {
+          "title": "Calibration And Reaction Direction Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "calibration_sha256",
+        "exchange_current_density_A_m2",
+        "electron_count",
+        "anodic_transfer_coefficient",
+        "cathodic_transfer_coefficient",
+        "equilibrium_potential_V",
+        "temperature_K",
+        "minimum_overpotential_V",
+        "maximum_overpotential_V",
+        "stoichiometric_species_coefficients",
+        "calibration_and_reaction_direction_reviewed"
+      ],
+      "title": "ButlerVolmerReaction",
+      "type": "object"
+    },
+    "CarbonateTransportBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "equilibrium_result_sha256": {
+          "title": "Equilibrium Result Sha256",
+          "type": "string"
+        },
+        "selection_sha256": {
+          "title": "Selection Sha256",
+          "type": "string"
+        },
+        "species_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Species Ids",
+          "type": "array"
+        },
+        "concentration_mol_m3": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Concentration Mol M3",
+          "type": "array"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "solvent_composition_sha256": {
+          "title": "Solvent Composition Sha256",
+          "type": "string"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "equilibrium_result_sha256",
+        "selection_sha256",
+        "species_ids",
+        "concentration_mol_m3",
+        "temperature_K",
+        "solvent_composition_sha256",
+        "interpretation"
+      ],
+      "title": "CarbonateTransportBoundary",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2MetalToScaleYield": {
+      "additionalProperties": false,
+      "properties": {
+        "reaction_id": {
+          "minLength": 1,
+          "title": "Reaction Id",
+          "type": "string"
+        },
+        "metal_atoms_per_reaction_extent": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Atoms Per Reaction Extent",
+          "type": "number"
+        },
+        "metal_molar_mass_kg_mol": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Molar Mass Kg Mol",
+          "type": "number"
+        },
+        "metal_density_kg_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Metal Density Kg M3",
+          "type": "number"
+        },
+        "scale_moles_per_metal_mole": {
+          "minimum": 0,
+          "title": "Scale Moles Per Metal Mole",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "alloy_volume_additivity_reviewed": {
+          "title": "Alloy Volume Additivity Reviewed",
+          "type": "boolean"
+        },
+        "metal_to_scale_stoichiometry_reviewed": {
+          "title": "Metal To Scale Stoichiometry Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reaction_id",
+        "metal_atoms_per_reaction_extent",
+        "metal_molar_mass_kg_mol",
+        "metal_density_kg_m3",
+        "scale_moles_per_metal_mole",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence",
+        "alloy_volume_additivity_reviewed",
+        "metal_to_scale_stoichiometry_reviewed"
+      ],
+      "title": "WetCo2MetalToScaleYield",
+      "type": "object"
+    },
+    "WetCo2ReactantFilmRecord": {
+      "additionalProperties": false,
+      "description": "Caller-supplied linear liquid-film conductance for one consumed species.",
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Diffusivity M2 S",
+          "type": "number"
+        },
+        "film_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Film Thickness M",
+          "type": "number"
+        },
+        "minimum_surface_concentration_mol_m3": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Minimum Surface Concentration Mol M3",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "source_record_id": {
+          "minLength": 1,
+          "title": "Source Record Id",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "transfer_parameter_reviewed": {
+          "title": "Transfer Parameter Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "species_id",
+        "diffusivity_m2_s",
+        "film_thickness_m",
+        "provider_id",
+        "provider_revision",
+        "source_record_id",
+        "evidence",
+        "transfer_parameter_reviewed"
+      ],
+      "title": "WetCo2ReactantFilmRecord",
+      "type": "object"
+    },
+    "WetCo2SimultaneousScaleInterval": {
+      "additionalProperties": false,
+      "description": "One boundary interval; the nested mixed-potential request supplies its chemistry and kinetics.",
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "mixed_potential_request": {
+          "$ref": "#/$defs/WetCo2TransportLimitedMixedPotentialRequest"
+        },
+        "external_net_scale_formation_flux_mol_m2_s": {
+          "title": "External Net Scale Formation Flux Mol M2 S",
+          "type": "number"
+        },
+        "external_flux_provider_id": {
+          "minLength": 1,
+          "title": "External Flux Provider Id",
+          "type": "string"
+        },
+        "external_flux_provider_revision": {
+          "minLength": 1,
+          "title": "External Flux Provider Revision",
+          "type": "string"
+        },
+        "external_flux_source_record_id": {
+          "minLength": 1,
+          "title": "External Flux Source Record Id",
+          "type": "string"
+        },
+        "external_flux_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "external_scale_flux_and_sign_reviewed": {
+          "title": "External Scale Flux And Sign Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "mixed_potential_request",
+        "external_net_scale_formation_flux_mol_m2_s",
+        "external_flux_provider_id",
+        "external_flux_provider_revision",
+        "external_flux_source_record_id",
+        "external_flux_evidence",
+        "external_scale_flux_and_sign_reviewed"
+      ],
+      "title": "WetCo2SimultaneousScaleInterval",
+      "type": "object"
+    },
+    "WetCo2TransportLimitedMixedPotentialRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "$ref": "#/$defs/CarbonateTransportBoundary"
+        },
+        "boundary_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Boundary Sha256",
+          "type": "string"
+        },
+        "reactions": {
+          "items": {
+            "$ref": "#/$defs/ButlerVolmerReaction"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Reactions",
+          "type": "array"
+        },
+        "reactant_films": {
+          "items": {
+            "$ref": "#/$defs/WetCo2ReactantFilmRecord"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Reactant Films",
+          "type": "array"
+        },
+        "potential_absolute_tolerance_V": {
+          "default": 1e-10,
+          "exclusiveMinimum": 0,
+          "title": "Potential Absolute Tolerance V",
+          "type": "number"
+        },
+        "maximum_bisection_iterations": {
+          "default": 200,
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Maximum Bisection Iterations",
+          "type": "integer"
+        },
+        "boundary_scope_match_reviewed": {
+          "title": "Boundary Scope Match Reviewed",
+          "type": "boolean"
+        },
+        "species_direction_and_reaction_mapping_reviewed": {
+          "title": "Species Direction And Reaction Mapping Reviewed",
+          "type": "boolean"
+        },
+        "planar_steady_film_approximation_reviewed": {
+          "title": "Planar Steady Film Approximation Reviewed",
+          "type": "boolean"
+        },
+        "common_temperature_and_solution_reference_reviewed": {
+          "title": "Common Temperature And Solution Reference Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "boundary",
+        "boundary_sha256",
+        "reactions",
+        "reactant_films",
+        "boundary_scope_match_reviewed",
+        "species_direction_and_reaction_mapping_reviewed",
+        "planar_steady_film_approximation_reviewed",
+        "common_temperature_and_solution_reference_reviewed"
+      ],
+      "title": "WetCo2TransportLimitedMixedPotentialRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Finite-interval moving-scale feedback using caller chemistry and calibration records.",
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "initial_wall_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Wall Thickness M",
+      "type": "number"
+    },
+    "initial_scale_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Scale Thickness M",
+      "type": "number"
+    },
+    "minimum_supported_scale_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Supported Scale Thickness M",
+      "type": "number"
+    },
+    "scale_molar_volume_m3_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Scale Molar Volume M3 Mol",
+      "type": "number"
+    },
+    "scale_property_provider_id": {
+      "minLength": 1,
+      "title": "Scale Property Provider Id",
+      "type": "string"
+    },
+    "scale_property_revision": {
+      "minLength": 1,
+      "title": "Scale Property Revision",
+      "type": "string"
+    },
+    "scale_property_source_record_id": {
+      "minLength": 1,
+      "title": "Scale Property Source Record Id",
+      "type": "string"
+    },
+    "scale_property_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "metal_to_scale_yields": {
+      "items": {
+        "$ref": "#/$defs/WetCo2MetalToScaleYield"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Metal To Scale Yields",
+      "type": "array"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/WetCo2SimultaneousScaleInterval"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "relative_tolerance": {
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Tolerance",
+      "type": "number"
+    },
+    "absolute_scale_tolerance_m": {
+      "exclusiveMinimum": 0,
+      "title": "Absolute Scale Tolerance M",
+      "type": "number"
+    },
+    "absolute_wall_tolerance_m": {
+      "exclusiveMinimum": 0,
+      "title": "Absolute Wall Tolerance M",
+      "type": "number"
+    },
+    "absolute_metal_inventory_tolerance_mol_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Absolute Metal Inventory Tolerance Mol M2",
+      "type": "number"
+    },
+    "absolute_external_scale_tolerance_mol_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Absolute External Scale Tolerance Mol M2",
+      "type": "number"
+    },
+    "maximum_step_s": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Step S",
+      "type": "number"
+    },
+    "initial_geometry_reviewed": {
+      "title": "Initial Geometry Reviewed",
+      "type": "boolean"
+    },
+    "mixed_potential_and_film_scope_reviewed": {
+      "title": "Mixed Potential And Film Scope Reviewed",
+      "type": "boolean"
+    },
+    "simultaneous_feedback_and_uniform_patch_reviewed": {
+      "title": "Simultaneous Feedback And Uniform Patch Reviewed",
+      "type": "boolean"
+    },
+    "scale_stoichiometry_and_volume_additivity_reviewed": {
+      "title": "Scale Stoichiometry And Volume Additivity Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "initial_wall_thickness_m",
+    "initial_scale_thickness_m",
+    "minimum_supported_scale_thickness_m",
+    "scale_molar_volume_m3_mol",
+    "scale_property_provider_id",
+    "scale_property_revision",
+    "scale_property_source_record_id",
+    "scale_property_evidence",
+    "metal_to_scale_yields",
+    "intervals",
+    "relative_tolerance",
+    "absolute_scale_tolerance_m",
+    "absolute_wall_tolerance_m",
+    "absolute_metal_inventory_tolerance_mol_m2",
+    "absolute_external_scale_tolerance_mol_m2",
+    "maximum_step_s",
+    "initial_geometry_reviewed",
+    "mixed_potential_and_film_scope_reviewed",
+    "simultaneous_feedback_and_uniform_patch_reviewed",
+    "scale_stoichiometry_and_volume_additivity_reviewed"
+  ],
+  "title": "WetCo2ScaleCorrosionSimultaneousHistoryRequest",
+  "type": "object"
+}

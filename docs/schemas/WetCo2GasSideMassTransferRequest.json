@@ -1,0 +1,271 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-reviewed gas hydrodynamic and fugacity-to-concentration state.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_gas_side_mass_transfer.v1",
+      "default": "matintegrity.wet_co2_gas_side_mass_transfer.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "condition_id": {
+      "minLength": 1,
+      "title": "Condition Id",
+      "type": "string"
+    },
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "gas_flow_regime": {
+      "enum": [
+        "single_phase_turbulent",
+        "two_phase_gas_core",
+        "other"
+      ],
+      "title": "Gas Flow Regime",
+      "type": "string"
+    },
+    "gas_mean_velocity_m_s": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Mean Velocity M S",
+      "type": "number"
+    },
+    "gas_wall_shear_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Wall Shear Stress Pa",
+      "type": "number"
+    },
+    "gas_density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Density Kg M3",
+      "type": "number"
+    },
+    "gas_dynamic_viscosity_Pa_s": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Dynamic Viscosity Pa S",
+      "type": "number"
+    },
+    "co2_gas_diffusivity_m2_s": {
+      "exclusiveMinimum": 0,
+      "title": "Co2 Gas Diffusivity M2 S",
+      "type": "number"
+    },
+    "hydraulic_diameter_m": {
+      "exclusiveMinimum": 0,
+      "title": "Hydraulic Diameter M",
+      "type": "number"
+    },
+    "gas_molar_concentration_sensitivity_mol_m3_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Gas Molar Concentration Sensitivity Mol M3 Pa",
+      "type": "number"
+    },
+    "friction_exponent": {
+      "maximum": 1.0,
+      "minimum": 0.5,
+      "title": "Friction Exponent",
+      "type": "number"
+    },
+    "hydrodynamics_provider_id": {
+      "minLength": 1,
+      "title": "Hydrodynamics Provider Id",
+      "type": "string"
+    },
+    "hydrodynamics_provider_revision": {
+      "minLength": 1,
+      "title": "Hydrodynamics Provider Revision",
+      "type": "string"
+    },
+    "hydrodynamics_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydrodynamics Configuration Sha256",
+      "type": "string"
+    },
+    "hydrodynamics_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hydrodynamics Result Sha256",
+      "type": "string"
+    },
+    "gas_property_provider_id": {
+      "minLength": 1,
+      "title": "Gas Property Provider Id",
+      "type": "string"
+    },
+    "gas_property_provider_revision": {
+      "minLength": 1,
+      "title": "Gas Property Provider Revision",
+      "type": "string"
+    },
+    "gas_property_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Gas Property Configuration Sha256",
+      "type": "string"
+    },
+    "gas_property_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Gas Property Result Sha256",
+      "type": "string"
+    },
+    "diffusivity_record_id": {
+      "minLength": 1,
+      "title": "Diffusivity Record Id",
+      "type": "string"
+    },
+    "diffusivity_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Diffusivity Record Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 3,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "provider_state_and_time_alignment_reviewed": {
+      "title": "Provider State And Time Alignment Reviewed",
+      "type": "boolean"
+    },
+    "gas_phase_regime_and_shear_reviewed": {
+      "title": "Gas Phase Regime And Shear Reviewed",
+      "type": "boolean"
+    },
+    "gas_diffusivity_species_temperature_and_mixture_reviewed": {
+      "title": "Gas Diffusivity Species Temperature And Mixture Reviewed",
+      "type": "boolean"
+    },
+    "fugacity_sensitivity_and_units_reviewed": {
+      "title": "Fugacity Sensitivity And Units Reviewed",
+      "type": "boolean"
+    },
+    "analogy_exponent_and_scope_reviewed": {
+      "title": "Analogy Exponent And Scope Reviewed",
+      "type": "boolean"
+    },
+    "extrapolation_use_reviewed": {
+      "default": false,
+      "title": "Extrapolation Use Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "condition_id",
+    "time_s",
+    "gas_flow_regime",
+    "gas_mean_velocity_m_s",
+    "gas_wall_shear_stress_Pa",
+    "gas_density_kg_m3",
+    "gas_dynamic_viscosity_Pa_s",
+    "co2_gas_diffusivity_m2_s",
+    "hydraulic_diameter_m",
+    "gas_molar_concentration_sensitivity_mol_m3_Pa",
+    "friction_exponent",
+    "hydrodynamics_provider_id",
+    "hydrodynamics_provider_revision",
+    "hydrodynamics_configuration_sha256",
+    "hydrodynamics_result_sha256",
+    "gas_property_provider_id",
+    "gas_property_provider_revision",
+    "gas_property_configuration_sha256",
+    "gas_property_result_sha256",
+    "diffusivity_record_id",
+    "diffusivity_record_sha256",
+    "evidence",
+    "provider_state_and_time_alignment_reviewed",
+    "gas_phase_regime_and_shear_reviewed",
+    "gas_diffusivity_species_temperature_and_mixture_reviewed",
+    "fugacity_sensitivity_and_units_reviewed",
+    "analogy_exponent_and_scope_reviewed"
+  ],
+  "title": "WetCo2GasSideMassTransferRequest",
+  "type": "object"
+}

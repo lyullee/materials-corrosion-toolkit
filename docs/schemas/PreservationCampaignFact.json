@@ -1,0 +1,205 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fact_id": {
+      "minLength": 1,
+      "title": "Fact Id",
+      "type": "string"
+    },
+    "fact_kind": {
+      "enum": [
+        "temperature",
+        "relative_humidity",
+        "dewpoint",
+        "water_ingress",
+        "desiccant",
+        "inhibitor",
+        "cover",
+        "seal",
+        "surface",
+        "corrosion_observation"
+      ],
+      "title": "Fact Kind",
+      "type": "string"
+    },
+    "quantity_id": {
+      "minLength": 1,
+      "title": "Quantity Id",
+      "type": "string"
+    },
+    "result_mode": {
+      "enum": [
+        "quantitative",
+        "qualitative"
+      ],
+      "title": "Result Mode",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "reported",
+        "missing",
+        "invalid"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Value"
+    },
+    "expanded_uncertainty": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expanded Uncertainty"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "qualitative_class": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Qualitative Class"
+    },
+    "qualitative_uncertainty_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Qualitative Uncertainty Basis"
+    },
+    "method_id": {
+      "minLength": 1,
+      "title": "Method Id",
+      "type": "string"
+    },
+    "fact_record_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fact Record Digest",
+      "type": "string"
+    },
+    "invalid_or_missing_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Invalid Or Missing Basis"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fact_id",
+    "fact_kind",
+    "quantity_id",
+    "result_mode",
+    "status",
+    "unit_token",
+    "method_id",
+    "fact_record_digest",
+    "evidence"
+  ],
+  "title": "PreservationCampaignFact",
+  "type": "object"
+}

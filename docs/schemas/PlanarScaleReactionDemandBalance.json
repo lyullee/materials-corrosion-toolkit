@@ -1,0 +1,339 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ScaleReactionDemandInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "effective_diffusivity_m2_s": {
+          "exclusiveMinimum": 0,
+          "title": "Effective Diffusivity M2 S",
+          "type": "number"
+        },
+        "interface_transfer_coefficient_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Interface Transfer Coefficient M S",
+          "type": "number"
+        },
+        "reservoir_driving_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Reservoir Driving Concentration Mol M3",
+          "type": "number"
+        },
+        "scale_consumption_flux_mol_m2_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scale Consumption Flux Mol M2 S"
+        },
+        "signed_partial_current_density_A_m2": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signed Partial Current Density A M2"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "temperature_K",
+        "effective_diffusivity_m2_s",
+        "interface_transfer_coefficient_m_s",
+        "reservoir_driving_concentration_mol_m3"
+      ],
+      "title": "ScaleReactionDemandInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "clock_id": {
+      "minLength": 1,
+      "title": "Clock Id",
+      "type": "string"
+    },
+    "scale_phase_id": {
+      "minLength": 1,
+      "title": "Scale Phase Id",
+      "type": "string"
+    },
+    "transported_reactant_id": {
+      "minLength": 1,
+      "title": "Transported Reactant Id",
+      "type": "string"
+    },
+    "demand_reaction_id": {
+      "minLength": 1,
+      "title": "Demand Reaction Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "parameter_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Record Sha256",
+      "type": "string"
+    },
+    "initial_scale_thickness_m": {
+      "minimum": 0,
+      "title": "Initial Scale Thickness M",
+      "type": "number"
+    },
+    "scale_molar_volume_m3_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Scale Molar Volume M3 Mol",
+      "type": "number"
+    },
+    "transported_reactant_moles_per_scale_mole": {
+      "exclusiveMinimum": 0,
+      "title": "Transported Reactant Moles Per Scale Mole",
+      "type": "number"
+    },
+    "electrons_per_reaction_extent": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Electrons Per Reaction Extent"
+    },
+    "consumed_scale_moles_per_reaction_extent": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Consumed Scale Moles Per Reaction Extent"
+    },
+    "consuming_partial_current_sign": {
+      "anyOf": [
+        {
+          "enum": [
+            "positive",
+            "negative"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Consuming Partial Current Sign"
+    },
+    "temperature_support_min_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Support Min K",
+      "type": "number"
+    },
+    "temperature_support_max_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature Support Max K",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/ScaleReactionDemandInterval"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "maximum_scalar_iterations": {
+      "default": 160,
+      "maximum": 1000,
+      "minimum": 8,
+      "title": "Maximum Scalar Iterations",
+      "type": "integer"
+    },
+    "thickness_tolerance_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Thickness Tolerance M",
+      "type": "number"
+    },
+    "time_tolerance_s": {
+      "default": 1e-09,
+      "exclusiveMinimum": 0,
+      "title": "Time Tolerance S",
+      "type": "number"
+    },
+    "fixed_planar_dense_single_phase_and_area_reviewed": {
+      "title": "Fixed Planar Dense Single Phase And Area Reviewed",
+      "type": "boolean"
+    },
+    "quasi_steady_series_resistance_and_reservoir_reviewed": {
+      "title": "Quasi Steady Series Resistance And Reservoir Reviewed",
+      "type": "boolean"
+    },
+    "stoichiometry_and_surface_consumption_balance_reviewed": {
+      "title": "Stoichiometry And Surface Consumption Balance Reviewed",
+      "type": "boolean"
+    },
+    "signed_partial_current_mapping_reviewed": {
+      "default": false,
+      "title": "Signed Partial Current Mapping Reviewed",
+      "type": "boolean"
+    },
+    "interval_parameter_temperature_support_reviewed": {
+      "title": "Interval Parameter Temperature Support Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "clock_id",
+    "scale_phase_id",
+    "transported_reactant_id",
+    "demand_reaction_id",
+    "provider_id",
+    "provider_revision",
+    "parameter_record_sha256",
+    "initial_scale_thickness_m",
+    "scale_molar_volume_m3_mol",
+    "transported_reactant_moles_per_scale_mole",
+    "temperature_support_min_K",
+    "temperature_support_max_K",
+    "intervals",
+    "fixed_planar_dense_single_phase_and_area_reviewed",
+    "quasi_steady_series_resistance_and_reservoir_reviewed",
+    "stoichiometry_and_surface_consumption_balance_reviewed",
+    "interval_parameter_temperature_support_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "PlanarScaleReactionDemandBalance",
+  "type": "object"
+}

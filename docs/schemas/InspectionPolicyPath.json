@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "InspectionPolicyStage": {
+      "additionalProperties": false,
+      "properties": {
+        "stage_id": {
+          "minLength": 1,
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_time_s": {
+          "minimum": 0,
+          "title": "Stage Time S",
+          "type": "number"
+        },
+        "observed_state_id": {
+          "minLength": 1,
+          "title": "Observed State Id",
+          "type": "string"
+        },
+        "action_id": {
+          "minLength": 1,
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_definition": {
+          "minLength": 1,
+          "title": "Action Definition",
+          "type": "string"
+        },
+        "action_model_id": {
+          "minLength": 1,
+          "title": "Action Model Id",
+          "type": "string"
+        },
+        "action_model_revision": {
+          "minLength": 1,
+          "title": "Action Model Revision",
+          "type": "string"
+        },
+        "action_model_configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Configuration Sha256",
+          "type": "string"
+        },
+        "action_model_input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Model Input Sha256",
+          "type": "string"
+        },
+        "cost_components": {
+          "items": {
+            "$ref": "#/$defs/PolicyStageCostComponent"
+          },
+          "title": "Cost Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage_id",
+        "stage_time_s",
+        "observed_state_id",
+        "action_id",
+        "action_definition",
+        "action_model_id",
+        "action_model_revision",
+        "action_model_configuration_sha256",
+        "action_model_input_sha256"
+      ],
+      "title": "InspectionPolicyStage",
+      "type": "object"
+    },
+    "PolicyStageCostComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "category": {
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "amount_at_stage_time": {
+          "minimum": 0,
+          "title": "Amount At Stage Time",
+          "type": "number"
+        },
+        "present_value_factor": {
+          "minimum": 0,
+          "title": "Present Value Factor",
+          "type": "number"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "category",
+        "amount_at_stage_time",
+        "present_value_factor",
+        "basis"
+      ],
+      "title": "PolicyStageCostComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "path_id": {
+      "minLength": 1,
+      "title": "Path Id",
+      "type": "string"
+    },
+    "path_probability_given_start_survival": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Path Probability Given Start Survival",
+      "type": "number"
+    },
+    "path_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Path Source Sha256",
+      "type": "string"
+    },
+    "stages": {
+      "items": {
+        "$ref": "#/$defs/InspectionPolicyStage"
+      },
+      "title": "Stages",
+      "type": "array"
+    },
+    "first_failure_occurred": {
+      "title": "First Failure Occurred",
+      "type": "boolean"
+    },
+    "first_failure_time_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Failure Time S"
+    },
+    "failure_consequence_present_value_factor": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Failure Consequence Present Value Factor"
+    }
+  },
+  "required": [
+    "path_id",
+    "path_probability_given_start_survival",
+    "path_source_sha256",
+    "first_failure_occurred"
+  ],
+  "title": "InspectionPolicyPath",
+  "type": "object"
+}

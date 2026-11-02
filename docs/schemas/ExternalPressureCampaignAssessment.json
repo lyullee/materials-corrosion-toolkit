@@ -1,0 +1,1294 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExternalPressureCampaignCallerProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "required_result_kinds": {
+          "items": {
+            "enum": [
+              "eigen_buckling_pressure",
+              "nonlinear_limit_pressure"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Result Kinds",
+          "type": "array"
+        },
+        "convergence_metric_definition": {
+          "minLength": 1,
+          "title": "Convergence Metric Definition",
+          "type": "string"
+        },
+        "convergence_metric_unit_token": {
+          "minLength": 1,
+          "title": "Convergence Metric Unit Token",
+          "type": "string"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/ExternalPressureReceiptCriterion"
+          },
+          "minItems": 4,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_provider_id": {
+          "minLength": 1,
+          "title": "Profile Provider Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "profile_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Configuration Digest",
+          "type": "string"
+        },
+        "caller_review_authority": {
+          "minLength": 1,
+          "title": "Caller Review Authority",
+          "type": "string"
+        },
+        "buckling_analysis_executed": {
+          "const": false,
+          "default": false,
+          "title": "Buckling Analysis Executed",
+          "type": "boolean"
+        },
+        "code_curve_or_safety_factor_used": {
+          "const": false,
+          "default": false,
+          "title": "Code Curve Or Safety Factor Used",
+          "type": "boolean"
+        },
+        "automatic_acceptance_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Acceptance Claimed",
+          "type": "boolean"
+        },
+        "field_qualification_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Field Qualification Claimed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_version",
+        "required_result_kinds",
+        "convergence_metric_definition",
+        "convergence_metric_unit_token",
+        "criteria",
+        "profile_provider_id",
+        "profile_revision",
+        "profile_configuration_digest",
+        "caller_review_authority",
+        "evidence"
+      ],
+      "title": "ExternalPressureCampaignCallerProfile",
+      "type": "object"
+    },
+    "ExternalPressureConvergenceEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "convergence_record_id": {
+          "minLength": 1,
+          "title": "Convergence Record Id",
+          "type": "string"
+        },
+        "provider_assessment_id": {
+          "minLength": 1,
+          "title": "Provider Assessment Id",
+          "type": "string"
+        },
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "result_kind": {
+          "enum": [
+            "eigen_buckling_pressure",
+            "nonlinear_limit_pressure"
+          ],
+          "title": "Result Kind",
+          "type": "string"
+        },
+        "mesh_family_id": {
+          "minLength": 1,
+          "title": "Mesh Family Id",
+          "type": "string"
+        },
+        "model_family_id": {
+          "minLength": 1,
+          "title": "Model Family Id",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "minLength": 1,
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "convergence_metric_definition": {
+          "minLength": 1,
+          "title": "Convergence Metric Definition",
+          "type": "string"
+        },
+        "convergence_metric_value": {
+          "minimum": 0,
+          "title": "Convergence Metric Value",
+          "type": "number"
+        },
+        "convergence_metric_unit_token": {
+          "minLength": 1,
+          "title": "Convergence Metric Unit Token",
+          "type": "string"
+        },
+        "comparison_result_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Comparison Result Ids",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "comparison_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Comparison Input Digest",
+          "type": "string"
+        },
+        "comparison_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Comparison Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "convergence_record_id",
+        "provider_assessment_id",
+        "analysis_id",
+        "result_kind",
+        "mesh_family_id",
+        "model_family_id",
+        "pressure_basis",
+        "convergence_metric_definition",
+        "convergence_metric_value",
+        "convergence_metric_unit_token",
+        "comparison_result_ids",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "comparison_input_digest",
+        "comparison_result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ExternalPressureConvergenceEvidence",
+      "type": "object"
+    },
+    "ExternalPressureGeometryMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "value": {
+          "exclusiveMinimum": 0,
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "measurement_basis": {
+          "minLength": 1,
+          "title": "Measurement Basis",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "metric_id",
+        "value",
+        "unit_token",
+        "measurement_basis",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "evidence"
+      ],
+      "title": "ExternalPressureGeometryMetric",
+      "type": "object"
+    },
+    "ExternalPressureGeometrySupport": {
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_value": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Value",
+          "type": "number"
+        },
+        "maximum_value": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "metric_id",
+        "unit_token",
+        "minimum_value",
+        "maximum_value"
+      ],
+      "title": "ExternalPressureGeometrySupport",
+      "type": "object"
+    },
+    "ExternalPressureImperfectionRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "imperfection_field_id": {
+          "minLength": 1,
+          "title": "Imperfection Field Id",
+          "type": "string"
+        },
+        "physical_surface_id": {
+          "minLength": 1,
+          "title": "Physical Surface Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "field_definition": {
+          "minLength": 1,
+          "title": "Field Definition",
+          "type": "string"
+        },
+        "field_data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Data Digest",
+          "type": "string"
+        },
+        "metric_definition_id": {
+          "minLength": 1,
+          "title": "Metric Definition Id",
+          "type": "string"
+        },
+        "metric_value": {
+          "minimum": 0,
+          "title": "Metric Value",
+          "type": "number"
+        },
+        "metric_unit_token": {
+          "minLength": 1,
+          "title": "Metric Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "imperfection_field_id",
+        "physical_surface_id",
+        "coordinate_frame_id",
+        "field_definition",
+        "field_data_digest",
+        "metric_definition_id",
+        "metric_value",
+        "metric_unit_token",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ExternalPressureImperfectionRecord",
+      "type": "object"
+    },
+    "ExternalPressureProviderEvidenceAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "shell_type_id": {
+          "minLength": 1,
+          "title": "Shell Type Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Thickness M",
+          "type": "number"
+        },
+        "geometry_metrics": {
+          "items": {
+            "$ref": "#/$defs/ExternalPressureGeometryMetric"
+          },
+          "minItems": 1,
+          "title": "Geometry Metrics",
+          "type": "array"
+        },
+        "boundary_support_id": {
+          "minLength": 1,
+          "title": "Boundary Support Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "minLength": 1,
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "imperfection": {
+          "$ref": "#/$defs/ExternalPressureImperfectionRecord"
+        },
+        "provider_result": {
+          "$ref": "#/$defs/ExternalPressureProviderResult"
+        },
+        "candidate_envelopes": {
+          "items": {
+            "$ref": "#/$defs/ExternalPressureQualificationEnvelope"
+          },
+          "minItems": 1,
+          "title": "Candidate Envelopes",
+          "type": "array"
+        },
+        "component_material_geometry_and_thickness_reviewed": {
+          "title": "Component Material Geometry And Thickness Reviewed",
+          "type": "boolean"
+        },
+        "boundary_support_load_case_and_pressure_basis_reviewed": {
+          "title": "Boundary Support Load Case And Pressure Basis Reviewed",
+          "type": "boolean"
+        },
+        "imperfection_field_metric_and_units_reviewed": {
+          "title": "Imperfection Field Metric And Units Reviewed",
+          "type": "boolean"
+        },
+        "mesh_and_model_identity_reviewed": {
+          "title": "Mesh And Model Identity Reviewed",
+          "type": "boolean"
+        },
+        "solver_provider_revision_and_digests_reviewed": {
+          "title": "Solver Provider Revision And Digests Reviewed",
+          "type": "boolean"
+        },
+        "result_kind_units_and_solution_state_reviewed": {
+          "title": "Result Kind Units And Solution State Reviewed",
+          "type": "boolean"
+        },
+        "calibration_holdout_partitions_reviewed": {
+          "title": "Calibration Holdout Partitions Reviewed",
+          "type": "boolean"
+        },
+        "qualification_envelope_authority_reviewed": {
+          "title": "Qualification Envelope Authority Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "asset_id",
+        "location_id",
+        "component_id",
+        "shell_type_id",
+        "material_id",
+        "material_condition_id",
+        "thickness_m",
+        "geometry_metrics",
+        "boundary_support_id",
+        "load_case_id",
+        "pressure_basis",
+        "imperfection",
+        "provider_result",
+        "candidate_envelopes",
+        "component_material_geometry_and_thickness_reviewed",
+        "boundary_support_load_case_and_pressure_basis_reviewed",
+        "imperfection_field_metric_and_units_reviewed",
+        "mesh_and_model_identity_reviewed",
+        "solver_provider_revision_and_digests_reviewed",
+        "result_kind_units_and_solution_state_reviewed",
+        "calibration_holdout_partitions_reviewed",
+        "qualification_envelope_authority_reviewed"
+      ],
+      "title": "ExternalPressureProviderEvidenceAssessment",
+      "type": "object"
+    },
+    "ExternalPressureProviderResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_record_id": {
+          "minLength": 1,
+          "title": "Result Record Id",
+          "type": "string"
+        },
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "result_kind": {
+          "enum": [
+            "eigen_buckling_pressure",
+            "nonlinear_limit_pressure"
+          ],
+          "title": "Result Kind",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "minLength": 1,
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "result_value": {
+          "exclusiveMinimum": 0,
+          "title": "Result Value",
+          "type": "number"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "mesh_id": {
+          "minLength": 1,
+          "title": "Mesh Id",
+          "type": "string"
+        },
+        "mesh_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mesh Digest",
+          "type": "string"
+        },
+        "geometry_model_id": {
+          "minLength": 1,
+          "title": "Geometry Model Id",
+          "type": "string"
+        },
+        "material_model_id": {
+          "minLength": 1,
+          "title": "Material Model Id",
+          "type": "string"
+        },
+        "imperfection_model_id": {
+          "minLength": 1,
+          "title": "Imperfection Model Id",
+          "type": "string"
+        },
+        "boundary_model_id": {
+          "minLength": 1,
+          "title": "Boundary Model Id",
+          "type": "string"
+        },
+        "load_model_id": {
+          "minLength": 1,
+          "title": "Load Model Id",
+          "type": "string"
+        },
+        "solver_id": {
+          "minLength": 1,
+          "title": "Solver Id",
+          "type": "string"
+        },
+        "solver_revision": {
+          "minLength": 1,
+          "title": "Solver Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "convergence_or_solution_state": {
+          "minLength": 1,
+          "title": "Convergence Or Solution State",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "result_record_id",
+        "analysis_id",
+        "result_kind",
+        "pressure_basis",
+        "result_value",
+        "result_unit_token",
+        "mesh_id",
+        "mesh_digest",
+        "geometry_model_id",
+        "material_model_id",
+        "imperfection_model_id",
+        "boundary_model_id",
+        "load_model_id",
+        "solver_id",
+        "solver_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "convergence_or_solution_state",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "ExternalPressureProviderResult",
+      "type": "object"
+    },
+    "ExternalPressureQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "shell_type_id": {
+          "minLength": 1,
+          "title": "Shell Type Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "boundary_support_id": {
+          "minLength": 1,
+          "title": "Boundary Support Id",
+          "type": "string"
+        },
+        "load_case_id": {
+          "minLength": 1,
+          "title": "Load Case Id",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "minLength": 1,
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "minimum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Thickness M",
+          "type": "number"
+        },
+        "maximum_thickness_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Thickness M",
+          "type": "number"
+        },
+        "geometry_support": {
+          "items": {
+            "$ref": "#/$defs/ExternalPressureGeometrySupport"
+          },
+          "minItems": 1,
+          "title": "Geometry Support",
+          "type": "array"
+        },
+        "imperfection_metric_definition_id": {
+          "minLength": 1,
+          "title": "Imperfection Metric Definition Id",
+          "type": "string"
+        },
+        "imperfection_metric_unit_token": {
+          "minLength": 1,
+          "title": "Imperfection Metric Unit Token",
+          "type": "string"
+        },
+        "minimum_imperfection_metric_value": {
+          "minimum": 0,
+          "title": "Minimum Imperfection Metric Value",
+          "type": "number"
+        },
+        "maximum_imperfection_metric_value": {
+          "minimum": 0,
+          "title": "Maximum Imperfection Metric Value",
+          "type": "number"
+        },
+        "supported_result_kinds": {
+          "items": {
+            "enum": [
+              "eigen_buckling_pressure",
+              "nonlinear_limit_pressure"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Result Kinds",
+          "type": "array"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "solver_id": {
+          "minLength": 1,
+          "title": "Solver Id",
+          "type": "string"
+        },
+        "solver_revision": {
+          "minLength": 1,
+          "title": "Solver Revision",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "qualification_evidence": {
+          "items": {
+            "$ref": "#/$defs/ExternalPressureQualificationEvidence"
+          },
+          "minItems": 1,
+          "title": "Qualification Evidence",
+          "type": "array"
+        },
+        "minimum_calibration_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Calibration Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Source Group Count",
+          "type": "integer"
+        },
+        "minimum_holdout_independence_group_count": {
+          "minimum": 1,
+          "title": "Minimum Holdout Independence Group Count",
+          "type": "integer"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "shell_type_id",
+        "material_condition_id",
+        "boundary_support_id",
+        "load_case_id",
+        "pressure_basis",
+        "minimum_thickness_m",
+        "maximum_thickness_m",
+        "geometry_support",
+        "imperfection_metric_definition_id",
+        "imperfection_metric_unit_token",
+        "minimum_imperfection_metric_value",
+        "maximum_imperfection_metric_value",
+        "supported_result_kinds",
+        "result_unit_token",
+        "solver_id",
+        "solver_revision",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "qualification_evidence",
+        "minimum_calibration_source_group_count",
+        "minimum_holdout_source_group_count",
+        "minimum_holdout_independence_group_count",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "ExternalPressureQualificationEnvelope",
+      "type": "object"
+    },
+    "ExternalPressureQualificationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "physical_benchmark_id": {
+          "minLength": 1,
+          "title": "Physical Benchmark Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "result_kind": {
+          "enum": [
+            "eigen_buckling_pressure",
+            "nonlinear_limit_pressure"
+          ],
+          "title": "Result Kind",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "minLength": 1,
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "observed_value": {
+          "exclusiveMinimum": 0,
+          "title": "Observed Value",
+          "type": "number"
+        },
+        "predicted_value": {
+          "exclusiveMinimum": 0,
+          "title": "Predicted Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_observation_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Observation Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "partition",
+        "physical_benchmark_id",
+        "source_group_id",
+        "independence_group_id",
+        "result_kind",
+        "pressure_basis",
+        "observed_value",
+        "predicted_value",
+        "unit_token",
+        "expanded_observation_uncertainty",
+        "uncertainty_coverage_factor",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "ExternalPressureQualificationEvidence",
+      "type": "object"
+    },
+    "ExternalPressureReceiptCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "metric_id": {
+          "enum": [
+            "supported_receipt_count",
+            "out_of_support_receipt_count",
+            "maximum_convergence_metric",
+            "maximum_holdout_absolute_relative_error"
+          ],
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "minimum",
+            "maximum"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "accept_limit": {
+          "minimum": 0,
+          "title": "Accept Limit",
+          "type": "number"
+        },
+        "reject_limit": {
+          "minimum": 0,
+          "title": "Reject Limit",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "criterion_basis": {
+          "minLength": 1,
+          "title": "Criterion Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "metric_id",
+        "direction",
+        "accept_limit",
+        "reject_limit",
+        "unit_token",
+        "criterion_basis"
+      ],
+      "title": "ExternalPressureReceiptCriterion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "provider_assessments": {
+      "items": {
+        "$ref": "#/$defs/ExternalPressureProviderEvidenceAssessment"
+      },
+      "minItems": 1,
+      "title": "Provider Assessments",
+      "type": "array"
+    },
+    "convergence_evidence": {
+      "items": {
+        "$ref": "#/$defs/ExternalPressureConvergenceEvidence"
+      },
+      "minItems": 1,
+      "title": "Convergence Evidence",
+      "type": "array"
+    },
+    "caller_profile": {
+      "$ref": "#/$defs/ExternalPressureCampaignCallerProfile"
+    },
+    "component_geometry_material_imperfection_identity_reviewed": {
+      "title": "Component Geometry Material Imperfection Identity Reviewed",
+      "type": "boolean"
+    },
+    "boundary_load_pressure_basis_and_support_reviewed": {
+      "title": "Boundary Load Pressure Basis And Support Reviewed",
+      "type": "boolean"
+    },
+    "provider_solver_revision_configuration_and_digests_reviewed": {
+      "title": "Provider Solver Revision Configuration And Digests Reviewed",
+      "type": "boolean"
+    },
+    "mesh_and_model_identity_reviewed": {
+      "title": "Mesh And Model Identity Reviewed",
+      "type": "boolean"
+    },
+    "applicability_and_envelope_support_reviewed": {
+      "title": "Applicability And Envelope Support Reviewed",
+      "type": "boolean"
+    },
+    "convergence_definition_units_and_records_reviewed": {
+      "title": "Convergence Definition Units And Records Reviewed",
+      "type": "boolean"
+    },
+    "calibration_holdout_validation_evidence_reviewed": {
+      "title": "Calibration Holdout Validation Evidence Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_reviewed": {
+      "title": "Caller Profile Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "component_id",
+    "provider_assessments",
+    "convergence_evidence",
+    "caller_profile",
+    "component_geometry_material_imperfection_identity_reviewed",
+    "boundary_load_pressure_basis_and_support_reviewed",
+    "provider_solver_revision_configuration_and_digests_reviewed",
+    "mesh_and_model_identity_reviewed",
+    "applicability_and_envelope_support_reviewed",
+    "convergence_definition_units_and_records_reviewed",
+    "calibration_holdout_validation_evidence_reviewed",
+    "caller_profile_reviewed",
+    "evidence"
+  ],
+  "title": "ExternalPressureCampaignAssessment",
+  "type": "object"
+}

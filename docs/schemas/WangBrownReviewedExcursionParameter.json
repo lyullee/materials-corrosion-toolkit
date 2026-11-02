@@ -1,0 +1,281 @@
+{
+  "$defs": {
+    "CarpinteriSpagnoliPlane": {
+      "additionalProperties": false,
+      "properties": {
+        "plane_id": {
+          "minLength": 1,
+          "title": "Plane Id",
+          "type": "string"
+        },
+        "normal": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Normal",
+          "type": "array"
+        },
+        "tangent_u": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent U",
+          "type": "array"
+        },
+        "tangent_v": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent V",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plane_id",
+        "normal",
+        "tangent_u",
+        "tangent_v"
+      ],
+      "title": "CarpinteriSpagnoliPlane",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WangBrownPlaneReversal": {
+      "additionalProperties": false,
+      "description": "Caller-reviewed shear-reversal endpoints on one candidate plane.",
+      "properties": {
+        "plane": {
+          "$ref": "#/$defs/CarpinteriSpagnoliPlane"
+        },
+        "reversal_start_index": {
+          "minimum": 0,
+          "title": "Reversal Start Index",
+          "type": "integer"
+        },
+        "reversal_end_index": {
+          "minimum": 0,
+          "title": "Reversal End Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "plane",
+        "reversal_start_index",
+        "reversal_end_index"
+      ],
+      "title": "WangBrownPlaneReversal",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compute a bounded Wang-Brown-style parameter from caller-selected reversals.",
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "history_source_id": {
+      "minLength": 1,
+      "title": "History Source Id",
+      "type": "string"
+    },
+    "history_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "History Source Sha256",
+      "type": "string"
+    },
+    "history_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "calibration_source_id": {
+      "minLength": 1,
+      "title": "Calibration Source Id",
+      "type": "string"
+    },
+    "calibration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Calibration Sha256",
+      "type": "string"
+    },
+    "calibration_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "normal_strain_weight_S": {
+      "minimum": 0,
+      "title": "Normal Strain Weight S",
+      "type": "number"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10001,
+      "minItems": 4,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "strain_tensor_components": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 10001,
+      "minItems": 4,
+      "title": "Strain Tensor Components",
+      "type": "array"
+    },
+    "strain_shear_convention": {
+      "pattern": "^(tensor|engineering)$",
+      "title": "Strain Shear Convention",
+      "type": "string"
+    },
+    "plane_reversals": {
+      "items": {
+        "$ref": "#/$defs/WangBrownPlaneReversal"
+      },
+      "maxItems": 20000,
+      "minItems": 1,
+      "title": "Plane Reversals",
+      "type": "array"
+    },
+    "maximum_projection_work": {
+      "default": 2000000,
+      "maximum": 20000000,
+      "minimum": 1,
+      "title": "Maximum Projection Work",
+      "type": "integer"
+    },
+    "tensor_basis_and_order_reviewed": {
+      "title": "Tensor Basis And Order Reviewed",
+      "type": "boolean"
+    },
+    "closed_cycle_and_path_order_reviewed": {
+      "title": "Closed Cycle And Path Order Reviewed",
+      "type": "boolean"
+    },
+    "shear_reversal_pairing_reviewed": {
+      "title": "Shear Reversal Pairing Reviewed",
+      "type": "boolean"
+    },
+    "material_calibration_and_scope_reviewed": {
+      "title": "Material Calibration And Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "material_condition_id",
+    "history_source_id",
+    "history_source_sha256",
+    "history_evidence",
+    "calibration_source_id",
+    "calibration_sha256",
+    "calibration_evidence",
+    "normal_strain_weight_S",
+    "sample_ids",
+    "strain_tensor_components",
+    "strain_shear_convention",
+    "plane_reversals",
+    "tensor_basis_and_order_reviewed",
+    "closed_cycle_and_path_order_reviewed",
+    "shear_reversal_pairing_reviewed",
+    "material_calibration_and_scope_reviewed"
+  ],
+  "title": "WangBrownReviewedExcursionParameter",
+  "type": "object"
+}

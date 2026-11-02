@@ -1,0 +1,417 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ThermalStressPropertyEvidence": {
+      "additionalProperties": false,
+      "description": "Caller provenance for one through-wall mechanical-property profile.",
+      "properties": {
+        "quantity": {
+          "enum": [
+            "secant_thermal_expansion_1_K",
+            "elastic_modulus_Pa",
+            "poisson_ratio",
+            "elastic_limit_Pa"
+          ],
+          "title": "Quantity",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "quantity",
+        "provider_id",
+        "provider_revision",
+        "record_id",
+        "source_sha256",
+        "evidence"
+      ],
+      "title": "ThermalStressPropertyEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.through_wall_thermal_stress.v1",
+      "default": "matintegrity.through_wall_thermal_stress.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Material Condition Id"
+    },
+    "position_m": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Position M",
+      "type": "array"
+    },
+    "temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Temperature K",
+      "type": "array"
+    },
+    "temperature_source_result_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Result Sha256"
+    },
+    "temperature_source_model_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Model Id"
+    },
+    "temperature_source_model_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Model Version"
+    },
+    "temperature_source_time_index": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Time Index"
+    },
+    "temperature_source_time_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Time S"
+    },
+    "temperature_source_time_basis_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Time Basis Id"
+    },
+    "temperature_source_asset_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Asset Id"
+    },
+    "temperature_source_location_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Temperature Source Location Id"
+    },
+    "temperature_to_section_mapping_reviewed": {
+      "default": false,
+      "title": "Temperature To Section Mapping Reviewed",
+      "type": "boolean"
+    },
+    "reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Temperature K",
+      "type": "number"
+    },
+    "secant_thermal_expansion_1_K": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Secant Thermal Expansion 1 K",
+      "type": "array"
+    },
+    "elastic_modulus_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Elastic Modulus Pa",
+      "type": "array"
+    },
+    "poisson_ratio": {
+      "items": {
+        "exclusiveMaximum": 0.5,
+        "exclusiveMinimum": -1.0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Poisson Ratio",
+      "type": "array"
+    },
+    "elastic_limit_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Elastic Limit Pa",
+      "type": "array"
+    },
+    "property_profile_evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ThermalStressPropertyEvidence"
+      },
+      "title": "Property Profile Evidence",
+      "type": "array"
+    },
+    "plane_condition": {
+      "enum": [
+        "uniaxial_plane_stress",
+        "equi_biaxial_plane_stress"
+      ],
+      "title": "Plane Condition",
+      "type": "string"
+    },
+    "control": {
+      "enum": [
+        "resultant_controlled",
+        "kinematic_controlled"
+      ],
+      "title": "Control",
+      "type": "string"
+    },
+    "membrane_force_N_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Membrane Force N M"
+    },
+    "bending_moment_N": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bending Moment N"
+    },
+    "midplane_total_strain": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Midplane Total Strain"
+    },
+    "curvature_1_m": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Curvature 1 M"
+    },
+    "plane_sections_reviewed": {
+      "title": "Plane Sections Reviewed",
+      "type": "boolean"
+    },
+    "linear_elastic_response_reviewed": {
+      "title": "Linear Elastic Response Reviewed",
+      "type": "boolean"
+    },
+    "property_profiles_reviewed": {
+      "title": "Property Profiles Reviewed",
+      "type": "boolean"
+    },
+    "applied_resultants_or_kinematics_reviewed": {
+      "title": "Applied Resultants Or Kinematics Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile_id",
+    "position_m",
+    "temperature_K",
+    "reference_temperature_K",
+    "secant_thermal_expansion_1_K",
+    "elastic_modulus_Pa",
+    "poisson_ratio",
+    "elastic_limit_Pa",
+    "plane_condition",
+    "control",
+    "plane_sections_reviewed",
+    "linear_elastic_response_reviewed",
+    "property_profiles_reviewed",
+    "applied_resultants_or_kinematics_reviewed"
+  ],
+  "title": "ThroughWallThermalStress",
+  "type": "object"
+}

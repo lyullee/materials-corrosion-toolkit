@@ -1,0 +1,263 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketCompressionLoop": {
+      "additionalProperties": false,
+      "properties": {
+        "loop_id": {
+          "minLength": 1,
+          "title": "Loop Id",
+          "type": "string"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 200000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "time_s": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200000,
+          "minItems": 3,
+          "title": "Time S",
+          "type": "array"
+        },
+        "compression_displacement_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200000,
+          "minItems": 3,
+          "title": "Compression Displacement M",
+          "type": "array"
+        },
+        "compressive_force_N": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 200000,
+          "minItems": 3,
+          "title": "Compressive Force N",
+          "type": "array"
+        },
+        "repeat_count": {
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740992,
+          "title": "Repeat Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loop_id",
+        "sample_ids",
+        "time_s",
+        "compression_displacement_m",
+        "compressive_force_N",
+        "repeat_count"
+      ],
+      "title": "GasketCompressionLoop",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Energy summary for caller-measured compression/unloading cycles.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_compression_hysteresis_energy.v1",
+      "default": "matintegrity.gasket_compression_hysteresis_energy.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "specimen_id": {
+      "minLength": 1,
+      "title": "Specimen Id",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "initial_gasket_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Gasket Thickness M",
+      "type": "number"
+    },
+    "loaded_area_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Loaded Area M2",
+      "type": "number"
+    },
+    "loops": {
+      "items": {
+        "$ref": "#/$defs/GasketCompressionLoop"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Loops",
+      "type": "array"
+    },
+    "maximum_endpoint_displacement_error_m": {
+      "minimum": 0,
+      "title": "Maximum Endpoint Displacement Error M",
+      "type": "number"
+    },
+    "maximum_endpoint_force_error_N": {
+      "minimum": 0,
+      "title": "Maximum Endpoint Force Error N",
+      "type": "number"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "measurement_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Measurement Record Sha256",
+      "type": "string"
+    },
+    "usage_license_id": {
+      "minLength": 1,
+      "title": "Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "measured_displacement_is_gasket_compression_reviewed": {
+      "title": "Measured Displacement Is Gasket Compression Reviewed",
+      "type": "boolean"
+    },
+    "force_area_temperature_and_sign_reviewed": {
+      "title": "Force Area Temperature And Sign Reviewed",
+      "type": "boolean"
+    },
+    "loop_boundaries_and_repeat_counts_reviewed": {
+      "title": "Loop Boundaries And Repeat Counts Reviewed",
+      "type": "boolean"
+    },
+    "representativeness_and_condition_transfer_reviewed": {
+      "title": "Representativeness And Condition Transfer Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "material_condition_id",
+    "specimen_id",
+    "temperature_K",
+    "initial_gasket_thickness_m",
+    "loaded_area_m2",
+    "loops",
+    "maximum_endpoint_displacement_error_m",
+    "maximum_endpoint_force_error_N",
+    "provider_id",
+    "provider_revision",
+    "measurement_record_sha256",
+    "usage_license_id",
+    "evidence",
+    "measured_displacement_is_gasket_compression_reviewed",
+    "force_area_temperature_and_sign_reviewed",
+    "loop_boundaries_and_repeat_counts_reviewed",
+    "representativeness_and_condition_transfer_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketCompressionHysteresisEnergy",
+  "type": "object"
+}

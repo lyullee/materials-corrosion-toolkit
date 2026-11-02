@@ -1,0 +1,217 @@
+{
+  "$defs": {
+    "PolicyResourceUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {
+          "minLength": 1,
+          "title": "Resource Id",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "expected_usage": {
+          "minimum": 0,
+          "title": "Expected Usage",
+          "type": "number"
+        },
+        "upper_bound_usage": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper Bound Usage"
+        }
+      },
+      "required": [
+        "resource_id",
+        "unit",
+        "expected_usage"
+      ],
+      "title": "PolicyResourceUsage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "policy_id": {
+      "minLength": 1,
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_revision": {
+      "minLength": 1,
+      "title": "Policy Revision",
+      "type": "string"
+    },
+    "policy_definition": {
+      "minLength": 1,
+      "title": "Policy Definition",
+      "type": "string"
+    },
+    "policy_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Policy Configuration Sha256",
+      "type": "string"
+    },
+    "evaluation_model_id": {
+      "minLength": 1,
+      "title": "Evaluation Model Id",
+      "type": "string"
+    },
+    "evaluation_model_revision": {
+      "minLength": 1,
+      "title": "Evaluation Model Revision",
+      "type": "string"
+    },
+    "evaluation_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluation Configuration Sha256",
+      "type": "string"
+    },
+    "evaluation_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluation Input Sha256",
+      "type": "string"
+    },
+    "evaluation_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluation Result Sha256",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Event Probability Meaning",
+      "type": "string"
+    },
+    "cost_basis_id": {
+      "minLength": 1,
+      "title": "Cost Basis Id",
+      "type": "string"
+    },
+    "currency_or_normalized_unit": {
+      "minLength": 1,
+      "title": "Currency Or Normalized Unit",
+      "type": "string"
+    },
+    "discount_basis_id": {
+      "minLength": 1,
+      "title": "Discount Basis Id",
+      "type": "string"
+    },
+    "conditional_first_failure_probability": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Conditional First Failure Probability",
+      "type": "number"
+    },
+    "conditional_first_failure_probability_upper_bound": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conditional First Failure Probability Upper Bound"
+    },
+    "expected_discounted_action_cost": {
+      "minimum": 0,
+      "title": "Expected Discounted Action Cost",
+      "type": "number"
+    },
+    "expected_discounted_failure_consequence": {
+      "minimum": 0,
+      "title": "Expected Discounted Failure Consequence",
+      "type": "number"
+    },
+    "expected_discounted_total_loss": {
+      "minimum": 0,
+      "title": "Expected Discounted Total Loss",
+      "type": "number"
+    },
+    "resource_usage": {
+      "items": {
+        "$ref": "#/$defs/PolicyResourceUsage"
+      },
+      "title": "Resource Usage",
+      "type": "array"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_revision",
+    "policy_definition",
+    "policy_configuration_sha256",
+    "evaluation_model_id",
+    "evaluation_model_revision",
+    "evaluation_configuration_sha256",
+    "evaluation_input_sha256",
+    "evaluation_result_sha256",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "event_id",
+    "horizon_start_s",
+    "horizon_end_s",
+    "conditioning",
+    "event_probability_meaning",
+    "cost_basis_id",
+    "currency_or_normalized_unit",
+    "discount_basis_id",
+    "conditional_first_failure_probability",
+    "expected_discounted_action_cost",
+    "expected_discounted_failure_consequence",
+    "expected_discounted_total_loss"
+  ],
+  "title": "MultiPeriodInspectionPolicyCandidate",
+  "type": "object"
+}

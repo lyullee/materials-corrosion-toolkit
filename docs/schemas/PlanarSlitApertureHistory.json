@@ -1,0 +1,154 @@
+{
+  "additionalProperties": false,
+  "description": "Sequentially update a slit geometry from a reviewed cumulative wall-recession history.",
+  "properties": {
+    "geometry_id": {
+      "minLength": 1,
+      "title": "Geometry Id",
+      "type": "string"
+    },
+    "geometry_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Geometry Source Sha256",
+      "type": "string"
+    },
+    "wall_loss_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Wall Loss Source Sha256",
+      "type": "string"
+    },
+    "cell_widths_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Cell Widths M",
+      "type": "array"
+    },
+    "initial_cell_aperture_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 2000,
+      "minItems": 2,
+      "title": "Initial Cell Aperture M",
+      "type": "array"
+    },
+    "transverse_width_m": {
+      "exclusiveMinimum": 0,
+      "title": "Transverse Width M",
+      "type": "number"
+    },
+    "reference_cross_section_m2": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Cross Section M2",
+      "type": "number"
+    },
+    "reactive_broad_face_count": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Reactive Broad Face Count",
+      "type": "integer"
+    },
+    "elapsed_time_s": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Elapsed Time S"
+    },
+    "cumulative_signed_cell_average_recession_m": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 5000,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cumulative Signed Cell Average Recession M"
+    },
+    "wall_loss_result": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Wall Loss Result"
+    },
+    "supported_minimum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Supported Minimum Aperture M",
+      "type": "number"
+    },
+    "supported_maximum_aperture_m": {
+      "exclusiveMinimum": 0,
+      "title": "Supported Maximum Aperture M",
+      "type": "number"
+    },
+    "wall_recession_is_per_combined_reactive_area_reviewed": {
+      "title": "Wall Recession Is Per Combined Reactive Area Reviewed",
+      "type": "boolean"
+    },
+    "opposing_face_recession_is_equal_reviewed": {
+      "default": false,
+      "title": "Opposing Face Recession Is Equal Reviewed",
+      "type": "boolean"
+    },
+    "cell_center_to_face_mapping_reviewed": {
+      "title": "Cell Center To Face Mapping Reviewed",
+      "type": "boolean"
+    },
+    "geometry_basis_reviewed": {
+      "title": "Geometry Basis Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "geometry_id",
+    "geometry_source_sha256",
+    "wall_loss_source_sha256",
+    "cell_widths_m",
+    "initial_cell_aperture_m",
+    "transverse_width_m",
+    "reference_cross_section_m2",
+    "reactive_broad_face_count",
+    "supported_minimum_aperture_m",
+    "supported_maximum_aperture_m",
+    "wall_recession_is_per_combined_reactive_area_reviewed",
+    "cell_center_to_face_mapping_reviewed",
+    "geometry_basis_reviewed"
+  ],
+  "title": "PlanarSlitApertureHistory",
+  "type": "object"
+}

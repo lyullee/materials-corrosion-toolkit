@@ -1,0 +1,283 @@
+{
+  "additionalProperties": false,
+  "description": "A digest-bound, unit-explicit snapshot of a successful 1-D transport run.\n\nThe contract transports solver output; it does not qualify material coefficients,\nconvert the result into damage, or claim agreement with an experiment.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.hydrogen_transport_history.v1",
+      "default": "matintegrity.hydrogen_transport_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "solver_id": {
+      "minLength": 1,
+      "title": "Solver Id",
+      "type": "string"
+    },
+    "result_id": {
+      "minLength": 1,
+      "title": "Result Id",
+      "type": "string"
+    },
+    "native_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Native Result Sha256",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "reference_lattice_id": {
+      "minLength": 1,
+      "title": "Reference Lattice Id",
+      "type": "string"
+    },
+    "carrier": {
+      "enum": [
+        "atomic_hydrogen",
+        "molecular_hydrogen"
+      ],
+      "title": "Carrier",
+      "type": "string"
+    },
+    "carrier_molar_mass_kg_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Carrier Molar Mass Kg Mol",
+      "type": "number"
+    },
+    "geometry": {
+      "enum": [
+        "planar",
+        "spherical_shell"
+      ],
+      "title": "Geometry",
+      "type": "string"
+    },
+    "trap_population_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Trap Population Ids",
+      "type": "array"
+    },
+    "elapsed_time_origin_id": {
+      "minLength": 1,
+      "title": "Elapsed Time Origin Id",
+      "type": "string"
+    },
+    "time_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Time S",
+      "type": "array"
+    },
+    "face_positions_m": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 4,
+      "title": "Face Positions M",
+      "type": "array"
+    },
+    "cell_centers_m": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 3,
+      "title": "Cell Centers M",
+      "type": "array"
+    },
+    "face_areas_m2": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 4,
+      "title": "Face Areas M2",
+      "type": "array"
+    },
+    "cell_volumes_m3": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 3,
+      "title": "Cell Volumes M3",
+      "type": "array"
+    },
+    "mobile_entity_mol_m3": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "title": "Mobile Entity Mol M3",
+      "type": "array"
+    },
+    "trapped_entity_mol_m3": {
+      "items": {
+        "items": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "type": "array"
+      },
+      "title": "Trapped Entity Mol M3",
+      "type": "array"
+    },
+    "left_integrated_coordinate_flow_mol": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Left Integrated Coordinate Flow Mol",
+      "type": "array"
+    },
+    "right_integrated_coordinate_flow_mol": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Right Integrated Coordinate Flow Mol",
+      "type": "array"
+    },
+    "wall_inventory_mol": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Wall Inventory Mol",
+      "type": "array"
+    },
+    "wall_inventory_residual_mol": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Wall Inventory Residual Mol",
+      "type": "array"
+    },
+    "total_inventory_residual_mol": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Total Inventory Residual Mol",
+      "type": "array"
+    },
+    "left_surface_inventory_mol": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Left Surface Inventory Mol"
+    },
+    "right_surface_inventory_mol": {
+      "anyOf": [
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Right Surface Inventory Mol"
+    },
+    "concentration_numerical_tolerance_mol_m3": {
+      "minimum": 0,
+      "title": "Concentration Numerical Tolerance Mol M3",
+      "type": "number"
+    },
+    "function_evaluations": {
+      "minimum": 1,
+      "title": "Function Evaluations",
+      "type": "integer"
+    },
+    "coefficient_basis": {
+      "minLength": 1,
+      "title": "Coefficient Basis",
+      "type": "string"
+    },
+    "boundary_basis": {
+      "minLength": 1,
+      "title": "Boundary Basis",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_revision",
+    "solver_id",
+    "result_id",
+    "native_result_sha256",
+    "material_condition_id",
+    "reference_lattice_id",
+    "carrier",
+    "carrier_molar_mass_kg_mol",
+    "geometry",
+    "trap_population_ids",
+    "elapsed_time_origin_id",
+    "time_s",
+    "face_positions_m",
+    "cell_centers_m",
+    "face_areas_m2",
+    "cell_volumes_m3",
+    "mobile_entity_mol_m3",
+    "trapped_entity_mol_m3",
+    "left_integrated_coordinate_flow_mol",
+    "right_integrated_coordinate_flow_mol",
+    "wall_inventory_mol",
+    "wall_inventory_residual_mol",
+    "total_inventory_residual_mol",
+    "concentration_numerical_tolerance_mol_m3",
+    "function_evaluations",
+    "coefficient_basis",
+    "boundary_basis",
+    "limitations",
+    "payload_digest"
+  ],
+  "title": "HydrogenTransportHistory",
+  "type": "object"
+}

@@ -1,0 +1,415 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "RunContext": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "time_basis": {
+          "minLength": 1,
+          "title": "Time Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "asset_id",
+        "location_id",
+        "time_basis"
+      ],
+      "title": "RunContext",
+      "type": "object"
+    },
+    "SobolLevelEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "base_samples": {
+          "title": "Base Samples",
+          "type": "integer"
+        },
+        "first_order": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Order"
+        },
+        "total_order": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Order"
+        },
+        "first_order_half_width": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Order Half Width"
+        },
+        "total_order_half_width": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Order Half Width"
+        },
+        "first_order_replicates": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Order Replicates"
+        },
+        "total_order_replicates": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Order Replicates"
+        },
+        "normalized_variance_by_replicate": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Normalized Variance By Replicate",
+          "type": "array"
+        }
+      },
+      "required": [
+        "base_samples",
+        "first_order",
+        "total_order",
+        "first_order_half_width",
+        "total_order_half_width",
+        "first_order_replicates",
+        "total_order_replicates",
+        "normalized_variance_by_replicate"
+      ],
+      "title": "SobolLevelEstimate",
+      "type": "object"
+    },
+    "SobolQuantityResult": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "response_unit": {
+          "title": "Response Unit",
+          "type": "string"
+        },
+        "index_unit": {
+          "const": "1",
+          "default": "1",
+          "title": "Index Unit",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "estimated",
+            "undefined_or_unresolved_variance"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "precision_criteria_satisfied": {
+          "title": "Precision Criteria Satisfied",
+          "type": "boolean"
+        },
+        "refinement_maximum_change": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Refinement Maximum Change"
+        },
+        "theoretical_bounds_diagnostic_passed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Theoretical Bounds Diagnostic Passed"
+        },
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/SobolLevelEstimate"
+          },
+          "title": "Levels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "response_unit",
+        "status",
+        "precision_criteria_satisfied",
+        "refinement_maximum_change",
+        "theoretical_bounds_diagnostic_passed",
+        "levels"
+      ],
+      "title": "SobolQuantityResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.sobol_report.v1",
+      "default": "matintegrity.sobol_report.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "analysis_id": {
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "precision_status": {
+      "enum": [
+        "criteria_met",
+        "sampling_precision_unresolved",
+        "not_evaluable"
+      ],
+      "title": "Precision Status",
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/$defs/RunContext"
+    },
+    "evaluator_id": {
+      "title": "Evaluator Id",
+      "type": "string"
+    },
+    "evaluator_revision": {
+      "title": "Evaluator Revision",
+      "type": "string"
+    },
+    "request_digest": {
+      "title": "Request Digest",
+      "type": "string"
+    },
+    "design_digest": {
+      "title": "Design Digest",
+      "type": "string"
+    },
+    "evaluations_digest": {
+      "title": "Evaluations Digest",
+      "type": "string"
+    },
+    "parameter_names": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Parameter Names",
+      "type": "array"
+    },
+    "quantities": {
+      "items": {
+        "$ref": "#/$defs/SobolQuantityResult"
+      },
+      "title": "Quantities",
+      "type": "array"
+    },
+    "diagnostics": {
+      "additionalProperties": true,
+      "title": "Diagnostics",
+      "type": "object"
+    },
+    "runtime_metadata": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Runtime Metadata",
+      "type": "object"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    },
+    "source_ids": {
+      "default": [
+        "scipy_sobol",
+        "scipy_qmc_sobol",
+        "scipy_rqmc_error",
+        "sobol_variance_indices",
+        "sobol_design_quality_contract"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Ids",
+      "type": "array"
+    },
+    "qualification": {
+      "const": "numerical_sensitivity_not_physical_validation",
+      "default": "numerical_sensitivity_not_physical_validation",
+      "title": "Qualification",
+      "type": "string"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "status",
+    "precision_status",
+    "context",
+    "evaluator_id",
+    "evaluator_revision",
+    "request_digest",
+    "design_digest",
+    "evaluations_digest",
+    "parameter_names",
+    "quantities",
+    "diagnostics",
+    "runtime_metadata",
+    "notes"
+  ],
+  "title": "SobolReport",
+  "type": "object"
+}

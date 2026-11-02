@@ -1,0 +1,439 @@
+{
+  "$defs": {
+    "CTMCCountExposureObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_sequence_id": {
+          "minLength": 1,
+          "title": "Physical Sequence Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "observation_start_s": {
+          "minimum": 0,
+          "title": "Observation Start S",
+          "type": "number"
+        },
+        "observation_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Observation End S",
+          "type": "number"
+        },
+        "sample_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Weight",
+          "type": "number"
+        },
+        "exposure_unit_token": {
+          "minLength": 1,
+          "title": "Exposure Unit Token",
+          "type": "string"
+        },
+        "state_exposures": {
+          "items": {
+            "$ref": "#/$defs/CTMCStateExposure"
+          },
+          "minItems": 1,
+          "title": "State Exposures",
+          "type": "array"
+        },
+        "transition_counts": {
+          "items": {
+            "$ref": "#/$defs/CTMCTransitionCount"
+          },
+          "minItems": 1,
+          "title": "Transition Counts",
+          "type": "array"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_sequence_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "observation_start_s",
+        "observation_end_s",
+        "sample_weight",
+        "exposure_unit_token",
+        "state_exposures",
+        "transition_counts",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "CTMCCountExposureObservation",
+      "type": "object"
+    },
+    "CTMCStateExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "state_id": {
+          "minLength": 1,
+          "title": "State Id",
+          "type": "string"
+        },
+        "exposure_duration": {
+          "minimum": 0,
+          "title": "Exposure Duration",
+          "type": "number"
+        }
+      },
+      "required": [
+        "state_id",
+        "exposure_duration"
+      ],
+      "title": "CTMCStateExposure",
+      "type": "object"
+    },
+    "CTMCTransitionCount": {
+      "additionalProperties": false,
+      "properties": {
+        "transition_id": {
+          "minLength": 1,
+          "title": "Transition Id",
+          "type": "string"
+        },
+        "transition_count": {
+          "minimum": 0,
+          "title": "Transition Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "transition_id",
+        "transition_count"
+      ],
+      "title": "CTMCTransitionCount",
+      "type": "object"
+    },
+    "CTMCTransitionDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "transition_id": {
+          "minLength": 1,
+          "title": "Transition Id",
+          "type": "string"
+        },
+        "origin_state_id": {
+          "minLength": 1,
+          "title": "Origin State Id",
+          "type": "string"
+        },
+        "destination_state_id": {
+          "minLength": 1,
+          "title": "Destination State Id",
+          "type": "string"
+        },
+        "transition_definition": {
+          "minLength": 1,
+          "title": "Transition Definition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transition_id",
+        "origin_state_id",
+        "destination_state_id",
+        "transition_definition"
+      ],
+      "title": "CTMCTransitionDefinition",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "observation_clock_id": {
+      "minLength": 1,
+      "title": "Observation Clock Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "state_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "State Ids",
+      "type": "array"
+    },
+    "state_definitions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "State Definitions",
+      "type": "array"
+    },
+    "transition_definitions": {
+      "items": {
+        "$ref": "#/$defs/CTMCTransitionDefinition"
+      },
+      "minItems": 1,
+      "title": "Transition Definitions",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/CTMCCountExposureObservation"
+      },
+      "minItems": 2,
+      "title": "Observations",
+      "type": "array"
+    },
+    "transition_count_pseudocount": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Transition Count Pseudocount"
+    },
+    "pseudocount_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pseudocount Basis"
+    },
+    "minimum_calibration_record_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Record Count",
+      "type": "integer"
+    },
+    "minimum_holdout_record_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Record Count",
+      "type": "integer"
+    },
+    "minimum_calibration_sequence_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Sequence Count",
+      "type": "integer"
+    },
+    "minimum_holdout_sequence_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Sequence Count",
+      "type": "integer"
+    },
+    "minimum_calibration_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Calibration Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_independence_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Independence Group Count",
+      "type": "integer"
+    },
+    "state_and_transition_definitions_reviewed": {
+      "title": "State And Transition Definitions Reviewed",
+      "type": "boolean"
+    },
+    "observation_clock_scope_and_exposure_units_reviewed": {
+      "title": "Observation Clock Scope And Exposure Units Reviewed",
+      "type": "boolean"
+    },
+    "transition_counts_exposures_and_weights_reviewed": {
+      "title": "Transition Counts Exposures And Weights Reviewed",
+      "type": "boolean"
+    },
+    "partition_assignments_reviewed": {
+      "title": "Partition Assignments Reviewed",
+      "type": "boolean"
+    },
+    "physical_sequence_source_and_independence_groups_reviewed": {
+      "title": "Physical Sequence Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "single_generator_calibration_scope_reviewed": {
+      "title": "Single Generator Calibration Scope Reviewed",
+      "type": "boolean"
+    },
+    "pseudocount_choice_reviewed": {
+      "title": "Pseudocount Choice Reviewed",
+      "type": "boolean"
+    },
+    "record_digests_and_missingness_reviewed": {
+      "title": "Record Digests And Missingness Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "observation_clock_id",
+    "time_basis",
+    "state_ids",
+    "state_definitions",
+    "transition_definitions",
+    "observations",
+    "minimum_calibration_record_count",
+    "minimum_holdout_record_count",
+    "minimum_calibration_sequence_count",
+    "minimum_holdout_sequence_count",
+    "minimum_calibration_source_group_count",
+    "minimum_holdout_source_group_count",
+    "minimum_holdout_independence_group_count",
+    "state_and_transition_definitions_reviewed",
+    "observation_clock_scope_and_exposure_units_reviewed",
+    "transition_counts_exposures_and_weights_reviewed",
+    "partition_assignments_reviewed",
+    "physical_sequence_source_and_independence_groups_reviewed",
+    "single_generator_calibration_scope_reviewed",
+    "pseudocount_choice_reviewed",
+    "record_digests_and_missingness_reviewed"
+  ],
+  "title": "CTMCGeneratorCalibration",
+  "type": "object"
+}

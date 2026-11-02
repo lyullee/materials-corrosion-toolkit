@@ -1,0 +1,131 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A caller-owned upper bound for one reported solver diagnostic.",
+  "properties": {
+    "criterion_id": {
+      "minLength": 1,
+      "title": "Criterion Id",
+      "type": "string"
+    },
+    "diagnostic_id": {
+      "minLength": 1,
+      "title": "Diagnostic Id",
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "equilibrium",
+        "convergence",
+        "uncertainty",
+        "verification"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "metric_id": {
+      "minLength": 1,
+      "title": "Metric Id",
+      "type": "string"
+    },
+    "metric_definition": {
+      "minLength": 1,
+      "title": "Metric Definition",
+      "type": "string"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "maximum_absolute_value_plus_uncertainty": {
+      "minimum": 0,
+      "title": "Maximum Absolute Value Plus Uncertainty",
+      "type": "number"
+    },
+    "compatible_uncertainty_reviewed": {
+      "title": "Compatible Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "criterion_id",
+    "diagnostic_id",
+    "category",
+    "metric_id",
+    "metric_definition",
+    "unit_token",
+    "maximum_absolute_value_plus_uncertainty",
+    "compatible_uncertainty_reviewed",
+    "evidence"
+  ],
+  "title": "FlangeDiagnosticCriterion",
+  "type": "object"
+}

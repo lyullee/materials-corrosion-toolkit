@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "Calculation": {
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "computed",
+          "enum": [
+            "computed",
+            "out_of_scope",
+            "needs_data"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values"
+      ],
+      "title": "Calculation",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WetCo2CylindricalExternalLiquidExchange": {
+      "additionalProperties": false,
+      "properties": {
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "bulk_inventory_change_mol": {
+          "title": "Bulk Inventory Change Mol",
+          "type": "number"
+        },
+        "wall_inventory_change_mol": {
+          "title": "Wall Inventory Change Mol",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "bulk_inventory_change_mol",
+        "wall_inventory_change_mol",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalExternalLiquidExchange",
+      "type": "object"
+    },
+    "WetCo2CylindricalLiquidConcentrationKnot": {
+      "additionalProperties": false,
+      "properties": {
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "species_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "bulk_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Bulk Concentration Mol M3",
+          "type": "number"
+        },
+        "wall_concentration_mol_m3": {
+          "minimum": 0,
+          "title": "Wall Concentration Mol M3",
+          "type": "number"
+        },
+        "bulk_liquid_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Bulk Liquid Volume M3",
+          "type": "number"
+        },
+        "wall_liquid_volume_m3": {
+          "exclusiveMinimum": 0,
+          "title": "Wall Liquid Volume M3",
+          "type": "number"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "time_s",
+        "species_id",
+        "bulk_concentration_mol_m3",
+        "wall_concentration_mol_m3",
+        "bulk_liquid_volume_m3",
+        "wall_liquid_volume_m3",
+        "record_sha256",
+        "evidence"
+      ],
+      "title": "WetCo2CylindricalLiquidConcentrationKnot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Convert segment transfer conductance to signed molar exchange and close finite liquid inventories.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.wet_co2_cylindrical_finite_liquid_transfer_inventory.v1",
+      "default": "matintegrity.wet_co2_cylindrical_finite_liquid_transfer_inventory.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "species_id": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Species Id",
+      "type": "string"
+    },
+    "geometry_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "hydraulics_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "transfer_capacity_result": {
+      "$ref": "#/$defs/Calculation"
+    },
+    "concentration_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2CylindricalLiquidConcentrationKnot"
+      },
+      "maxItems": 5000,
+      "minItems": 2,
+      "title": "Concentration History",
+      "type": "array"
+    },
+    "external_exchange_history": {
+      "items": {
+        "$ref": "#/$defs/WetCo2CylindricalExternalLiquidExchange"
+      },
+      "maxItems": 4999,
+      "minItems": 1,
+      "title": "External Exchange History",
+      "type": "array"
+    },
+    "absolute_inventory_tolerance_mol": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Absolute Inventory Tolerance Mol",
+      "type": "number"
+    },
+    "relative_inventory_tolerance": {
+      "default": 1e-08,
+      "exclusiveMinimum": 0,
+      "maximum": 0.01,
+      "title": "Relative Inventory Tolerance",
+      "type": "number"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "species_id",
+    "geometry_result",
+    "hydraulics_result",
+    "transfer_capacity_result",
+    "concentration_history",
+    "external_exchange_history"
+  ],
+  "title": "WetCo2CylindricalFiniteLiquidTransferInventory",
+  "type": "object"
+}

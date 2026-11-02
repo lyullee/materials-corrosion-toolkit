@@ -1,0 +1,159 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "support_id": {
+      "minLength": 1,
+      "title": "Support Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "bulk_solution_id": {
+      "minLength": 1,
+      "title": "Bulk Solution Id",
+      "type": "string"
+    },
+    "minimum_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Temperature K",
+      "type": "number"
+    },
+    "maximum_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Temperature K",
+      "type": "number"
+    },
+    "minimum_gap_m": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Gap M",
+      "type": "number"
+    },
+    "maximum_gap_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Gap M",
+      "type": "number"
+    },
+    "rate_provider_id": {
+      "minLength": 1,
+      "title": "Rate Provider Id",
+      "type": "string"
+    },
+    "rate_provider_version": {
+      "minLength": 1,
+      "title": "Rate Provider Version",
+      "type": "string"
+    },
+    "rate_provider_state_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Rate Provider State Digest",
+      "type": "string"
+    },
+    "supported_species_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supported Species Ids",
+      "type": "array"
+    },
+    "maximum_absolute_charge_imbalance_mol_charge": {
+      "minimum": 0,
+      "title": "Maximum Absolute Charge Imbalance Mol Charge",
+      "type": "number"
+    },
+    "calibration_basis": {
+      "minLength": 1,
+      "title": "Calibration Basis",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "support_id",
+    "material_condition_id",
+    "bulk_solution_id",
+    "minimum_temperature_K",
+    "maximum_temperature_K",
+    "minimum_gap_m",
+    "maximum_gap_m",
+    "rate_provider_id",
+    "rate_provider_version",
+    "rate_provider_state_digest",
+    "supported_species_ids",
+    "maximum_absolute_charge_imbalance_mol_charge",
+    "calibration_basis",
+    "evidence"
+  ],
+  "title": "CreviceRateSupport",
+  "type": "object"
+}

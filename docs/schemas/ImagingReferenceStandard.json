@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ImagingReferenceFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "feature_type_descriptor": {
+          "minLength": 1,
+          "title": "Feature Type Descriptor",
+          "type": "string"
+        },
+        "physical_location_definition": {
+          "minLength": 1,
+          "title": "Physical Location Definition",
+          "type": "string"
+        },
+        "nominal_dimension": {
+          "exclusiveMinimum": 0,
+          "title": "Nominal Dimension",
+          "type": "number"
+        },
+        "dimension_unit_token": {
+          "minLength": 1,
+          "title": "Dimension Unit Token",
+          "type": "string"
+        },
+        "expanded_dimension_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Dimension Uncertainty",
+          "type": "number"
+        },
+        "physical_feature_identity_reviewed": {
+          "title": "Physical Feature Identity Reviewed",
+          "type": "boolean"
+        },
+        "feature_record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Feature Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "feature_id",
+        "feature_type_descriptor",
+        "physical_location_definition",
+        "nominal_dimension",
+        "dimension_unit_token",
+        "expanded_dimension_uncertainty",
+        "physical_feature_identity_reviewed",
+        "feature_record_digest",
+        "evidence"
+      ],
+      "title": "ImagingReferenceFeature",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "reference_standard_id": {
+      "minLength": 1,
+      "title": "Reference Standard Id",
+      "type": "string"
+    },
+    "material_and_product_form_id": {
+      "minLength": 1,
+      "title": "Material And Product Form Id",
+      "type": "string"
+    },
+    "standard_configuration_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Standard Configuration Digest",
+      "type": "string"
+    },
+    "features": {
+      "items": {
+        "$ref": "#/$defs/ImagingReferenceFeature"
+      },
+      "minItems": 1,
+      "title": "Features",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reference_standard_id",
+    "material_and_product_form_id",
+    "standard_configuration_digest",
+    "features",
+    "evidence"
+  ],
+  "title": "ImagingReferenceStandard",
+  "type": "object"
+}

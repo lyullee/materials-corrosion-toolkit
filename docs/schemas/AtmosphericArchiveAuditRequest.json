@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "AtmosphericReadAuthorization": {
+      "additionalProperties": false,
+      "description": "Caller declaration for attribution, computational use, and local-only access.",
+      "properties": {
+        "dataset_id": {
+          "const": "atmospheric-carbon-steel-first-year",
+          "default": "atmospheric-carbon-steel-first-year",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.17632/ysr7wy3y7z.1",
+          "default": "10.17632/ysr7wy3y7z.1",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC-BY-4.0",
+          "default": "CC-BY-4.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "license_scope": {
+          "const": "compilation_license_only_underlying_observation_rights_unresolved",
+          "default": "compilation_license_only_underlying_observation_rights_unresolved",
+          "title": "License Scope",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "const": true,
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "underlying_observation_use_authorized": {
+          "const": true,
+          "title": "Underlying Observation Use Authorized",
+          "type": "boolean"
+        },
+        "local_only_authorized": {
+          "const": true,
+          "title": "Local Only Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "attribution",
+        "computational_use_authorized",
+        "underlying_observation_use_authorized",
+        "local_only_authorized"
+      ],
+      "title": "AtmosphericReadAuthorization",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "local_archive_path": {
+      "minLength": 1,
+      "title": "Local Archive Path",
+      "type": "string"
+    },
+    "partition": {
+      "default": "both",
+      "enum": [
+        "programme",
+        "independent",
+        "both"
+      ],
+      "title": "Partition",
+      "type": "string"
+    },
+    "authorization": {
+      "$ref": "#/$defs/AtmosphericReadAuthorization"
+    }
+  },
+  "required": [
+    "local_archive_path",
+    "authorization"
+  ],
+  "title": "AtmosphericArchiveAuditRequest",
+  "type": "object"
+}

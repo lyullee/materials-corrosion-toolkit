@@ -1,0 +1,905 @@
+{
+  "$defs": {
+    "DissimilarWeldCompatibilityReview": {
+      "additionalProperties": false,
+      "properties": {
+        "review_id": {
+          "minLength": 1,
+          "title": "Review Id",
+          "type": "string"
+        },
+        "review_subject_id": {
+          "minLength": 1,
+          "title": "Review Subject Id",
+          "type": "string"
+        },
+        "review_subject_kind": {
+          "enum": [
+            "base_material_pair",
+            "filler_or_deposit",
+            "buttering_or_overlay",
+            "fusion_boundary",
+            "weld_procedure",
+            "heat_treatment",
+            "service_environment",
+            "dilution_or_transition_zone",
+            "user_defined"
+          ],
+          "title": "Review Subject Kind",
+          "type": "string"
+        },
+        "linked_identity_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Linked Identity Ids",
+          "type": "array"
+        },
+        "review_status": {
+          "enum": [
+            "reviewed_supported",
+            "reviewed_limited",
+            "reviewed_out_of_scope",
+            "unresolved",
+            "not_applicable"
+          ],
+          "title": "Review Status",
+          "type": "string"
+        },
+        "review_basis": {
+          "minLength": 1,
+          "title": "Review Basis",
+          "type": "string"
+        },
+        "limitation_or_unresolved_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limitation Or Unresolved Basis"
+        },
+        "reviewer_or_provider_id": {
+          "minLength": 1,
+          "title": "Reviewer Or Provider Id",
+          "type": "string"
+        },
+        "reviewer_or_provider_revision": {
+          "minLength": 1,
+          "title": "Reviewer Or Provider Revision",
+          "type": "string"
+        },
+        "review_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Configuration Digest",
+          "type": "string"
+        },
+        "review_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Result Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "review_id",
+        "review_subject_id",
+        "review_subject_kind",
+        "linked_identity_ids",
+        "review_status",
+        "review_basis",
+        "reviewer_or_provider_id",
+        "reviewer_or_provider_revision",
+        "review_configuration_digest",
+        "review_result_digest",
+        "evidence"
+      ],
+      "title": "DissimilarWeldCompatibilityReview",
+      "type": "object"
+    },
+    "DissimilarWeldLayer": {
+      "additionalProperties": false,
+      "properties": {
+        "layer_id": {
+          "minLength": 1,
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "sequence_position": {
+          "minimum": 1,
+          "title": "Sequence Position",
+          "type": "integer"
+        },
+        "layer_role": {
+          "enum": [
+            "filler_deposit",
+            "buttering",
+            "overlay"
+          ],
+          "title": "Layer Role",
+          "type": "string"
+        },
+        "applied_side": {
+          "enum": [
+            "base_a",
+            "base_b",
+            "joint"
+          ],
+          "title": "Applied Side",
+          "type": "string"
+        },
+        "material_subject_id": {
+          "minLength": 1,
+          "title": "Material Subject Id",
+          "type": "string"
+        },
+        "welding_procedure_id": {
+          "minLength": 1,
+          "title": "Welding Procedure Id",
+          "type": "string"
+        },
+        "welding_procedure_revision": {
+          "minLength": 1,
+          "title": "Welding Procedure Revision",
+          "type": "string"
+        },
+        "physical_region_id": {
+          "minLength": 1,
+          "title": "Physical Region Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "layer_id",
+        "sequence_position",
+        "layer_role",
+        "applied_side",
+        "material_subject_id",
+        "welding_procedure_id",
+        "welding_procedure_revision",
+        "physical_region_id",
+        "evidence"
+      ],
+      "title": "DissimilarWeldLayer",
+      "type": "object"
+    },
+    "DissimilarWeldMaterialEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "material_subject_id": {
+          "minLength": 1,
+          "title": "Material Subject Id",
+          "type": "string"
+        },
+        "material_role": {
+          "enum": [
+            "base_a",
+            "base_b",
+            "filler_deposit",
+            "buttering",
+            "overlay"
+          ],
+          "title": "Material Role",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "material_lot_id": {
+          "minLength": 1,
+          "title": "Material Lot Id",
+          "type": "string"
+        },
+        "composition_provider_id": {
+          "minLength": 1,
+          "title": "Composition Provider Id",
+          "type": "string"
+        },
+        "composition_provider_revision": {
+          "minLength": 1,
+          "title": "Composition Provider Revision",
+          "type": "string"
+        },
+        "composition_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Composition Result Digest",
+          "type": "string"
+        },
+        "property_provider_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Provider Id"
+        },
+        "property_provider_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Provider Revision"
+        },
+        "property_result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property Result Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "material_subject_id",
+        "material_role",
+        "material_id",
+        "material_condition_id",
+        "material_lot_id",
+        "composition_provider_id",
+        "composition_provider_revision",
+        "composition_result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "DissimilarWeldMaterialEvidence",
+      "type": "object"
+    },
+    "DissimilarWeldThermalInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "interval_kind": {
+          "enum": [
+            "welding",
+            "post_weld_heat_treatment",
+            "service_thermal_exposure"
+          ],
+          "title": "Interval Kind",
+          "type": "string"
+        },
+        "procedure_id": {
+          "minLength": 1,
+          "title": "Procedure Id",
+          "type": "string"
+        },
+        "procedure_revision": {
+          "minLength": 1,
+          "title": "Procedure Revision",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "minimum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Temperature K",
+          "type": "number"
+        },
+        "maximum_temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Temperature K",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "interval_kind",
+        "procedure_id",
+        "procedure_revision",
+        "start_time_s",
+        "end_time_s",
+        "minimum_temperature_K",
+        "maximum_temperature_K",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "data_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "DissimilarWeldThermalInterval",
+      "type": "object"
+    },
+    "DissimilarWeldTransitionMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "boundary_region_id": {
+          "minLength": 1,
+          "title": "Boundary Region Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "measurement_kind": {
+          "enum": [
+            "dilution_metric",
+            "transition_zone_dimension",
+            "composition_metric",
+            "property_metric"
+          ],
+          "title": "Measurement Kind",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_or_missing_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Missing Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "boundary_region_id",
+        "coordinate_frame_id",
+        "measurement_kind",
+        "metric_definition",
+        "value",
+        "unit_token",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "provider_configuration_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "DissimilarWeldTransitionMeasurement",
+      "type": "object"
+    },
+    "DissimilarWeldUnresolvedItem": {
+      "additionalProperties": false,
+      "properties": {
+        "unresolved_item_id": {
+          "minLength": 1,
+          "title": "Unresolved Item Id",
+          "type": "string"
+        },
+        "review_subject_id": {
+          "minLength": 1,
+          "title": "Review Subject Id",
+          "type": "string"
+        },
+        "unresolved_category": {
+          "minLength": 1,
+          "title": "Unresolved Category",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "required_evidence_or_decision": {
+          "minLength": 1,
+          "title": "Required Evidence Or Decision",
+          "type": "string"
+        },
+        "owner_or_authority_id": {
+          "minLength": 1,
+          "title": "Owner Or Authority Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unresolved_item_id",
+        "review_subject_id",
+        "unresolved_category",
+        "description",
+        "required_evidence_or_decision",
+        "owner_or_authority_id",
+        "evidence"
+      ],
+      "title": "DissimilarWeldUnresolvedItem",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FusionBoundaryRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_region_id": {
+          "minLength": 1,
+          "title": "Boundary Region Id",
+          "type": "string"
+        },
+        "side": {
+          "enum": [
+            "base_a",
+            "base_b"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "base_material_subject_id": {
+          "minLength": 1,
+          "title": "Base Material Subject Id",
+          "type": "string"
+        },
+        "adjacent_layer_id": {
+          "minLength": 1,
+          "title": "Adjacent Layer Id",
+          "type": "string"
+        },
+        "joint_location_id": {
+          "minLength": 1,
+          "title": "Joint Location Id",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "transition_zone_definition": {
+          "minLength": 1,
+          "title": "Transition Zone Definition",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "boundary_region_id",
+        "side",
+        "base_material_subject_id",
+        "adjacent_layer_id",
+        "joint_location_id",
+        "coordinate_frame_id",
+        "transition_zone_definition",
+        "evidence"
+      ],
+      "title": "FusionBoundaryRegion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "joint_location_id": {
+      "minLength": 1,
+      "title": "Joint Location Id",
+      "type": "string"
+    },
+    "coordinate_frame_id": {
+      "minLength": 1,
+      "title": "Coordinate Frame Id",
+      "type": "string"
+    },
+    "service_environment_id": {
+      "minLength": 1,
+      "title": "Service Environment Id",
+      "type": "string"
+    },
+    "service_environment_definition": {
+      "minLength": 1,
+      "title": "Service Environment Definition",
+      "type": "string"
+    },
+    "thermal_clock_id": {
+      "minLength": 1,
+      "title": "Thermal Clock Id",
+      "type": "string"
+    },
+    "base_material_a_subject_id": {
+      "minLength": 1,
+      "title": "Base Material A Subject Id",
+      "type": "string"
+    },
+    "base_material_b_subject_id": {
+      "minLength": 1,
+      "title": "Base Material B Subject Id",
+      "type": "string"
+    },
+    "material_evidence": {
+      "items": {
+        "$ref": "#/$defs/DissimilarWeldMaterialEvidence"
+      },
+      "minItems": 2,
+      "title": "Material Evidence",
+      "type": "array"
+    },
+    "layers": {
+      "items": {
+        "$ref": "#/$defs/DissimilarWeldLayer"
+      },
+      "minItems": 1,
+      "title": "Layers",
+      "type": "array"
+    },
+    "fusion_boundaries": {
+      "items": {
+        "$ref": "#/$defs/FusionBoundaryRegion"
+      },
+      "minItems": 2,
+      "title": "Fusion Boundaries",
+      "type": "array"
+    },
+    "thermal_history": {
+      "items": {
+        "$ref": "#/$defs/DissimilarWeldThermalInterval"
+      },
+      "minItems": 1,
+      "title": "Thermal History",
+      "type": "array"
+    },
+    "transition_measurements": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/DissimilarWeldTransitionMeasurement"
+      },
+      "title": "Transition Measurements",
+      "type": "array"
+    },
+    "required_review_subject_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Review Subject Ids",
+      "type": "array"
+    },
+    "compatibility_reviews": {
+      "items": {
+        "$ref": "#/$defs/DissimilarWeldCompatibilityReview"
+      },
+      "minItems": 1,
+      "title": "Compatibility Reviews",
+      "type": "array"
+    },
+    "unresolved_items": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/DissimilarWeldUnresolvedItem"
+      },
+      "title": "Unresolved Items",
+      "type": "array"
+    },
+    "joint_material_layer_and_boundary_identity_reviewed": {
+      "title": "Joint Material Layer And Boundary Identity Reviewed",
+      "type": "boolean"
+    },
+    "location_coordinate_frame_and_region_mapping_reviewed": {
+      "title": "Location Coordinate Frame And Region Mapping Reviewed",
+      "type": "boolean"
+    },
+    "procedure_pwht_and_thermal_history_reviewed": {
+      "title": "Procedure Pwht And Thermal History Reviewed",
+      "type": "boolean"
+    },
+    "service_environment_identity_reviewed": {
+      "title": "Service Environment Identity Reviewed",
+      "type": "boolean"
+    },
+    "composition_property_provider_lineage_reviewed": {
+      "title": "Composition Property Provider Lineage Reviewed",
+      "type": "boolean"
+    },
+    "transition_measurement_definitions_units_and_uncertainty_reviewed": {
+      "title": "Transition Measurement Definitions Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "compatibility_review_authority_and_scope_reviewed": {
+      "title": "Compatibility Review Authority And Scope Reviewed",
+      "type": "boolean"
+    },
+    "unresolved_item_completeness_reviewed": {
+      "title": "Unresolved Item Completeness Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "joint_id",
+    "joint_location_id",
+    "coordinate_frame_id",
+    "service_environment_id",
+    "service_environment_definition",
+    "thermal_clock_id",
+    "base_material_a_subject_id",
+    "base_material_b_subject_id",
+    "material_evidence",
+    "layers",
+    "fusion_boundaries",
+    "thermal_history",
+    "required_review_subject_ids",
+    "compatibility_reviews",
+    "joint_material_layer_and_boundary_identity_reviewed",
+    "location_coordinate_frame_and_region_mapping_reviewed",
+    "procedure_pwht_and_thermal_history_reviewed",
+    "service_environment_identity_reviewed",
+    "composition_property_provider_lineage_reviewed",
+    "transition_measurement_definitions_units_and_uncertainty_reviewed",
+    "compatibility_review_authority_and_scope_reviewed",
+    "unresolved_item_completeness_reviewed"
+  ],
+  "title": "DissimilarWeldApplicabilityEvidence",
+  "type": "object"
+}

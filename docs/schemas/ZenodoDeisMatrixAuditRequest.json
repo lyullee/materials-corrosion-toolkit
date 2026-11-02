@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "ZenodoDeisReadAuthorization": {
+      "additionalProperties": false,
+      "description": "Caller attribution and local-only computational-use declaration.",
+      "properties": {
+        "dataset_id": {
+          "const": "az-we43-az31-molybdate-eis",
+          "default": "az-we43-az31-molybdate-eis",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "dataset_doi": {
+          "const": "10.5281/zenodo.10482561",
+          "default": "10.5281/zenodo.10482561",
+          "title": "Dataset Doi",
+          "type": "string"
+        },
+        "license_id": {
+          "const": "CC0-1.0",
+          "default": "CC0-1.0",
+          "title": "License Id",
+          "type": "string"
+        },
+        "attribution": {
+          "minLength": 1,
+          "title": "Attribution",
+          "type": "string"
+        },
+        "computational_use_authorized": {
+          "const": true,
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "local_only_authorized": {
+          "const": true,
+          "title": "Local Only Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "attribution",
+        "computational_use_authorized",
+        "local_only_authorized"
+      ],
+      "title": "ZenodoDeisReadAuthorization",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "local_archive_path": {
+      "minLength": 1,
+      "title": "Local Archive Path",
+      "type": "string"
+    },
+    "source_member_path": {
+      "enum": [
+        "DEIS/AZ31/AZ31-zw.txt",
+        "DEIS/WE43/WE43-zw.txt"
+      ],
+      "title": "Source Member Path",
+      "type": "string"
+    },
+    "authorization": {
+      "$ref": "#/$defs/ZenodoDeisReadAuthorization"
+    }
+  },
+  "required": [
+    "local_archive_path",
+    "source_member_path",
+    "authorization"
+  ],
+  "title": "ZenodoDeisMatrixAuditRequest",
+  "type": "object"
+}

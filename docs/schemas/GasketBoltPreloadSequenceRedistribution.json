@@ -1,0 +1,233 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketBoltTighteningOperation": {
+      "additionalProperties": false,
+      "properties": {
+        "operation_id": {
+          "minLength": 1,
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "pass_id": {
+          "minLength": 1,
+          "title": "Pass Id",
+          "type": "string"
+        },
+        "tightened_bolt_id": {
+          "minLength": 1,
+          "title": "Tightened Bolt Id",
+          "type": "string"
+        },
+        "applied_preload_increment_N": {
+          "exclusiveMinimum": 0,
+          "title": "Applied Preload Increment N",
+          "type": "number"
+        }
+      },
+      "required": [
+        "operation_id",
+        "pass_id",
+        "tightened_bolt_id",
+        "applied_preload_increment_N"
+      ],
+      "title": "GasketBoltTighteningOperation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_bolt_preload_sequence_redistribution.v1",
+      "default": "matintegrity.gasket_bolt_preload_sequence_redistribution.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "ordered_bolt_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Ordered Bolt Ids",
+      "type": "array"
+    },
+    "initial_preload_N_by_bolt": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Initial Preload N By Bolt",
+      "type": "array"
+    },
+    "elastic_interaction_coefficients": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Elastic Interaction Coefficients",
+      "type": "array"
+    },
+    "operations": {
+      "items": {
+        "$ref": "#/$defs/GasketBoltTighteningOperation"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Operations",
+      "type": "array"
+    },
+    "interaction_provider_id": {
+      "minLength": 1,
+      "title": "Interaction Provider Id",
+      "type": "string"
+    },
+    "interaction_provider_revision": {
+      "minLength": 1,
+      "title": "Interaction Provider Revision",
+      "type": "string"
+    },
+    "interaction_record_id": {
+      "minLength": 1,
+      "title": "Interaction Record Id",
+      "type": "string"
+    },
+    "interaction_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Interaction Record Sha256",
+      "type": "string"
+    },
+    "computational_use_license_id": {
+      "minLength": 1,
+      "title": "Computational Use License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "coefficient_sign_and_order_reviewed": {
+      "title": "Coefficient Sign And Order Reviewed",
+      "type": "boolean"
+    },
+    "linear_elastic_superposition_reviewed": {
+      "title": "Linear Elastic Superposition Reviewed",
+      "type": "boolean"
+    },
+    "fixed_joint_configuration_and_contact_regime_reviewed": {
+      "title": "Fixed Joint Configuration And Contact Regime Reviewed",
+      "type": "boolean"
+    },
+    "interaction_matrix_applicability_reviewed": {
+      "title": "Interaction Matrix Applicability Reviewed",
+      "type": "boolean"
+    },
+    "target_increment_basis_reviewed": {
+      "title": "Target Increment Basis Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_id",
+    "ordered_bolt_ids",
+    "initial_preload_N_by_bolt",
+    "elastic_interaction_coefficients",
+    "operations",
+    "interaction_provider_id",
+    "interaction_provider_revision",
+    "interaction_record_id",
+    "interaction_record_sha256",
+    "computational_use_license_id",
+    "evidence",
+    "coefficient_sign_and_order_reviewed",
+    "linear_elastic_superposition_reviewed",
+    "fixed_joint_configuration_and_contact_regime_reviewed",
+    "interaction_matrix_applicability_reviewed",
+    "target_increment_basis_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketBoltPreloadSequenceRedistribution",
+  "type": "object"
+}

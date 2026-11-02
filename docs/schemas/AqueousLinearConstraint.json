@@ -1,0 +1,58 @@
+{
+  "$defs": {
+    "AqueousStoichiometricTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "species_id": {
+          "minLength": 1,
+          "title": "Species Id",
+          "type": "string"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        }
+      },
+      "required": [
+        "species_id",
+        "coefficient"
+      ],
+      "title": "AqueousStoichiometricTerm",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "constraint_id": {
+      "minLength": 1,
+      "title": "Constraint Id",
+      "type": "string"
+    },
+    "target_mol_L": {
+      "title": "Target Mol L",
+      "type": "number"
+    },
+    "residual_scale_mol_L": {
+      "exclusiveMinimum": 0,
+      "title": "Residual Scale Mol L",
+      "type": "number"
+    },
+    "terms": {
+      "items": {
+        "$ref": "#/$defs/AqueousStoichiometricTerm"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Terms",
+      "type": "array"
+    }
+  },
+  "required": [
+    "constraint_id",
+    "target_mol_L",
+    "residual_scale_mol_L",
+    "terms"
+  ],
+  "title": "AqueousLinearConstraint",
+  "type": "object"
+}

@@ -1,0 +1,882 @@
+{
+  "$defs": {
+    "AcousticEmissionAcquisitionInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "active_channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Active Channel Ids",
+          "type": "array"
+        },
+        "operating_state_id": {
+          "minLength": 1,
+          "title": "Operating State Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "active_channel_ids",
+        "operating_state_id",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AcousticEmissionAcquisitionInterval",
+      "type": "object"
+    },
+    "AcousticEmissionCalibrationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Channel Ids",
+          "type": "array"
+        },
+        "source_location_coordinate_frame": {
+          "minLength": 1,
+          "title": "Source Location Coordinate Frame",
+          "type": "string"
+        },
+        "source_location_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Source Location M",
+          "type": "array"
+        },
+        "source_description": {
+          "minLength": 1,
+          "title": "Source Description",
+          "type": "string"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "channel_ids",
+        "source_location_coordinate_frame",
+        "source_location_m",
+        "source_description",
+        "method_id",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AcousticEmissionCalibrationRecord",
+      "type": "object"
+    },
+    "AcousticEmissionEventFeatureRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "event_time_s": {
+          "minimum": 0,
+          "title": "Event Time S",
+          "type": "number"
+        },
+        "feature_values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "minProperties": 1,
+          "title": "Feature Values",
+          "type": "object"
+        },
+        "feature_units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "minProperties": 1,
+          "title": "Feature Units",
+          "type": "object"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "interval_id",
+        "zone_id",
+        "channel_id",
+        "event_time_s",
+        "feature_values",
+        "feature_units",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "result_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AcousticEmissionEventFeatureRecord",
+      "type": "object"
+    },
+    "AcousticEmissionFeatureSupport": {
+      "additionalProperties": false,
+      "properties": {
+        "feature_id": {
+          "minLength": 1,
+          "title": "Feature Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "minimum_value": {
+          "title": "Minimum Value",
+          "type": "number"
+        },
+        "maximum_value": {
+          "title": "Maximum Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "feature_id",
+        "unit_token",
+        "minimum_value",
+        "maximum_value"
+      ],
+      "title": "AcousticEmissionFeatureSupport",
+      "type": "object"
+    },
+    "AcousticEmissionSensorChannel": {
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "minLength": 1,
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "channel_id": {
+          "minLength": 1,
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "zone_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Zone Ids",
+          "type": "array"
+        },
+        "coordinate_frame": {
+          "minLength": 1,
+          "title": "Coordinate Frame",
+          "type": "string"
+        },
+        "position_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position M",
+          "type": "array"
+        },
+        "coupling_description": {
+          "minLength": 1,
+          "title": "Coupling Description",
+          "type": "string"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "channel_id",
+        "zone_ids",
+        "coordinate_frame",
+        "position_m",
+        "coupling_description",
+        "calibration_id",
+        "evidence"
+      ],
+      "title": "AcousticEmissionSensorChannel",
+      "type": "object"
+    },
+    "AcousticEmissionSourceLocationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "location_record_id": {
+          "minLength": 1,
+          "title": "Location Record Id",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "coordinate_frame": {
+          "minLength": 1,
+          "title": "Coordinate Frame",
+          "type": "string"
+        },
+        "reported_location_m": {
+          "anyOf": [
+            {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reported Location M"
+        },
+        "expanded_uncertainty_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expanded Uncertainty M"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "location_record_id",
+        "event_id",
+        "zone_id",
+        "coordinate_frame",
+        "method_id",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "AcousticEmissionSourceLocationRecord",
+      "type": "object"
+    },
+    "AcousticEmissionSupportEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "applicable_zone_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Zone Ids",
+          "type": "array"
+        },
+        "applicable_channel_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Channel Ids",
+          "type": "array"
+        },
+        "feature_support": {
+          "items": {
+            "$ref": "#/$defs/AcousticEmissionFeatureSupport"
+          },
+          "minItems": 1,
+          "title": "Feature Support",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_version": {
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        },
+        "data_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Data Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "applicable_zone_ids",
+        "applicable_channel_ids",
+        "feature_support",
+        "provider_id",
+        "provider_version",
+        "configuration_digest",
+        "data_digest",
+        "result_digest",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "AcousticEmissionSupportEnvelope",
+      "type": "object"
+    },
+    "AcousticEmissionZone": {
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        },
+        "coordinate_frame": {
+          "minLength": 1,
+          "title": "Coordinate Frame",
+          "type": "string"
+        },
+        "geometry_description": {
+          "minLength": 1,
+          "title": "Geometry Description",
+          "type": "string"
+        },
+        "geometry_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Geometry State Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "zone_id",
+        "coordinate_frame",
+        "geometry_description",
+        "geometry_state_digest",
+        "evidence"
+      ],
+      "title": "AcousticEmissionZone",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "zones": {
+      "items": {
+        "$ref": "#/$defs/AcousticEmissionZone"
+      },
+      "minItems": 1,
+      "title": "Zones",
+      "type": "array"
+    },
+    "sensors": {
+      "items": {
+        "$ref": "#/$defs/AcousticEmissionSensorChannel"
+      },
+      "minItems": 1,
+      "title": "Sensors",
+      "type": "array"
+    },
+    "calibrations": {
+      "items": {
+        "$ref": "#/$defs/AcousticEmissionCalibrationRecord"
+      },
+      "minItems": 1,
+      "title": "Calibrations",
+      "type": "array"
+    },
+    "acquisition_intervals": {
+      "items": {
+        "$ref": "#/$defs/AcousticEmissionAcquisitionInterval"
+      },
+      "minItems": 1,
+      "title": "Acquisition Intervals",
+      "type": "array"
+    },
+    "event_records": {
+      "items": {
+        "$ref": "#/$defs/AcousticEmissionEventFeatureRecord"
+      },
+      "title": "Event Records",
+      "type": "array"
+    },
+    "source_location_records": {
+      "items": {
+        "$ref": "#/$defs/AcousticEmissionSourceLocationRecord"
+      },
+      "title": "Source Location Records",
+      "type": "array"
+    },
+    "support_envelope": {
+      "$ref": "#/$defs/AcousticEmissionSupportEnvelope"
+    },
+    "asset_zone_geometry_reviewed": {
+      "title": "Asset Zone Geometry Reviewed",
+      "type": "boolean"
+    },
+    "sensor_channel_mapping_reviewed": {
+      "title": "Sensor Channel Mapping Reviewed",
+      "type": "boolean"
+    },
+    "sensor_coupling_reviewed": {
+      "title": "Sensor Coupling Reviewed",
+      "type": "boolean"
+    },
+    "calibration_evidence_reviewed": {
+      "title": "Calibration Evidence Reviewed",
+      "type": "boolean"
+    },
+    "acquisition_intervals_reviewed": {
+      "title": "Acquisition Intervals Reviewed",
+      "type": "boolean"
+    },
+    "event_feature_definitions_reviewed": {
+      "title": "Event Feature Definitions Reviewed",
+      "type": "boolean"
+    },
+    "source_location_evidence_reviewed": {
+      "title": "Source Location Evidence Reviewed",
+      "type": "boolean"
+    },
+    "provider_and_digest_lineage_reviewed": {
+      "title": "Provider And Digest Lineage Reviewed",
+      "type": "boolean"
+    },
+    "support_envelope_authority_reviewed": {
+      "title": "Support Envelope Authority Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "asset_id",
+    "location_id",
+    "zones",
+    "sensors",
+    "calibrations",
+    "acquisition_intervals",
+    "support_envelope",
+    "asset_zone_geometry_reviewed",
+    "sensor_channel_mapping_reviewed",
+    "sensor_coupling_reviewed",
+    "calibration_evidence_reviewed",
+    "acquisition_intervals_reviewed",
+    "event_feature_definitions_reviewed",
+    "source_location_evidence_reviewed",
+    "provider_and_digest_lineage_reviewed",
+    "support_envelope_authority_reviewed"
+  ],
+  "title": "AcousticEmissionCampaign",
+  "type": "object"
+}

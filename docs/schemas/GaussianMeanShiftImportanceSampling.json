@@ -1,0 +1,237 @@
+{
+  "additionalProperties": false,
+  "description": "Externally evaluated mean-shift importance samples for one finite-period event.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gaussian_mean_shift_importance_sampling.v1",
+      "default": "matintegrity.gaussian_mean_shift_importance_sampling.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "estimate_id": {
+      "minLength": 1,
+      "title": "Estimate Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "time_basis": {
+      "minLength": 1,
+      "title": "Time Basis",
+      "type": "string"
+    },
+    "horizon_start_s": {
+      "minimum": 0,
+      "title": "Horizon Start S",
+      "type": "number"
+    },
+    "horizon_end_s": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon End S",
+      "type": "number"
+    },
+    "conditioning": {
+      "minLength": 1,
+      "title": "Conditioning",
+      "type": "string"
+    },
+    "event_id": {
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_definition": {
+      "minLength": 1,
+      "title": "Event Definition",
+      "type": "string"
+    },
+    "event_probability_meaning": {
+      "const": "conditional_first_failure_in_period",
+      "title": "Event Probability Meaning",
+      "type": "string"
+    },
+    "latent_variable_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Latent Variable Ids",
+      "type": "array"
+    },
+    "target_distribution": {
+      "const": "independent_standard_normal",
+      "default": "independent_standard_normal",
+      "title": "Target Distribution",
+      "type": "string"
+    },
+    "proposal_distribution": {
+      "const": "independent_unit_normal_mean_shift",
+      "default": "independent_unit_normal_mean_shift",
+      "title": "Proposal Distribution",
+      "type": "string"
+    },
+    "proposal_shift": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Proposal Shift",
+      "type": "array"
+    },
+    "sample_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 2000000,
+      "minItems": 2,
+      "title": "Sample Ids",
+      "type": "array"
+    },
+    "proposal_samples": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 2000000,
+      "minItems": 2,
+      "title": "Proposal Samples",
+      "type": "array"
+    },
+    "event_indicators": {
+      "items": {
+        "type": "boolean"
+      },
+      "maxItems": 2000000,
+      "minItems": 2,
+      "title": "Event Indicators",
+      "type": "array"
+    },
+    "design_id": {
+      "minLength": 1,
+      "title": "Design Id",
+      "type": "string"
+    },
+    "design_content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Design Content Sha256",
+      "type": "string"
+    },
+    "proposal_generator_id": {
+      "minLength": 1,
+      "title": "Proposal Generator Id",
+      "type": "string"
+    },
+    "proposal_generator_revision": {
+      "minLength": 1,
+      "title": "Proposal Generator Revision",
+      "type": "string"
+    },
+    "latent_mapping_id": {
+      "minLength": 1,
+      "title": "Latent Mapping Id",
+      "type": "string"
+    },
+    "latent_mapping_revision": {
+      "minLength": 1,
+      "title": "Latent Mapping Revision",
+      "type": "string"
+    },
+    "latent_mapping_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Latent Mapping Configuration Sha256",
+      "type": "string"
+    },
+    "evaluator_id": {
+      "minLength": 1,
+      "title": "Evaluator Id",
+      "type": "string"
+    },
+    "evaluator_revision": {
+      "minLength": 1,
+      "title": "Evaluator Revision",
+      "type": "string"
+    },
+    "evaluator_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluator Configuration Sha256",
+      "type": "string"
+    },
+    "confidence_level": {
+      "default": 0.95,
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Confidence Level",
+      "type": "number"
+    },
+    "samples_drawn_from_declared_proposal": {
+      "title": "Samples Drawn From Declared Proposal",
+      "type": "boolean"
+    },
+    "sample_alignment_reviewed": {
+      "title": "Sample Alignment Reviewed",
+      "type": "boolean"
+    },
+    "latent_mapping_reviewed": {
+      "title": "Latent Mapping Reviewed",
+      "type": "boolean"
+    },
+    "event_indicator_reviewed": {
+      "title": "Event Indicator Reviewed",
+      "type": "boolean"
+    },
+    "deterministic_evaluator_declared": {
+      "title": "Deterministic Evaluator Declared",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "estimate_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "time_basis",
+    "horizon_start_s",
+    "horizon_end_s",
+    "conditioning",
+    "event_id",
+    "event_definition",
+    "event_probability_meaning",
+    "latent_variable_ids",
+    "proposal_shift",
+    "sample_ids",
+    "proposal_samples",
+    "event_indicators",
+    "design_id",
+    "design_content_sha256",
+    "proposal_generator_id",
+    "proposal_generator_revision",
+    "latent_mapping_id",
+    "latent_mapping_revision",
+    "latent_mapping_configuration_sha256",
+    "evaluator_id",
+    "evaluator_revision",
+    "evaluator_configuration_sha256",
+    "samples_drawn_from_declared_proposal",
+    "sample_alignment_reviewed",
+    "latent_mapping_reviewed",
+    "event_indicator_reviewed",
+    "deterministic_evaluator_declared"
+  ],
+  "title": "GaussianMeanShiftImportanceSampling",
+  "type": "object"
+}

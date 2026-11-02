@@ -1,0 +1,134 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "reduction_id": {
+      "minLength": 1,
+      "title": "Reduction Id",
+      "type": "string"
+    },
+    "upstream_solver_id": {
+      "minLength": 1,
+      "title": "Upstream Solver Id",
+      "type": "string"
+    },
+    "upstream_solver_revision": {
+      "minLength": 1,
+      "title": "Upstream Solver Revision",
+      "type": "string"
+    },
+    "stiffness_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stiffness Source Sha256",
+      "type": "string"
+    },
+    "stiffness_matrix_N_m": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 128,
+      "minItems": 2,
+      "title": "Stiffness Matrix N M",
+      "type": "array"
+    },
+    "fixed_incremental_dof_indices": {
+      "default": [],
+      "items": {
+        "type": "integer"
+      },
+      "title": "Fixed Incremental Dof Indices",
+      "type": "array"
+    },
+    "contact_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Contact Node Ids",
+      "type": "array"
+    },
+    "contact_normal_dof_indices": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Contact Normal Dof Indices",
+      "type": "array"
+    },
+    "contact_closure_signs": {
+      "items": {
+        "enum": [
+          -1,
+          1
+        ],
+        "type": "integer"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Contact Closure Signs",
+      "type": "array"
+    },
+    "symmetry_relative_tolerance": {
+      "default": 1e-10,
+      "exclusiveMinimum": 0,
+      "maximum": 1e-05,
+      "title": "Symmetry Relative Tolerance",
+      "type": "number"
+    },
+    "minimum_positive_stiffness_eigenvalue_N_m": {
+      "default": 1e-12,
+      "exclusiveMinimum": 0,
+      "title": "Minimum Positive Stiffness Eigenvalue N M",
+      "type": "number"
+    },
+    "maximum_free_operator_condition_number": {
+      "default": 1000000000000.0,
+      "exclusiveMinimum": 0,
+      "maximum": 100000000000000.0,
+      "minimum": 1,
+      "title": "Maximum Free Operator Condition Number",
+      "type": "number"
+    },
+    "stiffness_units_and_scaling_reviewed": {
+      "title": "Stiffness Units And Scaling Reviewed",
+      "type": "boolean"
+    },
+    "fixed_supports_and_boundary_dofs_reviewed": {
+      "title": "Fixed Supports And Boundary Dofs Reviewed",
+      "type": "boolean"
+    },
+    "contact_normal_dof_mapping_reviewed": {
+      "title": "Contact Normal Dof Mapping Reviewed",
+      "type": "boolean"
+    },
+    "incremental_linear_elastic_applicability_reviewed": {
+      "title": "Incremental Linear Elastic Applicability Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "reduction_id",
+    "upstream_solver_id",
+    "upstream_solver_revision",
+    "stiffness_source_sha256",
+    "stiffness_matrix_N_m",
+    "contact_node_ids",
+    "contact_normal_dof_indices",
+    "contact_closure_signs",
+    "stiffness_units_and_scaling_reviewed",
+    "fixed_supports_and_boundary_dofs_reviewed",
+    "contact_normal_dof_mapping_reviewed",
+    "incremental_linear_elastic_applicability_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "FlangeComplianceReductionRequest",
+  "type": "object"
+}

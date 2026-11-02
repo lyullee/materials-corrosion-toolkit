@@ -1,0 +1,328 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PolymerCompatibilityEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "polymer_grade_id": {
+          "minLength": 1,
+          "title": "Polymer Grade Id",
+          "type": "string"
+        },
+        "polymer_condition_id": {
+          "minLength": 1,
+          "title": "Polymer Condition Id",
+          "type": "string"
+        },
+        "lot_applicability": {
+          "enum": [
+            "exact_lots",
+            "all_lots_of_grade"
+          ],
+          "title": "Lot Applicability",
+          "type": "string"
+        },
+        "applicable_lot_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Applicable Lot Ids",
+          "type": "array"
+        },
+        "media_id": {
+          "minLength": 1,
+          "title": "Media Id",
+          "type": "string"
+        },
+        "concentration_min": {
+          "minimum": 0,
+          "title": "Concentration Min",
+          "type": "number"
+        },
+        "concentration_max": {
+          "minimum": 0,
+          "title": "Concentration Max",
+          "type": "number"
+        },
+        "concentration_unit_token": {
+          "minLength": 1,
+          "title": "Concentration Unit Token",
+          "type": "string"
+        },
+        "temperature_min_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Min K",
+          "type": "number"
+        },
+        "temperature_max_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature Max K",
+          "type": "number"
+        },
+        "pressure_min_Pa_abs": {
+          "minimum": 0,
+          "title": "Pressure Min Pa Abs",
+          "type": "number"
+        },
+        "pressure_max_Pa_abs": {
+          "exclusiveMinimum": 0,
+          "title": "Pressure Max Pa Abs",
+          "type": "number"
+        },
+        "maximum_exposure_duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Exposure Duration S",
+          "type": "number"
+        },
+        "applicable_mechanical_loading_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Mechanical Loading Descriptors",
+          "type": "array"
+        },
+        "qualification_source_id": {
+          "minLength": 1,
+          "title": "Qualification Source Id",
+          "type": "string"
+        },
+        "applicability_basis": {
+          "minLength": 1,
+          "title": "Applicability Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "polymer_grade_id",
+        "polymer_condition_id",
+        "lot_applicability",
+        "media_id",
+        "concentration_min",
+        "concentration_max",
+        "concentration_unit_token",
+        "temperature_min_K",
+        "temperature_max_K",
+        "pressure_min_Pa_abs",
+        "pressure_max_Pa_abs",
+        "maximum_exposure_duration_s",
+        "applicable_mechanical_loading_descriptors",
+        "qualification_source_id",
+        "applicability_basis",
+        "evidence"
+      ],
+      "title": "PolymerCompatibilityEnvelope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "polymer_grade_id": {
+      "minLength": 1,
+      "title": "Polymer Grade Id",
+      "type": "string"
+    },
+    "polymer_lot_id": {
+      "minLength": 1,
+      "title": "Polymer Lot Id",
+      "type": "string"
+    },
+    "polymer_condition_id": {
+      "minLength": 1,
+      "title": "Polymer Condition Id",
+      "type": "string"
+    },
+    "media_id": {
+      "minLength": 1,
+      "title": "Media Id",
+      "type": "string"
+    },
+    "media_composition_description": {
+      "minLength": 1,
+      "title": "Media Composition Description",
+      "type": "string"
+    },
+    "concentration": {
+      "minimum": 0,
+      "title": "Concentration",
+      "type": "number"
+    },
+    "concentration_unit_token": {
+      "minLength": 1,
+      "title": "Concentration Unit Token",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "pressure_Pa_abs": {
+      "minimum": 0,
+      "title": "Pressure Pa Abs",
+      "type": "number"
+    },
+    "exposure_duration_s": {
+      "exclusiveMinimum": 0,
+      "title": "Exposure Duration S",
+      "type": "number"
+    },
+    "mechanical_loading_descriptor": {
+      "minLength": 1,
+      "title": "Mechanical Loading Descriptor",
+      "type": "string"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/PolymerCompatibilityEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "material_identity_reviewed": {
+      "title": "Material Identity Reviewed",
+      "type": "boolean"
+    },
+    "media_identity_and_concentration_reviewed": {
+      "title": "Media Identity And Concentration Reviewed",
+      "type": "boolean"
+    },
+    "temperature_pressure_duration_reviewed": {
+      "title": "Temperature Pressure Duration Reviewed",
+      "type": "boolean"
+    },
+    "mechanical_loading_reviewed": {
+      "title": "Mechanical Loading Reviewed",
+      "type": "boolean"
+    },
+    "envelope_authority_reviewed": {
+      "title": "Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "lot_transfer_reviewed": {
+      "title": "Lot Transfer Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "polymer_grade_id",
+    "polymer_lot_id",
+    "polymer_condition_id",
+    "media_id",
+    "media_composition_description",
+    "concentration",
+    "concentration_unit_token",
+    "temperature_K",
+    "pressure_Pa_abs",
+    "exposure_duration_s",
+    "mechanical_loading_descriptor",
+    "candidate_envelopes",
+    "material_identity_reviewed",
+    "media_identity_and_concentration_reviewed",
+    "temperature_pressure_duration_reviewed",
+    "mechanical_loading_reviewed",
+    "envelope_authority_reviewed",
+    "lot_transfer_reviewed",
+    "evidence"
+  ],
+  "title": "PolymerCompatibilityAssessment",
+  "type": "object"
+}

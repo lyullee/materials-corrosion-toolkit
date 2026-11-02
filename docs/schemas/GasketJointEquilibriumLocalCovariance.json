@@ -1,0 +1,510 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GasketForceCompressionPoint": {
+      "additionalProperties": false,
+      "description": "Caller-measured compression-force point for one gasket sector.",
+      "properties": {
+        "compression_m": {
+          "minimum": 0,
+          "title": "Compression M",
+          "type": "number"
+        },
+        "compressive_force_N": {
+          "minimum": 0,
+          "title": "Compressive Force N",
+          "type": "number"
+        }
+      },
+      "required": [
+        "compression_m",
+        "compressive_force_N"
+      ],
+      "title": "GasketForceCompressionPoint",
+      "type": "object"
+    },
+    "GasketJointBolt": {
+      "additionalProperties": false,
+      "properties": {
+        "bolt_id": {
+          "minLength": 1,
+          "title": "Bolt Id",
+          "type": "string"
+        },
+        "initial_preload_N": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Preload N",
+          "type": "number"
+        },
+        "axial_stiffness_N_m": {
+          "exclusiveMinimum": 0,
+          "title": "Axial Stiffness N M",
+          "type": "number"
+        },
+        "tensile_stress_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Tensile Stress Area M2",
+          "type": "number"
+        },
+        "evidence_source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Source Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "bolt_id",
+        "initial_preload_N",
+        "axial_stiffness_N_m",
+        "tensile_stress_area_m2",
+        "evidence_source_ids"
+      ],
+      "title": "GasketJointBolt",
+      "type": "object"
+    },
+    "GasketJointLoadStep": {
+      "additionalProperties": false,
+      "properties": {
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "external_separating_force_N": {
+          "title": "External Separating Force N",
+          "type": "number"
+        },
+        "bolt_free_length_change_m": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Bolt Free Length Change M",
+          "type": "array"
+        },
+        "gasket_free_thickness_change_m": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Gasket Free Thickness Change M",
+          "type": "array"
+        }
+      },
+      "required": [
+        "step_id",
+        "time_s",
+        "external_separating_force_N",
+        "bolt_free_length_change_m",
+        "gasket_free_thickness_change_m"
+      ],
+      "title": "GasketJointLoadStep",
+      "type": "object"
+    },
+    "GasketJointSector": {
+      "additionalProperties": false,
+      "properties": {
+        "sector_id": {
+          "minLength": 1,
+          "title": "Sector Id",
+          "type": "string"
+        },
+        "contact_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Contact Area M2",
+          "type": "number"
+        },
+        "initial_compression_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Compression M",
+          "type": "number"
+        },
+        "force_compression_curve": {
+          "items": {
+            "$ref": "#/$defs/GasketForceCompressionPoint"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Force Compression Curve",
+          "type": "array"
+        },
+        "evidence_source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Source Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sector_id",
+        "contact_area_m2",
+        "initial_compression_m",
+        "force_compression_curve",
+        "evidence_source_ids"
+      ],
+      "title": "GasketJointSector",
+      "type": "object"
+    },
+    "GasketMultiBoltSectorEquilibrium": {
+      "additionalProperties": false,
+      "description": "Quasi-static common-opening equilibrium for parallel bolt/gasket sectors.",
+      "properties": {
+        "schema_version": {
+          "const": "matintegrity.gasket_multi_bolt_sector_equilibrium.v1",
+          "default": "matintegrity.gasket_multi_bolt_sector_equilibrium.v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "assessment_id": {
+          "minLength": 1,
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "bolts": {
+          "items": {
+            "$ref": "#/$defs/GasketJointBolt"
+          },
+          "maxItems": 256,
+          "minItems": 2,
+          "title": "Bolts",
+          "type": "array"
+        },
+        "gasket_sectors": {
+          "items": {
+            "$ref": "#/$defs/GasketJointSector"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "title": "Gasket Sectors",
+          "type": "array"
+        },
+        "load_steps": {
+          "items": {
+            "$ref": "#/$defs/GasketJointLoadStep"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Load Steps",
+          "type": "array"
+        },
+        "minimum_opening_m": {
+          "title": "Minimum Opening M",
+          "type": "number"
+        },
+        "maximum_opening_m": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Opening M",
+          "type": "number"
+        },
+        "initial_force_balance_tolerance_N": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Force Balance Tolerance N",
+          "type": "number"
+        },
+        "force_balance_tolerance_N": {
+          "exclusiveMinimum": 0,
+          "title": "Force Balance Tolerance N",
+          "type": "number"
+        },
+        "opening_tolerance_m": {
+          "exclusiveMinimum": 0,
+          "title": "Opening Tolerance M",
+          "type": "number"
+        },
+        "maximum_bisection_iterations": {
+          "default": 160,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Maximum Bisection Iterations",
+          "type": "integer"
+        },
+        "common_axial_opening_assumption_reviewed": {
+          "title": "Common Axial Opening Assumption Reviewed",
+          "type": "boolean"
+        },
+        "per_bolt_preload_stiffness_area_basis_reviewed": {
+          "title": "Per Bolt Preload Stiffness Area Basis Reviewed",
+          "type": "boolean"
+        },
+        "sector_force_curve_support_reviewed": {
+          "title": "Sector Force Curve Support Reviewed",
+          "type": "boolean"
+        },
+        "tension_only_bolts_and_compression_only_gasket_reviewed": {
+          "title": "Tension Only Bolts And Compression Only Gasket Reviewed",
+          "type": "boolean"
+        },
+        "load_step_interpolation_and_quasistatic_reviewed": {
+          "title": "Load Step Interpolation And Quasistatic Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "joint_id",
+        "physical_scope_id",
+        "bolts",
+        "gasket_sectors",
+        "load_steps",
+        "minimum_opening_m",
+        "maximum_opening_m",
+        "initial_force_balance_tolerance_N",
+        "force_balance_tolerance_N",
+        "opening_tolerance_m",
+        "common_axial_opening_assumption_reviewed",
+        "per_bolt_preload_stiffness_area_basis_reviewed",
+        "sector_force_curve_support_reviewed",
+        "tension_only_bolts_and_compression_only_gasket_reviewed",
+        "load_step_interpolation_and_quasistatic_reviewed",
+        "computational_use_authorized",
+        "evidence"
+      ],
+      "title": "GasketMultiBoltSectorEquilibrium",
+      "type": "object"
+    },
+    "JointLoadCovarianceCoordinate": {
+      "additionalProperties": false,
+      "description": "One uncertain scalar at a non-reference load step.",
+      "properties": {
+        "step_index": {
+          "maximum": 9999,
+          "minimum": 1,
+          "title": "Step Index",
+          "type": "integer"
+        },
+        "quantity": {
+          "enum": [
+            "external_separating_force_N",
+            "bolt_free_length_change_m",
+            "gasket_free_thickness_change_m"
+          ],
+          "title": "Quantity",
+          "type": "string"
+        },
+        "component_index": {
+          "anyOf": [
+            {
+              "maximum": 255,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Index"
+        },
+        "finite_difference_step": {
+          "exclusiveMinimum": 0,
+          "title": "Finite Difference Step",
+          "type": "number"
+        }
+      },
+      "required": [
+        "step_index",
+        "quantity",
+        "finite_difference_step"
+      ],
+      "title": "JointLoadCovarianceCoordinate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_joint_equilibrium_local_covariance.v1",
+      "default": "matintegrity.gasket_joint_equilibrium_local_covariance.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "joint_request": {
+      "$ref": "#/$defs/GasketMultiBoltSectorEquilibrium"
+    },
+    "coordinates": {
+      "items": {
+        "$ref": "#/$defs/JointLoadCovarianceCoordinate"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Coordinates",
+      "type": "array"
+    },
+    "input_covariance": {
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Input Covariance",
+      "type": "array"
+    },
+    "covariance_source_id": {
+      "minLength": 1,
+      "title": "Covariance Source Id",
+      "type": "string"
+    },
+    "covariance_provider_revision": {
+      "minLength": 1,
+      "title": "Covariance Provider Revision",
+      "type": "string"
+    },
+    "covariance_record_id": {
+      "minLength": 1,
+      "title": "Covariance Record Id",
+      "type": "string"
+    },
+    "covariance_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Covariance Sha256",
+      "type": "string"
+    },
+    "covariance_usage_license_id": {
+      "minLength": 1,
+      "title": "Covariance Usage License Id",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "covariance_coordinate_order_reviewed": {
+      "title": "Covariance Coordinate Order Reviewed",
+      "type": "boolean"
+    },
+    "local_smoothness_and_fd_step_reviewed": {
+      "title": "Local Smoothness And Fd Step Reviewed",
+      "type": "boolean"
+    },
+    "contact_active_set_stability_reviewed": {
+      "title": "Contact Active Set Stability Reviewed",
+      "type": "boolean"
+    },
+    "covariance_basis_and_clock_reviewed": {
+      "title": "Covariance Basis And Clock Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "joint_request",
+    "coordinates",
+    "input_covariance",
+    "covariance_source_id",
+    "covariance_provider_revision",
+    "covariance_record_id",
+    "covariance_sha256",
+    "covariance_usage_license_id",
+    "evidence",
+    "covariance_coordinate_order_reviewed",
+    "local_smoothness_and_fd_step_reviewed",
+    "contact_active_set_stability_reviewed",
+    "covariance_basis_and_clock_reviewed",
+    "computational_use_authorized"
+  ],
+  "title": "GasketJointEquilibriumLocalCovariance",
+  "type": "object"
+}

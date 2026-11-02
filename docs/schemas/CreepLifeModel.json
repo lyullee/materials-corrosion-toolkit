@@ -1,0 +1,209 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.creep_life.v1",
+      "default": "matintegrity.creep_life.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "stress_only",
+        "arrhenius_stress"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "stress_basis": {
+      "enum": [
+        "initial_nominal_constant_load",
+        "constant_true_stress"
+      ],
+      "title": "Stress Basis",
+      "type": "string"
+    },
+    "temperature_basis": {
+      "enum": [
+        "nominal_specified",
+        "measured_representative"
+      ],
+      "title": "Temperature Basis",
+      "type": "string"
+    },
+    "reference_stress_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Stress Pa",
+      "type": "number"
+    },
+    "reference_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Temperature K",
+      "type": "number"
+    },
+    "log_reference_median_time_s": {
+      "title": "Log Reference Median Time S",
+      "type": "number"
+    },
+    "stress_exponent": {
+      "exclusiveMinimum": 0,
+      "title": "Stress Exponent",
+      "type": "number"
+    },
+    "activation_energy_J_mol": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Activation Energy J Mol"
+    },
+    "log_life_sigma": {
+      "exclusiveMinimum": 0,
+      "title": "Log Life Sigma",
+      "type": "number"
+    },
+    "temperature_tolerance_K": {
+      "minimum": 0,
+      "title": "Temperature Tolerance K",
+      "type": "number"
+    },
+    "support_stress_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Support Stress Pa",
+      "type": "array"
+    },
+    "support_temperature_K": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "minItems": 2,
+      "title": "Support Temperature K",
+      "type": "array"
+    },
+    "longest_observed_failure_time_s": {
+      "exclusiveMinimum": 0,
+      "title": "Longest Observed Failure Time S",
+      "type": "number"
+    },
+    "training_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Training Digest",
+      "type": "string"
+    },
+    "observations": {
+      "minimum": 8,
+      "title": "Observations",
+      "type": "integer"
+    },
+    "failures": {
+      "minimum": 5,
+      "title": "Failures",
+      "type": "integer"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "family",
+    "material_condition_id",
+    "stress_basis",
+    "temperature_basis",
+    "reference_stress_Pa",
+    "reference_temperature_K",
+    "log_reference_median_time_s",
+    "stress_exponent",
+    "activation_energy_J_mol",
+    "log_life_sigma",
+    "temperature_tolerance_K",
+    "support_stress_Pa",
+    "support_temperature_K",
+    "longest_observed_failure_time_s",
+    "training_digest",
+    "observations",
+    "failures",
+    "evidence"
+  ],
+  "title": "CreepLifeModel",
+  "type": "object"
+}

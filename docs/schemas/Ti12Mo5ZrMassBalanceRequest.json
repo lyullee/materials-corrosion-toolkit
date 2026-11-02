@@ -1,0 +1,159 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Input and explicit review attestations for one local AESEC file.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.ti12mo5zr_mass_balance_request.v1",
+      "default": "matintegrity.ti12mo5zr_mass_balance_request.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "local_archive_path": {
+      "minLength": 1,
+      "title": "Local Archive Path",
+      "type": "string"
+    },
+    "density_kg_m3": {
+      "exclusiveMinimum": 0,
+      "title": "Density Kg M3",
+      "type": "number"
+    },
+    "density_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "alloy_label": {
+      "const": "Ti-12Mo-5Zr",
+      "title": "Alloy Label",
+      "type": "string"
+    },
+    "analyzed_elements": {
+      "items": {
+        "enum": [
+          "Ti",
+          "Mo",
+          "Zr"
+        ],
+        "type": "string"
+      },
+      "title": "Analyzed Elements",
+      "type": "array"
+    },
+    "computational_use_authorized": {
+      "const": true,
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "local_only_authorized": {
+      "const": true,
+      "title": "Local Only Authorized",
+      "type": "boolean"
+    },
+    "source_time_axis_is_valid_for_interval_integration": {
+      "const": true,
+      "title": "Source Time Axis Is Valid For Interval Integration",
+      "type": "boolean"
+    },
+    "provider_positive_rate_means_outward_loss_reviewed": {
+      "const": true,
+      "title": "Provider Positive Rate Means Outward Loss Reviewed",
+      "type": "boolean"
+    },
+    "analyzed_element_coverage_is_complete_for_this_conversion": {
+      "const": true,
+      "title": "Analyzed Element Coverage Is Complete For This Conversion",
+      "type": "boolean"
+    },
+    "uniform_area_and_density_equivalent_penetration_reviewed": {
+      "const": true,
+      "title": "Uniform Area And Density Equivalent Penetration Reviewed",
+      "type": "boolean"
+    },
+    "linear_interpolation_between_time_rows_reviewed": {
+      "const": true,
+      "title": "Linear Interpolation Between Time Rows Reviewed",
+      "type": "boolean"
+    },
+    "missing_values_are_not_imputed": {
+      "const": true,
+      "default": true,
+      "title": "Missing Values Are Not Imputed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "local_archive_path",
+    "density_kg_m3",
+    "density_evidence",
+    "alloy_label",
+    "analyzed_elements",
+    "computational_use_authorized",
+    "local_only_authorized",
+    "source_time_axis_is_valid_for_interval_integration",
+    "provider_positive_rate_means_outward_loss_reviewed",
+    "analyzed_element_coverage_is_complete_for_this_conversion",
+    "uniform_area_and_density_equivalent_penetration_reviewed",
+    "linear_interpolation_between_time_rows_reviewed"
+  ],
+  "title": "Ti12Mo5ZrMassBalanceRequest",
+  "type": "object"
+}

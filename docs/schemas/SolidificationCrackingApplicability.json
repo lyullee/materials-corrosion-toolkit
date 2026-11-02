@@ -1,0 +1,487 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SolidificationCrackingQualificationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_id": {
+          "minLength": 1,
+          "title": "Envelope Id",
+          "type": "string"
+        },
+        "weld_metal_condition_id": {
+          "minLength": 1,
+          "title": "Weld Metal Condition Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "consumable_classification_id": {
+          "minLength": 1,
+          "title": "Consumable Classification Id",
+          "type": "string"
+        },
+        "chemistry_basis_id": {
+          "minLength": 1,
+          "title": "Chemistry Basis Id",
+          "type": "string"
+        },
+        "supported_chemistry_profile_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Chemistry Profile Ids",
+          "type": "array"
+        },
+        "supported_thermal_history_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Thermal History Descriptors",
+          "type": "array"
+        },
+        "supported_strain_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Strain Descriptors",
+          "type": "array"
+        },
+        "supported_restraint_descriptors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Supported Restraint Descriptors",
+          "type": "array"
+        },
+        "result_definition": {
+          "minLength": 1,
+          "title": "Result Definition",
+          "type": "string"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "minimum_physical_specimen_count": {
+          "minimum": 1,
+          "title": "Minimum Physical Specimen Count",
+          "type": "integer"
+        },
+        "minimum_source_group_count": {
+          "minimum": 1,
+          "title": "Minimum Source Group Count",
+          "type": "integer"
+        },
+        "test_evidence": {
+          "items": {
+            "$ref": "#/$defs/SolidificationCrackingTestEvidence"
+          },
+          "minItems": 1,
+          "title": "Test Evidence",
+          "type": "array"
+        },
+        "qualification_basis": {
+          "minLength": 1,
+          "title": "Qualification Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "envelope_id",
+        "weld_metal_condition_id",
+        "welding_process_id",
+        "consumable_classification_id",
+        "chemistry_basis_id",
+        "supported_chemistry_profile_ids",
+        "supported_thermal_history_descriptors",
+        "supported_strain_descriptors",
+        "supported_restraint_descriptors",
+        "result_definition",
+        "result_unit_token",
+        "minimum_physical_specimen_count",
+        "minimum_source_group_count",
+        "test_evidence",
+        "qualification_basis",
+        "evidence"
+      ],
+      "title": "SolidificationCrackingQualificationEnvelope",
+      "type": "object"
+    },
+    "SolidificationCrackingTestEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_record_id": {
+          "minLength": 1,
+          "title": "Evidence Record Id",
+          "type": "string"
+        },
+        "qualification_test_id": {
+          "minLength": 1,
+          "title": "Qualification Test Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "weld_metal_condition_id": {
+          "minLength": 1,
+          "title": "Weld Metal Condition Id",
+          "type": "string"
+        },
+        "welding_process_id": {
+          "minLength": 1,
+          "title": "Welding Process Id",
+          "type": "string"
+        },
+        "consumable_classification_id": {
+          "minLength": 1,
+          "title": "Consumable Classification Id",
+          "type": "string"
+        },
+        "chemistry_profile_id": {
+          "minLength": 1,
+          "title": "Chemistry Profile Id",
+          "type": "string"
+        },
+        "test_method_id": {
+          "minLength": 1,
+          "title": "Test Method Id",
+          "type": "string"
+        },
+        "result_definition": {
+          "minLength": 1,
+          "title": "Result Definition",
+          "type": "string"
+        },
+        "result_value": {
+          "title": "Result Value",
+          "type": "number"
+        },
+        "result_unit_token": {
+          "minLength": 1,
+          "title": "Result Unit Token",
+          "type": "string"
+        },
+        "expanded_uncertainty": {
+          "minimum": 0,
+          "title": "Expanded Uncertainty",
+          "type": "number"
+        },
+        "uncertainty_coverage_factor": {
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "provider_state_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider State Digest",
+          "type": "string"
+        },
+        "provider_configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Configuration Digest",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "supports_declared_envelope": {
+          "title": "Supports Declared Envelope",
+          "type": "boolean"
+        },
+        "invalid_or_limiting_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Or Limiting Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_record_id",
+        "qualification_test_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "weld_metal_condition_id",
+        "welding_process_id",
+        "consumable_classification_id",
+        "chemistry_profile_id",
+        "test_method_id",
+        "result_definition",
+        "result_value",
+        "result_unit_token",
+        "expanded_uncertainty",
+        "uncertainty_coverage_factor",
+        "provider_id",
+        "provider_revision",
+        "provider_state_digest",
+        "provider_configuration_digest",
+        "input_digest",
+        "result_digest",
+        "record_valid",
+        "supports_declared_envelope",
+        "evidence"
+      ],
+      "title": "SolidificationCrackingTestEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "production_weld_id": {
+      "minLength": 1,
+      "title": "Production Weld Id",
+      "type": "string"
+    },
+    "weld_metal_condition_id": {
+      "minLength": 1,
+      "title": "Weld Metal Condition Id",
+      "type": "string"
+    },
+    "welding_process_id": {
+      "minLength": 1,
+      "title": "Welding Process Id",
+      "type": "string"
+    },
+    "consumable_classification_id": {
+      "minLength": 1,
+      "title": "Consumable Classification Id",
+      "type": "string"
+    },
+    "consumable_lot_id": {
+      "minLength": 1,
+      "title": "Consumable Lot Id",
+      "type": "string"
+    },
+    "chemistry_basis_id": {
+      "minLength": 1,
+      "title": "Chemistry Basis Id",
+      "type": "string"
+    },
+    "chemistry_profile_id": {
+      "minLength": 1,
+      "title": "Chemistry Profile Id",
+      "type": "string"
+    },
+    "thermal_history_descriptor": {
+      "minLength": 1,
+      "title": "Thermal History Descriptor",
+      "type": "string"
+    },
+    "strain_descriptor": {
+      "minLength": 1,
+      "title": "Strain Descriptor",
+      "type": "string"
+    },
+    "restraint_descriptor": {
+      "minLength": 1,
+      "title": "Restraint Descriptor",
+      "type": "string"
+    },
+    "candidate_envelopes": {
+      "items": {
+        "$ref": "#/$defs/SolidificationCrackingQualificationEnvelope"
+      },
+      "minItems": 1,
+      "title": "Candidate Envelopes",
+      "type": "array"
+    },
+    "weld_metal_process_and_consumable_reviewed": {
+      "title": "Weld Metal Process And Consumable Reviewed",
+      "type": "boolean"
+    },
+    "chemistry_identity_and_basis_reviewed": {
+      "title": "Chemistry Identity And Basis Reviewed",
+      "type": "boolean"
+    },
+    "thermal_history_reviewed": {
+      "title": "Thermal History Reviewed",
+      "type": "boolean"
+    },
+    "strain_and_restraint_reviewed": {
+      "title": "Strain And Restraint Reviewed",
+      "type": "boolean"
+    },
+    "specimen_and_source_group_partitions_reviewed": {
+      "title": "Specimen And Source Group Partitions Reviewed",
+      "type": "boolean"
+    },
+    "test_method_units_and_uncertainty_reviewed": {
+      "title": "Test Method Units And Uncertainty Reviewed",
+      "type": "boolean"
+    },
+    "provider_lineage_and_digests_reviewed": {
+      "title": "Provider Lineage And Digests Reviewed",
+      "type": "boolean"
+    },
+    "qualification_envelope_authority_reviewed": {
+      "title": "Qualification Envelope Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "production_weld_id",
+    "weld_metal_condition_id",
+    "welding_process_id",
+    "consumable_classification_id",
+    "consumable_lot_id",
+    "chemistry_basis_id",
+    "chemistry_profile_id",
+    "thermal_history_descriptor",
+    "strain_descriptor",
+    "restraint_descriptor",
+    "candidate_envelopes",
+    "weld_metal_process_and_consumable_reviewed",
+    "chemistry_identity_and_basis_reviewed",
+    "thermal_history_reviewed",
+    "strain_and_restraint_reviewed",
+    "specimen_and_source_group_partitions_reviewed",
+    "test_method_units_and_uncertainty_reviewed",
+    "provider_lineage_and_digests_reviewed",
+    "qualification_envelope_authority_reviewed",
+    "evidence"
+  ],
+  "title": "SolidificationCrackingApplicability",
+  "type": "object"
+}

@@ -1,0 +1,477 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "TemperatureCompressionCurve": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "loading_branch_id": {
+          "minLength": 1,
+          "title": "Loading Branch Id",
+          "type": "string"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "strain_fraction": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Strain Fraction",
+          "type": "array"
+        },
+        "compressive_stress_Pa": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 10000,
+          "minItems": 2,
+          "title": "Compressive Stress Pa",
+          "type": "array"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "usage_license_id": {
+          "minLength": 1,
+          "title": "Usage License Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "specimen_id",
+        "material_condition_id",
+        "loading_branch_id",
+        "temperature_K",
+        "strain_fraction",
+        "compressive_stress_Pa",
+        "provider_id",
+        "provider_revision",
+        "record_id",
+        "record_sha256",
+        "usage_license_id",
+        "evidence"
+      ],
+      "title": "TemperatureCompressionCurve",
+      "type": "object"
+    },
+    "TemperatureJointBolt": {
+      "additionalProperties": false,
+      "properties": {
+        "bolt_id": {
+          "minLength": 1,
+          "title": "Bolt Id",
+          "type": "string"
+        },
+        "initial_preload_N": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Preload N",
+          "type": "number"
+        },
+        "axial_stiffness_N_m": {
+          "exclusiveMinimum": 0,
+          "title": "Axial Stiffness N M",
+          "type": "number"
+        },
+        "tensile_stress_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Tensile Stress Area M2",
+          "type": "number"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bolt_id",
+        "initial_preload_N",
+        "axial_stiffness_N_m",
+        "tensile_stress_area_m2",
+        "source_id"
+      ],
+      "title": "TemperatureJointBolt",
+      "type": "object"
+    },
+    "TemperatureJointLoadStep": {
+      "additionalProperties": false,
+      "properties": {
+        "step_id": {
+          "minLength": 1,
+          "title": "Step Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "temperature_K": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "external_separating_force_N": {
+          "title": "External Separating Force N",
+          "type": "number"
+        },
+        "bolt_free_length_change_m": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Bolt Free Length Change M",
+          "type": "array"
+        },
+        "gasket_free_thickness_change_m": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Gasket Free Thickness Change M",
+          "type": "array"
+        }
+      },
+      "required": [
+        "step_id",
+        "time_s",
+        "temperature_K",
+        "external_separating_force_N",
+        "bolt_free_length_change_m",
+        "gasket_free_thickness_change_m"
+      ],
+      "title": "TemperatureJointLoadStep",
+      "type": "object"
+    },
+    "TemperatureJointSector": {
+      "additionalProperties": false,
+      "properties": {
+        "sector_id": {
+          "minLength": 1,
+          "title": "Sector Id",
+          "type": "string"
+        },
+        "initial_compression_m": {
+          "exclusiveMinimum": 0,
+          "title": "Initial Compression M",
+          "type": "number"
+        },
+        "contact_area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Contact Area M2",
+          "type": "number"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sector_id",
+        "initial_compression_m",
+        "contact_area_m2",
+        "source_id"
+      ],
+      "title": "TemperatureJointSector",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Ordered common-opening quasi-static response under caller temperature curves and thermal shifts.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.gasket_temperature_compression_joint_history.v1",
+      "default": "matintegrity.gasket_temperature_compression_joint_history.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "joint_id": {
+      "minLength": 1,
+      "title": "Joint Id",
+      "type": "string"
+    },
+    "lower_temperature_curve": {
+      "$ref": "#/$defs/TemperatureCompressionCurve"
+    },
+    "upper_temperature_curve": {
+      "$ref": "#/$defs/TemperatureCompressionCurve"
+    },
+    "initial_gasket_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Gasket Thickness M",
+      "type": "number"
+    },
+    "thickness_provider_id": {
+      "minLength": 1,
+      "title": "Thickness Provider Id",
+      "type": "string"
+    },
+    "thickness_provider_revision": {
+      "minLength": 1,
+      "title": "Thickness Provider Revision",
+      "type": "string"
+    },
+    "thickness_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Thickness Record Sha256",
+      "type": "string"
+    },
+    "thickness_usage_license_id": {
+      "minLength": 1,
+      "title": "Thickness Usage License Id",
+      "type": "string"
+    },
+    "thickness_evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Thickness Evidence",
+      "type": "array"
+    },
+    "bolts": {
+      "items": {
+        "$ref": "#/$defs/TemperatureJointBolt"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Bolts",
+      "type": "array"
+    },
+    "sectors": {
+      "items": {
+        "$ref": "#/$defs/TemperatureJointSector"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Sectors",
+      "type": "array"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/TemperatureJointLoadStep"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Steps",
+      "type": "array"
+    },
+    "minimum_opening_m": {
+      "title": "Minimum Opening M",
+      "type": "number"
+    },
+    "maximum_opening_m": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Opening M",
+      "type": "number"
+    },
+    "initial_force_balance_tolerance_N": {
+      "exclusiveMinimum": 0,
+      "title": "Initial Force Balance Tolerance N",
+      "type": "number"
+    },
+    "force_balance_tolerance_N": {
+      "exclusiveMinimum": 0,
+      "title": "Force Balance Tolerance N",
+      "type": "number"
+    },
+    "opening_tolerance_m": {
+      "exclusiveMinimum": 0,
+      "title": "Opening Tolerance M",
+      "type": "number"
+    },
+    "maximum_bisection_iterations": {
+      "default": 160,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Maximum Bisection Iterations",
+      "type": "integer"
+    },
+    "common_axial_opening_reviewed": {
+      "title": "Common Axial Opening Reviewed",
+      "type": "boolean"
+    },
+    "temperature_bracket_and_curve_transfer_reviewed": {
+      "title": "Temperature Bracket And Curve Transfer Reviewed",
+      "type": "boolean"
+    },
+    "bolt_preload_stiffness_and_thermal_shift_reviewed": {
+      "title": "Bolt Preload Stiffness And Thermal Shift Reviewed",
+      "type": "boolean"
+    },
+    "sector_area_and_gasket_free_thickness_reviewed": {
+      "title": "Sector Area And Gasket Free Thickness Reviewed",
+      "type": "boolean"
+    },
+    "curve_support_and_unilateral_contact_reviewed": {
+      "title": "Curve Support And Unilateral Contact Reviewed",
+      "type": "boolean"
+    },
+    "quasi_static_path_and_source_rights_reviewed": {
+      "title": "Quasi Static Path And Source Rights Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "physical_scope_id",
+    "joint_id",
+    "lower_temperature_curve",
+    "upper_temperature_curve",
+    "initial_gasket_thickness_m",
+    "thickness_provider_id",
+    "thickness_provider_revision",
+    "thickness_record_sha256",
+    "thickness_usage_license_id",
+    "thickness_evidence",
+    "bolts",
+    "sectors",
+    "steps",
+    "minimum_opening_m",
+    "maximum_opening_m",
+    "initial_force_balance_tolerance_N",
+    "force_balance_tolerance_N",
+    "opening_tolerance_m",
+    "common_axial_opening_reviewed",
+    "temperature_bracket_and_curve_transfer_reviewed",
+    "bolt_preload_stiffness_and_thermal_shift_reviewed",
+    "sector_area_and_gasket_free_thickness_reviewed",
+    "curve_support_and_unilateral_contact_reviewed",
+    "quasi_static_path_and_source_rights_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "GasketTemperatureCompressionJointHistory",
+  "type": "object"
+}

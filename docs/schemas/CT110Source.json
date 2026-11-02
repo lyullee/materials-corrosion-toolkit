@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "CT110ProviderFile": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "provider_md5": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Provider Md5",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "provider_md5",
+        "sha256",
+        "bytes"
+      ],
+      "title": "CT110ProviderFile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "citation": {
+      "minLength": 1,
+      "title": "Citation",
+      "type": "string"
+    },
+    "article_doi": {
+      "minLength": 1,
+      "title": "Article Doi",
+      "type": "string"
+    },
+    "supplement_dois": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Supplement Dois",
+      "type": "array"
+    },
+    "license": {
+      "const": "CC BY 4.0",
+      "title": "License",
+      "type": "string"
+    },
+    "license_url": {
+      "minLength": 1,
+      "title": "License Url",
+      "type": "string"
+    },
+    "attribution": {
+      "minLength": 1,
+      "title": "Attribution",
+      "type": "string"
+    },
+    "provider_files": {
+      "items": {
+        "$ref": "#/$defs/CT110ProviderFile"
+      },
+      "minItems": 2,
+      "title": "Provider Files",
+      "type": "array"
+    }
+  },
+  "required": [
+    "citation",
+    "article_doi",
+    "supplement_dois",
+    "license",
+    "license_url",
+    "attribution",
+    "provider_files"
+  ],
+  "title": "CT110Source",
+  "type": "object"
+}

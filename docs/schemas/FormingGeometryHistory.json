@@ -1,0 +1,391 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FormingGeometryRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "forming_mode": {
+          "enum": [
+            "cold",
+            "hot"
+          ],
+          "title": "Forming Mode",
+          "type": "string"
+        },
+        "forming_direction_id": {
+          "minLength": 1,
+          "title": "Forming Direction Id",
+          "type": "string"
+        },
+        "geometry_convention": {
+          "const": "mid_thickness_neutral_axis_circular_arc",
+          "title": "Geometry Convention",
+          "type": "string"
+        },
+        "strain_convention": {
+          "enum": [
+            "engineering",
+            "true"
+          ],
+          "title": "Strain Convention",
+          "type": "string"
+        },
+        "original_thickness_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Thickness M"
+        },
+        "final_thickness_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Final Thickness M"
+        },
+        "inside_radius_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Inside Radius M"
+        },
+        "bend_angle_rad": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bend Angle Rad"
+        },
+        "thickness_standard_uncertainty_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Thickness Standard Uncertainty M"
+        },
+        "radius_standard_uncertainty_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Radius Standard Uncertainty M"
+        },
+        "angle_standard_uncertainty_rad": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Angle Standard Uncertainty Rad"
+        },
+        "record_status": {
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Record Status",
+          "type": "string"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "record_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "material_condition_id",
+        "forming_mode",
+        "forming_direction_id",
+        "geometry_convention",
+        "strain_convention",
+        "record_status",
+        "record_digest",
+        "evidence"
+      ],
+      "title": "FormingGeometryRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "history_id": {
+      "minLength": 1,
+      "title": "History Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "component_id": {
+      "minLength": 1,
+      "title": "Component Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "strain_convention": {
+      "enum": [
+        "engineering",
+        "true"
+      ],
+      "title": "Strain Convention",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/FormingGeometryRecord"
+      },
+      "minItems": 1,
+      "title": "Records",
+      "type": "array"
+    },
+    "minimum_supported_radius_to_original_thickness": {
+      "minimum": 0,
+      "title": "Minimum Supported Radius To Original Thickness",
+      "type": "number"
+    },
+    "maximum_supported_radius_to_original_thickness": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Radius To Original Thickness",
+      "type": "number"
+    },
+    "maximum_supported_bend_angle_rad": {
+      "exclusiveMinimum": 0,
+      "title": "Maximum Supported Bend Angle Rad",
+      "type": "number"
+    },
+    "caller_maximum_tensile_surface_strain": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Caller Maximum Tensile Surface Strain"
+    },
+    "caller_maximum_thinning_measure": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Caller Maximum Thinning Measure"
+    },
+    "material_condition_mode_and_direction_reviewed": {
+      "title": "Material Condition Mode And Direction Reviewed",
+      "type": "boolean"
+    },
+    "original_final_thickness_and_geometry_reviewed": {
+      "title": "Original Final Thickness And Geometry Reviewed",
+      "type": "boolean"
+    },
+    "geometry_and_strain_conventions_reviewed": {
+      "title": "Geometry And Strain Conventions Reviewed",
+      "type": "boolean"
+    },
+    "measurement_uncertainty_and_record_status_reviewed": {
+      "title": "Measurement Uncertainty And Record Status Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_identity_and_digests_reviewed": {
+      "title": "Specimen Source Identity And Digests Reviewed",
+      "type": "boolean"
+    },
+    "support_and_caller_threshold_authority_reviewed": {
+      "title": "Support And Caller Threshold Authority Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "history_id",
+    "asset_id",
+    "location_id",
+    "component_id",
+    "material_condition_id",
+    "strain_convention",
+    "records",
+    "minimum_supported_radius_to_original_thickness",
+    "maximum_supported_radius_to_original_thickness",
+    "maximum_supported_bend_angle_rad",
+    "material_condition_mode_and_direction_reviewed",
+    "original_final_thickness_and_geometry_reviewed",
+    "geometry_and_strain_conventions_reviewed",
+    "measurement_uncertainty_and_record_status_reviewed",
+    "specimen_source_identity_and_digests_reviewed",
+    "support_and_caller_threshold_authority_reviewed",
+    "evidence"
+  ],
+  "title": "FormingGeometryHistory",
+  "type": "object"
+}

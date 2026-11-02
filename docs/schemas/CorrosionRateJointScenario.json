@@ -1,0 +1,326 @@
+{
+  "$defs": {
+    "CorrosionRateObservation": {
+      "additionalProperties": false,
+      "description": "One rate summary per explicitly identified physical specimen.",
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "material_id": {
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "rate_m_s": {
+          "minimum": 0,
+          "title": "Rate M S",
+          "type": "number"
+        },
+        "condition_signature": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "title": "Condition Signature",
+          "type": "object"
+        },
+        "condition_group_id": {
+          "minLength": 1,
+          "title": "Condition Group Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "measurement_method": {
+          "minLength": 1,
+          "title": "Measurement Method",
+          "type": "string"
+        },
+        "rate_standard_uncertainty_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Standard Uncertainty M S"
+        },
+        "rate_uncertainty_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Uncertainty Basis"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "material_id",
+        "rate_m_s",
+        "condition_signature",
+        "condition_group_id",
+        "source_group_id",
+        "measurement_method"
+      ],
+      "title": "CorrosionRateObservation",
+      "type": "object"
+    },
+    "CorrosionRateSampleSummary": {
+      "additionalProperties": false,
+      "description": "Descriptive quantiles for unique specimens in one declared study condition.",
+      "properties": {
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/CorrosionRateObservation"
+          },
+          "minItems": 1,
+          "title": "Observations",
+          "type": "array"
+        },
+        "quantile_probabilities": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Quantile Probabilities",
+          "type": "array"
+        },
+        "measurement_error_covariance_m_s2": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measurement Error Covariance M S2"
+        }
+      },
+      "required": [
+        "observations"
+      ],
+      "title": "CorrosionRateSampleSummary",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-weighted rate scenarios for propagating sample variation to wall loss.",
+  "properties": {
+    "sample": {
+      "$ref": "#/$defs/CorrosionRateSampleSummary"
+    },
+    "current_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Current Thickness M",
+      "type": "number"
+    },
+    "required_thickness_m": {
+      "exclusiveMinimum": 0,
+      "title": "Required Thickness M",
+      "type": "number"
+    },
+    "horizon_s": {
+      "minimum": 0,
+      "title": "Horizon S",
+      "type": "number"
+    },
+    "material_state_compatibility_reviewed": {
+      "title": "Material State Compatibility Reviewed",
+      "type": "boolean"
+    },
+    "material_state_review_id": {
+      "minLength": 1,
+      "title": "Material State Review Id",
+      "type": "string"
+    },
+    "condition_transferability_reviewed": {
+      "title": "Condition Transferability Reviewed",
+      "type": "boolean"
+    },
+    "condition_transfer_review_id": {
+      "minLength": 1,
+      "title": "Condition Transfer Review Id",
+      "type": "string"
+    },
+    "linear_loss_model_reviewed": {
+      "title": "Linear Loss Model Reviewed",
+      "type": "boolean"
+    },
+    "linear_loss_model_review_id": {
+      "minLength": 1,
+      "title": "Linear Loss Model Review Id",
+      "type": "string"
+    },
+    "scenario_rate_m_s": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Scenario Rate M S",
+      "type": "array"
+    },
+    "scenario_weights": {
+      "items": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "minItems": 1,
+      "title": "Scenario Weights",
+      "type": "array"
+    },
+    "scenario_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Scenario Ids",
+      "type": "array"
+    },
+    "scenario_set_id": {
+      "minLength": 1,
+      "title": "Scenario Set Id",
+      "type": "string"
+    },
+    "scenario_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scenario Source Digest",
+      "type": "string"
+    },
+    "weight_meaning": {
+      "const": "caller_declared_scenario_weight",
+      "title": "Weight Meaning",
+      "type": "string"
+    }
+  },
+  "required": [
+    "sample",
+    "current_thickness_m",
+    "required_thickness_m",
+    "horizon_s",
+    "material_state_compatibility_reviewed",
+    "material_state_review_id",
+    "condition_transferability_reviewed",
+    "condition_transfer_review_id",
+    "linear_loss_model_reviewed",
+    "linear_loss_model_review_id",
+    "scenario_rate_m_s",
+    "scenario_weights",
+    "scenario_ids",
+    "scenario_set_id",
+    "scenario_source_digest",
+    "weight_meaning"
+  ],
+  "title": "CorrosionRateJointScenario",
+  "type": "object"
+}

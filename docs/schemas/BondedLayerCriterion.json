@@ -1,0 +1,118 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "criterion_id": {
+      "minLength": 1,
+      "title": "Criterion Id",
+      "type": "string"
+    },
+    "criterion_source": {
+      "enum": [
+        "campaign",
+        "observation"
+      ],
+      "title": "Criterion Source",
+      "type": "string"
+    },
+    "campaign_metric": {
+      "anyOf": [
+        {
+          "enum": [
+            "assembly_count",
+            "sample_count",
+            "replicate_group_count",
+            "independent_source_group_count",
+            "valid_observation_fraction"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Campaign Metric"
+    },
+    "observation_category": {
+      "anyOf": [
+        {
+          "enum": [
+            "thickness",
+            "adhesion",
+            "shear",
+            "peel",
+            "porosity",
+            "disbond",
+            "continuity",
+            "nde"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Observation Category"
+    },
+    "observation_metric_id": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Observation Metric Id"
+    },
+    "aggregation": {
+      "enum": [
+        "minimum",
+        "maximum"
+      ],
+      "title": "Aggregation",
+      "type": "string"
+    },
+    "direction": {
+      "enum": [
+        "minimum",
+        "maximum"
+      ],
+      "title": "Direction",
+      "type": "string"
+    },
+    "accept_limit": {
+      "title": "Accept Limit",
+      "type": "number"
+    },
+    "reject_limit": {
+      "title": "Reject Limit",
+      "type": "number"
+    },
+    "unit_token": {
+      "minLength": 1,
+      "title": "Unit Token",
+      "type": "string"
+    },
+    "criterion_basis": {
+      "minLength": 1,
+      "title": "Criterion Basis",
+      "type": "string"
+    }
+  },
+  "required": [
+    "criterion_id",
+    "criterion_source",
+    "aggregation",
+    "direction",
+    "accept_limit",
+    "reject_limit",
+    "unit_token",
+    "criterion_basis"
+  ],
+  "title": "BondedLayerCriterion",
+  "type": "object"
+}

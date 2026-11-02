@@ -1,0 +1,249 @@
+{
+  "$defs": {
+    "CorrelationBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "applicability_and_units_reviewed": {
+          "title": "Applicability And Units Reviewed",
+          "type": "boolean"
+        },
+        "computational_use_authorized": {
+          "title": "Computational Use Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_id",
+        "record_sha256",
+        "evidence",
+        "applicability_and_units_reviewed",
+        "computational_use_authorized"
+      ],
+      "title": "CorrelationBasis",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PhasePointCountField": {
+      "additionalProperties": false,
+      "properties": {
+        "field_id": {
+          "minLength": 1,
+          "title": "Field Id",
+          "type": "string"
+        },
+        "image_id": {
+          "minLength": 1,
+          "title": "Image Id",
+          "type": "string"
+        },
+        "image_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Image Sha256",
+          "type": "string"
+        },
+        "coordinate_frame_id": {
+          "minLength": 1,
+          "title": "Coordinate Frame Id",
+          "type": "string"
+        },
+        "grid_record_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Grid Record Sha256",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "total_test_points": {
+          "maximum": 1000000000,
+          "minimum": 1,
+          "title": "Total Test Points",
+          "type": "integer"
+        },
+        "phase_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "maxProperties": 100,
+          "minProperties": 1,
+          "title": "Phase Counts",
+          "type": "object"
+        },
+        "unresolved_points": {
+          "maximum": 1000000000,
+          "minimum": 0,
+          "title": "Unresolved Points",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "field_id",
+        "image_id",
+        "image_sha256",
+        "coordinate_frame_id",
+        "grid_record_sha256",
+        "physical_specimen_id",
+        "total_test_points",
+        "phase_counts",
+        "unresolved_points"
+      ],
+      "title": "PhasePointCountField",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/CorrelationBasis"
+    },
+    "survey_id": {
+      "minLength": 1,
+      "title": "Survey Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "phase_definition_id": {
+      "minLength": 1,
+      "title": "Phase Definition Id",
+      "type": "string"
+    },
+    "counting_procedure_revision_id": {
+      "minLength": 1,
+      "title": "Counting Procedure Revision Id",
+      "type": "string"
+    },
+    "phase_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Phase Ids",
+      "type": "array"
+    },
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/PhasePointCountField"
+      },
+      "maxItems": 10000,
+      "minItems": 1,
+      "title": "Fields",
+      "type": "array"
+    },
+    "point_identity_and_nonoverlap_reviewed": {
+      "title": "Point Identity And Nonoverlap Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "basis",
+    "survey_id",
+    "physical_specimen_id",
+    "material_condition_id",
+    "phase_definition_id",
+    "counting_procedure_revision_id",
+    "phase_ids",
+    "fields",
+    "point_identity_and_nonoverlap_reviewed"
+  ],
+  "title": "PhasePointCountSummary",
+  "type": "object"
+}

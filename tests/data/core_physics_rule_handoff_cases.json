@@ -1,0 +1,5744 @@
+{
+  "basis": "Project-authored synthetic source execution cases for a result-to-declared-rule handoff. Caller toy comparison thresholds are software checks, not engineering acceptance limits. No experiment accuracy or full physical coupling is claimed.",
+  "cases": [
+    {
+      "group": 1,
+      "name": "질량감소 기반 부식속도",
+      "model_id": "corrosion.coupon_loss",
+      "inputs": {
+        "mass_loss_kg": 0.001,
+        "exposed_area_m2": 0.01,
+        "density_kg_m3": 7800.0,
+        "duration_s": 86400.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "mean_penetration_m",
+      "unit": "m",
+      "reference_value": 1.282051282051282e-05
+    },
+    {
+      "group": 2,
+      "name": "Faraday 전류·전하 기반 금속손실",
+      "model_id": "corrosion.faraday",
+      "inputs": {
+        "current_density_A_m2": 0.01,
+        "molar_mass_kg_mol": 0.055845,
+        "electrons_per_atom": 2.0,
+        "density_kg_m3": 7800.0,
+        "current_efficiency": 1.0,
+        "duration_s": 86400.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "rate_m_s",
+      "unit": "m/s",
+      "reference_value": 3.7102092240638533e-13
+    },
+    {
+      "group": 3,
+      "name": "분극저항 기반 부식전류",
+      "model_id": "corrosion.stern_geary",
+      "inputs": {
+        "anodic_tafel_slope_V_decade": 0.12,
+        "cathodic_tafel_slope_V_decade": 0.12,
+        "area_normalized_resistance_ohm_m2": 1.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "stern_geary_coefficient_V",
+      "unit": "V",
+      "reference_value": 0.026057668914195108
+    },
+    {
+      "group": 4,
+      "name": "갈바닉 전류 및 저항 결합",
+      "model_id": "degradation.galvanic_resistive_coupling",
+      "inputs": {
+        "assessment_id": "resistive-couple-1",
+        "asset_id": "asset-1",
+        "location_id": "location-1",
+        "environment": {
+          "environment_id": "environment-1",
+          "electrolyte_id": "bath",
+          "electrolyte_description": "authored electrolyte",
+          "temperature_K": 298.15,
+          "reference_electrode_id": "reference",
+          "condition_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "electrodes": [
+          {
+            "electrode_id": "electrode-a",
+            "metal_id": "metal-a",
+            "material_condition_id": "condition-a",
+            "exposed_area_m2": 1.0,
+            "polarization_curve": {
+              "schema_version": "matintegrity.polarization_curve.v1",
+              "curve_id": "curve-a",
+              "surface_condition_id": "surface-curve-a",
+              "protocol_id": "steady-branch",
+              "electrolyte_id": "bath",
+              "reference_electrode_id": "reference",
+              "temperature_K": 298.15,
+              "point_ids": [
+                "curve-a-left",
+                "curve-a-right"
+              ],
+              "potential_V": [
+                -1.0,
+                0.0
+              ],
+              "signed_net_current_density_A_m2": [
+                -2.0,
+                8.0
+              ],
+              "current_convention": "anodic_positive_net",
+              "evidence": [
+                {
+                  "source_id": "authored-resistive-fixture",
+                  "origin": "synthetic",
+                  "citation": "Independent finite-resistance circuit fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            },
+            "curve_provider_id": "provider-a",
+            "curve_provider_revision": "1",
+            "curve_input_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "curve_result_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "curve_support_reviewed": true
+          },
+          {
+            "electrode_id": "electrode-b",
+            "metal_id": "metal-b",
+            "material_condition_id": "condition-b",
+            "exposed_area_m2": 1.0,
+            "polarization_curve": {
+              "schema_version": "matintegrity.polarization_curve.v1",
+              "curve_id": "curve-b",
+              "surface_condition_id": "surface-curve-b",
+              "protocol_id": "steady-branch",
+              "electrolyte_id": "bath",
+              "reference_electrode_id": "reference",
+              "temperature_K": 298.15,
+              "point_ids": [
+                "curve-b-left",
+                "curve-b-right"
+              ],
+              "potential_V": [
+                -1.0,
+                0.0
+              ],
+              "signed_net_current_density_A_m2": [
+                -7.0,
+                3.0
+              ],
+              "current_convention": "anodic_positive_net",
+              "evidence": [
+                {
+                  "source_id": "authored-resistive-fixture",
+                  "origin": "synthetic",
+                  "citation": "Independent finite-resistance circuit fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            },
+            "curve_provider_id": "provider-b",
+            "curve_provider_revision": "2",
+            "curve_input_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "curve_result_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "curve_support_reviewed": true
+          }
+        ],
+        "connection": {
+          "connection_id": "connection-1",
+          "components": [
+            {
+              "component_id": "electrolyte-path",
+              "component_kind": "electrolyte",
+              "resistance_ohm": 0.08,
+              "basis": "caller four-terminal result",
+              "evidence": [
+                {
+                  "source_id": "authored-resistive-fixture",
+                  "origin": "synthetic",
+                  "citation": "Independent finite-resistance circuit fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            },
+            {
+              "component_id": "contact-path",
+              "component_kind": "contact",
+              "resistance_ohm": 0.02,
+              "basis": "caller contact measurement",
+              "evidence": [
+                {
+                  "source_id": "authored-resistive-fixture",
+                  "origin": "synthetic",
+                  "citation": "Independent finite-resistance circuit fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            }
+          ],
+          "declared_total_series_resistance_ohm": 0.1,
+          "component_sum_tolerance_ohm": 1e-12,
+          "connection_reviewed": true
+        },
+        "partial_dissolution_observations": [],
+        "solver_id": "matintegrity.two_electrode_piecewise_resistive_balance.v1",
+        "solver_revision": "1",
+        "quasi_steady_reviewed": true,
+        "condition_compatibility_reviewed": true,
+        "common_reference_reviewed": true,
+        "anodic_positive_net_current_reviewed": true,
+        "caller_reviewed": true,
+        "absolute_current_balance_tolerance_A": 1e-12,
+        "absolute_voltage_balance_tolerance_V": 1e-12,
+        "evidence": [
+          {
+            "source_id": "authored-resistive-fixture",
+            "origin": "synthetic",
+            "citation": "Independent finite-resistance circuit fixture",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "asset-1",
+        "location_id": "location-1",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "series_voltage_drop_V",
+      "unit": "V",
+      "reference_value": 0.1666666666666667
+    },
+    {
+      "group": 5,
+      "name": "혼합전위·Butler–Volmer 전극반응",
+      "model_id": "corrosion.mixed_potential",
+      "inputs": {
+        "electrodes": [
+          {
+            "electrode_id": "authored-A",
+            "exposed_area_m2": 0.0001,
+            "curve": {
+              "schema_version": "matintegrity.polarization_curve.v1",
+              "curve_id": "authored-A-curve",
+              "surface_condition_id": "synthetic-A",
+              "protocol_id": "synthetic-steady",
+              "electrolyte_id": "synthetic-common-bath",
+              "reference_electrode_id": "synthetic-reference",
+              "temperature_K": 298.15,
+              "point_ids": [
+                "A-0",
+                "A-1"
+              ],
+              "potential_V": [
+                -1.0,
+                0.0
+              ],
+              "signed_net_current_density_A_m2": [
+                -2.0,
+                8.0
+              ],
+              "current_convention": "anodic_positive_net",
+              "evidence": [
+                {
+                  "source_id": "authored",
+                  "origin": "synthetic",
+                  "citation": "Authored linear balance fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            }
+          },
+          {
+            "electrode_id": "authored-B",
+            "exposed_area_m2": 0.0003,
+            "curve": {
+              "schema_version": "matintegrity.polarization_curve.v1",
+              "curve_id": "authored-B-curve",
+              "surface_condition_id": "synthetic-B",
+              "protocol_id": "synthetic-steady",
+              "electrolyte_id": "synthetic-common-bath",
+              "reference_electrode_id": "synthetic-reference",
+              "temperature_K": 298.15,
+              "point_ids": [
+                "B-0",
+                "B-1"
+              ],
+              "potential_V": [
+                -1.0,
+                0.0
+              ],
+              "signed_net_current_density_A_m2": [
+                -7.0,
+                3.0
+              ],
+              "current_convention": "anodic_positive_net",
+              "evidence": [
+                {
+                  "source_id": "authored",
+                  "origin": "synthetic",
+                  "citation": "Authored linear balance fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            }
+          }
+        ],
+        "quasi_steady_reviewed": true,
+        "negligible_ohmic_drop_reviewed": true,
+        "condition_compatibility_reviewed": true,
+        "anodic_positive_reviewed": true,
+        "absolute_balance_tolerance_A": 1e-12,
+        "relative_balance_tolerance": 1e-10
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "mixed_potential_V",
+      "unit": "V",
+      "reference_value": -0.42499999999999993
+    },
+    {
+      "group": 6,
+      "name": "Nernst 평형전위",
+      "model_id": "degradation.crevice_nernst_potential_history",
+      "inputs": {
+        "schema_version": "matintegrity.crevice_nernst_profile.v1",
+        "assessment_id": "synthetic-crevice-redox-01",
+        "asset_id": "synthetic-loop",
+        "location_id": "synthetic-crevice",
+        "physical_scope_id": "synthetic-scope-01",
+        "clock_id": "synthetic-elapsed-time",
+        "source_inventory_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reaction_id": "Fe3+_plus_e_to_Fe2+",
+        "standard_potential_reference_id": "SHE",
+        "reaction_quotient_stoichiometry": {
+          "Fe3+": -1.0,
+          "Fe2+": 1.0
+        },
+        "electron_number": 1,
+        "elapsed_time_s": [
+          0.0,
+          60.0,
+          120.0
+        ],
+        "temperature_K": [
+          298.15,
+          300.0,
+          302.0
+        ],
+        "standard_potential_V": [
+          0.77,
+          0.769,
+          0.768
+        ],
+        "species_activity_history": {
+          "Fe3+": [
+            0.01,
+            0.008,
+            0.006
+          ],
+          "Fe2+": [
+            0.02,
+            0.025,
+            0.03
+          ]
+        },
+        "activity_provider_id": "synthetic-activity-provider",
+        "activity_provider_revision": "1",
+        "activity_configuration_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "activity_record_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "standard_potential_provider_id": "synthetic-standard-potential-provider",
+        "standard_potential_provider_revision": "1",
+        "standard_potential_configuration_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "standard_potential_record_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "redox_reaction_direction_and_electron_number_reviewed": true,
+        "activity_standard_state_and_species_mapping_reviewed": true,
+        "standard_potential_temperature_history_reviewed": true,
+        "local_activity_history_applicability_reviewed": true,
+        "potential_only_no_rate_or_acceptance_reviewed": true,
+        "computational_use_authorized": true,
+        "evidence": [
+          {
+            "source_id": "synthetic-activity-provider",
+            "origin": "synthetic",
+            "citation": "Synthetic activity-provider wiring illustration only; not experimental data.",
+            "license_id": null,
+            "sha256": null
+          },
+          {
+            "source_id": "synthetic-standard-potential-provider",
+            "origin": "synthetic",
+            "citation": "Synthetic standard-potential wiring illustration only; not experimental data.",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic-loop",
+        "location_id": "synthetic-crevice",
+        "time_basis": "synthetic-elapsed-time",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "potential_history[].time_s",
+      "unit": "s",
+      "reference_value": 0.0
+    },
+    {
+      "group": 7,
+      "name": "경험식 기반 시간별 부식·두께손실",
+      "model_id": "corrosion.power_law",
+      "inputs": {
+        "coefficient_m": 0.0001,
+        "exponent": 0.6,
+        "exposure_s": 1000.0,
+        "reference_time_s": 100.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "penetration_m",
+      "unit": "m",
+      "reference_value": 0.00039810717055349724
+    },
+    {
+      "group": 8,
+      "name": "대기환경 기반 부식손실",
+      "model_id": "corrosion.atmospheric_first_year_prediction",
+      "inputs": {
+        "prediction_id": "synthetic-atmospheric-prediction",
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "physical_scope_id": "external-wall",
+        "material_condition_id": "synthetic-carbon-steel",
+        "exposure_environment_id": "synthetic-atmosphere",
+        "time_basis": "API contract check",
+        "exposure_start_s": 0.0,
+        "exposure_duration_s": 31557600.0,
+        "model": {
+          "schema_version": "matintegrity.atmospheric_first_year_model.v1",
+          "model_id": "synthetic-atmospheric-model",
+          "fit_id": "synthetic-atmospheric-fit",
+          "feature_definition": "intercept,T_K_minus_288.15_over_10,RH_minus_0.75_over_0.1,log1p_Cl_mg_m2_day,log1p_SO2_mg_m2_day",
+          "coefficient_log_m": -11.0,
+          "coefficient_temperature_per_10_K": 0.2,
+          "coefficient_relative_humidity_per_0_1": 0.3,
+          "coefficient_log1p_chloride": 0.4,
+          "coefficient_log1p_sulfur_dioxide": 0.1,
+          "coefficient_covariance": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "residual_standard_deviation_log_m": 0.001,
+          "calibration_support_temperature_K": [
+            280.0,
+            305.0
+          ],
+          "calibration_support_relative_humidity_fraction": [
+            0.6,
+            0.9
+          ],
+          "calibration_support_chloride_mg_m2_day": [
+            0.0,
+            15.0
+          ],
+          "calibration_support_sulfur_dioxide_mg_m2_day": [
+            0.0,
+            15.0
+          ],
+          "calibration_observation_count": 8,
+          "calibration_source_group_ids": [
+            "cal-a",
+            "cal-b"
+          ],
+          "calibration_input_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "holdout_input_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "holdout_observation_count": 4,
+          "holdout_log_rmse": 0.001,
+          "holdout_absolute_log_bias": 0.001,
+          "holdout_outside_support_fraction": 0.0,
+          "holdout_source_group_metrics": [
+            {
+              "source_group_id": "holdout-a",
+              "observation_count": 2,
+              "log_rmse": 0.001,
+              "absolute_log_bias": 0.001,
+              "outside_support_count": 0,
+              "outside_support_fraction": 0.0
+            },
+            {
+              "source_group_id": "holdout-b",
+              "observation_count": 2,
+              "log_rmse": 0.001,
+              "absolute_log_bias": 0.001,
+              "outside_support_count": 0,
+              "outside_support_fraction": 0.0
+            }
+          ],
+          "maximum_holdout_source_group_log_rmse": 0.001,
+          "maximum_holdout_source_group_absolute_log_bias": 0.001,
+          "source_group_transfer_criteria_met": true,
+          "maximum_holdout_log_rmse": 0.01,
+          "maximum_absolute_holdout_log_bias": 0.01,
+          "maximum_holdout_outside_support_fraction": 0.1,
+          "transfer_criteria_met": true,
+          "parameter_uncertainty_scope": "conditional_ols_given_fixed_covariates_and_model_form"
+        },
+        "temperature_K": 292.0,
+        "relative_humidity_fraction": 0.77,
+        "chloride_deposition_mg_m2_day": 4.0,
+        "sulfur_dioxide_deposition_mg_m2_day": 3.0,
+        "confidence_level": 0.95,
+        "first_year_atmospheric_carbon_steel_scope_reviewed": true,
+        "covariates_reviewed": true,
+        "model_applicability_reviewed": true,
+        "extrapolation_reviewed": true,
+        "limited_transfer_override_reviewed": false
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "predicted_first_year_loss_m",
+      "unit": "m",
+      "reference_value": 4.188447189396675e-05
+    },
+    {
+      "group": 9,
+      "name": "침식·부식 결합 손실",
+      "model_id": "degradation.erosion_corrosion_loss",
+      "inputs": {
+        "assessment_id": "synthetic-input",
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "physical_scope_id": "synthetic-input",
+        "material_condition_id": "synthetic-input",
+        "geometry_condition_id": "synthetic-input",
+        "clock_id": "synthetic-input",
+        "geometry_id": "synthetic-input",
+        "intervals": [
+          {
+            "interval_id": "synthetic-input",
+            "provider_support_id": "synthetic-input",
+            "start_time_s": 0.0,
+            "end_time_s": 1.0,
+            "flow_velocity_m_s": 0.0,
+            "particle_loading": 0.0,
+            "particle_loading_unit": "synthetic-input",
+            "particle_size_descriptor": "synthetic-input",
+            "fluid_chemistry_descriptor": "synthetic-input",
+            "temperature_K": 1.0,
+            "calibrated_net_loss_rate_m_s": 0.0,
+            "provider_state_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "record_valid": true,
+            "provider_state_reviewed": true,
+            "rate_calibration_reviewed": true,
+            "evidence": [
+              {
+                "source_id": "synthetic-input",
+                "origin": "measured",
+                "citation": "synthetic-input",
+                "license_id": null,
+                "sha256": null
+              }
+            ]
+          }
+        ],
+        "provider_support": {
+          "provider_support_id": "synthetic-input",
+          "provider_id": "synthetic-input",
+          "provider_version": "synthetic-input",
+          "provider_model_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "material_condition_id": "synthetic-input",
+          "geometry_id": "synthetic-input",
+          "location_id": "synthetic-input",
+          "minimum_flow_velocity_m_s": 0.0,
+          "maximum_flow_velocity_m_s": 0.0,
+          "particle_loading_unit": "synthetic-input",
+          "minimum_particle_loading": 0.0,
+          "maximum_particle_loading": 0.0,
+          "supported_particle_size_descriptors": [
+            "synthetic-input"
+          ],
+          "supported_fluid_chemistry_descriptors": [
+            "synthetic-input"
+          ],
+          "minimum_temperature_K": 1.0,
+          "maximum_temperature_K": 1.0,
+          "minimum_calibrated_net_loss_rate_m_s": 0.0,
+          "maximum_calibrated_net_loss_rate_m_s": 0.0,
+          "maximum_cumulative_exposure_s": 1.0,
+          "evidence": [
+            {
+              "source_id": "synthetic-input",
+              "origin": "measured",
+              "citation": "synthetic-input",
+              "license_id": null,
+              "sha256": null
+            }
+          ]
+        },
+        "material_geometry_and_location_reviewed": true,
+        "interval_clock_and_units_reviewed": true,
+        "flow_particle_and_chemistry_records_reviewed": true,
+        "provider_identity_and_support_reviewed": true,
+        "net_loss_rates_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "time_basis": "synthetic-input",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cumulative_exposure_s",
+      "unit": "s",
+      "reference_value": 1.0
+    },
+    {
+      "group": 10,
+      "name": "응력부식균열 성장",
+      "model_id": "degradation.scc_crack_velocity_history",
+      "inputs": {
+        "schema_version": "matintegrity.scc_crack_velocity_history.v1",
+        "assessment_id": "synthetic-scc-assessment",
+        "asset_id": "synthetic-asset",
+        "location_id": "synthetic-location",
+        "physical_scope_id": "synthetic-scope",
+        "specimen_id": "synthetic-specimen",
+        "clock_id": "synthetic-clock",
+        "material_condition_id": "synthetic-scc-condition",
+        "metallurgy_id": "synthetic-scc-metallurgy",
+        "environment_id": "synthetic-scc-environment",
+        "loading_basis_id": "synthetic-scc-loading",
+        "initial_crack_advance_m": 0.0,
+        "time_s": [
+          0.0,
+          1.0
+        ],
+        "K_I_Pa_sqrt_m": [
+          1.0,
+          1.5
+        ],
+        "K_I_history_sha256": "f43c9dde76a7c79c244dce9fdd09b284f788abd2d9f413acbba55144990e05e8",
+        "history_evidence": [
+          {
+            "source_id": "caller_reviewed_scc_crack_velocity_time_integration",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic input-contract fixture",
+            "license_id": "synthetic-example-only",
+            "sha256": "f43c9dde76a7c79c244dce9fdd09b284f788abd2d9f413acbba55144990e05e8"
+          }
+        ],
+        "law": {
+          "curve_id": "synthetic-scc-law",
+          "source_group_id": "synthetic-scc-source",
+          "material_condition_id": "synthetic-scc-condition",
+          "metallurgy_id": "synthetic-scc-metallurgy",
+          "environment_id": "synthetic-scc-environment",
+          "loading_basis_id": "synthetic-scc-loading",
+          "threshold_K_I_Pa_sqrt_m": 1.0,
+          "K_I_Pa_sqrt_m": [
+            1.0,
+            2.0
+          ],
+          "crack_velocity_m_s": [
+            0.0,
+            1e-09
+          ],
+          "source_file_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "table_sha256": "e9f6c99944c3d0dd52789cee328562e55fd1f1d378f2c1d4cf4700c008264047",
+          "evidence": [
+            {
+              "source_id": "caller_reviewed_scc_crack_velocity_time_integration",
+              "origin": "synthetic",
+              "citation": "Project-authored synthetic input-contract fixture",
+              "license_id": "synthetic-example-only",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ],
+          "rights_boundary": "local_only",
+          "rights_authorization_sha256": null,
+          "applicability_review_id": "synthetic-applicability-review"
+        },
+        "stress_intensity_history_piecewise_linear_reviewed": true,
+        "interpolation_linear_in_K_I_and_velocity_reviewed": true,
+        "fixed_environment_and_loading_state_reviewed": true,
+        "crack_geometry_feedback_excluded_reviewed": true,
+        "maximum_operations": 1000,
+        "computation_budget_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic-asset",
+        "location_id": "synthetic-location",
+        "time_basis": "synthetic-clock",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "crack_advance_m_by_knot[]",
+      "unit": "m",
+      "reference_value": 0.0
+    },
+    {
+      "group": 11,
+      "name": "질량작용·탄산계 수용액 평형",
+      "model_id": "chemistry.aqueous_mass_action_speciation",
+      "inputs": {
+        "schema_version": "matintegrity.aqueous_mass_action.v1",
+        "assessment_id": "synthetic-mass-action-carbonic-acid",
+        "solution_id": "synthetic-dilute-acid-solution",
+        "temperature_K": 298.15,
+        "activity_standard_state": "molarity_1_mol_L",
+        "species": [
+          {
+            "species_id": "h2a",
+            "charge_number": 0,
+            "activity_coefficient": 1.0,
+            "initial_activity": 0.009,
+            "elemental_composition": null
+          },
+          {
+            "species_id": "ha_minus",
+            "charge_number": -1,
+            "activity_coefficient": 0.9,
+            "initial_activity": 0.0001,
+            "elemental_composition": null
+          },
+          {
+            "species_id": "a2_minus",
+            "charge_number": -2,
+            "activity_coefficient": 0.5,
+            "initial_activity": 1e-08,
+            "elemental_composition": null
+          },
+          {
+            "species_id": "h_plus",
+            "charge_number": 1,
+            "activity_coefficient": 0.9,
+            "initial_activity": 0.0001,
+            "elemental_composition": null
+          },
+          {
+            "species_id": "oh_minus",
+            "charge_number": -1,
+            "activity_coefficient": 0.9,
+            "initial_activity": 1e-10,
+            "elemental_composition": null
+          }
+        ],
+        "reactions": [
+          {
+            "reaction_id": "dissociation-1",
+            "log10_equilibrium_constant": -3.5,
+            "terms": [
+              {
+                "species_id": "h_plus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "ha_minus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "h2a",
+                "coefficient": -1.0
+              }
+            ]
+          },
+          {
+            "reaction_id": "dissociation-2",
+            "log10_equilibrium_constant": -7.0,
+            "terms": [
+              {
+                "species_id": "h_plus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "a2_minus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "ha_minus",
+                "coefficient": -1.0
+              }
+            ]
+          },
+          {
+            "reaction_id": "water-ionization",
+            "log10_equilibrium_constant": -14.0,
+            "terms": [
+              {
+                "species_id": "h_plus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "oh_minus",
+                "coefficient": 1.0
+              }
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "constraint_id": "total-dissolved-acid",
+            "target_mol_L": 0.01,
+            "residual_scale_mol_L": 0.01,
+            "terms": [
+              {
+                "species_id": "h2a",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "ha_minus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "a2_minus",
+                "coefficient": 1.0
+              }
+            ]
+          },
+          {
+            "constraint_id": "electroneutrality",
+            "target_mol_L": 0.0,
+            "residual_scale_mol_L": 0.01,
+            "terms": [
+              {
+                "species_id": "h_plus",
+                "coefficient": 1.0
+              },
+              {
+                "species_id": "ha_minus",
+                "coefficient": -1.0
+              },
+              {
+                "species_id": "a2_minus",
+                "coefficient": -2.0
+              },
+              {
+                "species_id": "oh_minus",
+                "coefficient": -1.0
+              }
+            ]
+          }
+        ],
+        "maximum_iterations": 100,
+        "normalized_residual_tolerance": 1e-10,
+        "maximum_jacobian_condition_number": 100000000000000.0,
+        "local_parameter_covariance": null,
+        "local_parameter_covariance_reviewed": false,
+        "activity_provider_id": "synthetic-fixed-gamma-table",
+        "activity_provider_revision": "synthetic-1",
+        "activity_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "activity_record_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "equilibrium_provider_id": "synthetic-aqueous-constant-set",
+        "equilibrium_provider_revision": "synthetic-1",
+        "equilibrium_configuration_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "equilibrium_record_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "complete_aqueous_species_inventory_reviewed": true,
+        "reaction_stoichiometry_and_constant_reviewed": true,
+        "balance_constraints_and_charge_scope_reviewed": true,
+        "fixed_activity_coefficients_and_standard_state_reviewed": true,
+        "temperature_and_provider_lineage_reviewed": true,
+        "initial_activity_guess_and_solver_tolerance_reviewed": true,
+        "single_liquid_phase_and_no_precipitation_reviewed": true,
+        "elemental_formula_and_reaction_balance_reviewed": false,
+        "evidence": [
+          {
+            "source_id": "synthetic-mass-action-fixture",
+            "origin": "synthetic",
+            "citation": "Project-authored acid equilibrium API example",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_K",
+      "unit": "K",
+      "reference_value": 298.15
+    },
+    {
+      "group": 12,
+      "name": "비이상 용액 활동도",
+      "model_id": "chemistry.davies_activity_coefficients",
+      "inputs": {
+        "assessment_id": "davies-example",
+        "solution_id": "synthetic-dilute-electrolyte",
+        "temperature_K": 298.15,
+        "ionic_strength_limit_mol_kg": 0.5,
+        "davies_A_at_temperature": 0.5,
+        "A_provider_id": "caller-aqueous-property-table",
+        "A_provider_revision": "synthetic-1",
+        "A_configuration_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "A_record_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "charge_balance_absolute_tolerance_mol_kg": 1e-12,
+        "species": [
+          {
+            "species_id": "na",
+            "species_label": "Na+",
+            "charge_number": 1,
+            "molality_mol_kg": 0.1
+          },
+          {
+            "species_id": "cl",
+            "species_label": "Cl-",
+            "charge_number": -1,
+            "molality_mol_kg": 0.1
+          },
+          {
+            "species_id": "co2-star",
+            "species_label": "CO2*",
+            "charge_number": 0,
+            "molality_mol_kg": 0.02
+          }
+        ],
+        "complete_ionic_inventory_reviewed": true,
+        "charge_balance_reviewed": true,
+        "ionic_strength_convention_reviewed": true,
+        "davies_scope_reviewed": true,
+        "temperature_solvent_A_lineage_reviewed": true,
+        "evidence": [
+          {
+            "source_id": "synthetic-davies-example",
+            "origin": "synthetic",
+            "citation": "Illustrative caller-supplied electrolyte fixture",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "ionic_strength_mol_kg",
+      "unit": "mol/kg",
+      "reference_value": 0.1
+    },
+    {
+      "group": 13,
+      "name": "단일·경쟁 고체상 평형",
+      "model_id": "chemistry.competitive_solid_bdot_equilibrium",
+      "inputs": {
+        "schema_version": "matintegrity.competitive_solid_bdot_iteration.v1",
+        "equilibrium": {
+          "equilibrium_id": "synthetic-calcite-gypsum-competition",
+          "aqueous_species": [
+            {
+              "species_id": "Ca2+",
+              "initial_concentration_mol_m3": 20.0,
+              "activity_reference_concentration_mol_m3": 1000.0,
+              "activity_coefficient": 1.0,
+              "charge_number": 2,
+              "elemental_composition": {
+                "Ca": 1
+              }
+            },
+            {
+              "species_id": "CO3--",
+              "initial_concentration_mol_m3": 10.0,
+              "activity_reference_concentration_mol_m3": 1000.0,
+              "activity_coefficient": 1.0,
+              "charge_number": -2,
+              "elemental_composition": {
+                "C": 1,
+                "O": 3
+              }
+            },
+            {
+              "species_id": "SO4--",
+              "initial_concentration_mol_m3": 5.0,
+              "activity_reference_concentration_mol_m3": 1000.0,
+              "activity_coefficient": 1.0,
+              "charge_number": -2,
+              "elemental_composition": {
+                "S": 1,
+                "O": 4
+              }
+            },
+            {
+              "species_id": "Cl-",
+              "initial_concentration_mol_m3": 10.0,
+              "activity_reference_concentration_mol_m3": 1000.0,
+              "activity_coefficient": 1.0,
+              "charge_number": -1,
+              "elemental_composition": {
+                "Cl": 1
+              }
+            }
+          ],
+          "candidate_solid_phases": [
+            {
+              "solid_species_id": "CaCO3(s)",
+              "precipitation_stoichiometry": {
+                "Ca2+": 1.0,
+                "CO3--": 1.0
+              },
+              "solid_elemental_composition": {
+                "Ca": 1,
+                "C": 1,
+                "O": 3
+              },
+              "initial_solid_moles_per_solution_volume_mol_m3": 0.0,
+              "dimensionless_solubility_product": 1e-08,
+              "equilibrium_constant_source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+            },
+            {
+              "solid_species_id": "CaSO4(s)",
+              "precipitation_stoichiometry": {
+                "Ca2+": 1.0,
+                "SO4--": 1.0
+              },
+              "solid_elemental_composition": {
+                "Ca": 1,
+                "S": 1,
+                "O": 4
+              },
+              "initial_solid_moles_per_solution_volume_mol_m3": 0.0,
+              "dimensionless_solubility_product": 1e-05,
+              "equilibrium_constant_source_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+            }
+          ],
+          "temperature_K": 298.15,
+          "standard_state_id": "synthetic-1-mol-per-liter",
+          "candidate_phase_set_completeness_reviewed": true,
+          "fixed_activity_coefficients_and_standard_states_reviewed": true,
+          "equilibrium_constant_temperature_and_computational_use_reviewed": true,
+          "single_liquid_fixed_volume_and_neutral_solid_assumptions_reviewed": true,
+          "optimizer_maximum_iterations": 2000,
+          "maximum_absolute_log_saturation_residual": 0.0001,
+          "absolute_extent_balance_tolerance_mol_m3": 1e-10,
+          "relative_extent_balance_tolerance": 1e-09
+        },
+        "water_mass_per_solution_volume_kg_L": 0.997,
+        "debye_huckel_A_at_temperature": 0.509,
+        "debye_huckel_B_at_temperature_sqrt_kg_mol_per_angstrom": 0.328,
+        "parameter_temperature_K": 298.15,
+        "temperature_match_tolerance_K": 0.01,
+        "provider_id": "synthetic-bdot-competitive",
+        "provider_revision": "fixture-v1",
+        "configuration_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "parameter_record_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "species_parameters": [
+          {
+            "species_id": "Ca2+",
+            "ion_size_angstrom": 9.0,
+            "bdot_kg_per_mol": 0.1,
+            "source_id": "synthetic-bdot-competitive",
+            "source_record_id": "Ca2+-bdot-record",
+            "source_record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          {
+            "species_id": "CO3--",
+            "ion_size_angstrom": 3.5,
+            "bdot_kg_per_mol": 0.1,
+            "source_id": "synthetic-bdot-competitive",
+            "source_record_id": "CO3---bdot-record",
+            "source_record_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          },
+          {
+            "species_id": "SO4--",
+            "ion_size_angstrom": 3.5,
+            "bdot_kg_per_mol": 0.1,
+            "source_id": "synthetic-bdot-competitive",
+            "source_record_id": "SO4---bdot-record",
+            "source_record_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "species_id": "Cl-",
+            "ion_size_angstrom": 3.5,
+            "bdot_kg_per_mol": 0.1,
+            "source_id": "synthetic-bdot-competitive",
+            "source_record_id": "Cl--bdot-record",
+            "source_record_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "evidence": [
+          {
+            "source_id": "synthetic-bdot-competitive",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic B-dot parameters; not measured data",
+            "license_id": null,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "source_id": "synthetic-bdot-competitive",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic species parameter fixture",
+            "license_id": null,
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          {
+            "source_id": "synthetic-bdot-competitive",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic species parameter fixture",
+            "license_id": null,
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          },
+          {
+            "source_id": "synthetic-bdot-competitive",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic species parameter fixture",
+            "license_id": null,
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "source_id": "synthetic-bdot-competitive",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic species parameter fixture",
+            "license_id": null,
+            "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "maximum_supported_ionic_strength_mol_kg": 0.5,
+        "charge_balance_tolerance_mol_kg": 1e-10,
+        "maximum_outer_iterations": 100,
+        "log_gamma_tolerance": 1e-08,
+        "damping_fraction": 0.5,
+        "water_mass_conversion_reviewed": true,
+        "temperature_parameter_and_standard_state_reviewed": true,
+        "complete_species_parameter_set_and_applicability_reviewed": true,
+        "competing_solid_bdot_applicability_reviewed": true,
+        "charge_scope_and_solver_settings_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_K",
+      "unit": "K",
+      "reference_value": 298.15
+    },
+    {
+      "group": 14,
+      "name": "수용액 반응망 속도 적분",
+      "model_id": "chemistry.crevice_activity_based_reaction_rates",
+      "inputs": {
+        "assessment_id": "synthetic-crevice-rate",
+        "asset_id": "synthetic-asset",
+        "physical_scope_id": "synthetic-crevice",
+        "state_id": "synthetic-state",
+        "temperature_K": 298.15,
+        "concentration_standard_state_mol_m3": 1000.0,
+        "species": [
+          {
+            "species_id": "A+",
+            "charge_number": 1,
+            "elemental_composition": {
+              "A": 1
+            },
+            "concentration_mol_m3": 1.0,
+            "activity_coefficient": 1.0
+          },
+          {
+            "species_id": "B-",
+            "charge_number": -1,
+            "elemental_composition": {
+              "B": 1
+            },
+            "concentration_mol_m3": 1.0,
+            "activity_coefficient": 1.0
+          },
+          {
+            "species_id": "AB",
+            "charge_number": 0,
+            "elemental_composition": {
+              "A": 1,
+              "B": 1
+            },
+            "concentration_mol_m3": 1.0,
+            "activity_coefficient": 1.0
+          }
+        ],
+        "reactions": [
+          {
+            "reaction_id": "synthetic-exchange",
+            "reactants": [
+              {
+                "species_id": "A+",
+                "coefficient": 1
+              },
+              {
+                "species_id": "B-",
+                "coefficient": 1
+              }
+            ],
+            "products": [
+              {
+                "species_id": "AB",
+                "coefficient": 1
+              }
+            ],
+            "forward_rate_constant_mol_m3_s": 1.0,
+            "reverse_rate_constant_mol_m3_s": 1.0,
+            "equilibrium_constant_dimensionless": 1.0,
+            "parameter_record_id": "synthetic-rate-record",
+            "parameter_record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "rate_record_evidence": [
+              {
+                "source_id": "synthetic-rate-record",
+                "origin": "synthetic",
+                "citation": "Project-authored synthetic input-contract fixture",
+                "license_id": "synthetic-only",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ]
+          }
+        ],
+        "provider_id": "synthetic-crevice-provider",
+        "provider_revision": "fixture-v1",
+        "provider_configuration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "provider_evidence": [
+          {
+            "source_id": "synthetic-crevice-provider",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic input-contract fixture",
+            "license_id": "synthetic-only",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "rights_evidence": [
+          {
+            "source_id": "synthetic-rights",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic input-contract fixture",
+            "license_id": "synthetic-only",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ],
+        "activity_standard_state_and_single_ion_convention_reviewed": true,
+        "kinetic_rate_basis_and_units_reviewed": true,
+        "detailed_balance_and_equilibrium_constant_reviewed": true,
+        "temperature_and_parameter_support_reviewed": true,
+        "single_liquid_no_phase_change_interval_reviewed": true,
+        "local_electroneutrality_reviewed": true,
+        "computational_use_authorized": true,
+        "detailed_balance_relative_tolerance": 1e-06
+      },
+      "context": {
+        "asset_id": "synthetic-asset",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_K",
+      "unit": "K",
+      "reference_value": 298.15
+    },
+    {
+      "group": 15,
+      "name": "핵생성·석출·용해 속도 및 재고",
+      "model_id": "chemistry.competitive_solid_saturation_kinetics",
+      "inputs": {
+        "assessment_id": "synthetic-competing-solid-saturation-kinetics",
+        "physical_scope_id": "synthetic-closed-batch",
+        "provider_id": "example://declared-saturation-history",
+        "provider_revision": "synthetic-v1",
+        "kinetic_configuration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "temperature_K": 298.15,
+        "kinetic_parameter_source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "aqueous_species": [
+          {
+            "species_id": "X2+",
+            "charge_number": 2,
+            "elemental_composition": {
+              "X": 1
+            },
+            "source_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "initial_concentration_mol_m3": 2.0
+          },
+          {
+            "species_id": "Y2-",
+            "charge_number": -2,
+            "elemental_composition": {
+              "Y": 1
+            },
+            "source_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "initial_concentration_mol_m3": 2.0
+          }
+        ],
+        "candidate_solid_phases": [
+          {
+            "solid_species_id": "XY(s)",
+            "precipitation_stoichiometry": {
+              "X2+": 1.0,
+              "Y2-": 1.0
+            },
+            "solid_elemental_composition": {
+              "X": 1,
+              "Y": 1
+            },
+            "source_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "initial_solid_moles_per_solution_volume_mol_m3": 0.0
+          },
+          {
+            "solid_species_id": "X2Y2(s)",
+            "precipitation_stoichiometry": {
+              "X2+": 2.0,
+              "Y2-": 2.0
+            },
+            "solid_elemental_composition": {
+              "X": 2,
+              "Y": 2
+            },
+            "source_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "initial_solid_moles_per_solution_volume_mol_m3": 0.0
+          }
+        ],
+        "phase_rate_laws": [
+          {
+            "solid_species_id": "XY(s)",
+            "precipitation_rate_constant_mol_m3_s": 0.02,
+            "precipitation_order": 1.0,
+            "dissolution_rate_constant_mol_m3_s": 0.01,
+            "dissolution_order": 1.0,
+            "rate_constant_reference_temperature_K": 298.15,
+            "minimum_valid_temperature_K": 273.15,
+            "maximum_valid_temperature_K": 373.15,
+            "precipitation_activation_energy_J_mol": 12000.0,
+            "dissolution_activation_energy_J_mol": 18000.0,
+            "arrhenius_parameter_applicability_reviewed": true,
+            "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          {
+            "solid_species_id": "X2Y2(s)",
+            "precipitation_rate_constant_mol_m3_s": 0.01,
+            "precipitation_order": 1.5,
+            "dissolution_rate_constant_mol_m3_s": 0.005,
+            "dissolution_order": 1.0,
+            "rate_constant_reference_temperature_K": 298.15,
+            "minimum_valid_temperature_K": 273.15,
+            "maximum_valid_temperature_K": 373.15,
+            "precipitation_activation_energy_J_mol": 14000.0,
+            "dissolution_activation_energy_J_mol": 20000.0,
+            "arrhenius_parameter_applicability_reviewed": true,
+            "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+          }
+        ],
+        "intervals": [
+          {
+            "interval_id": "segment-1",
+            "start_time_s": 0.0,
+            "end_time_s": 10.0,
+            "temperature_K": 305.15,
+            "saturation_ratio_by_phase": {
+              "XY(s)": 1.5,
+              "X2Y2(s)": 0.8
+            }
+          },
+          {
+            "interval_id": "segment-2",
+            "start_time_s": 10.0,
+            "end_time_s": 20.0,
+            "temperature_K": 330.15,
+            "saturation_ratio_by_phase": {
+              "XY(s)": 1.0,
+              "X2Y2(s)": 1.2
+            }
+          }
+        ],
+        "absolute_balance_tolerance_mol_m3": 1e-10,
+        "relative_balance_tolerance": 1e-09,
+        "phase_stoichiometry_and_solution_volume_reviewed": true,
+        "saturation_ratio_and_standard_state_reviewed": true,
+        "caller_rate_law_units_temperature_and_support_reviewed": true,
+        "dissolution_then_precipitation_split_order_reviewed": true,
+        "computational_use_authorized": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_K",
+      "unit": "K",
+      "reference_value": 298.15
+    },
+    {
+      "group": 16,
+      "name": "표면 피복·스케일 반응속도",
+      "model_id": "chemistry.caller_scale_coverage_kinetics",
+      "inputs": {
+        "schema_version": "matintegrity.caller_scale_coverage_kinetics.v1",
+        "assessment_id": "synthetic-scale-coverage",
+        "physical_scope_id": "synthetic-coupon-surface",
+        "substrate_condition_id": "synthetic-substrate-condition",
+        "solution_condition_id": "synthetic-solution-condition",
+        "scale_phase_id": "synthetic-scale-phase",
+        "physical_specimen_id": "synthetic-coupon-01",
+        "source_group_id": "synthetic-coverage-series",
+        "provider_id": "synthetic-provider",
+        "provider_revision": "1",
+        "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "condition_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "kinetic_configuration_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "temperature_K": 298.15,
+        "initial_covered_area_fraction": 0.1,
+        "attachment_rate_constant_s": 0.002,
+        "rate_reference_temperature_K": 298.15,
+        "minimum_rate_valid_temperature_K": 273.15,
+        "maximum_rate_valid_temperature_K": 373.15,
+        "attachment_activation_energy_J_mol": 20000.0,
+        "attachment_supersaturation_order": 1.0,
+        "detachment_rate_constant_s": 0.001,
+        "detachment_activation_energy_J_mol": 18000.0,
+        "arrhenius_temperature_scaling_reviewed": true,
+        "detachment_undersaturation_order": 1.0,
+        "intervals": [
+          {
+            "interval_id": "synthetic-growth",
+            "start_time_s": 0.0,
+            "end_time_s": 50.0,
+            "saturation_ratio": 1.5,
+            "saturation_ratio_end": null,
+            "temperature_K": null
+          },
+          {
+            "interval_id": "synthetic-transition",
+            "start_time_s": 50.0,
+            "end_time_s": 100.0,
+            "saturation_ratio": 1.5,
+            "saturation_ratio_end": 0.5,
+            "temperature_K": null
+          },
+          {
+            "interval_id": "synthetic-dissolution",
+            "start_time_s": 100.0,
+            "end_time_s": 200.0,
+            "saturation_ratio": 0.5,
+            "saturation_ratio_end": null,
+            "temperature_K": null
+          }
+        ],
+        "interval_constant_saturation_reviewed": true,
+        "linearly_varying_saturation_reviewed": true,
+        "interval_temperature_profile_reviewed": false,
+        "maximum_time_step_s": 10.0,
+        "minimum_time_step_s": 0.0001,
+        "coverage_absolute_tolerance": 1e-09,
+        "coverage_relative_tolerance": 1e-07,
+        "inventory_absolute_tolerance": 1e-09,
+        "inventory_relative_tolerance": 1e-07,
+        "maximum_rate_evaluations": 200000,
+        "maximum_rejected_steps_per_interval": 100,
+        "coverage_kinetic_law_and_standard_state_reviewed": true,
+        "rate_coefficients_and_temperature_reviewed": true,
+        "scale_phase_identity_and_specimen_match_reviewed": true,
+        "area_average_coverage_representation_reviewed": true,
+        "computational_use_authorized": true,
+        "evidence": [
+          {
+            "source_id": "caller_scale_coverage_attachment_detachment_law",
+            "origin": "synthetic",
+            "citation": "Synthetic API illustration only; no empirical scale behavior is claimed.",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_K",
+      "unit": "K",
+      "reference_value": 298.15
+    },
+    {
+      "group": 17,
+      "name": "다층 스케일 확산·반응·이동경계",
+      "model_id": "chemistry.planar_scale_diffusion_reaction_history",
+      "inputs": {
+        "assessment_id": "synthetic-input",
+        "physical_scope_id": "synthetic-input",
+        "clock_id": "synthetic-input",
+        "scale_phase_id": "synthetic-input",
+        "transported_species_id": "synthetic-input",
+        "provider_id": "synthetic-input",
+        "provider_revision": "synthetic-input",
+        "configuration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "initial_thickness_m": 0.0,
+        "scale_molar_volume_m3_mol": 1.0,
+        "temperature_support_min_K": 1.0,
+        "temperature_support_max_K": 1.0,
+        "intervals": [
+          {
+            "interval_id": "synthetic-input",
+            "start_time_s": 0.0,
+            "end_time_s": 1.0,
+            "effective_diffusivity_m2_s": 1.0,
+            "interface_transfer_coefficient_m_s": 1.0,
+            "signed_reservoir_driving_concentration_mol_m3": 1.0,
+            "temperature_K": 1.0
+          }
+        ],
+        "fixed_planar_area_dense_single_phase_reviewed": true,
+        "quasi_steady_series_resistance_and_reservoir_reviewed": true,
+        "signed_driving_force_and_one_to_one_molar_balance_reviewed": true,
+        "interval_properties_and_temperature_support_reviewed": true,
+        "computational_use_authorized": true,
+        "evidence": [
+          {
+            "source_id": "synthetic-input",
+            "origin": "measured",
+            "citation": "synthetic-input",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "synthetic-input",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "final_thickness_m",
+      "unit": "m",
+      "reference_value": 0.7320508075688773
+    },
+    {
+      "group": 18,
+      "name": "기액 물질전달·이중막",
+      "model_id": "degradation.wet_co2_two_film_transfer",
+      "inputs": {
+        "schema_version": "matintegrity.wet_co2_two_film_transfer.v1",
+        "assessment_id": "synthetic-input",
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "physical_scope_id": "synthetic-input",
+        "condition_id": "synthetic-input",
+        "time_s": 0.0,
+        "temperature_K": 1.0,
+        "co2_fugacity_Pa": 0.0,
+        "bulk_co2star_mol_m3": 0.0,
+        "henry_concentration_over_fugacity_mol_m3_Pa": 1.0,
+        "gas_film_coefficient_mol_m2_s_Pa": 1.0,
+        "liquid_film_coefficient_m_s": 1.0,
+        "henry_record_id": "synthetic-input",
+        "solvent_composition_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "fugacity_provider_id": "synthetic-input",
+        "fugacity_provider_revision": "synthetic-input",
+        "gas_liquid_single_phase_and_area_basis_reviewed": true,
+        "fugacity_henry_convention_and_units_reviewed": true,
+        "solvent_temperature_and_condition_match_reviewed": true,
+        "stationary_film_coefficient_applicability_reviewed": true,
+        "evidence": [
+          {
+            "source_id": "synthetic-input",
+            "origin": "measured",
+            "citation": "synthetic-input",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "time_s",
+      "unit": "s",
+      "reference_value": 0.0
+    },
+    {
+      "group": 19,
+      "name": "습윤 CO2 반응·수송·전극·스케일 동시결합",
+      "model_id": "integration.wet_co2_cylindrical_transient_transport",
+      "inputs": {
+        "schema_version": "matintegrity.wet_co2_cylindrical_transient_transport.v1",
+        "assessment_id": "synthetic-cylinder-transient",
+        "geometry": {
+          "schema_version": "matintegrity.wet_co2_cylindrical_scale_geometry_history.v1",
+          "assessment_id": "synthetic-cylinder-geometry",
+          "asset_id": "synthetic-pipe",
+          "location_id": "synthetic-section",
+          "time_basis_id": "synthetic-clock",
+          "outer_radius_m": 0.05,
+          "initial_inner_radius_m": 0.045,
+          "initial_wall_thickness_m": 0.005,
+          "segment_length_m": 0.1,
+          "geometry_provider_id": "synthetic-geometry-provider",
+          "geometry_provider_revision": "fixture-1",
+          "geometry_record_sha256": "5fae0e988ff951cea66ac657fa8b304acd7efa6935dfdd7d09b4cba2abae1614",
+          "geometry_evidence": {
+            "source_id": "synthetic-geometry-provider",
+            "origin": "synthetic",
+            "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+            "license_id": "project-authored-fixture",
+            "sha256": "5fae0e988ff951cea66ac657fa8b304acd7efa6935dfdd7d09b4cba2abae1614"
+          },
+          "history_provider_id": "synthetic-recession-provider",
+          "history_provider_revision": "fixture-1",
+          "history_record_sha256": "c1fe71151bc1ad22909b155c6702a4881e243506cd563ded6986986a9e9fa4c5",
+          "history_evidence": {
+            "source_id": "synthetic-recession-provider",
+            "origin": "synthetic",
+            "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+            "license_id": "project-authored-fixture",
+            "sha256": "c1fe71151bc1ad22909b155c6702a4881e243506cd563ded6986986a9e9fa4c5"
+          },
+          "phases": [
+            {
+              "phase_id": "scale-A",
+              "molar_volume_m3_mol": 3e-05,
+              "provider_id": "synthetic-phase-provider",
+              "provider_revision": "fixture-1",
+              "source_record_id": "scale-A-volume",
+              "evidence": {
+                "source_id": "synthetic-phase-provider",
+                "origin": "synthetic",
+                "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+                "license_id": "project-authored-fixture",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            }
+          ],
+          "history": [
+            {
+              "time_s": 0.0,
+              "wall_recession_m": 0.0,
+              "phase_inventories": [
+                {
+                  "phase_id": "scale-A",
+                  "moles_per_axial_metre_mol_m": 0.0
+                }
+              ]
+            },
+            {
+              "time_s": 1.0,
+              "wall_recession_m": 0.0,
+              "phase_inventories": [
+                {
+                  "phase_id": "scale-A",
+                  "moles_per_axial_metre_mol_m": 0.0
+                }
+              ]
+            }
+          ],
+          "axisymmetric_uniformity_reviewed": true,
+          "phase_inventory_reference_basis_reviewed": true
+        },
+        "geometry_sha256": "9a048c7550b2cd46e256f3adf1fae34e01e8b8ff41130cc651a48b5a37747c5e",
+        "species": [
+          {
+            "species_id": "Fe2+",
+            "charge_number": 2,
+            "elemental_composition": {
+              "Fe": 1.0
+            }
+          }
+        ],
+        "initial_species": [
+          {
+            "species_id": "Fe2+",
+            "cell_concentrations_mol_m3": [
+              0.1
+            ]
+          }
+        ],
+        "initial_state_sha256": "a888d49340ad4877d8e5a813400b009b38aaa8f9a4ac84c626dcf83bec527501",
+        "initial_state_evidence": {
+          "source_id": "synthetic-initial-state",
+          "origin": "synthetic",
+          "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+          "license_id": "project-authored-fixture",
+          "sha256": "a888d49340ad4877d8e5a813400b009b38aaa8f9a4ac84c626dcf83bec527501"
+        },
+        "wall_elements": [
+          {
+            "element_id": "Fe",
+            "atomic_molar_mass_kg_mol": 0.055845,
+            "alloy_mass_fraction": 1.0
+          }
+        ],
+        "wall_density_kg_m3": 7850.0,
+        "wall_material_record_sha256": "23eac67bcb25c9918a14d862fbd6da5003ddf2b24d444eaa896cd2843dbc9f8d",
+        "wall_material_evidence": {
+          "source_id": "synthetic-wall-material",
+          "origin": "synthetic",
+          "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+          "license_id": "project-authored-fixture",
+          "sha256": "23eac67bcb25c9918a14d862fbd6da5003ddf2b24d444eaa896cd2843dbc9f8d"
+        },
+        "reactions": [
+          {
+            "reaction_id": "Fe-dissolution",
+            "electron_count": 2,
+            "aqueous_species_stoichiometry": {
+              "Fe2+": 1.0
+            },
+            "metal_element_release_mol_per_extent": {
+              "Fe": 1.0
+            },
+            "calibration_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "evidence": {
+              "source_id": "synthetic-reaction-calibration",
+              "origin": "synthetic",
+              "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+              "license_id": "project-authored-fixture",
+              "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          }
+        ],
+        "knots": [
+          {
+            "time_s": 0.0,
+            "solution_film_thickness_m": 0.0001,
+            "species_boundaries": [
+              {
+                "species_id": "Fe2+",
+                "bulk_concentration_mol_m3": 0.1,
+                "radial_cell_diffusivity_m2_s": [
+                  1e-09
+                ]
+              }
+            ],
+            "reaction_extent_rates": [
+              {
+                "reaction_id": "Fe-dissolution",
+                "signed_extent_mol_m2_s": 0.0
+              }
+            ],
+            "boundary_record_sha256": "0dce2fab61211a2427493519feb3452d55bdddce4815e9336a8fc2841a88774f",
+            "boundary_evidence": [
+              {
+                "source_id": "synthetic-boundary-0.0",
+                "origin": "synthetic",
+                "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+                "license_id": "project-authored-fixture",
+                "sha256": "0dce2fab61211a2427493519feb3452d55bdddce4815e9336a8fc2841a88774f"
+              }
+            ]
+          },
+          {
+            "time_s": 1.0,
+            "solution_film_thickness_m": 0.0001,
+            "species_boundaries": [
+              {
+                "species_id": "Fe2+",
+                "bulk_concentration_mol_m3": 0.1,
+                "radial_cell_diffusivity_m2_s": [
+                  1e-09
+                ]
+              }
+            ],
+            "reaction_extent_rates": [
+              {
+                "reaction_id": "Fe-dissolution",
+                "signed_extent_mol_m2_s": 0.0
+              }
+            ],
+            "boundary_record_sha256": "533e10d33fb1bf3824baae398e1a198e9965f8aee156892fed609ea2a5b1cb86",
+            "boundary_evidence": [
+              {
+                "source_id": "synthetic-boundary-1.0",
+                "origin": "synthetic",
+                "citation": "Project-authored contract fixture only; not a physical corrosion/transport record.",
+                "license_id": "project-authored-fixture",
+                "sha256": "533e10d33fb1bf3824baae398e1a198e9965f8aee156892fed609ea2a5b1cb86"
+              }
+            ]
+          }
+        ],
+        "relative_tolerance": 1e-07,
+        "concentration_absolute_tolerance_mol_m3": 1e-10,
+        "inventory_absolute_tolerance_mol_m": 1e-12,
+        "charge_absolute_tolerance_C_m": 1e-07,
+        "inventory_relative_tolerance": 1e-08,
+        "maximum_step_s": 0.1,
+        "axisymmetric_reaction_area_and_material_mapping_reviewed": true,
+        "boundary_and_transport_history_reviewed": true,
+        "element_charge_and_reaction_direction_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "history[].time_s",
+      "unit": "s",
+      "reference_value": 0.0
+    },
+    {
+      "group": 20,
+      "name": "Fick 확산",
+      "model_id": "transport.semi_infinite_diffusion",
+      "inputs": {
+        "diffusivity_m2_s": 1e-10,
+        "exposure_s": 100.0,
+        "depth_m": [
+          0.0,
+          0.0001,
+          0.001
+        ],
+        "initial_concentration_mol_m3": 0.0,
+        "surface_concentration_mol_m3": 1.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "surface_flux_mol_m2_s",
+      "unit": "mol/m^2/s",
+      "reference_value": 5.641895835477562e-07
+    },
+    {
+      "group": 21,
+      "name": "벽 반응을 포함한 확산",
+      "model_id": "chemistry.crevice_steady_wall_sink",
+      "inputs": {
+        "schema_version": "matintegrity.crevice_steady_wall_sink.v1",
+        "calculation_id": "synthetic-input",
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "geometry_id": "synthetic-input",
+        "species_id": "synthetic-input",
+        "condition_id": "synthetic-input",
+        "length_m": 1.0,
+        "effective_diffusivity_m2_s": 1.0,
+        "wall_area_per_volume_m_inv": 1.0,
+        "wall_transfer_velocity_m_s": 0.0,
+        "mouth_concentration_mol_m3": 0.0,
+        "sample_positions_m": [],
+        "constant_property_and_geometry_reviewed": true,
+        "blind_tip_zero_flux_reviewed": true,
+        "first_order_irreversible_wall_sink_reviewed": true,
+        "evidence": [
+          {
+            "source_id": "synthetic-input",
+            "origin": "measured",
+            "citation": "synthetic-input",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "mean_concentration_mol_m3",
+      "unit": "mol/m3",
+      "reference_value": 0.0
+    },
+    {
+      "group": 22,
+      "name": "이온 Nernst–Planck 수송",
+      "model_id": "transport.crevice_activity_corrected_nernst_planck_1d",
+      "inputs": {
+        "assessment_id": "synthetic-activity-transport",
+        "asset_id": "synthetic-crevice",
+        "physical_scope_id": "synthetic-fixed-slit",
+        "clock_id": "synthetic-clock",
+        "provider_id": "synthetic-activity-transport-provider",
+        "provider_revision": "synthetic-1",
+        "length_m": 0.01,
+        "cross_section_area_m2": 1e-06,
+        "cell_count": 2,
+        "output_time_s": [
+          0.0,
+          10.0
+        ],
+        "concentration_standard_state_mol_m3": 1000.0,
+        "species": [
+          {
+            "species_id": "cation",
+            "charge_number": 1,
+            "diffusivity_m2_s": 1e-09,
+            "initial_cell_concentration_mol_m3": [
+              100.0,
+              100.0
+            ],
+            "activity_coefficient_by_time_and_cell": [
+              [
+                1.0,
+                1.0
+              ],
+              [
+                1.0,
+                1.0
+              ]
+            ],
+            "mouth_activity_coefficient_by_time": [
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "species_id": "anion",
+            "charge_number": -1,
+            "diffusivity_m2_s": 1.5e-09,
+            "initial_cell_concentration_mol_m3": [
+              100.0,
+              100.0
+            ],
+            "activity_coefficient_by_time_and_cell": [
+              [
+                1.0,
+                1.0
+              ],
+              [
+                1.0,
+                1.0
+              ]
+            ],
+            "mouth_activity_coefficient_by_time": [
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "mouth_boundary_concentration_mol_m3_by_species": {
+          "cation": [
+            100.0,
+            90.0
+          ],
+          "anion": [
+            100.0,
+            90.0
+          ]
+        },
+        "cell_face_axial_velocity_m_s_by_knot": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "relative_tolerance": 1e-08,
+        "absolute_tolerance_mol_m3": 1e-10,
+        "maximum_step_s": 1.0,
+        "maximum_function_evaluations": 300000,
+        "provider_evidence": [
+          {
+            "source_id": "synthetic-activity-transport-provider",
+            "origin": "synthetic",
+            "citation": "Project-authored input-contract fixture; not a physical transport record.",
+            "license_id": "project-authored-fixture",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ],
+        "rights_evidence": [
+          {
+            "source_id": "synthetic-transport-rights",
+            "origin": "synthetic",
+            "citation": "Project-authored input-contract fixture; not a physical transport record.",
+            "license_id": "project-authored-fixture",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        ],
+        "fixed_geometry_and_cell_order_reviewed": true,
+        "activity_standard_state_single_ion_convention_reviewed": true,
+        "activity_fields_and_time_interpolation_reviewed": true,
+        "diffusivity_and_temperature_support_reviewed": true,
+        "face_velocity_sign_mapping_reviewed": true,
+        "local_electroneutrality_and_zero_current_reviewed": true,
+        "mouth_boundary_and_blind_tip_reviewed": true,
+        "reaction_free_single_liquid_interval_reviewed": true,
+        "computational_use_authorized": true
+      },
+      "context": {
+        "asset_id": "synthetic-crevice",
+        "location_id": "synthetic",
+        "time_basis": "synthetic-clock",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cell_width_m",
+      "unit": "m",
+      "reference_value": 0.005
+    },
+    {
+      "group": 23,
+      "name": "틈 내부 성분·화학·전극·고체 동시 적분",
+      "model_id": "integration.crevice_component_state_bdf",
+      "inputs": {
+        "schema_version": "matintegrity.crevice_component_state_bdf.v6",
+        "assessment_id": "synthetic-bdf-kinetics",
+        "time_s": [
+          0.0,
+          0.003,
+          0.005
+        ],
+        "cells": [
+          {
+            "cell_id": "left",
+            "solution_volume_L": 1.0,
+            "aqueous_activity_request": {
+              "schema_version": "matintegrity.aqueous_davies_iteration.v1",
+              "system": {
+                "schema_version": "matintegrity.aqueous_mass_action.v1",
+                "assessment_id": "trial",
+                "solution_id": "cell",
+                "temperature_K": 298.15,
+                "activity_standard_state": "molarity_1_mol_L",
+                "species": [
+                  {
+                    "species_id": "H",
+                    "charge_number": 1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 1e-11,
+                    "elemental_composition": {
+                      "H": 1
+                    }
+                  },
+                  {
+                    "species_id": "OH",
+                    "charge_number": -1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 0.001,
+                    "elemental_composition": {
+                      "H": 1,
+                      "O": 1
+                    }
+                  },
+                  {
+                    "species_id": "Na",
+                    "charge_number": 1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 0.001,
+                    "elemental_composition": {
+                      "Na": 1
+                    }
+                  },
+                  {
+                    "species_id": "water",
+                    "charge_number": 0,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 1.0,
+                    "elemental_composition": {
+                      "H": 2,
+                      "O": 1
+                    }
+                  },
+                  {
+                    "species_id": "Cl",
+                    "charge_number": -1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 0.001,
+                    "elemental_composition": {
+                      "Cl": 1
+                    }
+                  }
+                ],
+                "reactions": [
+                  {
+                    "reaction_id": "water",
+                    "log10_equilibrium_constant": -14.0,
+                    "terms": [
+                      {
+                        "species_id": "H",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "OH",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "water",
+                        "coefficient": -1.0
+                      }
+                    ]
+                  }
+                ],
+                "constraints": [
+                  {
+                    "constraint_id": "sodium",
+                    "target_mol_L": 0.001,
+                    "residual_scale_mol_L": 0.001,
+                    "terms": [
+                      {
+                        "species_id": "Na",
+                        "coefficient": 1.0
+                      }
+                    ]
+                  },
+                  {
+                    "constraint_id": "charge",
+                    "target_mol_L": 0.0,
+                    "residual_scale_mol_L": 0.001,
+                    "terms": [
+                      {
+                        "species_id": "H",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "Na",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "OH",
+                        "coefficient": -1.0
+                      },
+                      {
+                        "species_id": "Cl",
+                        "coefficient": -1.0
+                      }
+                    ]
+                  },
+                  {
+                    "constraint_id": "chloride",
+                    "target_mol_L": 0.001,
+                    "residual_scale_mol_L": 0.001,
+                    "terms": [
+                      {
+                        "species_id": "Cl",
+                        "coefficient": 1.0
+                      }
+                    ]
+                  },
+                  {
+                    "constraint_id": "solvent",
+                    "target_mol_L": 1.0,
+                    "residual_scale_mol_L": 1.0,
+                    "terms": [
+                      {
+                        "species_id": "water",
+                        "coefficient": 1.0
+                      }
+                    ]
+                  }
+                ],
+                "maximum_iterations": 100,
+                "normalized_residual_tolerance": 1e-10,
+                "maximum_jacobian_condition_number": 100000000000000.0,
+                "local_parameter_covariance": null,
+                "local_parameter_covariance_reviewed": false,
+                "activity_provider_id": "authored",
+                "activity_provider_revision": "1",
+                "activity_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "activity_record_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "equilibrium_provider_id": "authored",
+                "equilibrium_provider_revision": "1",
+                "equilibrium_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "equilibrium_record_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "complete_aqueous_species_inventory_reviewed": true,
+                "reaction_stoichiometry_and_constant_reviewed": true,
+                "balance_constraints_and_charge_scope_reviewed": true,
+                "fixed_activity_coefficients_and_standard_state_reviewed": true,
+                "temperature_and_provider_lineage_reviewed": true,
+                "initial_activity_guess_and_solver_tolerance_reviewed": true,
+                "single_liquid_phase_and_no_precipitation_reviewed": true,
+                "elemental_formula_and_reaction_balance_reviewed": true,
+                "evidence": [
+                  {
+                    "source_id": "authored",
+                    "origin": "synthetic",
+                    "citation": "Authored dilute aqueous fixture",
+                    "license_id": null,
+                    "sha256": null
+                  }
+                ]
+              },
+              "water_mass_per_solution_volume_kg_L": 1.0,
+              "davies_A_at_temperature": 0.509,
+              "davies_A_provider_id": "authored",
+              "davies_A_provider_revision": "1",
+              "davies_A_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "davies_A_record_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "ionic_strength_limit_mol_kg": 0.5,
+              "charge_balance_tolerance_mol_kg": 1e-09,
+              "maximum_outer_iterations": 100,
+              "log_gamma_tolerance": 1e-09,
+              "damping_fraction": 0.5,
+              "water_mass_conversion_reviewed": true,
+              "Davies_A_temperature_solvent_basis_reviewed": true,
+              "molarity_to_molality_standard_state_mapping_reviewed": true,
+              "complete_inventory_and_charge_scope_reviewed": true,
+              "fixed_point_solver_settings_reviewed": true,
+              "single_liquid_no_precipitation_scope_reviewed": true,
+              "evidence": [
+                {
+                  "source_id": "authored",
+                  "origin": "synthetic",
+                  "citation": "Authored dilute aqueous fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            },
+            "constraint_roles": [
+              {
+                "constraint_id": "sodium",
+                "role": "conserved_component",
+                "component_id": "Na"
+              },
+              {
+                "constraint_id": "charge",
+                "role": "charge_neutrality",
+                "component_id": null
+              },
+              {
+                "constraint_id": "chloride",
+                "role": "conserved_component",
+                "component_id": "Cl"
+              },
+              {
+                "constraint_id": "solvent",
+                "role": "fixed_target",
+                "component_id": null
+              }
+            ],
+            "conserved_components": [
+              {
+                "component_id": "Na",
+                "species_coefficients": [
+                  {
+                    "species_id": "Na",
+                    "coefficient": 1.0
+                  }
+                ]
+              },
+              {
+                "component_id": "Cl",
+                "species_coefficients": [
+                  {
+                    "species_id": "Cl",
+                    "coefficient": 1.0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "cell_id": "right",
+            "solution_volume_L": 1.0,
+            "aqueous_activity_request": {
+              "schema_version": "matintegrity.aqueous_davies_iteration.v1",
+              "system": {
+                "schema_version": "matintegrity.aqueous_mass_action.v1",
+                "assessment_id": "trial",
+                "solution_id": "cell",
+                "temperature_K": 298.15,
+                "activity_standard_state": "molarity_1_mol_L",
+                "species": [
+                  {
+                    "species_id": "H",
+                    "charge_number": 1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 1e-11,
+                    "elemental_composition": {
+                      "H": 1
+                    }
+                  },
+                  {
+                    "species_id": "OH",
+                    "charge_number": -1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 0.001,
+                    "elemental_composition": {
+                      "H": 1,
+                      "O": 1
+                    }
+                  },
+                  {
+                    "species_id": "Na",
+                    "charge_number": 1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 0.001,
+                    "elemental_composition": {
+                      "Na": 1
+                    }
+                  },
+                  {
+                    "species_id": "water",
+                    "charge_number": 0,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 1.0,
+                    "elemental_composition": {
+                      "H": 2,
+                      "O": 1
+                    }
+                  },
+                  {
+                    "species_id": "Cl",
+                    "charge_number": -1,
+                    "activity_coefficient": 1.0,
+                    "initial_activity": 0.001,
+                    "elemental_composition": {
+                      "Cl": 1
+                    }
+                  }
+                ],
+                "reactions": [
+                  {
+                    "reaction_id": "water",
+                    "log10_equilibrium_constant": -14.0,
+                    "terms": [
+                      {
+                        "species_id": "H",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "OH",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "water",
+                        "coefficient": -1.0
+                      }
+                    ]
+                  }
+                ],
+                "constraints": [
+                  {
+                    "constraint_id": "sodium",
+                    "target_mol_L": 0.001,
+                    "residual_scale_mol_L": 0.001,
+                    "terms": [
+                      {
+                        "species_id": "Na",
+                        "coefficient": 1.0
+                      }
+                    ]
+                  },
+                  {
+                    "constraint_id": "charge",
+                    "target_mol_L": 0.0,
+                    "residual_scale_mol_L": 0.001,
+                    "terms": [
+                      {
+                        "species_id": "H",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "Na",
+                        "coefficient": 1.0
+                      },
+                      {
+                        "species_id": "OH",
+                        "coefficient": -1.0
+                      },
+                      {
+                        "species_id": "Cl",
+                        "coefficient": -1.0
+                      }
+                    ]
+                  },
+                  {
+                    "constraint_id": "chloride",
+                    "target_mol_L": 0.001,
+                    "residual_scale_mol_L": 0.001,
+                    "terms": [
+                      {
+                        "species_id": "Cl",
+                        "coefficient": 1.0
+                      }
+                    ]
+                  },
+                  {
+                    "constraint_id": "solvent",
+                    "target_mol_L": 1.0,
+                    "residual_scale_mol_L": 1.0,
+                    "terms": [
+                      {
+                        "species_id": "water",
+                        "coefficient": 1.0
+                      }
+                    ]
+                  }
+                ],
+                "maximum_iterations": 100,
+                "normalized_residual_tolerance": 1e-10,
+                "maximum_jacobian_condition_number": 100000000000000.0,
+                "local_parameter_covariance": null,
+                "local_parameter_covariance_reviewed": false,
+                "activity_provider_id": "authored",
+                "activity_provider_revision": "1",
+                "activity_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "activity_record_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "equilibrium_provider_id": "authored",
+                "equilibrium_provider_revision": "1",
+                "equilibrium_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "equilibrium_record_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "complete_aqueous_species_inventory_reviewed": true,
+                "reaction_stoichiometry_and_constant_reviewed": true,
+                "balance_constraints_and_charge_scope_reviewed": true,
+                "fixed_activity_coefficients_and_standard_state_reviewed": true,
+                "temperature_and_provider_lineage_reviewed": true,
+                "initial_activity_guess_and_solver_tolerance_reviewed": true,
+                "single_liquid_phase_and_no_precipitation_reviewed": true,
+                "elemental_formula_and_reaction_balance_reviewed": true,
+                "evidence": [
+                  {
+                    "source_id": "authored",
+                    "origin": "synthetic",
+                    "citation": "Authored dilute aqueous fixture",
+                    "license_id": null,
+                    "sha256": null
+                  }
+                ]
+              },
+              "water_mass_per_solution_volume_kg_L": 1.0,
+              "davies_A_at_temperature": 0.509,
+              "davies_A_provider_id": "authored",
+              "davies_A_provider_revision": "1",
+              "davies_A_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "davies_A_record_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "ionic_strength_limit_mol_kg": 0.5,
+              "charge_balance_tolerance_mol_kg": 1e-09,
+              "maximum_outer_iterations": 100,
+              "log_gamma_tolerance": 1e-09,
+              "damping_fraction": 0.5,
+              "water_mass_conversion_reviewed": true,
+              "Davies_A_temperature_solvent_basis_reviewed": true,
+              "molarity_to_molality_standard_state_mapping_reviewed": true,
+              "complete_inventory_and_charge_scope_reviewed": true,
+              "fixed_point_solver_settings_reviewed": true,
+              "single_liquid_no_precipitation_scope_reviewed": true,
+              "evidence": [
+                {
+                  "source_id": "authored",
+                  "origin": "synthetic",
+                  "citation": "Authored dilute aqueous fixture",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            },
+            "constraint_roles": [
+              {
+                "constraint_id": "sodium",
+                "role": "conserved_component",
+                "component_id": "Na"
+              },
+              {
+                "constraint_id": "charge",
+                "role": "charge_neutrality",
+                "component_id": null
+              },
+              {
+                "constraint_id": "chloride",
+                "role": "conserved_component",
+                "component_id": "Cl"
+              },
+              {
+                "constraint_id": "solvent",
+                "role": "fixed_target",
+                "component_id": null
+              }
+            ],
+            "conserved_components": [
+              {
+                "component_id": "Na",
+                "species_coefficients": [
+                  {
+                    "species_id": "Na",
+                    "coefficient": 1.0
+                  }
+                ]
+              },
+              {
+                "component_id": "Cl",
+                "species_coefficients": [
+                  {
+                    "species_id": "Cl",
+                    "coefficient": 1.0
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "initial_component_inventory": [
+          {
+            "component_id": "Na",
+            "inventory_mol_by_cell": [
+              0.001,
+              0.001
+            ]
+          },
+          {
+            "component_id": "Cl",
+            "inventory_mol_by_cell": [
+              0.001,
+              0.001
+            ]
+          }
+        ],
+        "solid_equilibrium_mode": "aqueous_only",
+        "solid_phase_sets_by_cell": [],
+        "kinetic_phase_sets_by_cell": [
+          {
+            "schema_version": "matintegrity.crevice_bdf_kinetic_phase_set.v1",
+            "assessment_id": "synthetic-bdf-kinetics",
+            "asset_id": "synthetic-asset",
+            "location_id": "location-left",
+            "physical_scope_id": "synthetic-scope",
+            "cell_id": "left",
+            "phase_set_id": "phase-set-left",
+            "clock_id": "synthetic-clock",
+            "valid_time_s": [
+              0.0,
+              0.003,
+              0.005
+            ],
+            "temperature_K": 298.15,
+            "phase_candidates": [
+              {
+                "solid_species_id": "NaCl(s)",
+                "solid_elemental_composition": {
+                  "Na": 1,
+                  "Cl": 1
+                },
+                "aqueous_reactant_stoichiometry": {
+                  "Na": 1.0,
+                  "Cl": 1.0
+                },
+                "initial_solid_moles_per_solution_volume_mol_m3": 0.0,
+                "dimensionless_solubility_product": 1e-08,
+                "equilibrium_constant_record_id": "synthetic-ksp-record",
+                "equilibrium_constant_record_sha256": "69fd5da318bae53182774af2a4f9abdbcf9642145bd913fbe74fb78ba48741ec",
+                "record_sha256": "6e20caefef89310cda785a6992ff5b24469eb94e20d273c2a111f52e90eff0ab",
+                "evidence": [
+                  {
+                    "source_id": "synthetic-phase",
+                    "origin": "synthetic",
+                    "citation": "Authored NaCl phase record",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "6e20caefef89310cda785a6992ff5b24469eb94e20d273c2a111f52e90eff0ab"
+                  },
+                  {
+                    "source_id": "synthetic-ksp-record",
+                    "origin": "synthetic",
+                    "citation": "Authored Ksp fixture",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "69fd5da318bae53182774af2a4f9abdbcf9642145bd913fbe74fb78ba48741ec"
+                  }
+                ]
+              }
+            ],
+            "initial_solid_inventory_by_phase": [
+              {
+                "solid_species_id": "NaCl(s)",
+                "initial_solid_moles_mol": 0.0
+              }
+            ],
+            "nucleation_laws": [
+              {
+                "solid_species_id": "NaCl(s)",
+                "critical_saturation_ratio": 2.0,
+                "source_rate_constant_mol_m3_s": 0.01,
+                "supersaturation_order": 1.0,
+                "nucleated_inventory_threshold_mol_m3": 0.001,
+                "maximum_rate_mol_m3_s": 1.0,
+                "source_sha256": "d5cc9e1e113cd98817571047d13acd8187cf15e2b992a80abd5f02a024fd64ea",
+                "evidence": [
+                  {
+                    "source_id": "synthetic-nucleation",
+                    "origin": "synthetic",
+                    "citation": "Authored nucleation fixture",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "d5cc9e1e113cd98817571047d13acd8187cf15e2b992a80abd5f02a024fd64ea"
+                  }
+                ]
+              }
+            ],
+            "growth_laws": [
+              {
+                "law": {
+                  "solid_species_id": "NaCl(s)",
+                  "precipitation_rate_constant_mol_m3_s": 0.01,
+                  "precipitation_order": 1.0,
+                  "dissolution_rate_constant_mol_m3_s": 0.01,
+                  "dissolution_order": 1.0,
+                  "rate_constant_reference_temperature_K": null,
+                  "minimum_valid_temperature_K": null,
+                  "maximum_valid_temperature_K": null,
+                  "precipitation_activation_energy_J_mol": null,
+                  "dissolution_activation_energy_J_mol": null,
+                  "arrhenius_parameter_applicability_reviewed": false,
+                  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                },
+                "evidence": [
+                  {
+                    "source_id": "synthetic-growth",
+                    "origin": "synthetic",
+                    "citation": "Authored growth fixture",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  }
+                ]
+              }
+            ],
+            "phase_set_sha256": "7d4db7ab42ec870ebf300cea595e3e8dedbf2330891126a76dd01e849182572f",
+            "evidence": [
+              {
+                "source_id": "synthetic-phase-set",
+                "origin": "synthetic",
+                "citation": "Authored exact-clock phase set",
+                "license_id": "synthetic-example-only",
+                "sha256": "7d4db7ab42ec870ebf300cea595e3e8dedbf2330891126a76dd01e849182572f"
+              }
+            ]
+          },
+          {
+            "schema_version": "matintegrity.crevice_bdf_kinetic_phase_set.v1",
+            "assessment_id": "synthetic-bdf-kinetics",
+            "asset_id": "synthetic-asset",
+            "location_id": "location-right",
+            "physical_scope_id": "synthetic-scope",
+            "cell_id": "right",
+            "phase_set_id": "phase-set-right",
+            "clock_id": "synthetic-clock",
+            "valid_time_s": [
+              0.0,
+              0.003,
+              0.005
+            ],
+            "temperature_K": 298.15,
+            "phase_candidates": [
+              {
+                "solid_species_id": "NaCl(s)",
+                "solid_elemental_composition": {
+                  "Na": 1,
+                  "Cl": 1
+                },
+                "aqueous_reactant_stoichiometry": {
+                  "Na": 1.0,
+                  "Cl": 1.0
+                },
+                "initial_solid_moles_per_solution_volume_mol_m3": 0.0,
+                "dimensionless_solubility_product": 1e-08,
+                "equilibrium_constant_record_id": "synthetic-ksp-record",
+                "equilibrium_constant_record_sha256": "69fd5da318bae53182774af2a4f9abdbcf9642145bd913fbe74fb78ba48741ec",
+                "record_sha256": "6e20caefef89310cda785a6992ff5b24469eb94e20d273c2a111f52e90eff0ab",
+                "evidence": [
+                  {
+                    "source_id": "synthetic-phase",
+                    "origin": "synthetic",
+                    "citation": "Authored NaCl phase record",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "6e20caefef89310cda785a6992ff5b24469eb94e20d273c2a111f52e90eff0ab"
+                  },
+                  {
+                    "source_id": "synthetic-ksp-record",
+                    "origin": "synthetic",
+                    "citation": "Authored Ksp fixture",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "69fd5da318bae53182774af2a4f9abdbcf9642145bd913fbe74fb78ba48741ec"
+                  }
+                ]
+              }
+            ],
+            "initial_solid_inventory_by_phase": [
+              {
+                "solid_species_id": "NaCl(s)",
+                "initial_solid_moles_mol": 0.0
+              }
+            ],
+            "nucleation_laws": [
+              {
+                "solid_species_id": "NaCl(s)",
+                "critical_saturation_ratio": 2.0,
+                "source_rate_constant_mol_m3_s": 0.01,
+                "supersaturation_order": 1.0,
+                "nucleated_inventory_threshold_mol_m3": 0.001,
+                "maximum_rate_mol_m3_s": 1.0,
+                "source_sha256": "d5cc9e1e113cd98817571047d13acd8187cf15e2b992a80abd5f02a024fd64ea",
+                "evidence": [
+                  {
+                    "source_id": "synthetic-nucleation",
+                    "origin": "synthetic",
+                    "citation": "Authored nucleation fixture",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "d5cc9e1e113cd98817571047d13acd8187cf15e2b992a80abd5f02a024fd64ea"
+                  }
+                ]
+              }
+            ],
+            "growth_laws": [
+              {
+                "law": {
+                  "solid_species_id": "NaCl(s)",
+                  "precipitation_rate_constant_mol_m3_s": 0.01,
+                  "precipitation_order": 1.0,
+                  "dissolution_rate_constant_mol_m3_s": 0.01,
+                  "dissolution_order": 1.0,
+                  "rate_constant_reference_temperature_K": null,
+                  "minimum_valid_temperature_K": null,
+                  "maximum_valid_temperature_K": null,
+                  "precipitation_activation_energy_J_mol": null,
+                  "dissolution_activation_energy_J_mol": null,
+                  "arrhenius_parameter_applicability_reviewed": false,
+                  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                },
+                "evidence": [
+                  {
+                    "source_id": "synthetic-growth",
+                    "origin": "synthetic",
+                    "citation": "Authored growth fixture",
+                    "license_id": "synthetic-example-only",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  }
+                ]
+              }
+            ],
+            "phase_set_sha256": "5ca571b52503a7e8aa374f5fb6d3bd96ae3755e32f72c0f49a276b11a70eca6d",
+            "evidence": [
+              {
+                "source_id": "synthetic-phase-set",
+                "origin": "synthetic",
+                "citation": "Authored exact-clock phase set",
+                "license_id": "synthetic-example-only",
+                "sha256": "5ca571b52503a7e8aa374f5fb6d3bd96ae3755e32f72c0f49a276b11a70eca6d"
+              }
+            ]
+          }
+        ],
+        "kinetic_phase_mode_reviewed": true,
+        "kinetic_rate_evaluation_budget": 2000000,
+        "maximum_phase_event_count": 100000,
+        "absolute_solid_inventory_tolerance_mol": 1e-12,
+        "solid_phase_set_clock_id": null,
+        "total_component_inventory_includes_solid_reviewed": true,
+        "instantaneous_equilibrium_no_nucleation_barrier_reviewed": false,
+        "solid_phase_set_applicability_and_completeness_reviewed": false,
+        "moving_geometry_mode": "fixed_volume",
+        "dynamic_solid_geometry_by_cell": [],
+        "moving_geometry_stage_feedback_reviewed": false,
+        "dynamic_geometry_relative_tolerance": 1e-08,
+        "dynamic_geometry_relaxation_factor": 0.5,
+        "maximum_dynamic_geometry_iterations_per_cell_stage": 30,
+        "maximum_total_dynamic_geometry_iterations": 1000000,
+        "electrochemical_sources": [],
+        "ionic_face_current_schedule": null,
+        "capacitive_current_schedule": null,
+        "hydraulic_component_advection": null,
+        "dynamic_hydraulic_component_advection": null,
+        "faradaic_stage_coupling": null,
+        "dynamic_double_layer": null,
+        "interior_face_area_m2": [
+          1e-06
+        ],
+        "center_distance_m_by_interior_face": [
+          0.01
+        ],
+        "species_face_diffusivity": [
+          {
+            "species_id": "H",
+            "diffusivity_m2_s_by_interior_face": [
+              1e-09
+            ]
+          },
+          {
+            "species_id": "OH",
+            "diffusivity_m2_s_by_interior_face": [
+              1e-09
+            ]
+          },
+          {
+            "species_id": "Na",
+            "diffusivity_m2_s_by_interior_face": [
+              1e-09
+            ]
+          },
+          {
+            "species_id": "water",
+            "diffusivity_m2_s_by_interior_face": [
+              1e-09
+            ]
+          },
+          {
+            "species_id": "Cl",
+            "diffusivity_m2_s_by_interior_face": [
+              1e-09
+            ]
+          }
+        ],
+        "relative_tolerance": 0.0001,
+        "absolute_component_inventory_tolerance_mol": 1e-10,
+        "absolute_component_closure_tolerance_mol": 1e-10,
+        "relative_component_closure_tolerance": 1e-07,
+        "solid_equilibrium_log_saturation_tolerance": 1e-08,
+        "absolute_face_current_closure_tolerance_A": 1e-12,
+        "relative_face_current_closure_tolerance": 1e-10,
+        "absolute_double_layer_charge_tolerance_C": 1e-10,
+        "maximum_absolute_source_extent_rate_mol_s": null,
+        "maximum_step_s": 0.005,
+        "maximum_total_rhs_evaluations": 100000,
+        "maximum_total_stage_equilibrium_calls": 1000000,
+        "maximum_total_nested_equilibrium_iteration_work": 20000000,
+        "maximum_total_solid_partition_evaluations": 1000000,
+        "maximum_total_solid_active_set_sweeps": 2000000,
+        "maximum_total_solid_bisection_iterations": 20000000,
+        "maximum_total_source_projection_operations": 2000000,
+        "maximum_total_ionic_current_face_evaluations": 2000000,
+        "maximum_total_stage_mixed_potential_function_evaluations": 2000000,
+        "maximum_absolute_stage_faradaic_extent_rate_mol_s": null,
+        "maximum_output_species_values": 1000000,
+        "maximum_output_solid_phase_values": 1000000,
+        "component_state_and_flux_basis_reviewed": true,
+        "cell_equilibrium_templates_and_evidence_reviewed": true,
+        "fixed_volume_and_boundary_scope_reviewed": true,
+        "electrochemical_source_stoichiometry_and_reservoir_reviewed": false,
+        "ionic_face_current_schedule_reviewed": false,
+        "capacitive_current_schedule_reviewed": false,
+        "hydraulic_component_advection_reviewed": false,
+        "dynamic_hydraulic_component_advection_reviewed": false,
+        "dynamic_volume_and_boundary_scope_reviewed": false,
+        "dynamic_hydraulic_fixed_point_relative_tolerance": 1e-05,
+        "dynamic_hydraulic_fixed_point_relaxation": 0.5,
+        "maximum_dynamic_hydraulic_fixed_point_iterations": 8,
+        "absolute_flow_tolerance_m3_s": 1e-12,
+        "component_state_faradaic_stage_coupling_reviewed": false,
+        "computational_use_authorized": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "time_s[]",
+      "unit": "s",
+      "reference_value": 0.0
+    },
+    {
+      "group": 24,
+      "name": "슬릿 유동·관성·압력·체적 연속",
+      "model_id": "corrosion.planar_slit_transient_hydraulic_history",
+      "inputs": {
+        "schema_version": "matintegrity.planar_slit_transient_hydraulic_history.v1",
+        "assessment_id": "synthetic-transient-slit-flow",
+        "asset_id": "synthetic-crevice-loop",
+        "location_id": "slit-segment-set-a",
+        "physical_scope_id": "synthetic-slit-test-scope",
+        "material_state_id": null,
+        "time_basis": "elapsed_seconds_from_declared_origin",
+        "time_s": [
+          0.0,
+          0.1,
+          0.2
+        ],
+        "cell_ids": [
+          "slit-cell-1",
+          "slit-cell-2"
+        ],
+        "cell_widths_m": [
+          0.1,
+          0.1
+        ],
+        "aperture_by_interval_m": [
+          [
+            0.001,
+            0.001
+          ],
+          [
+            0.001,
+            0.0008
+          ]
+        ],
+        "transverse_width_m": 0.03,
+        "pressure_drop_by_interval_Pa": [
+          1000.0,
+          -500.0
+        ],
+        "initial_volumetric_flow_m3_s": 0.0,
+        "density_kg_m3": 1000.0,
+        "dynamic_viscosity_Pa_s": 0.001,
+        "resistance_correction_multiplier": 1.0,
+        "inertance_correction_multiplier": 1.0,
+        "hydraulic_parameter_fit_result_sha256": null,
+        "hydraulic_parameter_fit_evidence": null,
+        "hydraulic_parameter_fit_applicability_reviewed": false,
+        "minimum_width_to_aperture_ratio": 20.0,
+        "maximum_reviewed_reynolds_number": 1000.0,
+        "geometry_provider_id": "synthetic-geometry-record",
+        "geometry_provider_revision": "1",
+        "geometry_record_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pressure_provider_id": "synthetic-pressure-record",
+        "pressure_provider_revision": "1",
+        "pressure_record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "fluid_property_provider_id": "synthetic-fluid-property-record",
+        "fluid_property_provider_revision": "1",
+        "fluid_property_record_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "evidence": [
+          {
+            "source_id": "synthetic-geometry-record",
+            "origin": "synthetic",
+            "citation": "Synthetic geometry fixture; not measured data.",
+            "license_id": null,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "source_id": "synthetic-pressure-record",
+            "origin": "synthetic",
+            "citation": "Synthetic signed pressure fixture; not measured data.",
+            "license_id": null,
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          {
+            "source_id": "synthetic-fluid-property-record",
+            "origin": "synthetic",
+            "citation": "Synthetic Newtonian fluid-property fixture; not measured data.",
+            "license_id": null,
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ],
+        "usage_rights_evidence": [
+          {
+            "source_id": "project-synthetic-fixture",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic example payload.",
+            "license_id": "CC0-1.0",
+            "sha256": null
+          }
+        ],
+        "usage_license_id": "CC0-1.0",
+        "geometry_clock_and_grid_reviewed": true,
+        "pressure_reference_sign_and_clock_reviewed": true,
+        "incompressible_newtonian_property_support_reviewed": true,
+        "wide_slit_aspect_ratio_reviewed": true,
+        "laminar_fully_developed_resistance_reviewed": true,
+        "unsteady_lumped_inertance_applicability_reviewed": true,
+        "signed_flow_reversal_reviewed": true,
+        "usage_rights_reviewed": true,
+        "computational_use_authorized": true
+      },
+      "context": {
+        "asset_id": "synthetic-crevice-loop",
+        "location_id": "slit-segment-set-a",
+        "time_basis": "elapsed_seconds_from_declared_origin",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "volumetric_flow_history_m3_s[]",
+      "unit": "m^3/s",
+      "reference_value": 0.0
+    },
+    {
+      "group": 25,
+      "name": "수소 확산·포획·방출·표면반응",
+      "model_id": "transport.hydrogen_slab_kinetic",
+      "inputs": {
+        "material_condition_id": "synthetic-state",
+        "reference_lattice_id": "synthetic-sites",
+        "elapsed_time_origin_id": "synthetic-charging-start",
+        "thickness_m": 0.001,
+        "cell_count": 12,
+        "lattice_site_density_mol_m3": 1000.0,
+        "initial_lattice_hydrogen_atoms_mol_m3": [
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01
+        ],
+        "elapsed_time_s": [
+          0.0,
+          1.0,
+          5.0,
+          10.0
+        ],
+        "uniform_temperature_K": [
+          300.0,
+          300.0,
+          320.0,
+          330.0
+        ],
+        "lattice_diffusivity_m2_s": [
+          1e-09,
+          1e-09,
+          2e-09,
+          3e-09
+        ],
+        "left_boundary": {
+          "boundary_id": "entry",
+          "kind": "prescribed_lattice_concentration",
+          "lattice_hydrogen_atoms_mol_m3": [
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "equilibrium_lattice_hydrogen_atoms_mol_m3": null,
+          "transfer_coefficient_m_s": null,
+          "absorption_capacity_flux_mol_m2_s": null,
+          "desorption_capacity_flux_mol_m2_s": null,
+          "evidence": [
+            {
+              "source_id": "authored-synthetic",
+              "origin": "synthetic",
+              "citation": "Authored parameter demonstration",
+              "license_id": null,
+              "sha256": null
+            }
+          ]
+        },
+        "right_boundary": {
+          "boundary_id": "exit",
+          "kind": "prescribed_lattice_concentration",
+          "lattice_hydrogen_atoms_mol_m3": [
+            0.005,
+            0.005,
+            0.005,
+            0.005
+          ],
+          "equilibrium_lattice_hydrogen_atoms_mol_m3": null,
+          "transfer_coefficient_m_s": null,
+          "absorption_capacity_flux_mol_m2_s": null,
+          "desorption_capacity_flux_mol_m2_s": null,
+          "evidence": [
+            {
+              "source_id": "authored-synthetic",
+              "origin": "synthetic",
+              "citation": "Authored parameter demonstration",
+              "license_id": null,
+              "sha256": null
+            }
+          ]
+        },
+        "traps": [
+          {
+            "population": {
+              "trap_id": "population-one",
+              "material_condition_id": "synthetic-state",
+              "reference_lattice_id": "synthetic-sites",
+              "site_density_mol_m3": 10.0,
+              "binding_energy_J_mol": 5000.0,
+              "maximum_supported_occupancy": 0.8,
+              "evidence": [
+                {
+                  "source_id": "authored-synthetic",
+                  "origin": "synthetic",
+                  "citation": "Authored parameter demonstration",
+                  "license_id": null,
+                  "sha256": null
+                }
+              ]
+            },
+            "rate_model": "binding_energy_ratio",
+            "capture_frequency_per_s": [
+              0.2,
+              0.2,
+              0.3,
+              0.4
+            ],
+            "release_frequency_per_s": null,
+            "initial_occupancy": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "independent_rate_histories_reviewed": false,
+            "rate_evidence": [
+              {
+                "source_id": "authored-synthetic",
+                "origin": "synthetic",
+                "citation": "Authored parameter demonstration",
+                "license_id": null,
+                "sha256": null
+              }
+            ]
+          }
+        ],
+        "maximum_supported_lattice_occupancy": 0.01,
+        "maximum_supported_total_trap_to_lattice_site_ratio": 0.05,
+        "planar_geometry_reviewed": true,
+        "fixed_populations_and_uniform_temperature_reviewed": true,
+        "independent_single_occupancy_and_dilute_trap_regime_reviewed": true,
+        "negligible_stress_gradient_reviewed": true,
+        "detailed_balance_rate_ratio_reviewed": true,
+        "relative_tolerance": 0.0001,
+        "absolute_occupancy_tolerance": 1e-10,
+        "maximum_step_s": null,
+        "maximum_step_attempts": 50000,
+        "maximum_relative_mass_balance_error": 1e-07,
+        "store_profiles": false
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "relative_mass_balance_error",
+      "unit": "1",
+      "reference_value": 2.166279311560529e-14
+    },
+    {
+      "group": 26,
+      "name": "박육·후육 원통 압력응력",
+      "model_id": "mechanics.thin_cylinder",
+      "inputs": {
+        "pressure_difference_Pa": 1000000.0,
+        "mean_radius_m": 0.1,
+        "wall_thickness_m": 0.005,
+        "allowable_hoop_stress_Pa": 200000000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "hoop_stress_Pa",
+      "unit": "Pa",
+      "reference_value": 20000000.0
+    },
+    {
+      "group": 27,
+      "name": "응력텐서·주응력·불변량",
+      "model_id": "mechanics.plane_stress",
+      "inputs": {
+        "stress_x_Pa": 100000000.0,
+        "stress_y_Pa": 50000000.0,
+        "shear_xy_Pa": 10000000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "principal_max_Pa",
+      "unit": "Pa",
+      "reference_value": 101925824.03567252
+    },
+    {
+      "group": 28,
+      "name": "열팽창 구속·두께방향 열응력",
+      "model_id": "mechanics.thermal_restraint",
+      "inputs": {
+        "young_modulus_Pa": 200000000000.0,
+        "expansion_coefficient_per_K": 1.2e-05,
+        "temperature_change_K": 100.0,
+        "restraint_fraction": 1.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "free_thermal_strain",
+      "unit": "1",
+      "reference_value": 0.0012000000000000001
+    },
+    {
+      "group": 29,
+      "name": "볼트 체결·탄성 조인트·마찰 토크",
+      "model_id": "fabrication.elastic_joint_load",
+      "inputs": {
+        "initial_bolt_force_N": 10000.0,
+        "bolt_stiffness_N_m": 100000000.0,
+        "clamped_stiffness_N_m": 300000000.0,
+        "external_separating_force_N": 1000.0,
+        "free_clamped_minus_bolt_expansion_m": 1e-06,
+        "linear_contact_applicability_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "bolt_force_N",
+      "unit": "N",
+      "reference_value": 10325.0
+    },
+    {
+      "group": 30,
+      "name": "플랜지·가스켓 비선형 접촉평형",
+      "model_id": "fabrication.flange_nonlinear_contact_field",
+      "inputs": {
+        "schema_version": "matintegrity.flange_nonlinear_contact_field.v1",
+        "assessment_id": "synthetic-nonlinear-flange-field",
+        "joint_id": "synthetic-circular-joint",
+        "physical_scope_id": "synthetic-fixture",
+        "response_provider_id": "example://coupled-compliance-fixture",
+        "response_provider_revision": "synthetic-1",
+        "response_configuration_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "response_result_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "node_ids": [
+          "n0",
+          "n1",
+          "n2",
+          "n3"
+        ],
+        "circumferential_coordinate_rad": [
+          0.0,
+          1.5707963267948966,
+          3.141592653589793,
+          4.71238898038469
+        ],
+        "gasket_contact_area_m2": [
+          0.01,
+          0.01,
+          0.01,
+          0.01
+        ],
+        "free_closure_without_gasket_m": [
+          1e-06,
+          8e-07,
+          -2e-07,
+          2e-07
+        ],
+        "flange_relative_compliance_matrix_m_N": [
+          [
+            1e-09,
+            2e-10,
+            2e-10,
+            2e-10
+          ],
+          [
+            2e-10,
+            1e-09,
+            2e-10,
+            2e-10
+          ],
+          [
+            2e-10,
+            2e-10,
+            1e-09,
+            2e-10
+          ],
+          [
+            2e-10,
+            2e-10,
+            2e-10,
+            1e-09
+          ]
+        ],
+        "gasket_force_compression_curves": [
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1e-06,
+              1000.0
+            ],
+            [
+              5e-06,
+              10000.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1e-06,
+              1000.0
+            ],
+            [
+              5e-06,
+              10000.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1e-06,
+              1000.0
+            ],
+            [
+              5e-06,
+              10000.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1e-06,
+              1000.0
+            ],
+            [
+              5e-06,
+              10000.0
+            ]
+          ]
+        ],
+        "matrix_symmetry_tolerance_m_N": 1e-12,
+        "compliance_psd_tolerance_m_N": 1e-12,
+        "maximum_curve_points_per_node": 100,
+        "maximum_nonlinear_iterations": 100,
+        "maximum_line_search_steps": 24,
+        "residual_tolerance_N": 0.0001,
+        "displacement_tolerance_m": 1e-12,
+        "flange_operator_basis_reviewed": true,
+        "response_scope_and_coordinates_reviewed": true,
+        "bolt_pressure_and_boundary_load_composition_reviewed": true,
+        "gasket_curve_and_support_reviewed": true,
+        "compression_only_contact_model_reviewed": true,
+        "computational_use_authorized": true,
+        "evidence": [
+          {
+            "source_id": "synthetic-nonlinear-compliance-fixture",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic fixture; not experimental data",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "contact_force_sum_N",
+      "unit": "N",
+      "reference_value": 833.3333333333333
+    },
+    {
+      "group": 31,
+      "name": "가스켓 점탄성·응력완화",
+      "model_id": "fabrication.gasket_prony_joint_history",
+      "inputs": {
+        "request_id": "synthetic-prony-joint-history",
+        "joint_id": "synthetic-uniform-joint-a",
+        "material": {
+          "material_condition_id": "synthetic-gasket-condition-a",
+          "physical_specimen_id": "synthetic-gasket-specimen-a",
+          "source_group_id": "synthetic-gasket-study-a",
+          "condition_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "provider_id": "project-synthetic-prony-fit",
+          "provider_revision": "1",
+          "temperature_K": 298.15,
+          "equilibrium_modulus_Pa": 10000000.0,
+          "prony_branches": [
+            {
+              "branch_id": "branch-fast",
+              "modulus_Pa": 20000000.0,
+              "relaxation_time_s": 100.0
+            },
+            {
+              "branch_id": "branch-slow",
+              "modulus_Pa": 10000000.0,
+              "relaxation_time_s": 1000.0
+            }
+          ],
+          "initial_branch_stress_Pa": [
+            0.0,
+            0.0
+          ],
+          "initial_branch_state_reviewed": true,
+          "calibration_basis_reviewed": true,
+          "computational_use_authorized": true
+        },
+        "compression_area_m2": 0.01,
+        "gasket_compression_height_m": 0.01,
+        "bolt_stiffness_N_m": 10000000.0,
+        "initial_compressive_strain": 0.01,
+        "maximum_compressive_strain": 0.03,
+        "elapsed_time_s": [
+          0.0,
+          100.0,
+          1000.0
+        ],
+        "external_separating_force_N": [
+          0.0,
+          100.0,
+          200.0
+        ],
+        "bolt_free_length_change_m": [
+          0.0,
+          0.0,
+          1e-05
+        ],
+        "joint_geometry_and_force_balance_reviewed": true,
+        "piecewise_linear_internal_strain_update_reviewed": true,
+        "coupled_history_model_applicability_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "initial_bolt_preload_N",
+      "unit": "N",
+      "reference_value": 1000.0
+    },
+    {
+      "group": 32,
+      "name": "보정 누설식·가스켓 누설 이력",
+      "model_id": "fabrication.gasket_calibrated_leakage_history",
+      "inputs": {
+        "schema_version": "matintegrity.gasket_leakage_history.v1",
+        "assessment_id": "synthetic-gasket-leakage",
+        "asset_id": "synthetic-asset",
+        "joint_id": "synthetic-joint",
+        "physical_scope_id": "synthetic-seal-boundary",
+        "time_basis": "synthetic seconds from assembly",
+        "time_s": [
+          0.0,
+          10.0
+        ],
+        "node_ids": [
+          "node-a",
+          "node-b"
+        ],
+        "contact_area_m2": [
+          0.001,
+          0.001
+        ],
+        "mean_contact_pressure_history_Pa": [
+          [
+            500000.0,
+            1000000.0
+          ],
+          [
+            400000.0,
+            800000.0
+          ]
+        ],
+        "differential_pressure_history_Pa": [
+          500000.0,
+          750000.0
+        ],
+        "calibration": {
+          "differential_pressure_Pa": [
+            0.0,
+            1000000.0
+          ],
+          "rows": [
+            {
+              "contact_pressure_Pa": 0.0,
+              "molar_leak_flux_by_delta_pressure_mol_s_m2": [
+                0.0,
+                1e-06
+              ]
+            },
+            {
+              "contact_pressure_Pa": 1000000.0,
+              "molar_leak_flux_by_delta_pressure_mol_s_m2": [
+                0.0,
+                1e-09
+              ]
+            }
+          ]
+        },
+        "provider_id": "synthetic-provider",
+        "provider_revision": "1",
+        "provider_configuration_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "calibration_record_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "upstream_contact_result_sha256": null,
+        "contact_pressure_transfer_review_id": "synthetic-review-contact",
+        "differential_pressure_basis_review_id": "synthetic-review-pressure",
+        "calibration_scope_review_id": "synthetic-review-calibration",
+        "complete_contact_area_partition_reviewed": true,
+        "calibration_and_joint_match_reviewed": true,
+        "contact_field_and_leakage_basis_reviewed": true,
+        "pressure_direction_and_unit_reviewed": true,
+        "temporal_alignment_reviewed": true,
+        "refined_contact_time_interpolation_reviewed": false,
+        "evidence": [
+          {
+            "source_id": "caller_qualified_gasket_leakage_flux_calibration",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic calibration used only to illustrate the API contract.",
+            "license_id": null,
+            "sha256": null
+          }
+        ],
+        "maximum_time_integration_subintervals": 100000
+      },
+      "context": {
+        "asset_id": "synthetic-asset",
+        "location_id": "synthetic",
+        "time_basis": "synthetic seconds from assembly",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "contact_area_sum_m2",
+      "unit": "m2",
+      "reference_value": 0.002
+    },
+    {
+      "group": 33,
+      "name": "잔존두께·프로파일 압력용량",
+      "model_id": "structural.profile_capacity",
+      "inputs": {
+        "geometry_id": "synthetic-pipe",
+        "material_condition_id": "synthetic-condition",
+        "reference_wall_thickness_m": 0.01,
+        "axial_position_m": [
+          0.0,
+          0.2,
+          0.4,
+          0.6,
+          0.8
+        ],
+        "measured_remaining_thickness_m": [
+          0.01,
+          0.007,
+          0.005,
+          0.007,
+          0.01
+        ],
+        "reference_capacity": {
+          "geometry_id": "synthetic-pipe",
+          "material_condition_id": "synthetic-condition",
+          "reference_pressure_difference_Pa": 10000000.0,
+          "capacity_basis": "Synthetic reference, no grade-specific strength rule",
+          "evidence": [
+            {
+              "source_id": "project-synthetic",
+              "origin": "synthetic",
+              "citation": "Project-authored synthetic provider",
+              "license_id": "MIT",
+              "sha256": null
+            }
+          ]
+        },
+        "bulging_table": {
+          "geometry_id": "synthetic-pipe",
+          "material_condition_id": "synthetic-condition",
+          "window_length_m": [
+            0.0,
+            0.4,
+            0.8
+          ],
+          "factor": [
+            1.0,
+            1.5,
+            2.5
+          ],
+          "validity_description": "Synthetic monotone length provider for this one geometry/condition",
+          "evidence": [
+            {
+              "source_id": "project-synthetic",
+              "origin": "synthetic",
+              "citation": "Project-authored synthetic provider",
+              "license_id": "MIT",
+              "sha256": null
+            }
+          ]
+        },
+        "maximum_supported_depth_fraction": 0.8,
+        "full_axial_extent_confirmed": true,
+        "blunt_metal_loss_confirmed": true,
+        "internal_pressure_dominant_confirmed": true,
+        "provider_applicability_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "declared_model_pressure_difference_capacity_Pa",
+      "unit": "Pa",
+      "reference_value": 8118811.88118812
+    },
+    {
+      "group": 34,
+      "name": "균열 응력확대계수",
+      "model_id": "fracture.stress_intensity",
+      "inputs": {
+        "crack_depth_m": 0.001,
+        "tensile_stress_Pa": 100000000.0,
+        "geometry_factor": 1.12,
+        "fracture_toughness_Pa_sqrt_m": 50000000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "stress_intensity_Pa_sqrt_m",
+      "unit": "Pa*m^0.5",
+      "reference_value": 6277590.1623656815
+    },
+    {
+      "group": 35,
+      "name": "FAD 파괴평가점·경계 비교",
+      "model_id": "structural.failure_assessment_points",
+      "inputs": {
+        "material_condition_id": "synthetic-condition",
+        "curve": {
+          "curve_id": "synthetic-fad-boundary",
+          "assessment_basis_id": "authored-software-verification",
+          "load_ratio": [
+            0.0,
+            0.5,
+            1.0,
+            1.25
+          ],
+          "allowable_toughness_ratio": [
+            1.0,
+            0.9,
+            0.6,
+            0.0
+          ],
+          "interpolation": "linear",
+          "validity_description": "Synthetic boundary for API execution only",
+          "evidence": [
+            {
+              "source_id": "authored-synthetic-fad",
+              "origin": "synthetic",
+              "citation": "Project-authored software fixture",
+              "license_id": "MIT",
+              "sha256": null
+            }
+          ]
+        },
+        "points": [
+          {
+            "point_id": "synthetic-point-1",
+            "load_case_id": "synthetic-load-case",
+            "location_id": "synthetic-crack",
+            "material_condition_id": "synthetic-condition",
+            "geometry_solution_id": "synthetic-k-solution",
+            "reference_stress_solution_id": "synthetic-reference-stress",
+            "toughness_source_id": "synthetic-toughness",
+            "effective_stress_intensity_Pa_sqrt_m": 40000000.0,
+            "fracture_resistance_Pa_sqrt_m": 80000000.0,
+            "reference_stress_Pa": 200000000.0,
+            "normalizing_strength_Pa": 400000000.0
+          }
+        ],
+        "linear_elastic_k_solution_reviewed": true,
+        "reference_stress_solution_reviewed": true,
+        "toughness_applicability_reviewed": true,
+        "load_combination_reviewed": true,
+        "curve_applicability_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "minimum_supported_vertical_toughness_ratio_margin",
+      "unit": "1",
+      "reference_value": 0.4
+    },
+    {
+      "group": 36,
+      "name": "Paris·표 기반 균열전파 적분",
+      "model_id": "fracture.variable_paris",
+      "inputs": {
+        "initial_depth_m": 0.001,
+        "terminal_depth_m": 0.005,
+        "geometry_depth_m": [
+          0.0005,
+          0.005
+        ],
+        "geometry_factor": [
+          1.12,
+          1.12
+        ],
+        "blocks": [
+          {
+            "minimum_stress_Pa": 0.0,
+            "maximum_stress_Pa": 100000000.0,
+            "cycles": 10000.0
+          }
+        ],
+        "coefficient_m_cycle_per_Pa_sqrt_m_power": 1e-28,
+        "exponent": 3.0,
+        "threshold_delta_K_Pa_sqrt_m": 0.0,
+        "minimum_calibrated_delta_K_Pa_sqrt_m": 1000.0,
+        "maximum_calibrated_delta_K_Pa_sqrt_m": 1000000000.0,
+        "minimum_calibrated_stress_ratio": 0.0,
+        "maximum_calibrated_stress_ratio": 0.999999,
+        "fracture_toughness_Pa_sqrt_m": 50000000.0,
+        "relative_integration_tolerance": 1e-08,
+        "absolute_cycle_tolerance": 1e-06,
+        "absolute_depth_tolerance_m": 1e-12
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "final_depth_m",
+      "unit": "m",
+      "reference_value": 0.0013022324084258883
+    },
+    {
+      "group": 37,
+      "name": "Norton 정상 크리프 변형",
+      "model_id": "creep.norton",
+      "inputs": {
+        "stress_Pa": 100000000.0,
+        "reference_stress_Pa": 100000000.0,
+        "rate_at_reference_stress_per_s": 1e-10,
+        "stress_exponent": 5.0,
+        "exposure_s": 100000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "steady_creep_strain_rate_per_s",
+      "unit": "1/s",
+      "reference_value": 1e-10
+    },
+    {
+      "group": 38,
+      "name": "Larson–Miller 등 크리프 파단 관계",
+      "model_id": "creep.larson_miller",
+      "inputs": {
+        "temperature_K": 800.0,
+        "constant": 20.0,
+        "rupture_time_s": 3600000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "parameter_K",
+      "unit": "K",
+      "reference_value": 18400.0
+    },
+    {
+      "group": 39,
+      "name": "크리프 시간분율·크리프–피로 손상",
+      "model_id": "creep.time_fraction",
+      "inputs": {
+        "exposure_s": [
+          100.0,
+          200.0
+        ],
+        "rupture_life_s": [
+          1000.0,
+          4000.0
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "time_fraction_damage",
+      "unit": "1",
+      "reference_value": 0.15000000000000002
+    },
+    {
+      "group": 40,
+      "name": "응력–수명·평균응력 보정",
+      "model_id": "fatigue.basquin",
+      "inputs": {
+        "stress_range_Pa": 200000000.0,
+        "reference_range_Pa": 100000000.0,
+        "reference_cycles": 1000000.0,
+        "exponent": 3.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cycles_to_failure",
+      "unit": "cycle",
+      "reference_value": 125000.0
+    },
+    {
+      "group": 41,
+      "name": "변형률–수명·Morrow·SWT",
+      "model_id": "fatigue.strain_life",
+      "inputs": {
+        "strain_amplitude": 0.003,
+        "elastic_modulus_Pa": 200000000000.0,
+        "fatigue_strength_coefficient_Pa": 1000000000.0,
+        "fatigue_strength_exponent": -0.1,
+        "fatigue_ductility_coefficient": 0.5,
+        "fatigue_ductility_exponent": -0.5,
+        "minimum_valid_cycles": 1.0,
+        "maximum_valid_cycles": 1000000000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cycles_to_failure",
+      "unit": "cycle",
+      "reference_value": 59723.68704340221
+    },
+    {
+      "group": 42,
+      "name": "Miner 누적손상",
+      "model_id": "fatigue.miner",
+      "inputs": {
+        "cycle_counts": [
+          100.0,
+          200.0
+        ],
+        "cycles_to_failure": [
+          1000.0,
+          4000.0
+        ],
+        "declared_damage_limit": 1.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "damage",
+      "unit": "1",
+      "reference_value": 0.15000000000000002
+    },
+    {
+      "group": 43,
+      "name": "임계면 다축피로",
+      "model_id": "fatigue.critical_plane_fs_life",
+      "inputs": {
+        "analysis_id": "synthetic-fs-life",
+        "plane_id": "plane-1",
+        "plane_factor_result_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "fatemi_socie_factor": 0.004,
+        "shear_modulus_Pa": 80000000000.0,
+        "shear_fatigue_strength_coefficient_Pa": 600000000.0,
+        "shear_fatigue_strength_exponent": -0.1,
+        "shear_fatigue_ductility_coefficient": 0.3,
+        "shear_fatigue_ductility_exponent": -0.5,
+        "minimum_valid_cycles": 1.0,
+        "maximum_valid_cycles": 1000000000.0,
+        "engineering_shear_amplitude_and_calibration_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cycles_to_failure",
+      "unit": "cycle",
+      "reference_value": 22109.65602505149
+    },
+    {
+      "group": 44,
+      "name": "응력불변량 기반 다축피로",
+      "model_id": "fatigue.multiaxial_crossland_proportional_limit_screen",
+      "inputs": {
+        "analysis_id": "fixture-crossland",
+        "stress_history": {
+          "analysis_id": "synthetic-sines-cycle",
+          "material_condition_id": "synthetic-steel-condition",
+          "location_id": "synthetic-coupon",
+          "source_id": "synthetic-stress-record",
+          "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "sample_ids": [
+            "start",
+            "peak",
+            "end"
+          ],
+          "stress_tensor_components_Pa": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              100000000.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "tensor_component_order": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "closed_cycle_and_sample_order_reviewed": true,
+          "stress_tensor_basis_reviewed": true,
+          "maximum_pair_evaluations": 2000000
+        },
+        "stress_history_sha256": "8f250c488df1563c5b734b49224fd312294e87999884ff7ef6b8a8601c09ac2c",
+        "calibration_id": "fixture-crossland-cal",
+        "calibration_source_id": "fixture-crossland-record",
+        "calibration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "calibration_evidence": {
+          "source_id": "fixture-crossland-record",
+          "origin": "synthetic",
+          "citation": "Project-authored contract fixture only; not a physical calibration record.",
+          "license_id": "project-authored-fixture",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "calibration_material_condition_id": "synthetic-steel-condition",
+        "hydrostatic_coefficient_alpha": 0.1,
+        "caller_limit_beta_Pa": 200000000.0,
+        "proportionality_tolerance_Pa": 1.0,
+        "coefficients_and_limit_reviewed": true,
+        "calibration_material_and_scope_reviewed": true,
+        "proportional_path_assumption_and_tolerance_reviewed": true,
+        "maximum_pair_evaluations": 2000000
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "sqrt_J2_stress_amplitude_Pa",
+      "unit": "Pa",
+      "reference_value": 50000000.0
+    },
+    {
+      "group": 45,
+      "name": "비비례 다축 변형경로 피로",
+      "model_id": "fatigue.itoh_nonproportional_strain_life",
+      "inputs": {
+        "analysis_id": "synthetic-itoh-life",
+        "parameter_request": {
+          "analysis_id": "synthetic-itoh-cycle",
+          "material_condition_id": "synthetic-itoh-material",
+          "cycle_id": "synthetic-cycle-1",
+          "history_source_id": "project-authored-synthetic-itoh-history",
+          "history_source_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "history_evidence": {
+            "source_id": "project-authored-synthetic-itoh-history",
+            "origin": "synthetic",
+            "citation": "Project-authored contract fixture; not measured material or calibration data.",
+            "license_id": "project-authored-fixture",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          "strain_tensor_components": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.001,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0002,
+              0.0,
+              0.0,
+              0.0001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "sample_ids": [
+            "start",
+            "biaxial-tie",
+            "rotated",
+            "end"
+          ],
+          "time_s": [
+            0.0,
+            0.25,
+            0.75,
+            1.0
+          ],
+          "period_s": 1.0,
+          "strain_shear_convention": "tensor",
+          "tensor_component_order": [
+            "xx",
+            "yy",
+            "zz",
+            "xy",
+            "yz",
+            "zx"
+          ],
+          "maximum_principal_strain_range": 0.002,
+          "principal_strain_range_evidence": {
+            "source_id": "project-authored-synthetic-itoh-history",
+            "origin": "synthetic",
+            "citation": "Project-authored contract fixture; not measured material or calibration data.",
+            "license_id": "project-authored-fixture",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          "hardening_coefficient_alpha": 0.5,
+          "calibration_source_id": "project-authored-synthetic-itoh-calibration",
+          "calibration_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "calibration_evidence": {
+            "source_id": "project-authored-synthetic-itoh-calibration",
+            "origin": "synthetic",
+            "citation": "Project-authored contract fixture; not measured material or calibration data.",
+            "license_id": "project-authored-fixture",
+            "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          },
+          "maximum_absolute_principal_strain_direction_gap_relative_tolerance": 1e-10,
+          "maximum_sample_count": 10001,
+          "tensor_basis_reviewed": true,
+          "cycle_clock_and_sample_order_reviewed": true,
+          "cycle_closure_reviewed": true,
+          "principal_strain_range_basis_reviewed": true,
+          "material_condition_and_alpha_calibration_reviewed": true,
+          "principal_axis_tie_convention_reviewed": true
+        },
+        "life_curve_id": "synthetic-life-curve",
+        "curve_material_condition_id": "synthetic-itoh-material",
+        "curve_strain_definition_id": "itoh_1995_adjusted_nonproportional_principal_strain_range.v1",
+        "curve_source_id": "project-authored-synthetic-itoh-curve",
+        "curve_source_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "curve_evidence": {
+          "source_id": "project-authored-synthetic-itoh-curve",
+          "origin": "synthetic",
+          "citation": "Project-authored API fixture; not fatigue test data.",
+          "license_id": "project-authored-fixture",
+          "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        "curve_license_id": "project-authored-fixture",
+        "nonproportional_strain_range_points": [
+          1e-05,
+          0.01
+        ],
+        "cycles_to_failure": [
+          1000000.0,
+          1000.0
+        ],
+        "curve_condition_descriptor_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+        "curve_material_match_and_test_basis_reviewed": true,
+        "curve_rights_and_engineering_use_reviewed": true,
+        "log_log_interpolation_and_constant_amplitude_scope_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "itoh_strain_range",
+      "unit": "1",
+      "reference_value": 0.002054420996602614
+    },
+    {
+      "group": 46,
+      "name": "J2 반복소성·이동경화",
+      "model_id": "fatigue.j2_armstrong_frederick_strain_history",
+      "inputs": {
+        "analysis_id": "synthetic-j2-af",
+        "base_path": {
+          "analysis_id": "synthetic-j2-af",
+          "material_condition_id": "synthetic-steel-condition",
+          "source_id": "synthetic-j2-source",
+          "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "evidence": {
+            "source_id": "synthetic-j2-source",
+            "origin": "synthetic",
+            "citation": "Project-authored synthetic input-contract fixture",
+            "license_id": "synthetic-only",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "sample_ids": [
+            "s0",
+            "s1"
+          ],
+          "strain_tensor_components": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              1e-05,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "initial_stress_components_Pa": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "initial_plastic_strain_components": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "initial_backstress_components_Pa": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "initial_equivalent_plastic_strain": 0.0,
+          "young_modulus_Pa": 200000000000.0,
+          "poisson_ratio": 0.3,
+          "initial_yield_stress_Pa": 250000000.0,
+          "isotropic_hardening_modulus_Pa": 0.0,
+          "prager_kinematic_modulus_Pa": 0.0,
+          "tensor_basis_and_order_reviewed": true,
+          "material_model_and_parameters_reviewed": true,
+          "initial_state_at_first_sample_reviewed": true,
+          "small_strain_quasistatic_applicability_reviewed": true
+        },
+        "kinematic_modulus_Pa": 1000000000.0,
+        "dynamic_recovery_per_unit_equivalent_plastic_strain": 15.0,
+        "parameter_source_id": "caller_single_backstress_armstrong_frederick_parameters",
+        "parameter_record_id": "synthetic-af-record",
+        "parameter_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "parameter_evidence_source_id": "synthetic-af-parameters",
+        "parameter_evidence": {
+          "source_id": "synthetic-af-parameters",
+          "origin": "synthetic",
+          "citation": "Project-authored synthetic input-contract fixture",
+          "license_id": "synthetic-only",
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "parameters_and_model_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "response_history[].equivalent_plastic_strain",
+      "unit": "1",
+      "reference_value": 0.0
+    },
+    {
+      "group": 47,
+      "name": "Neuber 노치 응력–변형률",
+      "model_id": "fatigue.neuber_notch_strain_amplitude",
+      "inputs": {
+        "nominal_stress_amplitude_Pa": 100000000.0,
+        "elastic_stress_concentration_factor": 2.0,
+        "elastic_modulus_Pa": 200000000000.0,
+        "cyclic_strength_coefficient_Pa": 1000000000.0,
+        "cyclic_strain_hardening_exponent": 0.2,
+        "all_inputs_reviewed": true,
+        "max_iterations": 100,
+        "relative_tolerance": 1e-12
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "local_stress_amplitude_Pa",
+      "unit": "Pa",
+      "reference_value": 181346363.93897384
+    },
+    {
+      "group": 48,
+      "name": "이력 에너지·텐서 일 기반 피로",
+      "model_id": "fatigue.closed_tensor_work_life",
+      "inputs": {
+        "schema_version": "matintegrity.closed_tensor_work_life.v1",
+        "analysis_id": "synthetic-closed-tensor-work-example",
+        "material_condition_id": "synthetic-steel-condition-a",
+        "location_id": "synthetic-gauge-section",
+        "cycles": [
+          {
+            "cycle_id": "cycle-1",
+            "allocated_cycle_count": 1.0,
+            "sample_ids": [
+              "s0",
+              "s1",
+              "s2",
+              "s3",
+              "s4",
+              "s5",
+              "s6",
+              "s7",
+              "s8"
+            ],
+            "stress_tensor_components_Pa": [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                100000000.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                100000000.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                100000000.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                100000000.0,
+                0.0,
+                0.0,
+                100000000.0,
+                0.0,
+                0.0
+              ],
+              [
+                100000000.0,
+                0.0,
+                0.0,
+                100000000.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                100000000.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "strain_tensor_components": [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.002,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.002,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.002,
+                0.0,
+                0.0,
+                0.002,
+                0.0,
+                0.0
+              ],
+              [
+                0.002,
+                0.0,
+                0.0,
+                0.002,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.002,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "sample_time_s": [
+              0.0,
+              1.0,
+              2.0,
+              3.0,
+              4.0,
+              5.0,
+              6.0,
+              7.0,
+              8.0
+            ],
+            "stress_time_derivative_components_Pa_s": [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "strain_time_derivative_components_s_inv": [
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            ]
+          }
+        ],
+        "strain_shear_convention": "engineering",
+        "time_reconstruction": "piecewise_cubic_hermite",
+        "stress_history_source_id": "synthetic-stress-record",
+        "stress_history_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "strain_history_source_id": "synthetic-strain-record",
+        "strain_history_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "calibration_id": "synthetic-work-life-fit",
+        "calibration_material_condition_id": "synthetic-steel-condition-a",
+        "calibration_source_id": "synthetic-calibration-fixture",
+        "calibration_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "dissipated_energy_density_J_m3": [
+          100000.0,
+          200000.0,
+          400000.0
+        ],
+        "cycles_to_failure": [
+          1000000.0,
+          100000.0,
+          10000.0
+        ],
+        "maximum_closure_stress_error_Pa": 0.0,
+        "maximum_closure_strain_error": 0.0,
+        "tensor_basis_and_order_reviewed": true,
+        "stress_strain_conjugacy_reviewed": true,
+        "cycle_boundary_and_closure_reviewed": true,
+        "time_reconstruction_and_derivative_reviewed": true,
+        "periodic_spline_reviewed": false,
+        "material_calibration_applicability_reviewed": true,
+        "work_life_fit_and_miner_rule_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic-gauge-section",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cycle_results[].signed_closed_loop_work_density_J_m3",
+      "unit": "J/m^3",
+      "reference_value": 100000.0
+    },
+    {
+      "group": 49,
+      "name": "다층 정상 열전도·대류·복사",
+      "model_id": "thermal.planar_layers",
+      "inputs": {
+        "thickness_m": [
+          0.01,
+          0.1
+        ],
+        "conductivity_W_m_K": [
+          15.0,
+          0.04
+        ],
+        "area_m2": 1.0,
+        "temperature_difference_K": 100.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "thermal_resistance_K_W",
+      "unit": "K/W",
+      "reference_value": 2.5006666666666666
+    },
+    {
+      "group": 50,
+      "name": "과도 열전도·집중열용량",
+      "model_id": "thermal.transient_conduction_1d",
+      "inputs": {
+        "schema_version": "matintegrity.transient_conduction_1d.v1",
+        "geometry": "planar",
+        "cell_edges_m": [
+          0.0,
+          0.0025,
+          0.005,
+          0.0075,
+          0.01
+        ],
+        "planar_area_m2": 1.0,
+        "cylinder_length_m": null,
+        "materials": [
+          {
+            "material_id": "authored-constant-property-solid",
+            "material_condition_id": null,
+            "temperature_K": [
+              300.0
+            ],
+            "conductivity_W_m_K": [
+              20.0
+            ],
+            "volumetric_heat_capacity_J_m3_K": [
+              4000000.0
+            ],
+            "property_provider_id": null,
+            "property_provider_revision": null,
+            "property_record_id": null,
+            "property_source_sha256": null,
+            "property_evidence": []
+          }
+        ],
+        "cell_material_ids": [
+          "authored-constant-property-solid",
+          "authored-constant-property-solid",
+          "authored-constant-property-solid",
+          "authored-constant-property-solid"
+        ],
+        "initial_temperature_K": [
+          300.0,
+          300.0,
+          300.0,
+          300.0
+        ],
+        "time_s": [
+          0.0,
+          5.0,
+          10.0
+        ],
+        "left_boundary": {
+          "boundary_id": "hot-face",
+          "kind": "prescribed_temperature",
+          "temperature_K": [
+            400.0,
+            400.0,
+            400.0
+          ],
+          "heat_flux_into_solid_W_m2": null,
+          "convection_W_m2_K": null,
+          "ambient_temperature_K": null,
+          "emissivity": null,
+          "radiative_environment_temperature_K": null
+        },
+        "right_boundary": {
+          "boundary_id": "cool-face",
+          "kind": "convection_radiation",
+          "temperature_K": null,
+          "heat_flux_into_solid_W_m2": null,
+          "convection_W_m2_K": [
+            25.0,
+            25.0,
+            25.0
+          ],
+          "ambient_temperature_K": [
+            300.0,
+            300.0,
+            300.0
+          ],
+          "emissivity": 0.2,
+          "radiative_environment_temperature_K": [
+            300.0,
+            300.0,
+            300.0
+          ]
+        },
+        "volumetric_heat_generation_W_m3": null,
+        "distributed_exchange": null,
+        "maximum_step_s": 0.1,
+        "nonlinear_absolute_tolerance_K": 1e-08,
+        "nonlinear_relative_tolerance": 1e-10,
+        "maximum_nonlinear_iterations": 80,
+        "maximum_relative_energy_balance_error": 1e-07,
+        "one_dimensional_geometry_reviewed": true,
+        "material_property_support_reviewed": true,
+        "boundary_conditions_reviewed": true,
+        "phase_change_absent_or_included_in_capacity_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "cumulative_distributed_energy_into_solid_J",
+      "unit": "J",
+      "reference_value": 0.0
+    },
+    {
+      "group": 51,
+      "name": "Rosenthal 이동 용접열원",
+      "model_id": "welding.rosenthal_3d_point_source_temperature",
+      "inputs": {
+        "absorbed_power_W": 500.0,
+        "travel_speed_m_s": 0.005,
+        "thermal_conductivity_W_m_K": 45.0,
+        "density_kg_m3": 7850.0,
+        "specific_heat_J_kg_K": 600.0,
+        "initial_temperature_K": 300.0,
+        "source_relative_x_m": [
+          0.01,
+          0.0095,
+          0.009000000000000001,
+          0.0085,
+          0.008,
+          0.0075,
+          0.007,
+          0.006500000000000001,
+          0.006,
+          0.0055,
+          0.005,
+          0.0045,
+          0.004,
+          0.0034999999999999996,
+          0.003000000000000001,
+          0.0025000000000000005,
+          0.002,
+          0.0014999999999999996,
+          0.0009999999999999992,
+          0.0005000000000000004,
+          0.0,
+          -0.0005000000000000004,
+          -0.0010000000000000009,
+          -0.0014999999999999996,
+          -0.002,
+          -0.0025000000000000005,
+          -0.003000000000000001,
+          -0.0035000000000000014,
+          -0.003999999999999998,
+          -0.004499999999999999,
+          -0.004999999999999999,
+          -0.005500000000000001,
+          -0.006,
+          -0.006500000000000001,
+          -0.007000000000000001,
+          -0.0075000000000000015,
+          -0.008000000000000002,
+          -0.008500000000000002,
+          -0.009,
+          -0.0095,
+          -0.01,
+          -0.010499999999999997,
+          -0.011000000000000001,
+          -0.011499999999999998,
+          -0.012000000000000002,
+          -0.012499999999999999,
+          -0.013,
+          -0.0135,
+          -0.014,
+          -0.0145,
+          -0.015000000000000001,
+          -0.015499999999999998,
+          -0.016,
+          -0.0165,
+          -0.017,
+          -0.0175,
+          -0.017999999999999995,
+          -0.018500000000000003,
+          -0.018999999999999996,
+          -0.019500000000000003,
+          -0.019999999999999997
+        ],
+        "transverse_y_m": [
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005,
+          0.005
+        ],
+        "depth_z_m": [
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002
+        ],
+        "time_s": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0,
+          1.1,
+          1.2,
+          1.3,
+          1.4,
+          1.5,
+          1.6,
+          1.7,
+          1.8,
+          1.9,
+          2.0,
+          2.1,
+          2.2,
+          2.3,
+          2.4,
+          2.5,
+          2.6,
+          2.7,
+          2.8,
+          2.9,
+          3.0,
+          3.1,
+          3.2,
+          3.3,
+          3.4,
+          3.5,
+          3.6,
+          3.7,
+          3.8,
+          3.9,
+          4.0,
+          4.1,
+          4.2,
+          4.3,
+          4.4,
+          4.5,
+          4.6,
+          4.7,
+          4.8,
+          4.9,
+          5.0,
+          5.1,
+          5.2,
+          5.3,
+          5.4,
+          5.5,
+          5.6,
+          5.7,
+          5.8,
+          5.9,
+          6.0
+        ],
+        "threshold_temperatures_K": [],
+        "semi_infinite_half_space_reviewed": true,
+        "constant_properties_reviewed": true,
+        "phase_change_and_latent_heat_neglected_reviewed": true,
+        "convection_radiation_and_pool_flow_neglected_reviewed": true,
+        "point_source_and_steady_moving_frame_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "thermal_diffusivity_m2_s",
+      "unit": "m^2/s",
+      "reference_value": 9.554140127388536e-06
+    },
+    {
+      "group": 52,
+      "name": "CoolProp 상태방정식·퓨가시티",
+      "model_id": "thermo.co2_fugacity_coolprop",
+      "inputs": {
+        "assessment_id": "synthetic-co2-state-example",
+        "temperature_K": 333.15,
+        "co2_partial_pressure_Pa": 200000.0,
+        "backend": "HEOS",
+        "pure_component_approximation_reviewed": true,
+        "single_phase_gas_or_supercritical_reviewed": true,
+        "review_id": "synthetic-review-only",
+        "evidence": [
+          {
+            "source_id": "authored-example",
+            "origin": "synthetic",
+            "citation": "Synthetic API example; not experimental data",
+            "license_id": null,
+            "sha256": null
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_K",
+      "unit": "K",
+      "reference_value": 333.15
+    },
+    {
+      "group": 53,
+      "name": "응축막 열·물질 수지",
+      "model_id": "integration.wet_co2_lumped_wall_thermal_condensation_history",
+      "inputs": {
+        "schema_version": "matintegrity.wet_co2_lumped_wall_thermal_condensation_history.v1",
+        "assessment_id": "synthetic-input",
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "physical_scope_id": "synthetic-input",
+        "wall_patch_id": "synthetic-input",
+        "condition_id": "synthetic-input",
+        "initial_wall_temperature_K": 300.0,
+        "initial_gas_water_vapor_moles": 0.0,
+        "initial_wall_water_areal_inventory_kg_m2": 0.0,
+        "wall_areal_heat_capacity_J_m2_K": 1.0,
+        "saturation_fugacity_table": [
+          {
+            "temperature_K": 273.15,
+            "water_fugacity_Pa": 611.0
+          },
+          {
+            "temperature_K": 373.15,
+            "water_fugacity_Pa": 101325.0
+          }
+        ],
+        "saturation_table_provider_id": "synthetic-input",
+        "saturation_table_revision": "synthetic-input",
+        "saturation_table_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "saturation_table_evidence": [
+          {
+            "source_id": "synthetic-input",
+            "origin": "measured",
+            "citation": "synthetic-input",
+            "license_id": null,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "intervals": [
+          {
+            "start_time_s": 0.0,
+            "end_time_s": 1.0,
+            "gas_temperature_K": 300.0,
+            "gas_volume_m3": 1.0,
+            "water_vapor_fugacity_coefficient": 1.0,
+            "gas_film_molar_transfer_coefficient_mol_m2_s_Pa": 0.0,
+            "transfer_area_m2": 1.0,
+            "gas_to_wall_heat_transfer_coefficient_W_m2_K": 0.0,
+            "external_wall_heat_flux_W_m2": 0.0,
+            "latent_heat_of_vaporization_J_kg": 1.0,
+            "liquid_water_density_kg_m3": 1.0,
+            "transfer_provider_id": "synthetic-input",
+            "transfer_provider_revision": "synthetic-input",
+            "transfer_configuration_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "transfer_result_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "thermal_provider_id": "synthetic-input",
+            "thermal_provider_revision": "synthetic-input",
+            "thermal_configuration_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "thermal_result_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "evidence": [
+              {
+                "source_id": "synthetic-input",
+                "origin": "synthetic",
+                "citation": "Project-authored contract-only fixture with zero transfer.",
+                "license_id": "project-authored-fixture",
+                "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+              },
+              {
+                "source_id": "synthetic-input",
+                "origin": "synthetic",
+                "citation": "Project-authored contract-only fixture with zero heat flux.",
+                "license_id": "project-authored-fixture",
+                "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              }
+            ],
+            "interval_boundary_and_sign_reviewed": true
+          }
+        ],
+        "rtol": 1e-06,
+        "atol_temperature_K": 1.0,
+        "atol_gas_moles": 1.0,
+        "atol_liquid_kg_m2": 1.0,
+        "atol_energy_J_m2": 1.0,
+        "max_step_s": 1.0,
+        "lumped_wall_temperature_and_fixed_patch_reviewed": true,
+        "energy_boundary_and_latent_heat_sign_reviewed": true,
+        "finite_gas_ideal_component_pressure_reviewed": true,
+        "saturation_table_basis_and_support_reviewed": true,
+        "no_wall_phase_change_or_spatial_gradient_reviewed": true,
+        "calculation_use_authorized": true
+      },
+      "context": {
+        "asset_id": "synthetic-input",
+        "location_id": "synthetic-input",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "final_wall_temperature_K",
+      "unit": "K",
+      "reference_value": 300.0
+    },
+    {
+      "group": 54,
+      "name": "기체 압력감쇠·누설·팽창 에너지",
+      "model_id": "inspection.gas_pressure_decay",
+      "inputs": {
+        "rigid_volume_m3": 0.1,
+        "initial_absolute_pressure_Pa": 1000000.0,
+        "final_absolute_pressure_Pa": 990000.0,
+        "initial_temperature_K": 300.0,
+        "final_temperature_K": 300.0,
+        "initial_compressibility_factor": 1.0,
+        "final_compressibility_factor": 1.0,
+        "duration_s": 3600.0,
+        "reference_pressure_Pa": 100000.0,
+        "reference_temperature_K": 300.0,
+        "reference_compressibility_factor": 1.0,
+        "fluid_id": null,
+        "property_provider_id": null,
+        "property_provider_version": null,
+        "property_state_digest": null,
+        "absolute_pressure_temperature_and_phase_reviewed": null
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "net_molar_outflow_mol_s",
+      "unit": "mol/s",
+      "reference_value": 0.00011136329170622893
+    },
+    {
+      "group": 55,
+      "name": "Archard 마모",
+      "model_id": "degradation.archard_wear",
+      "inputs": {
+        "dimensionless_wear_coefficient": 1e-06,
+        "normal_force_N": 1000.0,
+        "sliding_distance_m": 1000.0,
+        "hardness_Pa": 2000000000.0,
+        "distributed_area_m2": 0.01
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "wear_volume_m3",
+      "unit": "m^3",
+      "reference_value": 5e-10
+    },
+    {
+      "group": 56,
+      "name": "포물선 산화·비등온 산화",
+      "model_id": "degradation.parabolic_oxidation",
+      "inputs": {
+        "initial_oxide_thickness_m": 1e-06,
+        "parabolic_constant_m2_s": 1e-15,
+        "exposure_s": 1000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "oxide_thickness_m",
+      "unit": "m",
+      "reference_value": 1.414213562373095e-06
+    },
+    {
+      "group": 57,
+      "name": "Arrhenius 반응·열적 노화",
+      "model_id": "kinetics.arrhenius",
+      "inputs": {
+        "reference_rate": 1.0,
+        "reference_temperature_K": 300.0,
+        "temperature_K": 320.0,
+        "activation_energy_J_mol": 50000.0
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "temperature_factor",
+      "unit": "1",
+      "reference_value": 3.500259230798546
+    },
+    {
+      "group": 58,
+      "name": "Ramberg–Osgood·Hollomon 재료 구성관계",
+      "model_id": "materials.ramberg_osgood",
+      "inputs": {
+        "stress_amplitude_Pa": 300000000.0,
+        "elastic_modulus_Pa": 200000000000.0,
+        "cyclic_strength_coefficient_Pa": 1000000000.0,
+        "cyclic_strain_hardening_exponent": 0.2
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "elastic_strain_amplitude",
+      "unit": "1",
+      "reference_value": 0.0015
+    },
+    {
+      "group": 59,
+      "name": "완전혼합 가스 퍼지",
+      "model_id": "welding.well_mixed_gas_purge",
+      "inputs": {
+        "basis": {
+          "source_id": "authored",
+          "revision": "1",
+          "license_id": "authored-test",
+          "record_sha256": "e35885c420b679387e927a609471b9ab540851e04fae08a2abc85f5556235b39",
+          "evidence": [
+            {
+              "source_id": "authored",
+              "origin": "synthetic",
+              "citation": "Authored dilution balance.",
+              "license_id": "authored-test",
+              "sha256": "e35885c420b679387e927a609471b9ab540851e04fae08a2abc85f5556235b39"
+            }
+          ],
+          "applicability_and_units_reviewed": true,
+          "computational_use_authorized": true
+        },
+        "compartment_id": "c",
+        "component_id": "authored-tracer",
+        "clock_id": "clock",
+        "gas_state_basis_id": "constant-state",
+        "compartment_volume_m3": 1.0,
+        "initial_component_mole_fraction": 0.5,
+        "flow_volume_basis": "compartment_actual_volume",
+        "constant_volume_pressure_temperature_and_perfect_mixing_reviewed": true,
+        "equal_inlet_outlet_no_reaction_leak_or_adsorption_reviewed": true,
+        "stages": [
+          {
+            "stage_id": "s",
+            "duration_s": 0.6931471805599453,
+            "inlet_actual_volume_flow_m3_s": 1.0,
+            "inlet_component_mole_fraction": 0.0
+          }
+        ]
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "clock",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "history[].end_time_s",
+      "unit": "s",
+      "reference_value": 0.6931471805599453
+    },
+    {
+      "group": 60,
+      "name": "음극방식 전류·전하·양극 수명 수지",
+      "model_id": "protection.cathodic_budget",
+      "inputs": {
+        "time_s": [
+          0.0,
+          1.0
+        ],
+        "protected_area_m2": 1.0,
+        "bare_surface_fraction": [
+          1.0,
+          1.0
+        ],
+        "bare_surface_current_density_A_m2": [
+          1.0,
+          1.0
+        ],
+        "additional_current_drain_A": [
+          0.0,
+          0.0
+        ],
+        "anode_electrochemical_capacity_C_kg": 1.0,
+        "anode_utilization_fraction": 1.0,
+        "single_anode_mass_kg": 1.0,
+        "single_anode_minimum_available_current_A": 1.0,
+        "installed_anodes": 1
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "required_charge_C",
+      "unit": "C",
+      "reference_value": 1.0
+    },
+    {
+      "group": 61,
+      "name": "캐비테이션 여유·압력강하 지표",
+      "model_id": "degradation.cavitation_margin",
+      "inputs": {
+        "fluid_id": "synthetic-liquid",
+        "temperature_K": 300.0,
+        "pressure_basis": "absolute",
+        "local_static_pressure_Pa": 80000.0,
+        "vapor_pressure_Pa": 3500.0,
+        "liquid_density_kg_m3": 997.0,
+        "characteristic_velocity_m_s": 12.0,
+        "property_provider_id": "synthetic-provider",
+        "property_provider_version": "1.0",
+        "property_state_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "local_pressure_definition": "synthetic local absolute static pressure",
+        "velocity_definition": "synthetic section mean velocity",
+        "absolute_pressure_reviewed": true,
+        "thermodynamic_state_reviewed": true
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "static_pressure_margin_Pa",
+      "unit": "Pa",
+      "reference_value": 76500.0
+    },
+    {
+      "group": 62,
+      "name": "음향 도달시간 기반 위치·깊이 역산",
+      "model_id": "inspection.tofd_depth",
+      "inputs": {
+        "probe_index_separation_m": 0.04,
+        "longitudinal_sound_speed_m_s": 6000.0,
+        "delay_from_lateral_wave_s": 1e-06,
+        "wall_thickness_m": 0.025
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "tip_depth_m",
+      "unit": "m",
+      "reference_value": 0.011357816691600547
+    },
+    {
+      "group": 63,
+      "name": "FMC/TFM 초음파 영상 재구성",
+      "model_id": "inspection.homogeneous_fmc_tfm",
+      "inputs": {
+        "basis": {
+          "source_id": "authored",
+          "revision": "1",
+          "license_id": "authored-test",
+          "record_sha256": "dd6b0ee0af16f487c6fc65add4c46538518937ca17c718997cc0dc23ca4ed23f",
+          "evidence": [
+            {
+              "source_id": "authored",
+              "origin": "synthetic",
+              "citation": "Authored FMC geometry and pulses.",
+              "license_id": "authored-test",
+              "sha256": "dd6b0ee0af16f487c6fc65add4c46538518937ca17c718997cc0dc23ca4ed23f"
+            }
+          ],
+          "applicability_and_units_reviewed": true,
+          "computational_use_authorized": true
+        },
+        "acquisition_id": "synthetic-fmc",
+        "physical_specimen_id": "synthetic-coupon",
+        "physical_scope_id": "coupon-volume",
+        "source_group_id": "authored-source-group",
+        "material_condition_id": "authored-medium",
+        "probe_id": "probe",
+        "coordinate_frame_id": "cartesian",
+        "sample_clock_id": "authored-clock",
+        "time_zero_basis_id": "authored-t0",
+        "velocity_basis_id": "authored-c",
+        "raw_record_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "amplitude_unit": "authored-unit",
+        "propagation_model": "homogeneous_isotropic_direct_longitudinal",
+        "aggregation": "coherent_sum",
+        "excitation_time_origin_s": 0.0,
+        "longitudinal_velocity_m_s": 1.0,
+        "time_s": [
+          0.0,
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0,
+          7.0,
+          8.0,
+          9.0,
+          10.0,
+          11.0,
+          12.0,
+          13.0,
+          14.0,
+          15.0,
+          16.0,
+          17.0,
+          18.0,
+          19.0,
+          20.0
+        ],
+        "elements": [
+          {
+            "element_id": "a",
+            "position_m": [
+              -3.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "element_id": "b",
+            "position_m": [
+              3.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "traces": [
+          {
+            "trace_id": "bb",
+            "transmit_element_id": "b",
+            "receive_element_id": "b",
+            "signed_samples": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "samples_sha256": "d4a2e5a7b204f2e0b5099d0993a76f4437bed70709463788a1d9cce1441ad7dd"
+          },
+          {
+            "trace_id": "ab",
+            "transmit_element_id": "a",
+            "receive_element_id": "b",
+            "signed_samples": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "samples_sha256": "d4a2e5a7b204f2e0b5099d0993a76f4437bed70709463788a1d9cce1441ad7dd"
+          },
+          {
+            "trace_id": "ba",
+            "transmit_element_id": "b",
+            "receive_element_id": "a",
+            "signed_samples": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "samples_sha256": "d4a2e5a7b204f2e0b5099d0993a76f4437bed70709463788a1d9cce1441ad7dd"
+          },
+          {
+            "trace_id": "aa",
+            "transmit_element_id": "a",
+            "receive_element_id": "a",
+            "signed_samples": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "samples_sha256": "d4a2e5a7b204f2e0b5099d0993a76f4437bed70709463788a1d9cce1441ad7dd"
+          }
+        ],
+        "image_points": [
+          {
+            "point_id": "focus",
+            "position_m": [
+              0.0,
+              0.0,
+              4.0
+            ]
+          },
+          {
+            "point_id": "off-focus",
+            "position_m": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "maximum_point_trace_evaluations": 1000000
+      },
+      "context": {
+        "asset_id": "synthetic",
+        "location_id": "synthetic",
+        "time_basis": "API contract check",
+        "evidence": [],
+        "metadata": {}
+      },
+      "field": "image[].coherent_amplitude",
+      "unit": "caller_declared",
+      "reference_value": 4.0
+    }
+  ]
+}

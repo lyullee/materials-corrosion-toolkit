@@ -1,0 +1,79 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.thermal_expansion.v1",
+      "default": "matintegrity.thermal_expansion.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "table_id": {
+      "title": "Table Id",
+      "type": "string"
+    },
+    "table_sha256": {
+      "title": "Table Sha256",
+      "type": "string"
+    },
+    "start_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Start Temperature K",
+      "type": "number"
+    },
+    "end_temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "End Temperature K",
+      "type": "number"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "needs_data",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "logarithmic_length_change": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Logarithmic Length Change"
+    },
+    "engineering_length_change": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Engineering Length Change"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "table_id",
+    "table_sha256",
+    "start_temperature_K",
+    "end_temperature_K",
+    "status",
+    "logarithmic_length_change",
+    "engineering_length_change",
+    "notes"
+  ],
+  "title": "ThermalExpansionResult",
+  "type": "object"
+}

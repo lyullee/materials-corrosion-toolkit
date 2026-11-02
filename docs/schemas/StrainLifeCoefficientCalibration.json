@@ -1,0 +1,322 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "StrainLifeCalibrationObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "minLength": 1,
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "physical_specimen_id": {
+          "minLength": 1,
+          "title": "Physical Specimen Id",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "calibration",
+            "holdout"
+          ],
+          "title": "Partition",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "endpoint_status": {
+          "enum": [
+            "failure",
+            "runout",
+            "censored"
+          ],
+          "title": "Endpoint Status",
+          "type": "string"
+        },
+        "cycles_value": {
+          "exclusiveMinimum": 0,
+          "title": "Cycles Value",
+          "type": "number"
+        },
+        "cycles_definition": {
+          "minLength": 1,
+          "title": "Cycles Definition",
+          "type": "string"
+        },
+        "elastic_strain_amplitude": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elastic Strain Amplitude"
+        },
+        "plastic_strain_amplitude": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Plastic Strain Amplitude"
+        },
+        "strain_unit_token": {
+          "const": "1",
+          "default": "1",
+          "title": "Strain Unit Token",
+          "type": "string"
+        },
+        "weight": {
+          "exclusiveMinimum": 0,
+          "title": "Weight",
+          "type": "number"
+        },
+        "record_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Record Digest",
+          "type": "string"
+        },
+        "record_valid": {
+          "title": "Record Valid",
+          "type": "boolean"
+        },
+        "invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "physical_specimen_id",
+        "source_group_id",
+        "independence_group_id",
+        "partition",
+        "material_condition_id",
+        "endpoint_status",
+        "cycles_value",
+        "cycles_definition",
+        "weight",
+        "record_digest",
+        "record_valid",
+        "evidence"
+      ],
+      "title": "StrainLifeCalibrationObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "material_condition_id": {
+      "minLength": 1,
+      "title": "Material Condition Id",
+      "type": "string"
+    },
+    "elastic_modulus": {
+      "exclusiveMinimum": 0,
+      "title": "Elastic Modulus",
+      "type": "number"
+    },
+    "stress_unit_token": {
+      "minLength": 1,
+      "title": "Stress Unit Token",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/StrainLifeCalibrationObservation"
+      },
+      "minItems": 6,
+      "title": "Observations",
+      "type": "array"
+    },
+    "minimum_calibration_failure_specimen_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Failure Specimen Count",
+      "type": "integer"
+    },
+    "minimum_calibration_failure_source_group_count": {
+      "minimum": 2,
+      "title": "Minimum Calibration Failure Source Group Count",
+      "type": "integer"
+    },
+    "minimum_holdout_failure_specimen_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Failure Specimen Count",
+      "type": "integer"
+    },
+    "minimum_holdout_failure_source_group_count": {
+      "minimum": 1,
+      "title": "Minimum Holdout Failure Source Group Count",
+      "type": "integer"
+    },
+    "stabilized_cycle_and_failure_endpoint_reviewed": {
+      "title": "Stabilized Cycle And Failure Endpoint Reviewed",
+      "type": "boolean"
+    },
+    "elastic_plastic_component_definition_reviewed": {
+      "title": "Elastic Plastic Component Definition Reviewed",
+      "type": "boolean"
+    },
+    "cycles_reversals_and_units_reviewed": {
+      "title": "Cycles Reversals And Units Reviewed",
+      "type": "boolean"
+    },
+    "censoring_and_runout_status_reviewed": {
+      "title": "Censoring And Runout Status Reviewed",
+      "type": "boolean"
+    },
+    "specimen_source_independence_and_partitions_reviewed": {
+      "title": "Specimen Source Independence And Partitions Reviewed",
+      "type": "boolean"
+    },
+    "weights_validity_and_digests_reviewed": {
+      "title": "Weights Validity And Digests Reviewed",
+      "type": "boolean"
+    },
+    "support_and_no_extrapolation_reviewed": {
+      "title": "Support And No Extrapolation Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "asset_id",
+    "location_id",
+    "material_condition_id",
+    "elastic_modulus",
+    "stress_unit_token",
+    "observations",
+    "minimum_calibration_failure_specimen_count",
+    "minimum_calibration_failure_source_group_count",
+    "minimum_holdout_failure_specimen_count",
+    "minimum_holdout_failure_source_group_count",
+    "stabilized_cycle_and_failure_endpoint_reviewed",
+    "elastic_plastic_component_definition_reviewed",
+    "cycles_reversals_and_units_reviewed",
+    "censoring_and_runout_status_reviewed",
+    "specimen_source_independence_and_partitions_reviewed",
+    "weights_validity_and_digests_reviewed",
+    "support_and_no_extrapolation_reviewed",
+    "evidence"
+  ],
+  "title": "StrainLifeCoefficientCalibration",
+  "type": "object"
+}

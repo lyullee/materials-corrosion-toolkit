@@ -1,0 +1,345 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PapadopoulosP1FiniteIntegralScreen": {
+      "additionalProperties": false,
+      "description": "Evaluate a caller-calibrated Papadopoulos P1 limit screen by finite quadrature.",
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "history_source_id": {
+          "minLength": 1,
+          "title": "History Source Id",
+          "type": "string"
+        },
+        "history_source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "History Source Sha256",
+          "type": "string"
+        },
+        "history_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "calibration_id": {
+          "minLength": 1,
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "calibration_material_condition_id": {
+          "minLength": 1,
+          "title": "Calibration Material Condition Id",
+          "type": "string"
+        },
+        "calibration_source_id": {
+          "minLength": 1,
+          "title": "Calibration Source Id",
+          "type": "string"
+        },
+        "calibration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calibration Sha256",
+          "type": "string"
+        },
+        "calibration_evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "sample_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Sample Ids",
+          "type": "array"
+        },
+        "stress_tensor_components_Pa": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 10000,
+          "minItems": 3,
+          "title": "Stress Tensor Components Pa",
+          "type": "array"
+        },
+        "shear_systems": {
+          "items": {
+            "$ref": "#/$defs/PapadopoulosP1ShearSystem"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Shear Systems",
+          "type": "array"
+        },
+        "hydrostatic_coefficient": {
+          "minimum": 0,
+          "title": "Hydrostatic Coefficient",
+          "type": "number"
+        },
+        "fully_reversed_torsional_fatigue_limit_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Fully Reversed Torsional Fatigue Limit Pa",
+          "type": "number"
+        },
+        "maximum_shear_system_sample_work": {
+          "default": 2000000,
+          "maximum": 20000000,
+          "minimum": 1,
+          "title": "Maximum Shear System Sample Work",
+          "type": "integer"
+        },
+        "tensor_basis_and_order_reviewed": {
+          "title": "Tensor Basis And Order Reviewed",
+          "type": "boolean"
+        },
+        "representative_closed_cycle_reviewed": {
+          "title": "Representative Closed Cycle Reviewed",
+          "type": "boolean"
+        },
+        "orientation_quadrature_measure_and_coverage_reviewed": {
+          "title": "Orientation Quadrature Measure And Coverage Reviewed",
+          "type": "boolean"
+        },
+        "calibration_and_fatigue_limit_convention_reviewed": {
+          "title": "Calibration And Fatigue Limit Convention Reviewed",
+          "type": "boolean"
+        },
+        "material_scope_and_use_reviewed": {
+          "title": "Material Scope And Use Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "material_condition_id",
+        "history_source_id",
+        "history_source_sha256",
+        "history_evidence",
+        "calibration_id",
+        "calibration_material_condition_id",
+        "calibration_source_id",
+        "calibration_sha256",
+        "calibration_evidence",
+        "sample_ids",
+        "stress_tensor_components_Pa",
+        "shear_systems",
+        "hydrostatic_coefficient",
+        "fully_reversed_torsional_fatigue_limit_Pa",
+        "tensor_basis_and_order_reviewed",
+        "representative_closed_cycle_reviewed",
+        "orientation_quadrature_measure_and_coverage_reviewed",
+        "calibration_and_fatigue_limit_convention_reviewed",
+        "material_scope_and_use_reviewed"
+      ],
+      "title": "PapadopoulosP1FiniteIntegralScreen",
+      "type": "object"
+    },
+    "PapadopoulosP1ShearSystem": {
+      "additionalProperties": false,
+      "description": "One caller-supplied normal/shear direction and normalized quadrature weight.",
+      "properties": {
+        "system_id": {
+          "minLength": 1,
+          "title": "System Id",
+          "type": "string"
+        },
+        "plane_normal": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Plane Normal",
+          "type": "array"
+        },
+        "in_plane_shear_direction": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "In Plane Shear Direction",
+          "type": "array"
+        },
+        "normalized_orientation_weight": {
+          "exclusiveMinimum": 0,
+          "title": "Normalized Orientation Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "system_id",
+        "plane_normal",
+        "in_plane_shear_direction",
+        "normalized_orientation_weight"
+      ],
+      "title": "PapadopoulosP1ShearSystem",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_id": {
+      "minLength": 1,
+      "title": "Analysis Id",
+      "type": "string"
+    },
+    "p1_request": {
+      "$ref": "#/$defs/PapadopoulosP1FiniteIntegralScreen"
+    },
+    "life_curve_id": {
+      "minLength": 1,
+      "title": "Life Curve Id",
+      "type": "string"
+    },
+    "curve_material_condition_id": {
+      "minLength": 1,
+      "title": "Curve Material Condition Id",
+      "type": "string"
+    },
+    "curve_source_id": {
+      "minLength": 1,
+      "title": "Curve Source Id",
+      "type": "string"
+    },
+    "curve_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Curve Source Sha256",
+      "type": "string"
+    },
+    "curve_evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "p1_parameter_points_Pa": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "P1 Parameter Points Pa",
+      "type": "array"
+    },
+    "cycles_to_failure": {
+      "items": {
+        "exclusiveMinimum": 0,
+        "type": "number"
+      },
+      "maxItems": 10000,
+      "minItems": 2,
+      "title": "Cycles To Failure",
+      "type": "array"
+    },
+    "curve_material_match_and_test_basis_reviewed": {
+      "title": "Curve Material Match And Test Basis Reviewed",
+      "type": "boolean"
+    },
+    "curve_rights_and_engineering_use_reviewed": {
+      "title": "Curve Rights And Engineering Use Reviewed",
+      "type": "boolean"
+    },
+    "log_log_interpolation_and_finite_life_scope_reviewed": {
+      "title": "Log Log Interpolation And Finite Life Scope Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "p1_request",
+    "life_curve_id",
+    "curve_material_condition_id",
+    "curve_source_id",
+    "curve_source_sha256",
+    "curve_evidence",
+    "p1_parameter_points_Pa",
+    "cycles_to_failure",
+    "curve_material_match_and_test_basis_reviewed",
+    "curve_rights_and_engineering_use_reviewed",
+    "log_log_interpolation_and_finite_life_scope_reviewed"
+  ],
+  "title": "PapadopoulosP1CalibratedLife",
+  "type": "object"
+}

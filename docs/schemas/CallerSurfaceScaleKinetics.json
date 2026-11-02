@@ -1,0 +1,379 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "SurfaceScaleKineticInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "interval_id": {
+          "minLength": 1,
+          "title": "Interval Id",
+          "type": "string"
+        },
+        "start_time_s": {
+          "minimum": 0,
+          "title": "Start Time S",
+          "type": "number"
+        },
+        "end_time_s": {
+          "exclusiveMinimum": 0,
+          "title": "End Time S",
+          "type": "number"
+        },
+        "saturation_ratio": {
+          "minimum": 0,
+          "title": "Saturation Ratio",
+          "type": "number"
+        },
+        "saturation_ratio_end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Saturation Ratio End"
+        },
+        "temperature_K": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temperature K"
+        }
+      },
+      "required": [
+        "interval_id",
+        "start_time_s",
+        "end_time_s",
+        "saturation_ratio"
+      ],
+      "title": "SurfaceScaleKineticInterval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.caller_surface_scale_kinetics.v1",
+      "default": "matintegrity.caller_surface_scale_kinetics.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "substrate_condition_id": {
+      "minLength": 1,
+      "title": "Substrate Condition Id",
+      "type": "string"
+    },
+    "solution_condition_id": {
+      "minLength": 1,
+      "title": "Solution Condition Id",
+      "type": "string"
+    },
+    "scale_phase_id": {
+      "minLength": 1,
+      "title": "Scale Phase Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "provider_id": {
+      "minLength": 1,
+      "title": "Provider Id",
+      "type": "string"
+    },
+    "provider_revision": {
+      "minLength": 1,
+      "title": "Provider Revision",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "condition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Condition Sha256",
+      "type": "string"
+    },
+    "kinetic_configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Kinetic Configuration Sha256",
+      "type": "string"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "initial_scale_thickness_m": {
+      "minimum": 0,
+      "title": "Initial Scale Thickness M",
+      "type": "number"
+    },
+    "precipitation_rate_constant_mol_m2_s": {
+      "minimum": 0,
+      "title": "Precipitation Rate Constant Mol M2 S",
+      "type": "number"
+    },
+    "rate_reference_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rate Reference Temperature K"
+    },
+    "minimum_rate_valid_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minimum Rate Valid Temperature K"
+    },
+    "maximum_rate_valid_temperature_K": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Maximum Rate Valid Temperature K"
+    },
+    "precipitation_activation_energy_J_mol": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Precipitation Activation Energy J Mol"
+    },
+    "precipitation_order": {
+      "exclusiveMinimum": 0,
+      "maximum": 8.0,
+      "title": "Precipitation Order",
+      "type": "number"
+    },
+    "dissolution_rate_constant_mol_m2_s": {
+      "minimum": 0,
+      "title": "Dissolution Rate Constant Mol M2 S",
+      "type": "number"
+    },
+    "dissolution_activation_energy_J_mol": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dissolution Activation Energy J Mol"
+    },
+    "dissolution_order": {
+      "exclusiveMinimum": 0,
+      "maximum": 8.0,
+      "title": "Dissolution Order",
+      "type": "number"
+    },
+    "scale_molar_volume_m3_mol": {
+      "exclusiveMinimum": 0,
+      "title": "Scale Molar Volume M3 Mol",
+      "type": "number"
+    },
+    "intervals": {
+      "items": {
+        "$ref": "#/$defs/SurfaceScaleKineticInterval"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Intervals",
+      "type": "array"
+    },
+    "interval_constant_saturation_reviewed": {
+      "default": false,
+      "title": "Interval Constant Saturation Reviewed",
+      "type": "boolean"
+    },
+    "linearly_varying_saturation_reviewed": {
+      "default": false,
+      "title": "Linearly Varying Saturation Reviewed",
+      "type": "boolean"
+    },
+    "interval_temperature_profile_reviewed": {
+      "default": false,
+      "title": "Interval Temperature Profile Reviewed",
+      "type": "boolean"
+    },
+    "arrhenius_temperature_scaling_reviewed": {
+      "default": false,
+      "title": "Arrhenius Temperature Scaling Reviewed",
+      "type": "boolean"
+    },
+    "supersaturation_kinetics_and_standard_state_reviewed": {
+      "title": "Supersaturation Kinetics And Standard State Reviewed",
+      "type": "boolean"
+    },
+    "precipitation_and_dissolution_coefficients_reviewed": {
+      "title": "Precipitation And Dissolution Coefficients Reviewed",
+      "type": "boolean"
+    },
+    "scale_phase_identity_and_molar_volume_reviewed": {
+      "title": "Scale Phase Identity And Molar Volume Reviewed",
+      "type": "boolean"
+    },
+    "single_uniform_scale_layer_scope_reviewed": {
+      "title": "Single Uniform Scale Layer Scope Reviewed",
+      "type": "boolean"
+    },
+    "computational_use_authorized": {
+      "title": "Computational Use Authorized",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "substrate_condition_id",
+    "solution_condition_id",
+    "scale_phase_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "provider_id",
+    "provider_revision",
+    "source_sha256",
+    "condition_sha256",
+    "kinetic_configuration_sha256",
+    "temperature_K",
+    "initial_scale_thickness_m",
+    "precipitation_rate_constant_mol_m2_s",
+    "precipitation_order",
+    "dissolution_rate_constant_mol_m2_s",
+    "dissolution_order",
+    "scale_molar_volume_m3_mol",
+    "intervals",
+    "supersaturation_kinetics_and_standard_state_reviewed",
+    "precipitation_and_dissolution_coefficients_reviewed",
+    "scale_phase_identity_and_molar_volume_reviewed",
+    "single_uniform_scale_layer_scope_reviewed",
+    "computational_use_authorized",
+    "evidence"
+  ],
+  "title": "CallerSurfaceScaleKinetics",
+  "type": "object"
+}

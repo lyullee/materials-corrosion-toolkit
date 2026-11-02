@@ -1,0 +1,637 @@
+{
+  "$defs": {
+    "CallerProductionWeldTestProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "minLength": 1,
+          "title": "Profile Revision",
+          "type": "string"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        },
+        "permitted_wps_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Wps Ids",
+          "type": "array"
+        },
+        "permitted_consumable_lot_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Consumable Lot Ids",
+          "type": "array"
+        },
+        "permitted_base_material_heat_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Base Material Heat Ids",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CallerWeldTestCriterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "profile_reviewed": {
+          "title": "Profile Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "source_digest",
+        "permitted_wps_ids",
+        "permitted_consumable_lot_ids",
+        "permitted_base_material_heat_ids",
+        "criteria",
+        "profile_reviewed",
+        "evidence"
+      ],
+      "title": "CallerProductionWeldTestProfile",
+      "type": "object"
+    },
+    "CallerWeldTestCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "test_kind": {
+          "minLength": 1,
+          "title": "Test Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "aggregation": {
+          "enum": [
+            "individual",
+            "replicate_mean",
+            "replicate_minimum",
+            "replicate_maximum"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "minimum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Inclusive"
+        },
+        "maximum_inclusive": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Inclusive"
+        },
+        "uncertainty_policy": {
+          "enum": [
+            "point_value",
+            "interval_must_fit"
+          ],
+          "title": "Uncertainty Policy",
+          "type": "string"
+        },
+        "uncertainty_coverage_factor": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Coverage Factor",
+          "type": "number"
+        },
+        "minimum_replicates": {
+          "minimum": 1,
+          "title": "Minimum Replicates",
+          "type": "integer"
+        },
+        "minimum_independent_source_groups": {
+          "minimum": 1,
+          "title": "Minimum Independent Source Groups",
+          "type": "integer"
+        },
+        "missing_disposition": {
+          "enum": [
+            "review",
+            "insufficient_evidence"
+          ],
+          "title": "Missing Disposition",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "test_kind",
+        "metric_id",
+        "unit_token",
+        "aggregation",
+        "uncertainty_policy",
+        "minimum_replicates",
+        "minimum_independent_source_groups",
+        "missing_disposition",
+        "description"
+      ],
+      "title": "CallerWeldTestCriterion",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ProductionWeldIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "joint_id": {
+          "minLength": 1,
+          "title": "Joint Id",
+          "type": "string"
+        },
+        "wps_id": {
+          "minLength": 1,
+          "title": "Wps Id",
+          "type": "string"
+        },
+        "wps_revision": {
+          "minLength": 1,
+          "title": "Wps Revision",
+          "type": "string"
+        },
+        "welder_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Welder Ids",
+          "type": "array"
+        },
+        "consumable_lot_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Consumable Lot Ids",
+          "type": "array"
+        },
+        "base_material_heat_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Base Material Heat Ids",
+          "type": "array"
+        },
+        "identity_reviewed": {
+          "title": "Identity Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "weld_id",
+        "joint_id",
+        "wps_id",
+        "wps_revision",
+        "welder_ids",
+        "consumable_lot_ids",
+        "base_material_heat_ids",
+        "identity_reviewed",
+        "evidence"
+      ],
+      "title": "ProductionWeldIdentity",
+      "type": "object"
+    },
+    "WeldCouponSpecimen": {
+      "additionalProperties": false,
+      "properties": {
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "coupon_id": {
+          "minLength": 1,
+          "title": "Coupon Id",
+          "type": "string"
+        },
+        "weld_id": {
+          "minLength": 1,
+          "title": "Weld Id",
+          "type": "string"
+        },
+        "extraction_location_id": {
+          "minLength": 1,
+          "title": "Extraction Location Id",
+          "type": "string"
+        },
+        "extraction_orientation": {
+          "minLength": 1,
+          "title": "Extraction Orientation",
+          "type": "string"
+        },
+        "source_group_id": {
+          "minLength": 1,
+          "title": "Source Group Id",
+          "type": "string"
+        },
+        "independence_group_id": {
+          "minLength": 1,
+          "title": "Independence Group Id",
+          "type": "string"
+        },
+        "extraction_reviewed": {
+          "title": "Extraction Reviewed",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "specimen_id",
+        "coupon_id",
+        "weld_id",
+        "extraction_location_id",
+        "extraction_orientation",
+        "source_group_id",
+        "independence_group_id",
+        "extraction_reviewed",
+        "evidence"
+      ],
+      "title": "WeldCouponSpecimen",
+      "type": "object"
+    },
+    "WeldTestMeasurement": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement_id": {
+          "minLength": 1,
+          "title": "Measurement Id",
+          "type": "string"
+        },
+        "specimen_id": {
+          "minLength": 1,
+          "title": "Specimen Id",
+          "type": "string"
+        },
+        "replicate_group_id": {
+          "minLength": 1,
+          "title": "Replicate Group Id",
+          "type": "string"
+        },
+        "test_kind": {
+          "enum": [
+            "bend",
+            "tensile",
+            "impact",
+            "hardness",
+            "macro",
+            "nde",
+            "chemistry",
+            "user_defined"
+          ],
+          "title": "Test Kind",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "metric_definition": {
+          "minLength": 1,
+          "title": "Metric Definition",
+          "type": "string"
+        },
+        "unit_token": {
+          "minLength": 1,
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "standard_uncertainty": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Uncertainty"
+        },
+        "method_id": {
+          "minLength": 1,
+          "title": "Method Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "provider_revision": {
+          "minLength": 1,
+          "title": "Provider Revision",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "missing_or_invalid_basis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Or Invalid Basis"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "measurement_id",
+        "specimen_id",
+        "replicate_group_id",
+        "test_kind",
+        "metric_id",
+        "metric_definition",
+        "unit_token",
+        "status",
+        "method_id",
+        "provider_id",
+        "provider_revision",
+        "input_digest",
+        "evidence"
+      ],
+      "title": "WeldTestMeasurement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "minLength": 1,
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "location_id": {
+      "minLength": 1,
+      "title": "Location Id",
+      "type": "string"
+    },
+    "campaign_id": {
+      "minLength": 1,
+      "title": "Campaign Id",
+      "type": "string"
+    },
+    "welds": {
+      "items": {
+        "$ref": "#/$defs/ProductionWeldIdentity"
+      },
+      "minItems": 1,
+      "title": "Welds",
+      "type": "array"
+    },
+    "specimens": {
+      "items": {
+        "$ref": "#/$defs/WeldCouponSpecimen"
+      },
+      "minItems": 1,
+      "title": "Specimens",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "$ref": "#/$defs/WeldTestMeasurement"
+      },
+      "minItems": 1,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "profile": {
+      "$ref": "#/$defs/CallerProductionWeldTestProfile"
+    },
+    "weld_joint_wps_welder_consumable_and_heat_identity_reviewed": {
+      "title": "Weld Joint Wps Welder Consumable And Heat Identity Reviewed",
+      "type": "boolean"
+    },
+    "coupon_specimen_extraction_location_and_orientation_reviewed": {
+      "title": "Coupon Specimen Extraction Location And Orientation Reviewed",
+      "type": "boolean"
+    },
+    "test_metric_units_uncertainty_status_and_provenance_reviewed": {
+      "title": "Test Metric Units Uncertainty Status And Provenance Reviewed",
+      "type": "boolean"
+    },
+    "replicate_source_and_independence_groups_reviewed": {
+      "title": "Replicate Source And Independence Groups Reviewed",
+      "type": "boolean"
+    },
+    "caller_profile_authority_and_criteria_reviewed": {
+      "title": "Caller Profile Authority And Criteria Reviewed",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "asset_id",
+    "location_id",
+    "campaign_id",
+    "welds",
+    "specimens",
+    "measurements",
+    "profile",
+    "weld_joint_wps_welder_consumable_and_heat_identity_reviewed",
+    "coupon_specimen_extraction_location_and_orientation_reviewed",
+    "test_metric_units_uncertainty_status_and_provenance_reviewed",
+    "replicate_source_and_independence_groups_reviewed",
+    "caller_profile_authority_and_criteria_reviewed",
+    "evidence"
+  ],
+  "title": "ProductionWeldTestCampaign",
+  "type": "object"
+}

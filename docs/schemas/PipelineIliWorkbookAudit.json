@@ -1,0 +1,124 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.pipeline_ili_workbook_audit.v1",
+      "default": "matintegrity.pipeline_ili_workbook_audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_filename": {
+      "minLength": 1,
+      "title": "Source Filename",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "source_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Source Bytes",
+      "type": "integer"
+    },
+    "sheet_name": {
+      "minLength": 1,
+      "title": "Sheet Name",
+      "type": "string"
+    },
+    "headers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Headers",
+      "type": "array"
+    },
+    "expected_inspection_year_token": {
+      "title": "Expected Inspection Year Token",
+      "type": "integer"
+    },
+    "observed_inspection_year_tokens": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Observed Inspection Year Tokens",
+      "type": "array"
+    },
+    "observation_count": {
+      "minimum": 0,
+      "title": "Observation Count",
+      "type": "integer"
+    },
+    "missing_count_by_header": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Missing Count By Header",
+      "type": "object"
+    },
+    "numeric_minimum_by_header": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Numeric Minimum By Header",
+      "type": "object"
+    },
+    "numeric_maximum_by_header": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Numeric Maximum By Header",
+      "type": "object"
+    },
+    "nonnumeric_count_by_header": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Nonnumeric Count By Header",
+      "type": "object"
+    },
+    "formula_cell_count": {
+      "minimum": 0,
+      "title": "Formula Cell Count",
+      "type": "integer"
+    },
+    "year_mismatch_count": {
+      "minimum": 0,
+      "title": "Year Mismatch Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "source_filename",
+    "source_sha256",
+    "source_bytes",
+    "sheet_name",
+    "headers",
+    "expected_inspection_year_token",
+    "observed_inspection_year_tokens",
+    "observation_count",
+    "missing_count_by_header",
+    "numeric_minimum_by_header",
+    "numeric_maximum_by_header",
+    "nonnumeric_count_by_header",
+    "formula_cell_count",
+    "year_mismatch_count"
+  ],
+  "title": "PipelineIliWorkbookAudit",
+  "type": "object"
+}

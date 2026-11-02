@@ -1,0 +1,159 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A single exact state of cellwise phase inventory per reference area.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.crevice_solid_volume_inventory.v1",
+      "default": "matintegrity.crevice_solid_volume_inventory.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "physical_scope_id": {
+      "minLength": 1,
+      "title": "Physical Scope Id",
+      "type": "string"
+    },
+    "elapsed_time_s": {
+      "minimum": 0,
+      "title": "Elapsed Time S",
+      "type": "number"
+    },
+    "phase_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Phase Ids",
+      "type": "array"
+    },
+    "cell_solid_inventory_mol_m2_by_phase": {
+      "additionalProperties": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "title": "Cell Solid Inventory Mol M2 By Phase",
+      "type": "object"
+    },
+    "solid_molar_volume_m3_mol_by_phase": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Solid Molar Volume M3 Mol By Phase",
+      "type": "object"
+    },
+    "inventory_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Inventory State Sha256",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "phase_inventory_basis_reviewed": {
+      "title": "Phase Inventory Basis Reviewed",
+      "type": "boolean"
+    },
+    "molar_volume_state_and_units_reviewed": {
+      "title": "Molar Volume State And Units Reviewed",
+      "type": "boolean"
+    },
+    "reference_area_and_cell_mapping_reviewed": {
+      "title": "Reference Area And Cell Mapping Reviewed",
+      "type": "boolean"
+    },
+    "no_morphology_or_aperture_inference_reviewed": {
+      "title": "No Morphology Or Aperture Inference Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "physical_scope_id",
+    "elapsed_time_s",
+    "phase_ids",
+    "cell_solid_inventory_mol_m2_by_phase",
+    "solid_molar_volume_m3_mol_by_phase",
+    "inventory_state_sha256",
+    "evidence",
+    "phase_inventory_basis_reviewed",
+    "molar_volume_state_and_units_reviewed",
+    "reference_area_and_cell_mapping_reviewed",
+    "no_morphology_or_aperture_inference_reviewed"
+  ],
+  "title": "CreviceSolidVolumeInventoryRequest",
+  "type": "object"
+}

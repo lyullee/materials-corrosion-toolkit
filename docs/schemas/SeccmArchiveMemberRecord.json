@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "description": "Identity and declared role of one member in the pinned provider ZIP.",
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.seccm_archive_member.v1",
+      "default": "matintegrity.seccm_archive_member.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "member_name": {
+      "minLength": 1,
+      "title": "Member Name",
+      "type": "string"
+    },
+    "member_role": {
+      "enum": [
+        "footprint_pixels",
+        "sem_intensity_table",
+        "raw_chronoamperometry",
+        "acquisition_parameters",
+        "provider_descriptors",
+        "provider_derived_descriptors",
+        "provider_processed_ebsd",
+        "provider_labels",
+        "provider_model_table",
+        "provider_readme"
+      ],
+      "title": "Member Role",
+      "type": "string"
+    },
+    "uncompressed_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Uncompressed Bytes",
+      "type": "integer"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "member_name",
+    "member_role",
+    "uncompressed_bytes",
+    "sha256"
+  ],
+  "title": "SeccmArchiveMemberRecord",
+  "type": "object"
+}

@@ -1,0 +1,80 @@
+{
+  "$defs": {
+    "GasketPronyRelaxationObservation": {
+      "additionalProperties": false,
+      "description": "One ordered stress observation during a declared constant-strain hold.",
+      "properties": {
+        "elapsed_time_s": {
+          "minimum": 0,
+          "title": "Elapsed Time S",
+          "type": "number"
+        },
+        "compressive_stress_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Compressive Stress Pa",
+          "type": "number"
+        },
+        "standard_uncertainty_Pa": {
+          "exclusiveMinimum": 0,
+          "title": "Standard Uncertainty Pa",
+          "type": "number"
+        }
+      },
+      "required": [
+        "elapsed_time_s",
+        "compressive_stress_Pa",
+        "standard_uncertainty_Pa"
+      ],
+      "title": "GasketPronyRelaxationObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One identified specimen/test step under a common isothermal condition.",
+  "properties": {
+    "test_id": {
+      "minLength": 1,
+      "title": "Test Id",
+      "type": "string"
+    },
+    "physical_specimen_id": {
+      "minLength": 1,
+      "title": "Physical Specimen Id",
+      "type": "string"
+    },
+    "source_group_id": {
+      "minLength": 1,
+      "title": "Source Group Id",
+      "type": "string"
+    },
+    "compressive_step_strain": {
+      "exclusiveMinimum": 0,
+      "title": "Compressive Step Strain",
+      "type": "number"
+    },
+    "temperature_K": {
+      "exclusiveMinimum": 0,
+      "title": "Temperature K",
+      "type": "number"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/GasketPronyRelaxationObservation"
+      },
+      "maxItems": 20000,
+      "minItems": 3,
+      "title": "Observations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "test_id",
+    "physical_specimen_id",
+    "source_group_id",
+    "compressive_step_strain",
+    "temperature_K",
+    "observations"
+  ],
+  "title": "GasketPronyRelaxationTest",
+  "type": "object"
+}

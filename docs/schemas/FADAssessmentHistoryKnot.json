@@ -1,0 +1,207 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "measured",
+            "open_dataset",
+            "model_prediction",
+            "user_declared",
+            "synthetic"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "source_id",
+        "origin",
+        "citation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "FADHistoryProviderReceipt": {
+      "additionalProperties": false,
+      "description": "Digest and evidence receipt for one caller-produced physical history value.",
+      "properties": {
+        "quantity": {
+          "enum": [
+            "effective_mode_i_stress_intensity",
+            "fracture_resistance",
+            "reference_stress",
+            "normalizing_strength"
+          ],
+          "title": "Quantity",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "time_s": {
+          "minimum": 0,
+          "title": "Time S",
+          "type": "number"
+        },
+        "material_condition_id": {
+          "minLength": 1,
+          "title": "Material Condition Id",
+          "type": "string"
+        },
+        "geometry_basis_id": {
+          "minLength": 1,
+          "title": "Geometry Basis Id",
+          "type": "string"
+        },
+        "load_history_id": {
+          "minLength": 1,
+          "title": "Load History Id",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "result_id": {
+          "minLength": 1,
+          "title": "Result Id",
+          "type": "string"
+        },
+        "result_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Result Sha256",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "quantity",
+        "asset_id",
+        "location_id",
+        "physical_scope_id",
+        "clock_id",
+        "time_s",
+        "material_condition_id",
+        "geometry_basis_id",
+        "load_history_id",
+        "provider_id",
+        "result_id",
+        "result_sha256",
+        "evidence"
+      ],
+      "title": "FADHistoryProviderReceipt",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One exact time knot with provider-calculated FAD coordinates and receipts.",
+  "properties": {
+    "time_s": {
+      "minimum": 0,
+      "title": "Time S",
+      "type": "number"
+    },
+    "effective_stress_intensity_Pa_sqrt_m": {
+      "minimum": 0,
+      "title": "Effective Stress Intensity Pa Sqrt M",
+      "type": "number"
+    },
+    "fracture_resistance_Pa_sqrt_m": {
+      "exclusiveMinimum": 0,
+      "title": "Fracture Resistance Pa Sqrt M",
+      "type": "number"
+    },
+    "reference_stress_Pa": {
+      "minimum": 0,
+      "title": "Reference Stress Pa",
+      "type": "number"
+    },
+    "normalizing_strength_Pa": {
+      "exclusiveMinimum": 0,
+      "title": "Normalizing Strength Pa",
+      "type": "number"
+    },
+    "provider_receipts": {
+      "items": {
+        "$ref": "#/$defs/FADHistoryProviderReceipt"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Provider Receipts",
+      "type": "array"
+    }
+  },
+  "required": [
+    "time_s",
+    "effective_stress_intensity_Pa_sqrt_m",
+    "fracture_resistance_Pa_sqrt_m",
+    "reference_stress_Pa",
+    "normalizing_strength_Pa",
+    "provider_receipts"
+  ],
+  "title": "FADAssessmentHistoryKnot",
+  "type": "object"
+}

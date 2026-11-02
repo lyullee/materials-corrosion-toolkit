@@ -1,0 +1,464 @@
+{
+  "$defs": {
+    "CompositionComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "minLength": 1,
+          "title": "Component Id",
+          "type": "string"
+        },
+        "fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Fraction",
+          "type": "number"
+        },
+        "fraction_basis": {
+          "enum": [
+            "mole_fraction",
+            "mass_fraction"
+          ],
+          "title": "Fraction Basis",
+          "type": "string"
+        },
+        "unit_token": {
+          "const": "1",
+          "default": "1",
+          "title": "Unit Token",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "fraction",
+        "fraction_basis",
+        "source_id"
+      ],
+      "title": "CompositionComponent",
+      "type": "object"
+    },
+    "IntegrityEventBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "location_id": {
+          "minLength": 1,
+          "title": "Location Id",
+          "type": "string"
+        },
+        "failure_mode": {
+          "minLength": 1,
+          "title": "Failure Mode",
+          "type": "string"
+        },
+        "physical_scope_id": {
+          "minLength": 1,
+          "title": "Physical Scope Id",
+          "type": "string"
+        },
+        "clock_id": {
+          "minLength": 1,
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "horizon_start_s": {
+          "minimum": 0,
+          "title": "Horizon Start S",
+          "type": "number"
+        },
+        "horizon_end_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon End S",
+          "type": "number"
+        },
+        "event_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Event Probability",
+          "type": "number"
+        },
+        "probability_semantics": {
+          "enum": [
+            "conditional_first_failure_in_period",
+            "point_in_time_state_probability",
+            "posterior_parameter_probability",
+            "model_implied_input_uncertainty_probability",
+            "spatial_size_exceedance_at_one_exposure",
+            "detection_given_flaw_and_procedure",
+            "unscoped_event_probability",
+            "fault_tree_top_event_probability"
+          ],
+          "title": "Probability Semantics",
+          "type": "string"
+        },
+        "probability_conditioning": {
+          "minLength": 1,
+          "title": "Probability Conditioning",
+          "type": "string"
+        },
+        "integrity_model_id": {
+          "minLength": 1,
+          "title": "Integrity Model Id",
+          "type": "string"
+        },
+        "integrity_model_version": {
+          "minLength": 1,
+          "title": "Integrity Model Version",
+          "type": "string"
+        },
+        "integrity_input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Input Digest",
+          "type": "string"
+        },
+        "integrity_result_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Integrity Result Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "asset_id",
+        "location_id",
+        "failure_mode",
+        "physical_scope_id",
+        "clock_id",
+        "horizon_start_s",
+        "horizon_end_s",
+        "event_probability",
+        "probability_semantics",
+        "probability_conditioning",
+        "integrity_model_id",
+        "integrity_model_version",
+        "integrity_input_digest",
+        "integrity_result_digest"
+      ],
+      "title": "IntegrityEventBasis",
+      "type": "object"
+    },
+    "ProcessStateBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "pressure_pa": {
+          "minimum": 0,
+          "title": "Pressure Pa",
+          "type": "number"
+        },
+        "pressure_unit_token": {
+          "const": "Pa",
+          "default": "Pa",
+          "title": "Pressure Unit Token",
+          "type": "string"
+        },
+        "pressure_basis": {
+          "enum": [
+            "absolute",
+            "gauge"
+          ],
+          "title": "Pressure Basis",
+          "type": "string"
+        },
+        "temperature_k": {
+          "exclusiveMinimum": 0,
+          "title": "Temperature K",
+          "type": "number"
+        },
+        "temperature_unit_token": {
+          "const": "K",
+          "default": "K",
+          "title": "Temperature Unit Token",
+          "type": "string"
+        },
+        "temperature_basis": {
+          "minLength": 1,
+          "title": "Temperature Basis",
+          "type": "string"
+        },
+        "composition": {
+          "items": {
+            "$ref": "#/$defs/CompositionComponent"
+          },
+          "minItems": 1,
+          "title": "Composition",
+          "type": "array"
+        },
+        "composition_basis_description": {
+          "minLength": 1,
+          "title": "Composition Basis Description",
+          "type": "string"
+        },
+        "state_source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Source Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pressure_pa",
+        "pressure_basis",
+        "temperature_k",
+        "temperature_basis",
+        "composition",
+        "composition_basis_description",
+        "state_source_digest"
+      ],
+      "title": "ProcessStateBasis",
+      "type": "object"
+    },
+    "ReleaseScenarioBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "release_scenario_id": {
+          "minLength": 1,
+          "title": "Release Scenario Id",
+          "type": "string"
+        },
+        "inventory_id": {
+          "minLength": 1,
+          "title": "Inventory Id",
+          "type": "string"
+        },
+        "release_location_id": {
+          "minLength": 1,
+          "title": "Release Location Id",
+          "type": "string"
+        },
+        "release_phase_basis": {
+          "enum": [
+            "gas",
+            "liquid",
+            "two_phase",
+            "provider_to_determine"
+          ],
+          "title": "Release Phase Basis",
+          "type": "string"
+        },
+        "release_geometry_basis": {
+          "enum": [
+            "caller_defined",
+            "provider_defined"
+          ],
+          "title": "Release Geometry Basis",
+          "type": "string"
+        },
+        "release_geometry_description": {
+          "minLength": 1,
+          "title": "Release Geometry Description",
+          "type": "string"
+        },
+        "opening_area_m2": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opening Area M2"
+        },
+        "release_direction_basis": {
+          "minLength": 1,
+          "title": "Release Direction Basis",
+          "type": "string"
+        },
+        "release_duration_s": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Release Duration S"
+        },
+        "isolation_basis": {
+          "minLength": 1,
+          "title": "Isolation Basis",
+          "type": "string"
+        },
+        "source_boundary_basis": {
+          "minLength": 1,
+          "title": "Source Boundary Basis",
+          "type": "string"
+        },
+        "wall_loss_to_opening_conversion_performed": {
+          "const": false,
+          "default": false,
+          "title": "Wall Loss To Opening Conversion Performed",
+          "type": "boolean"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "release_scenario_id",
+        "inventory_id",
+        "release_location_id",
+        "release_phase_basis",
+        "release_geometry_basis",
+        "release_geometry_description",
+        "release_direction_basis",
+        "isolation_basis",
+        "source_boundary_basis",
+        "source_digest"
+      ],
+      "title": "ReleaseScenarioBasis",
+      "type": "object"
+    },
+    "RequestedConsequenceModel": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "source",
+            "release",
+            "dispersion",
+            "effect"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "provider_id": {
+          "minLength": 1,
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "model_id": {
+          "minLength": 1,
+          "title": "Model Id",
+          "type": "string"
+        },
+        "model_revision": {
+          "minLength": 1,
+          "title": "Model Revision",
+          "type": "string"
+        },
+        "configuration_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "provider_id",
+        "model_id",
+        "model_revision",
+        "configuration_digest"
+      ],
+      "title": "RequestedConsequenceModel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "matintegrity.consequence_scenario_handoff.v1",
+      "default": "matintegrity.consequence_scenario_handoff.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "handoff_id": {
+      "minLength": 1,
+      "title": "Handoff Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "event": {
+      "$ref": "#/$defs/IntegrityEventBasis"
+    },
+    "process_state": {
+      "$ref": "#/$defs/ProcessStateBasis"
+    },
+    "release": {
+      "$ref": "#/$defs/ReleaseScenarioBasis"
+    },
+    "requested_models": {
+      "items": {
+        "$ref": "#/$defs/RequestedConsequenceModel"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Requested Models",
+      "type": "array"
+    },
+    "handoff_status": {
+      "enum": [
+        "ready",
+        "needs_data",
+        "out_of_scope"
+      ],
+      "title": "Handoff Status",
+      "type": "string"
+    },
+    "missing_items": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Missing Items",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "consequence_to_failure_probability_conversion_performed": {
+      "const": false,
+      "default": false,
+      "title": "Consequence To Failure Probability Conversion Performed",
+      "type": "boolean"
+    },
+    "payload_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Payload Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "handoff_id",
+    "scenario_id",
+    "event",
+    "process_state",
+    "release",
+    "requested_models",
+    "handoff_status",
+    "limitations",
+    "payload_digest"
+  ],
+  "title": "ConsequenceScenarioHandoff",
+  "type": "object"
+}
