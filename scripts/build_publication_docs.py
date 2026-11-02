@@ -284,6 +284,8 @@ def main():
 
 > **연구용 알파 버전입니다.** 계산 실행, 수식 확인, 데이터 보정, 독립 실험 검증, 현장 적용성은 서로 다른 상태입니다. 이 툴킷은 규격 인증·자동 설계 합격·운전 안전 보증을 제공하지 않습니다. 미확인 값을 정상값으로 채우거나 결정론적 손상을 고장확률로 바꾸지 않습니다.
 
+공개 배포 주소·파일 해시·배포 검사 기록: [공개 배포 기록](https://github.com/lyullee/materials-corrosion-toolkit/blob/main/docs/PUBLICATION_RECORD_KO.md).
+
 ## 빠른 찾기
 
 - **아래 [63개 핵심 계산군](#핵심-물리-계산군-63개)**: 어떤 물리를 계산하며 무엇을 넣고 받는지 먼저 확인
@@ -364,7 +366,7 @@ print(definition["assumptions"])
 | 번호 | 계산 목적 | 대표 단위 API | 주요 입력 | 선언 출력 |
 |---|---|---|---|---|
 """
-    lines = [intro]
+    lines = [intro.rstrip()]
     for group in groups:
         r = records_by_id[representative[group["group"]]]
         lines.append(
